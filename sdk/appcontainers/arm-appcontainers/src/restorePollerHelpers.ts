@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIClient } from "./containerAppsAPIClient.js";
+import type { ContainerAppsAPIClient } from "./containerAppsAPIClient.js";
 import { _$deleteDeserialize } from "./api/httpRouteConfig/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeManagedEnvironmentPrivateEndpointConnections,
@@ -22,6 +22,10 @@ import {
   _updateDeserialize as _updateDeserializeJobs,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeJobs,
 } from "./api/jobs/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeContainerAppPrivateEndpointConnections,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeContainerAppPrivateEndpointConnections,
+} from "./api/containerAppPrivateEndpointConnections/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeManagedCertificates } from "./api/managedCertificates/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeConnectedEnvironmentsStorages,
@@ -41,15 +45,6 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeConnectedEnvironments,
 } from "./api/connectedEnvironments/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeBuilds,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeBuilds,
-} from "./api/builds/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeBuilders,
-  _updateDeserialize as _updateDeserializeBuilders,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeBuilders,
-} from "./api/builders/operations.js";
-import {
   _$deleteDeserialize as _$deleteDeserializeJavaComponents,
   _updateDeserialize as _updateDeserializeJavaComponents,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeJavaComponents,
@@ -59,12 +54,6 @@ import {
   _updateDeserialize as _updateDeserializeDotNetComponents,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDotNetComponents,
 } from "./api/dotNetComponents/operations.js";
-import {
-  _applyDeserialize,
-  _skipConfigureDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeContainerAppsPatches,
-} from "./api/containerAppsPatches/operations.js";
-import { _$deleteDeserialize as _$deleteDeserializeContainerAppsBuilds } from "./api/containerAppsBuilds/operations.js";
 import {
   _stopDeserialize,
   _startDeserialize as _startDeserializeContainerApps,
@@ -76,20 +65,22 @@ import {
   _$deleteDeserialize as _$deleteDeserializeContainerAppsSourceControls,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeContainerAppsSourceControls,
 } from "./api/containerAppsSourceControls/operations.js";
+import { _$deleteDeserialize as _$deleteDeserializeVnetConnections } from "./api/vnetConnections/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeSandboxGroups,
+  _updateDeserialize as _updateDeserializeSandboxGroups,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeSandboxGroups,
+} from "./api/sandboxGroups/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeContainerAppsSessionPools,
   _updateDeserialize as _updateDeserializeContainerAppsSessionPools,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeContainerAppsSessionPools,
 } from "./api/containerAppsSessionPools/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -192,6 +183,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeJobs, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}":
     { deserializer: _createOrUpdateDeserializeJobs, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    {
+      deserializer: _$deleteDeserializeContainerAppPrivateEndpointConnections,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    {
+      deserializer: _createOrUpdateDeserializeContainerAppPrivateEndpointConnections,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/managedCertificates/{managedCertificateName}":
     {
       deserializer: _createOrUpdateDeserializeManagedCertificates,
@@ -242,16 +243,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeConnectedEnvironments,
       expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds/{buildName}":
-    { deserializer: _$deleteDeserializeBuilds, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds/{buildName}":
-    { deserializer: _createOrUpdateDeserializeBuilds, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}":
-    { deserializer: _$deleteDeserializeBuilders, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}":
-    { deserializer: _updateDeserializeBuilders, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}":
-    { deserializer: _createOrUpdateDeserializeBuilders, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/javaComponents/{name}":
     { deserializer: _$deleteDeserializeJavaComponents, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/javaComponents/{name}":
@@ -269,20 +260,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createOrUpdateDeserializeDotNetComponents,
       expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}/apply":
-    { deserializer: _applyDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}/skipConfig":
-    { deserializer: _skipConfigureDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}":
-    {
-      deserializer: _$deleteDeserializeContainerAppsPatches,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/builds/{buildName}":
-    {
-      deserializer: _$deleteDeserializeContainerAppsBuilds,
-      expectedStatuses: ["202", "204", "200"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/stop":
     { deserializer: _stopDeserialize, expectedStatuses: ["200", "202", "201"] },
@@ -305,6 +282,17 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/sourcecontrols/{sourceControlName}":
     {
       deserializer: _createOrUpdateDeserializeContainerAppsSourceControls,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/sandboxGroups/{sandboxGroupName}/vnetConnections/{vnetConnectionName}":
+    { deserializer: _$deleteDeserializeVnetConnections, expectedStatuses: ["202", "204", "200"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/sandboxGroups/{sandboxGroupName}":
+    { deserializer: _$deleteDeserializeSandboxGroups, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/sandboxGroups/{sandboxGroupName}":
+    { deserializer: _updateDeserializeSandboxGroups, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/sandboxGroups/{sandboxGroupName}":
+    {
+      deserializer: _createOrUpdateDeserializeSandboxGroups,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/sessionPools/{sessionPoolName}":

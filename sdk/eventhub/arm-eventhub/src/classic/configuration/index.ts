@@ -23,9 +23,8 @@ export interface ConfigurationOperations {
     clusterName: string,
     parameters: ClusterQuotaConfigurationProperties,
     options?: ConfigurationPatchOptionalParams,
-  ) => Promise<ClusterQuotaConfigurationProperties | undefined>;
+  ) => Promise<ClusterQuotaConfigurationProperties | void>;
 }
-
 function _getConfiguration(context: EventHubManagementContext) {
   return {
     get: (
@@ -41,7 +40,6 @@ function _getConfiguration(context: EventHubManagementContext) {
     ) => patch(context, resourceGroupName, clusterName, parameters, options),
   };
 }
-
 export function _getConfigurationOperations(
   context: EventHubManagementContext,
 ): ConfigurationOperations {

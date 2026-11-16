@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates BulkCreateCustoms.
  *
  * @summary creates or updates BulkCreateCustoms.
- * x-ms-original-file: 2026-09-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-06-preview/BulkCreateCustom_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,33 +22,6 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
       properties: {
         capacity: 2,
         capacityType: "VM",
-        minCapacity: 1,
-        partialFulfillmentPolicy: { mode: "Enabled" },
-        priorityProfile: {
-          type: "Spot",
-          maxPricePerVM: 0.2,
-          evictionPolicy: "Delete",
-          allocationStrategy: "LowestPrice",
-        },
-        vmSizesProfile: [
-          { name: "Standard_D2s_v5", rank: 1 },
-          {
-            name: "Standard_D4s_v5",
-            rank: 2,
-            override: {
-              virtualMachineProfile: {
-                storageProfile: {
-                  imageReference: {
-                    publisher: "Canonical",
-                    offer: "0001-com-ubuntu-server-jammy",
-                    sku: "22_04-lts-arm64",
-                    version: "latest",
-                  },
-                },
-              },
-            },
-          },
-        ],
         computeProfile: {
           virtualMachineProfile: {
             storageProfile: {
@@ -66,6 +39,7 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
                 deleteOption: "Delete",
               },
             },
+            hardwareProfile: { vmSize: "Standard_D2s_v5" },
             osProfile: {
               computerName: "bulkvm",
               adminUsername: "azureuser",
@@ -105,24 +79,28 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
                 },
               ],
             },
+            priority: "Spot",
+            evictionPolicy: "Deallocate",
+            billingProfile: { maxPrice: 0.05 },
           },
           computeApiVersion: "2024-11-01",
-        },
-        zoneAllocationPolicy: {
-          distributionStrategy: "BestEffortBalanced",
-          zonePreferences: [
-            { zone: "1", rank: 1 },
-            { zone: "2", rank: 2 },
-          ],
         },
         overridesProfile: {
           virtualMachineNamePrefix: "bulkvm",
           overrides: [
             {
               virtualMachineName: "bulkvm-payments-0",
+              zone: "1",
+              extendedLocation: { name: "microsoftlosangeles1", type: "EdgeZone" },
               tags: { workload: "payments", env: "prod" },
+              placement: { zonePlacementPolicy: "Any", includeZones: ["1"] },
             },
-            { tags: { workload: "batch" } },
+            {
+              tags: { workload: "batch" },
+              zone: "2",
+              extendedLocation: { name: "microsoftlosangeles2", type: "EdgeZone" },
+              placement: { zonePlacementPolicy: "Auto", excludeZones: ["3"] },
+            },
           ],
         },
         executionParameters: {
@@ -130,6 +108,8 @@ async function bulkCreateCustomCreateOrUpdateMaximumSet(): Promise<void> {
         },
       },
       zones: ["1", "2"],
+      extendedLocation: { name: "microsoftlosangeles1", type: "EdgeZone" },
+      placement: { zonePlacementPolicy: "Auto", includeZones: ["1", "2"], excludeZones: ["3"] },
       tags: { workload: "batch-render", env: "prod" },
       identity: { type: "SystemAssigned" },
     },

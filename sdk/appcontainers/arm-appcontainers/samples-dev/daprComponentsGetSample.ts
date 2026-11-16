@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a dapr component.
  *
  * @summary get a dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_Get_SecretStoreComponent.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_Get_SecretStoreComponent.json
  */
 async function getDaprComponentWithSecretStoreComponent(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getDaprComponentWithSecretStoreComponent(): Promise<void> {
  * This sample demonstrates how to get a dapr component.
  *
  * @summary get a dapr component.
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_Get_Secrets.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_Get_Secrets.json
  */
 async function getDaprComponentWithSecrets(): Promise<void> {
   const credential = new DefaultAzureCredential();

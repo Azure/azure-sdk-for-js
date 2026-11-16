@@ -1,0 +1,6 @@
+directory: specification/webpubsub/resource-manager/Microsoft.SignalRService/SignalRService
+commit: a75e2ce569b3404a4da366dc98357581fd67fe21
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json

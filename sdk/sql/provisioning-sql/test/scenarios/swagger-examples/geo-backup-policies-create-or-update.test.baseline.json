@@ -1,0 +1,79 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sqlcrudtest-5961"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/servers/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "testdw"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "geoBackupPolicy": {
+          "bicepIdentifier": "geoBackupPolicy",
+          "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "state": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

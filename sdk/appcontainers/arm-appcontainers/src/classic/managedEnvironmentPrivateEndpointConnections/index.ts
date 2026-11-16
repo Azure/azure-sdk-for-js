@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedEnvironmentPrivateEndpointConnections/operations.js";
-import {
+import type {
   ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams,
   ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams,
   ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/managedEnvironmentPrivateEndpointConnections/options.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PrivateEndpointConnection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedEnvironmentPrivateEndpointConnections operations. */
 export interface ManagedEnvironmentPrivateEndpointConnectionsOperations {

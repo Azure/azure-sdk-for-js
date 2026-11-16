@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns an expansion job.
  *
  * @summary returns an expansion job.
- * x-ms-original-file: 2026-01-01/expansionJobs_Get.json
+ * x-ms-original-file: 2026-08-01/expansionJobs_Get.json
  */
 async function expansionJobsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

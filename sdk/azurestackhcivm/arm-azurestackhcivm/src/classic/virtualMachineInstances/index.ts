@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
+  powerOff,
   save,
   pause,
   restart,
@@ -14,7 +15,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachineInstances/operations.js";
-import {
+import type {
+  VirtualMachineInstancesPowerOffOptionalParams,
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,
@@ -26,15 +28,23 @@ import {
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesGetOptionalParams,
 } from "../../api/virtualMachineInstances/options.js";
-import {
+import type {
   VirtualMachineInstance,
   VirtualMachineInstanceUpdateRequest,
+  PowerOffVirtualMachineOptions,
+  OperationStatusResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachineInstances operations. */
 export interface VirtualMachineInstancesOperations {
+  /** The operation to power off a virtual machine instance. */
+  powerOff: (
+    resourceUri: string,
+    body: PowerOffVirtualMachineOptions,
+    options?: VirtualMachineInstancesPowerOffOptionalParams,
+  ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** The operation to save a virtual machine instance. */
   save: (
     resourceUri: string,
@@ -66,11 +76,6 @@ export interface VirtualMachineInstancesOperations {
     options?: VirtualMachineInstancesListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineInstance>;
   /** The operation to delete a virtual machine instance. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     options?: VirtualMachineInstancesDeleteOptionalParams,
@@ -96,6 +101,11 @@ export interface VirtualMachineInstancesOperations {
 
 function _getVirtualMachineInstances(context: AzureStackHCIVMManagementContext) {
   return {
+    powerOff: (
+      resourceUri: string,
+      body: PowerOffVirtualMachineOptions,
+      options?: VirtualMachineInstancesPowerOffOptionalParams,
+    ) => powerOff(context, resourceUri, body, options),
     save: (resourceUri: string, options?: VirtualMachineInstancesSaveOptionalParams) =>
       save(context, resourceUri, options),
     pause: (resourceUri: string, options?: VirtualMachineInstancesPauseOptionalParams) =>

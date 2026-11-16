@@ -181,13 +181,28 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
- * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
- * instead of the standard 64KB limit.
+ * Comma-separated experimental feature names.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES =
+  "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES";
+
+/**
+ * Gen AI message properties eligible for the opt-in 4 MiB limit.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+]);
+
+/**
+ * Gen AI property keys that use a higher 256 KiB truncation limit for custom dimensions
+ * instead of the standard 8 KiB limit.
  * @internal
  */
 export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
-  "gen_ai.input.messages",
-  "gen_ai.output.messages",
+  ...CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS,
   "gen_ai.system_instructions",
   "gen_ai.tool.definitions",
   "gen_ai.tool.call.arguments",
@@ -320,6 +335,16 @@ export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
  * @internal
  */
 export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";
+/**
+ * OneSettings feature key that independently gates customer-facing SDK stats.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_CUSTOMER_SDK_STATS = "FEATURE_CUSTOMER_SDK_STATS";
+/**
+ * OneSettings feature key that gates offline telemetry storage and replay.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_LOCAL_STORAGE = "FEATURE_LOCAL_STORAGE";
 /**
  * Namespace targeting sent with OneSettings requests to select the Node.js configuration bucket.
  * @internal

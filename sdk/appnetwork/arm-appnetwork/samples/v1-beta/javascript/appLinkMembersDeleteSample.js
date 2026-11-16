@@ -5,10 +5,10 @@ const { AppLinkClient } = require("@azure/arm-appnetwork");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to delete an AppLinkMember.
+ * This sample demonstrates how to remove a member from an Azure Kubernetes Application Network resource.
  *
- * @summary delete an AppLinkMember.
- * x-ms-original-file: 2025-08-01-preview/AppLinkMembers_Delete.json
+ * @summary remove a member from an Azure Kubernetes Application Network resource.
+ * x-ms-original-file: 2026-08-01-preview/AppLinkMembers_Delete.json
  */
 async function appLinkMembersDelete() {
   const credential = new DefaultAzureCredential();

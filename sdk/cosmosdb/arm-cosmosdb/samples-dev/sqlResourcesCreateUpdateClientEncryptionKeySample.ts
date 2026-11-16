@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
  *
  * @summary create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
- * x-ms-original-file: 2026-03-15/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
  */
 async function cosmosDBClientEncryptionKeyCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,15 +21,18 @@ async function cosmosDBClientEncryptionKeyCreateUpdate(): Promise<void> {
     "cekName",
     {
       resource: {
-        id: "cekName",
         encryptionAlgorithm: "AEAD_AES_256_CBC_HMAC_SHA256",
-        wrappedDataEncryptionKey: Buffer.from("U3dhZ2dlciByb2Nrcw==", "base64"),
+        id: "cekName",
         keyWrapMetadata: {
           name: "customerManagedKey",
           type: "AzureKeyVault",
-          value: "AzureKeyVault Key URL",
           algorithm: "RSA-OAEP",
+          value: "AzureKeyVault Key URL",
         },
+        wrappedDataEncryptionKey: Buffer.from(
+          "VGhpcyBpcyBhY3R1YWxseSBhbiBhcnJheSBvZiBieXRlcy4gVGhpcyByZXF1ZXN0L3Jlc3BvbnNlIGlzIGJlaW5nIHByZXNlbnRlZCBhcyBhIHN0cmluZyBmb3IgcmVhZGFiaWxpdHkgaW4gdGhlIGV4YW1wbGU=",
+          "base64",
+        ),
       },
     },
   );

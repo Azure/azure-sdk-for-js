@@ -3,12 +3,6 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  BetaAgentInsightMonitorsOperations,
-  _getBetaAgentInsightMonitorsOperations,
-} from "./agentInsightMonitors/index.js";
-import { BetaAgentsOperations, _getBetaAgentsOperations } from "./agents/index.js";
-import { BetaDatasetsOperations, _getBetaDatasetsOperations } from "./datasets/index.js";
-import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
 } from "./evaluationTaxonomies/index.js";
@@ -23,11 +17,10 @@ import { BetaRedTeamsOperations, _getBetaRedTeamsOperations } from "./redTeams/i
 import { BetaRoutinesOperations, _getBetaRoutinesOperations } from "./routines/index.js";
 import { BetaSchedulesOperations, _getBetaSchedulesOperations } from "./schedules/index.js";
 import { BetaSkillsOperations, _getBetaSkillsOperations } from "./skills/index.js";
+import { BetaVoiceAgentsOperations, _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  agents: BetaAgentsOperations;
-  datasets: BetaDatasetsOperations;
   skills: BetaSkillsOperations;
   schedules: BetaSchedulesOperations;
   routines: BetaRoutinesOperations;
@@ -37,13 +30,11 @@ export interface BetaOperations {
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+  voiceAgents: BetaVoiceAgentsOperations;
 }
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
-    agents: _getBetaAgentsOperations(context),
-    datasets: _getBetaDatasetsOperations(context),
     skills: _getBetaSkillsOperations(context),
     schedules: _getBetaSchedulesOperations(context),
     routines: _getBetaRoutinesOperations(context),
@@ -53,6 +44,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context),
+    voiceAgents: _getBetaVoiceAgentsOperations(context),
   };
 }

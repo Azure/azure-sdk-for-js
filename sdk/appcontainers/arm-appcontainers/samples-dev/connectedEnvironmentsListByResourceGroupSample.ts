@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all connectedEnvironments in a resource group.
  *
  * @summary get all connectedEnvironments in a resource group.
- * x-ms-original-file: 2025-10-02-preview/ConnectedEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: 2026-07-01/ConnectedEnvironments_ListByResourceGroup.json
  */
 async function listEnvironmentsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get authorizationRule for a WCF relay by name.
  *
  * @summary get authorizationRule for a WCF relay by name.
- * x-ms-original-file: 2026-07-01-preview/Relay/RelayAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-01-01/Relay/RelayAuthorizationRuleGet.json
  */
 async function relayAuthorizationRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,10 +1,12 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
     "../src/index.ts",
     "../src/api/index.ts",
     "../src/api/namespaces/index.ts",
-    "../src/api/clusters/index.ts",
     "../src/api/privateLinkResources/index.ts",
     "../src/api/privateEndpointConnections/index.ts",
     "../src/api/wCFRelays/index.ts",

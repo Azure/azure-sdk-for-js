@@ -2,6 +2,14 @@
 // Licensed under the MIT License.
 
 export {
+  rollbackCircuitMigration,
+  commitCircuitMigration,
+  migrateCircuit,
+  restoreBgpForCircuitMigration,
+  shutDownBgpForCircuitMigration,
+  prepareCircuitMigration,
+  getCircuitMigrationInfo,
+  validateCircuitMigration,
   listRoutesTable,
   listRoutesTableSummary,
   listArpTable,
@@ -12,6 +20,14 @@ export {
   get,
 } from "./operations.js";
 export type {
+  ExpressRouteCrossConnectionsRollbackCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsCommitCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsMigrateCircuitOptionalParams,
+  ExpressRouteCrossConnectionsRestoreBgpForCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsPrepareCircuitMigrationOptionalParams,
+  ExpressRouteCrossConnectionsGetCircuitMigrationInfoOptionalParams,
+  ExpressRouteCrossConnectionsValidateCircuitMigrationOptionalParams,
   ExpressRouteCrossConnectionsListRoutesTableOptionalParams,
   ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams,
   ExpressRouteCrossConnectionsListArpTableOptionalParams,

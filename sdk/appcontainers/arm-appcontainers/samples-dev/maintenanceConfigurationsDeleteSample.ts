@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the maintenance configuration of a ManagedEnvironment .
  *
  * @summary deletes the maintenance configuration of a ManagedEnvironment .
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironment_MaintenanceConfigurations_Delete.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironment_MaintenanceConfigurations_Delete.json
  */
 async function managedEnvironmentMaintenanceConfigurationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

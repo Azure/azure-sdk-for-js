@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-MultiValue.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-MultiValue.json
  */
 async function profilePUTMultiValue(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function profilePUTMultiValue(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-NoEndpoints.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-NoEndpoints.json
  */
 async function profilePUTNoEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function profilePUTNoEndpoints(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-WithAliasing.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-WithAliasing.json
  */
 async function profilePUTWithAliasing(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -99,7 +99,7 @@ async function profilePUTWithAliasing(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-WithCustomHeaders.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-WithCustomHeaders.json
  */
 async function profilePUTWithCustomHeaders(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -149,7 +149,7 @@ async function profilePUTWithCustomHeaders(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-WithEndpoints.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-WithEndpoints.json
  */
 async function profilePUTWithEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -189,7 +189,7 @@ async function profilePUTWithEndpoints(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-WithEndpointsAndRecordType.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-WithEndpointsAndRecordType.json
  */
 async function profilePUTWithEndpointsAndRecordType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -230,7 +230,7 @@ async function profilePUTWithEndpointsAndRecordType(): Promise<void> {
  * This sample demonstrates how to create or update a Traffic Manager profile.
  *
  * @summary create or update a Traffic Manager profile.
- * x-ms-original-file: 2024-04-01-preview/Profile-PUT-WithNestedEndpoints.json
+ * x-ms-original-file: 2026-09-01/Profile-PUT-WithNestedEndpoints.json
  */
 async function profilePUTWithNestedEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -42,6 +42,7 @@ $MIId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY']
 $MIObjectId = $DeploymentOutputs['IDENTITY_USER_DEFINED_OBJECT_ID']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$identityBindingPodName = $DeploymentOutputs['IDENTITY_AKS_IDENTITY_BINDING_POD_NAME']
 $identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
 $storageNameUserAssigned = $DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']
@@ -185,6 +186,31 @@ metadata:
   name: $saAccountName
   namespace: default
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: use-mi-$MIClientId
+rules:
+- apiGroups:
+  - cid.wi.aks.azure.com
+  resources:
+  - $MIClientId
+  verbs:
+  - use-managed-identity
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: use-mi-$MIClientId
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: use-mi-$MIClientId
+subjects:
+- kind: ServiceAccount
+  name: $saAccountName
+  namespace: default
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -208,6 +234,32 @@ spec:
     - containerPort: 80
   nodeSelector:
     kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: $identityBindingPodName
+  namespace: default
+  labels:
+    azure.workload.identity/use: "true"
+  annotations:
+    azure.workload.identity/use-identity-binding: "true"
+spec:
+  serviceAccountName: $saAccountName
+  containers:
+  - name: $identityBindingPodName
+    image: $image
+    env:
+    - name: IDENTITY_STORAGE_NAME_USER_ASSIGNED
+      value: "$storageNameUserAssigned"
+    - name: IDENTITY_USER_DEFINED_CLIENT_ID
+      value: "$MIClientId"
+    - name: IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT
+      value: "80"
+    ports:
+    - containerPort: 80
+  nodeSelector:
+    kubernetes.io/os: linux
 "@
 
 Write-Host $kubeConfig
@@ -216,4 +268,6 @@ Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true
 Write-Host "Applied kubeconfig.yaml"
+kubectl wait --for=condition=Ready pod/$podName pod/$identityBindingPodName --timeout=5m
+if ($LASTEXITCODE -ne 0) { throw "AKS test pods did not become ready within five minutes" }
 Write-Host "##[endgroup]"

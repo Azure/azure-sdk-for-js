@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -248,9 +248,10 @@
+@@ -179,9 +179,10 @@
  
  export { isRestError }
  
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownAccessRights {
      Listen = "Listen",
-@@ -628,9 +629,9 @@
+@@ -533,9 +534,9 @@
  
  // @public
  export interface RegenerateAccessKeyParameters {

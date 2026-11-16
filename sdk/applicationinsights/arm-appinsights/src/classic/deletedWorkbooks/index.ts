@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { listBySubscription } from "../../api/deletedWorkbooks/operations.js";
-import { DeletedWorkbooksListBySubscriptionOptionalParams } from "../../api/deletedWorkbooks/options.js";
-import { DeletedWorkbook } from "../../models/deletedWorkbookApi/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeletedWorkbooksListBySubscriptionOptionalParams } from "../../api/deletedWorkbooks/options.js";
+import type { DeletedWorkbook } from "../../models/deletedWorkbookApi/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedWorkbooks operations. */
 export interface DeletedWorkbooksOperations {

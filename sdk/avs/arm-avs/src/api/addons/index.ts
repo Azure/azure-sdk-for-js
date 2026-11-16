@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
-export {
-  type AddonsDeleteOptionalParams,
-  type AddonsCreateOrUpdateOptionalParams,
-  type AddonsGetOptionalParams,
-  type AddonsListOptionalParams,
+export type {
+  AddonsDeleteOptionalParams,
+  AddonsCreateOrUpdateOptionalParams,
+  AddonsGetOptionalParams,
+  AddonsListOptionalParams,
 } from "./options.js";

@@ -3,11 +3,11 @@
 
 import type { Context } from "@opentelemetry/api";
 import { context, trace } from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import type { Span } from "@opentelemetry/sdk-trace-base";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
+import type { Span } from "@opentelemetry/sdk-trace";
 import { LoggerProvider } from "@opentelemetry/sdk-logs";
-import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { LogRecord as APILogRecord } from "@opentelemetry/api";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { assert, beforeEach, describe, it } from "vitest";
 
 import type { MetricHandler } from "../../../../src/metrics/index.js";
@@ -27,8 +27,8 @@ function createStubMetricHandler(): MetricHandler {
  * applied.
  */
 class CapturingProcessor {
-  public records: SdkLogRecord[] = [];
-  onEmit(record: SdkLogRecord): void {
+  public records: ReadWriteLogRecord[] = [];
+  onEmit(record: ReadWriteLogRecord): void {
     this.records.push(record);
   }
   forceFlush(): Promise<void> {
@@ -43,7 +43,7 @@ describe("Library/AzureLogRecordProcessor", () => {
   let processor: AzureLogRecordProcessor;
   let capture: CapturingProcessor;
   let loggerProvider: LoggerProvider;
-  let tracerProvider: BasicTracerProvider;
+  let tracerProvider: TracerProvider;
 
   beforeEach(() => {
     processor = new AzureLogRecordProcessor(createStubMetricHandler());
@@ -51,7 +51,7 @@ describe("Library/AzureLogRecordProcessor", () => {
     // The Azure processor must run before the capture so that the capture
     // sees the mutated log record.
     loggerProvider = new LoggerProvider({ processors: [processor, capture] });
-    tracerProvider = new BasicTracerProvider();
+    tracerProvider = new TracerProvider();
   });
 
   function emitLog(ctx?: Context): void {

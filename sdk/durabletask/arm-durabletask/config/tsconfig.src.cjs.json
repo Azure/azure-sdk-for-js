@@ -1,6 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/failoverInstances/index.ts",
+    "../src/api/transparentDataEncryptions/index.ts",
+    "../src/api/retentionPolicies/index.ts",
+    "../src/api/taskQueues/index.ts",
+    "../src/api/taskHubs/index.ts",
+    "../src/api/schedulers/index.ts",
+    "../src/api/detectors/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts",
+    "../src/models/typeSpec/index.ts"
   ]
 }

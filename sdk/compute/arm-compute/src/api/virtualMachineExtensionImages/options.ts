@@ -13,7 +13,9 @@ export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends
   /** Expand the response to include additional read-only metadata. Allowed values: `properties` — returns extended metadata (`releaseCategory`, `urgencyLevel`, `runProfile`). */
   expand?: ListVersionsExpandOptions;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesListTypesOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesGetOptionalParams extends OperationOptions {}

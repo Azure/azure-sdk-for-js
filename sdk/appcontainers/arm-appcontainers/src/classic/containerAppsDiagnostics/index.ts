@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   getDetector,
   listDetectors,
@@ -9,15 +9,15 @@ import {
   listRevisions,
   getRevision,
 } from "../../api/containerAppsDiagnostics/operations.js";
-import {
+import type {
   ContainerAppsDiagnosticsGetDetectorOptionalParams,
   ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ContainerAppsDiagnosticsGetRootOptionalParams,
   ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ContainerAppsDiagnosticsGetRevisionOptionalParams,
 } from "../../api/containerAppsDiagnostics/options.js";
-import { ContainerApp, Revision, Diagnostics } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ContainerApp, Revision, Diagnostics } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContainerAppsDiagnostics operations. */
 export interface ContainerAppsDiagnosticsOperations {

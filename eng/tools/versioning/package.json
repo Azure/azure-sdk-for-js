@@ -4,11 +4,22 @@
   "description": "Utilities to manipulate version information",
   "main": "echo \"use increment.js or set-dev.js\"",
   "type": "module",
+  "sdk-type": "utility",
+  "private": true,
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
-    "build": "npm run format && npm run typecheck",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\"",
+    "build": "pnpm typecheck",
+    "build:samples": "echo skipped",
+    "build:test": "echo skipped",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{js,json}\"",
     "typecheck": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "update-snippets": "echo skipped"
   },
   "repository": {
     "type": "git",
@@ -21,18 +32,17 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
-    "@azure-tools/eng-package-utils": "file:../eng-package-utils",
-    "semver": "^7.8.5",
-    "yargs": "^18.0.0",
-    "yargs-parser": "^22.0.0",
+    "@azure-tools/eng-package-utils": "workspace:^",
     "@pnpm/config": "^1004.11.6",
-    "@pnpm/catalogs.resolver": "^1100.0.0"
+    "@pnpm/catalogs.resolver": "^1100.0.0",
+    "semver": "^7.8.5",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.35",
     "@types/semver": "^7.7.1",
-    "@types/node": "^22.0.0",
-    "prettier": "^3.9.5",
-    "typescript": "~6.0.2"
+    "@types/yargs": "^17.0.35",
+    "@types/node": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   }
 }

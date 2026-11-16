@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or Updates an EventHub schema group.
  *
  * @summary creates or Updates an EventHub schema group.
- * x-ms-original-file: 2026-01-01/SchemaRegistry/SchemaRegistryCreate.json
+ * x-ms-original-file: 2026-07-01-preview/SchemaRegistry/SchemaRegistryCreate.json
  */
 async function schemaRegistryCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

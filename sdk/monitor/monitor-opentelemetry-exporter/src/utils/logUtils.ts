@@ -51,6 +51,7 @@ import {
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
   DEFAULT_BREEZE_DATA_VERSION,
+  DEFAULT_LOG_MESSAGE,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -58,7 +59,11 @@ import {
  * Log to Azure envelope parsing.
  * @internal
  */
-export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
+export function logToEnvelope(
+  log: ReadableLogRecord,
+  ikey: string,
+  increaseGenAiMessageLimit = false,
+): Envelope | undefined {
   const time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
@@ -115,9 +120,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   } else if (isMessageType) {
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
+    const message = log.body == null ? undefined : serializeAttribute(log.body);
     const messageData: MessageData = {
       kind: "MessageData",
-      message: serializeAttribute(log.body),
+      message: message || DEFAULT_LOG_MESSAGE,
       severityLevel: getSeverity(log.severityNumber),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
@@ -144,7 +150,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  baseData.properties = truncateCustomDimensions(properties);
+  baseData.properties = truncateCustomDimensions(properties, increaseGenAiMessageLimit);
   baseData.measurements = measurements;
 
   return {
@@ -234,6 +240,10 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
     if (endUserPseudoId && endUserPseudoId.length > 0) {
       tags[KnownContextTagKeys.AiUserId] = endUserPseudoId;
     }
+  }
+  const sessionId = attributes[experimentalOpenTelemetryValues.ATTR_SESSION_ID];
+  if (typeof sessionId === "string") {
+    tags[KnownContextTagKeys.AiSessionId] = sessionId;
   }
 
   return tags;

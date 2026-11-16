@@ -16,7 +16,8 @@ import type {
   NodePoolsCreateOrUpdateOptionalParams,
   NodePoolsGetOptionalParams,
 } from "../../api/nodePools/options.js";
-import type { NodePool, UpdateablePropertiesNodePoolProperties } from "../../models/models.js";
+import type { NodePool } from "../../models/models.js";
+import type { UpdateablePropertiesNodePoolProperties } from "../../models/typeSpec/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 

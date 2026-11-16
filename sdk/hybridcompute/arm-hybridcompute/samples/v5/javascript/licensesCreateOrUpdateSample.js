@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update a license.
  *
  * @summary the operation to create or update a license.
- * x-ms-original-file: 2026-07-15/license/License_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/license/License_CreateOrUpdate.json
  */
 async function createOrUpdateALicense() {
   const credential = new DefaultAzureCredential();

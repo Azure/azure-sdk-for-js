@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list secrets for a dapr component
  *
  * @summary list secrets for a dapr component
- * x-ms-original-file: 2025-10-02-preview/DaprComponents_ListSecrets.json
+ * x-ms-original-file: 2026-07-01/DaprComponents_ListSecrets.json
  */
 async function listContainerAppsSecrets(): Promise<void> {
   const credential = new DefaultAzureCredential();

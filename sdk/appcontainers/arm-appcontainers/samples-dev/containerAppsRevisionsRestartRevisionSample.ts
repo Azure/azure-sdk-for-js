@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restarts a revision for a Container App
  *
  * @summary restarts a revision for a Container App
- * x-ms-original-file: 2025-10-02-preview/Revisions_Restart.json
+ * x-ms-original-file: 2026-07-01/Revisions_Restart.json
  */
 async function restartContainerAppRevision(): Promise<void> {
   const credential = new DefaultAzureCredential();

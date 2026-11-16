@@ -1,7 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface GenerateClientTokenOptionalParams extends OperationOptions {
+  /** User identifier for the client connection. */
+  userId?: string;
+  /** Roles granted to the client connection. */
+  role?: string[];
+  /** Lifetime of the generated token, in minutes. */
+  minutesToExpire?: number;
+}
+
+/** Optional parameters. */
+export interface ListRoomsForUserOptionalParams extends OperationOptions {
+  /** The maximum number of result items per page. */
+  maxPageSize?: number;
+}
 
 /** Optional parameters. */
 export interface DeleteUserOptionalParams extends OperationOptions {
@@ -23,6 +39,12 @@ export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
 export interface GetUserOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface ListUsersOptionalParams extends OperationOptions {
+  /** The maximum number of result items per page. */
+  maxPageSize?: number;
+}
+
+/** Optional parameters. */
 export interface DeleteRoomMemberOptionalParams extends OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
@@ -42,8 +64,39 @@ export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOption
 export interface ListRoomMembersOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
+}
+
+/** Optional parameters. */
+export interface DeleteTopicOptionalParams extends OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface UpdateTopicOptionalParams extends OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface GetTopicOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface CreateOrReplaceTopicOptionalParams extends OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface ListTopicsOptionalParams extends OperationOptions {
+  /** The maximum number of result items per page. */
+  maxPageSize?: number;
 }
 
 /** Optional parameters. */
@@ -63,6 +116,12 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface ListRoomsOptionalParams extends OperationOptions {
+  /** The maximum number of result items per page. */
+  maxPageSize?: number;
 }
 
 /** Optional parameters. */
@@ -88,8 +147,6 @@ export interface GetRoleOptionalParams extends OperationOptions {}
 export interface ListRolesOptionalParams extends OperationOptions {
   /** The maximum number of result items per page. */
   maxPageSize?: number;
-  /** Continuation token for pagination. */
-  continuationToken?: string;
 }
 
 /** Optional parameters. */

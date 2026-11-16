@@ -98,12 +98,19 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let indexClient: SearchIndexClient;
   let index: SearchIndex;
+  let indexCreated: boolean;
 
   beforeEach(async (ctx) => {
+    indexCreated = false;
     recorder = new Recorder(ctx);
-    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, ""));
+    const clients = await createClients<Hotel>(
+      defaultServiceVersion,
+      recorder,
+      createRandomIndexName(),
+    );
+    indexClient = clients.indexClient;
     index = {
-      name: "content-security-test",
+      name: clients.indexName,
       purviewEnabled: true,
       fields: [
         {
@@ -137,13 +144,14 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
         },
       ],
     };
-    await indexClient.createOrUpdateIndex(index);
+    await indexClient.createIndex(index);
+    indexCreated = true;
     await delay(WAIT_TIME);
   });
 
   afterEach(async () => {
     try {
-      await indexClient.deleteIndex(index.name).catch(() => {});
+      if (indexCreated) await indexClient.deleteIndex(index.name).catch(() => {});
     } finally {
       await recorder?.stop();
     }

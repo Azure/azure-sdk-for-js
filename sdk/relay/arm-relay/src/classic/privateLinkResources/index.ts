@@ -25,6 +25,7 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesGetOptionalParams,
   ) => Promise<PrivateLinkResource>;
 }
+
 function _getPrivateLinkResources(context: RelayAPIContext) {
   return {
     list: (
@@ -40,6 +41,7 @@ function _getPrivateLinkResources(context: RelayAPIContext) {
     ) => get(context, resourceGroupName, namespaceName, privateLinkResourceName, options),
   };
 }
+
 export function _getPrivateLinkResourcesOperations(
   context: RelayAPIContext,
 ): PrivateLinkResourcesOperations {

@@ -1,0 +1,139 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "cassandraCluster": {
+          "bicepIdentifier": "cassandraCluster",
+          "type": "Microsoft.DocumentDB/cassandraClusters",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "clusterresource-test"
+              },
+              "location": {
+                "kind": "string",
+                "value": "West US"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "delegatedManagementSubnetId": {
+                    "kind": "string",
+                    "value": "/subscriptions/536e130b-d7d6-4ac7-98a5-de20d69588d2/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/management"
+                  },
+                  "cassandraVersion": {
+                    "kind": "string",
+                    "value": "3.11"
+                  },
+                  "hoursBetweenBackups": {
+                    "kind": "integer",
+                    "value": "24"
+                  },
+                  "authenticationMethod": {
+                    "kind": "string",
+                    "value": "Cassandra"
+                  },
+                  "initialCassandraAdminPassword": {
+                    "kind": "string",
+                    "value": "mypassword"
+                  },
+                  "externalSeedNodes": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "ipAddress": {
+                            "kind": "string",
+                            "value": "10.52.221.2"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "object",
+                        "value": {
+                          "ipAddress": {
+                            "kind": "string",
+                            "value": "10.52.221.3"
+                          }
+                        }
+                      },
+                      {
+                        "kind": "object",
+                        "value": {
+                          "ipAddress": {
+                            "kind": "string",
+                            "value": "10.52.221.4"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "clusterNameOverride": {
+                    "kind": "string",
+                    "value": "ClusterNameIllegalForAzureResource"
+                  },
+                  "clientCertificates": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "pem": {
+                            "kind": "string",
+                            "value": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "externalGossipCertificates": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "pem": {
+                            "kind": "string",
+                            "value": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "cassandraCluster"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

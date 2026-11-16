@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list shared galleries by subscription id or tenant id.
  *
  * @summary list shared galleries by subscription id or tenant id.
- * x-ms-original-file: 2025-12-03/sharedGalleryExamples/SharedGallery_List.json
+ * x-ms-original-file: 2026-03-03/sharedGalleryExamples/SharedGallery_List.json
  */
 async function listSharedGalleries() {
   const credential = new DefaultAzureCredential();

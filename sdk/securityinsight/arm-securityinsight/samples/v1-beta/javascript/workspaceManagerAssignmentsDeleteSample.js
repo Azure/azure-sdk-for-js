@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a workspace manager assignment
  *
  * @summary deletes a workspace manager assignment
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerAssignments/DeleteWorkspaceManagerAssignment.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerAssignments/DeleteWorkspaceManagerAssignment.json
  */
 async function deleteAWorkspaceManagerAssignment() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,58 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "searchService": {
+          "bicepIdentifier": "searchService",
+          "type": "Microsoft.Search/searchServices",
+          "apiVersion": "2025-05-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "search-private-endpoint"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "replicaCount": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "partitionCount": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "hostingMode": {
+                    "kind": "string",
+                    "value": "Default"
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "disabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "standard"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

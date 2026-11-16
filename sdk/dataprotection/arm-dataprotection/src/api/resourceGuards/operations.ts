@@ -58,7 +58,7 @@ export function _listBackupSecurityPINRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +106,7 @@ export function listBackupSecurityPINRequestsObjects(
       ),
     _listBackupSecurityPINRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -126,7 +126,7 @@ export function _getDefaultBackupSecurityPINRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +188,7 @@ export function _listDeleteProtectedItemRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +236,7 @@ export function listDeleteProtectedItemRequestsObjects(
       ),
     _listDeleteProtectedItemRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -256,7 +256,7 @@ export function _getDefaultDeleteProtectedItemRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +318,7 @@ export function _listUpdateProtectionPolicyRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -366,7 +366,7 @@ export function listUpdateProtectionPolicyRequestsObjects(
       ),
     _listUpdateProtectionPolicyRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -386,7 +386,7 @@ export function _getDefaultUpdateProtectionPolicyRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -448,7 +448,7 @@ export function _listUpdateProtectedItemRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -496,7 +496,7 @@ export function listUpdateProtectedItemRequestsObjects(
       ),
     _listUpdateProtectedItemRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -516,7 +516,7 @@ export function _getDefaultUpdateProtectedItemRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -578,7 +578,7 @@ export function _listDisableSoftDeleteRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -626,7 +626,7 @@ export function listDisableSoftDeleteRequestsObjects(
       ),
     _listDisableSoftDeleteRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -646,7 +646,7 @@ export function _getDefaultDisableSoftDeleteRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -702,7 +702,7 @@ export function _listResourcesInSubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -740,7 +740,7 @@ export function listResourcesInSubscription(
     () => _listResourcesInSubscriptionSend(context, options),
     _listResourcesInSubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -754,7 +754,7 @@ export function _listResourcesInResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -793,7 +793,7 @@ export function listResourcesInResourceGroup(
     () => _listResourcesInResourceGroupSend(context, resourceGroupName, options),
     _listResourcesInResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -809,7 +809,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -856,7 +856,7 @@ export function _patchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -917,7 +917,7 @@ export function _putSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -977,7 +977,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1030,7 +1030,7 @@ export function _listDeleteResourceGuardProxyRequestsObjectsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1078,7 +1078,7 @@ export function listDeleteResourceGuardProxyRequestsObjects(
       ),
     _listDeleteResourceGuardProxyRequestsObjectsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -1098,7 +1098,7 @@ export function _getDefaultDeleteResourceGuardProxyRequestsObjectSend(
       resourceGroupName: resourceGroupName,
       resourceGuardsName: resourceGuardsName,
       requestName: requestName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

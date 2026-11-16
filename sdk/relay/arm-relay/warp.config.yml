@@ -5,7 +5,6 @@ exports:
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/namespaces": "./src/api/namespaces/index.ts"
-  "./api/clusters": "./src/api/clusters/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/wCFRelays": "./src/api/wCFRelays/index.ts"

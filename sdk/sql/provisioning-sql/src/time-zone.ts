@@ -1,0 +1,86 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  type ExistingResourceProps,
+  type Expression,
+  type ExpressionOrValue,
+  type ProvisioningComponent,
+  Resource,
+  type ResourceOptions,
+} from "@azure/provisioning-core";
+import {
+  createDeferredShape,
+  createFlatModelShape,
+  createStringShape,
+  type ResourceNamingRules,
+  type ResourceProps,
+} from "@azure/provisioning-core/internal";
+import { type TimeZoneProperties, timeZonePropertiesShape } from "./types.js";
+
+const API_VERSION = "2025-01-01";
+
+/**
+ * Time Zone property.
+ */
+export class TimeZone extends Resource<"Microsoft.Sql/locations/timeZones"> {
+  static resourceType = "Microsoft.Sql/locations/timeZones" as const;
+  static apiVersion = API_VERSION;
+  protected static namingRules: ResourceNamingRules = {
+    abbreviation: "tz",
+    nameSegments: 2,
+    scope: "parent",
+  };
+
+  static {
+    this.registerShape(
+      createFlatModelShape({
+        name: { armPath: ["name"], value: createStringShape() },
+        properties: {
+          armPath: ["properties"],
+          value: createDeferredShape(() => timeZonePropertiesShape),
+          readOnly: true,
+        },
+      }),
+    );
+    this.register();
+  }
+
+  /**
+   * Assemble the base `Resource` constructor payload. Preserve supplied properties while applying
+   * resource metadata. Shared by ordinary construction and internal resource reconstruction.
+   *
+   * @param props - Resource properties to normalize for the base constructor.
+   */
+  protected static buildResourceProps(
+    props?: ExistingResourceProps & { existing: true },
+  ): ResourceProps<"Microsoft.Sql/locations/timeZones"> & Record<string, unknown> {
+    return {
+      ...props,
+      type: TimeZone.resourceType,
+      apiVersion: TimeZone.apiVersion,
+    };
+  }
+
+  constructor(
+    context: ProvisioningComponent,
+    props: ExistingResourceProps & { existing: true },
+    options?: ResourceOptions,
+  ) {
+    super(context, TimeZone.buildResourceProps(props), options);
+  }
+
+  get name(): Expression<string> {
+    return this.expr("name");
+  }
+  set name(value: ExpressionOrValue<string>) {
+    this.setProperty("name", value);
+  }
+
+  /**
+   * Resource properties.
+   */
+  get properties(): Expression<TimeZoneProperties> {
+    return this.expr("properties") as any;
+  }
+}

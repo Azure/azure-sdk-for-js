@@ -75,6 +75,7 @@ export async function _generateKeyPairDeserialize(
 
   return sshPublicKeyGenerateKeyPairResultDeserializer(result.body);
 }
+
 /** Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource. */
 export async function generateKeyPair(
   context: Client,
@@ -121,6 +122,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _sshPublicKeysGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys. */
 export function listBySubscription(
   context: Client,
@@ -172,6 +174,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _sshPublicKeysGroupListResultDeserializer(result.body);
 }
+
 /** Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys. */
 export function listByResourceGroup(
   context: Client,
@@ -221,6 +224,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete an SSH public key. */
 export async function $delete(
   context: Client,
@@ -274,6 +278,7 @@ export async function _updateDeserialize(
 
   return sshPublicKeyResourceDeserializer(result.body);
 }
+
 /** Updates a new SSH public key resource. */
 export async function update(
   context: Client,
@@ -334,6 +339,7 @@ export async function _createDeserialize(
 
   return sshPublicKeyResourceDeserializer(result.body);
 }
+
 /** Creates a new SSH public key resource. */
 export async function create(
   context: Client,
@@ -391,6 +397,7 @@ export async function _getDeserialize(
 
   return sshPublicKeyResourceDeserializer(result.body);
 }
+
 /** Retrieves information about an SSH public key. */
 export async function get(
   context: Client,

@@ -1,0 +1,55 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/pr-review/
+      - .github/workflows/pr-review-*.yml
+      - .github/workflows/archie.*
+      - .github/workflows/dash.*
+      - .github/workflows/dexter.*
+      - .github/workflows/mgmt-review.*
+      - .github/workflows/scribe.*
+      - .github/workflows/sentinel.*
+      - .github/workflows/tester.*
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/pr-review/
+      - .github/workflows/pr-review-*.yml
+      - .github/workflows/archie.*
+      - .github/workflows/dash.*
+      - .github/workflows/dexter.*
+      - .github/workflows/mgmt-review.*
+      - .github/workflows/scribe.*
+      - .github/workflows/sentinel.*
+      - .github/workflows/tester.*
+
+jobs:
+  - job: PRReview
+    displayName: "PR review routing validation"
+
+    variables:
+      - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
+
+    pool:
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
+    steps:
+      - template: /eng/pipelines/templates/steps/common.yml
+
+      - script: |
+          node --test review-request.test.cjs
+        displayName: "Run PR review routing tests"
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/pr-review

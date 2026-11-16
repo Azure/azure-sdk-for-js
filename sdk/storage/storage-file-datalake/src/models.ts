@@ -15,6 +15,7 @@ import type {
   NodeJSReadableStream,
   BlobTags,
   Tags,
+  LayoutAwareRouting,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -71,6 +72,7 @@ export {
   type Lease,
   type LeaseOperationOptions,
   type LeaseOperationResponse,
+  type LayoutAwareRouting,
 } from "@azure/storage-blob";
 
 export type {
@@ -1355,6 +1357,13 @@ export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
 /** DataLakeFileClient option and response related models **/
 /** *********************************************************/
 
+/**
+ * Option interface for Data Lake file - read operations
+ *
+ * See:
+ * - {@link DataLakeFileClient.read}
+ * - {@link DataLakeFileClient.readToFile}
+ */
 export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   rangeGetContentMD5?: boolean;
@@ -1570,9 +1579,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
 
   /**
    * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
-   * Data of smaller size than this limit will be transferred in a single upload.
+   * Data of size less than or equal to this limit will be transferred in a single upload.
    * Data larger than this limit will be transferred in chunks in parallel.
-   * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
+   * If set to 0 or undefined, it defaults to 8MB, which doesn't depend on chunkSize.
+   * Its max value is 100MB.
    * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
    */
   singleUploadThreshold?: number;
@@ -1646,6 +1656,23 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * Whether the parallel range requests this read issues are routed to the endpoints that hold
+   * them, as reported by Get Blob Layout. A performance optimization only: the bytes returned are
+   * the same either way.
+   *
+   * Defaults to `auto`, which currently leaves routing off; set `enabled` to opt in.
+   *
+   * With routing enabled, the first chunk is read from the account endpoint, and the rest are
+   * routed only if the service hints that the file has a layout. If the service answers the
+   * layout request with 400 or a 5xx status, the rest is read from the account endpoint too. Any
+   * other failure fails the read as it would without routing, including a layout request that is
+   * cancelled or times out, and a routed read that still fails after the pipeline's retries, which
+   * is not retried through the account endpoint.
+   */
+  layoutAwareRouting?: LayoutAwareRouting;
 }
 
 /**
