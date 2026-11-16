@@ -65,7 +65,10 @@ export function addStorageCompatResponse<TBody, THeaders = Record<string, unknow
   parsedBody: TBody,
   parsedHeaders: THeaders,
 ): StorageCompatResult<TBody, THeaders> {
-  const base = parsedBody !== undefined && parsedBody !== null ? parsedBody : ({} as TBody);
+  const base =
+    parsedBody !== undefined && parsedBody !== null
+      ? Object.assign({}, parsedBody)
+      : ({} as TBody);
   return Object.assign(base as any, parsedHeaders, {
     _response: {
       rawResponse,

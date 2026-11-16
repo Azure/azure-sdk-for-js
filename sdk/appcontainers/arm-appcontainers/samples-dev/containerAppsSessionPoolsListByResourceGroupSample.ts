@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the session pools in a given resource group of a subscription.
  *
  * @summary get the session pools in a given resource group of a subscription.
- * x-ms-original-file: 2025-10-02-preview/SessionPools_ListByResourceGroup.json
+ * x-ms-original-file: 2026-07-01/SessionPools_ListByResourceGroup.json
  */
 async function listSessionPoolsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

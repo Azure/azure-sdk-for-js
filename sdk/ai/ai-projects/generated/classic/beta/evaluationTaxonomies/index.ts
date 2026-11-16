@@ -5,7 +5,7 @@ import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   update,
   create,
-  deleteEvaluationTaxonomy,
+  $delete,
   list,
   get,
 } from "../../../api/beta/evaluationTaxonomies/operations.js";
@@ -36,7 +36,7 @@ export interface BetaEvaluationTaxonomiesOperations {
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Removes the specified evaluation taxonomy from the project. */
-  deleteEvaluationTaxonomy: (
+  delete: (
     name: string,
     foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
@@ -68,11 +68,11 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
       taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
     ) => create(context, foundryFeatures, name, taxonomy, options),
-    deleteEvaluationTaxonomy: (
+    delete: (
       name: string,
       foundryFeatures: "Evaluations=V1Preview",
       options?: BetaEvaluationTaxonomiesDeleteOptionalParams,
-    ) => deleteEvaluationTaxonomy(context, name, foundryFeatures, options),
+    ) => $delete(context, name, foundryFeatures, options),
     list: (
       foundryFeatures: "Evaluations=V1Preview",
       options?: BetaEvaluationTaxonomiesListOptionalParams,

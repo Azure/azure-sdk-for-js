@@ -85,6 +85,7 @@ export interface ElasticCapacityPoolsOperations {
     options?: ElasticCapacityPoolsGetOptionalParams,
   ) => Promise<ElasticCapacityPool>;
 }
+
 function _getElasticCapacityPools(context: NetAppManagementContext) {
   return {
     checkVolumeFilePathAvailability: (
@@ -142,6 +143,7 @@ function _getElasticCapacityPools(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, options),
   };
 }
+
 export function _getElasticCapacityPoolsOperations(
   context: NetAppManagementContext,
 ): ElasticCapacityPoolsOperations {

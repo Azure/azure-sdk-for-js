@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a private endpoint connection.
  *
  * @summary gets a private endpoint connection.
- * x-ms-original-file: 2026-07-15/privateEndpoint/PrivateEndpointConnection_Get.json
+ * x-ms-original-file: 2026-09-01/privateEndpoint/PrivateEndpointConnection_Get.json
  */
 async function getsPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

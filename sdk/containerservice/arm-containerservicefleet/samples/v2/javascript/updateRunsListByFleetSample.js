@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list UpdateRun resources by Fleet
  *
  * @summary list UpdateRun resources by Fleet
- * x-ms-original-file: 2026-06-01/UpdateRuns_ListByFleet.json
+ * x-ms-original-file: 2026-11-01/UpdateRuns_ListByFleet.json
  */
 async function listsTheUpdateRunResourcesByFleet() {
   const credential = new DefaultAzureCredential();

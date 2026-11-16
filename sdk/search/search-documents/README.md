@@ -1,5 +1,45 @@
 # Azure AI Search client library for JavaScript
 
+## November 2026 preview
+
+The unreleased `13.2.0-beta.1` targets `2026-11-01-preview` by default. Set
+`serviceVersion` in client options to continue using a supported earlier API.
+Generation is pinned to [REST API specifications PR #47300](https://github.com/Azure/azure-rest-api-specs/pull/47300),
+commit `b41ba04c0219f6622b7f5214fc020f90bad339ae`; no release date is confirmed.
+
+New capabilities include graph queries and diagnostics, topic-graph vector retrieval,
+knowledge base tools, facet-derived filter hints, three-model knowledge-base inputs,
+random scoring, OpenAI-compatible vectorizer inputs, ingestion caches, and asynchronous File
+ingestion with operation diagnostics.
+See [the November preview sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/novemberPreview.ts).
+For a complete Topic Graph setup, see
+[the diverse-search walkthrough](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/topicGraphDiverseSearch.ts).
+It creates a corpus and sidecar with synthetic content, links them with an
+ETag-guarded update, and compares ordinary, diverse, balanced, and inherited
+search with stored and runtime knowledge-source settings. It uses real embeddings
+and requires a compatible embedding deployment, semantic ranker, and Search
+managed-identity access to that deployment. The small fixture demonstrates the
+API, not production topic discovery or retrieval quality.
+`beginIngestKnowledgeSourceFile` and `beginReplaceKnowledgeSourceFile` return thenable
+`@azure/core-lro` pollers: do not await the initial call when retaining the poller;
+use `pollUntilDone()` to wait for its typed file result.
+
+The preview retains the SDK-side GA behavior from `2026-10-01`, including typed
+SSE retrieval through both the root client and the `knowledgeBaseRetrieval`
+protocol subpath, conditional updates with ETags, and resumable resource paging.
+Convenience model unions retain the October GA variants. Use `SearchIndexInput`,
+`KnowledgeSourceInput`, and `SearchOptionsInput` for preview-only scoring functions,
+knowledge source/model/vectorizer alternatives, agentic queries, and image vector queries.
+Existing response annotations remain unchanged; protocol subpaths expose the full
+knowledge-source response models.
+See [the random scoring sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples-dev/randomScoring.ts)
+for a seeded random profile without classic `boost` or `fieldName` requirements.
+Streams require a `text/event-stream` response, close on completion or error,
+and support cancellation through `abortSignal`. Protocol index operations accept
+both the released body-first signatures and the name-first preview signatures.
+Both the protocol `getDocumentCount` and root `SearchClient.getDocumentsCount`
+return a number, preserving the GA return type.
+
 [Azure AI Search](https://learn.microsoft.com/azure/search/) (formerly known as "Azure Cognitive Search") is an AI-powered information retrieval platform that helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data.
 
 The Azure AI Search service is well suited for the following application scenarios:
@@ -68,7 +108,7 @@ See [choosing a pricing tier](https://learn.microsoft.com/azure/search/search-sk
 
 ### Authenticate the client
 
-To interact with the search service, you'll need to create an instance of the appropriate client class: `SearchClient` for searching indexed documents, `SearchIndexClient` for managing indexes, or `SearchIndexerClient` for crawling data sources and loading search documents into an index. To instantiate a client object, you'll need an **endpoint** and **Azure roles** or an **API key**. You can refer to the documentation for more information on [supported authenticating approaches](https://learn.microsoft.com/azure/search/search-security-overview#authentication) with the search service.
+To interact with the search service, create the appropriate client: `SearchClient` for documents, `SearchIndexClient` for indexes and knowledge resources, `SearchIndexerClient` for data sources/indexers/skillsets, or `KnowledgeRetrievalClient` for knowledge-base retrieval. To instantiate a client object, you'll need an **endpoint** and **Azure roles** or an **API key**. You can refer to the documentation for more information on [supported authenticating approaches](https://learn.microsoft.com/azure/search/search-security-overview#authentication) with the search service.
 
 #### Get an API Key
 
@@ -94,6 +134,7 @@ import {
   AzureKeyCredential,
   SearchIndexClient,
   SearchIndexerClient,
+  KnowledgeRetrievalClient,
 } from "@azure/search-documents";
 
 // To query and manipulate documents
@@ -108,6 +149,13 @@ const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("
 
 // To manage indexers, datasources and skillsets
 const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+// To retrieve from a knowledge base
+const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
 ```
 
 ### Authenticate in a National Cloud
@@ -117,39 +165,47 @@ To authenticate in a [National Cloud](https://learn.microsoft.com/azure/active-d
 - Set the `Audience` in `SearchClientOptions`
 
 ```ts snippet:ReadmeSampleCreateClient_NationalCloud
+import { DefaultAzureCredential } from "@azure/identity";
 import {
   SearchClient,
-  AzureKeyCredential,
   KnownSearchAudience,
   SearchIndexClient,
   SearchIndexerClient,
+  KnowledgeRetrievalClient,
 } from "@azure/search-documents";
 
+const credential = new DefaultAzureCredential({
+  authorityHost: "https://login.chinacloudapi.cn",
+});
+
 // To query and manipulate documents
-const searchClient = new SearchClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>"),
-  {
-    audience: KnownSearchAudience.AzureChina,
-  },
-);
+const searchClient = new SearchClient("<endpoint>", "<indexName>", credential, {
+  audience: KnownSearchAudience.AzureChina,
+});
 
 // To manage indexes and synonymmaps
-const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
+const indexClient = new SearchIndexClient("<endpoint>", credential, {
   audience: KnownSearchAudience.AzureChina,
 });
 
 // To manage indexers, datasources and skillsets
-const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"), {
+const indexerClient = new SearchIndexerClient("<endpoint>", credential, {
   audience: KnownSearchAudience.AzureChina,
 });
+
+// To retrieve from a knowledge base
+const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  credential,
+  { audience: KnownSearchAudience.AzureChina },
+);
 ```
 
 ## Key concepts
 
 An Azure AI Search service contains one or more indexes that provide persistent storage of searchable data in the form of JSON documents. _(If you're brand new to search, you can make a very rough analogy between indexes and database tables.)_ The @azure/search-documents client library
-exposes operations on these resources through three main client types.
+exposes operations on these resources through four main client types.
 
 - `SearchClient` helps with:
 
@@ -167,12 +223,17 @@ exposes operations on these resources through three main client types.
 
   - [Create, delete, update, or configure a search index](https://learn.microsoft.com/rest/api/searchservice/index-operations)
   - [Declare custom synonym maps to expand or rewrite queries](https://learn.microsoft.com/rest/api/searchservice/synonym-map-operations)
+  - Manage knowledge bases, knowledge sources, and files uploaded to File knowledge sources
 
 - `SearchIndexerClient` allows you to:
   - [Start indexers to automatically crawl data sources](https://learn.microsoft.com/rest/api/searchservice/indexer-operations)
   - [Define AI powered Skillsets to transform and enrich your data](https://learn.microsoft.com/rest/api/searchservice/skillset-operations)
 
-**Note**: These clients cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
+- `KnowledgeRetrievalClient` allows you to:
+  - Retrieve from a knowledge base and inspect its activities and references
+  - Stream typed retrieval progress and terminal results as server-sent events
+
+**Note**: Browser use depends on whether the selected Search operation and resource have CORS configured. File knowledge sources and knowledge bases expose CORS settings, but many management operations are intended for trusted server-side applications.
 
 ## TypeScript/JavaScript specific concepts
 
@@ -205,6 +266,343 @@ The following examples demonstrate the basics - please [check out our samples](h
   - [Querying with TypeScript](#querying-with-typescript)
   - [Querying with OData filters](#querying-with-odata-filters)
   - [Querying with facets](#querying-with-facets)
+- [Retrieve from a knowledge base](#retrieve-from-a-knowledge-base)
+- [Stream knowledge retrieval](#stream-knowledge-retrieval)
+- [Upload and update a knowledge source file](#upload-and-update-a-knowledge-source-file)
+
+### Retrieve from a Knowledge Base
+
+```ts snippet:ReadmeSampleRetrieveKnowledge
+import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
+
+const response = await client.retrieve({
+  intents: [{ type: "semantic", search: "What information is available?" }],
+  retrievalReasoningEffort: { kind: "auto" },
+  includeActivity: true,
+});
+
+console.log(response.response);
+```
+
+### Stream Knowledge Retrieval
+
+```ts snippet:ReadmeSampleRetrieveKnowledgeStream
+import { KnowledgeRetrievalClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new KnowledgeRetrievalClient(
+  "<endpoint>",
+  "<knowledgeBaseName>",
+  new AzureKeyCredential("<apiKey>"),
+);
+
+const controller = new AbortController();
+for await (const event of await client.retrieveStream(
+  {
+    intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+    includeActivity: true,
+  },
+  { abortSignal: controller.signal },
+)) {
+  if (event.event === "activity.completed") {
+    console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
+  } else if (event.event === "response.completed") {
+    console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
+    console.log(event.data.response.response);
+  } else if (event.event === "error") {
+    throw new Error(event.data.error.message);
+  }
+}
+```
+
+### Upload and Update a Knowledge Source File
+
+```ts snippet:ReadmeSampleManageKnowledgeSourceFile
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
+
+const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+const body = {
+  metadata: { fileName: "manuals/example.txt", metadata: { category: "manual" } },
+  content: {
+    contents: new TextEncoder().encode("Azure AI Search retrieves relevant information."),
+    contentType: "text/plain",
+    filename: "example.txt",
+  },
+};
+
+const uploaded = await client.uploadKnowledgeSourceFileMultipart("<knowledgeSourceName>", body);
+if (!uploaded.fileId) {
+  throw new Error("The service did not return an uploaded file ID.");
+}
+
+await client.updateKnowledgeSourceFile("<knowledgeSourceName>", uploaded.fileId, {
+  ...body,
+  metadata: { ...body.metadata, metadata: { category: "updated-manual" } },
+});
+for await (const file of client.listKnowledgeSourceFiles("<knowledgeSourceName>", {
+  prefix: "manuals/",
+  pageSize: 10,
+})) {
+  console.log(file.fileName, file.parsingMode, file.extractionMode);
+}
+```
+
+### Find Similar Documents
+
+```ts snippet:ReadmeSampleSearchMoreLikeThis
+import { SearchClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchClient("<endpoint>", "<indexName>", new DefaultAzureCredential());
+
+const response = await client.search(undefined, {
+  moreLikeThis: "1",
+  searchFields: ["hotelName", "description"],
+  select: ["hotelId", "hotelName"],
+  top: 5,
+});
+for await (const result of response.results) {
+  console.log(result.document);
+}
+```
+
+### Configure SharePoint Permissions
+
+```ts snippet:ReadmeSampleConfigureSharePointPermissions
+import { SearchIndexClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+
+await client.createIndex({
+  name: "sharepoint-permissions",
+  permissionFilterOption: "enabled",
+  sharePointConnectorAppRegistration: {
+    applicationId: "<applicationId>",
+    federatedCredentialId: "<federatedCredentialId>",
+  },
+  fields: [
+    { name: "id", type: "Edm.String", key: true },
+    { name: "content", type: "Edm.String", searchable: true },
+    {
+      name: "userIds",
+      type: "Collection(Edm.String)",
+      filterable: true,
+      permissionFilter: "userIds",
+    },
+    {
+      name: "organizationLinkExpiresAt",
+      type: "Edm.DateTimeOffset",
+      organizationAccessExpiration: true,
+    },
+  ],
+});
+```
+
+### Select a SharePoint Knowledge Source Scope
+
+```ts snippet:ReadmeSampleSharePointScope
+import { SearchIndexClient, KnownIndexedSharePointContainerName } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+const connectionString = process.env.SHAREPOINT_CONNECTION_STRING;
+if (!connectionString) {
+  throw new Error("Set SHAREPOINT_CONNECTION_STRING before creating the knowledge source.");
+}
+
+await client.createKnowledgeSource({
+  name: "sharepoint-site",
+  kind: "indexedSharePoint",
+  indexedSharePointParameters: {
+    connectionString,
+    containerName: KnownIndexedSharePointContainerName.AllSiteContent,
+  },
+});
+```
+
+### Refresh Indexer Permissions
+
+For an existing ADLS Gen2 indexer, enable permission refresh for unchanged documents.
+
+```ts snippet:ReadmeSampleRefreshIndexerPermissions
+import { SearchIndexerClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexerClient("<endpoint>", new DefaultAzureCredential());
+const indexer = await client.getIndexer("<existingAdlsGen2Indexer>");
+
+indexer.parameters = {
+  ...indexer.parameters,
+  configuration: { ...indexer.parameters?.configuration, refreshAllAcls: true },
+};
+await client.createOrUpdateIndexer(indexer);
+```
+
+### Check File Knowledge Source Capacity
+
+```ts snippet:ReadmeSampleKnowledgeSourceCapacity
+import { SearchIndexClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+const status = await client.getKnowledgeSourceStatus("<fileKnowledgeSourceName>");
+
+if (!status.fileCapacity) {
+  throw new Error("The knowledge source did not report File upload capacity.");
+}
+console.log(`Remaining files: ${status.fileCapacity.remainingFileCount}`);
+console.log(`Maximum file size: ${status.fileCapacity.maxFileSizeBytes} bytes`);
+```
+
+### Configure a Knowledge Base
+
+```ts snippet:ReadmeSampleConfigureKnowledgeBase
+import { SearchIndexClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+
+const knowledgeBase = await client.createKnowledgeBase({
+  name: "hotel-knowledge-base",
+  knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+  models: [
+    {
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "<azureOpenAIEndpoint>",
+        deploymentId: "<chatDeploymentName>",
+        modelName: "gpt-5.4-mini",
+      },
+    },
+  ],
+  retrievalReasoningEffort: { kind: "low" },
+  outputMode: "answerSynthesis",
+  retrievalInstructions: "Prioritize hotel amenities and pricing information.",
+  answerInstructions: "Answer concisely and cite the supporting sources.",
+});
+
+knowledgeBase.outputMode = "extractiveData";
+await client.createOrUpdateKnowledgeBase(knowledgeBase);
+```
+
+For Azure OpenAI, Microsoft Retriever 1, or OpenAI-compatible model inputs, use
+`KnowledgeBaseModelInput` and `KnowledgeBaseInput`. The legacy `KnowledgeBaseModel`
+alias and `KnowledgeBase.models` field retain their Azure OpenAI-only types.
+
+```ts snippet:ReadmeSampleConfigureKnowledgeBaseInput
+import {
+  SearchIndexClient,
+  KnowledgeBaseModelInput,
+  KnowledgeBaseInput,
+} from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+
+const model: KnowledgeBaseModelInput = { kind: "microsoftRetriever1" };
+const input: KnowledgeBaseInput = {
+  name: "hotel-knowledge-base",
+  knowledgeSources: [{ name: "<existingKnowledgeSourceName>" }],
+  models: [model],
+  retrievalReasoningEffort: { kind: "minimal" },
+};
+await client.createOrUpdateKnowledgeBase(input);
+```
+
+Create/update methods still return the legacy `KnowledgeBase` type for compatibility.
+Use `SearchIndexClient` from `@azure/search-documents/searchIndex` when reading
+responses that need the full model union.
+
+### Configure Automatic Filter Hints
+
+Automatic hints are stored on the knowledge-source resource in Azure AI Search,
+under `searchIndexParameters.queryHints`. They are not a portal-only setting and
+must not be placed in request-time `queryHintOverrides`. Retrieval inherits stored
+hints; request overrides may instead supply explicit `fieldValues`.
+
+This example creates a source for an existing populated index and attaches it to
+a knowledge base. The index needs a filterable, facetable `category` field and the
+specified semantic configuration. Use a model that supports hints and low or
+medium reasoning; Microsoft Retriever 1's minimal reasoning is not suitable.
+Automatic hints are not supported with document-level permissions or Purview
+sensitivity labels. Use new resource names; the example leaves the source and
+knowledge base available for subsequent retrievals.
+
+```ts snippet:ReadmeSampleAutomaticFilterHints
+import { DefaultAzureCredential } from "@azure/identity";
+import { SearchIndexClient, KnowledgeRetrievalClient } from "@azure/search-documents";
+
+const endpoint = "<endpoint>";
+const credential = new DefaultAzureCredential();
+const indexClient = new SearchIndexClient(endpoint, credential);
+
+const source = await indexClient.createKnowledgeSource({
+  name: "<newKnowledgeSourceName>",
+  kind: "searchIndex",
+  searchIndexParameters: {
+    searchIndexName: "<existingIndexName>",
+    semanticConfigurationName: "<semanticConfigurationName>",
+    queryHints: {
+      filters: [
+        {
+          field: "category",
+          autoConfiguration: { cacheTtl: 60, maxFacetValueCount: 50 },
+        },
+      ],
+    },
+  },
+});
+const base = await indexClient.createKnowledgeBase({
+  name: "<newKnowledgeBaseName>",
+  knowledgeSources: [{ name: source.name }],
+  models: [
+    {
+      kind: "azureOpenAI",
+      azureOpenAIParameters: {
+        resourceUrl: "<azureOpenAIEndpoint>",
+        deploymentId: "<chatDeploymentName>",
+        modelName: "gpt-5.4-mini",
+      },
+    },
+  ],
+  retrievalReasoningEffort: { kind: "low" },
+});
+
+const retrievalClient = new KnowledgeRetrievalClient(endpoint, base.name, credential);
+const response = await retrievalClient.retrieve({
+  intents: [{ type: "semantic", search: "Find product manuals." }],
+  includeActivity: true,
+});
+console.log(response.response, response.activity);
+```
+
+When updating an existing source instead, read its definition first and preserve
+its other settings before calling `createOrUpdateKnowledgeSource`.
+
+### Page Through Resources
+
+```ts snippet:ReadmeSampleListResources
+import { SearchIndexClient } from "@azure/search-documents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new SearchIndexClient("<endpoint>", new DefaultAzureCredential());
+
+for await (const page of client
+  .listIndexes({
+    search: "hotel",
+    searchType: "prefix",
+    pageSize: 10,
+  })
+  .byPage()) {
+  console.log(page.map((index) => index.name));
+}
+```
 
 ### Create an Index
 
@@ -378,7 +776,7 @@ const selectWide: SelectFields<Hotel>[] = ["hotelId", "hotelName", "rooms/beds"]
 const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];
 
 for await (const result of searchResults.results) {
-  // result.document has hotelId, hotelName, and rating.
+  // result.document has hotelId, hotelName, and rooms with only the beds property.
   // Trying to access result.document.description would emit a TS error.
   console.log(result.document.hotelName);
 }

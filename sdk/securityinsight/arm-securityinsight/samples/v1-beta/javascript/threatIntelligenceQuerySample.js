@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all TI objects for the workspace.
  *
  * @summary gets all TI objects for the workspace.
- * x-ms-original-file: 2025-07-01-preview/threatintelligence/PostThreatIntelligenceQuery.json
+ * x-ms-original-file: 2025-10-01-preview/threatintelligence/PostThreatIntelligenceQuery.json
  */
 async function getTIObjects() {
   const credential = new DefaultAzureCredential();

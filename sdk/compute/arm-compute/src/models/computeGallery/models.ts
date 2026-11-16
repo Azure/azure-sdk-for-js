@@ -326,15 +326,25 @@ export function communityGalleryInfoDeserializer(item: any): CommunityGalleryInf
 export interface SoftDeletePolicy {
   /** Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time. */
   isSoftDeleteEnabled?: boolean;
+  /** The retention period in days for a soft-deleted resource. After this period elapses, the soft-deleted gallery image version transitions to a simulated hard-deleted state. */
+  retentionPeriodInDays?: number;
+  /** The grace period in days for a simulated hard-deleted resource. During this period the gallery image version is unusable but can still be recovered if required. After this period elapses, the gallery image version is permanently (hard) deleted. */
+  gracePeriodInDays?: number;
 }
 
 export function softDeletePolicySerializer(item: SoftDeletePolicy): any {
-  return { isSoftDeleteEnabled: item["isSoftDeleteEnabled"] };
+  return {
+    isSoftDeleteEnabled: item["isSoftDeleteEnabled"],
+    retentionPeriodInDays: item["retentionPeriodInDays"],
+    gracePeriodInDays: item["gracePeriodInDays"],
+  };
 }
 
 export function softDeletePolicyDeserializer(item: any): SoftDeletePolicy {
   return {
     isSoftDeleteEnabled: item["isSoftDeleteEnabled"],
+    retentionPeriodInDays: item["retentionPeriodInDays"],
+    gracePeriodInDays: item["gracePeriodInDays"],
   };
 }
 
@@ -522,6 +532,8 @@ export function galleryArrayDeserializer(result: Array<Gallery>): any[] {
 export interface ImageVersionSecurityProfile {
   /** Contains UEFI settings for the image version. */
   uefiSettings?: GalleryImageVersionUefiSettings;
+  /** Specifies the secrets provisioning settings for the gallery image version. Used on create or update to configure secrets provisioning. */
+  secretsProvisioningSettings?: SecretsProvisioningSettings;
 }
 
 export function imageVersionSecurityProfileSerializer(item: ImageVersionSecurityProfile): any {
@@ -529,6 +541,9 @@ export function imageVersionSecurityProfileSerializer(item: ImageVersionSecurity
     uefiSettings: !item["uefiSettings"]
       ? item["uefiSettings"]
       : galleryImageVersionUefiSettingsSerializer(item["uefiSettings"]),
+    secretsProvisioningSettings: !item["secretsProvisioningSettings"]
+      ? item["secretsProvisioningSettings"]
+      : secretsProvisioningSettingsSerializer(item["secretsProvisioningSettings"]),
   };
 }
 
@@ -537,6 +552,9 @@ export function imageVersionSecurityProfileDeserializer(item: any): ImageVersion
     uefiSettings: !item["uefiSettings"]
       ? item["uefiSettings"]
       : galleryImageVersionUefiSettingsDeserializer(item["uefiSettings"]),
+    secretsProvisioningSettings: !item["secretsProvisioningSettings"]
+      ? item["secretsProvisioningSettings"]
+      : secretsProvisioningSettingsDeserializer(item["secretsProvisioningSettings"]),
   };
 }
 
@@ -688,6 +706,95 @@ export function uefiKeyArrayDeserializer(result: Array<UefiKey>): any[] {
     return uefiKeyDeserializer(item);
   });
 }
+
+/** Describes the secrets provisioning settings for a gallery image version. */
+export interface SecretsProvisioningSettings {
+  /** Specifies whether the image version supports secrets provisioning. */
+  isSupported?: boolean;
+  /** The name of the operating system (e.g., "mariner"). */
+  osName?: string;
+  /** The list of component versions involved in secrets provisioning. */
+  components?: SecretsProvisioningComponent[];
+}
+
+export function secretsProvisioningSettingsSerializer(item: SecretsProvisioningSettings): any {
+  return {
+    isSupported: item["isSupported"],
+    osName: item["osName"],
+    components: !item["components"]
+      ? item["components"]
+      : secretsProvisioningComponentArraySerializer(item["components"]),
+  };
+}
+
+export function secretsProvisioningSettingsDeserializer(item: any): SecretsProvisioningSettings {
+  return {
+    isSupported: item["isSupported"],
+    osName: item["osName"],
+    components: !item["components"]
+      ? item["components"]
+      : secretsProvisioningComponentArrayDeserializer(item["components"]),
+  };
+}
+
+export function secretsProvisioningComponentArraySerializer(
+  result: Array<SecretsProvisioningComponent>,
+): any[] {
+  return result.map((item) => {
+    return secretsProvisioningComponentSerializer(item);
+  });
+}
+
+export function secretsProvisioningComponentArrayDeserializer(
+  result: Array<SecretsProvisioningComponent>,
+): any[] {
+  return result.map((item) => {
+    return secretsProvisioningComponentDeserializer(item);
+  });
+}
+
+/** Describes a component involved in secrets provisioning. */
+export interface SecretsProvisioningComponent {
+  /** The name of the component. */
+  name?: SecretsProvisioningComponentName;
+  /** The version of the component. */
+  version?: string;
+}
+
+export function secretsProvisioningComponentSerializer(item: SecretsProvisioningComponent): any {
+  return { name: item["name"], version: item["version"] };
+}
+
+export function secretsProvisioningComponentDeserializer(item: any): SecretsProvisioningComponent {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
+/** The name of a component involved in secrets provisioning. */
+export enum KnownSecretsProvisioningComponentName {
+  /** The guest operating system. */
+  OS = "OS",
+  /** The cloud-init provisioning agent. */
+  CloudInit = "CloudInit",
+  /** The Azure guest agent. */
+  AzureGuestAgent = "AzureGuestAgent",
+  /** The secrets provisioning library. */
+  SecretsProvisioningLibrary = "SecretsProvisioningLibrary",
+}
+
+/**
+ * The name of a component involved in secrets provisioning. \
+ * {@link KnownSecretsProvisioningComponentName} can be used interchangeably with SecretsProvisioningComponentName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OS**: The guest operating system. \
+ * **CloudInit**: The cloud-init provisioning agent. \
+ * **AzureGuestAgent**: The Azure guest agent. \
+ * **SecretsProvisioningLibrary**: The secrets provisioning library.
+ */
+export type SecretsProvisioningComponentName = string;
 
 /** Specifies information about the gallery image definition that you want to create or update. */
 export interface GalleryImage extends TrackedResource {
@@ -1117,6 +1224,8 @@ export interface GalleryImageVersion extends TrackedResource {
   restore?: boolean;
   /** This is the validations profile of a Gallery Image Version. */
   readonly validationsProfile?: ValidationsProfile;
+  /** The image metadata profiles associated with the gallery image version. */
+  readonly imageMetadataProfiles?: ImageMetadataProfile[];
 }
 
 export function galleryImageVersionSerializer(item: GalleryImageVersion): any {
@@ -1171,6 +1280,8 @@ export interface GalleryImageVersionProperties {
   restore?: boolean;
   /** This is the validations profile of a Gallery Image Version. */
   readonly validationsProfile?: ValidationsProfile;
+  /** The image metadata profiles associated with the gallery image version. */
+  readonly imageMetadataProfiles?: ImageMetadataProfile[];
 }
 
 export function galleryImageVersionPropertiesSerializer(item: GalleryImageVersionProperties): any {
@@ -1211,6 +1322,9 @@ export function galleryImageVersionPropertiesDeserializer(
     validationsProfile: !item["validationsProfile"]
       ? item["validationsProfile"]
       : validationsProfileDeserializer(item["validationsProfile"]),
+    imageMetadataProfiles: !item["imageMetadataProfiles"]
+      ? item["imageMetadataProfiles"]
+      : imageMetadataProfileArrayDeserializer(item["imageMetadataProfiles"]),
   };
 }
 
@@ -1642,6 +1756,73 @@ export function platformAttributeDeserializer(item: any): PlatformAttribute {
   };
 }
 
+export function imageMetadataProfileArrayDeserializer(result: Array<ImageMetadataProfile>): any[] {
+  return result.map((item) => {
+    return imageMetadataProfileDeserializer(item);
+  });
+}
+
+/** Describes the metadata profile of an image. */
+export interface ImageMetadataProfile {
+  /** The type of metadata. */
+  type: MetadataType;
+  /** The list of public metadata key-value pairs. Contains non-sensitive image capability metadata such as supported OS, component names, and versions. No secret material is emitted in this list. */
+  publicMetadataList?: MetadataKeyValue[];
+  /** The list of internal metadata key-value pairs. Contains non-sensitive service-internal metadata for diagnostics and tracking. No secret material is emitted in this list. */
+  internalMetadataList?: MetadataKeyValue[];
+}
+
+export function imageMetadataProfileDeserializer(item: any): ImageMetadataProfile {
+  return {
+    type: item["type"],
+    publicMetadataList: !item["publicMetadataList"]
+      ? item["publicMetadataList"]
+      : metadataKeyValueArrayDeserializer(item["publicMetadataList"]),
+    internalMetadataList: !item["internalMetadataList"]
+      ? item["internalMetadataList"]
+      : metadataKeyValueArrayDeserializer(item["internalMetadataList"]),
+  };
+}
+
+/** The type of metadata associated with the image. */
+export enum KnownMetadataType {
+  /** Metadata related to secrets provisioning for the image. */
+  SecretsProvisioningImageMetadata = "SecretsProvisioningImageMetadata",
+  /** Metadata related to user-provided secrets provisioning for the image. */
+  UserProvidedSecretsProvisioningMetadata = "UserProvidedSecretsProvisioningMetadata",
+}
+
+/**
+ * The type of metadata associated with the image. \
+ * {@link KnownMetadataType} can be used interchangeably with MetadataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SecretsProvisioningImageMetadata**: Metadata related to secrets provisioning for the image. \
+ * **UserProvidedSecretsProvisioningMetadata**: Metadata related to user-provided secrets provisioning for the image.
+ */
+export type MetadataType = string;
+
+export function metadataKeyValueArrayDeserializer(result: Array<MetadataKeyValue>): any[] {
+  return result.map((item) => {
+    return metadataKeyValueDeserializer(item);
+  });
+}
+
+/** Describes a key-value pair for image metadata. */
+export interface MetadataKeyValue {
+  /** The metadata key. Known keys emitted by the service include 'Linux.AzureSecretsProvisioning.Enabled', 'OS.Name', and '{componentName}.Version' (e.g., 'AzureGuestAgent.Version'). All values are non-sensitive configuration; no secrets, credentials, or cryptographic material transit this field. */
+  metadataKey: string;
+  /** The metadata value. Contains non-sensitive configuration such as capability flags ('true'/'false'), OS names ('Linux', 'Windows'), and version strings (e.g., '1.0.0'). */
+  metadataValue?: string;
+}
+
+export function metadataKeyValueDeserializer(item: any): MetadataKeyValue {
+  return {
+    metadataKey: item["metadataKey"],
+    metadataValue: item["metadataValue"],
+  };
+}
+
 /** Describes the basic gallery artifact publishing profile. */
 export interface GalleryArtifactPublishingProfileBase {
   /** The target regions where the Image Version is going to be replicated to. This property is updatable. */
@@ -1873,6 +2054,8 @@ export enum KnownConfidentialVMEncryptionType {
   EncryptedWithCmk = "EncryptedWithCmk",
   /** NonPersistedTPM */
   NonPersistedTPM = "NonPersistedTPM",
+  /** Confidential VM Encryption Type which should be used for encrypting the data disks with customer managed keys. This Encryption type should only be used for data disks, and should not be used for OS disk encryption. When this encryption type is used for data disk encryption.Subscriptions need to be enrolled for Confidential VM with data encryption through following AFEC - Microsoft.Compute/ConfidentialVMDataDiskEncryptionPreview */
+  DataDiskEncryptedWithCmk = "DataDiskEncryptedWithCmk",
 }
 
 /**
@@ -1883,7 +2066,8 @@ export enum KnownConfidentialVMEncryptionType {
  * **EncryptedVMGuestStateOnlyWithPmk** \
  * **EncryptedWithPmk** \
  * **EncryptedWithCmk** \
- * **NonPersistedTPM**
+ * **NonPersistedTPM** \
+ * **DataDiskEncryptedWithCmk**: Confidential VM Encryption Type which should be used for encrypting the data disks with customer managed keys. This Encryption type should only be used for data disks, and should not be used for OS disk encryption. When this encryption type is used for data disk encryption.Subscriptions need to be enrolled for Confidential VM with data encryption through following AFEC - Microsoft.Compute\/ConfidentialVMDataDiskEncryptionPreview
  */
 export type ConfidentialVMEncryptionType = string;
 
@@ -1905,18 +2089,51 @@ export function dataDiskImageEncryptionArrayDeserializer(
 
 /** Contains encryption settings for a data disk image. */
 export interface DataDiskImageEncryption extends DiskImageEncryption {
+  /** This property specifies the security profile of a data disk image. */
+  securityProfile?: DataDiskImageSecurityProfile;
   /** This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine. */
   lun: number;
 }
 
 export function dataDiskImageEncryptionSerializer(item: DataDiskImageEncryption): any {
-  return { diskEncryptionSetId: item["diskEncryptionSetId"], lun: item["lun"] };
+  return {
+    diskEncryptionSetId: item["diskEncryptionSetId"],
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : dataDiskImageSecurityProfileSerializer(item["securityProfile"]),
+    lun: item["lun"],
+  };
 }
 
 export function dataDiskImageEncryptionDeserializer(item: any): DataDiskImageEncryption {
   return {
     diskEncryptionSetId: item["diskEncryptionSetId"],
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : dataDiskImageSecurityProfileDeserializer(item["securityProfile"]),
     lun: item["lun"],
+  };
+}
+
+/** Contains security profile for a DataDisk image. */
+export interface DataDiskImageSecurityProfile {
+  /** confidential VM encryption types */
+  confidentialVMEncryptionType?: ConfidentialVMEncryptionType;
+  /** secure VM disk encryption set id */
+  secureVMDiskEncryptionSetId?: string;
+}
+
+export function dataDiskImageSecurityProfileSerializer(item: DataDiskImageSecurityProfile): any {
+  return {
+    confidentialVMEncryptionType: item["confidentialVMEncryptionType"],
+    secureVMDiskEncryptionSetId: item["secureVMDiskEncryptionSetId"],
+  };
+}
+
+export function dataDiskImageSecurityProfileDeserializer(item: any): DataDiskImageSecurityProfile {
+  return {
+    confidentialVMEncryptionType: item["confidentialVMEncryptionType"],
+    secureVMDiskEncryptionSetId: item["secureVMDiskEncryptionSetId"],
   };
 }
 
@@ -2228,6 +2445,8 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   restore?: boolean;
   /** This is the validations profile of a Gallery Image Version. */
   readonly validationsProfile?: ValidationsProfile;
+  /** The image metadata profiles associated with the gallery image version. */
+  readonly imageMetadataProfiles?: ImageMetadataProfile[];
 }
 
 export function galleryImageVersionUpdateSerializer(item: GalleryImageVersionUpdate): any {
@@ -4194,6 +4413,10 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
   storageProfile?: SharedGalleryImageVersionStorageProfile;
   /** The artifact tags of a shared gallery resource. */
   artifactTags?: Record<string, string>;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period, and is not present for active gallery image versions. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The state of the gallery image version, derived from its soft-delete status. */
+  readonly imageState?: GalleryImageVersionState;
 }
 
 export function sharedGalleryImageVersionDeserializer(item: any): SharedGalleryImageVersion {
@@ -4221,6 +4444,10 @@ export interface SharedGalleryImageVersionProperties {
   storageProfile?: SharedGalleryImageVersionStorageProfile;
   /** The artifact tags of a shared gallery resource. */
   artifactTags?: Record<string, string>;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period, and is not present for active gallery image versions. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The state of the gallery image version, derived from its soft-delete status. */
+  readonly imageState?: GalleryImageVersionState;
 }
 
 export function sharedGalleryImageVersionPropertiesDeserializer(
@@ -4238,6 +4465,10 @@ export function sharedGalleryImageVersionPropertiesDeserializer(
       : Object.fromEntries(
           Object.entries(item["artifactTags"]).map(([k, p]: [string, any]) => [k, p]),
         ),
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    imageState: item["imageState"],
   };
 }
 
@@ -4293,6 +4524,24 @@ export function sharedGalleryDataDiskImageDeserializer(item: any): SharedGallery
     lun: item["lun"],
   };
 }
+
+/** The state of a gallery image version, derived from its soft-delete status. */
+export enum KnownGalleryImageVersionState {
+  /** The gallery image version is active and available for use. */
+  Active = "Active",
+  /** The gallery image version has been soft-deleted. It is available for use only when a specific version is requested, and it will not be resolved as the latest version. */
+  SoftDeleted = "SoftDeleted",
+}
+
+/**
+ * The state of a gallery image version, derived from its soft-delete status. \
+ * {@link KnownGalleryImageVersionState} can be used interchangeably with GalleryImageVersionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: The gallery image version is active and available for use. \
+ * **SoftDeleted**: The gallery image version has been soft-deleted. It is available for use only when a specific version is requested, and it will not be resolved as the latest version.
+ */
+export type GalleryImageVersionState = string;
 
 /** This is the disk image base class. */
 export interface SharedGalleryDiskImage {
@@ -4632,6 +4881,10 @@ export interface CommunityGalleryImageVersion extends PirCommunityGalleryResourc
   disclaimer?: string;
   /** The artifact tags of a community gallery resource. */
   artifactTags?: Record<string, string>;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period, and is not present for active gallery image versions. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The state of the gallery image version, derived from its soft-delete status. */
+  readonly imageState?: GalleryImageVersionState;
 }
 
 export function communityGalleryImageVersionDeserializer(item: any): CommunityGalleryImageVersion {
@@ -4662,6 +4915,10 @@ export interface CommunityGalleryImageVersionProperties {
   disclaimer?: string;
   /** The artifact tags of a community gallery resource. */
   artifactTags?: Record<string, string>;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period, and is not present for active gallery image versions. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The state of the gallery image version, derived from its soft-delete status. */
+  readonly imageState?: GalleryImageVersionState;
 }
 
 export function communityGalleryImageVersionPropertiesDeserializer(
@@ -4680,6 +4937,10 @@ export function communityGalleryImageVersionPropertiesDeserializer(
       : Object.fromEntries(
           Object.entries(item["artifactTags"]).map(([k, p]: [string, any]) => [k, p]),
         ),
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    imageState: item["imageState"],
   };
 }
 
@@ -4741,6 +5002,10 @@ export interface GallerySoftDeletedResource extends TrackedResource {
   softDeletedArtifactType?: SoftDeletedArtifactTypes;
   /** The timestamp for when the resource is soft-deleted. In dateTime offset format. */
   softDeletedTime?: string;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The timestamp at which a soft-deleted gallery image version is permanently (hard) deleted and can no longer be recovered. In dateTime offset format. */
+  readonly hardDeletionTargetTime?: Date;
 }
 
 export function gallerySoftDeletedResourceDeserializer(item: any): GallerySoftDeletedResource {
@@ -4769,6 +5034,10 @@ export interface GallerySoftDeletedResourceProperties {
   softDeletedArtifactType?: SoftDeletedArtifactTypes;
   /** The timestamp for when the resource is soft-deleted. In dateTime offset format. */
   softDeletedTime?: string;
+  /** The timestamp after which a soft-deleted gallery image version is no longer consumable for VM/VMSS creation or VMSS scale out. It is calculated from the soft-deleted time plus the retention period. In dateTime offset format. */
+  readonly consumptionEndTime?: Date;
+  /** The timestamp at which a soft-deleted gallery image version is permanently (hard) deleted and can no longer be recovered. In dateTime offset format. */
+  readonly hardDeletionTargetTime?: Date;
 }
 
 export function gallerySoftDeletedResourcePropertiesDeserializer(
@@ -4778,6 +5047,12 @@ export function gallerySoftDeletedResourcePropertiesDeserializer(
     resourceArmId: item["resourceArmId"],
     softDeletedArtifactType: item["softDeletedArtifactType"],
     softDeletedTime: item["softDeletedTime"],
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    hardDeletionTargetTime: !item["hardDeletionTargetTime"]
+      ? item["hardDeletionTargetTime"]
+      : new Date(item["hardDeletionTargetTime"]),
   };
 }
 
@@ -5110,6 +5385,9 @@ export function _galleryImageVersionPropertiesDeserializer(item: any) {
     validationsProfile: !item["validationsProfile"]
       ? item["validationsProfile"]
       : validationsProfileDeserializer(item["validationsProfile"]),
+    imageMetadataProfiles: !item["imageMetadataProfiles"]
+      ? item["imageMetadataProfiles"]
+      : imageMetadataProfileArrayDeserializer(item["imageMetadataProfiles"]),
   };
 }
 
@@ -5155,6 +5433,9 @@ export function _galleryImageVersionUpdatePropertiesDeserializer(item: any) {
     validationsProfile: !item["validationsProfile"]
       ? item["validationsProfile"]
       : validationsProfileDeserializer(item["validationsProfile"]),
+    imageMetadataProfiles: !item["imageMetadataProfiles"]
+      ? item["imageMetadataProfiles"]
+      : imageMetadataProfileArrayDeserializer(item["imageMetadataProfiles"]),
   };
 }
 
@@ -5450,6 +5731,10 @@ export function _sharedGalleryImageVersionPropertiesDeserializer(item: any) {
       : Object.fromEntries(
           Object.entries(item["artifactTags"]).map(([k, p]: [string, any]) => [k, p]),
         ),
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    imageState: item["imageState"],
   };
 }
 
@@ -5520,6 +5805,10 @@ export function _communityGalleryImageVersionPropertiesDeserializer(item: any) {
       : Object.fromEntries(
           Object.entries(item["artifactTags"]).map(([k, p]: [string, any]) => [k, p]),
         ),
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    imageState: item["imageState"],
   };
 }
 
@@ -5528,5 +5817,11 @@ export function _gallerySoftDeletedResourcePropertiesDeserializer(item: any) {
     resourceArmId: item["resourceArmId"],
     softDeletedArtifactType: item["softDeletedArtifactType"],
     softDeletedTime: item["softDeletedTime"],
+    consumptionEndTime: !item["consumptionEndTime"]
+      ? item["consumptionEndTime"]
+      : new Date(item["consumptionEndTime"]),
+    hardDeletionTargetTime: !item["hardDeletionTargetTime"]
+      ? item["hardDeletionTargetTime"]
+      : new Date(item["hardDeletionTargetTime"]),
   };
 }

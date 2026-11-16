@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all workspace manager groups in the Sentinel workspace manager
  *
  * @summary gets all workspace manager groups in the Sentinel workspace manager
- * x-ms-original-file: 2025-07-01-preview/workspaceManagerGroups/GetAllWorkspaceManagerGroups.json
+ * x-ms-original-file: 2025-10-01-preview/workspaceManagerGroups/GetAllWorkspaceManagerGroups.json
  */
 async function getAllWorkspaceManagerGroupsInTheSentinelWorkspaceManager(): Promise<void> {
   const credential = new DefaultAzureCredential();

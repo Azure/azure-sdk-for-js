@@ -1,0 +1,56 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-servicebus"
+              }
+            }
+          }
+        },
+        "migrationConfiguration": {
+          "bicepIdentifier": "migrationConfiguration",
+          "type": "Microsoft.ServiceBus/namespaces/migrationConfigurations",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "$default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "postMigrationName": {
+                    "kind": "string",
+                    "value": "learn-servicebus-standard"
+                  },
+                  "targetNamespace": {
+                    "kind": "string",
+                    "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.ServiceBus/namespaces/learn-servicebus-premium"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

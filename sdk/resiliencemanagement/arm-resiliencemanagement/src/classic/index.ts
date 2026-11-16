@@ -8,7 +8,6 @@ export type { DrillsOperations } from "./drills/index.js";
 export type { EnrollmentsOperations } from "./enrollments/index.js";
 export type { GoalAssignmentsOperations } from "./goalAssignments/index.js";
 export type { GoalResourcesOperations } from "./goalResources/index.js";
-export type { GoalTemplatesOperations } from "./goalTemplates/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { OperationStatusOperations } from "./operationStatus/index.js";
 export type { RecoveryJobResourcesOperations } from "./recoveryJobResources/index.js";

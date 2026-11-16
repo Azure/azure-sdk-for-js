@@ -19,6 +19,7 @@ export interface BackupsUnderBackupVaultOperations {
     options?: BackupsUnderBackupVaultRestoreFilesOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
 }
+
 function _getBackupsUnderBackupVault(context: NetAppManagementContext) {
   return {
     restoreFiles: (
@@ -40,6 +41,7 @@ function _getBackupsUnderBackupVault(context: NetAppManagementContext) {
       ),
   };
 }
+
 export function _getBackupsUnderBackupVaultOperations(
   context: NetAppManagementContext,
 ): BackupsUnderBackupVaultOperations {

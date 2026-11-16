@@ -56,6 +56,10 @@ describe("PageBlobClient Node.js only", () => {
       },
       ["playback", "record"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -193,7 +197,7 @@ describe("PageBlobClient Node.js only", () => {
         case "pending":
           await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();
-          await waitForCopy(++retries);
+          await waitForCopy(retries + 1);
           return;
         case "failed":
           throw new Error("Copy failed.");

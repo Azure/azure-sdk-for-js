@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the current consumption and limit in this location for the provided subscription
  *
  * @summary list the current consumption and limit in this location for the provided subscription
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_ListUsagesBySubscription.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_ListUsagesBySubscription.json
  */
 async function listQuotaUsagesForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

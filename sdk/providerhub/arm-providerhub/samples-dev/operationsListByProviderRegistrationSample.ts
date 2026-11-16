@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operations supported by the given provider.
  *
  * @summary gets the operations supported by the given provider.
- * x-ms-original-file: 2024-09-01/Operations_ListByProviderRegistration.json
+ * x-ms-original-file: 2025-10-01/Operations_ListByProviderRegistration.json
  */
 async function operationsListByProviderRegistration(): Promise<void> {
   const credential = new DefaultAzureCredential();

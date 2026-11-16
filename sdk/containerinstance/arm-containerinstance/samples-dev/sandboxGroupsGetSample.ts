@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a SandboxGroup
  *
  * @summary get a SandboxGroup
- * x-ms-original-file: 2026-06-01-preview/SandboxGroupsGet.json
+ * x-ms-original-file: 2026-07-01/SandboxGroupsGet.json
  */
 async function getASandboxGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

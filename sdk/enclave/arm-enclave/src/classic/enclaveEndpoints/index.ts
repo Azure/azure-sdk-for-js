@@ -92,6 +92,7 @@ export interface EnclaveEndpointsOperations {
     options?: EnclaveEndpointsGetOptionalParams,
   ) => Promise<EnclaveEndpointResource>;
 }
+
 function _getEnclaveEndpoints(context: MissionContext) {
   return {
     handleApprovalDeletion: (
@@ -177,6 +178,7 @@ function _getEnclaveEndpoints(context: MissionContext) {
     ) => get(context, resourceGroupName, virtualEnclaveName, enclaveEndpointName, options),
   };
 }
+
 export function _getEnclaveEndpointsOperations(
   context: MissionContext,
 ): EnclaveEndpointsOperations {

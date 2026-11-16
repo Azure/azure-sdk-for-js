@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a cache.
  *
  * @summary returns a cache.
- * x-ms-original-file: 2026-01-01/Caches_Get.json
+ * x-ms-original-file: 2026-08-01/Caches_Get.json
  */
 async function cachesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,43 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "storageAccount": {
+          "bicepIdentifier": "storageAccount",
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2026-04-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sttest01"
+              }
+            }
+          }
+        },
+        "queueService": {
+          "bicepIdentifier": "queueService",
+          "type": "Microsoft.Storage/storageAccounts/queueServices",
+          "apiVersion": "2026-04-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "storageAccount"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

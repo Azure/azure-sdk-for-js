@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete storage for a managedEnvironment.
  *
  * @summary delete storage for a managedEnvironment.
- * x-ms-original-file: 2025-10-02-preview/ManagedEnvironmentsStorages_Delete.json
+ * x-ms-original-file: 2026-07-01/ManagedEnvironmentsStorages_Delete.json
  */
 async function listEnvironmentsStoragesBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -35,7 +35,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -64,6 +64,7 @@ export async function _listByFleetDeserialize(
 
   return _autoUpgradeProfileListResultDeserializer(result.body);
 }
+
 /** List AutoUpgradeProfile resources by Fleet */
 export function listByFleet(
   context: Client,
@@ -76,7 +77,7 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -94,7 +95,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a AutoUpgradeProfile */
 export function $delete(
   context: Client,
@@ -136,7 +138,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, autoUpgradeProfileName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -155,7 +157,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,6 +191,7 @@ export async function _createOrUpdateDeserialize(
 
   return autoUpgradeProfileDeserializer(result.body);
 }
+
 /** Create a AutoUpgradeProfile */
 export function createOrUpdate(
   context: Client,
@@ -211,7 +214,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<AutoUpgradeProfile>, AutoUpgradeProfile>;
 }
 
@@ -229,7 +232,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,6 +257,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Au
 
   return autoUpgradeProfileDeserializer(result.body);
 }
+
 /** Get a AutoUpgradeProfile */
 export async function get(
   context: Client,

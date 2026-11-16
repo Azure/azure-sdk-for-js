@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relationships/arm-relationships)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-relationships)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-relationships?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-relationships)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relationships/arm-relationships/samples)
 
 ## Getting started

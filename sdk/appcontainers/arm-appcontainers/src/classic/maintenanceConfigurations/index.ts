@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/maintenanceConfigurations/operations.js";
-import {
+import type {
   MaintenanceConfigurationsListOptionalParams,
   MaintenanceConfigurationsDeleteOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsGetOptionalParams,
 } from "../../api/maintenanceConfigurations/options.js";
-import { MaintenanceConfigurationResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MaintenanceConfigurationResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MaintenanceConfigurations operations. */
 export interface MaintenanceConfigurationsOperations {

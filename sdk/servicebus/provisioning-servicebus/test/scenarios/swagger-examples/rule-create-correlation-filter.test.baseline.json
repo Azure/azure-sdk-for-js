@@ -1,0 +1,104 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "namespace": {
+          "bicepIdentifier": "namespace",
+          "type": "Microsoft.ServiceBus/namespaces",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Namespace-1319"
+              }
+            }
+          }
+        },
+        "topic": {
+          "bicepIdentifier": "topic",
+          "type": "Microsoft.ServiceBus/namespaces/topics",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Topics-2081"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "namespace"
+              }
+            }
+          }
+        },
+        "subscription": {
+          "bicepIdentifier": "subscription",
+          "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+          "apiVersion": "2026-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Subscriptions-8691"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "topic"
+              }
+            }
+          }
+        },
+        "rule": {
+          "bicepIdentifier": "rule",
+          "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+          "apiVersion": "2026-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "sdk-Rules-6571"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "subscription"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "correlationFilter": {
+                    "kind": "object",
+                    "value": {
+                      "properties": {
+                        "kind": "object",
+                        "value": {
+                          "topicHint": {
+                            "kind": "string",
+                            "value": "Crop"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "filterType": {
+                    "kind": "string",
+                    "value": "CorrelationFilter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

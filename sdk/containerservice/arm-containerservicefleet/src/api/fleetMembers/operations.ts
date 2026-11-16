@@ -41,7 +41,7 @@ export function _listByFleetSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
       "%24filter": options?.filter,
@@ -71,6 +71,7 @@ export async function _listByFleetDeserialize(
 
   return _fleetMemberListResultDeserializer(result.body);
 }
+
 /** List FleetMember resources by Fleet */
 export function listByFleet(
   context: Client,
@@ -83,7 +84,7 @@ export function listByFleet(
     () => _listByFleetSend(context, resourceGroupName, fleetName, options),
     _listByFleetDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -101,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,6 +130,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a FleetMember */
 export function $delete(
   context: Client,
@@ -143,7 +145,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, fleetName, fleetMemberName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +164,7 @@ export function _updateAsyncSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,6 +195,7 @@ export async function _updateAsyncDeserialize(result: PathUncheckedResponse): Pr
 
   return fleetMemberDeserializer(result.body);
 }
+
 /** Update a FleetMember */
 export function updateAsync(
   context: Client,
@@ -207,8 +210,8 @@ export function updateAsync(
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateAsyncSend(context, resourceGroupName, fleetName, fleetMemberName, properties, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
@@ -227,7 +230,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,6 +262,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return fleetMemberDeserializer(result.body);
 }
+
 /** Create a FleetMember */
 export function create(
   context: Client,
@@ -274,7 +278,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, fleetName, fleetMemberName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<FleetMember>, FleetMember>;
 }
 
@@ -292,7 +296,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       fleetMemberName: fleetMemberName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -317,6 +321,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fl
 
   return fleetMemberDeserializer(result.body);
 }
+
 /** Get a FleetMember */
 export async function get(
   context: Client,

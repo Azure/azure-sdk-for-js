@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { PathSetAccessControlRecursiveMode } from "./generated/src/models/index.js";
+export type { PathSetAccessControlRecursiveMode } from "./generated-classic-models.js";

@@ -14,7 +14,7 @@ import type {
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SGetOptionalParams,
 } from "../../api/virtualHubRouteTableV2S/options.js";
-import type { VirtualHubRouteTableV2 } from "../../models/microsoft/network/models.js";
+import type { VirtualHubRouteTableV2 } from "../../models/network/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

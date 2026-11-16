@@ -124,6 +124,21 @@ describe("FileServiceClient", () => {
     await shareClient2.delete();
   });
 
+  it("listShares returns creationTime", async () => {
+    const serviceClient = getBSU(recorder);
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const properties = await shareClient.getProperties();
+    const shareItem = getYieldedValue(await serviceClient.listShares({ prefix: shareName }).next());
+    assert.equal(shareItem.name, shareName);
+    assert.instanceOf(shareItem.properties.creationTime, Date);
+    assert.equal(shareItem.properties.creationTime!.getTime(), properties.creationTime!.getTime());
+
+    await shareClient.delete();
+  });
+
   it("Verify PagedAsyncIterableIterator for listShares", async () => {
     const serviceClient = getBSU(recorder);
     const shareNamePrefix = recorder.variable("share", getUniqueName("share"));

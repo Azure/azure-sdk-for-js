@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the resource description of the specified Event Hubs Cluster.
  *
  * @summary gets the resource description of the specified Event Hubs Cluster.
- * x-ms-original-file: 2026-01-01/Clusters/ClusterGet.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClusterGet.json
  */
 async function clusterGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

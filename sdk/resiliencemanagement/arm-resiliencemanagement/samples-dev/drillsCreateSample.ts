@@ -8,15 +8,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Drill
  *
  * @summary create a Drill
- * x-ms-original-file: 2026-04-01-preview/Drills_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Drills_Create_MaximumSet_Gen.json
  */
 async function drillsCreateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const result = await client.drills.create("sampleServiceGroupName", "drill1", {
     properties: {
+      executionState: "NotRunning",
       rbacSetupMode: "AutomatedCustomRole",
-      drillType: "DrillProperties",
+      systemMetadata: { initialConfig: "Pending" },
+      drillType: "Zonal",
+      lastRunProperties: {},
+      executionReadinessState: "Ready",
       recoveryPlanProperties: {
         identity: {
           type: "UserAssigned",
@@ -43,6 +47,41 @@ async function drillsCreateMaximumSet(): Promise<void> {
             "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
         },
         chaosResourceIdentityForFaults: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+      },
+      healthModelMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        healthModelId:
+          "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourceGroups/contoso-health/providers/Microsoft.CloudHealth/healthmodels/contoso-payments-hm",
+      },
+      sliMonitoringProperties: {
+        identity: {
+          type: "UserAssigned",
+          userAssignedIdentity:
+            "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",
+        },
+        slis: [
+          {
+            sliId:
+              "/providers/Microsoft.Management/serviceGroups/sampleServiceGroupName/providers/Microsoft.Monitor/slis/checkout-availability",
+            type: "Availability",
+          },
+          {
+            sliId:
+              "/providers/Microsoft.Management/serviceGroups/sampleServiceGroupName/providers/Microsoft.Monitor/slis/checkout-latency",
+            type: "Latency",
+          },
+        ],
+      },
+      goalAssignmentProperties: {
+        identity: {
           type: "UserAssigned",
           userAssignedIdentity:
             "/subscriptions/4e88bed3-114f-443d-9975-28f64122ec5e/resourcegroups/resourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uami1",

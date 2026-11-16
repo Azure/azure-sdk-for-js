@@ -1,0 +1,18 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/neuroShieldMitigations/index.ts",
+    "../src/api/neuroShieldFindings/index.ts",
+    "../src/api/neuroShieldProtectedResources/index.ts",
+    "../src/api/neuroShieldSummaries/index.ts",
+    "../src/api/neuroShields/index.ts",
+    "../src/api/neuroShieldOperationStatuses/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
  *
  * @summary switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
- * x-ms-original-file: 2025-05-01-preview/Monitors_SwitchBilling_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_SwitchBilling_MaximumSet_Gen.json
  */
 async function monitorsSwitchBillingMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function monitorsSwitchBillingMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
  *
  * @summary switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
- * x-ms-original-file: 2025-05-01-preview/Monitors_SwitchBilling_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_SwitchBilling_MinimumSet_Gen.json
  */
 async function monitorsSwitchBillingMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

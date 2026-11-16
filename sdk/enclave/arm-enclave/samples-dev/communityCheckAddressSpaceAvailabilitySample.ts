@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks that the IP Address Space to be allocated for this Community is available.
  *
  * @summary checks that the IP Address Space to be allocated for this Community is available.
- * x-ms-original-file: 2026-03-01-preview/Community_PostCheckAddressSpaceAvailability.json
+ * x-ms-original-file: 2026-04-01/Community_PostCheckAddressSpaceAvailability.json
  */
 async function communityCheckAddressSpaceAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

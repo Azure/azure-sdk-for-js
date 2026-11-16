@@ -89,7 +89,7 @@ describe("tracing test suite", { skip: true }, () => {
     const messageArray = [];
     for (const func of functionArray) {
       const funcArgs = JSON.parse(func.arguments);
-      let content = "";
+      let content: string;
 
       switch (func.name) {
         case "get_current_weather":

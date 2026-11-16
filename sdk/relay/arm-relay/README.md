@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relay/arm-relay)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-relay)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-relay)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relay/arm-relay/samples)
 
 ## Getting started

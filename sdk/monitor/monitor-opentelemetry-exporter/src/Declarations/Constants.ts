@@ -38,21 +38,21 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.co
 export const DEFAULT_LIVEMETRICS_HOST = "rt.services.visualstudio.com";
 /**
  * Allowed domain suffixes for redirect targets. A 30x `Location` header is followed only when the
- * current ingestion host and the redirect target either match exactly or both live under one of
- * these trusted Azure Monitor / Application Insights suffixes. This prevents an attacker-controlled
- * redirect from causing the bearer auth policy to attach a fresh AAD token (and the telemetry body)
- * to an unrelated host.
+ * current ingestion host and the redirect target either match exactly or both live under trusted
+ * Azure Monitor / Application Insights suffixes in the same cloud. This prevents an
+ * attacker-controlled redirect from causing the bearer auth policy to attach a fresh AAD token (and
+ * the telemetry body) to an unrelated host or a different sovereign cloud.
  * @internal
  */
-export const ALLOWED_REDIRECT_DOMAIN_SUFFIXES: readonly string[] = [
-  ".livediagnostics.monitor.azure.com",
-  ".monitor.azure.com",
-  ".services.visualstudio.com",
-  ".applicationinsights.azure.com",
-  ".monitor.azure.us",
-  ".applicationinsights.azure.us",
-  ".monitor.azure.cn",
-  ".applicationinsights.azure.cn",
+export const ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS: readonly (readonly string[])[] = [
+  [
+    ".livediagnostics.monitor.azure.com",
+    ".monitor.azure.com",
+    ".services.visualstudio.com",
+    ".applicationinsights.azure.com",
+  ],
+  [".monitor.azure.us", ".applicationinsights.azure.us"],
+  [".monitor.azure.cn", ".applicationinsights.azure.cn"],
 ];
 
 /**
@@ -181,13 +181,28 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
- * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
- * instead of the standard 64KB limit.
+ * Comma-separated experimental feature names.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES =
+  "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES";
+
+/**
+ * Gen AI message properties eligible for the opt-in 4 MiB limit.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+]);
+
+/**
+ * Gen AI property keys that use a higher 256 KiB truncation limit for custom dimensions
+ * instead of the standard 8 KiB limit.
  * @internal
  */
 export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
-  "gen_ai.input.messages",
-  "gen_ai.output.messages",
+  ...CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS,
   "gen_ai.system_instructions",
   "gen_ai.tool.definitions",
   "gen_ai.tool.call.arguments",
@@ -316,10 +331,20 @@ export const ONE_SETTINGS_MAX_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000;
  */
 export const ONE_SETTINGS_BACKOFF_BASE_MS = 3600 * 1000;
 /**
- * OneSettings feature key that gates customer-facing SDK stats.
+ * OneSettings feature key that gates internal SDK stats.
  * @internal
  */
 export const ONE_SETTINGS_FEATURE_SDK_STATS = "FEATURE_SDK_STATS";
+/**
+ * OneSettings feature key that independently gates customer-facing SDK stats.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_CUSTOMER_SDK_STATS = "FEATURE_CUSTOMER_SDK_STATS";
+/**
+ * OneSettings feature key that gates offline telemetry storage and replay.
+ * @internal
+ */
+export const ONE_SETTINGS_FEATURE_LOCAL_STORAGE = "FEATURE_LOCAL_STORAGE";
 /**
  * Namespace targeting sent with OneSettings requests to select the Node.js configuration bucket.
  * @internal

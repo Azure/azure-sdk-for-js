@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list StorageDiscoveryWorkspace resources by resource group
  *
  * @summary list StorageDiscoveryWorkspace resources by resource group
- * x-ms-original-file: 2025-09-01/StorageDiscoveryWorkspaces_ListByResourceGroup.json
+ * x-ms-original-file: 2026-10-01-preview/StorageDiscoveryWorkspaces_ListByResourceGroup.json
  */
 async function listStorageDiscoveryWorkspacesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

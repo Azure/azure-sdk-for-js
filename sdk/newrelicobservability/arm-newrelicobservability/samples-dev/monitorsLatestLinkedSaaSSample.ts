@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the latest SaaS linked to the newrelic organization of the underlying monitor.
  *
  * @summary returns the latest SaaS linked to the newrelic organization of the underlying monitor.
- * x-ms-original-file: 2025-05-01-preview/Monitors_LatestLinkedSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_LatestLinkedSaaS_MaximumSet_Gen.json
  */
 async function monitorsLatestLinkedSaaSMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function monitorsLatestLinkedSaaSMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to returns the latest SaaS linked to the newrelic organization of the underlying monitor.
  *
  * @summary returns the latest SaaS linked to the newrelic organization of the underlying monitor.
- * x-ms-original-file: 2025-05-01-preview/Monitors_LatestLinkedSaaS_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_LatestLinkedSaaS_MinimumSet_Gen.json
  */
 async function monitorsLatestLinkedSaaSMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

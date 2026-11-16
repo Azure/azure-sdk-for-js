@@ -24,7 +24,7 @@ export function _listByLocationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       kubernetesVersion: options?.kubernetesVersion,
     },
     {
@@ -43,7 +43,9 @@ export async function _listByLocationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -51,7 +53,7 @@ export async function _listByLocationDeserialize(
   return _availableVersionListResultDeserializer(result.body);
 }
 
-/** List AvailableVersion resources by location. */
+/** List the Azure Kubernetes Application Network versions available in a location. */
 export function listByLocation(
   context: Client,
   location: string,
@@ -65,7 +67,7 @@ export function listByLocation(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

@@ -35,7 +35,8 @@ const argv = yargs(hideBin(process.argv))
       default: "patch",
     },
   })
-  .help().parseSync();
+  .help()
+  .parseSync();
 
 /**
  * Increments the given semantic version string according to the specified type.
@@ -51,17 +52,36 @@ function incrementVersion(currentVersion, type = "patch") {
     console.log(
       `Package is in prerelease state. Ignoring version increment type '${type}' and using 'prerelease' instead.`,
     );
-    return semver.inc(currentVersion, "prerelease");
+    const newVersion = semver.inc(currentVersion, "prerelease");
+    if (!newVersion) {
+      throw new Error(`Invalid version format: ${currentVersion}`);
+    }
+    return newVersion;
   }
 
-  return `${semver.inc(currentVersion, type)}`;
+  const newVersion = semver.inc(currentVersion, type);
+  if (!newVersion) {
+    throw new Error(`Invalid version format: ${currentVersion}`);
+  }
+  return newVersion;
 }
 
+/**
+ * @param {typeof argv} argv
+ */
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
   const versionType = argv["type"];
+  if (
+    versionType !== undefined &&
+    versionType !== "major" &&
+    versionType !== "minor" &&
+    versionType !== "patch"
+  ) {
+    throw new Error(`Invalid version increment type: ${versionType}`);
+  }
 
   const packageSpec = await getPackageSpec(repoRoot);
   const targetPackage = packageSpec.projects.find(

@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type { AuthConfig, _AuthConfigCollection } from "../../models/models.js";
 import {
   defaultErrorResponseDeserializer,
-  AuthConfig,
   authConfigSerializer,
   authConfigDeserializer,
-  _AuthConfigCollection,
   _authConfigCollectionDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ContainerAppsAuthConfigsDeleteOptionalParams,
   ContainerAppsAuthConfigsCreateOrUpdateOptionalParams,
   ContainerAppsAuthConfigsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByContainerAppSend(
   context: Client,
@@ -40,7 +33,7 @@ export function _listByContainerAppSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,7 +51,9 @@ export async function _listByContainerAppDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -78,11 +73,7 @@ export function listByContainerApp(
     () => _listByContainerAppSend(context, resourceGroupName, containerAppName, options),
     _listByContainerAppDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-10-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -100,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       authConfigName: authConfigName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +104,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -154,7 +147,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       authConfigName: authConfigName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +167,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -216,7 +211,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       authConfigName: authConfigName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,7 +227,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Au
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

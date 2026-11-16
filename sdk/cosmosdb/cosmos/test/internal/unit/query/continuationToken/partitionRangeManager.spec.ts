@@ -56,7 +56,7 @@ describe("PartitionRangeManager", () => {
       assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
     });
 
-    it("should not overwrite existing range mappings", () => {
+    it("should replace an existing range mapping with the latest response value", () => {
       const initialMap = new Map<string, QueryRangeMapping>();
       initialMap.set("range1", createMockRangeMapping(10, "initial-token"));
       partitionRangeManager.addPartitionKeyRangeMap(initialMap);
@@ -65,8 +65,9 @@ describe("PartitionRangeManager", () => {
       updateMap.set("range1", createMockRangeMapping(20, "updated-token"));
       partitionRangeManager.addPartitionKeyRangeMap(updateMap);
 
-      // Should still have unprocessed ranges but original mapping preserved
-      assert.isTrue(partitionRangeManager.hasUnprocessedRanges());
+      const mapping = partitionRangeManager.getPartitionKeyRangeMap().get("range1");
+      assert.equal(mapping?.itemCount, 20);
+      assert.equal(mapping?.continuationToken, "updated-token");
     });
 
     it("should handle null/undefined range map", () => {

@@ -40,3 +40,5 @@ extends:
         safeName: webpubsubclient
       - name: azure-web-pubsub-client-protobuf
         safeName: webpubsubclientprotobuf
+      - name: azure-web-pubsub-chat
+        safeName: webpubsubchat

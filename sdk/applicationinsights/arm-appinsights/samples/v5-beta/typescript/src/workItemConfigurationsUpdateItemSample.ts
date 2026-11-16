@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function workItemConfigurationsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "subid";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.workItemConfigurations.updateItem(
     "my-resource-group",

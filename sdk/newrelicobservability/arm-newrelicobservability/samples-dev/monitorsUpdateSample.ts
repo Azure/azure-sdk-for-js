@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing New Relic monitor resource from your Azure subscription
  *
  * @summary updates an existing New Relic monitor resource from your Azure subscription
- * x-ms-original-file: 2025-05-01-preview/Monitors_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/Monitors_Update_MaximumSet_Gen.json
  */
 async function monitorsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

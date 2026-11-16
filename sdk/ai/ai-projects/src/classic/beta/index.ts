@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
-import type { BetaAgentsOperations } from "./agents/index.js";
-import { _getBetaAgentsOperations } from "./agents/index.js";
-import type { BetaDatasetsOperations } from "./datasets/index.js";
-import { _getBetaDatasetsOperations } from "./datasets/index.js";
-import type { BetaSkillsOperations } from "./skills/index.js";
-import { _getBetaSkillsOperations } from "./skills/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import type { BetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import { _getBetaEvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
 import type { BetaEvaluatorsOperations } from "./evaluators/index.js";
@@ -24,13 +19,16 @@ import type { BetaRoutinesOperations } from "./routines/index.js";
 import { _getBetaRoutinesOperations } from "./routines/index.js";
 import type { BetaSchedulesOperations } from "./schedules/index.js";
 import { _getBetaSchedulesOperations } from "./schedules/index.js";
+import type { BetaVoiceAgentsOperations } from "./voiceAgents/index.js";
+import { _getBetaVoiceAgentsOperations } from "./voiceAgents/index.js";
+import type { VoiceAgentRealtimeClient } from "../../realtime/voiceAgentRealtimeClient.js";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
+import type { VoiceAgentLiveClientOptions } from "../../live/voiceAgentLiveClient.js";
+import type { BetaSkillsOperations } from "./skills/index.js";
+import { _getBetaSkillsOperations } from "./skills/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
-  /** Operations for managing data generation jobs. */
-  datasets: BetaDatasetsOperations;
-  /** Operations for managing skills. */
-  skills: BetaSkillsOperations;
   /** Operations for managing schedules. */
   schedules: BetaSchedulesOperations;
   /** Operations for managing routines. */
@@ -47,16 +45,21 @@ export interface BetaOperations {
   evaluators: BetaEvaluatorsOperations;
   /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-  /** Operations for managing agents. */
-  agents: BetaAgentsOperations;
+  /** Preview Live connections, stored Live conversations, and campaigns. */
+  voiceAgents: BetaVoiceAgentsOperations;
+  /** Operations for managing preview skills and their versions. */
+  skills: BetaSkillsOperations;
 }
 
-export function _getBetaOperations(context: AIProjectContext): BetaOperations {
+export function _getBetaOperations(
+  context: AIProjectContext,
+  credential: TokenCredential,
+  endpoint: string,
+  getRealtimeClient: () => VoiceAgentRealtimeClient,
+  tracingConfig?: ResolvedTracingConfig,
+  liveOptions?: VoiceAgentLiveClientOptions,
+): BetaOperations {
   return {
-    /** Operations for managing data generation jobs. */
-    datasets: _getBetaDatasetsOperations(context),
-    /** Operations for managing skills. */
-    skills: _getBetaSkillsOperations(context),
     /** Operations for managing schedules. */
     schedules: _getBetaSchedulesOperations(context),
     /** Operations for managing routines. */
@@ -73,7 +76,16 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     evaluators: _getBetaEvaluatorsOperations(context),
     /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
-    /** Operations for managing agents. */
-    agents: _getBetaAgentsOperations(context),
+    /** Preview Live connections, stored Live conversations, and campaigns. */
+    voiceAgents: _getBetaVoiceAgentsOperations(
+      context,
+      credential,
+      endpoint,
+      getRealtimeClient,
+      tracingConfig,
+      liveOptions,
+    ),
+    /** Operations for managing preview skills and their versions. */
+    skills: _getBetaSkillsOperations(context),
   };
 }

@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
   SimpleTokenCredential,
   configureStorageClient,
+  createAndStartRecorder,
   getDataLakeServiceClient,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "../utils/index.js";
 import type { DataLakeServiceClient } from "../../src/index.js";
 import {
@@ -31,10 +30,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    // make sure we add the sanitizers on playback for SAS strings
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

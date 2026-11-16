@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upon receiving approval or rejection from approver, this facilitates actions on approval resource
  *
  * @summary upon receiving approval or rejection from approver, this facilitates actions on approval resource
- * x-ms-original-file: 2026-03-01-preview/Approvals_NotifyInitiator.json
+ * x-ms-original-file: 2026-04-01/Approvals_NotifyInitiator.json
  */
 async function approvalNotifyInitiator(): Promise<void> {
   const credential = new DefaultAzureCredential();

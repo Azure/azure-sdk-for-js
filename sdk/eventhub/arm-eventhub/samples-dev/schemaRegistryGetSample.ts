@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the details of an EventHub schema group.
  *
  * @summary gets the details of an EventHub schema group.
- * x-ms-original-file: 2026-01-01/SchemaRegistry/SchemaRegistryGet.json
+ * x-ms-original-file: 2026-07-01-preview/SchemaRegistry/SchemaRegistryGet.json
  */
 async function schemaRegistryGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

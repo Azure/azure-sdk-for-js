@@ -5,24 +5,24 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to trigger a manual occurrence of the scheduled action immediately, outside its normal schedule.
+ * This sample demonstrates how to runs the specified recurring bulk action immediately.
  *
- * @summary trigger a manual occurrence of the scheduled action immediately, outside its normal schedule.
- * x-ms-original-file: 2026-07-06-preview/ScheduledActions_TriggerManualOccurrence_MaximumSet_Gen.json
+ * @summary runs the specified recurring bulk action immediately.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_TriggerManualOccurrence_BasicSuccess.json
  */
-async function scheduledActionsTriggerManualOccurrenceMaximumSet(): Promise<void> {
+async function runARecurringBulkActionImmediately(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.scheduledActions.triggerManualOccurrence(
-    "rgcompute",
-    "myScheduledAction",
+    "example-rg",
+    "weekday-start",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsTriggerManualOccurrenceMaximumSet();
+  await runARecurringBulkActionImmediately();
 }
 
 main().catch(console.error);

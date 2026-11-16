@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stop a container app
  *
  * @summary stop a container app
- * x-ms-original-file: 2025-10-02-preview/ContainerApps_Stop.json
+ * x-ms-original-file: 2026-07-01/ContainerApps_Stop.json
  */
 async function stopContainerApp(): Promise<void> {
   const credential = new DefaultAzureCredential();

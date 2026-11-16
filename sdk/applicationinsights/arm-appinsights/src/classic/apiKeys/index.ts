@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { get, $delete, create, list } from "../../api/apiKeys/operations.js";
-import {
+import type {
   APIKeysGetOptionalParams,
   APIKeysDeleteOptionalParams,
   APIKeysCreateOptionalParams,
   APIKeysListOptionalParams,
 } from "../../api/apiKeys/options.js";
-import {
+import type {
   ApplicationInsightsComponentAPIKey,
   APIKeyRequest,
 } from "../../models/componentAPIs/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a APIKeys operations. */
 export interface APIKeysOperations {

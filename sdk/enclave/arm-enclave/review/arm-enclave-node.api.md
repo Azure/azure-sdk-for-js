@@ -866,11 +866,7 @@ export enum KnownUpdateMode {
 
 // @public
 export enum KnownVersions {
-    V20240601Preview = "2024-06-01-preview",
-    V20241201Preview = "2024-12-01-preview",
-    V20250501Preview = "2025-05-01-preview",
-    V20251101Preview = "2025-11-01-preview",
-    V20260301Preview = "2026-03-01-preview"
+    V20260401 = "2026-04-01"
 }
 
 // @public

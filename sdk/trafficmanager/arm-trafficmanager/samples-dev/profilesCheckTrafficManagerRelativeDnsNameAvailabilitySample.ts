@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks the availability of a Traffic Manager Relative DNS name.
  *
  * @summary checks the availability of a Traffic Manager Relative DNS name.
- * x-ms-original-file: 2024-04-01-preview/NameAvailabilityTest_NameAvailable-POST-example-21.json
+ * x-ms-original-file: 2026-09-01/NameAvailabilityTest_NameAvailable-POST-example-21.json
  */
 async function nameAvailabilityTestNameAvailablePost21(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function nameAvailabilityTestNameAvailablePost21(): Promise<void> {
  * This sample demonstrates how to checks the availability of a Traffic Manager Relative DNS name.
  *
  * @summary checks the availability of a Traffic Manager Relative DNS name.
- * x-ms-original-file: 2024-04-01-preview/NameAvailabilityTest_NameNotAvailable-POST-example-23.json
+ * x-ms-original-file: 2026-09-01/NameAvailabilityTest_NameNotAvailable-POST-example-23.json
  */
 async function nameAvailabilityTestNameNotAvailablePost23(): Promise<void> {
   const credential = new DefaultAzureCredential();

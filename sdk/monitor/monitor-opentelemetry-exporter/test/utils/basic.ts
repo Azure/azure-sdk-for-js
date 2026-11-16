@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src/index.js";
 import type { Expectation, Scenario } from "./types.js";
-import { SpanStatusCode, trace } from "@opentelemetry/api";
+import { SeverityNumber, SpanStatusCode, trace } from "@opentelemetry/api";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { FlushSpanProcessor } from "./flushSpanProcessor.js";
 import { resourceFromAttributes } from "@opentelemetry/resources";
@@ -18,7 +18,6 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorLogExporter } from "../../src/export/log.js";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { SeverityNumber } from "@opentelemetry/api-logs";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -45,7 +44,7 @@ export class TraceBasicScenario implements Scenario {
       "k8s.namespace.name": "testNamespaceName",
       "k8s.pod.name": "testPodName",
     });
-    const provider = new BasicTracerProvider({
+    const provider = new TracerProvider({
       spanProcessors: [this._processor],
       resource: resource,
     });

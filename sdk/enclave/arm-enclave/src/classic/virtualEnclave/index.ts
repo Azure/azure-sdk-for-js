@@ -84,6 +84,7 @@ export interface VirtualEnclaveOperations {
     options?: VirtualEnclaveGetOptionalParams,
   ) => Promise<EnclaveResource>;
 }
+
 function _getVirtualEnclave(context: MissionContext) {
   return {
     handleApprovalDeletion: (
@@ -128,6 +129,7 @@ function _getVirtualEnclave(context: MissionContext) {
     ) => get(context, resourceGroupName, virtualEnclaveName, options),
   };
 }
+
 export function _getVirtualEnclaveOperations(context: MissionContext): VirtualEnclaveOperations {
   return {
     ..._getVirtualEnclave(context),

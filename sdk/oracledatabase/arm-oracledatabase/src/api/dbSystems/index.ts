@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
-  type DbSystemsListByResourceGroupOptionalParams,
-  type DbSystemsDeleteOptionalParams,
-  type DbSystemsUpdateOptionalParams,
-  type DbSystemsGetOptionalParams,
-  type DbSystemsCreateOrUpdateOptionalParams,
-  type DbSystemsListBySubscriptionOptionalParams,
+export type {
+  DbSystemsListByResourceGroupOptionalParams,
+  DbSystemsDeleteOptionalParams,
+  DbSystemsUpdateOptionalParams,
+  DbSystemsGetOptionalParams,
+  DbSystemsCreateOrUpdateOptionalParams,
+  DbSystemsListBySubscriptionOptionalParams,
 } from "./options.js";

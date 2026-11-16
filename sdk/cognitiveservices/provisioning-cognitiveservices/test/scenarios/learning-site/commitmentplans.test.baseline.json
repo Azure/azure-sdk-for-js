@@ -1,0 +1,54 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "commitmentPlan": {
+          "bicepIdentifier": "commitmentPlan",
+          "type": "Microsoft.CognitiveServices/commitmentPlans",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "commitmentplans"
+              },
+              "kind": {
+                "kind": "string",
+                "value": "AIServices"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "autoRenew": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "hostingModel": {
+                    "kind": "string",
+                    "value": "ConnectedContainer"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "S0"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

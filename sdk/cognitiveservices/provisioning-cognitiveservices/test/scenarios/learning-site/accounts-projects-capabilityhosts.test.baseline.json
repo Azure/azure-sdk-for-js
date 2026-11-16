@@ -1,0 +1,75 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "account": {
+          "bicepIdentifier": "account",
+          "type": "Microsoft.CognitiveServices/accounts",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-account"
+              }
+            }
+          }
+        },
+        "project": {
+          "bicepIdentifier": "project",
+          "type": "Microsoft.CognitiveServices/accounts/projects",
+          "apiVersion": "2026-07-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "cognitive-project"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "account"
+              }
+            }
+          }
+        },
+        "capabilityHost": {
+          "bicepIdentifier": "capabilityHost",
+          "type": "Microsoft.CognitiveServices/accounts/projects/capabilityHosts",
+          "apiVersion": "2026-07-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "accounts-projects-capabilityhosts"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "project"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "aiServicesConnections": {
+                    "kind": "array",
+                    "items": []
+                  },
+                  "storageConnections": {
+                    "kind": "array",
+                    "items": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

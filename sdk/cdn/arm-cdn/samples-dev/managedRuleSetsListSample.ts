@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all available managed rule sets.
  *
  * @summary lists all available managed rule sets.
- * x-ms-original-file: 2025-12-01/WafListManagedRuleSets.json
+ * x-ms-original-file: 2026-10-01/WafListManagedRuleSets.json
  */
 async function listPoliciesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

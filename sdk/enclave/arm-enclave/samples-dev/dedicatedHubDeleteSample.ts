@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DedicatedHubResource
  *
  * @summary delete a DedicatedHubResource
- * x-ms-original-file: 2026-03-01-preview/DedicatedHubs_Delete.json
+ * x-ms-original-file: 2026-04-01/DedicatedHubs_Delete.json
  */
 async function dedicatedHubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

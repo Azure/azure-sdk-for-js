@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reject sharing of a tenant-level shared gallery.
  *
  * @summary reject sharing of a tenant-level shared gallery.
- * x-ms-original-file: 2025-12-03/tenantLevelSharedGalleryInviteExamples/TenantLevelSharedGalleryInvite_Reject.json
+ * x-ms-original-file: 2026-03-03/tenantLevelSharedGalleryInviteExamples/TenantLevelSharedGalleryInvite_Reject.json
  */
 async function rejectAGallerySharedToTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a EnclaveEndpointResource
  *
  * @summary delete a EnclaveEndpointResource
- * x-ms-original-file: 2026-03-01-preview/EnclaveEndpoints_Delete.json
+ * x-ms-original-file: 2026-04-01/EnclaveEndpoints_Delete.json
  */
 async function enclaveEndpointsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

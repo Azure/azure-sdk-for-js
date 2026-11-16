@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL userDefinedFunction
  *
  * @summary create or update an Azure Cosmos DB SQL userDefinedFunction
- * x-ms-original-file: 2026-03-15/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
  */
 async function cosmosDBSqlUserDefinedFunctionCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function cosmosDBSqlUserDefinedFunctionCreateUpdate(): Promise<void> {
     "databaseName",
     "containerName",
     "userDefinedFunctionName",
-    { resource: { id: "userDefinedFunctionName", body: "body" }, options: {} },
+    { options: {}, resource: { body: "body", id: "userDefinedFunctionName" } },
   );
   console.log(result);
 }

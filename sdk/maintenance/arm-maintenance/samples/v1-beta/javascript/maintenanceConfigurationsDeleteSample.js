@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Configuration record
  *
  * @summary delete Configuration record
- * x-ms-original-file: 2023-10-01-preview/MaintenanceConfigurations_DeleteForResource.json
+ * x-ms-original-file: 2025-10-01-preview/MaintenanceConfigurations_DeleteForResource.json
  */
 async function maintenanceConfigurationsDeleteForResource() {
   const credential = new DefaultAzureCredential();

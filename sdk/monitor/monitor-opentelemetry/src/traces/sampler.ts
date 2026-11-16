@@ -6,8 +6,8 @@
  */
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
-import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
-import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace";
+import { SamplingDecision } from "@opentelemetry/sdk-trace";
 import { AzureMonitorSampleRate } from "../types.js";
 
 /**
@@ -62,7 +62,7 @@ export class ApplicationInsightsSampler implements Sampler {
     // @ts-expect-error unused var
     links: Link[],
   ): SamplingResult {
-    let isSampledIn = false;
+    let isSampledIn: boolean;
     if (this._sampleRate === 100) {
       isSampledIn = true;
     } else if (this._sampleRate === 0) {

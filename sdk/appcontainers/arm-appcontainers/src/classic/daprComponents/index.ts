@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
+import type { ContainerAppsAPIContext } from "../../api/containerAppsAPIContext.js";
 import {
   listSecrets,
   list,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/daprComponents/operations.js";
-import {
+import type {
   DaprComponentsListSecretsOptionalParams,
   DaprComponentsListOptionalParams,
   DaprComponentsDeleteOptionalParams,
   DaprComponentsCreateOrUpdateOptionalParams,
   DaprComponentsGetOptionalParams,
 } from "../../api/daprComponents/options.js";
-import { DaprComponent, DaprSecretsCollection } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DaprComponent, DaprSecretsCollection } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DaprComponents operations. */
 export interface DaprComponentsOperations {

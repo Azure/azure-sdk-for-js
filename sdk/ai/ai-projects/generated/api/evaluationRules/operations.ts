@@ -62,7 +62,7 @@ export async function _listDeserialize(
   return _pagedEvaluationRuleDeserializer(result.body);
 }
 
-/** Returns the evaluation rules configured for the project, optionally filtered by action type, agent name, or enabled state. */
+/** Returns the evaluation rules configured for the project, including scheduled trace and dataset evaluations, optionally filtered by action type, agent name, or enabled state. */
 export function list(
   context: Client,
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
@@ -130,7 +130,7 @@ export async function createOrUpdate(
   return _createOrUpdateDeserialize(result);
 }
 
-export function _deleteEvaluationRuleSend(
+export function _$deleteSend(
   context: Client,
   id: string,
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },
@@ -148,9 +148,7 @@ export function _deleteEvaluationRuleSend(
   return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deleteEvaluationRuleDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -160,13 +158,13 @@ export async function _deleteEvaluationRuleDeserialize(
 }
 
 /** Removes the specified evaluation rule from the project. */
-export async function deleteEvaluationRule(
+export async function $delete(
   context: Client,
   id: string,
   options: EvaluationRulesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteEvaluationRuleSend(context, id, options);
-  return _deleteEvaluationRuleDeserialize(result);
+  const result = await _$deleteSend(context, id, options);
+  return _$deleteDeserialize(result);
 }
 
 export function _getSend(

@@ -35,7 +35,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       watchlistAlias: watchlistAlias,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
       "%24skipToken": options?.skipToken,
     },
     {
@@ -78,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+      apiVersion: context.apiVersion ?? "2025-10-01-preview",
     },
   );
 }
@@ -99,7 +99,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       watchlistAlias: watchlistAlias,
       watchlistItemId: watchlistItemId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,7 +159,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       watchlistAlias: watchlistAlias,
       watchlistItemId: watchlistItemId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +227,7 @@ export function _getSend(
       workspaceName: workspaceName,
       watchlistAlias: watchlistAlias,
       watchlistItemId: watchlistItemId,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

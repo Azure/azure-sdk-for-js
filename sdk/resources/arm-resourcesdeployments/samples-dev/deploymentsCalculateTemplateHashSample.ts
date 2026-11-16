@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to calculate the hash of the given template.
  *
  * @summary calculate the hash of the given template.
- * x-ms-original-file: 2025-04-01/CalculateTemplateHash.json
+ * x-ms-original-file: 2026-06-01/CalculateTemplateHash.json
  */
 async function calculateTemplateHash(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -68,8 +68,9 @@ export type {
   RaiMonitorConfig,
   NetworkInjection,
   ScenarioType,
-  FoundryAutoUpgrade,
-  FoundryAutoUpgradeMode,
+  TrustedCertificateSource,
+  TrustedCertificateSourceType,
+  CertificateBundleReference,
   Sku,
   SkuTier,
   Identity,
@@ -98,19 +99,10 @@ export type {
   DeprecationStatus,
   ReplacementConfig,
   ModelLifecycleStatus,
-  EvaluateDeploymentPoliciesRequest,
-  EvaluateDeploymentPoliciesDeployment,
-  EvaluateDeploymentPoliciesDeploymentProperties,
-  EvaluateDeploymentPoliciesResponse,
-  DeploymentPolicyEvaluationResult,
-  PolicyEvaluationOutcome,
-  PolicyAssignmentEvaluationDetails,
-  PolicyExpressionEvaluationDetails,
   PrivateEndpointConnectionListResult,
   Deployment,
   DeploymentProperties,
   DeploymentProvisioningState,
-  DeploymentSpeculativeDecoding,
   DeploymentScaleSettings,
   DeploymentScaleType,
   DeploymentModelVersionUpgradeOption,
@@ -249,29 +241,6 @@ export type {
   ResourceBase,
   AgentReferenceResourceArmPaginatedResult,
   AgentReference,
-  ManagedComputeDeployment,
-  ManagedComputeDeploymentProperties,
-  ManagedComputeDeploymentProvisioningDetails,
-  ManagedComputeDeploymentRoutes,
-  PatchResourceSku,
-  ComputeOperationStatus,
-  ComputeOperationStatusProperties,
-  ComputeOperationStatusType,
-  ManagedComputeUsage,
-  ManagedComputeDeploymentInfo,
-  Compute,
-  ComputeProperties,
-  ComputePropertiesUnion,
-  ComputeType,
-  ComputeProvisioningState,
-  ClusterComputeProperties,
-  Pool,
-  VmPriority,
-  ContainerInstanceComputeProperties,
-  SshSettings,
-  ConnectivityEndpoints,
-  Workbench,
-  WorkbenchProperties,
   ManagedComputeCapacity,
   ManagedComputeCapacityProperties,
   DeploymentSizeCapacity,
@@ -342,7 +311,7 @@ export {
   KnownRoutingMethods,
   KnownAbusePenaltyAction,
   KnownScenarioType,
-  KnownFoundryAutoUpgradeMode,
+  KnownTrustedCertificateSourceType,
   KnownSkuTier,
   KnownCreatedByType,
   KnownUnitType,
@@ -350,7 +319,6 @@ export {
   KnownQuotaScopeType,
   KnownDeprecationStatus,
   KnownModelLifecycleStatus,
-  KnownPolicyEvaluationOutcome,
   KnownDeploymentProvisioningState,
   KnownDeploymentScaleType,
   KnownDeploymentModelVersionUpgradeOption,
@@ -388,10 +356,6 @@ export {
   KnownBuiltInAuthorizationScheme,
   KnownTrafficRoutingProtocol,
   KnownAgenticApplicationProvisioningState,
-  KnownComputeOperationStatusType,
-  KnownComputeType,
-  KnownComputeProvisioningState,
-  KnownVmPriority,
   KnownCapabilityHostKind,
   KnownRuleCategory,
   KnownRuleStatus,
@@ -429,7 +393,6 @@ export type {
   AccountConnectionsGetOptionalParams,
 } from "./api/accountConnections/index.js";
 export type {
-  AccountsEvaluateDeploymentPoliciesOptionalParams,
   AccountsListModelsOptionalParams,
   AccountsListUsagesOptionalParams,
   AccountsListSkusOptionalParams,
@@ -476,17 +439,6 @@ export type {
   CommitmentPlansGetOptionalParams,
 } from "./api/commitmentPlans/index.js";
 export type { CommitmentTiersListOptionalParams } from "./api/commitmentTiers/index.js";
-export type { ComputeOperationsGetOptionalParams } from "./api/computeOperations/index.js";
-export type {
-  ComputesRestartOptionalParams,
-  ComputesStopOptionalParams,
-  ComputesStartOptionalParams,
-  ComputesListOptionalParams,
-  ComputesDeleteOptionalParams,
-  ComputesUpdateOptionalParams,
-  ComputesCreateOrUpdateOptionalParams,
-  ComputesGetOptionalParams,
-} from "./api/computes/index.js";
 export type {
   DefenderForAISettingsListOptionalParams,
   DefenderForAISettingsUpdateOptionalParams,
@@ -516,14 +468,6 @@ export type {
 } from "./api/encryptionScopes/index.js";
 export type { LocationBasedModelCapacitiesListOptionalParams } from "./api/locationBasedModelCapacities/index.js";
 export type { ManagedComputeCapacitiesListOptionalParams } from "./api/managedComputeCapacities/index.js";
-export type {
-  ManagedComputeDeploymentsListOptionalParams,
-  ManagedComputeDeploymentsDeleteOptionalParams,
-  ManagedComputeDeploymentsUpdateOptionalParams,
-  ManagedComputeDeploymentsCreateOrUpdateOptionalParams,
-  ManagedComputeDeploymentsGetOptionalParams,
-} from "./api/managedComputeDeployments/index.js";
-export type { ManagedComputeUsagesOperationGroupListOptionalParams } from "./api/managedComputeUsagesOperationGroup/index.js";
 export type { ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams } from "./api/managedNetworkProvisions/index.js";
 export type {
   ManagedNetworkSettingsListOptionalParams,
@@ -631,16 +575,6 @@ export type {
 export type { TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams } from "./api/testRaiExternalSafetyProvider/index.js";
 export type { UsagesListOptionalParams } from "./api/usages/index.js";
 export type {
-  WorkbenchesRestartOptionalParams,
-  WorkbenchesStopOptionalParams,
-  WorkbenchesStartOptionalParams,
-  WorkbenchesListOptionalParams,
-  WorkbenchesDeleteOptionalParams,
-  WorkbenchesUpdateOptionalParams,
-  WorkbenchesCreateOrUpdateOptionalParams,
-  WorkbenchesGetOptionalParams,
-} from "./api/workbenches/index.js";
-export type {
   AccountCapabilityHostsOperations,
   AccountConnectionsOperations,
   AccountsOperations,
@@ -648,16 +582,12 @@ export type {
   AgentDeploymentsOperations,
   CommitmentPlansOperations,
   CommitmentTiersOperations,
-  ComputeOperationsOperations,
-  ComputesOperations,
   DefenderForAISettingsOperations,
   DeletedAccountsOperations,
   DeploymentsOperations,
   EncryptionScopesOperations,
   LocationBasedModelCapacitiesOperations,
   ManagedComputeCapacitiesOperations,
-  ManagedComputeDeploymentsOperations,
-  ManagedComputeUsagesOperationGroupOperations,
   ManagedNetworkProvisionsOperations,
   ManagedNetworkSettingsOperations,
   ModelCapacitiesOperations,
@@ -684,7 +614,6 @@ export type {
   SubscriptionRaiPolicyOperations,
   TestRaiExternalSafetyProviderOperations,
   UsagesOperations,
-  WorkbenchesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

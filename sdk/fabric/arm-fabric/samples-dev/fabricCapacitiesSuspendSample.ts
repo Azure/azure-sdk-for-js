@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to suspend operation of the specified Fabric capacity instance.
  *
  * @summary suspend operation of the specified Fabric capacity instance.
- * x-ms-original-file: 2026-08-01-preview/FabricCapacities_Suspend.json
+ * x-ms-original-file: 2026-09-01-preview/FabricCapacities_Suspend.json
  */
 async function suspendCapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();

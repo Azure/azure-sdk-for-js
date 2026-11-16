@@ -43,7 +43,7 @@ export function _listByGalleryScriptSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       galleryScriptName: galleryScriptName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,6 +70,7 @@ export async function _listByGalleryScriptDeserialize(
 
   return _galleryScriptVersionListDeserializer(result.body);
 }
+
 /** List gallery Script Versions in a gallery Script Definition. */
 export function listByGalleryScript(
   context: Client,
@@ -84,7 +85,7 @@ export function listByGalleryScript(
       _listByGalleryScriptSend(context, resourceGroupName, galleryName, galleryScriptName, options),
     _listByGalleryScriptDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-03" },
   );
 }
 
@@ -104,7 +105,7 @@ export function _$deleteSend(
       galleryName: galleryName,
       galleryScriptName: galleryScriptName,
       galleryScriptVersionName: galleryScriptVersionName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a gallery Script Version. */
 export function $delete(
   context: Client,
@@ -148,7 +150,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-12-03",
+    apiVersion: "2026-03-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -169,7 +171,7 @@ export function _updateSend(
       galleryName: galleryName,
       galleryScriptName: galleryScriptName,
       galleryScriptVersionName: galleryScriptVersionName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,6 +200,7 @@ export async function _updateDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Update a gallery Script Version. */
 export function update(
   context: Client,
@@ -222,7 +225,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-12-03",
+    apiVersion: "2026-03-03",
   }) as PollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>;
 }
 
@@ -243,7 +246,7 @@ export function _createOrUpdateSend(
       galleryName: galleryName,
       galleryScriptName: galleryScriptName,
       galleryScriptVersionName: galleryScriptVersionName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,6 +275,7 @@ export async function _createOrUpdateDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Create or update a gallery Script Version. */
 export function createOrUpdate(
   context: Client,
@@ -296,7 +300,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2025-12-03",
+    apiVersion: "2026-03-03",
   }) as PollerLike<OperationState<GalleryScriptVersion>, GalleryScriptVersion>;
 }
 
@@ -316,7 +320,7 @@ export function _getSend(
       galleryName: galleryName,
       galleryScriptName: galleryScriptName,
       galleryScriptVersionName: galleryScriptVersionName,
-      "api%2Dversion": "2025-12-03",
+      "api%2Dversion": "2026-03-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -343,6 +347,7 @@ export async function _getDeserialize(
 
   return galleryScriptVersionDeserializer(result.body);
 }
+
 /** Custom ArmResourceRead operation template with CloudError as Error */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a ApprovalResource
  *
  * @summary update a ApprovalResource
- * x-ms-original-file: 2026-03-01-preview/Approvals_Update.json
+ * x-ms-original-file: 2026-04-01/Approvals_Update.json
  */
 async function approvalUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,42 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIContext as Client } from "../index.js";
-import {
-  defaultErrorResponseDeserializer,
+import type { ContainerAppsAPIContext as Client } from "../index.js";
+import type {
   LogicApp,
-  logicAppSerializer,
-  logicAppDeserializer,
-  workflowArtifactsSerializer,
   WorkflowEnvelope,
-  workflowEnvelopeDeserializer,
-  Object,
-  objectDeserializer,
   _WorkflowEnvelopeCollection,
-  _workflowEnvelopeCollectionDeserializer,
-  LogicAppsProxyMethod,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defaultErrorResponseDeserializer,
+  logicAppSerializer,
+  logicAppDeserializer,
+  workflowEnvelopeDeserializer,
+  _workflowEnvelopeCollectionDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   LogicAppsListWorkflowsOptionalParams,
   LogicAppsGetWorkflowOptionalParams,
-  LogicAppsInvokeOptionalParams,
   LogicAppsListWorkflowsConnectionsOptionalParams,
-  LogicAppsDeployWorkflowArtifactsOptionalParams,
   LogicAppsDeleteOptionalParams,
   LogicAppsCreateOrUpdateOptionalParams,
   LogicAppsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listWorkflowsSend(
   context: Client,
@@ -52,7 +42,7 @@ export function _listWorkflowsSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +60,9 @@ export async function _listWorkflowsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -91,11 +83,7 @@ export function listWorkflows(
     () => _listWorkflowsSend(context, resourceGroupName, containerAppName, logicAppName, options),
     _listWorkflowsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-10-02-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -115,7 +103,7 @@ export function _getWorkflowSend(
       containerAppName: containerAppName,
       logicAppName: logicAppName,
       workflowName: workflowName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +121,9 @@ export async function _getWorkflowDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -161,73 +151,6 @@ export async function getWorkflow(
   return _getWorkflowDeserialize(result);
 }
 
-export function _invokeSend(
-  context: Client,
-  resourceGroupName: string,
-  containerAppName: string,
-  logicAppName: string,
-  xMsLogicAppsProxyPath: string,
-  xMsLogicAppsProxyMethod: LogicAppsProxyMethod,
-  options: LogicAppsInvokeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/providers/Microsoft.App/logicApps/{logicAppName}/invoke{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      containerAppName: containerAppName,
-      logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "x-ms-logicapps-proxy-path": xMsLogicAppsProxyPath,
-      "x-ms-logicapps-proxy-method": xMsLogicAppsProxyMethod,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _invokeDeserialize(result: PathUncheckedResponse): Promise<Object> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return objectDeserializer(result.body);
-}
-
-/** Proxies a the API call to the logic app backed by the container app. */
-export async function invoke(
-  context: Client,
-  resourceGroupName: string,
-  containerAppName: string,
-  logicAppName: string,
-  xMsLogicAppsProxyPath: string,
-  xMsLogicAppsProxyMethod: LogicAppsProxyMethod,
-  options: LogicAppsInvokeOptionalParams = { requestOptions: {} },
-): Promise<Object> {
-  const result = await _invokeSend(
-    context,
-    resourceGroupName,
-    containerAppName,
-    logicAppName,
-    xMsLogicAppsProxyPath,
-    xMsLogicAppsProxyMethod,
-    options,
-  );
-  return _invokeDeserialize(result);
-}
-
 export function _listWorkflowsConnectionsSend(
   context: Client,
   resourceGroupName: string,
@@ -242,7 +165,7 @@ export function _listWorkflowsConnectionsSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +183,9 @@ export async function _listWorkflowsConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -286,67 +211,6 @@ export async function listWorkflowsConnections(
   return _listWorkflowsConnectionsDeserialize(result);
 }
 
-export function _deployWorkflowArtifactsSend(
-  context: Client,
-  resourceGroupName: string,
-  containerAppName: string,
-  logicAppName: string,
-  options: LogicAppsDeployWorkflowArtifactsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/providers/Microsoft.App/logicApps/{logicAppName}/deployWorkflowArtifacts{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      containerAppName: containerAppName,
-      logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.workflowArtifacts
-      ? options?.workflowArtifacts
-      : workflowArtifactsSerializer(options?.workflowArtifacts),
-  });
-}
-
-export async function _deployWorkflowArtifactsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Creates or updates the artifacts for the logic app */
-export async function deployWorkflowArtifacts(
-  context: Client,
-  resourceGroupName: string,
-  containerAppName: string,
-  logicAppName: string,
-  options: LogicAppsDeployWorkflowArtifactsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _deployWorkflowArtifactsSend(
-    context,
-    resourceGroupName,
-    containerAppName,
-    logicAppName,
-    options,
-  );
-  return _deployWorkflowArtifactsDeserialize(result);
-}
-
 export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
@@ -361,7 +225,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -374,7 +238,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -405,7 +271,6 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   containerAppName: string,
   logicAppName: string,
-  resource: LogicApp,
   options: LogicAppsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -415,7 +280,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -425,7 +290,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: logicAppSerializer(resource),
+    body: !options?.resource ? options?.resource : logicAppSerializer(options?.resource),
   });
 }
 
@@ -433,7 +298,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -447,7 +314,6 @@ export async function createOrUpdate(
   resourceGroupName: string,
   containerAppName: string,
   logicAppName: string,
-  resource: LogicApp,
   options: LogicAppsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<LogicApp> {
   const result = await _createOrUpdateSend(
@@ -455,7 +321,6 @@ export async function createOrUpdate(
     resourceGroupName,
     containerAppName,
     logicAppName,
-    resource,
     options,
   );
   return _createOrUpdateDeserialize(result);
@@ -475,7 +340,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       containerAppName: containerAppName,
       logicAppName: logicAppName,
-      "api%2Dversion": context.apiVersion ?? "2025-10-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -491,7 +356,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Lo
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

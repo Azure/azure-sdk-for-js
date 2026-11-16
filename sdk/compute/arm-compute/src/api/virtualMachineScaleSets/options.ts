@@ -10,16 +10,19 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListByLocationOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsMigrateVMAvailabilityZoneOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsScaleOutOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -27,13 +30,16 @@ export interface VirtualMachineScaleSetsStartOptionalParams extends OperationOpt
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListSkusOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsRestartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -41,6 +47,7 @@ export interface VirtualMachineScaleSetsRestartOptionalParams extends OperationO
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsReimageAllOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -48,6 +55,7 @@ export interface VirtualMachineScaleSetsReimageAllOptionalParams extends Operati
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsReimageOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -55,6 +63,7 @@ export interface VirtualMachineScaleSetsReimageOptionalParams extends OperationO
   /** Parameters for Reimaging VM ScaleSet. */
   vmScaleSetReimageInput?: VirtualMachineScaleSetReimageParameters;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsRedeployOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -62,11 +71,13 @@ export interface VirtualMachineScaleSetsRedeployOptionalParams extends Operation
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsReapplyOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsPowerOffOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -76,6 +87,7 @@ export interface VirtualMachineScaleSetsPowerOffOptionalParams extends Operation
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -83,15 +95,19 @@ export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsGetInstanceViewOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams extends OperationOptions {
   /** The zone in which the manual recovery walk is requested for cross zone virtual machine scale set */
@@ -99,6 +115,7 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
   /** The placement group id for which the manual recovery walk is requested. */
   placementGroupId?: string;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -106,6 +123,7 @@ export interface VirtualMachineScaleSetsDeleteInstancesOptionalParams extends Op
   /** Optional parameter to force delete virtual machines from the VM scale set. (Feature in Preview) */
   forceDeletion?: boolean;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsDeallocateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -115,8 +133,10 @@ export interface VirtualMachineScaleSetsDeallocateOptionalParams extends Operati
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -124,10 +144,13 @@ export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams exte
   /** A list of virtual machine instance IDs from the VM scale set. */
   vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListAllOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -135,6 +158,7 @@ export interface VirtualMachineScaleSetsDeleteOptionalParams extends OperationOp
   /** Optional parameter to force delete a VM scale set. (Feature in Preview) */
   forceDeletion?: boolean;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -144,6 +168,7 @@ export interface VirtualMachineScaleSetsUpdateOptionalParams extends OperationOp
   /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will result in error from server as they are not supported. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -153,6 +178,7 @@ export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends Ope
   /** Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will result in error from server as they are not supported. */
   ifNoneMatch?: string;
 }
+
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsGetOptionalParams extends OperationOptions {
   /** The expand expression to apply on the operation. 'UserData' retrieves the UserData property of the VM scale set that was provided by the user during the VM scale set Create/Update operation */

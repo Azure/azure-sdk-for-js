@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appcontainers)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers/samples)
 
 ## Getting started

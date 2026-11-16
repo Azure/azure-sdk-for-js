@@ -113,6 +113,7 @@ export interface FabricCapacitiesOperations {
     options?: FabricCapacitiesGetOptionalParams,
   ) => Promise<FabricCapacity>;
 }
+
 function _getFabricCapacities(context: FabricContext) {
   return {
     listUsages: (location: string, options?: FabricCapacitiesListUsagesOptionalParams) =>
@@ -168,6 +169,7 @@ function _getFabricCapacities(context: FabricContext) {
     ) => get(context, resourceGroupName, capacityName, options),
   };
 }
+
 export function _getFabricCapacitiesOperations(context: FabricContext): FabricCapacitiesOperations {
   return {
     ..._getFabricCapacities(context),
