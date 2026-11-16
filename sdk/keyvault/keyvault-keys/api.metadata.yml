@@ -1,5 +1,5 @@
-apiHash: feb8ade0a6bcd628223b0a4a333be5985610ae9fb63829105af1e486949bd1d1
-packageVersion: 4.10.2
+apiHash: f447b8361353e5545b1f9dd4117213d69e23ae20af8e06ace66856da0f948396
+packageVersion: 4.11.0-beta.2
 packageRelativePath: sdk/keyvault/keyvault-keys
 parserVersion: 1.0.0
 typescriptVersion: 6.0.3

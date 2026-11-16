@@ -172,6 +172,10 @@ export interface EncryptResult {
     additionalAuthenticatedData?: Uint8Array;
 }
 
+export interface ExternalKey {
+    id: string;
+}
+
 export interface GetCryptographyClientOptions {
     keyVersion?: string;
 }
@@ -238,6 +242,7 @@ export class KeyClient {
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
+    createExternalKey(name: string, externalKey: ExternalKey, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
@@ -253,6 +258,8 @@ export class KeyClient {
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
     releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
+    secureWrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyOperationResult>;
+    secureUnwrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, value: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyOperationResult>;
     getKeyRotationPolicy(keyName: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     updateKeyRotationPolicy(keyName: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -296,6 +303,8 @@ export interface KeyProperties {
     releasePolicy?: KeyReleasePolicy;
     readonly hsmPlatform?: string;
     attestation?: KeyAttestation;
+    externalKey?: ExternalKey;
+    readonly keySize?: number;
 }
 
 export interface KeyReleasePolicy {
@@ -393,7 +402,9 @@ export declare enum KnownKeyOperations {
     Verify = "verify",
     WrapKey = "wrapKey",
     UnwrapKey = "unwrapKey",
-    Import = "import"
+    Import = "import",
+    SecureWrapKey = "secureWrapKey",
+    SecureUnwrapKey = "secureUnwrapKey"
 }
 
 export declare enum KnownKeyTypes {
@@ -466,6 +477,22 @@ export interface RsaEncryptParameters {
     plaintext: Uint8Array;
 }
 
+export interface SecureKeyOperationResult {
+    keyID: string;
+    algorithm: SecureKeyWrapAlgorithm;
+    result: Uint8Array;
+}
+
+export type SecureKeyWrapAlgorithm = "RSA-OAEP-256" | "A128KW" | "A192KW" | "A256KW" | "A128KWPAD" | "A192KWPAD" | "A256KWPAD" | "CKM_AES_KEY_WRAP" | "CKM_AES_KEY_WRAP_PAD";
+
+export interface SecureUnwrapKeyOptions extends OperationOptions {
+    version?: string;
+}
+
+export interface SecureWrapKeyOptions extends OperationOptions {
+    version?: string;
+}
+
 export type SignatureAlgorithm = string;
 
 export interface SignOptions extends CryptographyOptions {
@@ -520,6 +547,10 @@ export interface WrapResult {
     algorithm: KeyWrapAlgorithm;
 }
 
+export {
+    isRestError,
+    RestError,
+} from "@azure/core-rest-pipeline";
 export {
     type PagedAsyncIterableIterator,
     type PageSettings,
