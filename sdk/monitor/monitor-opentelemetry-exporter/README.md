@@ -155,6 +155,56 @@ Availability records use the same correlation context as other OpenTelemetry log
 
 If any required attribute is missing or empty, the exporter sends the record as regular message telemetry instead. Exception and custom event attributes take precedence over availability attributes.
 
+### Multi-endpoint routing (preview)
+
+Set `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=multi_endpoint_routing` before constructing
+any exporter to route logs, spans, and metric data points to different Application Insights
+resources. Routing is disabled by default. A host connection string is optional.
+
+Each item must supply `microsoft.instrumentation_key` and `microsoft.ingestion_endpoint`
+as attributes. The endpoint must be an absolute HTTPS URL without credentials, query strings,
+or fragments. Items with missing or invalid destinations are dropped, not sent to the host.
+**Use trusted, server-owned destination configuration, not request headers or baggage.**
+
+```ts snippet:ReadmeSampleMultiEndpointRouting
+import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
+
+process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "multi_endpoint_routing";
+
+const provider = new LoggerProvider({
+  processors: [
+    new BatchLogRecordProcessor({
+      exporter: new AzureMonitorLogExporter(),
+    }),
+  ],
+});
+
+provider.getLogger("routed-logs").emit({
+  body: "Order completed",
+  attributes: {
+    "microsoft.instrumentation_key": "<destination instrumentation key>",
+    "microsoft.ingestion_endpoint": "https://<region>.in.applicationinsights.azure.com",
+    "microsoft.multi_endpoint_cloud_role": "orders",
+  },
+});
+```
+
+Set the same attributes on spans or individual metric data points to route those signals.
+Span events inherit their parent span's routing attributes. Resource and instrumentation-scope
+attributes are not used for metric routing.
+
+For Microsoft Entra ID authentication, set `microsoft.ingestion_auth` to `"aad"` and
+provide an exporter `credential`. Otherwise, items use key-only authentication, even if
+a credential is configured. AAD routes without a credential fail.
+
+Set `microsoft.multi_endpoint_cloud_role` to specify the cloud role name. It defaults to
+`unknown_service`. Role instances still come from the resource.
+
+Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
+Custom `httpClient` and `retryOptions` are supported, but `pipeline` and `additionalPolicies`
+are not supported in routing mode.
+
 ### Sampling
 
 You can enable sampling to limit the amount of telemetry records you receive. In order to enable correct sampling in Application Insights, use the `ApplicationInsightsSampler` as shown below.
