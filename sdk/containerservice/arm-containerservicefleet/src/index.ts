@@ -83,6 +83,17 @@ export type {
   GateState,
   GatePatch,
   GatePatchProperties,
+  IdentityBindingProfile,
+  IdentityBindingProfileProperties,
+  IdentityBindingProfileProvisioningState,
+  IdentityBindingProperties,
+  IdentityBindingManagedIdentityProfile,
+  AllowedSubject,
+  IdentityBindingLabelSelector,
+  IdentityBindingLabelSelectorRequirement,
+  IdentityBindingLabelSelectorOperator,
+  IdentityBindingOidcIssuerProfile,
+  IdentityBindingProfileStatus,
   UpdateRun,
   UpdateRunProperties,
   UpdateRunProvisioningState,
@@ -142,6 +153,8 @@ export {
   KnownDayOfWeek,
   KnownTiming,
   KnownGateState,
+  KnownIdentityBindingProfileProvisioningState,
+  KnownIdentityBindingLabelSelectorOperator,
   KnownUpdateRunProvisioningState,
   KnownManagedClusterUpgradeType,
   KnownNodeImageSelectionType,
@@ -242,6 +255,13 @@ export type {
   GatesUpdateOptionalParams,
   GatesGetOptionalParams,
 } from "./api/gates/index.js";
+export type {
+  IdentityBindingProfilesApplyOptionalParams,
+  IdentityBindingProfilesListByFleetOptionalParams,
+  IdentityBindingProfilesDeleteOptionalParams,
+  IdentityBindingProfilesCreateOrUpdateOptionalParams,
+  IdentityBindingProfilesGetOptionalParams,
+} from "./api/identityBindingProfiles/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   UpdateRunsSkipOptionalParams,
@@ -261,6 +281,7 @@ export type {
   FleetsOperations,
   FleetUpdateStrategiesOperations,
   GatesOperations,
+  IdentityBindingProfilesOperations,
   OperationsOperations,
   UpdateRunsOperations,
 } from "./classic/index.js";

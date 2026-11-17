@@ -25,7 +25,7 @@ export function _generateUpdateRunSend(
       resourceGroupName: resourceGroupName,
       fleetName: fleetName,
       autoUpgradeProfileName: autoUpgradeProfileName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,6 +73,6 @@ export function generateUpdateRun(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-02-preview",
   }) as PollerLike<OperationState<GenerateResponse>, GenerateResponse>;
 }

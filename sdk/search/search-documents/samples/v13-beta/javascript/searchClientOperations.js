@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates keyword search and finding similar documents with the
- * `2026-10-01` GA `moreLikeThis` option.
+ * @summary Demonstrates keyword search and finding similar documents with moreLikeThis.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -97,7 +96,6 @@ async function main() {
       const name = result.document.hotelName;
       console.log(name);
     }
-
     const similarDocuments = await searchClient.search(undefined, {
       moreLikeThis: "1",
       searchFields: ["hotelName", "description"],

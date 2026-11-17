@@ -261,7 +261,7 @@ function installGlobalCliTools() {
     process.exit(registryResult.status || 1);
   }
   runShell(
-    `npm install -g @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER} --registry="${npmRegistry}"`,
+    `npm install -g --allow-scripts=pnpm @azure-tools/typespec-client-generator-cli ${PACKAGE_MANAGER} --registry="${npmRegistry}"`,
     SDK_ROOT,
   );
   // Dev emitter has peer-dep drift; tolerate it for every npm call on this agent.
