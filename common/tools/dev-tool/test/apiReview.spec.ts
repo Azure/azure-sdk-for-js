@@ -1635,6 +1635,24 @@ export declare function isRestError(error: unknown): error is RestError;`,
       );
     });
 
+    it("keeps the names of different missing references", async () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts": [
+          'import type { StorageRetryOptions } from "@azure/storage-common";',
+          'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+          "export declare function retry(options: StorageRetryOptions): void;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export declare function retry(options: StorageRetryOptions): void;");
+    });
+
     it("resolves the require view with CommonJS conditions", async () => {
       const index = [
         'import type { Widget } from "@example/esm-only";',

@@ -411,8 +411,11 @@ function buildExportSections(
   const isModuleObject = (symbol: ts.Symbol): boolean =>
     symbol.declarations?.some(ts.isSourceFile) ?? false;
 
+  // Names missing from their module resolve to `unknown`; Unresolved references lists them.
   const exportsByFile = exportFiles.map(({ file }) =>
-    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!),
+    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!).filter(
+      (exported) => resolveAlias(exported).declarations?.length,
+    ),
   );
 
   // A local symbol keeps the public name used by its first export path.
@@ -554,10 +557,6 @@ function buildExportSections(
     const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
       const symbol = resolveAlias(exportedSymbol);
-      // Names missing from their module resolve to `unknown`; Unresolved references lists them.
-      if (!symbol.declarations?.length) {
-        continue;
-      }
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
