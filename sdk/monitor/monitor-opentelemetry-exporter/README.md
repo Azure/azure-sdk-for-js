@@ -202,7 +202,8 @@ Set `microsoft.multi_endpoint_cloud_role` to specify the cloud role name. It def
 `unknown_service`. Role instances still come from the resource.
 
 Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
-Routed requests have a 10-second deadline, including authentication and HTTP retries.
+Each routed batch has a 10-second send deadline, including authentication, HTTP retries,
+and redirects. Server-requested `Retry-After` delays still apply to later sends after a timeout.
 Timed-out batches are saved for retry when offline storage is available. Overflow
 destinations have no offline storage and report a failed export instead.
 Shutdown allows 30 seconds for pending routed requests before cancelling them.

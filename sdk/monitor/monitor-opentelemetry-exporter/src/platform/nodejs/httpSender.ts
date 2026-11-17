@@ -15,13 +15,12 @@ import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
+import { isRetriable, parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 import { isSameRegisteredDomain } from "../../utils/redirectUtils.js";
 import { createGzipHttpClient } from "./gzipHttpClient.js";
 import { createAbortablePromise } from "@azure/core-util";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
-const ROUTED_REQUEST_TIMEOUT_MS = 10_000;
 
 /**
  * Exporter HTTP sender class
@@ -87,14 +86,26 @@ export class HttpSender extends BaseSender {
     const userPipeline: Pipeline | undefined = (clientOptions as any).pipeline;
     const transport = clientOptions.httpClient ?? createDefaultHttpClient();
     let httpClient: HttpClient = transport;
-    if (this.disableKeepAlive && !clientOptions.httpClient && !clientOptions.agent) {
+    const disableKeepAlive =
+      this.disableKeepAlive && !clientOptions.httpClient && !clientOptions.agent;
+    if (disableKeepAlive || this.routingAbortSignal) {
       httpClient = {
-        sendRequest(request) {
-          request.disableKeepAlive = true;
-          // The runtime can select Node's keep-alive global agent or a proxy agent.
-          // Close each connection explicitly, including on retries and redirects.
-          request.headers.set("Connection", "close");
-          return transport.sendRequest(request);
+        sendRequest: async (request) => {
+          if (disableKeepAlive) {
+            request.disableKeepAlive = true;
+            // The runtime can select Node's keep-alive global agent or a proxy agent.
+            // Close each connection explicitly, including on retries and redirects.
+            request.headers.set("Connection", "close");
+          }
+          const response = await transport.sendRequest(request);
+          if (this.routingAbortSignal && response.status >= 400 && isRetriable(response.status)) {
+            // Preserve backoff before the HTTP retry policy consumes this response.
+            const retryAfterMs = parseRetryAfterHeader(response.headers.get("retry-after"));
+            if (retryAfterMs !== undefined) {
+              this.scheduleRetryTimer(retryAfterMs, true);
+            }
+          }
+          return response;
         },
       };
     }
@@ -129,16 +140,20 @@ export class HttpSender extends BaseSender {
    * Send Azure envelopes
    * @internal
    */
-  async send(envelopes: Envelope[]): Promise<SenderResult> {
+  async send(envelopes: Envelope[], deadlineInMs?: number): Promise<SenderResult> {
     let response: PipelineResponse | undefined;
     const controller = this.routingAbortSignal ? new AbortController() : undefined;
     const abortSignal =
       controller && this.routingAbortSignal
         ? AbortSignal.any([controller.signal, this.routingAbortSignal])
         : undefined;
-    const timeout = controller
-      ? setTimeout(() => controller.abort(), ROUTED_REQUEST_TIMEOUT_MS)
-      : undefined;
+    const timeoutInMs =
+      deadlineInMs === undefined ? undefined : Math.max(0, deadlineInMs - Date.now());
+    if (timeoutInMs === 0) {
+      controller?.abort();
+    }
+    const timeout =
+      controller && timeoutInMs ? setTimeout(() => controller.abort(), timeoutInMs) : undefined;
     timeout?.unref();
     // The TypeSpec-generated client throws RestError for non-200/206 responses.
     // For success responses, we capture the raw response via onResponse callback

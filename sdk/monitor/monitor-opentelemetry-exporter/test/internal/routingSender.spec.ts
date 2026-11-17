@@ -738,6 +738,89 @@ describe("routed senders and persistence", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it("keeps the original deadline after a delayed redirect", async () => {
+    const sender = router({ disableOfflineStorage: true });
+    await fillCache(sender);
+    sendRequest
+      .mockImplementationOnce((request) => {
+        requests.push(request);
+        return new Promise((resolve) => {
+          setTimeout(
+            () => resolve(response(request, 307, { location: "https://stalled.test/redirect" })),
+            9_000,
+          );
+        });
+      })
+      .mockImplementationOnce((request) => {
+        requests.push(request);
+        return new Promise(() => {});
+      });
+    const exporting = sender.export(
+      new Map([...groups("https://stalled.test"), ...groups("https://healthy.test")]),
+    );
+    try {
+      await vi.advanceTimersByTimeAsync(9_000);
+      expect(requests).toHaveLength(2);
+      expect(requests[1].url).toBe("https://stalled.test/v2.1/track");
+      await vi.advanceTimersByTimeAsync(999);
+      expect(requests[1].abortSignal?.aborted).toBe(false);
+      expect(requests).toHaveLength(2);
+      await vi.advanceTimersByTimeAsync(1);
+      expect(requests[1].abortSignal?.aborted).toBe(true);
+      expect((await exporting).code).toBe(ExportResultCode.FAILED);
+      expect(requests[2].url).toBe("https://healthy.test/v2.1/track");
+    } finally {
+      await vi.advanceTimersByTimeAsync(10_000);
+      await exporting;
+    }
+  });
+
+  it.each(["delay-seconds", "http-date"])(
+    "preserves a long Retry-After in %s format when HTTP retries time out",
+    async (format) => {
+      vi.setSystemTime(new Date("2026-01-01T00:00:00.000Z"));
+      vi.mocked(Math.random).mockReturnValue(0.75);
+      const retryAt = Date.now() + 600_000;
+      sendRequest.mockImplementationOnce(async (request) => {
+        requests.push(request);
+        return response(request, 429, {
+          "retry-after": format === "delay-seconds" ? "600" : new Date(retryAt).toUTCString(),
+        });
+      });
+      const sender = router({ retryOptions: { maxRetries: 1 } });
+      const exporting = sender.export(groups());
+      await vi.advanceTimersByTimeAsync(10_000);
+      expect((await exporting).code).toBe(ExportResultCode.SUCCESS);
+      expect(requests).toHaveLength(1);
+      expect(requests[0].abortSignal?.aborted).toBe(true);
+      expect((await sender.export(groups("https://healthy.test", "healthy-key"))).code).toBe(
+        ExportResultCode.SUCCESS,
+      );
+
+      const [routed] = sender["senders"].values();
+      vi.setSystemTime(retryAt - 1);
+      expect((await sender.export(groups("https://first.test", "queued-key"))).code).toBe(
+        ExportResultCode.SUCCESS,
+      );
+      await routed.retryPersistedEnvelopes();
+      expect(requests).toHaveLength(2);
+
+      vi.setSystemTime(retryAt);
+      const replaying = routed.retryPersistedEnvelopes();
+      await vi.waitFor(() => expect(requests).toHaveLength(4));
+      await replaying;
+      expect(
+        requests.slice(2).every((request) => request.url === "https://first.test/v2.1/track"),
+      ).toBe(true);
+      expect(
+        requests
+          .slice(2)
+          .flatMap((request) => JSON.parse(String(request.body)))
+          .map((item) => item.iKey),
+      ).toEqual(["tenant-key", "queued-key"]);
+    },
+  );
+
   it("bounds shutdown across queued overflow destinations and cancels active requests", async () => {
     const sender = router({ disableOfflineStorage: true });
     await fillCache(sender);
