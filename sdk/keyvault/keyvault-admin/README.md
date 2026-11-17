@@ -116,11 +116,46 @@ A `KeyVaultSettingsClient` manages Managed HSM account settings.
 
 ### KeyVaultEkmClient
 
-A `KeyVaultEkmClient` manages the Managed HSM's External Key Manager (EKM) connection.
+A `KeyVaultEkmClient` manages the Managed HSM's External Key Manager (EKM) connection and its EKM proxy private endpoints.
 
 ### EKM Connection
 
 An EKM connection represents the connection of an Azure Managed HSM resource with an external HSM.
+
+### EKM Proxy Private Endpoint
+
+An EKM proxy private endpoint lets a Managed HSM reach an EKM proxy through an Azure Private Link Service instead of
+the public internet. A Managed HSM may have up to two EKM proxy private endpoints. To route an EKM connection through
+one, set the connection's `host` to the private endpoint's name and its `connectivityMode` to
+`KnownEkmConnectivityMode.PrivateEndpoint`.
+
+```ts snippet:ReadmeSampleManageEkmPrivateEndpoint
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultEkmClient } from "@azure/keyvault-admin";
+
+const vaultUrl = `https://<MY KEY VAULT HERE>.managedhsm.azure.net`;
+const credentials = new DefaultAzureCredential();
+const client = new KeyVaultEkmClient(vaultUrl, credentials);
+
+// Private endpoint names must not be longer than 24 characters.
+const peName = "ekm-sample-pe";
+const privateLinkServiceId = "<private-link-service-id>";
+
+const createPoller = client.createEkmPrivateEndpoint(peName, { privateLinkServiceId });
+const createOperation = await createPoller.pollUntilDone();
+console.log("Create status:", createOperation.status);
+
+const privateEndpoint = await client.getEkmPrivateEndpoint(peName);
+console.log("Connection status:", privateEndpoint.privateLinkServiceConnectionState?.status);
+
+const privateEndpoints = await client.listEkmPrivateEndpoints();
+for (const endpoint of privateEndpoints.value ?? []) {
+  console.log("Private endpoint:", endpoint.name);
+}
+
+const deletePoller = client.deleteEkmPrivateEndpoint(peName);
+await deletePoller.pollUntilDone();
+```
 
 ### Long running operations
 
@@ -161,6 +196,8 @@ You can find more code samples through the following links:
 - [Key Vault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/v4/typescript)
 - [Key Vault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/test/)
 
+- [Manage EKM proxy private endpoints][ekm_private_endpoint_operations_sample]
+
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
@@ -181,3 +218,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
 [managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
+[ekm_operations_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/ekmConnectionHelloWorld.js
+[ekm_private_endpoint_operations_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/ekmConnectionHelloWorld.js

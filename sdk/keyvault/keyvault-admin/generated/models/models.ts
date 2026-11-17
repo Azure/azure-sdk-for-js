@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Full backup operation */
 export interface FullBackupOperation {
   /** Status of the backup operation. */
@@ -62,6 +62,7 @@ export enum KnownOperationStatus {
  * **Failed**: The operation failed.
  */
 export type OperationStatus = string;
+
 /** The key vault server error. */
 export type ErrorModel = {
   code?: string;
@@ -311,6 +312,8 @@ export interface EkmConnection {
   serverCaCertificates: Uint8Array[];
   /** The subject common name of the server certificate of EKM Proxy. */
   serverSubjectCommonName?: string;
+  /** The connectivity mode used to reach the EKM proxy. Defaults to "Public". In "PrivateEndpoint" mode, the host field holds the name of a private endpoint (peName) instead of a DNS name or IP address. */
+  connectivityMode?: EkmConnectivityMode;
 }
 
 export function ekmConnectionSerializer(item: EkmConnection): any {
@@ -321,6 +324,7 @@ export function ekmConnectionSerializer(item: EkmConnection): any {
       return uint8ArrayToString(p, "base64");
     }),
     server_subject_common_name: item["serverSubjectCommonName"],
+    connectivity_mode: item["connectivityMode"],
   };
 }
 
@@ -332,8 +336,27 @@ export function ekmConnectionDeserializer(item: any): EkmConnection {
       return typeof p === "string" ? stringToUint8Array(p, "base64") : p;
     }),
     serverSubjectCommonName: item["server_subject_common_name"],
+    connectivityMode: item["connectivity_mode"],
   };
 }
+
+/** The connectivity mode used to reach the EKM proxy. */
+export enum KnownEkmConnectivityMode {
+  /** The EKM proxy is reachable over the public internet; host is a DNS name or IP address. */
+  Public = "Public",
+  /** The EKM proxy is reachable through a private endpoint; host is the name of a private endpoint (peName). */
+  PrivateEndpoint = "PrivateEndpoint",
+}
+
+/**
+ * The connectivity mode used to reach the EKM proxy. \
+ * {@link KnownEkmConnectivityMode} can be used interchangeably with EkmConnectivityMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public**: The EKM proxy is reachable over the public internet; host is a DNS name or IP address. \
+ * **PrivateEndpoint**: The EKM proxy is reachable through a private endpoint; host is the name of a private endpoint (peName).
+ */
+export type EkmConnectivityMode = string;
 
 /** EKM proxy client certificate information. */
 export interface EkmProxyClientCertificateInfo {
@@ -376,6 +399,230 @@ export function ekmProxyInfoDeserializer(item: any): EkmProxyInfo {
     ekmVendor: item["ekm_vendor"],
     ekmProduct: item["ekm_product"],
   };
+}
+
+/** A long-running operation on an EKM proxy private endpoint. */
+export interface EkmPrivateEndpointOperation {
+  /** Identifier for the private endpoint operation. */
+  jobId?: string;
+  /** The name of the private endpoint (peName) the operation applies to. */
+  privateEndpointName?: string;
+  /** The type of the operation. */
+  operationType?: EkmPrivateEndpointOperationType;
+  /** The status of the operation. */
+  status?: OperationState;
+  /** The status details of the operation. */
+  statusDetails?: string;
+  /** The start time of the operation in UTC. */
+  startTime?: Date;
+  /** The end time of the operation in UTC. */
+  endTime?: Date;
+  /** Error encountered, if any, during the operation. */
+  error?: ErrorModel;
+}
+
+export function ekmPrivateEndpointOperationDeserializer(item: any): EkmPrivateEndpointOperation {
+  return {
+    jobId: item["jobId"],
+    privateEndpointName: item["privateEndpointName"],
+    operationType: item["operationType"],
+    status: item["status"],
+    statusDetails: item["statusDetails"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"] * 1000),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"] * 1000),
+    error: !item["error"] ? item["error"] : _fullBackupOperationErrorDeserializer(item["error"]),
+  };
+}
+
+/** The type of a long-running EKM proxy private endpoint operation. */
+export enum KnownEkmPrivateEndpointOperationType {
+  /** A private endpoint create operation. */
+  Create = "Create",
+  /** A private endpoint delete operation. */
+  Delete = "Delete",
+}
+
+/**
+ * The type of a long-running EKM proxy private endpoint operation. \
+ * {@link KnownEkmPrivateEndpointOperationType} can be used interchangeably with EkmPrivateEndpointOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Create**: A private endpoint create operation. \
+ * **Delete**: A private endpoint delete operation.
+ */
+export type EkmPrivateEndpointOperationType = string;
+
+/** Enum describing allowed operation states. */
+export enum KnownOperationState {
+  /** The operation has not started. */
+  NotStarted = "NotStarted",
+  /** The operation is in progress. */
+  Running = "Running",
+  /** The operation has completed successfully. */
+  Succeeded = "Succeeded",
+  /** The operation has failed. */
+  Failed = "Failed",
+  /** The operation has been canceled by the user. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Enum describing allowed operation states. \
+ * {@link KnownOperationState} can be used interchangeably with OperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: The operation has not started. \
+ * **Running**: The operation is in progress. \
+ * **Succeeded**: The operation has completed successfully. \
+ * **Failed**: The operation has failed. \
+ * **Canceled**: The operation has been canceled by the user.
+ */
+export type OperationState = string;
+
+/** Parameters to create an EKM proxy private endpoint. */
+export interface EkmPrivateEndpointCreateParameters {
+  /** Alias of the Private Link Service that the private endpoint connects to. */
+  privateLinkServiceId: string;
+  /** An optional message shown to the Private Link Service owner when approving the private endpoint connection. */
+  requestMessage?: string;
+}
+
+export function ekmPrivateEndpointCreateParametersSerializer(
+  item: EkmPrivateEndpointCreateParameters,
+): any {
+  return {
+    privateLinkServiceId: item["privateLinkServiceId"],
+    requestMessage: item["requestMessage"],
+  };
+}
+
+/** An EKM proxy private endpoint. */
+export interface EkmPrivateEndpoint {
+  /** The name of the private endpoint (peName). */
+  readonly name?: string;
+  /** The Azure region where the private endpoint is provisioned. */
+  readonly location?: string;
+  /** The provisioning state of the private endpoint. */
+  readonly provisioningState?: EkmPrivateEndpointProvisioningState;
+  /** The properties of the private endpoint. */
+  readonly properties?: EkmPrivateEndpointProperties;
+  /** The state of the connection between the private endpoint and the Private Link Service. */
+  readonly privateLinkServiceConnectionState?: EkmPrivateEndpointConnectionState;
+}
+
+export function ekmPrivateEndpointDeserializer(item: any): EkmPrivateEndpoint {
+  return {
+    name: item["name"],
+    location: item["location"],
+    provisioningState: item["provisioningState"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : ekmPrivateEndpointPropertiesDeserializer(item["properties"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : ekmPrivateEndpointConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
+/** The provisioning state of the EKM proxy private endpoint. */
+export enum KnownEkmPrivateEndpointProvisioningState {
+  /** The private endpoint has been successfully provisioned. */
+  Succeeded = "Succeeded",
+  /** The private endpoint provisioning failed. */
+  Failed = "Failed",
+  /** The private endpoint is being updated. */
+  Updating = "Updating",
+  /** The private endpoint is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * The provisioning state of the EKM proxy private endpoint. \
+ * {@link KnownEkmPrivateEndpointProvisioningState} can be used interchangeably with EkmPrivateEndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The private endpoint has been successfully provisioned. \
+ * **Failed**: The private endpoint provisioning failed. \
+ * **Updating**: The private endpoint is being updated. \
+ * **Deleting**: The private endpoint is being deleted.
+ */
+export type EkmPrivateEndpointProvisioningState = string;
+
+/** The properties of an EKM proxy private endpoint. */
+export interface EkmPrivateEndpointProperties {
+  /** Alias of the Private Link Service that the private endpoint connects to. */
+  readonly privateLinkServiceId?: string;
+  /** The name of the private link service connection, generated by the service. */
+  readonly privateLinkServiceConnectionName?: string;
+}
+
+export function ekmPrivateEndpointPropertiesDeserializer(item: any): EkmPrivateEndpointProperties {
+  return {
+    privateLinkServiceId: item["privateLinkServiceId"],
+    privateLinkServiceConnectionName: item["privateLinkServiceConnectionName"],
+  };
+}
+
+/** The state of the connection between the private endpoint and the Private Link Service. */
+export interface EkmPrivateEndpointConnectionState {
+  /** The status of the private link service connection. */
+  readonly status?: EkmPrivateEndpointConnectionStatus;
+  /** A description of the current connection state. */
+  readonly description?: string;
+  /** Any actions required from the customer to maintain the connection. */
+  readonly actionsRequired?: string;
+}
+
+export function ekmPrivateEndpointConnectionStateDeserializer(
+  item: any,
+): EkmPrivateEndpointConnectionState {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** The status of the connection between the private endpoint and the Private Link Service. */
+export enum KnownEkmPrivateEndpointConnectionStatus {
+  /** The connection is awaiting approval by the Private Link Service owner. */
+  Pending = "Pending",
+  /** The connection has been approved by the Private Link Service owner. */
+  Approved = "Approved",
+  /** The connection has been rejected by the Private Link Service owner. */
+  Rejected = "Rejected",
+  /** The connection has been disconnected by the Private Link Service owner. */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * The status of the connection between the private endpoint and the Private Link Service. \
+ * {@link KnownEkmPrivateEndpointConnectionStatus} can be used interchangeably with EkmPrivateEndpointConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: The connection is awaiting approval by the Private Link Service owner. \
+ * **Approved**: The connection has been approved by the Private Link Service owner. \
+ * **Rejected**: The connection has been rejected by the Private Link Service owner. \
+ * **Disconnected**: The connection has been disconnected by the Private Link Service owner.
+ */
+export type EkmPrivateEndpointConnectionStatus = string;
+
+/** The result of a request to list EKM proxy private endpoints. */
+export interface EkmPrivateEndpointListResult {
+  /** The list of EKM proxy private endpoints. */
+  readonly value?: EkmPrivateEndpoint[];
+}
+
+export function ekmPrivateEndpointListResultDeserializer(item: any): EkmPrivateEndpointListResult {
+  return {
+    value: !item["value"] ? item["value"] : ekmPrivateEndpointArrayDeserializer(item["value"]),
+  };
+}
+
+export function ekmPrivateEndpointArrayDeserializer(result: Array<EkmPrivateEndpoint>): any[] {
+  return result.map((item) => {
+    return ekmPrivateEndpointDeserializer(item);
+  });
 }
 
 /** Role definition. */
@@ -829,6 +1076,12 @@ export enum KnownVersions {
   V20250701 = "2025-07-01",
   /** The 2026-01-01-preview API version. */
   V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
+  /** The 2026-07-01-preview API version. */
+  V20260701Preview = "2026-07-01-preview",
 }
 
 export function _roleDefinitionPropertiesSerializer(item: RoleDefinition): any {

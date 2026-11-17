@@ -3,6 +3,11 @@
 
 import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
+  listEkmPrivateEndpoints,
+  getEkmPrivateEndpoint,
+  deleteEkmPrivateEndpoint,
+  createEkmPrivateEndpoint,
+  getEkmPrivateEndpointOperationStatus,
   deleteEkmConnection,
   updateEkmConnection,
   createEkmConnection,
@@ -22,6 +27,11 @@ import {
   fullBackupStatus,
 } from "./api/operations.js";
 import {
+  ListEkmPrivateEndpointsOptionalParams,
+  GetEkmPrivateEndpointOptionalParams,
+  DeleteEkmPrivateEndpointOptionalParams,
+  CreateEkmPrivateEndpointOptionalParams,
+  GetEkmPrivateEndpointOperationStatusOptionalParams,
   DeleteEkmConnectionOptionalParams,
   UpdateEkmConnectionOptionalParams,
   CreateEkmConnectionOptionalParams,
@@ -63,6 +73,10 @@ import {
   EkmConnection,
   EkmProxyClientCertificateInfo,
   EkmProxyInfo,
+  EkmPrivateEndpointOperation,
+  EkmPrivateEndpointCreateParameters,
+  EkmPrivateEndpoint,
+  EkmPrivateEndpointListResult,
 } from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -85,17 +99,50 @@ export class KeyVaultClient {
     credential: TokenCredential,
     options: KeyVaultClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createKeyVault(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createKeyVault(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
+  }
+
+  /** The External Key Manager (EKM) lists all EKM proxy private endpoints on the pool. This operation requires ekm/read permission. */
+  listEkmPrivateEndpoints(
+    options: ListEkmPrivateEndpointsOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpointListResult> {
+    return listEkmPrivateEndpoints(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) gets an existing EKM proxy private endpoint. This operation requires ekm/read permission. */
+  getEkmPrivateEndpoint(
+    peName: string,
+    options: GetEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpoint> {
+    return getEkmPrivateEndpoint(this._client, peName, options);
+  }
+
+  /** The External Key Manager (EKM) deletes an existing EKM proxy private endpoint. The operation is rejected while an EKM connection still references the private endpoint. This operation requires ekm/write permission. */
+  deleteEkmPrivateEndpoint(
+    peName: string,
+    options: DeleteEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    return deleteEkmPrivateEndpoint(this._client, peName, options);
+  }
+
+  /** The External Key Manager (EKM) creates a private endpoint to the EKM proxy Private Link Service. A pool may have up to two private endpoints. This operation requires ekm/write permission. */
+  createEkmPrivateEndpoint(
+    peName: string,
+    parameters: EkmPrivateEndpointCreateParameters,
+    options: CreateEkmPrivateEndpointOptionalParams = { requestOptions: {} },
+  ): PollerLike<OperationState<EkmPrivateEndpointOperation>, EkmPrivateEndpointOperation> {
+    return createEkmPrivateEndpoint(this._client, peName, parameters, options);
+  }
+
+  /** The External Key Manager (EKM) private endpoint operation status. Returns the status of a private endpoint create or delete operation. This operation requires ekm/read permission. */
+  getEkmPrivateEndpointOperationStatus(
+    operationId: string,
+    options: GetEkmPrivateEndpointOperationStatusOptionalParams = { requestOptions: {} },
+  ): Promise<EkmPrivateEndpointOperation> {
+    return getEkmPrivateEndpointOperationStatus(this._client, operationId, options);
   }
 
   /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */

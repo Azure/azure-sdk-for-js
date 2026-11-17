@@ -7,6 +7,11 @@ export {
   type KeyVaultClientOptionalParams,
 } from "./keyVaultContext.js";
 export {
+  listEkmPrivateEndpoints,
+  getEkmPrivateEndpoint,
+  deleteEkmPrivateEndpoint,
+  createEkmPrivateEndpoint,
+  getEkmPrivateEndpointOperationStatus,
   getSettings,
   getSetting,
   updateSetting,
@@ -20,6 +25,11 @@ export {
   fullBackupStatus,
 } from "./operations.js";
 export type {
+  ListEkmPrivateEndpointsOptionalParams,
+  GetEkmPrivateEndpointOptionalParams,
+  DeleteEkmPrivateEndpointOptionalParams,
+  CreateEkmPrivateEndpointOptionalParams,
+  GetEkmPrivateEndpointOperationStatusOptionalParams,
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,

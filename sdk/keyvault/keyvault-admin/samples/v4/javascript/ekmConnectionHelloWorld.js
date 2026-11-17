@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to create, get, update, check and delete an External Key Manager (EKM) connection for Managed HSM.
+ * @summary Demonstrates how to create, get, update, check and delete an External Key Manager (EKM) connection and EKM proxy private endpoints for Managed HSM.
  */
 
 const { KeyVaultEkmClient } = require("@azure/keyvault-admin");
@@ -62,6 +62,45 @@ async function main() {
 
   // Delete the EKM connection.
   await client.deleteEkmConnection();
+
+  // The resource ID or alias of the EKM proxy Private Link Service.
+  const privateLinkServiceId = process.env["EKM_PRIVATE_LINK_SERVICE_ID"];
+  if (!privateLinkServiceId) {
+    throw new Error("Missing environment variable EKM_PRIVATE_LINK_SERVICE_ID.");
+  }
+
+  // Private endpoint names must not be longer than 24 characters.
+  const peName = "ekm-sample-pe";
+
+  // Create a private endpoint to the EKM proxy Private Link Service and wait for it to complete.
+  const createPoller = client.createEkmPrivateEndpoint(peName, { privateLinkServiceId });
+  const createOperation = await createPoller.pollUntilDone();
+  console.log("Private endpoint create status: ", createOperation.status);
+
+  // Retrieve the status of the private endpoint operation using its job ID.
+  if (createOperation.jobId) {
+    const operationStatus = await client.getEkmPrivateEndpointOperationStatus(
+      createOperation.jobId,
+    );
+    console.log("Private endpoint operation status: ", operationStatus.status);
+  }
+
+  // Retrieve the private endpoint.
+  const privateEndpoint = await client.getEkmPrivateEndpoint(peName);
+  console.log(
+    "Private endpoint connection status: ",
+    privateEndpoint.privateLinkServiceConnectionState?.status,
+  );
+
+  // List all private endpoints of the Managed HSM.
+  const privateEndpoints = await client.listEkmPrivateEndpoints();
+  for (const endpoint of privateEndpoints.value ?? []) {
+    console.log("Private endpoint: ", endpoint.name);
+  }
+
+  // Delete the private endpoint. This is rejected while an EKM connection still references it.
+  const deletePoller = client.deleteEkmPrivateEndpoint(peName);
+  await deletePoller.pollUntilDone();
 }
 
 main().catch((err) => {
