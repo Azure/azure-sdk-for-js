@@ -10391,7 +10391,7 @@ importers:
         version: link:../../core/core-util
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: 4.10.0(@azure/core-client@sdk+core+core-client)(supports-color@10.2.2)
+        version: link:../../keyvault/keyvault-keys
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19317,7 +19317,7 @@ importers:
         version: 4.14.1(supports-color@10.2.2)
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: 4.10.0(@azure/core-client@sdk+core+core-client)(supports-color@10.2.2)
+        version: link:../keyvault-keys
       dotenv:
         specifier: catalog:testing
         version: 18.0.10
@@ -22718,7 +22718,7 @@ importers:
   sdk/mongocluster/arm-mongocluster:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.1
+        specifier: ^2.7.0
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
