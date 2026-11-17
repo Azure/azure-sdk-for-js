@@ -1598,7 +1598,7 @@ export declare function isRestError(error: unknown): error is RestError;`,
       );
     });
 
-    it("throws when a re-exported name doesn't exist in its module", async () => {
+    it("lists names that don't exist in their module under Unresolved references", async () => {
       const root = fixture({
         ...dependency(
           "@azure/storage-common",
@@ -1608,9 +1608,58 @@ export declare function isRestError(error: unknown): error is RestError;`,
           'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
       });
 
-      await expect(generateApiReview(root)).rejects.toThrow(
-        `[import] dist/esm/index.d.ts: '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'?`,
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Unresolved references",
+          "",
+          "| Condition | File | Problem |",
+          "| --- | --- | --- |",
+          `| \`import\` | \`dist/esm/index.d.ts\` | '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'? |`,
+        ].join("\n"),
       );
+    });
+
+    it("leaves names that don't exist in their module out of the export section", async () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts":
+          'export { StorageSharedKeyCredential, StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `.`",
+          "",
+          "```ts",
+          'export { StorageSharedKeyCredential } from "@azure/storage-common";',
+          "```",
+        ].join("\n"),
+      );
+    });
+
+    it("keeps the names of different missing references", async () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts": [
+          'import type { StorageRetryOptions } from "@azure/storage-common";',
+          'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+          "export declare function retry(options: StorageRetryOptions): void;",
+        ].join("\n"),
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain("export declare function retry(options: StorageRetryOptions): void;");
     });
 
     it("resolves the require view with CommonJS conditions", async () => {
