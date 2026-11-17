@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Report unexpected Realtime WebSocket error closes in browsers instead of silently ending event iteration. Related: [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721).
+- Report unexpected Realtime WebSocket error closes in browsers instead of silently ending event iteration. [#40832](https://github.com/Azure/azure-sdk-for-js/pull/40832)
 
 ### Other Changes
 
