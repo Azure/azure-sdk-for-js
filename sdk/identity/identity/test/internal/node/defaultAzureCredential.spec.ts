@@ -62,6 +62,38 @@ describe("DefaultAzureCredential", () => {
     expect(new URL(tokenRequest.url).searchParams.get("resource")).toBe("https://vault.azure.net");
   });
 
+  it("treats a Docker Desktop unreachable response as unavailable", async () => {
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+    for (const name of [
+      "AZURE_CLIENT_ID",
+      "AZURE_TENANT_ID",
+      "AZURE_FEDERATED_TOKEN_FILE",
+      "AZURE_POD_IDENTITY_AUTHORITY_HOST",
+      "IDENTITY_ENDPOINT",
+      "IDENTITY_HEADER",
+      "IMDS_ENDPOINT",
+      "MSI_ENDPOINT",
+      "MSI_SECRET",
+    ]) {
+      vi.stubEnv(name, undefined);
+    }
+    const sendRequest = vi.fn(async (request: PipelineRequest) => ({
+      request,
+      status: 403,
+      headers: createHttpHeaders({ "content-type": "application/json" }),
+      bodyAsText: "A socket operation was attempted to an unreachable network",
+    }));
+    const credential = new DefaultAzureCredential({
+      retryOptions: { maxRetries: 0 },
+      httpClient: { sendRequest },
+    });
+
+    await expect(credential.getToken("https://vault.azure.net/.default")).rejects.toThrow(
+      "Attempted to use the IMDS endpoint, but it is not available.",
+    );
+    expect(sendRequest).toHaveBeenCalledTimes(1);
+  });
+
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "randomValue");
     expect(() => new DefaultAzureCredential()).toThrowError(
