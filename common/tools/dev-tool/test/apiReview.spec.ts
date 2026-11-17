@@ -1026,6 +1026,47 @@ export declare class AIProjectClient {
       expect(apiMd).toContain("getOpenAIClient(): OpenAI;");
     });
 
+    it("preserves a dependency type missing from its browser entry", async () => {
+      const index = [
+        'import type { Metadata as BlobMetadata } from "@azure/storage-blob";',
+        "export interface Options {",
+        "    metadata?: BlobMetadata;",
+        "}",
+      ].join("\n");
+      const root = fixture(
+        {
+          "node_modules/@azure/storage-blob/package.json": JSON.stringify({
+            name: "@azure/storage-blob",
+            type: "module",
+            exports: {
+              ".": {
+                browser: { types: "./browser.d.ts" },
+                import: { types: "./index.d.ts" },
+              },
+            },
+          }),
+          "node_modules/@azure/storage-blob/index.d.ts": "export interface Metadata {}",
+          "node_modules/@azure/storage-blob/browser.d.ts": "export {};",
+          "dist/esm/index.d.ts": index,
+          "dist/browser/index.d.ts": index,
+        },
+        {
+          exports: {
+            ".": {
+              import: { types: "./dist/esm/index.d.ts" },
+              browser: { types: "./dist/browser/index.d.ts" },
+            },
+          },
+        },
+      );
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain('import { Metadata } from "@azure/storage-blob";');
+      expect(apiMd).toContain("metadata?: Metadata;");
+      expect(apiMd).toContain("Identical to the ESM view: `browser`.");
+    });
+
     it("collects external types used in signatures into a References import block", async () => {
       const root = fixture(
         {
