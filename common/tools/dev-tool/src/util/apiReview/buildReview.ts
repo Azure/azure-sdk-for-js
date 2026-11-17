@@ -271,7 +271,7 @@ const compilerHost = createLibCachingHost({ skipLibCheck: true });
  */
 function compilerOptionsFor(condition: string, packageRoot: string): ts.CompilerOptions {
   const shared: ts.CompilerOptions = {
-    // assertComplete relies on diagnostics for the package's own declaration files.
+    // checkResolution relies on diagnostics for the package's own declaration files.
     skipDefaultLibCheck: true,
     types: ["node"],
     typeRoots: [path.join(packageRoot, "node_modules", "@types")],
@@ -300,7 +300,7 @@ const missingMemberCodes = new Set([2305, 2614, 2724]);
  * Throws when the review would be silently incomplete: implementation files in the program, or
  * modules that don't resolve. Returns names missing from their module so the review lists them.
  */
-function assertComplete(
+function checkResolution(
   program: ts.Program,
   condition: string,
   packageRoot: string,
@@ -376,7 +376,7 @@ function buildExportSections(
     compilerOptionsFor(condition, packageRoot),
     compilerHost,
   );
-  const unresolvedReferences = assertComplete(program, condition, packageRoot);
+  const unresolvedReferences = checkResolution(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
