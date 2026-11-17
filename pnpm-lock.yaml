@@ -32432,9 +32432,6 @@ importers:
       '@azure/storage-blob':
         specifier: ^12.26.0
         version: 12.31.0(supports-color@10.2.2)
-      '@azure/storage-common':
-        specifier: ^12.5.0
-        version: 12.5.0(@azure/core-client@sdk+core+core-client)(supports-color@10.2.2)
       '@azure/storage-internal-avro':
         specifier: workspace:^
         version: link:../storage-internal-avro
