@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Track GenAI message-limit and multi-endpoint routing experimental opt-ins in SDKStats.
+- Track GenAI message-limit and multi-endpoint routing experimental opt-ins in SDKStats. [#40819](https://github.com/Azure/azure-sdk-for-js/pull/40819)
 
 ### Breaking Changes
 
