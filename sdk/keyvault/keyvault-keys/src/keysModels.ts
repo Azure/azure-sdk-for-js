@@ -717,10 +717,6 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
-  /** Key operation - secureWrapKey */
-  SecureWrapKey = "secureWrapKey",
-  /** Key operation - secureUnwrapKey */
-  SecureUnwrapKey = "secureUnwrapKey",
 }
 
 /* eslint-disable tsdoc/syntax */

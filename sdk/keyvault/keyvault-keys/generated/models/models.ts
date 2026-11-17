@@ -94,10 +94,6 @@ export enum KnownJsonWebKeyOperation {
   WrapKey = "wrapKey",
   /** Indicates that the key can be used to unwrap another key. */
   UnwrapKey = "unwrapKey",
-  /** Indicates that the key can be used to securely wrap another key. */
-  SecureWrapKey = "secureWrapKey",
-  /** Indicates that the key can be used to securely unwrap another key. */
-  SecureUnwrapKey = "secureUnwrapKey",
   /** Indicates that the key can be imported during creation. */
   Import = "import",
   /** Indicates that the private component of the key can be exported. */
@@ -115,8 +111,6 @@ export enum KnownJsonWebKeyOperation {
  * **verify**: Indicates that the key can be used to verify. \
  * **wrapKey**: Indicates that the key can be used to wrap another key. \
  * **unwrapKey**: Indicates that the key can be used to unwrap another key. \
- * **secureWrapKey**: Indicates that the key can be used to securely wrap another key. \
- * **secureUnwrapKey**: Indicates that the key can be used to securely unwrap another key. \
  * **import**: Indicates that the key can be imported during creation. \
  * **export**: Indicates that the private component of the key can be exported.
  */
