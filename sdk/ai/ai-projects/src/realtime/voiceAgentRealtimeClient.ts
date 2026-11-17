@@ -22,6 +22,7 @@ import {
 } from "./errors.js";
 import { deserializeVoiceAgentServerEvent, serializeVoiceAgentClientEvent } from "./protocol.js";
 import type { VoiceAgentRealtimeEvent } from "./events.js";
+import { isCleanCloseCode } from "./webSocketTransport.js";
 import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketTransport,
@@ -639,8 +640,10 @@ class VoiceAgentConnectionImpl implements VoiceAgentConnection {
     if (this.finished) {
       return;
     }
-    if (wasClean || this.state === KnownVoiceAgentConnectionState.Closing) {
-      this.finish(code, reason, wasClean);
+    // Browsers report wasClean for any completed close handshake, including error codes such as 1011.
+    const clean = wasClean && isCleanCloseCode(code);
+    if (clean || this.state === KnownVoiceAgentConnectionState.Closing) {
+      this.finish(code, reason, clean);
     } else {
       const error = new VoiceAgentConnectionError(
         `Voice-agent connection closed unexpectedly (${code}${reason ? `: ${reason}` : ""}).`,

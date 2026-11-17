@@ -1,5 +1,17 @@
 # Release History
 
+## 2.11.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Report unexpected Realtime WebSocket error closes in browsers instead of silently ending event iteration. Related: [#40721](https://github.com/Azure/azure-sdk-for-js/issues/40721).
+
+### Other Changes
+
 ## 2.11.0 (2026-11-12)
 
 ### Breaking Changes
