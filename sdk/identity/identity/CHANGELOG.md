@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed `ManagedIdentityCredential` reporting "Network unreachable" when an endpoint returns invalid JSON with a JSON content type. The authentication error now includes the HTTP status code. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
+- Fixed `ManagedIdentityCredential` reporting "Network unreachable" when an endpoint returns invalid JSON with a JSON content type. The authentication error now includes the HTTP status code, including when `DefaultAzureCredential` probes IMDS before token acquisition. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
 
 ### Other Changes
 

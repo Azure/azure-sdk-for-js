@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DefaultAzureCredential } from "@azure/identity";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { AggregateAuthenticationError, DefaultAzureCredential } from "@azure/identity";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentialFunctions.js";
+import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
@@ -18,6 +20,91 @@ describe("DefaultAzureCredential", () => {
   it("should create a DefaultAzureCredential instance", () => {
     const credential = new DefaultAzureCredential();
     expect(credential).toBeInstanceOf(DefaultAzureCredential);
+  });
+
+  describe("IMDS probing", () => {
+    // MSAL caches its managed identity source and the first network client.
+    const sendRequest = vi.fn<HttpClient["sendRequest"]>();
+    beforeEach(() => {
+      sendRequest.mockReset();
+    });
+
+    function createCredential(): DefaultAzureCredential {
+      vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+      for (const name of [
+        "AZURE_CLIENT_ID",
+        "AZURE_TENANT_ID",
+        "AZURE_FEDERATED_TOKEN_FILE",
+        "AZURE_POD_IDENTITY_AUTHORITY_HOST",
+        "IDENTITY_ENDPOINT",
+        "IDENTITY_HEADER",
+        "IMDS_ENDPOINT",
+        "MSI_ENDPOINT",
+        "MSI_SECRET",
+      ]) {
+        vi.stubEnv(name, undefined);
+      }
+      return new DefaultAzureCredential({
+        retryOptions: { maxRetries: 0 },
+        httpClient: { sendRequest },
+      });
+    }
+
+    it.each([400, 403, 502])(
+      "preserves HTTP status %i after a malformed JSON probe response",
+      async (status) => {
+        sendRequest.mockImplementation(async (request: PipelineRequest) => ({
+          request,
+          status,
+          headers: createHttpHeaders({ "content-type": "application/json" }),
+          bodyAsText: "Invalid JSON",
+        }));
+        const credential = createCredential();
+
+        const tokenPromise = credential.getToken(`https://vault-${status}.azure.net/.default`);
+        await expect(tokenPromise).rejects.toThrow(AggregateAuthenticationError);
+        await expect(tokenPromise).rejects.toThrow(
+          "ManagedIdentityCredential: Authentication failed",
+        );
+        await expect(tokenPromise).rejects.toThrow(`Http status code: ${status}`);
+        expect(sendRequest).toHaveBeenCalledTimes(2);
+        const [probe] = sendRequest.mock.calls[0];
+        expect(new URL(probe.url).search).toBe("");
+        expect(probe.headers.has("Metadata")).toBe(false);
+        const [tokenRequest] = sendRequest.mock.calls[1];
+        expect(tokenRequest.headers.get("Metadata")).toBe("true");
+        expect(new URL(tokenRequest.url).searchParams.get("resource")).toBe(
+          `https://vault-${status}.azure.net`,
+        );
+      },
+    );
+
+    it("still treats an unreachable Docker Desktop response as unavailable", async () => {
+      sendRequest.mockImplementation(async (request: PipelineRequest) => ({
+        request,
+        status: 403,
+        headers: createHttpHeaders({ "content-type": "application/json" }),
+        bodyAsText: "A socket operation was attempted to an unreachable network",
+      }));
+      const credential = createCredential();
+
+      await expect(credential.getToken("https://vault.azure.net/.default")).rejects.toThrow(
+        "Attempted to use the IMDS endpoint, but it is not available.",
+      );
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it("still treats a failed probe request as unavailable", async () => {
+      sendRequest.mockRejectedValue(
+        new RestError("Network unreachable", { code: RestError.REQUEST_SEND_ERROR }),
+      );
+      const credential = createCredential();
+
+      await expect(credential.getToken("https://vault.azure.net/.default")).rejects.toThrow(
+        "Attempted to use the IMDS endpoint, but it is not available.",
+      );
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+    });
   });
 
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {
