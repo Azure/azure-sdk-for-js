@@ -1589,7 +1589,7 @@ export declare function isRestError(error: unknown): error is RestError;`,
       );
     });
 
-    it("throws when a re-exported name doesn't exist in its module", async () => {
+    it("lists names that don't exist in their module under Unresolved references", async () => {
       const root = fixture({
         ...dependency(
           "@azure/storage-common",
@@ -1599,8 +1599,16 @@ export declare function isRestError(error: unknown): error is RestError;`,
           'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
       });
 
-      await expect(generateApiReview(root)).rejects.toThrow(
-        `[import] dist/esm/index.d.ts: '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'?`,
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Unresolved references",
+          "",
+          "| Condition | File | Problem |",
+          "| --- | --- | --- |",
+          `| \`import\` | \`dist/esm/index.d.ts\` | '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'? |`,
+        ].join("\n"),
       );
     });
 

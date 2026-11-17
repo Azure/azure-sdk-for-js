@@ -19,6 +19,7 @@ import type {
   ExportSection,
   NamedImports,
   Review,
+  UnresolvedReference,
 } from "./model.ts";
 import { codeText } from "./model.ts";
 
@@ -89,20 +90,17 @@ export async function buildReview(packageRoot: string): Promise<Review> {
       file: path.join(packageRoot, conditions[condition].types),
     }));
 
-  const { references, sections } = buildExportSections(
-    packageRoot,
-    "import",
-    exportFiles("import"),
-  );
+  const esm = buildExportSections(packageRoot, "import", exportFiles("import"));
   const presentConditions = runtimeConditions.filter((condition) =>
     exportEntries.some(([, conditions]) => condition in conditions),
   );
+  const views = presentConditions.map((condition) => ({
+    condition,
+    ...buildExportSections(packageRoot, condition, exportFiles(condition)),
+  }));
   const { identicalConditions, conditionDiffs } = compareConditions(
-    { references, sections },
-    presentConditions.map((condition) => ({
-      condition,
-      ...buildExportSections(packageRoot, condition, exportFiles(condition)),
-    })),
+    { references: esm.references, sections: esm.sections },
+    views,
   );
 
   return {
@@ -136,10 +134,11 @@ export async function buildReview(packageRoot: string): Promise<Review> {
           return { ...dependency, resolved, hashed: compatibleVersion(resolved) };
         }),
     ),
-    references,
-    exportSections: sections,
+    references: esm.references,
+    exportSections: esm.sections,
     identicalConditions,
     conditionDiffs,
+    unresolvedReferences: [esm, ...views].flatMap((view) => view.unresolvedReferences),
   };
 }
 
@@ -291,15 +290,21 @@ function compilerOptionsFor(condition: string, packageRoot: string): ts.Compiler
       };
 }
 
-// Cannot find module (2307, 2792), no exported member (2305, 2614, 2694, 2724), and cannot find
-// type definition (2688). Other diagnostics are ignored: the review doesn't type-check.
-const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688]);
+// Cannot find module (2307, 2792), namespace has no exported member (2694), and cannot find type
+// definition (2688). Other diagnostics are ignored: the review doesn't type-check.
+const resolutionErrorCodes = new Set([2307, 2792, 2694, 2688]);
+// Module has no exported member (2305, 2614, 2724).
+const missingMemberCodes = new Set([2305, 2614, 2724]);
 
 /**
  * Throws when the review would be silently incomplete: implementation files in the program, or
- * modules and names that don't resolve (they would otherwise quietly become unresolved types).
+ * modules that don't resolve. Returns names missing from their module so the review lists them.
  */
-function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
+function assertComplete(
+  program: ts.Program,
+  condition: string,
+  packageRoot: string,
+): UnresolvedReference[] {
   const packageFiles = program
     .getSourceFiles()
     .filter(
@@ -314,16 +319,20 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
       );
     }
   }
+  const unresolved: UnresolvedReference[] = [];
   for (const file of packageFiles) {
-    const unresolved = program
-      .getSemanticDiagnostics(file)
-      .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
-    if (unresolved) {
-      throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
-      );
+    const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+    for (const diagnostic of program.getSemanticDiagnostics(file)) {
+      const problem = ts.flattenDiagnosticMessageText(diagnostic.messageText, " ");
+      if (resolutionErrorCodes.has(diagnostic.code)) {
+        throw new Error(`[${condition}] ${relativeFile}: ${problem}`);
+      }
+      if (missingMemberCodes.has(diagnostic.code)) {
+        unresolved.push({ condition, file: relativeFile, problem });
+      }
     }
   }
+  return unresolved;
 }
 
 /**
@@ -360,13 +369,14 @@ function buildExportSections(
 ): {
   references: NamedImports[];
   sections: ExportSection[];
+  unresolvedReferences: UnresolvedReference[];
 } {
   const program = ts.createProgram(
     exportFiles.map((exportFile) => exportFile.file),
     compilerOptionsFor(condition, packageRoot),
     compilerHost,
   );
-  assertComplete(program, condition, packageRoot);
+  const unresolvedReferences = assertComplete(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
@@ -601,6 +611,7 @@ function buildExportSections(
   return {
     references: namedReferences,
     sections,
+    unresolvedReferences,
   };
 }
 
