@@ -22,13 +22,13 @@ describe("DefaultAzureCredential", () => {
     expect(credential).toBeInstanceOf(DefaultAzureCredential);
   });
 
-  it("reports the token response status after a malformed JSON IMDS probe response", async () => {
+  it("reports the malformed JSON token response status after a valid JSON IMDS probe response", async () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
     const sendRequest = vi.fn(async (request: PipelineRequest) => ({
       request,
       status: request.headers.has("Metadata") ? 502 : 400,
       headers: createHttpHeaders({ "content-type": "application/json" }),
-      bodyAsText: "Invalid JSON",
+      bodyAsText: request.headers.has("Metadata") ? "Invalid JSON" : "{}",
     }));
     const credential = new DefaultAzureCredential({
       retryOptions: { maxRetries: 0 },
