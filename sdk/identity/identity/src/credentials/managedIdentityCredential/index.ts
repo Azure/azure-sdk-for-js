@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { deserializationPolicyName } from "@azure/core-client";
 
 import type { TokenCredentialOptions } from "../../tokenCredentialOptions.js";
 import { getLogLevel } from "@azure/logger";
@@ -147,6 +148,8 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
+    // Probing only needs the raw response to determine endpoint availability.
+    this.isAvailableIdentityClient.pipeline.removePolicy({ name: deserializationPolicyName });
 
     const managedIdentitySource = this.managedIdentityApp.getManagedIdentitySource();
     // CloudShell MSI will ignore any user-assigned identity passed as parameters. To avoid confusion, we prevent this from happening as early as possible.

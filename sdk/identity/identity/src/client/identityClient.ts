@@ -347,10 +347,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   }
 
   /**
-   * Preserve HTTP responses when pipeline deserialization fails so IMDS probing
-   * and MSAL can distinguish HTTP responses from network errors.
+   * Preserve HTTP responses when pipeline deserialization fails so MSAL receives
+   * the status and the error body from parseResponseBody instead of a network error.
    */
-  async sendRequestWithResponse(request: PipelineRequest): Promise<PipelineResponse> {
+  private async sendRequestWithResponse(request: PipelineRequest): Promise<PipelineResponse> {
     try {
       return await this.sendRequest(request);
     } catch (error) {

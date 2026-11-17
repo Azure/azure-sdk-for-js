@@ -96,7 +96,7 @@ export const imdsMsi = {
         let response: PipelineResponse;
         try {
           logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-          response = await identityClient.sendRequestWithResponse(request);
+          response = await identityClient.sendRequest(request);
         } catch (err: unknown) {
           // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
