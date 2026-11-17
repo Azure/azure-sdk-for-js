@@ -1,0 +1,660 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "parameters": {
+        "accountName": {
+          "bicepIdentifier": "accountName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "function-call",
+            "target": "format",
+            "args": [
+              {
+                "kind": "string",
+                "value": "gremlin-{0}"
+              },
+              {
+                "kind": "function-call",
+                "target": "uniqueString",
+                "args": [
+                  {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "function-call",
+                      "target": "resourceGroup",
+                      "args": []
+                    },
+                    "property": "id",
+                    "nullish": false
+                  }
+                ]
+              }
+            ]
+          },
+          "decorators": {
+            "description": "Cosmos DB account name"
+          }
+        },
+        "location": {
+          "bicepIdentifier": "location",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "property-access",
+            "base": {
+              "kind": "function-call",
+              "target": "resourceGroup",
+              "args": []
+            },
+            "property": "location",
+            "nullish": false
+          },
+          "decorators": {
+            "description": "Location for the Cosmos DB account."
+          }
+        },
+        "primaryRegion": {
+          "bicepIdentifier": "primaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The primary replica region for the Cosmos DB account."
+          }
+        },
+        "secondaryRegion": {
+          "bicepIdentifier": "secondaryRegion",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The secondary replica region for the Cosmos DB account."
+          }
+        },
+        "defaultConsistencyLevel": {
+          "bicepIdentifier": "defaultConsistencyLevel",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "defaultValue": {
+            "kind": "string",
+            "value": "Session"
+          },
+          "decorators": {
+            "description": "The default consistency level of the Cosmos DB account.",
+            "allowed": [
+              {
+                "kind": "string",
+                "value": "Eventual"
+              },
+              {
+                "kind": "string",
+                "value": "ConsistentPrefix"
+              },
+              {
+                "kind": "string",
+                "value": "Session"
+              },
+              {
+                "kind": "string",
+                "value": "BoundedStaleness"
+              },
+              {
+                "kind": "string",
+                "value": "Strong"
+              }
+            ]
+          }
+        },
+        "maxStalenessPrefix": {
+          "bicepIdentifier": "maxStalenessPrefix",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "100000"
+          },
+          "decorators": {
+            "description": "Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 2147483647. Multi Region: 100000 to 2147483647.",
+            "minValue": 10,
+            "maxValue": 2147483647
+          }
+        },
+        "maxIntervalInSeconds": {
+          "bicepIdentifier": "maxIntervalInSeconds",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "300"
+          },
+          "decorators": {
+            "description": "Max lag time (seconds). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84600. Multi Region: 300 to 86400.",
+            "minValue": 5,
+            "maxValue": 86400
+          }
+        },
+        "systemManagedFailover": {
+          "bicepIdentifier": "systemManagedFailover",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "bool"
+          },
+          "defaultValue": {
+            "kind": "boolean",
+            "value": true
+          },
+          "decorators": {
+            "description": "Enable system managed failover for regions"
+          }
+        },
+        "databaseName": {
+          "bicepIdentifier": "databaseName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the Gremlin database"
+          }
+        },
+        "graphName": {
+          "bicepIdentifier": "graphName",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "decorators": {
+            "description": "The name for the Gremlin graph"
+          }
+        },
+        "autoscaleMaxThroughput": {
+          "bicepIdentifier": "autoscaleMaxThroughput",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "int"
+          },
+          "defaultValue": {
+            "kind": "integer",
+            "value": "1000"
+          },
+          "decorators": {
+            "description": "Maximum autoscale throughput for the graph",
+            "minValue": 1000,
+            "maxValue": 1000000
+          }
+        }
+      },
+      "variables": {
+        "consistencyPolicy": {
+          "bicepIdentifier": "consistencyPolicy",
+          "value": {
+            "kind": "object",
+            "value": {
+              "Eventual": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Eventual"
+                  }
+                }
+              },
+              "ConsistentPrefix": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "ConsistentPrefix"
+                  }
+                }
+              },
+              "Session": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Session"
+                  }
+                }
+              },
+              "BoundedStaleness": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "BoundedStaleness"
+                  },
+                  "maxStalenessPrefix": {
+                    "kind": "identifier",
+                    "id": "maxStalenessPrefix"
+                  },
+                  "maxIntervalInSeconds": {
+                    "kind": "identifier",
+                    "id": "maxIntervalInSeconds"
+                  }
+                }
+              },
+              "Strong": {
+                "kind": "object",
+                "value": {
+                  "defaultConsistencyLevel": {
+                    "kind": "string",
+                    "value": "Strong"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "locations": {
+          "bicepIdentifier": "locations",
+          "value": {
+            "kind": "array",
+            "items": [
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "primaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "0"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              },
+              {
+                "kind": "object",
+                "value": {
+                  "locationName": {
+                    "kind": "identifier",
+                    "id": "secondaryRegion"
+                  },
+                  "failoverPriority": {
+                    "kind": "integer",
+                    "value": "1"
+                  },
+                  "isZoneRedundant": {
+                    "kind": "boolean",
+                    "value": false
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "function-call",
+                "target": "toLower",
+                "args": [
+                  {
+                    "kind": "identifier",
+                    "id": "accountName"
+                  }
+                ]
+              },
+              "kind": {
+                "kind": "string",
+                "value": "GlobalDocumentDB"
+              },
+              "location": {
+                "kind": "identifier",
+                "id": "location"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "capabilities": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "name": {
+                            "kind": "string",
+                            "value": "EnableGremlin"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "consistencyPolicy": {
+                    "kind": "ternary-operation",
+                    "condition": {
+                      "kind": "binary-operation",
+                      "operator": "==",
+                      "left": {
+                        "kind": "identifier",
+                        "id": "defaultConsistencyLevel"
+                      },
+                      "right": {
+                        "kind": "string",
+                        "value": "Eventual"
+                      }
+                    },
+                    "trueValue": {
+                      "kind": "property-access",
+                      "base": {
+                        "kind": "identifier",
+                        "id": "consistencyPolicy"
+                      },
+                      "property": "Eventual",
+                      "nullish": false
+                    },
+                    "falseValue": {
+                      "kind": "ternary-operation",
+                      "condition": {
+                        "kind": "binary-operation",
+                        "operator": "==",
+                        "left": {
+                          "kind": "identifier",
+                          "id": "defaultConsistencyLevel"
+                        },
+                        "right": {
+                          "kind": "string",
+                          "value": "ConsistentPrefix"
+                        }
+                      },
+                      "trueValue": {
+                        "kind": "property-access",
+                        "base": {
+                          "kind": "identifier",
+                          "id": "consistencyPolicy"
+                        },
+                        "property": "ConsistentPrefix",
+                        "nullish": false
+                      },
+                      "falseValue": {
+                        "kind": "ternary-operation",
+                        "condition": {
+                          "kind": "binary-operation",
+                          "operator": "==",
+                          "left": {
+                            "kind": "identifier",
+                            "id": "defaultConsistencyLevel"
+                          },
+                          "right": {
+                            "kind": "string",
+                            "value": "Session"
+                          }
+                        },
+                        "trueValue": {
+                          "kind": "property-access",
+                          "base": {
+                            "kind": "identifier",
+                            "id": "consistencyPolicy"
+                          },
+                          "property": "Session",
+                          "nullish": false
+                        },
+                        "falseValue": {
+                          "kind": "ternary-operation",
+                          "condition": {
+                            "kind": "binary-operation",
+                            "operator": "==",
+                            "left": {
+                              "kind": "identifier",
+                              "id": "defaultConsistencyLevel"
+                            },
+                            "right": {
+                              "kind": "string",
+                              "value": "BoundedStaleness"
+                            }
+                          },
+                          "trueValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "BoundedStaleness",
+                            "nullish": false
+                          },
+                          "falseValue": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "consistencyPolicy"
+                            },
+                            "property": "Strong",
+                            "nullish": false
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "locations": {
+                    "kind": "identifier",
+                    "id": "locations"
+                  },
+                  "databaseAccountOfferType": {
+                    "kind": "string",
+                    "value": "Standard"
+                  },
+                  "enableAutomaticFailover": {
+                    "kind": "identifier",
+                    "id": "systemManagedFailover"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "gremlinDatabase": {
+          "bicepIdentifier": "gremlinDatabase",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "databaseName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "databaseName"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "graph": {
+          "bicepIdentifier": "graph",
+          "type": "Microsoft.DocumentDB/databaseAccounts/gremlinDatabases/graphs",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "identifier",
+                "id": "graphName"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "gremlinDatabase"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "identifier",
+                        "id": "graphName"
+                      },
+                      "indexingPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "indexingMode": {
+                            "kind": "string",
+                            "value": "consistent"
+                          },
+                          "includedPaths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/*"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "excludedPaths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "object",
+                                "value": {
+                                  "path": {
+                                    "kind": "string",
+                                    "value": "/myPathToNotIndex/*"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "partitionKey": {
+                        "kind": "object",
+                        "value": {
+                          "paths": {
+                            "kind": "array",
+                            "items": [
+                              {
+                                "kind": "string",
+                                "value": "/myPartitionKey"
+                              }
+                            ]
+                          },
+                          "kind": {
+                            "kind": "string",
+                            "value": "Hash"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "options": {
+                    "kind": "object",
+                    "value": {
+                      "autoscaleSettings": {
+                        "kind": "object",
+                        "value": {
+                          "maxThroughput": {
+                            "kind": "identifier",
+                            "id": "autoscaleMaxThroughput"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource0Id": {
+          "bicepIdentifier": "resource0Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "databaseAccount"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "gremlinDatabase"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        },
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "graph"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

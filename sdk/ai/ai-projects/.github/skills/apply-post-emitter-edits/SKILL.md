@@ -1,6 +1,6 @@
 ---
 name: apply-post-emitter-edits
-description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
+description: "Apply language-specific post-emitter fixes to ai-projects after a TypeSpec regeneration writes directly into src/ and generated/. Use when reviewing the working-tree diff from `npm run generate:client`, validating the SDK diff against upstream TypeSpec commit descriptions, replacing schemas after feature-flag version increments, enforcing protected-file rules, reverting unwanted emitter changes (renames, parameter shapes, model deletions), and preparing the package for build verification. Runs after the regenerate-from-typespec skill."
 ---
 
 # Apply Post-Emitter Edits to ai-projects
@@ -16,6 +16,7 @@ When the preceding `regenerate-from-typespec` skill produced `temp/typespec-comm
 - `temp/typespec-commit-descriptions.md` exists and should be used to validate that the post-merge SDK diff adheres to the upstream TypeSpec change descriptions.
 - You need to apply the standing list of search/replace/rename workarounds to emitted code.
 - You're verifying that protected hand-maintained files were not clobbered.
+- A feature flag advanced and the new generated schema must replace, not include, the previous version's schema.
 
 ## Inputs
 
@@ -40,14 +41,63 @@ editing `generated/`. When the resolver could not merge a change, `generate-clie
 continues in recovery mode and writes `temp/customization-worklist.md`; resolve each kept
 change by editing `src/` as Step 0a describes.
 
+SDK Validation runs `npm run customize` in strict mode; it does not invoke
+`generate-client.ps1`'s recovery fallback. For a resolver-policy bug in that
+pipeline, add a regression fixture using the committed generated, committed
+customized, and new emitted inputs, then follow the
+[resolver development checks](../../../scripts/customization/README.md#development).
+Do not enable recovery in CI to bypass an unsafe merge or drop emitted additions.
+
+SDK Validation checks out the SDK branch named in the spec project's
+`sdk-validation.yaml` (`feature/ai-projects/vnext`), not `main`; the log line
+`Resolved SDK repo branch` confirms it. Reproduce against that branch's commit at
+the run's checkout time: save the emitted `generated/` tree, restore the package,
+and run `node scripts/customize.mjs --dry-run --generated-dir <saved-tree> --base-ref <commit>`.
+If the current branch tip already passes, a rerun fixes the pipeline; still fix a
+resolver gap that the failing baseline exposed.
+
+`Conflicting additions with no common baseline` on a union converter case, for
+example `evalRunDataSourceUnionSerializer...caseBlock.["string","azure_ai_trace_data_source"]`,
+usually means the spec renamed a discriminated model without changing its
+discriminator. The resolver retains the old model's dispatch while the emitter
+registers the same value for the new model. Confirm the rename upstream. Then
+add the old/new pair to `emittedModelRenames` in
+`scripts/customization/models.mjs` only when the declarations and converters are
+structurally equivalent. An approved pair renames the dispatch cases, converters,
+and root exports together. Otherwise, the rename needs an explicit union policy.
+
+For a beta-to-root operation relocation, inspect all three inputs rather than
+assuming the old group was deleted. The resolver follows unique HTTP method/route
+matches, including renamed delete methods and their send/deserialize helpers.
+Plain delegates can follow their own API through parameter-only renames and
+import aliases; defaults, altered forwarding, unrelated callees, and genuinely
+custom-only methods still require review. Verify the destination's emitted
+request body, optional parameters, preview-header retirement, paging/poller
+behavior, classic delegates, and exports. A retired generated preview header
+must not be kept merely because its customized object has a trailing comma.
+For Agent Insight Monitor promotion, verify the new root client member uses
+the former beta group's authentication context and preserves the maintained
+constructor; copying the emitted single-client initialization is not safe.
+Keep an explicit disposition for any custom-only method that cannot be matched;
+never delete it to make relocation pass.
+
+For JavaScript-only model-name changes, verify the resolver follows an approved
+old/new declaration pair only when the emitted declarations and converters are
+structurally equivalent. Retained discriminated variants still need an explicit
+union policy; do not treat a language rename as permission to retain or drop
+arbitrary legacy variants. Customized tracing wrappers may follow emitted
+parameter-only renames, but inspect their inner operation call: it must remain
+the one exact delegate from the baseline, with the emitted argument names and
+types. Altered forwarding still requires manual review.
+
 Use this phase order to avoid mixing unrelated decisions:
 
-| Phase          | Steps                            | Exit point                                                                                                                                                                   |
-| -------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cleanup        | Step -1, Step 0, Step 0a, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, protected customizations are preserved and intentional deltas audited. |
-| Public surface | Step 2, Step 2a, Step 2b, Step 3 | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                           |
-| Workarounds    | Step 4, Step 5, Step 5b, Step 5c | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                 |
-| Verification   | Step 6                           | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                      |
+| Phase          | Steps                                     | Exit point                                                                                                                                                                                                    |
+| -------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup        | Step -1, Step 0, Step 0a, Step 0b, Step 1 | Upstream intent is known, conflict markers are gone, every recovery-worklist entry has a disposition, relocated groups are reconciled, protected customizations are preserved and intentional deltas audited. |
+| Public surface | Step 2, Step 2a, Step 2b, Step 3          | Genuine generated additions are copied into `src/`; existing models keep additions-only behavior unless upstream commits explicitly say otherwise.                                                            |
+| Workarounds    | Step 4, Step 5, Step 5b, Step 5c          | Known emitter drift, style drift, renamed body parameters, and scratch files are cleaned up.                                                                                                                  |
+| Verification   | Step 6                                    | Build, API extraction, API report spot-checks, and formatting all pass.                                                                                                                                       |
 
 ### Recovery: customization stopped on a dirty target
 
@@ -68,6 +118,8 @@ If any affected file had a user change before regeneration, stop and recover tha
 If `temp/typespec-commit-descriptions.md` exists, read it before resolving conflicts or reverting model changes. Extract the expected upstream themes (for example: added operations, renamed parameters, removed fields, required-vs-optional shape changes, hidden protocol methods). Use those descriptions to validate the final `src/`, `generated/`, and API report diffs.
 
 Do not use the guide to keep extensive emitted-code changes that are unrelated to the captured upstream commit descriptions. Use it as the deciding evidence only for specific conflicts between a standing rule and an upstream-described TypeSpec change, such as a removed field, renamed parameter, requiredness change, or hidden protocol method. In particular, preserve non-additive model changes only when they are clearly described by the TypeSpec commits in the captured range.
+
+Apply the canonical [feature-flag version increment rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments) when a flag advances. The generated replacement contract takes precedence over retaining the prior schema for compatibility.
 
 ### Step 0: Resolve diff3 conflict markers (if present)
 
@@ -129,7 +181,48 @@ For each entry:
 
 5. **Record every disposition.** Keep a table for `open-regeneration-pr` to put in the pull request description, with one row per entry (plus one per separate decision an entry needed): the entry, the disposition (adopt, keep, port, combine, apply, or drop), and a one-line reason. Add **needs review** where you were unsure. An entry is not done until it has a row.
 
-If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
+If the recovery run itself exits nonzero, the failure is a plan or guard diagnostic rather than a merge conflict (for example an ambiguous operation match, a customized classic member the emitter relocated, or a protected-file guard). Handle guard diagnostics as Step 1 and Step 2a describe. For a removed module or relocated group, follow Step 0b before treating the diagnostic as unexplained. For other plan diagnostics, make one focused remediation attempt, then stop and report them. Never loosen a guard to get past either.
+
+### Step 0b: Mirror verified operation-group relocations
+
+The resolver matches generated operations by HTTP method and route, but a custom-only
+helper in a removed module has no generated identity to match. For example, moving
+`beta/voiceAgents/campaigns` into `beta/voiceAgents/telephony` leaves the customized
+`getCampaignResult` helper behind unless its relocation is handled explicitly.
+`Removed generated module contains custom-only declarations; relocation requires a policy`
+is a request to review that helper, not evidence that the upstream move should be omitted.
+Recovery does not bypass this plan diagnostic and may restore `src/` to the baseline.
+
+1. Compare the clean baseline's generated and customized modules with the new generated
+   tree. Use the pre-regeneration ref, not an already-emitted `HEAD`. Establish where
+   every operation moved using its method and route, and distinguish a relocation from
+   an actual removal. Do not infer a helper's destination from its name alone.
+2. Inventory custom-only helpers, imports, option types, classic members, and callers
+   in the removed group. Trace each helper's references to the relocated operations.
+   When the destination is unambiguous, carry that helper and its required imports with
+   those operations, preserving its behavior. Multiple destinations, name collisions,
+   or unrelated custom-only declarations require an explicit reviewed policy; never
+   suppress the removed-module diagnostic globally.
+3. Mirror the complete move in `src/`: operation implementations and send/deserialize
+   helpers, options and their imports, API barrels, classic interface/factory members,
+   parent client wiring, and public exports. Preserve customized parameter order,
+   preview headers, paging request options, and guarded LRO result handling. Remove the
+   retired group and obsolete generated-backed exports rather than leaving a second,
+   stale operation surface. Update existing tests and `samples-dev` callers.
+4. If the automatic resolver cannot represent the verified move, implement a narrowly
+   scoped relocation policy with a regression fixture using the old generated,
+   customized, and new emitted inputs. Test that custom-only behavior follows the move
+   and that ambiguous or conflicting relocations still fail. Do not edit `generated/`,
+   drop the helper, or copy entire emitted modules over customized source.
+5. Run the resolver fixture tests, check the reconciled source with the clean
+   `--base-ref`, and complete the parity, compilation, build, API extraction, and
+   consumer checks below. The API report must show the destination operations and no
+   retired group wiring. Record the relocation and custom-helper disposition for the
+   pull request.
+
+An additions-only scan cannot prove a relocation is complete: it may skip deleted
+modules entirely. Inspect generated deletions as well as additions before declaring
+post-emitter integration finished.
 
 ### Step 1: Pre-flight — verify protected files are intact
 
@@ -213,7 +306,7 @@ For each `missing` entry, **first classify it** as one of:
 
 Then, for each genuine addition:
 
-1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. The "additions only" rule means **only add**; never delete or modify existing entries even if `generated/` did so.
+1. **Models** (`src/models/models.ts`, `src/models/index.ts`): paste the new interfaces / serializers / deserializers / re-exports from `generated/`. Apply the additions-only default except for validated removals and the [feature-flag schema replacement rule](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments).
 2. **Operations** (`src/api/.../operations.ts`): paste the new operation function plus its `*Send` and `*Deserialize` helpers, AND any new imports they require (e.g. `SessionLogEvent`, `sessionLogEventDeserializer`). **After pasting, re-apply Step 4 (a) below**: if the new method takes `foundryFeatures` as a positional parameter, refactor it to instantiate `foundryFeatures` locally instead.
 3. **Classic surface** (`src/classic/.../index.ts`): paste the new method onto the operations interface and the factory return object. Same `foundryFeatures` rule.
 4. **Beta union members** (e.g. a new `FabricIQPreviewTool` added to `ToolUnion`): also update the `*Serializer` / `*Deserializer` switch statements that dispatch on the union discriminator.
@@ -319,6 +412,8 @@ Review `git diff` for `src/models/models.ts` and `src/models/index.ts`. Addition
 default: revert deletions or modifications to existing models unless the upstream evidence from
 Step -1 and the current `generated/` versus `HEAD:generated/` diff establish that the target spec
 intentionally removed them.
+
+For a [feature-flag version increment](../../../scripts/post-emitter-workarounds.md#feature-flag-version-increments), reconcile the affected contracts to the target generated schema rather than preserving an inclusive old/new schema. Apply this exception to options and shared flag unions as well as models, even if the target generated files were committed in an earlier regeneration.
 
 Examples of commit-description-validated exceptions include a field explicitly removed upstream, a union member explicitly removed upstream, or response properties explicitly made required. When keeping one of these exceptions, make sure the API report reflects the same upstream intent.
 
@@ -440,10 +535,12 @@ Remove-Item -ErrorAction SilentlyContinue `
   src/restorePollerHelpers.ts, `
   metadata.json, `
   agent_version_lines.txt, `
-  review/ai-projects-browser.api.diff.md, `
-  review/ai-projects-react-native.api.diff.md, `
   src/**/*.tmp, src/**/*.tmp2, src/**/*.bak
 ```
+
+Keep `review/ai-projects-browser.api.diff.md` and `review/ai-projects-react-native.api.diff.md`.
+Regenerate them with API extraction in Step 6; they record the public runtime differences
+from Node.js, including `NodeReadableStream` resolving to `never` outside Node.js.
 
 `src/restorePollerHelpers.ts` should not exist — there's a single `restorePollerHelpers.ts` under `generated/` only. `.tmp`, `.tmp2`, and `.bak` files are subagent scratch from earlier in the workflow.
 

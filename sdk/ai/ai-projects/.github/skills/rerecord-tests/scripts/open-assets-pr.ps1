@@ -74,11 +74,13 @@ intentionally touches only ``sdk/ai/ai-projects/assets.json``.
 1. ``TEST_MODE=record npm run test:node`` against live Foundry resources.
 2. ``TEST_MODE=playback npm run test:node`` (no live env vars) to verify the
    recordings are self-contained. Only specs that pass playback were published.
-3. ``npx dev-tool test-proxy push`` to upload recordings and bump the ``Tag``.
+3. Verified all ``"key":`` fields across recordings are followed by a sanitized value.
+4. ``npx dev-tool test-proxy push`` to upload recordings and bump the ``Tag``.
 
 ## Verification checklist
 
 - [ ] ``TEST_MODE=playback npm run test:node`` is green against the new tag
+- [ ] All ``"key":`` fields in recordings have sanitized values
 - [ ] ``git diff -- assets.json`` shows only the ``Tag`` line changed
 - [ ] CI recorded-test job passes
 

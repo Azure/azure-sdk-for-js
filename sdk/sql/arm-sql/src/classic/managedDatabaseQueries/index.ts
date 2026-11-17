@@ -29,6 +29,7 @@ export interface ManagedDatabaseQueriesOperations {
     options?: ManagedDatabaseQueriesGetOptionalParams,
   ) => Promise<ManagedInstanceQuery>;
 }
+
 function _getManagedDatabaseQueries(context: SqlManagementContext) {
   return {
     listByQuery: (
@@ -48,6 +49,7 @@ function _getManagedDatabaseQueries(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, databaseName, queryId, options),
   };
 }
+
 export function _getManagedDatabaseQueriesOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseQueriesOperations {

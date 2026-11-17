@@ -3,8 +3,8 @@
 
 import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
-import type { CommonClientOptions } from "@azure/core-client";
-import type { OperationOptions } from "@azure-rest/core-client";
+import type { HttpClient, PipelineOptions } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig, OperationOptions } from "@azure-rest/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
 
@@ -90,7 +90,20 @@ export interface SettingLabel {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {
+export interface AppConfigurationClientOptions extends PipelineOptions {
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS.
+   */
+  allowInsecureConnection?: boolean;
+  /**
+   * Additional policies to include in the HTTP pipeline.
+   */
+  additionalPolicies?: AdditionalPolicyConfig[];
+
   /**
    * The API version to use when interacting with the service. The default value is `2026-04-01`.
    * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.

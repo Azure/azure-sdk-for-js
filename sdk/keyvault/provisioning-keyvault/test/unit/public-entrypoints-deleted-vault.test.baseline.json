@@ -1,0 +1,43 @@
+{
+  "infras": [
+    {
+      "targetScope": "subscription",
+      "fileName": "infra.bicep",
+      "resources": {
+        "deletedVault": {
+          "bicepIdentifier": "deletedVault",
+          "type": "Microsoft.KeyVault/locations/deletedVaults",
+          "apiVersion": "2026-02-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "eastus/deletedvault"
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "deletedVault": {
+          "bicepIdentifier": "deletedVault",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "object"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "deletedVault"
+            },
+            "property": "properties",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -5,13 +5,15 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { AdditionalPolicyConfig } from '@azure-rest/core-client';
 import type { CancelOnProgress } from '@azure/core-lro';
-import type { CommonClientOptions } from '@azure/core-client';
 import type { CompatResponse } from '@azure/core-http-compat';
+import type { HttpClient } from '@azure/core-rest-pipeline';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PipelineOptions } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -50,9 +52,12 @@ export class AppConfigurationClient {
 }
 
 // @public
-export interface AppConfigurationClientOptions extends CommonClientOptions {
+export interface AppConfigurationClientOptions extends PipelineOptions {
+    additionalPolicies?: AdditionalPolicyConfig[];
+    allowInsecureConnection?: boolean;
     apiVersion?: string;
     audience?: string;
+    httpClient?: HttpClient;
 }
 
 // @public

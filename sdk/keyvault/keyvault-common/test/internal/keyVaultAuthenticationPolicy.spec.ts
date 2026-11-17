@@ -373,42 +373,105 @@ describe("Challenge based authentication tests", function () {
       expect(sendRequest).toHaveBeenCalledTimes(1);
     });
 
-    it.each([false, true])(
-      "revalidates a cached challenge before token use (expired: %s)",
-      async (expired) => {
-        const sendRequest = vi
-          .fn<SendRequest>()
-          .mockImplementationOnce(challengeResponse)
-          .mockImplementation(successfulResponseWith());
-        await pipeline.sendRequest({ sendRequest }, request);
-        if (expired) {
-          vi.spyOn(Date, "now").mockReturnValue(Date.now() + 2 * 60 * 60 * 1000);
-        }
-        const unrelatedRequest = createPipelineRequest({ url: "https://other.example" });
-        await expect(pipeline.sendRequest({ sendRequest }, unrelatedRequest)).rejects.toThrow(
-          "does not match the requested domain",
-        );
-        expect(getToken).toHaveBeenCalledTimes(1);
-        expect(sendRequest).toHaveBeenCalledTimes(2);
-        expect(unrelatedRequest.headers.has("Authorization")).toBe(false);
-      },
-    );
+    for (const disableChallengeResourceVerification of [undefined, false, true]) {
+      describe(`challenge origin binding (resource verification disabled: ${disableChallengeResourceVerification})`, () => {
+        const destinations = [
+          ["https://other.example", "does not match the requested domain"],
+          ["https://other.vault.azure.net", "The challenge origin"],
+          ["https://myvault.vault.azure.net:8443", "The challenge origin"],
+          ["http://myvault.vault.azure.net", "The request URL must use HTTPS."],
+        ];
 
-    it("does not present a cached token over HTTP", async () => {
-      const sendRequest = vi
-        .fn<SendRequest>()
-        .mockImplementationOnce(challengeResponse)
-        .mockImplementation(successfulResponseWith());
-      await pipeline.sendRequest({ sendRequest }, request);
-      await expect(
-        pipeline.sendRequest(
-          { sendRequest },
-          createPipelineRequest({ url: "http://myvault.vault.azure.net" }),
-        ),
-      ).rejects.toThrow("The request URL must use HTTPS.");
-      expect(getToken).toHaveBeenCalledTimes(1);
-      expect(sendRequest).toHaveBeenCalledTimes(2);
-    });
+        beforeEach(() => {
+          pipeline = createEmptyPipeline();
+          pipeline.addPolicy(
+            keyVaultAuthenticationPolicy({ getToken }, { disableChallengeResourceVerification }),
+          );
+        });
+
+        for (const expired of [false, true]) {
+          it.each(destinations)(
+            `rejects cached authorization to %s before token use (expired: ${expired})`,
+            async (url, expectedError) => {
+              const sendRequest = vi
+                .fn<SendRequest>()
+                .mockImplementationOnce(challengeResponse)
+                .mockImplementation(
+                  successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+                );
+              await pipeline.sendRequest({ sendRequest }, request);
+              if (expired) {
+                vi.spyOn(Date, "now").mockReturnValue(Date.now() + 2 * 60 * 60 * 1000);
+              }
+              const unrelatedRequest = createPipelineRequest({ url });
+              await expect(pipeline.sendRequest({ sendRequest }, unrelatedRequest)).rejects.toThrow(
+                expectedError,
+              );
+              expect(getToken).toHaveBeenCalledTimes(1);
+              expect(sendRequest).toHaveBeenCalledTimes(2);
+              expect(unrelatedRequest.headers.has("Authorization")).toBe(false);
+            },
+          );
+        }
+
+        it.each([
+          "https://myvault.vault.azure.net/secrets?api-version=7.6&skiptoken=next",
+          "HTTPS://MYVAULT.VAULT.AZURE.NET:443/secrets",
+        ])("reuses a cached token for the same origin at %s", async (url) => {
+          const sendRequest = vi
+            .fn<SendRequest>()
+            .mockImplementationOnce(challengeResponse)
+            .mockImplementation(
+              successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+            );
+          await pipeline.sendRequest({ sendRequest }, request);
+          await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url }));
+          expect(getToken).toHaveBeenCalledTimes(1);
+          expect(sendRequest).toHaveBeenCalledTimes(3);
+        });
+
+        it.each(destinations)(
+          "does not attach a token if the destination changes to %s during credential acquisition",
+          async (url, expectedError) => {
+            getToken.mockImplementationOnce(async () => {
+              request.url = url;
+              return { token: "access_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 };
+            });
+            const sendRequest = vi
+              .fn<SendRequest>()
+              .mockImplementationOnce(challengeResponse)
+              .mockImplementation(successfulResponseWith());
+            await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
+              expectedError,
+            );
+            expect(getToken).toHaveBeenCalledTimes(1);
+            expect(sendRequest).toHaveBeenCalledTimes(1);
+            expect(request.headers.has("Authorization")).toBe(false);
+          },
+        );
+
+        it.each(destinations)(
+          "rejects a destination change to %s before acquiring a CAE token",
+          async (url, expectedError) => {
+            const sendRequest = vi
+              .fn<SendRequest>()
+              .mockImplementationOnce(challengeResponse)
+              .mockImplementationOnce(async (req) => {
+                req.url = url;
+                req.headers.delete("Authorization");
+                return caeChallengeResponse(req);
+              })
+              .mockImplementation(successfulResponseWith());
+            await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
+              expectedError,
+            );
+            expect(getToken).toHaveBeenCalledTimes(1);
+            expect(sendRequest).toHaveBeenCalledTimes(2);
+            expect(request.headers.has("Authorization")).toBe(false);
+          },
+        );
+      });
+    }
 
     it.each([false, true])(
       "keeps cross-origin redirects unauthenticated (enabled: %s)",
@@ -571,37 +634,6 @@ describe("Challenge based authentication tests", function () {
       await pipeline.sendRequest({ sendRequest }, createPipelineRequest({ url: request.url }));
       expect(getToken).toHaveBeenCalledTimes(2);
       expect(sendRequest).toHaveBeenCalledTimes(3);
-    });
-
-    it("does not attach a token if the destination changes during credential acquisition", async () => {
-      getToken.mockImplementationOnce(async () => {
-        request.url = "https://other.example";
-        return { token: "access_token", expiresOnTimestamp: Date.now() + 60 * 60 * 1000 };
-      });
-      const sendRequest = vi.fn<SendRequest>().mockImplementation(challengeResponse);
-      await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
-        "does not match the requested domain",
-      );
-      expect(getToken).toHaveBeenCalledTimes(1);
-      expect(sendRequest).toHaveBeenCalledTimes(1);
-      expect(request.headers.has("Authorization")).toBe(false);
-    });
-
-    it("revalidates the cached challenge before acquiring a CAE token", async () => {
-      const sendRequest = vi
-        .fn<SendRequest>()
-        .mockImplementationOnce(challengeResponse)
-        .mockImplementationOnce(async (req) => {
-          req.url = "https://other.example";
-          req.headers.delete("Authorization");
-          return caeChallengeResponse(req);
-        });
-      await expect(pipeline.sendRequest({ sendRequest }, request)).rejects.toThrow(
-        "does not match the requested domain",
-      );
-      expect(getToken).toHaveBeenCalledTimes(1);
-      expect(sendRequest).toHaveBeenCalledTimes(2);
-      expect(request.headers.has("Authorization")).toBe(false);
     });
 
     it("does not reuse a cached token for a newly accepted scope", async () => {
@@ -843,7 +875,7 @@ describe("Challenge based authentication tests", function () {
             if (path === "/slow" && authorization === "Bearer token_tenantA") {
               return isCae
                 ? caeChallengeResponse(req)
-                : resourceChallenge("https://special.vault.azure.net", "resource", "tenantC")(req);
+                : resourceChallenge("https://vault.azure.net", "resource", "tenantC")(req);
             }
             if (path === "/healthy") {
               expect(authorization).toBe(expectedAuthorization);
@@ -872,7 +904,7 @@ describe("Challenge based authentication tests", function () {
             const stale = pipeline.sendRequest(
               { sendRequest },
               createPipelineRequest({
-                url: isCae ? `${request.url}/slow` : "https://child.special.vault.azure.net/slow",
+                url: `${request.url}/slow`,
               }),
             );
             await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(retainInitial ? 3 : 2));
@@ -1219,26 +1251,34 @@ describe("Challenge based authentication tests", function () {
       },
     );
 
-    it("preserves the explicit challenge verification opt-out", async () => {
-      pipeline = createEmptyPipeline();
-      pipeline.addPolicy(
-        keyVaultAuthenticationPolicy({ getToken }, { disableChallengeResourceVerification: true }),
-      );
-      const resource = "https://user@vault.azure.net";
-      const sendRequest = vi
-        .fn<SendRequest>()
-        .mockImplementationOnce(resourceChallenge(resource))
-        .mockImplementation(
-          successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+    it.each(["https://user@vault.azure.net", "https://other.example"])(
+      "preserves the same-origin challenge resource verification opt-out for %s",
+      async (resource) => {
+        pipeline = createEmptyPipeline();
+        pipeline.addPolicy(
+          keyVaultAuthenticationPolicy(
+            { getToken },
+            { disableChallengeResourceVerification: true },
+          ),
         );
-      await pipeline.sendRequest({ sendRequest }, request);
-      await pipeline.sendRequest(
-        { sendRequest },
-        createPipelineRequest({ url: "https://other.example" }),
-      );
-      expect(getToken).toHaveBeenCalledExactlyOnceWith([`${resource}/.default`], expect.anything());
-      expect(sendRequest).toHaveBeenCalledTimes(3);
-    });
+        const sendRequest = vi
+          .fn<SendRequest>()
+          .mockImplementationOnce(resourceChallenge(resource))
+          .mockImplementation(
+            successfulResponseWith({ expectAuthorizationHeader: "Bearer access_token" }),
+          );
+        await pipeline.sendRequest({ sendRequest }, request);
+        await pipeline.sendRequest(
+          { sendRequest },
+          createPipelineRequest({ url: `${request.url}/secrets` }),
+        );
+        expect(getToken).toHaveBeenCalledExactlyOnceWith(
+          [`${resource}/.default`],
+          expect.anything(),
+        );
+        expect(sendRequest).toHaveBeenCalledTimes(3);
+      },
+    );
   });
 
   describe("parseWWWAuthenticateHeader tests", () => {

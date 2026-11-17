@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Gate
  *
  * @summary get a Gate
- * x-ms-original-file: 2026-06-02-preview/Gates_Get.json
+ * x-ms-original-file: 2026-11-02-preview/Gates_Get.json
  */
 async function getsAGateResource() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAGateResource() {
  * This sample demonstrates how to get a Gate
  *
  * @summary get a Gate
- * x-ms-original-file: 2026-06-02-preview/Gates_Get_ScheduledStart.json
+ * x-ms-original-file: 2026-11-02-preview/Gates_Get_ScheduledStart.json
  */
 async function getsAScheduledStartGateResource() {
   const credential = new DefaultAzureCredential();

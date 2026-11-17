@@ -225,6 +225,8 @@ export enum KnownProvisioningState {
   InProgress = "InProgress",
   /** The HorizonDB resource is still provisioning. */
   Provisioning = "Provisioning",
+  /** The resource is being updated. */
+  Updating = "Updating",
 }
 
 /**
@@ -236,7 +238,8 @@ export enum KnownProvisioningState {
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
  * **InProgress**: The HorizonDB resource operation is actively running. \
- * **Provisioning**: The HorizonDB resource is still provisioning.
+ * **Provisioning**: The HorizonDB resource is still provisioning. \
+ * **Updating**: The resource is being updated.
  */
 export type ProvisioningState = string;
 
@@ -692,7 +695,7 @@ export function clusterDeserializer(item: any): Cluster {
 export interface ClusterProperties {
   /** The PostgreSQL major version used by the HorizonDB cluster. API version 2026-10-01-preview supports versions 17 and 18. For ordinary cluster creation, the version is supplied in the request and is immutable after creation. For point-in-time restore, the service obtains the version from the source backup metadata and the request must omit this property. This API version does not support in-place PostgreSQL major-version upgrades. */
   postgreSqlVersion?: PostgreSqlVersion;
-  /** The mode used to create the cluster. When this property is omitted while creating a new cluster, the service records Create. PointInTimeRestore creates a new cluster from an available backup; pointInTimeUtc and creationSourceClusterResourceId are then required, postgreSqlVersion must be omitted because it is obtained from the backup metadata, and creationSourceClusterLocation is required when the source and target cluster locations differ. This property is immutable and is returned as creation provenance. On replacement, omission preserves the recorded value, resubmitting the same value is accepted, and changing it is rejected. */
+  /** The mode used to create the cluster. When this property is omitted while creating a new cluster, the service records Create. PointInTimeRestore creates a new cluster from an available backup; pointInTimeUtc and creationSourceClusterResourceId are then required, postgreSqlVersion must be omitted because it is obtained from the backup metadata, and creationSourceClusterLocation is required when the source and target cluster locations differ. During PointInTimeRestore creation, the service ignores the requested backup.geoRedundancy value and configures the new cluster with the same geo-redundancy setting as the source cluster. This property is immutable and is returned as creation provenance. On replacement, omission preserves the recorded value, resubmitting the same value is accepted, and changing it is rejected. */
   creationMode?: ClusterCreateMode;
   /** The requested point in time, in UTC. This property is required in every PointInTimeRestore request. For a same-location restore, the service restores the latest backup available at or before this value. For a cross-location restore, the service requires but ignores this value and restores the latest available backup; cross-location responses omit this property. This property must be absent for other creation modes or when creationMode is omitted and can only be specified during resource creation. */
   pointInTimeUtc?: Date;
@@ -827,7 +830,7 @@ export type PublicNetworkAccessState = string;
 
 /** Backup configuration properties for a HorizonDB cluster. */
 export interface BackupProperties {
-  /** The geo-redundancy state. Geo-redundant backup is not supported when dataEncryption.type is AzureKeyVault. */
+  /** The geo-redundancy state. When creationMode is PointInTimeRestore, the service ignores the requested value during cluster creation and configures the new cluster with the same geo-redundancy setting as the source cluster, for both same-location and cross-location restores. The response reports the inherited setting. Geo-redundant backup is not supported when dataEncryption.type is AzureKeyVault. */
   geoRedundancy: GeoRedundancyState;
   /** The number of days that automatic backups are retained. The service defaults to 7 days when this property is omitted. */
   retentionDays?: number;
@@ -1212,8 +1215,6 @@ export function clusterArrayDeserializer(result: Array<Cluster>): any[] {
 export interface Pool extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: PoolProperties;
-  /** Resource tags. */
-  tags?: Record<string, string>;
 }
 
 export function poolSerializer(item: Pool): any {
@@ -1221,7 +1222,6 @@ export function poolSerializer(item: Pool): any {
     properties: !item["properties"]
       ? item["properties"]
       : poolPropertiesSerializer(item["properties"]),
-    tags: item["tags"],
   };
 }
 
@@ -1236,9 +1236,6 @@ export function poolDeserializer(item: any): Pool {
     properties: !item["properties"]
       ? item["properties"]
       : poolPropertiesDeserializer(item["properties"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1252,8 +1249,8 @@ export interface PoolProperties {
   nodeCount: number;
   /** The required high-availability configuration for the pool. mode must be Disabled when nodeCount is 1, and must be AnyZone or ZoneRedundant when nodeCount is 2 through 16. */
   highAvailability: PoolHighAvailability;
-  /** The required parameter group associated with the pool. When creating a new pool in this API version, the caller must supply the corresponding default parameter group; customer-created parameter groups are not accepted during creation. For an existing pool, PUT or PATCH can associate either the corresponding default parameter group or a customer-created parameter group. The create-visible shape intentionally supports both resource ID forms so a future API version can allow customer-created parameter groups during creation without a breaking schema change. */
-  parameterGroup: PoolParameterGroupReference;
+  /** The parameter group associated with the pool. When omitted during creation, the service applies the default parameter group compatible with the parent cluster's PostgreSQL version. When supplied during creation in this API version, it must reference the corresponding default parameter group; customer-created parameter groups are not accepted during creation. For an existing pool, PUT or PATCH can associate either the corresponding default parameter group or a customer-created parameter group. The create-visible shape intentionally supports both resource ID forms so a future API version can allow customer-created parameter groups during creation without a breaking schema change. */
+  parameterGroup?: PoolParameterGroupReference;
   /** The scheduled maintenance configuration for the pool. The properties available depend on the selected maintenance management type. */
   scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
   /** The provisioning state of the pool. */
@@ -1265,7 +1262,9 @@ export function poolPropertiesSerializer(item: PoolProperties): any {
     computeModel: poolComputeModelSerializer(item["computeModel"]),
     nodeCount: item["nodeCount"],
     highAvailability: poolHighAvailabilitySerializer(item["highAvailability"]),
-    parameterGroup: poolParameterGroupReferenceSerializer(item["parameterGroup"]),
+    parameterGroup: !item["parameterGroup"]
+      ? item["parameterGroup"]
+      : poolParameterGroupReferenceSerializer(item["parameterGroup"]),
     scheduledMaintenance: !item["scheduledMaintenance"]
       ? item["scheduledMaintenance"]
       : scheduledMaintenancePropertiesUnionSerializer(item["scheduledMaintenance"]),
@@ -1278,7 +1277,9 @@ export function poolPropertiesDeserializer(item: any): PoolProperties {
     computeModel: poolComputeModelDeserializer(item["computeModel"]),
     nodeCount: item["nodeCount"],
     highAvailability: poolHighAvailabilityDeserializer(item["highAvailability"]),
-    parameterGroup: poolParameterGroupReferenceDeserializer(item["parameterGroup"]),
+    parameterGroup: !item["parameterGroup"]
+      ? item["parameterGroup"]
+      : poolParameterGroupReferenceDeserializer(item["parameterGroup"]),
     scheduledMaintenance: !item["scheduledMaintenance"]
       ? item["scheduledMaintenance"]
       : scheduledMaintenancePropertiesUnionDeserializer(item["scheduledMaintenance"]),
@@ -1394,7 +1395,7 @@ export type PoolHighAvailabilityMode = string;
 
 /** A reference to the parameter group associated with a HorizonDB pool. The schema represents both default and customer-created parameter groups for create and update compatibility. In this API version, initial pool creation accepts only the corresponding default parameter group; PUT updates to an existing pool can associate either group type. */
 export interface PoolParameterGroupReference {
-  /** The Azure resource ID of the associated parameter group. Initial pool creation in this API version requires the corresponding Microsoft.HorizonDb/locations/parameterGroups resource. For an existing pool, PUT can specify either the corresponding default group or a customer-created Microsoft.HorizonDb/parameterGroups resource. */
+  /** The Azure resource ID of the associated parameter group. When the parameter group is supplied during initial pool creation in this API version, the ID must identify the corresponding Microsoft.HorizonDb/locations/parameterGroups resource. For an existing pool, PUT can specify either the corresponding default group or a customer-created Microsoft.HorizonDb/parameterGroups resource. */
   parameterGroupResourceId: string;
   /** Determines when dynamic parameter changes from the associated parameter group become effective. Static parameter changes always require a customer-initiated pool Restart, regardless of this value. Stop followed by Start and scheduled maintenance do not apply pending parameter changes. */
   applyMethod: ParameterApplyMethod;
@@ -1549,15 +1550,12 @@ export function systemScheduledMaintenancePropertiesDeserializer(
 
 /** HorizonDB pool for update operations. */
 export interface PoolForPatchUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
   /** The properties that can be updated for a HorizonDB pool. */
   properties?: PoolPropertiesForPatchUpdate;
 }
 
 export function poolForPatchUpdateSerializer(item: PoolForPatchUpdate): any {
   return {
-    tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
       : poolPropertiesForPatchUpdateSerializer(item["properties"]),
@@ -2604,6 +2602,8 @@ export function passwordAuthenticationDeserializer(item: any): PasswordAuthentic
 export interface PasswordAuthenticationProperties {
   /** The state of PostgreSQL username-and-password authentication. */
   state: AuthenticationState;
+  /** The PostgreSQL administrator login name. This value is returned in responses after it is set. After it is set, renaming is not supported. Setting the login requires password authentication state to be Enabled in the same request. */
+  administratorLogin?: string;
   /** The provisioning state of the PostgreSQL username-and-password authentication method. */
   readonly provisioningState?: ProvisioningState;
 }
@@ -2611,7 +2611,7 @@ export interface PasswordAuthenticationProperties {
 export function passwordAuthenticationPropertiesSerializer(
   item: PasswordAuthenticationProperties,
 ): any {
-  return { state: item["state"] };
+  return { state: item["state"], administratorLogin: item["administratorLogin"] };
 }
 
 export function passwordAuthenticationPropertiesDeserializer(
@@ -2619,6 +2619,7 @@ export function passwordAuthenticationPropertiesDeserializer(
 ): PasswordAuthenticationProperties {
   return {
     state: item["state"],
+    administratorLogin: item["administratorLogin"],
     provisioningState: item["provisioningState"],
   };
 }
@@ -4795,7 +4796,7 @@ export function passwordAuthenticationCreateOrUpdateSerializer(
 export interface PasswordAuthenticationPropertiesCreateOrUpdate {
   /** The state of PostgreSQL username-and-password authentication. */
   state: AuthenticationState;
-  /** The PostgreSQL administrator login name. This value is not returned in responses. After it is set, renaming is not supported. Setting the login requires password authentication state to be Enabled in the same request. */
+  /** The PostgreSQL administrator login name. This value is returned in responses after it is set. After it is set, renaming is not supported. Setting the login requires password authentication state to be Enabled in the same request. */
   administratorLogin?: string;
   /** The PostgreSQL administrator password. Setting the password requires password authentication state to be Enabled in the same request. */
   administratorLoginPassword?: string;
@@ -5053,8 +5054,6 @@ export function firewallRulePropertiesCreateOrUpdateSerializer(
 export interface PoolCreateOrUpdate extends ProxyResourceCreateOrUpdate {
   /** The resource-specific properties for this resource. */
   properties?: PoolPropertiesCreateOrUpdate;
-  /** Resource tags. */
-  tags?: Record<string, string>;
 }
 
 export function poolCreateOrUpdateSerializer(item: PoolCreateOrUpdate): any {
@@ -5062,7 +5061,6 @@ export function poolCreateOrUpdateSerializer(item: PoolCreateOrUpdate): any {
     properties: !item["properties"]
       ? item["properties"]
       : poolPropertiesCreateOrUpdateSerializer(item["properties"]),
-    tags: item["tags"],
   };
 }
 
@@ -5074,8 +5072,8 @@ export interface PoolPropertiesCreateOrUpdate {
   nodeCount: number;
   /** The required high-availability configuration for the pool. mode must be Disabled when nodeCount is 1, and must be AnyZone or ZoneRedundant when nodeCount is 2 through 16. */
   highAvailability: PoolHighAvailability;
-  /** The required parameter group associated with the pool. When creating a new pool in this API version, the caller must supply the corresponding default parameter group; customer-created parameter groups are not accepted during creation. For an existing pool, PUT or PATCH can associate either the corresponding default parameter group or a customer-created parameter group. The create-visible shape intentionally supports both resource ID forms so a future API version can allow customer-created parameter groups during creation without a breaking schema change. */
-  parameterGroup: PoolParameterGroupReferenceCreateOrUpdate;
+  /** The parameter group associated with the pool. When omitted during creation, the service applies the default parameter group compatible with the parent cluster's PostgreSQL version. When supplied during creation in this API version, it must reference the corresponding default parameter group; customer-created parameter groups are not accepted during creation. For an existing pool, PUT or PATCH can associate either the corresponding default parameter group or a customer-created parameter group. The create-visible shape intentionally supports both resource ID forms so a future API version can allow customer-created parameter groups during creation without a breaking schema change. */
+  parameterGroup?: PoolParameterGroupReferenceCreateOrUpdate;
   /** The scheduled maintenance configuration for the pool. The properties available depend on the selected maintenance management type. */
   scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
 }
@@ -5085,7 +5083,9 @@ export function poolPropertiesCreateOrUpdateSerializer(item: PoolPropertiesCreat
     computeModel: poolComputeModelSerializer(item["computeModel"]),
     nodeCount: item["nodeCount"],
     highAvailability: poolHighAvailabilitySerializer(item["highAvailability"]),
-    parameterGroup: poolParameterGroupReferenceCreateOrUpdateSerializer(item["parameterGroup"]),
+    parameterGroup: !item["parameterGroup"]
+      ? item["parameterGroup"]
+      : poolParameterGroupReferenceCreateOrUpdateSerializer(item["parameterGroup"]),
     scheduledMaintenance: !item["scheduledMaintenance"]
       ? item["scheduledMaintenance"]
       : scheduledMaintenancePropertiesUnionSerializer(item["scheduledMaintenance"]),
@@ -5094,7 +5094,7 @@ export function poolPropertiesCreateOrUpdateSerializer(item: PoolPropertiesCreat
 
 /** A reference to the parameter group associated with a HorizonDB pool. The schema represents both default and customer-created parameter groups for create and update compatibility. In this API version, initial pool creation accepts only the corresponding default parameter group; PUT updates to an existing pool can associate either group type. */
 export interface PoolParameterGroupReferenceCreateOrUpdate {
-  /** The Azure resource ID of the associated parameter group. Initial pool creation in this API version requires the corresponding Microsoft.HorizonDb/locations/parameterGroups resource. For an existing pool, PUT can specify either the corresponding default group or a customer-created Microsoft.HorizonDb/parameterGroups resource. */
+  /** The Azure resource ID of the associated parameter group. When the parameter group is supplied during initial pool creation in this API version, the ID must identify the corresponding Microsoft.HorizonDb/locations/parameterGroups resource. For an existing pool, PUT can specify either the corresponding default group or a customer-created Microsoft.HorizonDb/parameterGroups resource. */
   parameterGroupResourceId: string;
   /** Determines when dynamic parameter changes from the associated parameter group become effective. Static parameter changes always require a customer-initiated pool Restart, regardless of this value. Stop followed by Start and scheduled maintenance do not apply pending parameter changes. */
   applyMethod: ParameterApplyMethod;
@@ -5111,15 +5111,12 @@ export function poolParameterGroupReferenceCreateOrUpdateSerializer(
 
 /** HorizonDB pool for update operations. */
 export interface PoolForPatchUpdateUpdate {
-  /** Resource tags. */
-  tags?: Record<string, string>;
   /** The properties that can be updated for a HorizonDB pool. */
   properties?: PoolPropertiesForPatchUpdateUpdate;
 }
 
 export function poolForPatchUpdateUpdateSerializer(item: PoolForPatchUpdateUpdate): any {
   return {
-    tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
       : poolPropertiesForPatchUpdateUpdateSerializer(item["properties"]),
@@ -5249,7 +5246,7 @@ export function clusterCreateOrUpdateSerializer(item: ClusterCreateOrUpdate): an
 export interface ClusterPropertiesCreateOrUpdate {
   /** The PostgreSQL major version used by the HorizonDB cluster. API version 2026-10-01-preview supports versions 17 and 18. For ordinary cluster creation, the version is supplied in the request and is immutable after creation. For point-in-time restore, the service obtains the version from the source backup metadata and the request must omit this property. This API version does not support in-place PostgreSQL major-version upgrades. */
   postgreSqlVersion?: PostgreSqlVersion;
-  /** The mode used to create the cluster. When this property is omitted while creating a new cluster, the service records Create. PointInTimeRestore creates a new cluster from an available backup; pointInTimeUtc and creationSourceClusterResourceId are then required, postgreSqlVersion must be omitted because it is obtained from the backup metadata, and creationSourceClusterLocation is required when the source and target cluster locations differ. This property is immutable and is returned as creation provenance. On replacement, omission preserves the recorded value, resubmitting the same value is accepted, and changing it is rejected. */
+  /** The mode used to create the cluster. When this property is omitted while creating a new cluster, the service records Create. PointInTimeRestore creates a new cluster from an available backup; pointInTimeUtc and creationSourceClusterResourceId are then required, postgreSqlVersion must be omitted because it is obtained from the backup metadata, and creationSourceClusterLocation is required when the source and target cluster locations differ. During PointInTimeRestore creation, the service ignores the requested backup.geoRedundancy value and configures the new cluster with the same geo-redundancy setting as the source cluster. This property is immutable and is returned as creation provenance. On replacement, omission preserves the recorded value, resubmitting the same value is accepted, and changing it is rejected. */
   creationMode?: ClusterCreateMode;
   /** The requested point in time, in UTC. This property is required in every PointInTimeRestore request. For a same-location restore, the service restores the latest backup available at or before this value. For a cross-location restore, the service requires but ignores this value and restores the latest available backup; cross-location responses omit this property. This property must be absent for other creation modes or when creationMode is omitted and can only be specified during resource creation. */
   pointInTimeUtc?: Date;
@@ -5291,7 +5288,7 @@ export function clusterPropertiesCreateOrUpdateSerializer(
 
 /** Backup configuration properties for a HorizonDB cluster. */
 export interface BackupPropertiesCreateOrUpdate {
-  /** The geo-redundancy state. Geo-redundant backup is not supported when dataEncryption.type is AzureKeyVault. */
+  /** The geo-redundancy state. When creationMode is PointInTimeRestore, the service ignores the requested value during cluster creation and configures the new cluster with the same geo-redundancy setting as the source cluster, for both same-location and cross-location restores. The response reports the inherited setting. Geo-redundant backup is not supported when dataEncryption.type is AzureKeyVault. */
   geoRedundancy: GeoRedundancyState;
   /** The number of days that automatic backups are retained. The service defaults to 7 days when this property is omitted. */
   retentionDays?: number;

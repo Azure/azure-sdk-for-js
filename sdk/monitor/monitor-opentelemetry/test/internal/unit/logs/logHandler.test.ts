@@ -3,15 +3,22 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
-import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
-import { SeverityNumber, logs } from "@opentelemetry/api-logs";
+import {
+  trace,
+  context,
+  isValidTraceId,
+  isValidSpanId,
+  SeverityNumber,
+  logs,
+} from "@opentelemetry/api";
+import type { LogRecord as APILogRecord } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
+import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
 import { LoggerProvider } from "@opentelemetry/sdk-logs";
 import { LogHandler } from "../../../../src/logs/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
@@ -57,8 +64,9 @@ describe("LogHandler", () => {
     });
     logs.setGlobalLoggerProvider(loggerProvider);
 
-    const tracerProvider = new NodeTracerProvider();
-    tracerProvider.register();
+    const tracerProvider = new TracerProvider();
+    trace.setGlobalTracerProvider(tracerProvider);
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable());
   });
 
   beforeEach(() => {
@@ -73,6 +81,7 @@ describe("LogHandler", () => {
   afterAll(() => {
     logs.disable();
     trace.disable();
+    context.disable();
   });
 
   describe("#logger", () => {

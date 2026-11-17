@@ -39,7 +39,7 @@ export function _listByCloudAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,7 @@ export function listByCloudAccount(
     () => _listByCloudAccountSend(context, resourceGroupName, cloudAccountName, options),
     _listByCloudAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-30" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-03" },
   );
 }
 
@@ -97,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudAccountName, planName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-30",
+    apiVersion: context.apiVersion ?? "2026-11-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +153,7 @@ export function _createOrupdateSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +205,7 @@ export function createOrupdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-30",
+    apiVersion: context.apiVersion ?? "2026-11-03",
   }) as PollerLike<OperationState<CommvaultPlan>, CommvaultPlan>;
 }
 
@@ -223,7 +223,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudAccountName: cloudAccountName,
       planName: planName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-30",
+      "api%2Dversion": context.apiVersion ?? "2026-11-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

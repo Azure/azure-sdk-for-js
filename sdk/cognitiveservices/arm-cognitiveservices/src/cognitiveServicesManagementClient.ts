@@ -20,6 +20,8 @@ import type { AccountCapabilityHostsOperations } from "./classic/accountCapabili
 import { _getAccountCapabilityHostsOperations } from "./classic/accountCapabilityHosts/index.js";
 import type { AccountConnectionsOperations } from "./classic/accountConnections/index.js";
 import { _getAccountConnectionsOperations } from "./classic/accountConnections/index.js";
+import type { AccountCostControlsOperations } from "./classic/accountCostControls/index.js";
+import { _getAccountCostControlsOperations } from "./classic/accountCostControls/index.js";
 import type { AccountsOperations } from "./classic/accounts/index.js";
 import { _getAccountsOperations } from "./classic/accounts/index.js";
 import type { AdapterDeploymentsOperations } from "./classic/adapterDeployments/index.js";
@@ -30,6 +32,8 @@ import type { AgentDeploymentsOperations } from "./classic/agentDeployments/inde
 import { _getAgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
 import type { ArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
 import { _getArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
+import type { AttachedAksClustersOperations } from "./classic/attachedAksClusters/index.js";
+import { _getAttachedAksClustersOperations } from "./classic/attachedAksClusters/index.js";
 import type { CommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import { _getCommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import type { CommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
@@ -38,8 +42,6 @@ import type { ComputeOperationsOperations } from "./classic/computeOperations/in
 import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
 import type { ComputesOperations } from "./classic/computes/index.js";
 import { _getComputesOperations } from "./classic/computes/index.js";
-import type { CostControlsOperations } from "./classic/costControls/index.js";
-import { _getCostControlsOperations } from "./classic/costControls/index.js";
 import type { DefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import { _getDefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
@@ -80,6 +82,8 @@ import type { ProjectCapabilityHostsOperations } from "./classic/projectCapabili
 import { _getProjectCapabilityHostsOperations } from "./classic/projectCapabilityHosts/index.js";
 import type { ProjectConnectionsOperations } from "./classic/projectConnections/index.js";
 import { _getProjectConnectionsOperations } from "./classic/projectConnections/index.js";
+import type { ProjectCostControlsOperations } from "./classic/projectCostControls/index.js";
+import { _getProjectCostControlsOperations } from "./classic/projectCostControls/index.js";
 import type { ProjectsOperations } from "./classic/projects/index.js";
 import { _getProjectsOperations } from "./classic/projects/index.js";
 import type { QuotaTiersOperations } from "./classic/quotaTiers/index.js";
@@ -154,7 +158,8 @@ export class CognitiveServicesManagementClient {
     this.raiExternalSafetyProvider = _getRaiExternalSafetyProviderOperations(this._client);
     this.testRaiExternalSafetyProvider = _getTestRaiExternalSafetyProviderOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
-    this.costControls = _getCostControlsOperations(this._client);
+    this.projectCostControls = _getProjectCostControlsOperations(this._client);
+    this.accountCostControls = _getAccountCostControlsOperations(this._client);
     this.managedComputeCapacities = _getManagedComputeCapacitiesOperations(this._client);
     this.workbenches = _getWorkbenchesOperations(this._client);
     this.computes = _getComputesOperations(this._client);
@@ -186,6 +191,7 @@ export class CognitiveServicesManagementClient {
     this.commitmentPlans = _getCommitmentPlansOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
+    this.attachedAksClusters = _getAttachedAksClustersOperations(this._client);
     this.deletedAccounts = _getDeletedAccountsOperations(this._client);
     this.accounts = _getAccountsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -252,8 +258,10 @@ export class CognitiveServicesManagementClient {
   public readonly testRaiExternalSafetyProvider: TestRaiExternalSafetyProviderOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
-  /** The operation groups for costControls */
-  public readonly costControls: CostControlsOperations;
+  /** The operation groups for projectCostControls */
+  public readonly projectCostControls: ProjectCostControlsOperations;
+  /** The operation groups for accountCostControls */
+  public readonly accountCostControls: AccountCostControlsOperations;
   /** The operation groups for managedComputeCapacities */
   public readonly managedComputeCapacities: ManagedComputeCapacitiesOperations;
   /** The operation groups for workbenches */
@@ -310,6 +318,8 @@ export class CognitiveServicesManagementClient {
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+  /** The operation groups for attachedAksClusters */
+  public readonly attachedAksClusters: AttachedAksClustersOperations;
   /** The operation groups for deletedAccounts */
   public readonly deletedAccounts: DeletedAccountsOperations;
   /** The operation groups for accounts */

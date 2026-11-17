@@ -110,7 +110,6 @@ export interface DisasterRecoveryConfigsOperations {
     options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
-
 function _getDisasterRecoveryConfigs(context: EventHubManagementContext) {
   return {
     failOver: (
@@ -185,7 +184,6 @@ function _getDisasterRecoveryConfigs(context: EventHubManagementContext) {
       ),
   };
 }
-
 export function _getDisasterRecoveryConfigsOperations(
   context: EventHubManagementContext,
 ): DisasterRecoveryConfigsOperations {

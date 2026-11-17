@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets one RAI binding.
  *
  * @summary gets one RAI binding.
- * x-ms-original-file: 2026-09-15-preview/GetRaiBinding.json
+ * x-ms-original-file: 2026-11-15-preview/GetRaiBinding.json
  */
 async function getARAIBinding(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,6 +7,11 @@ const mocks = vi.hoisted(() => ({
     path: [] as string[],
     result: "pending",
   },
+  generateTypeScriptCodeFromTypeSpec: vi.fn(),
+  getGeneratedPackageDirectory: vi.fn(async () => "/sdk/pkg"),
+  specifyApiVersionToGenerateSDKByTypeSpec: vi.fn(),
+  cleanUpDirectory: vi.fn(),
+  ignoreLinkGenerator: vi.fn(),
 }));
 
 vi.mock("../../common/rushUtils.js", () => ({
@@ -34,12 +39,13 @@ vi.mock("../../common/changelog/automaticGenerateChangeLogAndBumpVersion.js", ()
 }));
 
 vi.mock("../../mlc/clientGenerator/utils/typeSpecUtils.js", () => ({
-  generateTypeScriptCodeFromTypeSpec: vi.fn(),
+  generateTypeScriptCodeFromTypeSpec: mocks.generateTypeScriptCodeFromTypeSpec,
 }));
 
 vi.mock("../../common/utils.js", () => ({
-  getGeneratedPackageDirectory: vi.fn(async () => "/sdk/pkg"),
-  specifyApiVersionToGenerateSDKByTypeSpec: vi.fn(),
+  getGeneratedPackageDirectory: mocks.getGeneratedPackageDirectory,
+  specifyApiVersionToGenerateSDKByTypeSpec: mocks.specifyApiVersionToGenerateSDKByTypeSpec,
+  cleanUpDirectory: mocks.cleanUpDirectory,
   cleanUpPackageDirectory: vi.fn(),
 }));
 
@@ -66,7 +72,7 @@ vi.mock("fs-extra", () => {
 });
 
 vi.mock("../../common/ignoreLink/ignoreLinkGenerator.js", () => ({
-  ignoreLinkGenerator: vi.fn(),
+  ignoreLinkGenerator: mocks.ignoreLinkGenerator,
 }));
 
 vi.mock("../../hlc/utils/changeReadmeMd.js", () => ({
@@ -79,6 +85,11 @@ describe("generateAzureSDKPackage", () => {
     mocks.packageResult.artifacts.length = 0;
     mocks.packageResult.path.length = 0;
     mocks.packageResult.result = "pending";
+    mocks.generateTypeScriptCodeFromTypeSpec.mockClear();
+    mocks.getGeneratedPackageDirectory.mockClear();
+    mocks.specifyApiVersionToGenerateSDKByTypeSpec.mockClear();
+    mocks.cleanUpDirectory.mockClear();
+    mocks.ignoreLinkGenerator.mockClear();
   });
 
   test("reinstalls dependencies after package metadata changes", async () => {
@@ -92,6 +103,43 @@ describe("generateAzureSDKPackage", () => {
       runMode: "spec-pull-request",
     } as never);
 
+    expect(mocks.calls).toEqual(["build", "changelog", "install", "samples"]);
+  });
+
+  test("uses the provisioning emitter throughout its own lifecycle", async () => {
+    const { generateProvisioningSDKPackage } =
+      await import("../../provisioning/provisioningPackageGenerator.js");
+    const options = {
+      typeSpecDirectory: "/spec/project",
+      sdkRepoRoot: "/sdk",
+      specRepoRoot: "/spec",
+      emitterName: "@azure-tools/typespec-ts-provisioning",
+      apiVersion: "2026-02-01",
+      runMode: "spec-pull-request",
+    } as never;
+
+    await generateProvisioningSDKPackage(options);
+
+    expect(mocks.getGeneratedPackageDirectory).toHaveBeenCalledWith(
+      "/spec/project",
+      "/sdk",
+      "@azure-tools/typespec-ts-provisioning",
+    );
+    expect(mocks.ignoreLinkGenerator).toHaveBeenCalledWith(
+      "/spec/project",
+      "@azure-tools/typespec-ts-provisioning",
+    );
+    expect(mocks.cleanUpDirectory).toHaveBeenCalledWith("/sdk/pkg", ["test"]);
+    expect(mocks.specifyApiVersionToGenerateSDKByTypeSpec).toHaveBeenCalledWith(
+      "/spec/project",
+      "2026-02-01",
+      "@azure-tools/typespec-ts-provisioning",
+    );
+    expect(mocks.generateTypeScriptCodeFromTypeSpec).toHaveBeenCalledWith(
+      options,
+      undefined,
+      "/sdk/pkg",
+    );
     expect(mocks.calls).toEqual(["build", "changelog", "install", "samples"]);
   });
 });

@@ -43,7 +43,7 @@ export function _acquireSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,6 +70,7 @@ export async function _acquireDeserialize(result: PathUncheckedResponse): Promis
 
   return serverDnsAliasDeserializer(result.body);
 }
+
 /** Acquires server DNS alias from another server. */
 export function acquire(
   context: Client,
@@ -85,7 +86,7 @@ export function acquire(
     getInitialResponse: () =>
       _acquireSend(context, resourceGroupName, serverName, dnsAliasName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
 }
 
@@ -101,7 +102,7 @@ export function _listByServerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,6 +129,7 @@ export async function _listByServerDeserialize(
 
   return _serverDnsAliasListResultDeserializer(result.body);
 }
+
 /** Gets a list of server DNS aliases for a server. */
 export function listByServer(
   context: Client,
@@ -143,7 +145,7 @@ export function listByServer(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -162,7 +164,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,6 +186,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the server DNS alias with the given name. */
 export function $delete(
   context: Client,
@@ -198,7 +201,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, serverName, dnsAliasName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -216,7 +219,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,6 +246,7 @@ export async function _createOrUpdateDeserialize(
 
   return serverDnsAliasDeserializer(result.body);
 }
+
 /** Creates a server DNS alias. */
 export function createOrUpdate(
   context: Client,
@@ -257,7 +261,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, serverName, dnsAliasName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ServerDnsAlias>, ServerDnsAlias>;
 }
 
@@ -275,7 +279,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,6 +304,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return serverDnsAliasDeserializer(result.body);
 }
+
 /** Gets a server DNS alias. */
 export async function get(
   context: Client,

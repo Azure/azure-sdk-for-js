@@ -3,13 +3,13 @@
 
 import type { ComputeRecommenderManagementContext as Client } from "../index.js";
 import type {
-  ComputeDiagnosticBase,
+  SpotPlacementScoresBase,
   SpotPlacementScoresInput,
   SpotPlacementScoresResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  computeDiagnosticBaseDeserializer,
+  spotPlacementScoresBaseDeserializer,
   spotPlacementScoresInputSerializer,
   spotPlacementScoresResponseDeserializer,
 } from "../../models/models.js";
@@ -32,7 +32,7 @@ export function _postSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-09-05-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-05-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ComputeDiagnosticBase> {
+): Promise<SpotPlacementScoresBase> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -108,7 +108,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return computeDiagnosticBaseDeserializer(result.body);
+  return spotPlacementScoresBaseDeserializer(result.body);
 }
 
 /** Gets Spot Placement Scores metadata. */
@@ -116,7 +116,7 @@ export async function get(
   context: Client,
   location: string,
   options: SpotPlacementScoresGetOptionalParams = { requestOptions: {} },
-): Promise<ComputeDiagnosticBase> {
+): Promise<SpotPlacementScoresBase> {
   const result = await _getSend(context, location, options);
   return _getDeserialize(result);
 }

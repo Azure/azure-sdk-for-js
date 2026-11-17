@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a license profile.
  *
  * @summary the operation to delete a license profile.
- * x-ms-original-file: 2026-07-15/licenseProfile/LicenseProfile_Delete.json
+ * x-ms-original-file: 2026-09-01/licenseProfile/LicenseProfile_Delete.json
  */
 async function deleteALicenseProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

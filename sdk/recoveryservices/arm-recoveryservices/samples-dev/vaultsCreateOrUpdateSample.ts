@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault.json
+ * x-ms-original-file: 2026-11-01/PUTVault.json
  */
 async function createOrUpdateRecoveryServicesVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createOrUpdateRecoveryServicesVault(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-11-01/PUTVault_ResourceGuardEnabled.json
  */
 async function createOrUpdateVaultPerformingCriticalOperationWithMUA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -75,7 +75,7 @@ async function createOrUpdateVaultPerformingCriticalOperationWithMUA(): Promise<
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithCMK.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithCMK.json
  */
 async function createOrUpdateVaultWithCustomerManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -116,7 +116,7 @@ async function createOrUpdateVaultWithCustomerManagedKeys(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithCostManagementSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithCostManagementSettings.json
  */
 async function createOrUpdateVaultWithCostManagementSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -142,7 +142,7 @@ async function createOrUpdateVaultWithCostManagementSettings(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithImmutabilityConfig.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithImmutabilityConfig.json
  */
 async function createOrUpdateVaultWithImmutabilityConfig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -173,7 +173,7 @@ async function createOrUpdateVaultWithImmutabilityConfig(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithMonitoringSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithMonitoringSettings.json
  */
 async function createOrUpdateVaultWithMonitoringSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -209,7 +209,7 @@ async function createOrUpdateVaultWithMonitoringSetting(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithRedundancySettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithRedundancySettings.json
  */
 async function createOrUpdateVaultWithRedundancySetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -238,7 +238,7 @@ async function createOrUpdateVaultWithRedundancySetting(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithRegionOfChoiceSettings.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithRegionOfChoiceSettings.json
  */
 async function createOrUpdateVaultWithRegionOfChoiceSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -261,7 +261,7 @@ async function createOrUpdateVaultWithRegionOfChoiceSettings(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithSourceScanConfiguration.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithSourceScanConfiguration.json
  */
 async function createOrUpdateVaultWithSourceScanConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -292,7 +292,7 @@ async function createOrUpdateVaultWithSourceScanConfiguration(): Promise<void> {
  * This sample demonstrates how to creates or updates a Recovery Services vault.
  *
  * @summary creates or updates a Recovery Services vault.
- * x-ms-original-file: 2026-07-01/PUTVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: 2026-11-01/PUTVault_WithUserAssignedIdentity.json
  */
 async function createOrUpdateVaultWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

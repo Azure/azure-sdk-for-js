@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes a hub database schema.
  *
  * @summary refreshes a hub database schema.
- * x-ms-original-file: 2025-08-01-preview/SyncGroupRefreshHubSchema.json
+ * x-ms-original-file: 2026-08-01-preview/SyncGroupRefreshHubSchema.json
  */
 async function refreshAHubDatabaseSchema(): Promise<void> {
   const credential = new DefaultAzureCredential();

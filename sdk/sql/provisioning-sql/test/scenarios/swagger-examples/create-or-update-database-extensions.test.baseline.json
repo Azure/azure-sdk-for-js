@@ -1,0 +1,91 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "srv_1ffd1cf8-9951-47fb-807d-a9c384763849"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "database": {
+          "bicepIdentifier": "database",
+          "type": "Microsoft.Sql/servers/databases",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "878e303f-1ea0-4f17-aa3d-a22ac5e9da08"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "extension": {
+          "bicepIdentifier": "extension",
+          "type": "Microsoft.Sql/servers/databases/extensions",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "polybaseimport"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "database"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "operationMode": {
+                    "kind": "string",
+                    "value": "PolybaseImport"
+                  },
+                  "storageKey": {
+                    "kind": "string",
+                    "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  },
+                  "storageKeyType": {
+                    "kind": "string",
+                    "value": "StorageAccessKey"
+                  },
+                  "storageUri": {
+                    "kind": "string",
+                    "value": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

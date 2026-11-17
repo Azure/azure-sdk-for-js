@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the existing origins within a profile.
  *
  * @summary lists all of the existing origins within a profile.
- * x-ms-original-file: 2025-12-01/Routes_ListByEndpoint.json
+ * x-ms-original-file: 2026-10-01/Routes_ListByEndpoint.json
  */
 async function routesListByEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -152,7 +152,6 @@ export function checkGitTagExists(tag: string): boolean {
   return result.code === 0 && result.stdout.trim().length > 0;
 }
 
-// TODO: refactor this function to support praparing files from github in general way
 export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmViewParameters) {
   const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } =
     NpmViewParameters;
@@ -160,15 +159,40 @@ export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmVi
   const targetFilePath =
     file === "CHANGELOG.md" ? path.join(npmPackagePath, file) : getApiReviewPath(npmPackagePath);
   const tag = `${packageName}_${version}`;
+  const tagRef = `refs/tags/${tag}`;
+  const upstreamRepository = "https://github.com/Azure/azure-sdk-for-js.git";
+  const runGit = (args: string[]) =>
+    spawnSync("git", ["-C", sdkRootPath, "--no-pager", ...args], {
+      encoding: "utf8",
+      maxBuffer: 20 * 1024 * 1024,
+    });
   const defaultContent = "```ts\n```";
   logger.info(`Start to get and clone ${npmPackagePath} from latest ${packageName} release tag.`);
 
   try {
+    const readReleaseFiles = (filePaths: string[]): string[] => {
+      const readFiles = (ref: string) =>
+        filePaths.map((filePath) => {
+          const result = runGit(["show", `${ref}:${filePath}`]);
+          return result.status === 0 ? result.stdout : "";
+        });
+      const localContents = readFiles(tagRef);
+      if (localContents.some((content) => content.trim())) {
+        return localContents;
+      }
+      const fetchResult = runGit(["fetch", "--no-tags", upstreamRepository, tagRef]);
+      if (fetchResult.status !== 0) {
+        logger.warn(
+          `Failed to fetch release tag ${tag} from ${upstreamRepository}: ${fetchResult.error?.message ?? fetchResult.stderr}`,
+        );
+        return localContents;
+      }
+      return readFiles("FETCH_HEAD");
+    };
     if (file === "CHANGELOG.md") {
       sdkFilePath = relative(sdkRootPath, path.join(packageFolderPath, file)).replace(/\\/g, "/");
       // For CHANGELOG.md, use sdkFilePath directly
-      const gitCommand = `git --no-pager show ${tag}:${sdkFilePath}`;
-      const changelogContent = executeCommand(gitCommand)?.stdout || "";
+      const [changelogContent] = readReleaseFiles([sdkFilePath]);
       if (!changelogContent.trim()) {
         logger.warn(
           `Warning: CHANGELOG.md content is empty for tag ${tag} at path ${sdkFilePath}.`,
@@ -184,13 +208,10 @@ export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmVi
       const nodeApiFilePath = `${sdkFilePath}-node.api.md`;
       const standardApiFilePath = `${sdkFilePath}.api.md`;
 
-      // Generate two git commands
-      const nodeApiGitCommand = `git --no-pager show ${tag}:${nodeApiFilePath}`;
-      const standardApiGitCommand = `git --no-pager show ${tag}:${standardApiFilePath}`;
-
-      // Execute both git commands
-      const nodeApiExecResult = executeCommand(nodeApiGitCommand)?.stdout || "";
-      const standardApiExecResult = executeCommand(standardApiGitCommand)?.stdout || "";
+      const [nodeApiExecResult, standardApiExecResult] = readReleaseFiles([
+        nodeApiFilePath,
+        standardApiFilePath,
+      ]);
 
       // Use nodeApi result if it has content, otherwise use standardApi result
       let apiViewContent = nodeApiExecResult.trim() ? nodeApiExecResult : standardApiExecResult;

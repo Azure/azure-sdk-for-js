@@ -706,7 +706,8 @@ describe("BlobClient", () => {
     assert.isDefined(result.segment, "Expect valid segment response");
 
     assert.isNotEmpty(result.segment.blobItems, "Expect non empty result from list blobs().");
-    assert.isUndefined(
+    // XML listings leave `deleted` unset for a live blob; Apache Arrow listings report `false`.
+    assert.isNotOk(
       result.segment.blobItems![0].deleted,
       "Expect that the blob is NOT marked for deletion",
     );

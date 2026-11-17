@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the server key with the given name.
  *
  * @summary deletes the server key with the given name.
- * x-ms-original-file: 2025-08-01-preview/ServerKeyDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ServerKeyDelete.json
  */
 async function deleteTheServerKey() {
   const credential = new DefaultAzureCredential();

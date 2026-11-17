@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAAAAList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAAAAList.json
  */
 async function getPrivateDNSZoneAaaaRecordSets() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getPrivateDNSZoneAaaaRecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetAList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetAList.json
  */
 async function getPrivateDNSZoneARecordSets() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function getPrivateDNSZoneARecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetCNAMEList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetCNAMEList.json
  */
 async function getPrivateDNSZoneCnameRecordSets() {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function getPrivateDNSZoneCnameRecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetMXList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetMXList.json
  */
 async function getPrivateDNSZoneMXRecordSets() {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function getPrivateDNSZoneMXRecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetPTRList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetPTRList.json
  */
 async function getPrivateDNSZonePTRRecordSets() {
   const credential = new DefaultAzureCredential();
@@ -118,7 +118,7 @@ async function getPrivateDNSZonePTRRecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSOAList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSOAList.json
  */
 async function getPrivateDNSZoneSOARecordSets() {
   const credential = new DefaultAzureCredential();
@@ -140,7 +140,7 @@ async function getPrivateDNSZoneSOARecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetSRVList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetSRVList.json
  */
 async function getPrivateDNSZoneSRVRecordSets() {
   const credential = new DefaultAzureCredential();
@@ -162,7 +162,7 @@ async function getPrivateDNSZoneSRVRecordSets() {
  * This sample demonstrates how to lists the record sets of a specified type in a Private DNS zone.
  *
  * @summary lists the record sets of a specified type in a Private DNS zone.
- * x-ms-original-file: 2024-06-01/RecordSetTXTList.json
+ * x-ms-original-file: 2026-06-01-preview/RecordSetTXTList.json
  */
 async function getPrivateDNSZoneTXTRecordSets() {
   const credential = new DefaultAzureCredential();

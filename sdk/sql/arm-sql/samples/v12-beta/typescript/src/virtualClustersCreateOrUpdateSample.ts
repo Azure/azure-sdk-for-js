@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates virtual cluster.
  *
  * @summary creates virtual cluster.
- * x-ms-original-file: 2025-08-01-preview/VirtualClusterCreate.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualClusterCreate.json
  */
 async function createVirtualCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

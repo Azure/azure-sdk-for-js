@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a managed instance administrator.
  *
  * @summary deletes a managed instance administrator.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceAdministratorDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceAdministratorDelete.json
  */
 async function deleteAdministratorOfManagedInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

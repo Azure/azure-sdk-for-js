@@ -12,6 +12,8 @@ import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
+  LiveServerEventLiveErrorEvent,
+  LiveServerEventLiveInstructionsAppended,
   MCPTool,
   ModelDeployment,
   ToolUnion,
@@ -22,6 +24,8 @@ import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
 import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
+import { createWriteStream } from "node:fs";
+import { pipeline } from "node:stream/promises";
 import { fileURLToPath } from "url";
 import { context, trace } from "@opentelemetry/api";
 import {
@@ -40,6 +44,90 @@ describe("snippets", function () {
     project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("ReadmeSampleVoiceAgentLive", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+    const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+      store: false,
+    });
+    const eventId = "brief-instructions";
+    // Requires an agent configured for mono PCM16LE at 24 kHz.
+    const silence = new Uint8Array(4_800); // 100 ms of audio.
+    let correlatedAck = false;
+    let serviceError: Error | undefined;
+    const onAppended = (event: LiveServerEventLiveInstructionsAppended): void => {
+      if (event.client_event_id === eventId) correlatedAck = true;
+    };
+    const onError = (event: LiveServerEventLiveErrorEvent): void => {
+      serviceError = new Error(event.error.message);
+    };
+    connection.on("session.instructions.appended", onAppended);
+    connection.on("error", onError);
+    try {
+      await connection.appendInstructions("Keep your answers brief.", { eventId });
+      const deadline = Date.now() + 10_000;
+      while (!correlatedAck) {
+        if (serviceError) throw serviceError;
+        if (connection.state !== "connected") {
+          throw new Error(
+            `Live connection became ${connection.state} before the instructions ACK.`,
+          );
+        }
+        if (Date.now() >= deadline) {
+          throw new Error("Timed out waiting for the correlated instructions ACK.");
+        }
+        await connection.sendAudio(silence);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      if (serviceError) throw serviceError;
+    } finally {
+      connection.off("session.instructions.appended", onAppended);
+      connection.off("error", onError);
+      await connection.close();
+    }
+  });
+
+  it("ReadmeSampleVoiceAgentLiveCallbacks", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+    const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+      store: true,
+      onEvent: (event) => {
+        if (event.type === "session.started") {
+          console.log("Conversation:", event.conversation_id);
+        } else if (event.type === "session.output_audio.delta") {
+          console.log("Received an audio chunk.");
+        }
+      },
+    });
+    try {
+      console.log("Session:", connection.sessionStarted.session.id);
+    } finally {
+      await connection.close();
+    }
+  });
+
+  it("ReadmeSampleVoiceAgentStoredLive", async function () {
+    const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+    const agentName = "<GPT Live agent name>";
+    const conversationId = "<stored Live conversation ID>";
+    const conversations = project.beta.voiceAgents.liveConversations;
+
+    const conversation = await conversations.get(agentName, conversationId);
+    console.log("Conversation:", conversation.id, conversation.status);
+    for await (const item of conversations.listItems(agentName, conversationId)) {
+      console.log("Stored item:", item.id, item.type);
+    }
+
+    const recording = await conversations.getAudio(agentName, conversationId);
+    if (recording.blob_uri) {
+      throw new Error("Retrieve BYOS audio from blob_uri using your own storage credentials.");
+    }
+    const audio = await conversations.downloadAudio(agentName, conversationId);
+    if (!audio.readableStreamBody) {
+      throw new Error("Expected a Node.js audio stream.");
+    }
+    await pipeline(audio.readableStreamBody, createWriteStream("live-conversation.wav"));
+  });
+
   it("ReadmeSampleVoiceAgentTracing", async function () {
     const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential(), {
       tracingOptions: {
@@ -48,11 +136,19 @@ describe("snippets", function () {
       },
     });
 
-    const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+    const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
     try {
       await connection.sendText("Hello.");
       for await (const event of connection) {
-        if (event.type === "response.done") break;
+        if (event.type === "error") {
+          throw new Error(event.error.message);
+        }
+        if (event.type === "response.done") {
+          if (event.response.status !== "completed") {
+            throw new Error(`Voice response ${event.response.status}.`);
+          }
+          break;
+        }
       }
     } finally {
       await connection.close();
@@ -74,7 +170,7 @@ describe("snippets", function () {
   });
 
   it("agent-insight-monitors", async function () {
-    for await (const monitor of project.beta.agentInsightMonitors.list()) {
+    for await (const monitor of project.agentInsightMonitors.list()) {
       console.log(`${monitor.id}: ${monitor.agent_name}`);
     }
   });
@@ -151,47 +247,44 @@ describe("snippets", function () {
   });
 
   it("voiceAgent", async function () {
-    const voiceAgentName = `voice-agent-${Date.now()}`;
-    const voiceAgent = await project.beta.agents.createFromPrompt({
-      kind: "voice",
-      name: voiceAgentName,
-    });
+    // Ordinary Realtime sessions are GA and do not require a preview opt-in.
+    const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
     try {
-      const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
-      try {
-        await connection.sendText("Hello. Please introduce yourself briefly.");
-        for await (const event of connection) {
-          // Voice agents speak their reply, so the text form of it streams as an audio transcript
-          // rather than as `response.output_text.delta`.
-          if (
-            event.type === "response.output_text.delta" ||
-            event.type === "response.output_audio_transcript.delta"
-          ) {
-            process.stdout.write(event.delta);
-          } else if (event.type === "unknown") {
-            // event.rawEvent preserves all wire fields; validate them before using them.
-            console.log(`Unrecognized server event: ${event.eventType}`);
-          } else if (event.type === "response.done") {
-            await connection.close();
+      await connection.sendText("Hello. Please introduce yourself briefly.");
+      for await (const event of connection) {
+        if (
+          event.type === "response.output_text.delta" ||
+          event.type === "response.output_audio_transcript.delta"
+        ) {
+          process.stdout.write(event.delta);
+        } else if (event.type === "error") {
+          throw new Error(event.error.message);
+        } else if (event.type === "response.done") {
+          if (event.response.status !== "completed") {
+            throw new Error(`Voice response ${event.response.status}.`);
           }
+          break;
         }
-      } finally {
-        await connection.dispose();
       }
     } finally {
-      await project.agents.delete(voiceAgent.name, {
-        requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-      });
+      await connection.close();
     }
   });
 
+  it("ReadmeSampleVoiceAgentPreviewOptIn", async function () {
+    const connection = await project.voiceAgents.realtime.connect("<inline-handoff agent name>", {
+      foundryFeatures: "VoiceAgents=V1Preview",
+    });
+    await connection.close();
+  });
+
   it("ReadmeSampleVoiceAgentQuery", async function () {
-    const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
-      agentSessionId: "session-123",
-      store: false,
+    const connection = await project.voiceAgents.realtime.connect("my-voice-agent", {
       query: {
         custom_key: "custom value",
         custom_flag: true,
+        // Explicit URL transport: only use non-sensitive prompt variables.
+        structured_inputs: JSON.stringify({ persona: "guide" }),
       },
     });
     await connection.close();
@@ -356,10 +449,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
       tools: [
         {
-          type: "computer_use_preview",
-          display_width: 1026,
-          display_height: 769,
-          environment: "windows" as const,
+          type: "computer",
         },
       ],
     });
@@ -1029,21 +1119,21 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
   });
 
-  it("beta-agents", async function () {
-    const agentName = "MyBetaAgent";
+  it("agent-sessions", async function () {
+    const agentName = "MySessionAgent";
 
     // Create a session for the agent
     const versionIndicator: VersionRefIndicator = {
       type: "version_ref",
       agent_version: "1.0",
     };
-    const session = await project.beta.agents.createSession(agentName, versionIndicator);
+    const session = await project.agents.createSession(agentName, versionIndicator);
     console.log(`Session created: ${session.agent_session_id}`);
 
     // Upload a file to the session sandbox
     const filePath = "/sandbox/hello.txt";
-    const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
-    const uploadResult = await project.beta.agents.uploadSessionFile(
+    const fileContent = new TextEncoder().encode("Hello from the agent sessions sample!");
+    const uploadResult = await project.agents.uploadSessionFile(
       agentName,
       session.agent_session_id,
       filePath,
@@ -1057,15 +1147,17 @@ Be direct and efficient. When you reach the search results page, read and descri
 
     // Create a new skill
     const created = await project.beta.skills.create(skillName, {
-      description: "Example skill created by the @azure/ai-projects sample.",
-      instructions: "You are a helpful assistant that answers questions concisely.",
-      metadata: { owner: "sample" },
+      inlineContent: {
+        description: "Example skill created by the @azure/ai-projects sample.",
+        instructions: "You are a helpful assistant that answers questions concisely.",
+        metadata: { owner: "sample" },
+      },
     });
     console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 
     // Retrieve the skill
     const fetched = await project.beta.skills.get(skillName);
-    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+    console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
   });
 
   it("toolboxes", async function () {

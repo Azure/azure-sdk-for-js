@@ -1,6 +1,6 @@
 # Azure AI Projects client library for JavaScript
 
-The AI Projects client library (in preview) is part of the Microsoft Foundry SDK, and provides easy access to
+The AI Projects client library is part of the Microsoft Foundry SDK, and provides easy access to
 resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
@@ -13,7 +13,7 @@ resources in your Microsoft Foundry Project. Use it to:
   - Bing Grounding
   - Browser Automation
   - Code Interpreter
-  - Computer Use (Preview)
+  - Computer Use
   - File Search
   - Function Tool
   - Image Generation
@@ -26,7 +26,7 @@ resources in your Microsoft Foundry Project. Use it to:
 
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
 
-* **Manage beta agent sessions and files (preview)** using the `.beta.agents` operations.
+* **Manage hosted agent sessions and files** using the `.agents` operations on a deployment that supports sessions.
 * **Manage skills (preview)** for reusable agent capabilities, using the `.beta.skills` operations.
 * **Manage toolboxes** for grouping tools into reusable collections, using the `.toolboxes` operations.
 * **Manage memory stores (preview)** for Agent conversations, using the `.beta.memoryStores` operations.
@@ -62,7 +62,8 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
-  - [Voice Agent operations (preview)](#voice-agent-operations-preview)
+  - [Voice Agent operations](#voice-agent-operations)
+  - [GPT Live voice agents](#gpt-live-voice-agents)
   - [Using Agent tools](#using-agent-tools)
     - [Built-in Tools](#built-in-tools)
     - [Connection-Based Tools](#connection-based-tools)
@@ -73,7 +74,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
   - [Files operations](#files-operations)
   - [Indexes operations](#indexes-operations)
   - [fine-tuning operations](#fine-tuning-operations)
-  - [Beta agent sessions operations (preview)](#beta-agent-sessions-operations-preview)
+  - [Agent session operations](#agent-session-operations)
   - [Skills operations (preview)](#skills-operations-preview)
   - [Toolboxes operations (preview)](#toolboxes-operations-preview)
 - [Tracing](#tracing)
@@ -96,6 +97,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Microsoft Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects).
+- An [Application Insights resource connected to your Foundry project](https://learn.microsoft.com/azure/foundry/observability/how-to/trace-agent-setup) for agent tracing.
 - The project endpoint URL of the form `https://your-ai-services-account-name.services.ai.azure.com/api/projects/your-project-name`. It can be found in your Microsoft Foundry Project overview page. Below we will assume the environment variable `FOUNDRY_PROJECT_ENDPOINT` was defined to hold this value.
 
 ### Authorization
@@ -145,12 +147,12 @@ for await (const rule of project.evaluationRules.list()) {
 }
 ```
 
-Preview operation groups include `.beta.agents`, `.beta.agentInsightMonitors`, `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`.
+Preview operation groups include `.beta.voiceAgents`, `.beta.skills`, `.beta.memoryStores`, `.beta.routines`, `.beta.models`, `.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, `.beta.schedules`, and `.beta.redTeams`. Voice Agents have both GA and preview features; see [Voice Agent operations](#voice-agent-operations) for their opt-in requirements.
 
-Use `.beta.agentInsightMonitors` to list the monitors that analyze your agents:
+Use `.agentInsightMonitors` to list the monitors that analyze your agents:
 
 ```ts snippet:agent-insight-monitors
-for await (const monitor of project.beta.agentInsightMonitors.list()) {
+for await (const monitor of project.agentInsightMonitors.list()) {
   console.log(`${monitor.id}: ${monitor.agent_name}`);
 }
 ```
@@ -184,6 +186,8 @@ console.log("detailed response = ", JSON.stringify(detailResponse, null, 2));
 
 The `.agents` property on the `AIProjectsClient` gives you access to all Agent operations. Agents use an extension of the
 OpenAI Responses protocol, so you will likely need to get an `OpenAI` client to do Agent operations, as shown in the example below.
+
+For setup, see [Quickstart: Set up Microsoft Foundry resources](https://learn.microsoft.com/azure/foundry/tutorials/quickstart-create-foundry-resources).
 
 ```ts snippet:agents
 const openAIClient = project.getOpenAIClient();
@@ -235,93 +239,410 @@ await project.agents.deleteVersion(agent.name, agent.version);
 console.log("Agent deleted");
 ```
 
-### Voice Agent operations (preview)
+### Voice Agent operations
 
-Voice Agents use the unified `project.agents` management surface and a bidirectional WebSocket
-session exposed by `project.beta.voiceAgents.realtime`. The example below generates a Voice Agent, sends text, and
-streams its response:
+Use `project.agents` to create and manage voice agents. Choose the connection client
+that matches your agent:
+
+- `project.voiceAgents.realtime` for Realtime and cascaded voice agents.
+- `project.beta.voiceAgents.live` for [GPT Live (preview)](#gpt-live-voice-agents).
+
+The old `project.beta.voiceAgents.realtime` path is a deprecated compatibility alias
+for the same client. Use the root path in new code. Ordinary Realtime connections are
+GA and **do not send a VoiceAgents preview opt-in by default**.
+
+| Scope       | API or feature                                                                                                                      | `VoiceAgents=V1Preview`                                                                     |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| GA          | Realtime/cascaded definitions, delegate subagents, and phone system tools through `project.agents`                                  | Not required                                                                                |
+| GA          | `project.agents.createFromPrompt` (`agents:generate`)                                                                               | Do not send                                                                                 |
+| GA          | All 14 stored Realtime conversation operations on `project.voiceAgents.conversations`; Realtime protocol and OpenAI Realtime models | Not required                                                                                |
+| GA          | TPE/Twilio telephony and call-job list/get operations on `project.voiceAgents.telephony`                                            | Not required                                                                                |
+| Conditional | Realtime connections to an agent using inline handoff, SIP transfer destinations, or `post_call`                                    | Pass `foundryFeatures` to `connect()`                                                       |
+| Conditional | Telephony binding/transfer/call writes and call-job create/cancel/delete on `project.voiceAgents.telephony`                         | Pass `foundryFeatures` only when using SIP                                                  |
+| Preview     | GPT Live definitions, delegation, sessions, stored conversations, and models                                                        | Required; native Live and `project.beta.voiceAgents.liveConversations` supply it internally |
+| Preview     | Inline handoff configuration/state/events, SIP models, and `post_call` configuration/types                                          | Required for these preview members; use the relevant operation's opt-in                     |
+| Preview     | All seven campaign operations on `project.beta.voiceAgents.telephony`                                                               | Required; supplied internally                                                               |
+
+A GA operation can accept a union with preview-only members. Opt in when selecting
+Live, inline-handoff, or SIP members, or when configuring `post_call`; the presence
+of those members does not make the entire union or operation preview.
+
+For telephony writes, use the connection, binding, call, or call-job provider to
+determine SIP usage, not just the address type: a SIP connection can use
+`phone_number` source and destination addresses. The REST tracing sample accepts
+only an existing TPE/Twilio connection for its optional outbound call; it does not
+demonstrate SIP calls. Separately, `transfer.require_handoff` is a GA transfer-summary
+setting; it does not by itself enable preview inline handoff.
+
+When migrating older samples, replace `project.beta.agents.createFromPrompt` with
+`project.agents.createFromPrompt`, `project.beta.voiceAgents.conversations` with
+`project.voiceAgents.conversations`, and non-campaign uses of
+`project.beta.voiceAgents.telephony` with `project.voiceAgents.telephony`. Replace
+their retired `Beta*OptionalParams` and conversation-download response types with
+the corresponding non-beta types. Keep campaign and GPT Live operations under
+`project.beta.voiceAgents`; use the root Realtime client listed above.
+
+This Node.js example sends text to an existing Realtime agent and prints the reply.
+Use an agent without an automatic greeting so the first response is the answer to your message.
 
 ```ts snippet:voiceAgent
-const voiceAgentName = `voice-agent-${Date.now()}`;
-const voiceAgent = await project.beta.agents.createFromPrompt({
-  kind: "voice",
-  name: voiceAgentName,
-});
+// Ordinary Realtime sessions are GA and do not require a preview opt-in.
+const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
 try {
-  const connection = await project.beta.voiceAgents.realtime.connect(voiceAgent.name);
-  try {
-    await connection.sendText("Hello. Please introduce yourself briefly.");
-    for await (const event of connection) {
-      // Voice agents speak their reply, so the text form of it streams as an audio transcript
-      // rather than as `response.output_text.delta`.
-      if (
-        event.type === "response.output_text.delta" ||
-        event.type === "response.output_audio_transcript.delta"
-      ) {
-        process.stdout.write(event.delta);
-      } else if (event.type === "unknown") {
-        // event.rawEvent preserves all wire fields; validate them before using them.
-        console.log(`Unrecognized server event: ${event.eventType}`);
-      } else if (event.type === "response.done") {
-        await connection.close();
+  await connection.sendText("Hello. Please introduce yourself briefly.");
+  for await (const event of connection) {
+    if (
+      event.type === "response.output_text.delta" ||
+      event.type === "response.output_audio_transcript.delta"
+    ) {
+      process.stdout.write(event.delta);
+    } else if (event.type === "error") {
+      throw new Error(event.error.message);
+    } else if (event.type === "response.done") {
+      if (event.response.status !== "completed") {
+        throw new Error(`Voice response ${event.response.status}.`);
       }
+      break;
     }
-  } finally {
-    await connection.dispose();
   }
 } finally {
-  await project.agents.delete(voiceAgent.name, {
-    requestOptions: { headers: { "foundry-features": "VoiceAgents=V1Preview" } },
-  });
+  await connection.close();
 }
 ```
 
-The connection yields `VoiceAgentRealtimeEvent`: a known `VoiceAgentServerEvent` or a
-`VoiceAgentUnknownEvent` with `type: "unknown"`. For unknown events, `eventType` retains the
-original wire discriminator and `rawEvent` retains the complete parsed JSON payload, including
-its original `type`. No known-event field validation or normalization is applied to that payload;
-validate raw fields before using them and avoid logging sensitive payloads. Unknown events do not
-disconnect the session, so subsequent events and sends continue normally. Known `event.type`
-branches still narrow to their existing generated types. A handler accepting only
-`VoiceAgentServerEvent` can be called after excluding `event.type === "unknown"`.
+Read events with one `for await` loop. Leaving the loop closes the connection.
+Unknown event types arrive as `type: "unknown"` without disconnecting the session;
+their original type is in `eventType`. Validate `rawEvent` before using its fields.
+Malformed events throw `VoiceAgentProtocolError`. Handle service `error` events as shown above.
 
-Malformed JSON, missing or invalid discriminators, and malformed known events still fail the
-iteration with `VoiceAgentProtocolError`. Service `error` events remain typed events for the
-caller to handle; this fallback does not change which outbound events `sendEvent()` supports.
+To keep conversations, set `store: true` on the agent or on `connect()`, then use
+`project.voiceAgents.conversations` to read Realtime conversations. Connecting to a disabled agent
+fails with `409 Conflict` and error code `agent_disabled`.
 
-Use `project.beta.voiceAgents.conversations` to inspect conversations for Voice Agents configured
-with `store: true`. Pass `store` on `connect()` to override the persisted agent's setting for a
-single session. If the target agent is disabled, the WebSocket handshake fails with `409 Conflict`
-and `error.code = agent_disabled`. See the package samples for generated-agent lifecycle, local
-function tools, and PCM audio streaming.
+The [inline-handoff sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)
+shows the explicit opt-in for a Realtime agent that uses preview configuration:
 
-Pass `query` to `connect()` to add query parameters to that connection's WebSocket upgrade URL.
-The following parameter names are illustrative; use names supported by your service or gateway:
+```ts snippet:ReadmeSampleVoiceAgentPreviewOptIn
+const connection = await project.voiceAgents.realtime.connect("<inline-handoff agent name>", {
+  foundryFeatures: "VoiceAgents=V1Preview",
+});
+await connection.close();
+```
+
+In Node.js, this option sends the `foundry-features` header. Browsers and React Native
+send the equivalent `foundry_features` WebSocket query parameter. Use the typed option,
+not the reserved generic `query` parameter. Default Realtime samples use GA agent
+configurations; for an existing agent with inline handoff, SIP transfer destinations,
+or `post_call`, opt in as above.
+
+Choose a complete sample for the task you want:
+
+| Task                                                    | Node.js sample                                                                                                                                         |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Create and read an agent definition                     | [Configure a voice agent](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoice.ts)                     |
+| Generate an agent from a goal                           | [Generate a voice agent](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentGenerateVoice.ts)              |
+| Send speech and save the audio reply                    | [Realtime audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeAudio.ts)                 |
+| Send text and handle a function call                    | [Realtime text and tools](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeTextAndTools.ts) |
+| Inspect bindings and call history without placing calls | [Telephony](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentTelephony.ts)                               |
+| Route a turn to an inline specialist (preview)          | [Inline handoff](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceHandoff.ts)                       |
+| Inspect Realtime (GA) or Live (preview) recordings      | [Conversation recordings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)        |
+| Inspect preview campaigns and GA outbound call jobs     | [Read-only campaigns](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceCampaigns.ts)                |
+
+The preview handoff sample opts in when creating the definition and connecting.
+It creates two inline Realtime specialists, observes the correlated
+handoff events and the target's completed response, then deletes its sample agent.
+If creation is interrupted, an aborted HTTP request does not cancel server-side
+creation: use the logged unique agent name to check for a resource that finishes later.
+The [tracing samples](#voice-agents-tracing) are separate instrumentation walkthroughs;
+the basic generation, Realtime, and GPT Live examples do not require tracing setup.
+The configuration sample is GA by default; setting either optional post-call
+destination enables preview transcript delivery and adds the definition opt-in.
+Post-call delivery also supports optional merged-recording URLs; the sample does
+not request caller audio.
+
+#### Stored conversations and recordings
+
+The conversation-recordings sample is read-only and supports both persisted API
+families. Set `FOUNDRY_AGENT_NAME` and choose `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=realtime`
+or `live`. Realtime uses the GA `project.voiceAgents.conversations` client without a
+preview header; Live uses `project.beta.voiceAgents.liveConversations` with the required
+preview header. It reads one page and can select an exact conversation or item using the
+variables documented in [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env). Use IDs returned by the REST
+collections, not the native Realtime WebSocket item or response IDs. Create the
+recording first by connecting with
+`store: true` and finalize the session before downloading audio. The sample never
+deletes a stored conversation or prints its caller transcripts.
+
+Set `FOUNDRY_VOICE_RECORDING_OUTPUT_FILE` to opt into downloading a WAV file. With
+`FOUNDRY_VOICE_AUDIO_ITEM_ID`, this downloads that item's heard audio; otherwise it
+downloads the merged stereo recording. These WAV files are different from the raw
+PCM files written by the streaming samples. Keep downloaded caller media private.
+Bring-your-own-storage recordings must be read from `blob_uri` with your own storage
+credentials; this sample does not fetch arbitrary storage URLs.
+
+Realtime additionally exposes response inspection and generated-but-unheard item
+audio. The generated-audio variables require an interrupted or truncated item where
+the service produced audio beyond the heard segment; cancellation alone does not
+guarantee that artifact exists. Missing audio returns `404`. An unfinished merged
+recording can return `409 recording_not_ready`; follow its `Retry-After` guidance
+instead of treating that response as an empty recording.
+
+For stored GPT Live sessions, use `project.beta.voiceAgents.liveConversations`.
+Connect with `project.beta.voiceAgents.live.connect()` and `store: true` to persist
+a Live session; `project.voiceAgents.realtime.connect()` uses the Realtime
+protocol and is not a Live connection. The following Node.js example reads a
+completed Live conversation, lists its stored items without printing transcripts,
+and saves its Foundry-managed merged WAV recording:
+
+```ts snippet:ReadmeSampleVoiceAgentStoredLive
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+import { pipeline } from "node:stream/promises";
+import { createWriteStream } from "node:fs";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const agentName = "<GPT Live agent name>";
+const conversationId = "<stored Live conversation ID>";
+const conversations = project.beta.voiceAgents.liveConversations;
+const conversation = await conversations.get(agentName, conversationId);
+console.log("Conversation:", conversation.id, conversation.status);
+for await (const item of conversations.listItems(agentName, conversationId)) {
+  console.log("Stored item:", item.id, item.type);
+}
+const recording = await conversations.getAudio(agentName, conversationId);
+if (recording.blob_uri) {
+  throw new Error("Retrieve BYOS audio from blob_uri using your own storage credentials.");
+}
+const audio = await conversations.downloadAudio(agentName, conversationId);
+if (!audio.readableStreamBody) {
+  throw new Error("Expected a Node.js audio stream.");
+}
+await pipeline(audio.readableStreamBody, createWriteStream("live-conversation.wav"));
+```
+
+Campaign operations use the preview `project.beta.voiceAgents.telephony` client.
+Use `deleteCampaign()` to delete a campaign; `deleteTelephony()` is a deprecated
+compatibility alias for that operation.
+Call-job list/get operations use the GA `project.voiceAgents.telephony` client,
+including jobs created by a preview campaign. The campaign sample only reads campaign
+preparation, validation errors, operation monitors, and call jobs. The campaign reads
+require a deployment with those preview routes enabled.
+It never creates or cancels a call: campaign creation can authorize dialing before
+its preparation poller returns. An empty validation-error page during preparation
+does not establish that the campaign is valid or ready.
+
+#### Custom query parameters
+
+Pass `query` to add URL parameters for one connection. Use names supported by your
+service or gateway; the names below are examples:
 
 ```ts snippet:ReadmeSampleVoiceAgentQuery
-const connection = await project.beta.voiceAgents.realtime.connect("my-voice-agent", {
-  agentSessionId: "session-123",
-  store: false,
+const connection = await project.voiceAgents.realtime.connect("my-voice-agent", {
   query: {
     custom_key: "custom value",
     custom_flag: true,
+    // Explicit URL transport: only use non-sensitive prompt variables.
+    structured_inputs: JSON.stringify({ persona: "guide" }),
   },
 });
 await connection.close();
 ```
 
-Values can be strings, finite numbers, or booleans and are URL-encoded automatically. A value
-overrides matching endpoint query parameters; `undefined` removes a matching parameter. The SDK
-snapshots these values when `connect()` is called and does not reuse them for later connections.
-Do not put secrets in query parameters, because URLs can appear in server or proxy logs.
+Values can be strings, finite numbers, or booleans. The SDK URL-encodes them and captures
+them when `connect()` is called. A value replaces a matching endpoint parameter;
+`undefined` removes it. These values are not reused for later connections.
 
-SDK-managed query names are reserved, case-insensitively: `api-version`, `agent_session_id`,
-`store`, `transport`, `x-agent-version-override`, `x-ms-client-sdk`, `authorization`, `api-key`,
-`foundry_features`, `foundry-features`, `client-request-id`, `x-ms-client-request-id`,
-`structured_input`, `structured_inputs`, `x-ms-voice-structured-inputs`, and names starting with `h-`. Supplying
-these names or unsupported values rejects `connect()` with `TypeError` before authentication.
-Use the existing typed options instead. In particular, use `structuredInputs` for agent prompt
-variables; custom query parameters do not automatically become prompt inputs.
+Use typed options such as `store`, `agentVersionOverride`, and Realtime's
+`foundryFeatures` instead of putting SDK settings in `query`. SDK/authentication
+names, noncanonical structured-input names, and names starting with `h-` remain
+reserved. Realtime explicitly permits the exact `structured_inputs` key with a
+JSON-object string, as shown above; do not combine it with `structuredInputs`.
+Other custom query values do not become prompt variables.
+
+Realtime `structuredInputs` preserves header-based transport in Node.js. Browsers
+use a URL query because they cannot send arbitrary WebSocket upgrade headers.
+If your service requires the query form, opt in explicitly through
+`query.structured_inputs` instead of `structuredInputs`.
+**Never put secrets or sensitive prompt variables in query parameters:** server
+and proxy access logs can retain URLs.
+
+### GPT Live voice agents
+
+Use `project.beta.voiceAgents.live` for GPT Live agents. When creating the agent, set
+`sub_protocol: "live"`, `model_type: "self_deployed"`, and `model` to your GPT Live
+deployment name. Creation requires `VoiceAgents=V1Preview`.
+Pass `{ foundryFeatures: "VoiceAgents=V1Preview" }` to `project.agents.create()` or
+`createVersion()`. Native Live connections always send the required preview flag
+internally; callers do not need a flag on `live.connect()`.
+
+This short example requires an existing agent configured for mono PCM16LE audio
+at 24 kHz. Live advances on an audio clock even when adding text instructions, so
+the example sends silence until the correlated acknowledgement arrives, then
+closes the session. Use the complete samples below to send text or speech and
+read the reply.
+
+```ts snippet:ReadmeSampleVoiceAgentLive
+import {
+  AIProjectClient,
+  LiveServerEventLiveInstructionsAppended,
+  LiveServerEventLiveErrorEvent,
+} from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: false,
+});
+const eventId = "brief-instructions";
+// Requires an agent configured for mono PCM16LE at 24 kHz.
+const silence = new Uint8Array(4800); // 100 ms of audio.
+let correlatedAck = false;
+let serviceError: Error | undefined;
+const onAppended = (event: LiveServerEventLiveInstructionsAppended): void => {
+  if (event.client_event_id === eventId) correlatedAck = true;
+};
+const onError = (event: LiveServerEventLiveErrorEvent): void => {
+  serviceError = new Error(event.error.message);
+};
+connection.on("session.instructions.appended", onAppended);
+connection.on("error", onError);
+try {
+  await connection.appendInstructions("Keep your answers brief.", { eventId });
+  const deadline = Date.now() + 10000;
+  while (!correlatedAck) {
+    if (serviceError) throw serviceError;
+    if (connection.state !== "connected") {
+      throw new Error(`Live connection became ${connection.state} before the instructions ACK.`);
+    }
+    if (Date.now() >= deadline) {
+      throw new Error("Timed out waiting for the correlated instructions ACK.");
+    }
+    await connection.sendAudio(silence);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  if (serviceError) throw serviceError;
+} finally {
+  connection.off("session.instructions.appended", onAppended);
+  connection.off("error", onError);
+  await connection.close();
+}
+```
+
+#### Run a GPT Live sample
+
+Set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_LIVE_MODEL` in `.env`.
+Use a **deployment name**, not a model catalog ID. The function sample also needs
+`FOUNDRY_LIVE_BACKEND_MODEL`. See [sample.env](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/sample.env)
+for these settings and optional audio file paths.
+
+| Task                                                    | Node.js sample                                                                                                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Send a greeting and print the spoken reply as text      | [GPT Live text](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveText.ts)                  |
+| Send a speech file and save the audio reply             | [GPT Live audio](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveAudio.ts)                |
+| Run a local function and let the agent speak the result | [GPT Live function calling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceLiveFunctions.ts) |
+
+From a built SDK checkout, run a sample with Node.js 22.18 or later:
+
+```shell
+node samples-dev/agents/agentVoiceLiveText.ts
+```
+
+Each sample creates and deletes its own agent. It prints captions but does not play
+sound through your speakers. The audio sample uses a recorded file, not a microphone,
+and reads and saves **raw mono PCM16LE at 24 kHz**, without a WAV or other file header.
+
+**Press Enter after the reply, or Ctrl+C, to stop. Usage is billable until the session
+closes.** Live needs continuous audio input, even for text and tools, so the samples
+send silence while idle. Live has no speech-finished event; a completed backend
+response does not mean the agent has finished speaking.
+
+The text sample appends session instructions and waits for their correlated
+acknowledgement before adding commentary. That acknowledgement confirms acceptance,
+not completed speech; keep the session open until the expected reply arrives.
+
+#### Session controls and events
+
+`connect()` waits for `session.started`. Read the current settings from `connection.session`,
+including the selected managed agent and version when applicable. Read events with one
+`for await` loop or use `on`, `off`, and `once` listeners for subsequent events.
+For listener-only consumption, supply `onEvent` when connecting to receive startup
+events and initial audio without waiting for `connect()` to return. The original
+startup event, including the persisted conversation ID when provided by the service,
+remains available through `connection.sessionStarted`. An iterator started after
+an `onEvent` callback was configured receives subsequent events, not past events.
+
+```ts snippet:ReadmeSampleVoiceAgentLiveCallbacks
+import { AIProjectClient } from "@azure/ai-projects";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const project = new AIProjectClient("<project endpoint>", new DefaultAzureCredential());
+const connection = await project.beta.voiceAgents.live.connect("<GPT Live agent name>", {
+  store: true,
+  onEvent: (event) => {
+    if (event.type === "session.started") {
+      console.log("Conversation:", event.conversation_id);
+    } else if (event.type === "session.output_audio.delta") {
+      console.log("Received an audio chunk.");
+    }
+  },
+});
+try {
+  console.log("Session:", connection.sessionStarted.session.id);
+} finally {
+  await connection.close();
+}
+```
+
+| Task                                            | API or event                                                                              |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Send raw audio                                  | `sendAudio()`; Live detects speech boundaries, so no audio-buffer commit is needed        |
+| Read transcripts                                | `session.input_transcript.delta`, `session.output_transcript.delta`                       |
+| Receive audio                                   | `session.output_audio.delta`; decode the base64 data before saving or playing it          |
+| Add text context, rather than a user message    | `appendInstructions()`, `appendThinking()`, `appendCommentary()`                          |
+| Pause or resume audio processing                | `muteInputAudio()`, `unmuteInputAudio()`                                                  |
+| Update backend settings and transcript triggers | `configureSession()`; the initial model, audio format, and delegation owner cannot change |
+| Close the session                               | `close()`; waits for `session.closed` and rejects if finalization is not confirmed        |
+
+`close()` and `dispose()` also reject an unconfirmed shutdown when the socket has
+already disconnected. Inspect `connection.closed` for the service's finalization
+event and any connection error.
+
+With Responses delegation, backend events arrive inside `response.event`. Use
+`sendResponseItem()` to add a user message and `requestResponse()` to ask for a reply.
+For a function call, wait for the calling backend response to finish, then use
+`sendToolOutput()` to return the result and request continuation. These methods require
+Responses delegation. For client-handled delegation, use `appendThinking()` or
+`appendCommentary()` and pass the delegation ID as `delegationId`.
+
+Decision context items support user messages, function calls and results, and
+custom tool calls and results. Send them with `decision.item.create`; received
+`decision.item.created` events retain the corresponding item fields and stored ID.
+Decision commands require support from the service deployment.
+
+Live does not support Realtime's `response.cancel`. An abort signal cancels an SDK
+connection or send operation, not speech already being generated. To store Live
+conversations, enable `store` and use `project.beta.voiceAgents.liveConversations`;
+the service deployment must support persistence. Set `liveOptions` on `AIProjectClient`
+to change connection, session-start, and close timeouts.
+Use the [stored-conversation sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceConversations.ts)
+with `FOUNDRY_VOICE_CONVERSATION_PROTOCOL=live` to inspect persisted items or download their WAV audio.
+
+#### Browser authentication
+
+Use a browser credential such as `InteractiveBrowserCredential`. The SDK uses native
+`WebSocket` with `live` and short-lived bearer-token subprotocols, including in Web Workers.
+Node.js uses a bearer header instead. Do not supply `realtime` as a Live subprotocol,
+put tokens in URLs, or embed API keys, client secrets, or long-lived tokens in browser code.
+If direct browser authentication is unavailable, supply an authenticated backend relay
+through `webSocketFactory`.
+
+Realtime connections keep `structuredInputs` in the
+`x-ms-voice-structured-inputs` header in Node.js and use the `structured_inputs`
+URL query in browsers and Workers. Explicit Realtime `query.structured_inputs`
+opts into URL transport on any host. GPT Live continues to use the URL query on
+all hosts and has no header-based alternative.
+Proxy and server access logs can retain URLs: do not put credentials, personal
+data, or other sensitive information in URL-carried inputs.
 
 ### Using Agent tools
 
@@ -497,9 +818,9 @@ console.log(`Response: ${response.output_text}`);
 
 See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
 
-**Computer Use (Preview)**
+**Computer Use**
 
-Enable agents to interact directly with computer systems for task automation and system operations:
+Enable agents to interact directly with computer systems for task automation and system operations (requires a model deployment that supports the `computer` tool, such as `gpt-5.4`; for `computer-use-preview` deployments, use `computer_use_preview`):
 
 ```ts snippet:agent-computer-use
 const agent = await project.agents.createVersion("ComputerUseAgent", {
@@ -512,10 +833,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     `.trim(),
   tools: [
     {
-      type: "computer_use_preview",
-      display_width: 1026,
-      display_height: 769,
-      environment: "windows" as const,
+      type: "computer",
     },
   ],
 });
@@ -1312,25 +1630,27 @@ const fineTuningJob = await openAIClient.fineTuning.jobs.create({} as JobCreateP
 console.log("Created fine-tuning job:\n", JSON.stringify(fineTuningJob));
 ```
 
-### Beta agent sessions operations (preview)
+### Agent session operations
 
-The `.beta.agents` operations let you manage agent sessions and session files for hosted agents. Sessions provide isolated sandbox environments for agent interactions.
+Use `project.agents` to manage sessions and session files for hosted agents.
+Sessions provide isolated sandbox environments for agent interactions. This
+example requires a hosted agent deployment that supports session operations.
 
-```ts snippet:beta-agents
+```ts snippet:agent-sessions
 import { VersionRefIndicator } from "@azure/ai-projects";
 
-const agentName = "MyBetaAgent";
+const agentName = "MySessionAgent";
 // Create a session for the agent
 const versionIndicator: VersionRefIndicator = {
   type: "version_ref",
   agent_version: "1.0",
 };
-const session = await project.beta.agents.createSession(agentName, versionIndicator);
+const session = await project.agents.createSession(agentName, versionIndicator);
 console.log(`Session created: ${session.agent_session_id}`);
 // Upload a file to the session sandbox
 const filePath = "/sandbox/hello.txt";
-const fileContent = new TextEncoder().encode("Hello from the beta agents sample!");
-const uploadResult = await project.beta.agents.uploadSessionFile(
+const fileContent = new TextEncoder().encode("Hello from the agent sessions sample!");
+const uploadResult = await project.agents.uploadSessionFile(
   agentName,
   session.agent_session_id,
   filePath,
@@ -1339,7 +1659,8 @@ const uploadResult = await project.beta.agents.uploadSessionFile(
 console.log(`Uploaded file: ${uploadResult.path} (${uploadResult.bytes_written} bytes)`);
 ```
 
-See the full sample code in [betaAgents.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/betaAgents.ts).
+See the full sample code in [agentSessions.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentSessions.ts)
+and the matching [notebook](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentSessions.ipynb).
 
 ### Skills operations (preview)
 
@@ -1349,14 +1670,16 @@ The `.beta.skills` operations let you create and manage reusable skills that def
 const skillName = "sample-skill";
 // Create a new skill
 const created = await project.beta.skills.create(skillName, {
-  description: "Example skill created by the @azure/ai-projects sample.",
-  instructions: "You are a helpful assistant that answers questions concisely.",
-  metadata: { owner: "sample" },
+  inlineContent: {
+    description: "Example skill created by the @azure/ai-projects sample.",
+    instructions: "You are a helpful assistant that answers questions concisely.",
+    metadata: { owner: "sample" },
+  },
 });
 console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
 // Retrieve the skill
 const fetched = await project.beta.skills.get(skillName);
-console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.skill_id})`);
+console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id})`);
 ```
 
 See the full sample code in [skillBasic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/skills/skillBasic.ts).
@@ -1463,11 +1786,10 @@ Each option is resolved using the following precedence order:
 
 #### Voice Agents tracing
 
-After configuring an OpenTelemetry provider/exporter as shown below, the existing
-`tracingOptions: { experimental: true }` setting also traces voice-agent generation,
-telephony mutations, conversation deletion, and realtime connections/responses.
-No separate feature flag is required. Users who do not call Voice Agents APIs
-receive no additional Voice Agents spans.
+Register an OpenTelemetry provider and exporter, then set
+`tracingOptions: { experimental: true }` on `AIProjectClient`. This traces voice-agent
+generation, telephony changes, conversation deletion, and Realtime sessions and responses.
+No separate Voice Agents tracing flag is needed.
 
 ```ts snippet:ReadmeSampleVoiceAgentTracing
 import { AIProjectClient } from "@azure/ai-projects";
@@ -1479,37 +1801,38 @@ const project = new AIProjectClient("<project endpoint>", new DefaultAzureCreden
     contentRecording: false,
   },
 });
-const connection = await project.beta.voiceAgents.realtime.connect("<voice agent name>");
+const connection = await project.voiceAgents.realtime.connect("<voice agent name>");
 try {
   await connection.sendText("Hello.");
   for await (const event of connection) {
-    if (event.type === "response.done") break;
+    if (event.type === "error") {
+      throw new Error(event.error.message);
+    }
+    if (event.type === "response.done") {
+      if (event.response.status !== "completed") {
+        throw new Error(`Voice response ${event.response.status}.`);
+      }
+      break;
+    }
   }
 } finally {
   await connection.close();
 }
 ```
 
-Realtime creates a session span, a short connection child, and an `invoke_agent`
-child for each observed `response.created`/`response.done` pair. It records status,
-service IDs, token usage, aggregated audio bytes, and received-first-audio latency
-(from `response.created`, not user speech or playback). It does not create a span
-per audio chunk. Service IDs appear only in traces, not metric dimensions.
-REST and `project.beta.voiceAgents.realtime` use the same existing project-level
-`tracingOptions`; no additional options or per-realtime override are required.
-The independently constructed `VoiceAgentRealtimeClient` keeps its existing API
-and does not receive the project's tracing configuration.
+Realtime records a session span, a connection span, and an `invoke_agent` span per
+response, not per audio chunk. These include status, token usage, and audio byte counts.
+First-audio latency is measured from response creation to receipt, not from user speech
+or speaker playback. Service IDs appear in traces, not metric dimensions.
 
-The session's input message summary represents the latest observed input, not
-the full conversation history. New audio replaces an older transcript with audio
-metadata while its item ID is pending. A completed transcript replaces that
-metadata only when its item ID is correlated to the current input.
+REST and `project.voiceAgents.realtime` share the project's tracing settings.
+A separately constructed `VoiceAgentRealtimeClient` does not inherit them.
+Input summaries describe the latest input, not the full conversation history.
 
-Message summaries omit content by default. Explicit `contentRecording: true` allows
-bounded text/transcripts and tool arguments/results; it may expose sensitive user
-information. Raw media, credentials, query values, telephone numbers, SDP, and raw
-error/close messages are never intentionally recorded by this instrumentation.
-Read/list calls continue using the existing HTTP pipeline tracing.
+Content recording is off by default. Enable `contentRecording: true` only if you intend
+to record text, transcripts, and tool arguments/results, which can contain sensitive data.
+Raw media, credentials, query values, telephone numbers, SDP, and raw error/close messages
+are not recorded. Read/list operations use the existing HTTP pipeline tracing.
 
 See [realtime tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRealtimeWithTracing.ts)
 and [REST tracing sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentVoiceRestWithTracing.ts).

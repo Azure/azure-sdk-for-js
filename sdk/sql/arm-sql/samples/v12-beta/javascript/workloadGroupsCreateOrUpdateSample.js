@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a workload group.
  *
  * @summary creates or updates a workload group.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateWorkloadGroupMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateWorkloadGroupMax.json
  */
 async function createAWorkloadGroupWithAllPropertiesSpecified() {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function createAWorkloadGroupWithAllPropertiesSpecified() {
  * This sample demonstrates how to creates or updates a workload group.
  *
  * @summary creates or updates a workload group.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateWorkloadGroupMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateWorkloadGroupMin.json
  */
 async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
   const credential = new DefaultAzureCredential();

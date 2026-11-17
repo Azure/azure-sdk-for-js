@@ -1,0 +1,6 @@
+directory: specification/storage/resource-manager/Microsoft.Storage/Storage
+commit: 155fa07964af41f914064797e2b62ccc5a140ecc
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json

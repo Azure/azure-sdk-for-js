@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a workbench associated with the project.
  *
  * @summary creates or updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/PutWorkbench.json
+ * x-ms-original-file: 2026-11-15-preview/PutWorkbench.json
  */
 async function putWorkbench(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function putWorkbench(): Promise<void> {
  * This sample demonstrates how to creates or updates a workbench associated with the project.
  *
  * @summary creates or updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/PutWorkbenchPending.json
+ * x-ms-original-file: 2026-11-15-preview/PutWorkbenchPending.json
  */
 async function putWorkbenchPending(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -68,6 +68,28 @@ test("obvious three-way cases keep the changed side and custom formatting on agr
   );
 });
 
+test("trailing commas are presentation, but array holes and comma operators are semantic", () => {
+  for (const [left, right] of [
+    ["const x = { a: 1 };", "const x = { a: 1, };"],
+    ["const x = [a];", "const x = [a,];"],
+    ["f(a);", "f(a,);"],
+    ["function f(a: string) {}", "function f(a: string,) {}"],
+  ])
+    assert.equal(canonicalize(left), canonicalize(right));
+  for (const [left, right] of [
+    ["const x = [];", "const x = [,];"],
+    ["const x = [a,];", "const x = [a,,];"],
+    ["const x = (a, b);", "const x = b;"],
+  ])
+    assert.notEqual(canonicalize(left), canonicalize(right));
+  merged(
+    "function send() { return post({ headers: { ...headers } }); }",
+    "function send() { return post({ headers: { ...headers, }, }); }",
+    "function send() { return post({}); }",
+    "function send() { return post({}); }",
+  );
+});
+
 test("absence supports genuine additions and deletions, but not ambiguous replacements", () => {
   const base = "interface Example { x: string; }";
   const changed = "interface Example { x: number; }";
@@ -111,6 +133,38 @@ test("independent interface additions retain custom members and incoming require
   );
   assert.match(text, /Kept documentation/);
 });
+
+for (const [kind, declaration] of [
+  ["interface", (members) => `export interface Example { ${members} }`],
+  ["type literal", (members) => `export type Example = { ${members} };`],
+]) {
+  test(`${kind} member reordering merges independent edits, additions, and removals`, () => {
+    const base = declaration("a?: string; b: string; c: boolean; removed?: string;");
+    const custom = declaration(
+      "c: boolean; custom?: number; /** Kept documentation. */ a?: string; b: number; removed?: string;",
+    );
+    const incoming = declaration("b: string; added?: boolean; a: string; c: boolean;");
+    const text = merged(
+      base,
+      custom,
+      incoming,
+      declaration("c: boolean; custom?: number; a: string; b: number; added?: boolean;"),
+    );
+    assert.match(text, /Kept documentation/);
+    assert.equal(mergeDeclaration(base, custom, incoming, context).text, text);
+    assert.equal(mergeDeclaration(incoming, text, incoming, context).text, text);
+  });
+
+  test(`${kind} member reordering cannot hide incompatible field edits`, () => {
+    const diagnostics = rejected(
+      declaration("a: string; b: boolean;"),
+      declaration("b: boolean; a: number;"),
+      declaration("a: boolean; b: boolean; added?: string;"),
+      /Concurrent semantic changes/,
+    );
+    assert.ok(diagnostics.some((diagnostic) => diagnostic.member?.includes("a")));
+  });
+}
 
 test("independent changes to a field's type and optional marker can merge", () => {
   merged(

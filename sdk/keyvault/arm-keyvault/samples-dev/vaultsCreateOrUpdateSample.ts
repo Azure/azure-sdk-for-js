@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a key vault in the specified subscription.
  *
  * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2026-05-15/createVault.json
+ * x-ms-original-file: 2026-10-01-preview/createVault.json
  */
 async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -75,7 +75,58 @@ async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
  * This sample demonstrates how to create or update a key vault in the specified subscription.
  *
  * @summary create or update a key vault in the specified subscription.
- * x-ms-original-file: 2026-05-15/createVaultWithNetworkAcls.json
+ * x-ms-original-file: 2026-10-01-preview/createVaultWithCrossTenantAccessProtection.json
+ */
+async function createAVaultWithCrossTenantAccessProtectionEnabled(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+    location: "westus",
+    properties: {
+      enableCrossTenantAccessProtection: true,
+      enableRbacAuthorization: true,
+      sku: { name: "standard", family: "A" },
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a key vault in the specified subscription.
+ *
+ * @summary create or update a key vault in the specified subscription.
+ * x-ms-original-file: 2026-10-01-preview/createVaultWithIdentity.json
+ */
+async function createOrUpdateAVaultByFullyReplacingTheUserAssignedIdentitySet(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+    location: "westus",
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sample-identity":
+          {},
+      },
+    },
+    properties: {
+      accessPolicies: [],
+      enableRbacAuthorization: true,
+      sku: { name: "standard", family: "A" },
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a key vault in the specified subscription.
+ *
+ * @summary create or update a key vault in the specified subscription.
+ * x-ms-original-file: 2026-10-01-preview/createVaultWithNetworkAcls.json
  */
 async function createOrUpdateAVaultWithNetworkAcls(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,9 +155,61 @@ async function createOrUpdateAVaultWithNetworkAcls(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to create or update a key vault in the specified subscription.
+ *
+ * @summary create or update a key vault in the specified subscription.
+ * x-ms-original-file: 2026-10-01-preview/createVaultWithProtectionKeyWrapping.json
+ */
+async function createOrUpdateAVaultWithProtectionKeyWrapping(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+    location: "westus",
+    properties: {
+      accessPolicies: [],
+      protectionKeysWrappingKey: {
+        keyValue: { url: "https://sample-hsm.managedhsm.azure.net/keys/wrapping-key", kty: "oct" },
+        keyAuthenticationData: { authType: "ServiceIdentity" },
+      },
+      sku: { name: "standard", family: "A" },
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a key vault in the specified subscription.
+ *
+ * @summary create or update a key vault in the specified subscription.
+ * x-ms-original-file: 2026-10-01-preview/createVaultWithoutIdentity.json
+ */
+async function removeAllUserAssignedIdentitiesAndTheirCertificatesFromAVaultUsingPUT(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new KeyVaultManagementClient(credential, subscriptionId);
+  const result = await client.vaults.createOrUpdate("sample-resource-group", "sample-vault", {
+    location: "westus",
+    identity: { type: "None" },
+    properties: {
+      accessPolicies: [],
+      enableRbacAuthorization: true,
+      sku: { name: "standard", family: "A" },
+      tenantId: "00000000-0000-0000-0000-000000000000",
+    },
+  });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await createANewVaultOrUpdateAnExistingVault();
+  await createAVaultWithCrossTenantAccessProtectionEnabled();
+  await createOrUpdateAVaultByFullyReplacingTheUserAssignedIdentitySet();
   await createOrUpdateAVaultWithNetworkAcls();
+  await createOrUpdateAVaultWithProtectionKeyWrapping();
+  await removeAllUserAssignedIdentitiesAndTheirCertificatesFromAVaultUsingPUT();
 }
 
 main().catch(console.error);

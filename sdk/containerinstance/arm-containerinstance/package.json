@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerinstance",
-  "version": "10.0.0-beta.2",
+  "version": "10.0.0",
   "description": "A generated SDK for ContainerInstanceManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -276,6 +276,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerinstance?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerinstance"
   }
 }

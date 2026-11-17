@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createAzureStackHCIVMManagement,
-  type AzureStackHCIVMManagementContext,
-  type AzureStackHCIVMManagementClientOptionalParams,
+export type {
+  AzureStackHCIVMManagementContext,
+  AzureStackHCIVMManagementClientOptionalParams,
 } from "./azureStackHcivmManagementContext.js";
+export { createAzureStackHCIVMManagement } from "./azureStackHcivmManagementContext.js";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a server's security alert policy.
  *
  * @summary get a server's security alert policy.
- * x-ms-original-file: 2025-08-01-preview/ServerSecurityAlertsGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerSecurityAlertsGet.json
  */
 async function getAServerThreatDetectionPolicy() {
   const credential = new DefaultAzureCredential();
