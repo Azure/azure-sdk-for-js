@@ -297,7 +297,8 @@ const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688])
 
 /**
  * Throws when the review would be silently incomplete: implementation files in the program, or
- * modules and names that don't resolve (they would otherwise quietly become unresolved types).
+ * unresolved modules and local names. Named external imports and re-exports can be preserved even
+ * when the selected dependency entry doesn't export them.
  */
 function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
   const packageFiles = program
