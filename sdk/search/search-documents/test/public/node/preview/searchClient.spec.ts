@@ -10,18 +10,108 @@ import { SearchClient } from "../../../../src/index.js";
 import { defaultServiceVersion } from "../../../../src/serviceUtils.js";
 import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
-import { WAIT_TIME } from "../../utils/setup.js";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../../utils/setup.js";
 
-describe("query source authorization", { timeout: 20_000 }, () => {
+describe("search scenarios (preview)", { timeout: 20_000 }, () => {
   let recorder: Recorder;
+  let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
-  let index: SearchIndex;
+  let TEST_INDEX_NAME: string;
+  let indexDefinition: SearchIndex;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, ""));
+    TEST_INDEX_NAME = createRandomIndexName();
+    ({
+      searchClient,
+      indexClient,
+      indexName: TEST_INDEX_NAME,
+    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+    indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+    await delay(WAIT_TIME);
+    await populateIndex(searchClient);
+  });
+
+  afterEach(async () => {
+    try {
+      await indexClient.deleteIndex(TEST_INDEX_NAME).catch(() => {});
+      await delay(WAIT_TIME);
+    } finally {
+      await recorder?.stop();
+    }
+  });
+
+  const baseSemanticOptions = () =>
+    ({
+      queryType: "semantic",
+      semanticSearchOptions: {
+        configurationName:
+          indexDefinition.semanticSearch?.configurations?.[0].name ??
+          assert.fail("No semantic configuration in index."),
+      },
+    }) as const;
+
+  it("search with document debug info", async () => {
+    const baseOptions = baseSemanticOptions();
+    const options = {
+      ...baseOptions,
+      semanticSearchOptions: {
+        ...baseOptions.semanticSearchOptions,
+        errorMode: "fail",
+        debugMode: "semantic",
+      },
+    } as const;
+    const searchResults = await searchClient.search("luxury", options);
+    for await (const result of searchResults.results) {
+      assert.deepEqual(
+        {
+          contentFields: [
+            {
+              name: "description",
+              state: "used",
+            },
+          ],
+          keywordFields: [
+            {
+              name: "tags",
+              state: "used",
+            },
+          ],
+          rerankerInput: {
+            content:
+              "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+            keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+            title: "Fancy Stay",
+          },
+          titleField: {
+            name: "hotelName",
+            state: "used",
+          },
+        },
+        result.documentDebugInfo?.semantic,
+      );
+    }
+  });
+});
+
+describe("content security (preview)", { timeout: 20_000 }, () => {
+  let recorder: Recorder;
+  let indexClient: SearchIndexClient;
+  let index: SearchIndex;
+  let indexCreated: boolean;
+
+  beforeEach(async (ctx) => {
+    indexCreated = false;
+    recorder = new Recorder(ctx);
+    const clients = await createClients<Hotel>(
+      defaultServiceVersion,
+      recorder,
+      createRandomIndexName(),
+    );
+    indexClient = clients.indexClient;
     index = {
-      name: "content-security-test",
+      name: clients.indexName,
+      purviewEnabled: true,
       fields: [
         {
           type: "Edm.String",
@@ -29,25 +119,45 @@ describe("query source authorization", { timeout: 20_000 }, () => {
           key: true,
         },
         {
-          name: "content",
+          name: "sensitivityLabelId",
           type: "Edm.String",
-          searchable: true,
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          hasSensitivityLabel: true,
+        },
+        {
+          name: "sensitivityLabelName",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sensitivityLabelName: true,
+        },
+        {
+          name: "sourceDocumentId",
+          type: "Edm.String",
+          filterable: false,
+          sortable: false,
+          facetable: true,
+          sourceDocumentId: true,
         },
       ],
     };
-    await indexClient.createOrUpdateIndex(index);
+    await indexClient.createIndex(index);
+    indexCreated = true;
     await delay(WAIT_TIME);
   });
 
   afterEach(async () => {
     try {
-      await indexClient.deleteIndex(index.name).catch(() => {});
+      if (indexCreated) await indexClient.deleteIndex(index.name).catch(() => {});
     } finally {
       await recorder?.stop();
     }
   });
 
-  it("forwards query source authorization", async () => {
+  it("verify content security indexes", async () => {
     const searchClient = new SearchClient<{ id: string }>(
       indexClient.endpoint,
       index.name,

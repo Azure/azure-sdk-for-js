@@ -7,6 +7,9 @@
 import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 
 // @public
+export type GetDocumentCountResponse = number;
+
+// @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokensCount?: number;
     model?: KnowledgeBaseActivityRecordModel;
@@ -18,12 +21,25 @@ export interface KnowledgeBaseModelWebSummarizationActivityRecord extends Knowle
 export type KnowledgeBaseRetrievalStreamEvents = KnowledgeBaseRetrievalStartedStreamEvent | KnowledgeBaseActivityStartedStreamEvent | KnowledgeBaseActivityCompletedStreamEvent | KnowledgeBaseAnswerCompletedStreamEvent | KnowledgeBaseReferencesCompletedStreamEvent | KnowledgeBaseErrorStreamEvent | KnowledgeBaseResponseCompletedStreamEvent;
 
 // @public
-export enum KnownVersions {
-    V20260401 = "2026-04-01",
-    V20261001 = "2026-10-01"
+export enum KnownOperationState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
 }
 
-// @public (undocumented)
+// @public
+export enum KnownVersions {
+    V20260401 = "2026-04-01",
+    V20261001 = "2026-10-01",
+    V20261101Preview = "2026-11-01-preview"
+}
+
+// @public
+export type OperationState = string;
+
+// @public
 export type RetrieveStreamResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeReadableStream;

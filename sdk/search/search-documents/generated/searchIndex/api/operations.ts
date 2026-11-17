@@ -6,8 +6,8 @@ import {
   SynonymMap,
   synonymMapSerializer,
   synonymMapDeserializer,
-  ListSynonymMapsResult,
-  listSynonymMapsResultDeserializer,
+  _ListSynonymMapsResult,
+  _listSynonymMapsResultDeserializer,
   SearchIndex,
   searchIndexSerializer,
   searchIndexDeserializer,
@@ -37,14 +37,18 @@ import {
   KnowledgeSourceUnion,
   _ListKnowledgeSourcesResult,
   _listKnowledgeSourcesResultDeserializer,
-  UploadKnowledgeSourceFileMultipartRequest,
-  uploadKnowledgeSourceFileMultipartRequestSerializer,
   KnowledgeSourceFile,
   knowledgeSourceFileDeserializer,
+  UploadKnowledgeSourceFileMultipartRequest,
+  uploadKnowledgeSourceFileMultipartRequestSerializer,
+  KnowledgeSourceFileIngestionOperation,
+  knowledgeSourceFileIngestionOperationDeserializer,
   _ListKnowledgeSourceFilesResult,
   _listKnowledgeSourceFilesResultDeserializer,
   UpdateKnowledgeSourceFileRequest,
   updateKnowledgeSourceFileRequestSerializer,
+  _ListKnowledgeSourceFileIngestionOperationsResult,
+  _listKnowledgeSourceFileIngestionOperationsResultDeserializer,
   SearchServiceStatistics,
   searchServiceStatisticsDeserializer,
   _ListIndexStatsSummary,
@@ -60,15 +64,20 @@ import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  GetSynonymMapsOptionalParams,
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
+  ListKnowledgeSourceFileIngestionOperationsOptionalParams,
+  GetKnowledgeSourceFileIngestionOperationOptionalParams,
+  IngestKnowledgeSourceFileReplacementOptionalParams,
   UpdateKnowledgeSourceFileOptionalParams,
   DeleteKnowledgeSourceFileOptionalParams,
   ListKnowledgeSourceFilesOptionalParams,
+  IngestKnowledgeSourceFileMultipartOptionalParams,
   UploadKnowledgeSourceFileMultipartOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
@@ -105,64 +114,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-
-export function _getSynonymMapsSend(
-  context: Client,
-  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/synonymmaps{?api%2Dversion,%24select,search,pageSize,searchType}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
-      "%24select": options?.select,
-      search: options?.search,
-      pageSize: options?.pageSize,
-      searchType: options?.searchType,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...(options?.accept !== undefined
-        ? {
-            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _getSynonymMapsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ListSynonymMapsResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return listSynonymMapsResultDeserializer(result.body);
-}
-
-/** Lists all synonym maps available for a search service. */
-export async function getSynonymMaps(
-  context: Client,
-  options: GetSynonymMapsOptionalParams = { requestOptions: {} },
-): Promise<ListSynonymMapsResult> {
-  const result = await _getSynonymMapsSend(context, options);
-  return _getSynonymMapsDeserialize(result);
-}
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listIndexStatsSummarySend(
   context: Client,
@@ -171,7 +123,7 @@ export function _listIndexStatsSummarySend(
   const path = expandUrlTemplate(
     "/indexstats{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       search: options?.search,
       pageSize: options?.pageSize,
       searchType: options?.searchType,
@@ -225,7 +177,7 @@ export function listIndexStatsSummary(
     {
       itemName: "indexesStatistics",
       nextLinkName: "NextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -237,7 +189,7 @@ export function _getServiceStatisticsSend(
   const path = expandUrlTemplate(
     "/servicestats{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,6 +236,217 @@ export async function getServiceStatistics(
   return _getServiceStatisticsDeserialize(result);
 }
 
+export function _listKnowledgeSourceFileIngestionOperationsSend(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFileIngestionOperationsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files/operations{?api%2Dversion,pageSize,continuationToken}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+      pageSize: options?.pageSize,
+      continuationToken: options?.continuationToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listKnowledgeSourceFileIngestionOperationsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ListKnowledgeSourceFileIngestionOperationsResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _listKnowledgeSourceFileIngestionOperationsResultDeserializer(result.body);
+}
+
+/** Lists retained file ingestion operations for this knowledge source. */
+export function listKnowledgeSourceFileIngestionOperations(
+  context: Client,
+  name: string,
+  options: ListKnowledgeSourceFileIngestionOperationsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<KnowledgeSourceFileIngestionOperation> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listKnowledgeSourceFileIngestionOperationsSend(context, name, options),
+    _listKnowledgeSourceFileIngestionOperationsDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "@odata.nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
+    },
+  );
+}
+
+export function _getKnowledgeSourceFileIngestionOperationSend(
+  context: Client,
+  name: string,
+  operationId: string,
+  options: GetKnowledgeSourceFileIngestionOperationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files/operations/{operationId}{?api%2Dversion}",
+    {
+      sourceName: name,
+      operationId: operationId,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getKnowledgeSourceFileIngestionOperationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFileIngestionOperation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return knowledgeSourceFileIngestionOperationDeserializer(result.body);
+}
+
+/** Gets the status and, when successful, the result of a file ingestion operation. */
+export async function getKnowledgeSourceFileIngestionOperation(
+  context: Client,
+  name: string,
+  operationId: string,
+  options: GetKnowledgeSourceFileIngestionOperationOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFileIngestionOperation> {
+  const result = await _getKnowledgeSourceFileIngestionOperationSend(
+    context,
+    name,
+    operationId,
+    options,
+  );
+  return _getKnowledgeSourceFileIngestionOperationDeserialize(result);
+}
+
+export function _ingestKnowledgeSourceFileReplacementSend(
+  context: Client,
+  name: string,
+  fileId: string,
+  body: UpdateKnowledgeSourceFileRequest,
+  options: IngestKnowledgeSourceFileReplacementOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files('{fileId}'):ingest{?api%2Dversion}",
+    {
+      sourceName: name,
+      fileId: fileId,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: updateKnowledgeSourceFileRequestSerializer(body),
+  });
+}
+
+export async function _ingestKnowledgeSourceFileReplacementDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return knowledgeSourceFileDeserializer(result.body.result);
+}
+
+/** Starts asynchronous ingestion that replaces an existing file in a File knowledge source, processed on a Content Processor. Poll the returned operation to retrieve the updated file. */
+export function ingestKnowledgeSourceFileReplacement(
+  context: Client,
+  name: string,
+  fileId: string,
+  body: UpdateKnowledgeSourceFileRequest,
+  options: IngestKnowledgeSourceFileReplacementOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile> {
+  return getLongRunningPoller(
+    context,
+    _ingestKnowledgeSourceFileReplacementDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _ingestKnowledgeSourceFileReplacementSend(context, name, fileId, body, options),
+      resourceLocationConfig: "operation-location",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
+    },
+  ) as PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile>;
+}
+
 export function _updateKnowledgeSourceFileSend(
   context: Client,
   name: string,
@@ -296,7 +459,7 @@ export function _updateKnowledgeSourceFileSend(
     {
       sourceName: name,
       fileId: fileId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -355,7 +518,7 @@ export function _deleteKnowledgeSourceFileSend(
     {
       sourceName: name,
       fileId: fileId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,7 +576,7 @@ export function _listKnowledgeSourceFilesSend(
     "/knowledgesources('{sourceName}')/files{?api%2Dversion,prefix,search,pageSize,searchType}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       prefix: options?.prefix,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -469,9 +632,84 @@ export function listKnowledgeSourceFiles(
     {
       itemName: "value",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
+}
+
+export function _ingestKnowledgeSourceFileMultipartSend(
+  context: Client,
+  name: string,
+  body: UploadKnowledgeSourceFileMultipartRequest,
+  options: IngestKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files:ingest{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "multipart/form-data",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: uploadKnowledgeSourceFileMultipartRequestSerializer(body),
+  });
+}
+
+export async function _ingestKnowledgeSourceFileMultipartDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  if (result?.body?.result === undefined) {
+    throw createRestError(
+      `Expected a result in the response at position "result.body.result"`,
+      result,
+    );
+  }
+
+  return knowledgeSourceFileDeserializer(result.body.result);
+}
+
+/** Starts asynchronous ingestion of a new file into a File knowledge source, processed on a Content Processor. Poll the returned operation to retrieve the created file. */
+export function ingestKnowledgeSourceFileMultipart(
+  context: Client,
+  name: string,
+  body: UploadKnowledgeSourceFileMultipartRequest,
+  options: IngestKnowledgeSourceFileMultipartOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile> {
+  return getLongRunningPoller(
+    context,
+    _ingestKnowledgeSourceFileMultipartDeserialize,
+    ["202", "200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _ingestKnowledgeSourceFileMultipartSend(context, name, body, options),
+      resourceLocationConfig: "operation-location",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
+    },
+  ) as PollerLike<OperationState<KnowledgeSourceFile>, KnowledgeSourceFile>;
 }
 
 export function _uploadKnowledgeSourceFileMultipartSend(
@@ -484,7 +722,7 @@ export function _uploadKnowledgeSourceFileMultipartSend(
     "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,6 +769,72 @@ export async function uploadKnowledgeSourceFileMultipart(
   return _uploadKnowledgeSourceFileMultipartDeserialize(result);
 }
 
+export function _uploadKnowledgeSourceFileSend(
+  context: Client,
+  name: string,
+  contentDisposition: string,
+  file: Uint8Array,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/knowledgesources('{sourceName}')/files{?api%2Dversion}",
+    {
+      sourceName: name,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/octet-stream",
+    headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
+      "content-disposition": contentDisposition,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: file,
+  });
+}
+
+export async function _uploadKnowledgeSourceFileDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KnowledgeSourceFile> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return knowledgeSourceFileDeserializer(result.body);
+}
+
+/** Uploads a file to a File knowledge source for processing and indexing. */
+export async function uploadKnowledgeSourceFile(
+  context: Client,
+  name: string,
+  contentDisposition: string,
+  file: Uint8Array,
+  options: UploadKnowledgeSourceFileOptionalParams = { requestOptions: {} },
+): Promise<KnowledgeSourceFile> {
+  const result = await _uploadKnowledgeSourceFileSend(
+    context,
+    name,
+    contentDisposition,
+    file,
+    options,
+  );
+  return _uploadKnowledgeSourceFileDeserialize(result);
+}
+
 export function _getKnowledgeSourceStatusSend(
   context: Client,
   name: string,
@@ -540,7 +844,7 @@ export function _getKnowledgeSourceStatusSend(
     "/knowledgesources('{sourceName}')/status{?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -596,7 +900,7 @@ export function _createKnowledgeSourceSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -653,7 +957,7 @@ export function _listKnowledgeSourcesSend(
   const path = expandUrlTemplate(
     "/knowledgesources{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       search: options?.search,
       pageSize: options?.pageSize,
       searchType: options?.searchType,
@@ -707,7 +1011,7 @@ export function listKnowledgeSources(
     {
       itemName: "value",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -721,7 +1025,7 @@ export function _getKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -778,7 +1082,7 @@ export function _deleteKnowledgeSourceSend(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -830,15 +1134,15 @@ export async function deleteKnowledgeSource(
 
 export function _createOrUpdateKnowledgeSourceSend(
   context: Client,
-  knowledgeSource: KnowledgeSourceUnion,
   name: string,
+  knowledgeSource: KnowledgeSourceUnion,
   options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/knowledgesources('{sourceName}'){?api%2Dversion}",
     {
       sourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -884,11 +1188,11 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
 /** Creates a new knowledge source or updates an knowledge source if it already exists. */
 export async function createOrUpdateKnowledgeSource(
   context: Client,
-  knowledgeSource: KnowledgeSourceUnion,
   name: string,
+  knowledgeSource: KnowledgeSourceUnion,
   options: CreateOrUpdateKnowledgeSourceOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeSourceUnion> {
-  const result = await _createOrUpdateKnowledgeSourceSend(context, knowledgeSource, name, options);
+  const result = await _createOrUpdateKnowledgeSourceSend(context, name, knowledgeSource, options);
   return _createOrUpdateKnowledgeSourceDeserialize(result);
 }
 
@@ -900,7 +1204,7 @@ export function _createKnowledgeBaseSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -957,7 +1261,7 @@ export function _listKnowledgeBasesSend(
   const path = expandUrlTemplate(
     "/knowledgebases{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       search: options?.search,
       pageSize: options?.pageSize,
       searchType: options?.searchType,
@@ -1011,7 +1315,7 @@ export function listKnowledgeBases(
     {
       itemName: "value",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -1025,7 +1329,7 @@ export function _getKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1082,7 +1386,7 @@ export function _deleteKnowledgeBaseSend(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1134,15 +1438,15 @@ export async function deleteKnowledgeBase(
 
 export function _createOrUpdateKnowledgeBaseSend(
   context: Client,
-  knowledgeBase: KnowledgeBase,
   name: string,
+  knowledgeBase: KnowledgeBase,
   options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/knowledgebases('{knowledgeBaseName}'){?api%2Dversion}",
     {
       knowledgeBaseName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1188,11 +1492,11 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
 /** Creates a new knowledge base or updates a knowledge base if it already exists. */
 export async function createOrUpdateKnowledgeBase(
   context: Client,
-  knowledgeBase: KnowledgeBase,
   name: string,
+  knowledgeBase: KnowledgeBase,
   options: CreateOrUpdateKnowledgeBaseOptionalParams = { requestOptions: {} },
 ): Promise<KnowledgeBase> {
-  const result = await _createOrUpdateKnowledgeBaseSend(context, knowledgeBase, name, options);
+  const result = await _createOrUpdateKnowledgeBaseSend(context, name, knowledgeBase, options);
   return _createOrUpdateKnowledgeBaseDeserialize(result);
 }
 
@@ -1204,7 +1508,7 @@ export function _createAliasSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1259,7 +1563,7 @@ export function _listAliasesSend(
   const path = expandUrlTemplate(
     "/aliases{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       search: options?.search,
       pageSize: options?.pageSize,
       searchType: options?.searchType,
@@ -1313,7 +1617,7 @@ export function listAliases(
     {
       itemName: "aliases",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -1327,7 +1631,7 @@ export function _getAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1382,7 +1686,7 @@ export function _deleteAliasSend(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1432,15 +1736,15 @@ export async function deleteAlias(
 
 export function _createOrUpdateAliasSend(
   context: Client,
-  alias: SearchAlias,
   name: string,
+  alias: SearchAlias,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/aliases('{aliasName}'){?api%2Dversion}",
     {
       aliasName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1486,25 +1790,25 @@ export async function _createOrUpdateAliasDeserialize(
 /** Creates a new search alias or updates an alias if it already exists. */
 export async function createOrUpdateAlias(
   context: Client,
-  alias: SearchAlias,
   name: string,
+  alias: SearchAlias,
   options: CreateOrUpdateAliasOptionalParams = { requestOptions: {} },
 ): Promise<SearchAlias> {
-  const result = await _createOrUpdateAliasSend(context, alias, name, options);
+  const result = await _createOrUpdateAliasSend(context, name, alias, options);
   return _createOrUpdateAliasDeserialize(result);
 }
 
 export function _analyzeTextSend(
   context: Client,
-  request: AnalyzeTextOptions,
   name: string,
+  request: AnalyzeTextOptions,
   options: AnalyzeTextOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexes('{indexName}')/search.analyze{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1547,11 +1851,11 @@ export async function _analyzeTextDeserialize(
 /** Shows how an analyzer breaks text into tokens. */
 export async function analyzeText(
   context: Client,
-  request: AnalyzeTextOptions,
   name: string,
+  request: AnalyzeTextOptions,
   options: AnalyzeTextOptionalParams = { requestOptions: {} },
 ): Promise<AnalyzeResult> {
-  const result = await _analyzeTextSend(context, request, name, options);
+  const result = await _analyzeTextSend(context, name, request, options);
   return _analyzeTextDeserialize(result);
 }
 
@@ -1564,7 +1868,7 @@ export function _getIndexStatisticsSend(
     "/indexes('{indexName}')/search.stats{?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1620,7 +1924,7 @@ export function _createIndexSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1675,7 +1979,7 @@ export function _listIndexesWithSelectedPropertiesSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       "%24select": options?.select,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -1727,7 +2031,11 @@ export function listIndexesWithSelectedProperties(
     () => _listIndexesWithSelectedPropertiesSend(context, options),
     _listIndexesWithSelectedPropertiesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "NextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
+    {
+      itemName: "value",
+      nextLinkName: "NextLink",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
+    },
   );
 }
 
@@ -1738,7 +2046,7 @@ export function _listIndexesSend(
   const path = expandUrlTemplate(
     "/indexes{?api%2Dversion,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       search: options?.search,
       pageSize: options?.pageSize,
       searchType: options?.searchType,
@@ -1792,7 +2100,7 @@ export function listIndexes(
     {
       itemName: "indexes",
       nextLinkName: "NextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -1806,7 +2114,7 @@ export function _getIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1861,7 +2169,7 @@ export function _deleteIndexSend(
     "/indexes('{indexName}'){?api%2Dversion}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1911,15 +2219,15 @@ export async function deleteIndex(
 
 export function _createOrUpdateIndexSend(
   context: Client,
-  index: SearchIndex,
   name: string,
+  index: SearchIndex,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/indexes('{indexName}'){?api%2Dversion,allowIndexDowntime}",
     {
       indexName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       allowIndexDowntime: options?.allowIndexDowntime,
     },
     {
@@ -1966,11 +2274,11 @@ export async function _createOrUpdateIndexDeserialize(
 /** Creates a new search index or updates an index if it already exists. */
 export async function createOrUpdateIndex(
   context: Client,
-  index: SearchIndex,
   name: string,
+  index: SearchIndex,
   options: CreateOrUpdateIndexOptionalParams = { requestOptions: {} },
 ): Promise<SearchIndex> {
-  const result = await _createOrUpdateIndexSend(context, index, name, options);
+  const result = await _createOrUpdateIndexSend(context, name, index, options);
   return _createOrUpdateIndexDeserialize(result);
 }
 
@@ -1982,7 +2290,7 @@ export function _createSynonymMapSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2039,7 +2347,7 @@ export function _listSynonymMapsSend(
   const path = expandUrlTemplate(
     "/synonymmaps{?api%2Dversion,%24select,search,pageSize,searchType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
       "%24select": options?.select,
       search: options?.search,
       pageSize: options?.pageSize,
@@ -2067,7 +2375,7 @@ export function _listSynonymMapsSend(
 
 export async function _listSynonymMapsDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListSynonymMapsResult> {
+): Promise<_ListSynonymMapsResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -2078,7 +2386,7 @@ export async function _listSynonymMapsDeserialize(
     throw error;
   }
 
-  return listSynonymMapsResultDeserializer(result.body);
+  return _listSynonymMapsResultDeserializer(result.body);
 }
 
 /** Lists all synonym maps available for a search service. */
@@ -2094,7 +2402,7 @@ export function listSynonymMaps(
     {
       itemName: "synonymMaps",
       nextLinkName: "@odata.nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01",
+      apiVersion: context.apiVersion ?? "2026-11-01-preview",
     },
   );
 }
@@ -2108,7 +2416,7 @@ export function _getSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2165,7 +2473,7 @@ export function _deleteSynonymMapSend(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2215,15 +2523,15 @@ export async function deleteSynonymMap(
 
 export function _createOrUpdateSynonymMapSend(
   context: Client,
-  synonymMap: SynonymMap,
   name: string,
+  synonymMap: SynonymMap,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/synonymmaps('{synonymMapName}'){?api%2Dversion}",
     {
       synonymMapName: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2269,10 +2577,10 @@ export async function _createOrUpdateSynonymMapDeserialize(
 /** Creates a new synonym map or updates a synonym map if it already exists. */
 export async function createOrUpdateSynonymMap(
   context: Client,
-  synonymMap: SynonymMap,
   name: string,
+  synonymMap: SynonymMap,
   options: CreateOrUpdateSynonymMapOptionalParams = { requestOptions: {} },
 ): Promise<SynonymMap> {
-  const result = await _createOrUpdateSynonymMapSend(context, synonymMap, name, options);
+  const result = await _createOrUpdateSynonymMapSend(context, name, synonymMap, options);
   return _createOrUpdateSynonymMapDeserialize(result);
 }
