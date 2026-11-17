@@ -45,19 +45,6 @@ describe("DefaultAzureCredential", () => {
 
   it("treats a Docker Desktop unreachable response as unavailable", async () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
-    for (const name of [
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
-      "AZURE_FEDERATED_TOKEN_FILE",
-      "AZURE_POD_IDENTITY_AUTHORITY_HOST",
-      "IDENTITY_ENDPOINT",
-      "IDENTITY_HEADER",
-      "IMDS_ENDPOINT",
-      "MSI_ENDPOINT",
-      "MSI_SECRET",
-    ]) {
-      vi.stubEnv(name, undefined);
-    }
     const sendRequest = vi.fn(async (request: PipelineRequest) => ({
       request,
       status: 403,
