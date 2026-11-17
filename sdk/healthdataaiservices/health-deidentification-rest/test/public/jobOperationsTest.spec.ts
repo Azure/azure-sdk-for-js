@@ -154,12 +154,13 @@ describe("Batch", () => {
       assert.isTrue(foundJob !== undefined, "Job should be found");
       assert.isString(foundJob!.createdAt, "Job should have createdAt");
       assert.isString(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
-      // The job may begin processing before it is listed, so it can be NotStarted or Running,
-      // and a summary (with in-progress counts) can appear as soon as processing begins.
+      // The job may begin processing, or even finish while list visibility is retried, before it is
+      // listed, so it can be NotStarted, Running, or Succeeded, and a summary (with in-progress
+      // counts) can appear as soon as processing begins.
       assert.include(
-        ["NotStarted", "Running"],
+        ["NotStarted", "Running", "Succeeded"],
         foundJob!.status,
-        "Job status should be NotStarted or Running",
+        "Job status should be NotStarted, Running, or Succeeded",
       );
       assert.isUndefined(foundJob!.error, "Job should not have error");
       assert.isUndefined(
