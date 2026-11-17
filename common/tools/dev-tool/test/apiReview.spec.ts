@@ -1589,54 +1589,19 @@ export declare function isRestError(error: unknown): error is RestError;`,
       );
     });
 
-    it("preserves named dependency re-exports missing from the react-native entry", async () => {
-      const index = [
-        "export {",
-        "    StorageSharedKeyCredential,",
-        "    StorageSharedKeyCredentialPolicy as SharedKeyPolicy,",
-        '} from "@azure/storage-common";',
-      ].join("\n");
-      const root = fixture(
-        {
-          "node_modules/@azure/storage-common/package.json": JSON.stringify({
-            name: "@azure/storage-common",
-            type: "module",
-            exports: {
-              ".": {
-                "react-native": { types: "./react-native.d.ts" },
-                import: { types: "./index.d.ts" },
-              },
-            },
-          }),
-          "node_modules/@azure/storage-common/index.d.ts": [
-            "export declare class StorageSharedKeyCredential {}",
-            "export declare class StorageSharedKeyCredentialPolicy {}",
-          ].join("\n"),
-          "node_modules/@azure/storage-common/react-native.d.ts": "export {};",
-          "dist/esm/index.d.ts": index,
-          "dist/react-native/index.d.ts": index,
-        },
-        {
-          exports: {
-            ".": {
-              import: { types: "./dist/esm/index.d.ts" },
-              "react-native": { types: "./dist/react-native/index.d.ts" },
-            },
-          },
-        },
-      );
+    it("throws when a re-exported name doesn't exist in its module", async () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts":
+          'export { StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+      });
 
-      const { apiMd } = await generateApiReview(root);
-
-      expect(apiMd).toContain(
-        [
-          "export {",
-          "    StorageSharedKeyCredentialPolicy as SharedKeyPolicy,",
-          "    StorageSharedKeyCredential,",
-          '} from "@azure/storage-common";',
-        ].join("\n"),
+      await expect(generateApiReview(root)).rejects.toThrow(
+        `[import] dist/esm/index.d.ts: '"@azure/storage-common"' has no exported member named 'StorageSharedKeyCredentialPolicy'. Did you mean 'StorageSharedKeyCredential'?`,
       );
-      expect(apiMd).toContain("Identical to the ESM view: `react-native`.");
     });
 
     it("resolves the require view with CommonJS conditions", async () => {
