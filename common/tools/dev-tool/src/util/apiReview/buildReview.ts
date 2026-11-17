@@ -315,9 +315,31 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
     }
   }
   for (const file of packageFiles) {
-    const unresolved = program
-      .getSemanticDiagnostics(file)
-      .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
+    const unresolved = program.getSemanticDiagnostics(file).find((diagnostic) => {
+      if (!resolutionErrorCodes.has(diagnostic.code)) {
+        return false;
+      }
+      return !(
+        [2305, 2614, 2724].includes(diagnostic.code) &&
+        file.statements.some(
+          (statement) =>
+            ts.isExportDeclaration(statement) &&
+            statement.moduleSpecifier &&
+            statement.exportClause &&
+            ts.isNamedExports(statement.exportClause) &&
+            statement.exportClause.elements.some(
+              (element) =>
+                diagnostic.start !== undefined &&
+                diagnostic.start >= element.getStart(file) &&
+                diagnostic.start < element.end,
+            ) &&
+            isExternal(
+              program,
+              program.getTypeChecker().getSymbolAtLocation(statement.moduleSpecifier),
+            ),
+        )
+      );
+    });
     if (unresolved) {
       throw new Error(
         `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
@@ -373,8 +395,13 @@ function buildExportSections(
   const rootNames = new Set<string>();
   const references = new Map<string, Map<string, string>>();
 
-  const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
-    symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+  const resolveAlias = (symbol: ts.Symbol): ts.Symbol => {
+    if (!(symbol.flags & ts.SymbolFlags.Alias)) {
+      return symbol;
+    }
+    const target = checker.getAliasedSymbol(symbol);
+    return target.declarations ? target : symbol;
+  };
 
   const isTypeOnlyExport = (symbol: ts.Symbol): boolean => {
     let current: ts.Symbol | undefined = symbol;
@@ -452,7 +479,7 @@ function buildExportSections(
     ts.forEachChild(node, collectReferences);
   };
   for (const symbol of exposed) {
-    if (isExternal(program, symbol) || isModuleObject(symbol)) {
+    if (isExternal(program, symbol) || externalImport(program, symbol) || isModuleObject(symbol)) {
       continue;
     }
     for (const declaration of symbol.declarations ?? []) {
@@ -630,15 +657,19 @@ function externalImport(
     ) {
       return undefined;
     }
-    if (isExternal(program, next)) {
-      const moduleSpecifier = ts.isImportClause(declaration)
-        ? declaration.parent.moduleSpecifier
-        : ts.isImportSpecifier(declaration)
-          ? declaration.parent.parent.parent.moduleSpecifier
-          : declaration.parent.parent.moduleSpecifier;
-      const declaredName = ts.getNameOfDeclaration(
-        checker.getAliasedSymbol(current).declarations?.[0],
-      );
+    const moduleSpecifier = ts.isImportClause(declaration)
+      ? declaration.parent.moduleSpecifier
+      : ts.isImportSpecifier(declaration)
+        ? declaration.parent.parent.parent.moduleSpecifier
+        : declaration.parent.parent.moduleSpecifier;
+    if (
+      isExternal(program, next) ||
+      (!next?.declarations &&
+        moduleSpecifier &&
+        isExternal(program, checker.getSymbolAtLocation(moduleSpecifier)))
+    ) {
+      const targetDeclaration = checker.getAliasedSymbol(current).declarations?.[0];
+      const declaredName = targetDeclaration && ts.getNameOfDeclaration(targetDeclaration);
       return {
         module: (moduleSpecifier as ts.StringLiteral).text,
         importedName: ts.isImportClause(declaration)
