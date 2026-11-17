@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { afterEach, beforeEach, describe, it } from "vitest";
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { createRequire } from "node:module";
+import type * as Identity from "@azure/identity";
+import { afterEach, beforeEach, describe, it, vi } from "vitest";
+import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createSampleRecorderStartOptions } from "../../utils/recordedClient.js";
 import { runRecordedSample } from "../../utils/recordedSamples.js";
 
@@ -43,7 +45,19 @@ describe("November preview sample workflows", { timeout: 720_000 }, () => {
   });
 
   it("runs seeded random scoring searches", async () => {
-    await runRecordedSample("randomScoring", recorder);
+    const { DefaultAzureCredential } = createRequire(import.meta.url)(
+      "@azure/identity",
+    ) as typeof Identity;
+    const credential = isPlaybackMode()
+      ? vi
+          .spyOn(DefaultAzureCredential.prototype, "getToken")
+          .mockRejectedValue(new Error("Playback must not request Azure credentials."))
+      : undefined;
+    try {
+      await runRecordedSample("randomScoring", recorder);
+    } finally {
+      credential?.mockRestore();
+    }
   });
 
   it("runs compatible embedding, query vectorization and grounded chat retrieval", async () => {

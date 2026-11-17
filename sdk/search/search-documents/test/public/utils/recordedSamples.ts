@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
 import { assert, expect } from "vitest";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
@@ -23,8 +24,10 @@ import * as protocolIndex from "../../../src/searchIndex/index.js";
 import * as protocolSearch from "../../../src/search/index.js";
 import * as protocolRetrieval from "../../../src/knowledgeBaseRetrieval/index.js";
 import { AzureOpenAI } from "openai";
+import type * as Identity from "@azure/identity";
 
 const require = createRequire(import.meta.url);
+const identity = require("@azure/identity") as typeof Identity;
 type Constructor = new (...args: never[]) => object;
 interface OwnedResource {
   kind: string;
@@ -43,6 +46,15 @@ export async function runRecordedSample(
   recorder: Recorder,
   environment: Record<string, string> = {},
 ): Promise<void> {
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    compareBodies: true,
+    excludedHeaders: [
+      "x-stainless-os",
+      "x-stainless-arch",
+      "x-stainless-runtime-version",
+      "x-stainless-retry-count",
+    ],
+  });
   const owned: OwnedResource[] = [];
   const endpoint = env.ENDPOINT!;
   const credential = new sdk.AzureKeyCredential(env.AZURE_SEARCH_API_KEY!);
@@ -197,6 +209,14 @@ export async function runRecordedSample(
     });
   };
   const modules: Record<string, unknown> = {
+    "@azure/identity": {
+      ...identity,
+      DefaultAzureCredential: new Proxy(identity.DefaultAzureCredential, {
+        construct(_target, args) {
+          return createTestCredential(args[0] as Parameters<typeof createTestCredential>[0]);
+        },
+      }),
+    },
     "@azure/search-documents": {
       ...sdk,
       SearchIndexClient: recordConstructor(sdk.SearchIndexClient, 2, true),
@@ -247,7 +267,7 @@ export async function runRecordedSample(
         };
       }
       if (name in modules) return modules[name];
-      if (name.startsWith("node:") || name === "@azure/identity") return require(name);
+      if (name.startsWith("node:")) return require(name);
       throw new Error(`Unexpected sample dependency: ${name}`);
     },
     exports: {},

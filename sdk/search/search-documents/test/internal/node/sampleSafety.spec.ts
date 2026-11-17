@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { join, resolve } from "node:path";
+import { join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
@@ -26,6 +26,34 @@ const directories = [
   join("samples", "v13-beta", "typescript", "src"),
   join("samples", "v13-beta", "javascript"),
 ];
+
+describe("Published sample README links", () => {
+  for (const language of ["javascript", "typescript"]) {
+    it(`resolves ${language} sample links within the published sample directory`, () => {
+      const packageRoot = fileURLToPath(new URL("../../../", import.meta.url));
+      const sampleDirectory = resolve(packageRoot, "samples", "v13-beta", language);
+      const readme = readFileSync(join(sampleDirectory, "README.md"), "utf8");
+      const prefix = "/Azure/azure-sdk-for-js/blob/main/";
+      const links = [
+        ...readme.matchAll(
+          /^\[[^\]]+\]: (https:\/\/github\.com\/Azure\/azure-sdk-for-js\/blob\/main\/\S+)/gm,
+        ),
+      ];
+      assert.isNotEmpty(links);
+      for (const [, href] of links) {
+        const url = new URL(href);
+        assert.isTrue(url.pathname.startsWith(prefix), href);
+        const file = resolve(
+          packageRoot,
+          "../../..",
+          ...decodeURIComponent(url.pathname.slice(prefix.length)).split("/"),
+        );
+        assert.isTrue(file.startsWith(`${sampleDirectory}${sep}`), href);
+        assert.isTrue(existsSync(file), href);
+      }
+    });
+  }
+});
 
 async function runSample(
   sample: string,
