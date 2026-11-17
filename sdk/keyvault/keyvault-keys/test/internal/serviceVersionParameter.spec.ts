@@ -69,4 +69,18 @@ describe("The Keys client should set the serviceVersion", () => {
       }),
     );
   });
+
+  it("it should allow us to specify the 2026-04-01 API version", async () => {
+    const client = new KeyClient(keyVaultUrl, credential, {
+      serviceVersion: "2026-04-01",
+      httpClient: mockHttpClient,
+    });
+    await client.createKey("keyName", "RSA");
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `https://keyvaultname.vault.azure.net/keys/keyName/create?api%2Dversion=2026-04-01`,
+      }),
+    );
+  });
 });
