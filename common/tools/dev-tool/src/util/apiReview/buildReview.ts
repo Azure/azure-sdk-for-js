@@ -553,10 +553,14 @@ function buildExportSections(
     const differsFromRoot: Code[] = [];
     const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
+      const symbol = resolveAlias(exportedSymbol);
+      // Names missing from their module resolve to `unknown`; Unresolved references lists them.
+      if (!symbol.declarations?.length) {
+        continue;
+      }
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const symbol = resolveAlias(exportedSymbol);
       const earlierPath = shownUnder.get(symbol);
       if (earlierPath !== undefined) {
         alsoExported.push({ path: earlierPath, name: exportedSymbol.name });

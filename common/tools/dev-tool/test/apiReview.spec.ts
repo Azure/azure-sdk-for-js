@@ -1612,6 +1612,29 @@ export declare function isRestError(error: unknown): error is RestError;`,
       );
     });
 
+    it("leaves names that don't exist in their module out of the export section", async () => {
+      const root = fixture({
+        ...dependency(
+          "@azure/storage-common",
+          "export declare class StorageSharedKeyCredential {\n}",
+        ),
+        "dist/esm/index.d.ts":
+          'export { StorageSharedKeyCredential, StorageSharedKeyCredentialPolicy } from "@azure/storage-common";',
+      });
+
+      const { apiMd } = await generateApiReview(root);
+
+      expect(apiMd).toContain(
+        [
+          "## Export `.`",
+          "",
+          "```ts",
+          'export { StorageSharedKeyCredential } from "@azure/storage-common";',
+          "```",
+        ].join("\n"),
+      );
+    });
+
     it("resolves the require view with CommonJS conditions", async () => {
       const index = [
         'import type { Widget } from "@example/esm-only";',
