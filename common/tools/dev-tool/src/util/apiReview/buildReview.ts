@@ -321,18 +321,13 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
       }
       return !(
         [2305, 2614, 2724].includes(diagnostic.code) &&
-        file.statements.some((statement) => {
-          if (!ts.isExportDeclaration(statement) && !ts.isImportDeclaration(statement)) {
-            return false;
-          }
-          const bindings = ts.isExportDeclaration(statement)
-            ? statement.exportClause
-            : statement.importClause?.namedBindings;
-          return (
+        file.statements.some(
+          (statement) =>
+            ts.isExportDeclaration(statement) &&
             statement.moduleSpecifier &&
-            bindings &&
-            (ts.isNamedExports(bindings) || ts.isNamedImports(bindings)) &&
-            bindings.elements.some(
+            statement.exportClause &&
+            ts.isNamedExports(statement.exportClause) &&
+            statement.exportClause.elements.some(
               (element) =>
                 diagnostic.start !== undefined &&
                 diagnostic.start >= element.getStart(file) &&
@@ -341,9 +336,8 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
             isExternal(
               program,
               program.getTypeChecker().getSymbolAtLocation(statement.moduleSpecifier),
-            )
-          );
-        })
+            ),
+        )
       );
     });
     if (unresolved) {
