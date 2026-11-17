@@ -1,0 +1,78 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to updates an account-owned cost control. Omitting properties preserves all existing cost control properties; setting properties to null or an empty object ({}) clears them all.
+ * A non-empty properties object updates selected fields, preserving omitted fields; a successful update that leaves the cost control unchanged retains its entity tag.
+ * The complete merged result may contain at most one notification, including disabled notifications, and one Block action.
+ * Exceeding either limit returns HTTP 400 without changing the stored definition.
+ *
+ * @summary updates an account-owned cost control. Omitting properties preserves all existing cost control properties; setting properties to null or an empty object ({}) clears them all.
+ * A non-empty properties object updates selected fields, preserving omitted fields; a successful update that leaves the cost control unchanged retains its entity tag.
+ * The complete merged result may contain at most one notification, including disabled notifications, and one Block action.
+ * Exceeding either limit returns HTTP 400 without changing the stored definition.
+ * x-ms-original-file: 2026-11-15-preview/AccountCostControl/clearOptionalSettings.json
+ */
+async function clearFiltersAndRemoveNamedNotificationsAndBlockingActions(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accountCostControls.update(
+    "foundry-resource-group",
+    "foundry-account",
+    "production-agents",
+    {
+      properties: {
+        filter: {},
+        notifications: { usageAlert: {} },
+        providerProperties: { actions: { stopRequests: {} } },
+      },
+    },
+    { ifMatch: '"00000000-0000-0000-0000-000000000001"' },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an account-owned cost control. Omitting properties preserves all existing cost control properties; setting properties to null or an empty object ({}) clears them all.
+ * A non-empty properties object updates selected fields, preserving omitted fields; a successful update that leaves the cost control unchanged retains its entity tag.
+ * The complete merged result may contain at most one notification, including disabled notifications, and one Block action.
+ * Exceeding either limit returns HTTP 400 without changing the stored definition.
+ *
+ * @summary updates an account-owned cost control. Omitting properties preserves all existing cost control properties; setting properties to null or an empty object ({}) clears them all.
+ * A non-empty properties object updates selected fields, preserving omitted fields; a successful update that leaves the cost control unchanged retains its entity tag.
+ * The complete merged result may contain at most one notification, including disabled notifications, and one Block action.
+ * Exceeding either limit returns HTTP 400 without changing the stored definition.
+ * x-ms-original-file: 2026-11-15-preview/AccountCostControl/update.json
+ */
+async function mergeNamedBudgetSettingsAndRestoreOwnerDefaultGrouping(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CognitiveServicesManagementClient(credential, subscriptionId);
+  const result = await client.accountCostControls.update(
+    "foundry-resource-group",
+    "foundry-account",
+    "production-agents",
+    {
+      properties: {
+        grouping: [],
+        amount: 1500,
+        timePeriod: { endDate: new Date("2028-11-15T00:00:00Z") },
+        notifications: { usageAlert: { enabled: false } },
+        providerProperties: { actions: { stopRequests: { threshold: 90 } } },
+      },
+    },
+    { ifMatch: '"00000000-0000-0000-0000-000000000001"' },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await clearFiltersAndRemoveNamedNotificationsAndBlockingActions();
+  await mergeNamedBudgetSettingsAndRestoreOwnerDefaultGrouping();
+}
+
+main().catch(console.error);

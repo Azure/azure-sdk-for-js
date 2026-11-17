@@ -39,7 +39,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
+    },
   );
 }
 
@@ -97,7 +101,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,7 +138,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, managedNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +156,7 @@ export function _patchSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +205,7 @@ export function patch(
     getInitialResponse: () =>
       _patchSend(context, resourceGroupName, accountName, managedNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -223,7 +227,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -271,7 +275,7 @@ export function put(
     getInitialResponse: () =>
       _putSend(context, resourceGroupName, accountName, managedNetworkName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-11-01",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<
     OperationState<ManagedNetworkSettingsPropertiesBasicResource>,
     ManagedNetworkSettingsPropertiesBasicResource
@@ -292,7 +296,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       managedNetworkName: managedNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
