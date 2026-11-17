@@ -16,7 +16,7 @@ import type {
   NeuroShieldMitigationsListOptionalParams,
   NeuroShieldMitigationsGetOptionalParams,
 } from "../../api/neuroShieldMitigations/options.js";
-import type { NeuroShieldMitigation } from "../../models/models.js";
+import type { NeuroShieldMitigation } from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NeuroShieldMitigations operations. */
