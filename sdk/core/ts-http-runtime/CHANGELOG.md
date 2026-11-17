@@ -1,12 +1,6 @@
 # Release History
 
-## 0.3.11 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 0.3.11 (2016-11-17)
 
 - Load the ESM-only `http-proxy-agent` and `https-proxy-agent` packages lazily with a dynamic `import()` when a proxy is used, so the CommonJS build can be loaded and can use proxies in environments where `require(esm)` is disabled, such as AWS Lambda Node.js 24. [Issue #40759](https://github.com/Azure/azure-sdk-for-js/issues/40759)
 
