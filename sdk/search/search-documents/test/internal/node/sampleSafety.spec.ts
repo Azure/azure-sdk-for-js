@@ -32,6 +32,7 @@ async function runSample(
   directory: string,
   clients: Record<string, unknown>,
   environment: Record<string, string> = {},
+  onExitCode?: (exitCode: number | undefined) => void,
 ): Promise<unknown[]> {
   const errors: unknown[] = [];
   const file = resolve(
@@ -40,12 +41,22 @@ async function runSample(
     `${sample}.${directory.endsWith("javascript") ? "js" : "ts"}`,
   );
   const compiled = transpileModule(readFileSync(file, "utf8"), {
-    compilerOptions: { module: ModuleKind.CommonJS, target: ScriptTarget.ES2022 },
+    compilerOptions: {
+      module: ModuleKind.CommonJS,
+      target: ScriptTarget.ES2022,
+      esModuleInterop: true,
+    },
   }).outputText;
   const context = {
     require: (name: string) => {
       if (name === "@azure/search-documents" || name === "@azure/search-documents/searchIndex") {
         return { ...sdk, ...clients };
+      }
+      if (name === "@azure/search-documents/search") {
+        return { SearchClient: clients.ProtocolSearchClient };
+      }
+      if (name === "@azure/search-documents/knowledgeBaseRetrieval") {
+        return { KnowledgeBaseRetrievalClient: clients.KnowledgeRetrievalClient };
       }
       if (name === "@azure/identity") {
         return {
@@ -55,7 +66,7 @@ async function runSample(
       }
       if (name === "@azure/core-util") return { delay: async () => {} };
       if (name === "openai") return { AzureOpenAI: clients.AzureOpenAI };
-      if (name === "dotenv") return { config() {} };
+      if (name === "dotenv" || name === "dotenv/config") return { config() {} };
       if (name.startsWith("node:")) return require(name);
       throw new Error(`Unexpected sample dependency: ${name}`);
     },
@@ -64,6 +75,7 @@ async function runSample(
     sampleCompletion: undefined as Promise<void> | undefined,
     process: {
       argv: ["node", file],
+      exitCode: undefined as number | undefined,
       env: {
         ENDPOINT: "https://example.search.windows.net",
         AZURE_OPENAI_ENDPOINT: "https://example.openai.azure.com",
@@ -84,6 +96,14 @@ async function runSample(
       },
     },
     AbortController,
+    AbortSignal,
+    fetch:
+      clients.fetch ??
+      (() => {
+        throw new Error("Unexpected sample fetch.");
+      }),
+    Error,
+    URL,
     TextEncoder,
   };
   // Published JavaScript exports main after starting it; await the actual invocation in every format.
@@ -93,7 +113,678 @@ async function runSample(
     context,
   );
   await context.sampleCompletion;
+  onExitCode?.(context.process.exitCode);
   return errors;
+}
+
+const dp11Environment = {
+  AZURE_OPENAI_EMBEDDING_MODEL_NAME: "text-embedding-3-small",
+  AZURE_OPENAI_CHAT_MODEL_NAME: "gpt-6-sol",
+  AZURE_BLOB_CONNECTION_STRING: "mock-blob-connection",
+  AZURE_BLOB_CONTAINER_NAME: "fixture",
+  AZURE_BLOB_FOLDER_PATH: "hotels",
+  AZURE_GRAPH_CACHE_CONNECTION_STRING: "mock-cache-connection",
+  GRAPH_RETRIEVAL_QUERY: "Using the knowledge graph, which organizations operate the hotels?",
+  FABRIC_WORKSPACE_ID: "mock-workspace",
+  ONELAKE_LAKEHOUSE_ID: "mock-lakehouse",
+  ONELAKE_TARGET_PATH: "Files/fixture",
+  ONELAKE_ALLOWED_USER_TOKEN: "allowed-token",
+  ONELAKE_DENIED_USER_TOKEN: "denied-token",
+  ONELAKE_TEST_QUERY: "Unique fixture document",
+  KNOWLEDGE_MODEL_PROVIDER: "openAICompatible",
+  OPENAI_COMPATIBLE_CHAT_URI: "https://example.com/openai/responses?api-version=preview",
+  OPENAI_COMPATIBLE_CHAT_MODEL_NAME: "gpt-6-sol",
+  OPENAI_COMPATIBLE_EMBEDDINGS_URI: "https://example.com/openai/embeddings",
+  OPENAI_COMPATIBLE_EMBEDDING_MODEL_NAME: "text-embedding-3-small",
+  OPENAI_COMPATIBLE_EMBEDDING_DIMENSIONS: "1536",
+  OPENAI_COMPATIBLE_AUTH_HEADER: "Ocp-Apim-Subscription-Key",
+  OPENAI_COMPATIBLE_API_KEY: "mock-provider-key",
+};
+
+async function executeDp11Sample(
+  sample: string,
+  directory: string,
+  failureAt?: string,
+  environment: Record<string, string> = {},
+): Promise<{
+  sources: sdk.KnowledgeSourceInput[];
+  indexes: sdk.SearchIndexInput[];
+  bases: sdk.KnowledgeBaseInput[];
+  searches: Record<string, unknown>[];
+  retrievals: { request: sdk.KnowledgeBaseRetrievalRequest; options?: sdk.RetrieveOptions }[];
+  starts: string[];
+  restores: string[];
+  diagnostics: string[];
+}> {
+  const sources: sdk.KnowledgeSourceInput[] = [];
+  const indexes: sdk.SearchIndexInput[] = [];
+  const bases: sdk.KnowledgeBaseInput[] = [];
+  const created: string[] = [];
+  const deleted: string[] = [];
+  const searches: Record<string, unknown>[] = [];
+  const retrievals: {
+    request: sdk.KnowledgeBaseRetrievalRequest;
+    options?: sdk.RetrieveOptions;
+  }[] = [];
+  const starts: string[] = [];
+  const restores: string[] = [];
+  const diagnostics: string[] = [];
+  const documents: Record<string, unknown>[] = [];
+  const operations: { id: string; status: string; result: { fileId: string } }[] = [];
+  const fail = (operation: string): void => {
+    if (failureAt === operation) throw new Error(`Mock failure at ${operation}`);
+  };
+  function begin(
+    kind: string,
+    body: sdk.UploadKnowledgeSourceFileMultipartRequest,
+    options: { resumeFrom?: string },
+  ): object {
+    const revision = body.metadata.metadata?.revision ?? "1";
+    if (options.resumeFrom) {
+      assert.equal(options.resumeFrom, `${kind}:${revision}`);
+      restores.push(kind);
+    } else {
+      starts.push(kind);
+    }
+    return {
+      onProgress() {},
+      async poll() {
+        fail("poll");
+      },
+      async serialize() {
+        return `${kind}:${revision}`;
+      },
+      async pollUntilDone() {
+        fail("pollUntilDone");
+        operations.push({
+          id: `operation-${revision}`,
+          status: "Succeeded",
+          result: { fileId: "file-1" },
+        });
+        return { fileId: "file-1", metadata: { revision } };
+      },
+    };
+  }
+  class KnowledgeRetrievalClient {
+    async retrieve(
+      request: sdk.KnowledgeBaseRetrievalRequest,
+      options?: sdk.RetrieveOptions,
+    ): Promise<object> {
+      fail("retrieve");
+      retrievals.push({ request, options });
+      if (sample === "knowledgeSourceOneLakeSecurity") {
+        const denied = options?.querySourceAuthorization === "denied-token";
+        return {
+          response: [],
+          references: denied && failureAt !== "leak" ? [] : [{ type: "indexedOneLake" }],
+          activity:
+            denied && failureAt === "upstreamError"
+              ? [{ error: { message: "Fabric failed" } }]
+              : [],
+        };
+      }
+      if (sample === "knowledgeSourceGraphExtraction") {
+        return {
+          response: [{ content: [] }],
+          references: [
+            {
+              type: "graphSearch",
+              sourceData:
+                failureAt === "missingHydration"
+                  ? { hotel: "Alpine Hotel" }
+                  : { snippet: "The Alpine Hotel is operated by Summit Hospitality." },
+            },
+          ],
+          activity:
+            failureAt === "textFallback"
+              ? []
+              : [
+                  {
+                    type: "graphSearch",
+                    graphSearchArguments: {
+                      gql: "MATCH (h:Hotel)-[r:operatedBy]->(o:Organization) RETURN h, o LIMIT 5",
+                    },
+                  },
+                ],
+        };
+      }
+      if (sample === "queryHintsAutoConfiguration") {
+        const country = JSON.stringify(request).includes("Japan") ? "Japan" : "Canada";
+        return {
+          references: [
+            {
+              type: "searchIndex",
+              docKey: failureAt === "leak" ? "us-1" : country === "Japan" ? "jp-1" : "ca-1",
+            },
+          ],
+          activity:
+            failureAt === "missingFilter"
+              ? []
+              : [
+                  {
+                    type: "searchIndex",
+                    queryHintProcessing: { generatedFilter: `country eq '${country}'` },
+                  },
+                ],
+        };
+      }
+      return {
+        response: [{ content: [] }],
+        references: [
+          {
+            type: "searchIndex",
+            docKey:
+              request.toolName === "canada-hr"
+                ? failureAt === "leak"
+                  ? "hr-us"
+                  : "hr-ca"
+                : "product",
+          },
+        ],
+        activity: [],
+      };
+    }
+  }
+  class SearchIndexClient {
+    async createIndex(definition: sdk.SearchIndexInput): Promise<object> {
+      fail("createIndex");
+      indexes.push(definition);
+      created.push(definition.name);
+      return definition;
+    }
+    async createKnowledgeSource(definition: sdk.KnowledgeSourceInput): Promise<object> {
+      fail("createKnowledgeSource");
+      sources.push(definition);
+      if (sample === "knowledgeSourceGraphExtraction") {
+        created.push(
+          ...["index", "graphIndex", "datasource", "skillset", "indexer"].map(
+            (kind) => `${definition.name}-${kind}`,
+          ),
+        );
+      }
+      created.push(definition.name);
+      return definition;
+    }
+    async createKnowledgeBase(definition: sdk.KnowledgeBaseInput): Promise<object> {
+      fail("createKnowledgeBase");
+      bases.push(definition);
+      created.push(definition.name);
+      return definition;
+    }
+    async getKnowledgeBase(): Promise<object> {
+      const base = structuredClone(bases[0]);
+      for (const model of base.models ?? []) {
+        if ("openAICompatibleParameters" in model) delete model.openAICompatibleParameters.headers;
+      }
+      return base;
+    }
+    async getKnowledgeSource(): Promise<object> {
+      const source = structuredClone(sources[0]);
+      if (
+        "azureBlobParameters" in source &&
+        source.azureBlobParameters.ingestionParameters?.cache
+      ) {
+        Reflect.deleteProperty(
+          source.azureBlobParameters.ingestionParameters.cache,
+          "storageConnectionString",
+        );
+        return {
+          ...source,
+          azureBlobParameters: {
+            ...source.azureBlobParameters,
+            createdResources: {
+              additionalProperties: Object.fromEntries(
+                ["datasource", "indexer", "skillset", "graphIndex", "index"].map((kind) => [
+                  kind,
+                  `${source.name}-${kind}`,
+                ]),
+              ),
+            },
+          },
+        };
+      }
+      return source;
+    }
+    async getIndex(name: string): Promise<object> {
+      return {
+        name,
+        etag: "mock-etag",
+        fields: [
+          { name: "id", key: true },
+          { name: "snippet", retrievable: true },
+        ],
+        graphProfile: {
+          provenanceIndexName: `${sources[0]?.name}-index`,
+          fields: { graphNameField: "graphName" },
+        },
+      };
+    }
+    getSearchClient(): object {
+      return {
+        async uploadDocuments(batch: Record<string, unknown>[]) {
+          fail("uploadDocuments");
+          documents.push(...batch);
+        },
+        async getDocumentsCount() {
+          return sample === "knowledgeSourceGraphExtraction" ? 2 : documents.length;
+        },
+        async search(_text: string, options: Record<string, unknown>) {
+          fail("vectorSearch");
+          searches.push(options);
+          return {
+            facets: { country: [{ value: "Canada", count: 2 }] },
+            results: [
+              { score: 1, document: { id: "alpine", content: "An indoor pool and family rooms." } },
+            ],
+          };
+        },
+        async graph(query: string, options: sdk.GraphOptions) {
+          if (query.includes("MATCH (s)-")) {
+            throw {
+              statusCode: 400,
+              details: { diagnostics: [{ severity: "error", phase: "planning" }] },
+            };
+          }
+          fail("graph");
+          searches.push({ query, ...options });
+          if (sample === "knowledgeSourceGraphExtraction") {
+            return {
+              value:
+                failureAt === "missingRelationships"
+                  ? []
+                  : [
+                      {
+                        additionalProperties: {
+                          hotel: "The Alpine Hotel",
+                          organization: "Summit Hospitality",
+                        },
+                        provenance: { evidence: [{ assertionId: "assertion-1" }] },
+                      },
+                    ],
+            };
+          }
+          return {
+            value:
+              options.executionMode === "planOnly"
+                ? []
+                : [{ additionalProperties: { subject: "Ada" }, provenance: [] }],
+            statistics: { rows: 1 },
+          };
+        },
+      };
+    }
+    getKnowledgeRetrievalClient(): KnowledgeRetrievalClient {
+      return new KnowledgeRetrievalClient();
+    }
+    beginIngestKnowledgeSourceFile(
+      _name: string,
+      body: sdk.UploadKnowledgeSourceFileMultipartRequest,
+      options: { resumeFrom?: string },
+    ): object {
+      return begin("ingest", body, options);
+    }
+    beginReplaceKnowledgeSourceFile(
+      _name: string,
+      _id: string,
+      body: sdk.UploadKnowledgeSourceFileMultipartRequest,
+      options: { resumeFrom?: string },
+    ): object {
+      return begin("replace", body, options);
+    }
+    async *listKnowledgeSourceFileIngestionOperations(): AsyncIterable<object> {
+      yield* operations;
+    }
+    async getKnowledgeSourceFileIngestionOperation(_name: string, id: string): Promise<object> {
+      fail("diagnostics");
+      diagnostics.push(id);
+      return operations.find((operation) => operation.id === id)!;
+    }
+    async deleteKnowledgeSourceFile(): Promise<void> {}
+    async getKnowledgeSourceStatus(): Promise<object> {
+      return {
+        synchronizationStatus: "active",
+        lastSynchronizationState: {
+          endTime: new Date(),
+          itemsUpdatesProcessed: 1,
+          itemsUpdatesFailed: failureAt === "failedIngestion" ? 1 : 0,
+          graphStatistics: { triplesWritten: failureAt === "missingTriples" ? 0 : 1 },
+        },
+      };
+    }
+    async deleteKnowledgeBase(name: string): Promise<void> {
+      deleted.push(name);
+    }
+    async deleteKnowledgeSource(name: string): Promise<void> {
+      deleted.push(name);
+    }
+    async deleteIndex(resource: string | { name: string }): Promise<void> {
+      deleted.push(typeof resource === "string" ? resource : resource.name);
+    }
+  }
+  class SearchIndexerClient {
+    async getIndexer(name: string): Promise<object> {
+      return { name, etag: "mock-etag" };
+    }
+    async getIndexerStatus(): Promise<object> {
+      return { lastResult: { status: "success", failedItemCount: 0 } };
+    }
+    async getSkillset(name: string): Promise<object> {
+      return { name, etag: "mock-etag" };
+    }
+    async getDataSourceConnection(name: string): Promise<object> {
+      return {
+        name,
+        etag: "mock-etag",
+        container: {
+          query: environment.AZURE_BLOB_FOLDER_PATH ?? dp11Environment.AZURE_BLOB_FOLDER_PATH,
+        },
+      };
+    }
+    async deleteIndexer(resource: { name: string }): Promise<void> {
+      deleted.push(resource.name);
+    }
+    async deleteSkillset(resource: { name: string }): Promise<void> {
+      deleted.push(resource.name);
+    }
+    async deleteDataSourceConnection(resource: { name: string }): Promise<void> {
+      deleted.push(resource.name);
+    }
+  }
+  class ProtocolSearchClient {
+    async searchPost(request: Record<string, unknown>): Promise<object> {
+      fail("searchPost");
+      searches.push(request);
+      return {
+        results: [{ additionalProperties: { id: "pool" } }],
+        debugInfo: { agentic: { usage: { reasoningTokens: 3 }, subQueries: ["pool", "family"] } },
+      };
+    }
+  }
+  let exitCode: number | undefined;
+  const errors = await runSample(
+    sample,
+    directory,
+    {
+      SearchIndexClient,
+      SearchIndexerClient,
+      KnowledgeRetrievalClient,
+      ProtocolSearchClient,
+      fetch: async (_uri: string, options: { body: string; redirect: string }) => {
+        fail("embeddingFetch");
+        const request = JSON.parse(options.body) as { input: string[]; dimensions: number };
+        assert.notProperty(request, "model", "The gateway URI selects the deployment.");
+        assert.equal(options.redirect, "error");
+        return {
+          ok: true,
+          json: async () => ({
+            data: request.input.map((_, index) => ({
+              index,
+              embedding: Array(failureAt === "badEmbedding" ? 1 : request.dimensions).fill(
+                index + 1,
+              ),
+            })),
+          }),
+        };
+      },
+    },
+    { ...dp11Environment, ...environment },
+    (code) => {
+      exitCode = code;
+    },
+  );
+  assert.deepEqual(
+    deleted,
+    [...created].reverse(),
+    "Only successful creations are cleaned up, in dependency order.",
+  );
+  if (failureAt) {
+    assert.isNotEmpty(errors, "A failed step must not be reported as sample success.");
+    assert.equal(exitCode, 1);
+  } else {
+    assert.deepEqual(errors, []);
+    assert.isUndefined(exitCode);
+  }
+  return { sources, indexes, bases, searches, retrievals, starts, restores, diagnostics };
+}
+
+for (const directory of directories) {
+  describe(`${directory}: self-contained November feature samples`, () => {
+    it("resumes ingestion and replacement without starting either operation twice", async () => {
+      const run = await executeDp11Sample("knowledgeSourceFileLro", directory);
+      assert.deepEqual(run.starts, ["ingest", "replace"]);
+      assert.deepEqual(run.restores, ["ingest", "replace"]);
+      assert.deepEqual(run.diagnostics, ["operation-1", "operation-2"]);
+      assert.nestedPropertyVal(
+        run.sources[0],
+        "fileParameters.ingestionParameters.embeddingModel.azureOpenAIParameters.deploymentId",
+        "my-embedding",
+      );
+      assert.nestedPropertyVal(
+        run.sources[0],
+        "fileParameters.ingestionParameters.embeddingModel.azureOpenAIParameters.modelName",
+        "text-embedding-3-small",
+      );
+    });
+    it.each(["createKnowledgeSource", "poll", "pollUntilDone", "diagnostics"])(
+      "reports File LRO %s failures and cleans up only its owned source",
+      async (failureAt) => {
+        await executeDp11Sample("knowledgeSourceFileLro", directory, failureAt);
+      },
+    );
+    it("persists two tool scopes and retrieves through singular toolName", async () => {
+      const run = await executeDp11Sample("knowledgeBaseTools", directory);
+      assert.deepEqual(
+        run.retrievals.map(({ request }) => request.toolName),
+        ["canada-hr", "product-search"],
+      );
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "tools[0].knowledgeSources[0].filterAddOn",
+        "category eq 'HR' and country eq 'CA'",
+      );
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "tools[1].knowledgeSources[0].filterAddOn",
+        "category eq 'Product'",
+      );
+    });
+    it.each([
+      "createIndex",
+      "uploadDocuments",
+      "createKnowledgeSource",
+      "createKnowledgeBase",
+      "retrieve",
+      "leak",
+    ])(
+      "rejects tool %s failures or out-of-scope documents and cleans up in dependency order",
+      async (failureAt) => {
+        await executeDp11Sample("knowledgeBaseTools", directory, failureAt);
+      },
+    );
+    it("uses direct agentic search diagnostics and then a persisted MR1 model", async () => {
+      const run = await executeDp11Sample("agenticSearch", directory);
+      assert.containSubset(run.searches[0], {
+        queryType: "agentic",
+        debug: "agentic",
+        agenticOptions: { maxRuntimeInSeconds: 10 },
+      });
+      assert.nestedPropertyVal(run.bases[0], "models[0].kind", "microsoftRetriever1");
+      assert.lengthOf(run.retrievals, 1);
+    });
+    it.each([
+      "createIndex",
+      "searchPost",
+      "createKnowledgeSource",
+      "createKnowledgeBase",
+      "retrieve",
+    ])("cleans up the agentic flow after %s fails", async (failureAt) => {
+      await executeDp11Sample("agenticSearch", directory, failureAt);
+    });
+    it("plans a constrained graph query before execution with provenance", async () => {
+      const run = await executeDp11Sample("knowledgeGraphRetrieval", directory);
+      assert.equal(run.searches[0].executionMode, "planOnly");
+      assert.containSubset(run.searches[1], {
+        executionMode: "execute",
+        provenance: { kind: "ids" },
+        includeStatistics: true,
+      });
+    });
+    it.each(["createIndex", "uploadDocuments", "graph"])(
+      "cleans up graph resources after %s fails",
+      async (failureAt) => {
+        await executeDp11Sample("knowledgeGraphRetrieval", directory, failureAt);
+      },
+    );
+    it("passes distinct OneLake user tokens separately from admin credentials", async () => {
+      const run = await executeDp11Sample("knowledgeSourceOneLakeSecurity", directory);
+      assert.containSubset(run.sources[0], {
+        indexedOneLakeParameters: {
+          ingestionParameters: {
+            ingestionPermissionOptions: ["oneLakeParentFolders", "oneLakeLakehouseId"],
+          },
+        },
+      });
+      assert.deepEqual(
+        run.retrievals.map(({ options }) => options?.querySourceAuthorization),
+        ["allowed-token", "denied-token"],
+      );
+      for (const { request } of run.retrievals) assert.notProperty(request, "enableElevatedRead");
+    });
+    it.each([
+      "createKnowledgeSource",
+      "failedIngestion",
+      "createKnowledgeBase",
+      "retrieve",
+      "leak",
+      "upstreamError",
+    ])(
+      "does not mistake OneLake %s failures or leaks for successful ACL enforcement",
+      async (failureAt) => {
+        await executeDp11Sample("knowledgeSourceOneLakeSecurity", directory, failureAt);
+      },
+    );
+    it("combines a cached inline ontology with graph-only retrieval verification", async () => {
+      const run = await executeDp11Sample("knowledgeSourceGraphExtraction", directory);
+      assert.nestedPropertyVal(
+        run.sources[0],
+        "azureBlobParameters.ingestionParameters.cache.storageConnectionString",
+        "mock-cache-connection",
+      );
+      assert.nestedPropertyVal(
+        run.sources[0],
+        "azureBlobParameters.graphExtraction.ontology.kind",
+        "inline",
+      );
+      assert.containSubset(run.retrievals[0].request, {
+        knowledgeSourceParams: [
+          {
+            kind: "azureBlob",
+            graphParameters: { includeQuery: true, provenance: { kind: "none" } },
+          },
+        ],
+      });
+      assert.nestedPropertyVal(
+        run.retrievals[1].request,
+        "knowledgeSourceParams[0].graphParameters.provenance.hydrateDocuments.select",
+        "id,snippet",
+      );
+      assert.equal(run.searches[0].filter, "graphName eq 'hotels'");
+    });
+    it.each([
+      "createKnowledgeSource",
+      "failedIngestion",
+      "missingRelationships",
+      "missingHydration",
+      "createKnowledgeBase",
+      "retrieve",
+      "textFallback",
+    ])(
+      "reports graph extraction %s failures rather than accepting a text-only fallback",
+      async (failureAt) => {
+        await executeDp11Sample("knowledgeSourceGraphExtraction", directory, failureAt);
+      },
+    );
+    it("uses automatic country facets without forcing filters and queries a new value after the TTL", async () => {
+      const run = await executeDp11Sample("queryHintsAutoConfiguration", directory, undefined, {
+        QUERY_HINT_REFRESH: "true",
+      });
+      assert.lengthOf(run.retrievals, 2);
+      assert.nestedPropertyVal(
+        run.sources[0],
+        "searchIndexParameters.queryHints.filters[0].autoConfiguration.cacheTtl",
+        60,
+      );
+      for (const { request } of run.retrievals) {
+        assert.notProperty(request, "knowledgeSourceParams");
+      }
+    });
+    it.each(["retrieve", "missingFilter", "leak"])(
+      "rejects automatic query-hint %s failures rather than accepting ungrounded results",
+      async (failureAt) => {
+        await executeDp11Sample("queryHintsAutoConfiguration", directory, failureAt);
+      },
+    );
+    it.each(["/", "\\", "/all"])(
+      "rejects an unsafe graph-extraction folder %s before creation",
+      async (folder) => {
+        const run = await executeDp11Sample(
+          "knowledgeSourceGraphExtraction",
+          directory,
+          "invalidFolder",
+          { AZURE_BLOB_FOLDER_PATH: folder },
+        );
+        assert.isEmpty(run.sources);
+      },
+    );
+    it("uses complete compatible model URLs and APIM authentication for vector search and KB retrieval", async () => {
+      const run = await executeDp11Sample("knowledgeBaseModelProviders", directory);
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "models[0].openAICompatibleParameters.uri",
+        dp11Environment.OPENAI_COMPATIBLE_CHAT_URI,
+      );
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "models[0].openAICompatibleParameters.headers.Ocp-Apim-Subscription-Key",
+        "mock-provider-key",
+      );
+      assert.nestedPropertyVal(
+        run.indexes[0],
+        "vectorSearch.vectorizers[0].openAICompatibleParameters.uri",
+        dp11Environment.OPENAI_COMPATIBLE_EMBEDDINGS_URI,
+      );
+      assert.nestedPropertyVal(run.searches[0], "vectorSearchOptions.queries[0].kind", "text");
+      assert.nestedPropertyVal(run.bases[0], "retrievalReasoningEffort.kind", "low");
+      assert.lengthOf(run.retrievals, 1);
+    });
+    it("keeps GPT-6 deployment aliases separate from the native model profile", async () => {
+      const run = await executeDp11Sample("knowledgeBaseModelProviders", directory, undefined, {
+        KNOWLEDGE_MODEL_PROVIDER: "azureOpenAI",
+      });
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "models[0].azureOpenAIParameters.deploymentId",
+        "my-chat",
+      );
+      assert.nestedPropertyVal(
+        run.bases[0],
+        "models[0].azureOpenAIParameters.modelName",
+        "gpt-6-sol",
+      );
+    });
+    it.each([
+      "embeddingFetch",
+      "badEmbedding",
+      "createIndex",
+      "uploadDocuments",
+      "vectorSearch",
+      "createKnowledgeSource",
+      "createKnowledgeBase",
+      "retrieve",
+    ])("cleans up the configured provider flow after %s fails", async (failureAt) => {
+      await executeDp11Sample("knowledgeBaseModelProviders", directory, failureAt);
+    });
+  });
 }
 
 async function executeSample(
@@ -386,6 +1077,7 @@ async function executeTopicGraphSample(
   directory: string,
   failureAt?: string,
   model?: string,
+  environment: Record<string, string> = {},
 ): Promise<{
   errors: unknown[];
   failure: Error;
@@ -396,6 +1088,8 @@ async function executeTopicGraphSample(
   uploads: Record<string, unknown>[][];
   searches: Record<string, unknown>[];
   retrievals: sdk.KnowledgeBaseRetrievalRequest[];
+  openAIOptions?: Record<string, unknown>;
+  searchCredential?: unknown;
 }> {
   const failure = new Error(`Mock failure at ${failureAt}`);
   const definitions: sdk.SearchIndex[] = [];
@@ -408,10 +1102,15 @@ async function executeTopicGraphSample(
   const documentsByIndex = new Map<string, Record<string, unknown>[]>();
   let linked: sdk.SearchIndex | undefined;
   let source: sdk.KnowledgeSource | undefined;
+  let openAIOptions: Record<string, unknown> | undefined;
+  let searchCredential: unknown;
   const fail = (stage: string): void => {
     if (failureAt === stage) throw failure;
   };
   class SearchIndexClient {
+    constructor(_endpoint: string, credential: unknown) {
+      searchCredential = credential;
+    }
     async createIndex(index: sdk.SearchIndex): Promise<sdk.SearchIndex> {
       fail(index.name.startsWith("topicgraph-chunks-") ? "corpus" : "sidecar");
       definitions.push(index);
@@ -511,6 +1210,9 @@ async function executeTopicGraphSample(
     }
   }
   class AzureOpenAI {
+    constructor(options: Record<string, unknown>) {
+      openAIOptions = options;
+    }
     embeddings = {
       async create(request: { input: string[] } & Record<string, unknown>) {
         embeddings.push(request);
@@ -529,7 +1231,7 @@ async function executeTopicGraphSample(
     "topicGraphDiverseSearch",
     directory,
     { SearchIndexClient, AzureOpenAI },
-    model ? { AZURE_OPENAI_EMBEDDING_MODEL_NAME: model } : {},
+    { ...(model ? { AZURE_OPENAI_EMBEDDING_MODEL_NAME: model } : {}), ...environment },
   );
   assert.sameMembers(deleted, created, "Delete exactly the resources successfully created");
   assert.deepEqual(
@@ -552,14 +1254,33 @@ async function executeTopicGraphSample(
     uploads,
     searches,
     retrievals,
+    openAIOptions,
+    searchCredential,
   };
 }
 
 for (const directory of directories) {
   describe(`${directory}: synthetic Topic Graph sample`, () => {
+    it("uses explicit model keys for both embedding callers without also selecting token authentication", async () => {
+      const run = await executeTopicGraphSample(directory, undefined, undefined, {
+        AZURE_OPENAI_API_KEY: "mock-embedding-key",
+        AZURE_SEARCH_API_KEY: "mock-search-key",
+      });
+      assert.isEmpty(run.errors);
+      assert.instanceOf(run.searchCredential, sdk.AzureKeyCredential);
+      assert.propertyVal(run.openAIOptions, "apiKey", "mock-embedding-key");
+      assert.notProperty(run.openAIOptions, "azureADTokenProvider");
+      assert.nestedPropertyVal(
+        run.definitions[0],
+        "vectorSearch.vectorizers[0].parameters.apiKey",
+        "mock-embedding-key",
+      );
+    });
     it("links populated indexes and demonstrates inherited and replacement settings", async () => {
       const run = await executeTopicGraphSample(directory);
       assert.isEmpty(run.errors);
+      assert.isFunction(run.openAIOptions?.azureADTokenProvider);
+      assert.notProperty(run.openAIOptions, "apiKey");
       assert.lengthOf(run.definitions, 2);
       assert.isUndefined(run.definitions[0].vectorSearch?.topicGraphProfiles);
       assert.deepEqual(run.linked?.semanticSearch, run.definitions[0].semanticSearch);

@@ -57,6 +57,79 @@ function createRecorderStartOptions(): RecorderStartOptions {
   };
 }
 
+export function createSampleRecorderStartOptions(chatModel = "gpt-5-mini"): RecorderStartOptions {
+  const options = createRecorderStartOptions();
+  const storage =
+    "ResourceId=/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample/providers/Microsoft.Storage/storageAccounts/samplestorage/;";
+  return {
+    ...options,
+    removeCentralSanitizers: [...(options.removeCentralSanitizers ?? []), "AZSDK3430"],
+    envSetupForPlayback: {
+      ...options.envSetupForPlayback,
+      AZURE_SEARCH_API_KEY: "sanitized-search-key",
+      AZURE_OPENAI_API_KEY: "sanitized-provider-key",
+      AZURE_OPENAI_CHAT_MODEL_NAME: "gpt-5-mini",
+      AZURE_OPENAI_EMBEDDING_MODEL_NAME: "text-embedding-3-small",
+      AZURE_OPENAI_GPT6_DEPLOYMENT_NAME: "deployment-name",
+      AZURE_OPENAI_GPT6_MODEL_NAME: "gpt-6-sol",
+      AZURE_BLOB_CONNECTION_STRING: storage,
+      AZURE_BLOB_CONTAINER_NAME: "sample-graph-fixture",
+      AZURE_BLOB_FOLDER_PATH: "graph-fixture",
+      AZURE_GRAPH_CACHE_CONNECTION_STRING: storage,
+      GRAPH_RETRIEVAL_QUERY: "Using the knowledge graph, which organizations operate the hotels?",
+      OPENAI_COMPATIBLE_CHAT_URI:
+        "https://subdomain.openai.azure.com/openai/deployments/deployment-name/chat/completions?api-version=2025-04-01-preview",
+      OPENAI_COMPATIBLE_CHAT_MODEL_NAME: "gpt-5-mini",
+      OPENAI_COMPATIBLE_EMBEDDINGS_URI:
+        "https://subdomain.openai.azure.com/openai/deployments/deployment-name/embeddings?api-version=2024-02-01",
+      OPENAI_COMPATIBLE_EMBEDDING_MODEL_NAME: "text-embedding-3-small",
+      OPENAI_COMPATIBLE_EMBEDDING_DIMENSIONS: "1536",
+      OPENAI_COMPATIBLE_API_KEY: "sanitized-provider-key",
+      OPENAI_COMPATIBLE_AUTH_HEADER: "api-key",
+    },
+    sanitizerOptions: {
+      ...options.sanitizerOptions,
+      generalSanitizers: [
+        ...(options.sanitizerOptions?.generalSanitizers ?? []),
+        ...[env.AZURE_BLOB_CONNECTION_STRING, env.AZURE_GRAPH_CACHE_CONNECTION_STRING].flatMap(
+          (connection) => {
+            const account = connection?.match(/\/storageAccounts\/([^/;]+)/i)?.[1];
+            return account ? [{ target: account, value: "samplestorage" }] : [];
+          },
+        ),
+      ],
+      bodySanitizers: [
+        ...(options.sanitizerOptions?.bodySanitizers ?? []),
+        {
+          regex: true,
+          target: "aHR0cHM6Ly9[A-Za-z0-9_+/=-]{30,}",
+          value: "sanitized-blob-location",
+        },
+      ],
+      bodyKeySanitizers: [
+        ...(options.sanitizerOptions?.bodyKeySanitizers ?? []),
+        { jsonPath: "$.models[*].azureOpenAIParameters.modelName", value: chatModel },
+        { jsonPath: "$..chatCompletionModel.azureOpenAIParameters.modelName", value: "gpt-5-mini" },
+        {
+          jsonPath: "$..embeddingModel.azureOpenAIParameters.modelName",
+          value: "text-embedding-3-small",
+        },
+        {
+          jsonPath: "$.vectorSearch.vectorizers[*].azureOpenAIParameters.modelName",
+          value: "text-embedding-3-small",
+        },
+        { jsonPath: "$.models[*].openAICompatibleParameters.modelName", value: "gpt-5-mini" },
+        {
+          jsonPath: "$.vectorSearch.vectorizers[*].openAICompatibleParameters.modelName",
+          value: "text-embedding-3-small",
+        },
+        { jsonPath: "$..sourceData.uid", value: "sanitized-chunk" },
+        { jsonPath: "$..citationUrl", value: "https://subdomain.search.windows.net/citation" },
+      ],
+    },
+  };
+}
+
 function getSubdomainSanitizers(): SanitizerOptions["generalSanitizers"] {
   const uriDomainMap = {
     ENDPOINT: String.raw`(?:search\.windows\.net|search-ppe\.windows-int\.net)`,
