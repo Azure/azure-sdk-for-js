@@ -664,7 +664,7 @@ async function generateChangelogForOnePackage(pkg) {
 // Subcommand: create-pr
 // Opens a PR from the per-build branch into the trigger branch. Body is
 // minimal; per-package outcomes live in the ADO build log + Files-changed.
-// AUTH_TOKEN comes from the YAML env block ($(azuresdk-github-pat)).
+// AUTH_TOKEN comes from the YAML env block ($(GH_TOKEN)).
 // ─────────────────────────────────────────────────────────────────────────────
 
 function runCreatePr() {
@@ -686,7 +686,7 @@ function runCreatePr() {
   const authToken = process.env.AUTH_TOKEN || "";
   if (!authToken) {
     console.error(
-      "##[error]AUTH_TOKEN env var is empty. The YAML must set AUTH_TOKEN: $(azuresdk-github-pat).",
+      "##[error]AUTH_TOKEN env var is empty. The YAML must set AUTH_TOKEN: $(GH_TOKEN).",
     );
     process.exit(1);
   }
