@@ -18,8 +18,10 @@ import type { TokenCredential } from "@azure/core-auth";
 import { parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 import { isSameRegisteredDomain } from "../../utils/redirectUtils.js";
 import { createGzipHttpClient } from "./gzipHttpClient.js";
+import { createAbortablePromise } from "@azure/core-util";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
+const ROUTED_REQUEST_TIMEOUT_MS = 10_000;
 
 /**
  * Exporter HTTP sender class
@@ -29,6 +31,7 @@ export class HttpSender extends BaseSender {
   private appInsightsClient: ApplicationInsightsClient;
   private readonly credential?: TokenCredential;
   private readonly disableKeepAlive: boolean;
+  private readonly routingAbortSignal?: AbortSignal;
   public appInsightsClientOptions: AzureMonitorExporterOptions;
 
   constructor(options: {
@@ -43,10 +46,12 @@ export class HttpSender extends BaseSender {
     aadAudience?: string;
     isStatsbeatSender?: boolean;
     isRouted?: boolean;
+    routingAbortSignal?: AbortSignal;
     storagePartition?: StoragePartition;
   }) {
     super(options);
     this.disableKeepAlive = options.disableKeepAlive ?? false;
+    this.routingAbortSignal = options.routingAbortSignal;
     // Build endpoint using provided configuration or default values
     this.appInsightsClientOptions = {
       host: options.endpointUrl,
@@ -126,15 +131,39 @@ export class HttpSender extends BaseSender {
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
     let response: PipelineResponse | undefined;
+    const controller = this.routingAbortSignal ? new AbortController() : undefined;
+    const abortSignal =
+      controller && this.routingAbortSignal
+        ? AbortSignal.any([controller.signal, this.routingAbortSignal])
+        : undefined;
+    const timeout = controller
+      ? setTimeout(() => controller.abort(), ROUTED_REQUEST_TIMEOUT_MS)
+      : undefined;
+    timeout?.unref();
     // The TypeSpec-generated client throws RestError for non-200/206 responses.
     // For success responses, we capture the raw response via onResponse callback
     // and return it as a SenderResult. Error responses propagate as RestError
     // so baseSender.exportEnvelopes() catch block can handle retries, redirects, etc.
-    await this.appInsightsClient.track(envelopes, {
-      onResponse(rawResponse) {
-        response = rawResponse;
-      },
-    });
+    try {
+      await createAbortablePromise(
+        (resolve, reject) => {
+          return this.appInsightsClient
+            .track(envelopes, {
+              abortSignal,
+              onResponse(rawResponse) {
+                response = rawResponse;
+              },
+            })
+            .then(resolve, reject);
+        },
+        {
+          abortSignal,
+          abortErrorMsg: "Routed request timed out or was cancelled during shutdown.",
+        },
+      );
+    } finally {
+      clearTimeout(timeout);
+    }
     return {
       statusCode: response?.status,
       result: response?.bodyAsText ?? "",

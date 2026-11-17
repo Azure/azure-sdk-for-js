@@ -112,6 +112,17 @@ describe("routed senders and persistence", () => {
     return persister;
   }
 
+  async function fillCache(sender: RoutingSender): Promise<void> {
+    const batch: RoutingGroups = new Map();
+    for (let index = 0; index < 64; index++) {
+      for (const [key, value] of groups(`https://route-${index}.test`)) {
+        batch.set(key, value);
+      }
+    }
+    expect((await sender.export(batch)).code).toBe(ExportResultCode.SUCCESS);
+    requests = [];
+  }
+
   async function publish(enabled: boolean): Promise<void> {
     const result = {
       hasException: false,
@@ -670,5 +681,152 @@ describe("routed senders and persistence", () => {
     expect(stopped).toBe(true);
     expect(vi.getTimerCount()).toBe(0);
     expect(sender["senders"].size).toBe(0);
+  });
+
+  it("persists a timed-out cached request without blocking other destinations", async () => {
+    vi.mocked(Math.random).mockReturnValue(0.75);
+    sendRequest.mockImplementationOnce((request) => {
+      requests.push(request);
+      return new Promise(() => {});
+    });
+    const sender = router();
+    const exporting = sender.export(groups());
+    expect((await sender.export(groups("https://healthy.test", "healthy-key"))).code).toBe(
+      ExportResultCode.SUCCESS,
+    );
+    const stalledRequest = requests.find((request) => request.url.includes("first.test"));
+    expect(stalledRequest?.abortSignal?.aborted).toBe(false);
+
+    await vi.advanceTimersByTimeAsync(10_000);
+    expect((await exporting).code).toBe(ExportResultCode.SUCCESS);
+    expect(stalledRequest?.abortSignal?.aborted).toBe(true);
+
+    const [routed] = sender["senders"].values();
+    const persister = routed["persister"];
+    if (!(persister instanceof FileSystemPersist)) {
+      throw new Error("Expected real filesystem persistence");
+    }
+    expect(await readdir(persister["_tempDirectory"])).toHaveLength(1);
+    vi.setSystemTime(Date.now() + 60_000);
+    await routed.retryPersistedEnvelopes();
+    expect(requests).toHaveLength(3);
+    expect(requests[2].url).toBe("https://first.test/v2.1/track");
+    expect(JSON.parse(String(requests[2].body))[0].iKey).toBe("tenant-key");
+    expect(await readdir(persister["_tempDirectory"])).toHaveLength(0);
+  });
+
+  it("releases a stalled overflow destination at its deadline", async () => {
+    const sender = router({ disableOfflineStorage: true });
+    await fillCache(sender);
+    sendRequest.mockImplementationOnce((request) => {
+      requests.push(request);
+      return new Promise(() => {});
+    });
+    const exporting = sender.export(
+      new Map([...groups("https://stalled.test"), ...groups("https://healthy.test")]),
+    );
+    await vi.advanceTimersByTimeAsync(0);
+    expect(requests).toHaveLength(1);
+    await vi.advanceTimersByTimeAsync(9_999);
+    expect(requests).toHaveLength(1);
+    expect(requests[0].abortSignal?.aborted).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    expect((await exporting).code).toBe(ExportResultCode.FAILED);
+    expect(requests[0].abortSignal?.aborted).toBe(true);
+    expect(requests[1].url).toBe("https://healthy.test/v2.1/track");
+    expect(sender["senders"].size).toBe(64);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("bounds shutdown across queued overflow destinations and cancels active requests", async () => {
+    const sender = router({ disableOfflineStorage: true });
+    await fillCache(sender);
+    sendRequest.mockImplementation((request) => {
+      requests.push(request);
+      return new Promise(() => {});
+    });
+    const batch: RoutingGroups = new Map();
+    for (let index = 0; index < 6; index++) {
+      for (const [key, value] of groups(`https://overflow-${index}.test`)) {
+        batch.set(key, value);
+      }
+    }
+    const exporting = sender.export(batch);
+    await vi.advanceTimersByTimeAsync(500);
+    let stopped = false;
+    const stopping = sender.shutdown().then(() => {
+      stopped = true;
+      return;
+    });
+    await vi.advanceTimersByTimeAsync(29_999);
+    expect(stopped).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    await stopping;
+    expect((await exporting).code).toBe(ExportResultCode.FAILED);
+    expect(requests).toHaveLength(4);
+    expect(requests.every((request) => request.abortSignal?.aborted)).toBe(true);
+    expect(sender["senders"].size).toBe(0);
+    expect(sender["operations"].size).toBe(0);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("restores a stalled replay during shutdown and releases its quota reservation", async () => {
+    sendRequest.mockImplementationOnce(async (request) => {
+      requests.push(request);
+      return response(request, 503);
+    });
+    const sender = router();
+    await sender.export(groups());
+    const [routed] = sender["senders"].values();
+    const persister = routed["persister"];
+    if (!(persister instanceof FileSystemPersist)) {
+      throw new Error("Expected real filesystem persistence");
+    }
+    sendRequest.mockImplementationOnce((request) => {
+      requests.push(request);
+      return new Promise(() => {});
+    });
+    vi.setSystemTime(Date.now() + 60_000);
+    const replaying = routed.retryPersistedEnvelopes();
+    await vi.waitFor(() => expect(requests).toHaveLength(2));
+    const stopping = sender.shutdown();
+    await vi.advanceTimersByTimeAsync(10_000);
+    await Promise.all([replaying, stopping]);
+    expect(requests[1].abortSignal?.aborted).toBe(true);
+    expect(await readdir(persister["_tempDirectory"])).toHaveLength(1);
+    const restored = await persister.shift();
+    expect(restored).toEqual([expect.objectContaining({ instrumentationKey: "tenant-key" })]);
+    if (Array.isArray(restored)) {
+      persister.release(restored);
+    }
+    expect(FileSystemPersist["reservedCapacity"].size).toBe(0);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("does not apply routed request deadlines to the host sender", async () => {
+    let complete!: (response: PipelineResponse) => void;
+    sendRequest.mockImplementationOnce((request) => {
+      requests.push(request);
+      return new Promise((resolve) => {
+        complete = resolve;
+      });
+    });
+    const sender = new HttpSender({
+      endpointUrl: "https://host.test",
+      instrumentationKey: "host-key",
+      trackStatsbeat: false,
+      exporterOptions: { httpClient: { sendRequest }, disableOfflineStorage: true },
+    });
+    try {
+      const sending = sender.send([{ name: "test", time: new Date(0) }]);
+      await vi.advanceTimersByTimeAsync(10_001);
+      expect(requests).toHaveLength(1);
+      expect(requests[0].abortSignal).toBeUndefined();
+      complete(response(requests[0]));
+      expect((await sending).statusCode).toBe(200);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      await sender.shutdown();
+    }
   });
 });

@@ -9,6 +9,7 @@
 
 ### Bugs Fixed
 
+- Bounded routed requests and shutdown so a stalled destination cannot indefinitely block queued overflow destinations. Timed-out telemetry remains eligible for offline retry when storage is available. [Task 40360819](https://msazure.visualstudio.com/One/_workitems/edit/40360819)
 - Closed exporter-owned connections after each temporary overflow routing request, while preserving connection reuse for cached routes and caller-owned transports. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
 - Preserved compatible sampler attribute value types for OpenTelemetry 2.x consumers while including the numeric sample-rate attribute in the return type. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
 

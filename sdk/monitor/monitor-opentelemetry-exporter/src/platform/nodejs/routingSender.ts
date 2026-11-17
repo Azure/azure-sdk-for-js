@@ -12,11 +12,13 @@ import { getStorageDirectory } from "./persist/fileSystemPersist.js";
 
 const MAX_CACHED_ROUTES = 64;
 const RETRY_POLL_INTERVAL_MS = 60_000;
+const SHUTDOWN_TIMEOUT_MS = 30_000;
 
 /** @internal */
 export class RoutingSender {
   private readonly senders = new Map<string, HttpSender>();
   private readonly operations = new Set<Promise<ExportResult>>();
+  private readonly abortController = new AbortController();
   private overflowReady: Promise<void> = Promise.resolve();
   private retryWorker: NodeJS.Timeout | undefined;
   private isShutdown = false;
@@ -68,6 +70,9 @@ export class RoutingSender {
           await previous;
         }
         try {
+          if (this.abortController.signal.aborted) {
+            throw new Error("Routed export cancelled because the shutdown deadline elapsed.");
+          }
           sender = this.senders.get(key);
           if (!sender) {
             temporary = this.senders.size >= MAX_CACHED_ROUTES;
@@ -137,6 +142,7 @@ export class RoutingSender {
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: false,
       isRouted: true,
+      routingAbortSignal: this.abortController.signal,
       disableKeepAlive: temporary,
       storagePartition: {
         root: this.storageRoot,
@@ -161,8 +167,17 @@ export class RoutingSender {
   private async shutdownCore(): Promise<void> {
     this.isShutdown = true;
     clearTimeout(this.retryWorker);
-    await Promise.allSettled([...this.operations]);
-    await Promise.all([...this.senders.values()].map((sender) => sender.shutdown()));
-    this.senders.clear();
+    const timeout = setTimeout(() => {
+      diag.warn("Cancelling routed requests because the shutdown deadline elapsed.");
+      this.abortController.abort();
+    }, SHUTDOWN_TIMEOUT_MS);
+    timeout.unref();
+    try {
+      await Promise.allSettled([...this.operations]);
+      await Promise.all([...this.senders.values()].map((sender) => sender.shutdown()));
+    } finally {
+      clearTimeout(timeout);
+      this.senders.clear();
+    }
   }
 }
