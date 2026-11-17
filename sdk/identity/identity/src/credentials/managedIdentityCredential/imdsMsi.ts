@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PipelineRequestOptions, PipelineResponse } from "@azure/core-rest-pipeline";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  isRestError,
-  RestError,
-} from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { isError } from "@azure/core-util";
 
 import type { GetTokenOptions } from "@azure/core-auth";
@@ -103,20 +98,16 @@ export const imdsMsi = {
           logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
           response = await identityClient.sendRequest(request);
         } catch (err: unknown) {
-          if (isRestError(err) && err.code === RestError.PARSE_ERROR && err.response) {
-            // A response proves reachability even if its body cannot be deserialized.
-            response = err.response;
-          } else {
-            // If the request failed, or Node.js was unable to establish a connection,
-            // or the host was down, we'll assume the IMDS endpoint isn't available.
-            if (isError(err)) {
-              logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
-            }
-            logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
-            return false;
+          // If the request failed, or Node.js was unable to establish a connection,
+          // or the host was down, we'll assume the IMDS endpoint isn't available.
+          if (isError(err)) {
+            logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
+          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
+          // rather than just timing out, as expected.
+          logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
+          return false;
         }
-        // Docker Desktop can return an unreachable-network/host message instead of timing out.
         if (response.status === 403) {
           if (response.bodyAsText?.includes("unreachable")) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
