@@ -1543,8 +1543,8 @@ importers:
         specifier: 1.9.1
         version: 1.9.1
       https-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.6(supports-color@10.2.2)
       openai:
         specifier: ^7.28.0
         version: 7.53.0(undici@8.12.4)(ws@8.22.2)(zod@4.6.7)
@@ -10235,11 +10235,11 @@ importers:
   sdk/core/ts-http-runtime:
     dependencies:
       http-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.2(supports-color@10.2.2)
       https-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.6(supports-color@10.2.2)
       tslib:
         specifier: ^2.6.2
         version: 2.9.1
@@ -10391,7 +10391,7 @@ importers:
         version: link:../../core/core-util
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: 4.10.0(@azure/core-client@sdk+core+core-client)(supports-color@10.2.2)
+        version: link:../../keyvault/keyvault-keys
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15482,8 +15482,8 @@ importers:
         specifier: 'catalog:'
         version: 10.14.0(supports-color@10.2.2)
       https-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.6(supports-color@10.2.2)
       node-forge:
         specifier: ^1.3.2
         version: 1.4.3
@@ -19317,7 +19317,7 @@ importers:
         version: 4.14.1(supports-color@10.2.2)
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: 4.10.0(@azure/core-client@sdk+core+core-client)(supports-color@10.2.2)
+        version: link:../keyvault-keys
       dotenv:
         specifier: catalog:testing
         version: 18.0.10
@@ -31017,8 +31017,8 @@ importers:
         specifier: ^3.0.0
         version: 3.3.0
       https-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.6(supports-color@10.2.2)
       playwright:
         specifier: catalog:testing
         version: 1.65.0
@@ -36285,8 +36285,8 @@ importers:
         specifier: ^1.2.0
         version: link:../../core/logger
       https-proxy-agent:
-        specifier: ^9.1.0
-        version: 9.1.0(supports-color@10.2.2)
+        specifier: ^7.0.0
+        version: 7.0.6(supports-color@10.2.2)
       tslib:
         specifier: ^2.8.1
         version: 2.9.1
@@ -41717,6 +41717,10 @@ packages:
   http-errors@2.0.1:
     resolution: {integrity: sha1-NtL2W8kJyHkAGN02+02T2myq4Gs=}
     engines: {node: '>= 0.8'}
+
+  http-proxy-agent@7.0.2:
+    resolution: {integrity: sha1-mosfJGhmwChQlIZYX2K48sGMJw4=}
+    engines: {node: '>= 14'}
 
   http-proxy-agent@9.1.0:
     resolution: {integrity: sha1-/Ys53LWKyARhOeX06oDeeOi+r3s=}
@@ -49954,6 +49958,13 @@ snapshots:
       setprototypeof: 1.2.0
       statuses: 2.0.2
       toidentifier: 1.0.1
+
+  http-proxy-agent@7.0.2(supports-color@10.2.2):
+    dependencies:
+      agent-base: 7.1.4
+      debug: 4.4.3(supports-color@10.2.2)
+    transitivePeerDependencies:
+      - supports-color
 
   http-proxy-agent@9.1.0(supports-color@10.2.2):
     dependencies:
