@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added a `./compatibility` subpath export containing the compatibility layer previously provided by `@azure/core-http-compat`, for use by other Azure Storage client libraries.
+- Added a `./compatibility` subpath export containing the compatibility layer previously provided by `@azure/core-http-compat`, for use by other Azure Storage client libraries. [PR #40857](https://github.com/Azure/azure-sdk-for-js/pull/40857)
 
 ### Breaking Changes
 
@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- Removed the dependency on `@azure/core-http-compat`.
+- Removed the dependency on `@azure/core-http-compat`. [PR #40857](https://github.com/Azure/azure-sdk-for-js/pull/40857)
 
 ## 12.6.0-beta.1 (2026-11-11)
 

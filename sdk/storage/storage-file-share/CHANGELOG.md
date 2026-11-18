@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Replaced the dependency on `@azure/core-http-compat` with the `@azure/storage-common/compatibility` subpath export.
+- Replaced the dependency on `@azure/core-http-compat` with the `@azure/storage-common/compatibility` subpath export. [PR #40857](https://github.com/Azure/azure-sdk-for-js/pull/40857)
 
 ## 12.34.0-beta.1 (2026-11-11)
 
