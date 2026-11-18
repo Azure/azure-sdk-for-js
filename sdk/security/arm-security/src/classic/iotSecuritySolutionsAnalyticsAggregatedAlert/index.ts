@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   dismiss,
   list,
   get,
 } from "../../api/iotSecuritySolutionsAnalyticsAggregatedAlert/operations.js";
-import {
+import type {
   IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams,
 } from "../../api/iotSecuritySolutionsAnalyticsAggregatedAlert/options.js";
-import { IoTSecurityAggregatedAlert } from "../../models/ioTSecurityAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IoTSecurityAggregatedAlert } from "../../models/ioTSecurityAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IotSecuritySolutionsAnalyticsAggregatedAlert operations. */
 export interface IotSecuritySolutionsAnalyticsAggregatedAlertOperations {

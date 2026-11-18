@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PrivateLinkGroupResource,
-  privateLinkGroupResourceArrayDeserializer,
-  PrivateEndpointConnection,
-  privateEndpointConnectionArrayDeserializer,
-} from "./privateLinksAPI/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type {
+  PrivateLinkGroupResource,
+  PrivateEndpointConnection,
+} from "./privateLinksAPI/models.js";
+import {
+  privateLinkGroupResourceArrayDeserializer,
+  privateEndpointConnectionArrayDeserializer,
+} from "./privateLinksAPI/models.js";
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -512,7 +514,7 @@ export function identityDeserializer(item: any): Identity {
   };
 }
 
-/** Type of ResourceIdentityType */
+/** Resource Identity Type */
 export type ResourceIdentityType = "SystemAssigned";
 
 /** The current status of an async operation. */

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/securitySolutions/operations.js";
-import {
+import type {
   SecuritySolutionsListOptionalParams,
   SecuritySolutionsGetOptionalParams,
 } from "../../api/securitySolutions/options.js";
-import { SecuritySolution } from "../../models/securitySolutionsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecuritySolution } from "../../models/securitySolutionsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecuritySolutions operations. */
 export interface SecuritySolutionsOperations {

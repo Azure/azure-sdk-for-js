@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, create, get } from "../../api/autoProvisioningSettings/operations.js";
-import {
+import type {
   AutoProvisioningSettingsListOptionalParams,
   AutoProvisioningSettingsCreateOptionalParams,
   AutoProvisioningSettingsGetOptionalParams,
 } from "../../api/autoProvisioningSettings/options.js";
-import { AutoProvisioningSetting } from "../../models/legacySettingsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AutoProvisioningSetting } from "../../models/legacySettingsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutoProvisioningSettings operations. */
 export interface AutoProvisioningSettingsOperations {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, update, get } from "../../api/alertsSuppressionRules/operations.js";
-import {
+import type {
   AlertsSuppressionRulesListOptionalParams,
   AlertsSuppressionRulesDeleteOptionalParams,
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesGetOptionalParams,
 } from "../../api/alertsSuppressionRules/options.js";
-import { AlertsSuppressionRule } from "../../models/alertsSuppressionRulesAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AlertsSuppressionRule } from "../../models/alertsSuppressionRulesAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertsSuppressionRules operations. */
 export interface AlertsSuppressionRulesOperations {

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/iotSecuritySolutionAnalytics/operations.js";
-import {
+import type {
   IotSecuritySolutionAnalyticsListOptionalParams,
   IotSecuritySolutionAnalyticsGetOptionalParams,
 } from "../../api/iotSecuritySolutionAnalytics/options.js";
-import {
+import type {
   IoTSecuritySolutionAnalyticsModel,
   IoTSecuritySolutionAnalyticsModelList,
 } from "../../models/ioTSecurityAPI/models.js";

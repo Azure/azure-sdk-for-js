@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { get } from "../../api/operationResults/operations.js";
-import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
+import type { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {

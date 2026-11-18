@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, listBySecureScore } from "../../api/secureScoreControls/operations.js";
-import {
+import type {
   SecureScoreControlsListOptionalParams,
   SecureScoreControlsListBySecureScoreOptionalParams,
 } from "../../api/secureScoreControls/options.js";
-import { SecureScoreControlDetails } from "../../models/secureScoreAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecureScoreControlDetails } from "../../models/secureScoreAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecureScoreControls operations. */
 export interface SecureScoreControlsOperations {

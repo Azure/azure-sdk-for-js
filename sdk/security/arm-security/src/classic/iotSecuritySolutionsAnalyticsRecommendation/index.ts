@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/iotSecuritySolutionsAnalyticsRecommendation/operations.js";
-import {
+import type {
   IotSecuritySolutionsAnalyticsRecommendationListOptionalParams,
   IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams,
 } from "../../api/iotSecuritySolutionsAnalyticsRecommendation/options.js";
-import { IoTSecurityAggregatedRecommendation } from "../../models/ioTSecurityAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { IoTSecurityAggregatedRecommendation } from "../../models/ioTSecurityAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IotSecuritySolutionsAnalyticsRecommendation operations. */
 export interface IotSecuritySolutionsAnalyticsRecommendationOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   operationResults,
   execute,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/governanceRules/operations.js";
-import {
+import type {
   GovernanceRulesOperationResultsOptionalParams,
   GovernanceRulesExecuteOptionalParams,
   GovernanceRulesListOptionalParams,
@@ -18,10 +18,11 @@ import {
   GovernanceRulesCreateOrUpdateOptionalParams,
   GovernanceRulesGetOptionalParams,
 } from "../../api/governanceRules/options.js";
-import { GovernanceRule, OperationResult } from "../../models/governanceAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GovernanceRule, OperationResult } from "../../models/governanceAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GovernanceRules operations. */
 export interface GovernanceRulesOperations {
@@ -31,7 +32,7 @@ export interface GovernanceRulesOperations {
     ruleId: string,
     operationId: string,
     options?: GovernanceRulesOperationResultsOptionalParams,
-  ) => Promise<OperationResult>;
+  ) => Promise<OperationResult | void>;
   /** Execute a governance rule */
   execute: (
     scope: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   list,
   updateSubscriptionLevelTaskState,
@@ -11,7 +11,7 @@ import {
   listByResourceGroup,
   getResourceGroupLevelTask,
 } from "../../api/tasks/operations.js";
-import {
+import type {
   TasksListOptionalParams,
   TasksUpdateSubscriptionLevelTaskStateOptionalParams,
   TasksListByHomeRegionOptionalParams,
@@ -20,8 +20,8 @@ import {
   TasksListByResourceGroupOptionalParams,
   TasksGetResourceGroupLevelTaskOptionalParams,
 } from "../../api/tasks/options.js";
-import { SecurityTask, TaskUpdateActionType } from "../../models/tasksAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecurityTask, TaskUpdateActionType } from "../../models/tasksAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Tasks operations. */
 export interface TasksOperations {

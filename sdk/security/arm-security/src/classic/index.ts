@@ -16,6 +16,7 @@ export type { AutoProvisioningSettingsOperations } from "./autoProvisioningSetti
 export type { AzureDevOpsOrgsOperations } from "./azureDevOpsOrgs/index.js";
 export type { AzureDevOpsProjectsOperations } from "./azureDevOpsProjects/index.js";
 export type { AzureDevOpsReposOperations } from "./azureDevOpsRepos/index.js";
+export type { BatchPricingsOperations } from "./batchPricings/index.js";
 export type { ComplianceResultsOperations } from "./complianceResults/index.js";
 export type { CompliancesOperations } from "./compliances/index.js";
 export type { CustomRecommendationsOperations } from "./customRecommendations/index.js";

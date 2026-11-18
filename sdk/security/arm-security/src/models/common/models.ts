@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AzureResourceDetails,
-  azureResourceDetailsSerializer,
-  azureResourceDetailsDeserializer,
-  onPremiseResourceDetailsUnionSerializer,
-  onPremiseResourceDetailsUnionDeserializer,
-  OnPremiseResourceDetailsUnion,
-} from "../assessmentAPI/models.js";
-import { errorAdditionalInfoArrayDeserializer, ErrorAdditionalInfo } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type {
+  AzureResourceDetails,
+  OnPremiseResourceDetailsUnion,
+} from "../assessmentAPI/models.js";
+import {
+  azureResourceDetailsSerializer,
+  azureResourceDetailsDeserializer,
+  onPremiseResourceDetailsUnionSerializer,
+  onPremiseResourceDetailsUnionDeserializer,
+} from "../assessmentAPI/models.js";
+import type { ErrorAdditionalInfo } from "../models.js";
+import { errorAdditionalInfoArrayDeserializer } from "../models.js";
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface CloudError {
   /** The error code. */
@@ -251,23 +254,34 @@ export function assignedStandardItemDeserializer(item: any): AssignedStandardIte
   };
 }
 
-/** Known values of {@link SettingName} that the service accepts. */
+/** The name of a Microsoft.Security integration or Defender for Storage setting. */
 export enum KnownSettingName {
-  /** MCAS */
+  /** Integration with Microsoft Defender for Cloud Apps (formerly Microsoft Cloud App Security). */
   Mcas = "MCAS",
-  /** WDATP */
+  /** Integration with Microsoft Defender for Endpoint (formerly Windows Defender ATP). */
   Wdatp = "WDATP",
-  /** WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW */
+  /** Microsoft Defender for Endpoint integration that excludes the Linux public preview. */
   WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
-  /** WDATP_UNIFIED_SOLUTION */
+  /** Integration with the Microsoft Defender for Endpoint unified agent solution. */
   WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION",
-  /** Sentinel */
+  /** Integration with Microsoft Sentinel. */
   Sentinel = "Sentinel",
-  /** Name of the Defender for Storage Settings name. */
+  /** The current Defender for Storage setting for the resource. */
   Current = "current",
 }
 
-/** Type of SettingName */
+/**
+ * The name of a Microsoft.Security integration or Defender for Storage setting. \
+ * {@link KnownSettingName} can be used interchangeably with SettingName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MCAS**: Integration with Microsoft Defender for Cloud Apps (formerly Microsoft Cloud App Security). \
+ * **WDATP**: Integration with Microsoft Defender for Endpoint (formerly Windows Defender ATP). \
+ * **WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW**: Microsoft Defender for Endpoint integration that excludes the Linux public preview. \
+ * **WDATP_UNIFIED_SOLUTION**: Integration with the Microsoft Defender for Endpoint unified agent solution. \
+ * **Sentinel**: Integration with Microsoft Sentinel. \
+ * **current**: The current Defender for Storage setting for the resource.
+ */
 export type SettingName = string;
 
 /** Details of the resource that was assessed */

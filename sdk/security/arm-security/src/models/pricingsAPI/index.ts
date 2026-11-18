@@ -10,6 +10,7 @@ export type {
   ResourcesCoverageStatus,
   Extension,
   IsEnabled,
+  OriginatedFrom,
   PricingList,
 } from "./models.js";
 export {
@@ -18,4 +19,5 @@ export {
   KnownInherited,
   KnownResourcesCoverageStatus,
   KnownIsEnabled,
+  KnownOriginatedFrom,
 } from "./models.js";

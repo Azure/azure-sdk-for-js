@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list } from "../../api/gitLabSubgroups/operations.js";
-import { GitLabSubgroupsListOptionalParams } from "../../api/gitLabSubgroups/options.js";
-import { GitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { GitLabSubgroupsListOptionalParams } from "../../api/gitLabSubgroups/options.js";
+import type { GitLabGroupListResponse } from "../../models/securityConnectorsDevOpsAPI/models.js";
 
 /** Interface representing a GitLabSubgroups operations. */
 export interface GitLabSubgroupsOperations {

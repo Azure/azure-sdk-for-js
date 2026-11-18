@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { OperationStatus } from "../common/models.js";
+import { operationStatusDeserializer } from "../common/models.js";
+import type { ExtensionResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** The Defender for Storage resource. */
 export interface DefenderForStorageSetting extends ExtensionResource {
   /** Defender for Storage resource properties. */
@@ -48,6 +50,8 @@ export interface DefenderForStorageSettingProperties {
   sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties;
   /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
   overrideSubscriptionLevelSettings?: boolean;
+  /** Indicates whether this resource's Defender for Storage settings are managed by a higher MDC enforcement scope and which component is managing them. When set to a value other than 'None', the resource-level settings become read-only and can only be modified by the managing component. Possible values: 'None' (not managed), 'MicrosoftDefenderXDR' (managed by Microsoft Defender XDR), 'SubscriptionSettingsEnforcer' (managed by subscription-level settings enforcer). */
+  readonly managedBy?: ManagedByType;
 }
 
 export function defenderForStorageSettingPropertiesSerializer(
@@ -77,6 +81,7 @@ export function defenderForStorageSettingPropertiesDeserializer(
       ? item["sensitiveDataDiscovery"]
       : sensitiveDataDiscoveryPropertiesDeserializer(item["sensitiveDataDiscovery"]),
     overrideSubscriptionLevelSettings: item["overrideSubscriptionLevelSettings"],
+    managedBy: item["managedBy"],
   };
 }
 
@@ -90,6 +95,8 @@ export interface MalwareScanningProperties {
   blobScanResultsOptions?: BlobScanResultsOptions;
   /** Optional. Specifies the automated response action to take when malware is detected. */
   automatedResponse?: AutomatedResponseType;
+  /** Optional. Resource id of the scanner resource (e.g., securityOperator or dataScanner) whose identity will be used for malware scanning. */
+  scannerResourceId?: string;
   /** Upon failure or partial success. Additional data describing Malware Scanning enable/disable operation. */
   readonly operationStatus?: OperationStatus;
 }
@@ -100,6 +107,7 @@ export function malwareScanningPropertiesSerializer(item: MalwareScanningPropert
     scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
     blobScanResultsOptions: item["blobScanResultsOptions"],
     automatedResponse: item["automatedResponse"],
+    scannerResourceId: item["scannerResourceId"],
   };
 }
 
@@ -111,6 +119,7 @@ export function malwareScanningPropertiesDeserializer(item: any): MalwareScannin
     scanResultsEventGridTopicResourceId: item["scanResultsEventGridTopicResourceId"],
     blobScanResultsOptions: item["blobScanResultsOptions"],
     automatedResponse: item["automatedResponse"],
+    scannerResourceId: item["scannerResourceId"],
     operationStatus: !item["operationStatus"]
       ? item["operationStatus"]
       : operationStatusDeserializer(item["operationStatus"]),
@@ -155,7 +164,7 @@ export interface OnUploadFilters {
   /** Optional. A list of suffixes to exclude from on-upload malware scanning. Suffixes match only the end of blob names, and should be used for file extensions or blob name endings only. */
   excludeBlobsWithSuffix?: string[];
   /** Optional. Specifies the maximum size in bytes for blobs to be scanned. This parameter accepts a single positive integer value. Blobs larger than this value will be excluded from scanning. */
-  excludeBlobsLargerThan?: any;
+  excludeBlobsLargerThan?: number;
 }
 
 export function onUploadFiltersSerializer(item: OnUploadFilters): any {
@@ -230,6 +239,8 @@ export type AutomatedResponseType = string;
 export interface SensitiveDataDiscoveryProperties {
   /** Indicates whether Sensitive Data Discovery should be enabled. */
   isEnabled?: boolean;
+  /** Optional. Resource id of the scanner resource (e.g., securityOperator or dataScanner) whose identity will be used for sensitive data discovery. */
+  scannerResourceId?: string;
   /** Upon failure or partial success. Additional data describing Sensitive Data Discovery enable/disable operation. */
   readonly operationStatus?: OperationStatus;
 }
@@ -237,7 +248,7 @@ export interface SensitiveDataDiscoveryProperties {
 export function sensitiveDataDiscoveryPropertiesSerializer(
   item: SensitiveDataDiscoveryProperties,
 ): any {
-  return { isEnabled: item["isEnabled"] };
+  return { isEnabled: item["isEnabled"], scannerResourceId: item["scannerResourceId"] };
 }
 
 export function sensitiveDataDiscoveryPropertiesDeserializer(
@@ -245,11 +256,33 @@ export function sensitiveDataDiscoveryPropertiesDeserializer(
 ): SensitiveDataDiscoveryProperties {
   return {
     isEnabled: item["isEnabled"],
+    scannerResourceId: item["scannerResourceId"],
     operationStatus: !item["operationStatus"]
       ? item["operationStatus"]
       : operationStatusDeserializer(item["operationStatus"]),
   };
 }
+
+/** Indicates whether this resource's Defender for Storage settings are managed by a higher MDC enforcement scope and which component is managing them. */
+export enum KnownManagedByType {
+  /** The resource's Defender for Storage settings are not managed by a higher enforcement scope. */
+  None = "None",
+  /** The resource's Defender for Storage settings are managed by Microsoft Defender XDR. */
+  MicrosoftDefenderXDR = "MicrosoftDefenderXDR",
+  /** The resource's Defender for Storage settings are managed by the subscription-level settings enforcer. */
+  SubscriptionSettingsEnforcer = "SubscriptionSettingsEnforcer",
+}
+
+/**
+ * Indicates whether this resource's Defender for Storage settings are managed by a higher MDC enforcement scope and which component is managing them. \
+ * {@link KnownManagedByType} can be used interchangeably with ManagedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The resource's Defender for Storage settings are not managed by a higher enforcement scope. \
+ * **MicrosoftDefenderXDR**: The resource's Defender for Storage settings are managed by Microsoft Defender XDR. \
+ * **SubscriptionSettingsEnforcer**: The resource's Defender for Storage settings are managed by the subscription-level settings enforcer.
+ */
+export type ManagedByType = string;
 
 /** List of Defender for Storage settings. */
 export interface _DefenderForStorageSettingList {
@@ -287,30 +320,37 @@ export function defenderForStorageSettingArrayDeserializer(
 }
 
 /** Describes the state of a malware scan operation. */
-export interface MalwareScan {
+export interface MalwareScan extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
   properties?: MalwareScanProperties;
 }
 
 export function malwareScanDeserializer(item: any): MalwareScan {
   return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
       : malwareScanPropertiesDeserializer(item["properties"]),
   };
 }
 
-/** model interface MalwareScanProperties */
+/** Properties of a malware scan operation. */
 export interface MalwareScanProperties {
   /** The identifier of the scan. */
   scanId?: string;
   /** A status code of the scan operation. */
-  scanStatus?: string;
+  scanStatus?: MalwareScanStatus;
   /** A description of the status of the scan. */
   scanStatusMessage?: string;
   /** The time at which the scan had been initiated. */
-  scanStartTime?: string;
+  scanStartTime?: Date;
   /** The time at which the scan has ended. Only available for a scan which has terminated. */
-  scanEndTime?: string;
+  scanEndTime?: Date;
   /** A summary of the scan results. */
   scanSummary?: ScanSummary;
 }
@@ -320,13 +360,46 @@ export function malwareScanPropertiesDeserializer(item: any): MalwareScanPropert
     scanId: item["scanId"],
     scanStatus: item["scanStatus"],
     scanStatusMessage: item["scanStatusMessage"],
-    scanStartTime: item["scanStartTime"],
-    scanEndTime: item["scanEndTime"],
+    scanStartTime: !item["scanStartTime"] ? item["scanStartTime"] : new Date(item["scanStartTime"]),
+    scanEndTime: !item["scanEndTime"] ? item["scanEndTime"] : new Date(item["scanEndTime"]),
     scanSummary: !item["scanSummary"]
       ? item["scanSummary"]
       : scanSummaryDeserializer(item["scanSummary"]),
   };
 }
+
+/** A status code of the malware scan operation. */
+export enum KnownMalwareScanStatus {
+  /** The scan request has been queued and is waiting to be processed. */
+  Queued = "Queued",
+  /** The scan is currently in progress. */
+  InProgress = "InProgress",
+  /** The scan has finished processing and is waiting for final results. */
+  WaitingForCompletion = "WaitingForCompletion",
+  /** The scan is being cancelled upon user request. */
+  Canceling = "Canceling",
+  /** The scan has been canceled. */
+  Canceled = "Canceled",
+  /** The scan failed. */
+  Failed = "Failed",
+  /** The scan has completed successfully. */
+  Completed = "Completed",
+}
+
+/**
+ * A status code of the malware scan operation. \
+ * {@link KnownMalwareScanStatus} can be used interchangeably with MalwareScanStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Queued**: The scan request has been queued and is waiting to be processed. \
+ * **InProgress**: The scan is currently in progress. \
+ * **WaitingForCompletion**: The scan has finished processing and is waiting for final results. \
+ * **Canceling**: The scan is being cancelled upon user request. \
+ * **Canceled**: The scan has been canceled. \
+ * **Failed**: The scan failed. \
+ * **Completed**: The scan has completed successfully.
+ */
+export type MalwareScanStatus = string;
 
 /** A summary of the scan results. */
 export interface ScanSummary {
@@ -391,5 +464,108 @@ export function filesScanSummaryDeserializer(item: any): FilesScanSummary {
     skippedFilesCount: item["skippedFilesCount"],
     failedFilesCount: item["failedFilesCount"],
     scannedFilesInGB: item["scannedFilesInGB"],
+  };
+}
+
+/** Request body for starting a malware scan with optional filters. */
+export interface StartMalwareScanRequest {
+  /** Properties for the malware scan request. */
+  properties?: StartMalwareScanRequestProperties;
+}
+
+export function startMalwareScanRequestSerializer(item: StartMalwareScanRequest): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : startMalwareScanRequestPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties for the malware scan request. */
+export interface StartMalwareScanRequestProperties {
+  /** Optional filters to scope the malware scan to specific blobs or files. */
+  filters?: MalwareScanFilters;
+}
+
+export function startMalwareScanRequestPropertiesSerializer(
+  item: StartMalwareScanRequestProperties,
+): any {
+  return {
+    filters: !item["filters"] ? item["filters"] : malwareScanFiltersSerializer(item["filters"]),
+  };
+}
+
+/** Filters to scope the malware scan. */
+export interface MalwareScanFilters {
+  /** Optional filter for blob scanning. Specifies which blobs to scan. */
+  blobs?: BlobScanFilter;
+  /** Optional filter for file scanning. Specifies which files to scan. */
+  files?: FileScanFilter;
+}
+
+export function malwareScanFiltersSerializer(item: MalwareScanFilters): any {
+  return {
+    blobs: !item["blobs"] ? item["blobs"] : blobScanFilterSerializer(item["blobs"]),
+    files: !item["files"] ? item["files"] : fileScanFilterSerializer(item["files"]),
+  };
+}
+
+/** Filter for blob scanning. At least one of 'container' or 'blob' must be specified; a request with neither is rejected by the service. If only container is provided, all blobs in that container are scanned. If only blob is provided, blobs matching the filter across all containers are scanned. */
+export interface BlobScanFilter {
+  /** Optional filter for the blob container to scan. If not provided, the blob filter will apply across all containers. */
+  container?: MatchFilter;
+  /** Optional filter for specific blob(s). If container is specified, this filters blobs within that container. If container is not specified, this filters blobs across all containers. */
+  blob?: MatchFilter;
+}
+
+export function blobScanFilterSerializer(item: BlobScanFilter): any {
+  return {
+    container: !item["container"] ? item["container"] : matchFilterSerializer(item["container"]),
+    blob: !item["blob"] ? item["blob"] : matchFilterSerializer(item["blob"]),
+  };
+}
+
+/** Filter with value and matching strategy. */
+export interface MatchFilter {
+  /** The value to match against. */
+  value: string;
+  /** The matching strategy for the filter. */
+  match: MatchType;
+}
+
+export function matchFilterSerializer(item: MatchFilter): any {
+  return { value: item["value"], match: item["match"] };
+}
+
+/** The matching strategy for the filter. */
+export enum KnownMatchType {
+  /** Match resources with values starting with the specified string. */
+  Prefix = "Prefix",
+  /** Match resources with the exact value specified. */
+  Exact = "Exact",
+}
+
+/**
+ * The matching strategy for the filter. \
+ * {@link KnownMatchType} can be used interchangeably with MatchType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Prefix**: Match resources with values starting with the specified string. \
+ * **Exact**: Match resources with the exact value specified.
+ */
+export type MatchType = string;
+
+/** Filter for file scanning. At least one of 'share' or 'file' must be specified; a request with neither is rejected by the service. If only share is provided, all files in that share are scanned. If only file is provided, files matching the filter across all shares are scanned. */
+export interface FileScanFilter {
+  /** Optional filter for the file share to scan. If not provided, the file filter will apply across all shares. */
+  share?: MatchFilter;
+  /** Optional filter for specific file(s). If share is specified, this filters files within that share. If share is not specified, this filters files across all shares. */
+  file?: MatchFilter;
+}
+
+export function fileScanFilterSerializer(item: FileScanFilter): any {
+  return {
+    share: !item["share"] ? item["share"] : matchFilterSerializer(item["share"]),
+    file: !item["file"] ? item["file"] : matchFilterSerializer(item["file"]),
   };
 }

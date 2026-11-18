@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, update, get } from "../../api/pricings/operations.js";
-import {
+import type {
   PricingsListOptionalParams,
   PricingsDeleteOptionalParams,
   PricingsUpdateOptionalParams,
   PricingsGetOptionalParams,
 } from "../../api/pricings/options.js";
-import { Pricing, PricingList } from "../../models/pricingsAPI/models.js";
+import type { Pricing, PricingList } from "../../models/pricingsAPI/models.js";
 
 /** Interface representing a Pricings operations. */
 export interface PricingsOperations {
