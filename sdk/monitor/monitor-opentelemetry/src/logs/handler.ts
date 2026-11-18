@@ -35,12 +35,14 @@ export class LogHandler {
     config: InternalConfig,
     metricHandler: MetricHandler,
     private readonly instrumentationCache?: Map<string, Instrumentation>,
+    fallbackSampleRate = 100,
   ) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._azureExporter = new AzureMonitorLogExporter(config.azureMonitorExporterOptions);
     this._azureBatchLogRecordProcessor = new AzureBatchLogRecordProcessor(this._azureExporter, {
       enableTraceBasedSamplingForLogs: this._config.enableTraceBasedSamplingForLogs,
+      fallbackSampleRate,
     });
     this._azureLogRecordProcessor = new AzureLogRecordProcessor(this._metricHandler);
     this._instrumentations = [];

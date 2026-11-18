@@ -42,6 +42,7 @@ export class TraceHandler {
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
   private _sampler: Sampler;
+  public readonly fallbackLogSampleRate: number;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -59,12 +60,17 @@ export class TraceHandler {
     // Check sampler precedence
     if (this._config.sampler) {
       this._sampler = this._config.sampler;
+      // EnvConfig supplies the probability alongside the OpenTelemetry sampler.
+      this.fallbackLogSampleRate = this._config.samplingRatio * 100;
     } else if (this._config.tracesPerSecond && this._config.tracesPerSecond > 0) {
       // If tracesPerSecond is set to a positive number, use RateLimitedSampler
       this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
+      this.fallbackLogSampleRate = 100;
     } else {
       // Otherwise, use PercentageSampler with samplingRatio
-      this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+      const sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+      this._sampler = sampler;
+      this.fallbackLogSampleRate = sampler.sampleRate;
     }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     this._batchSpanProcessor = new BatchSpanProcessor({

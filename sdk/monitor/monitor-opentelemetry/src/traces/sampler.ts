@@ -17,7 +17,7 @@ import { AzureMonitorSampleRate } from "../types.js";
  * @param samplingRatio - 0 to 1 value.
  */
 export class ApplicationInsightsSampler implements Sampler {
-  private readonly _sampleRate: number;
+  public readonly sampleRate: number;
   private readonly _samplingRatio: number;
 
   /**
@@ -33,7 +33,7 @@ export class ApplicationInsightsSampler implements Sampler {
     ) {
       diag.warn("Invalid sampling rate, sampling rate must be a value in the range [0,1].");
     }
-    this._sampleRate = Math.round(this._samplingRatio * 100);
+    this.sampleRate = Math.round(this._samplingRatio * 100);
   }
 
   /**
@@ -63,17 +63,17 @@ export class ApplicationInsightsSampler implements Sampler {
     links: Link[],
   ): SamplingResult {
     let isSampledIn: boolean;
-    if (this._sampleRate === 100) {
+    if (this.sampleRate === 100) {
       isSampledIn = true;
-    } else if (this._sampleRate === 0) {
+    } else if (this.sampleRate === 0) {
       isSampledIn = false;
     } else {
-      isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
+      isSampledIn = this._getSamplingHashCode(traceId) < this.sampleRate;
     }
     // Add sample rate as span attribute if it is not 100
     attributes = attributes || {};
-    if (this._sampleRate !== 100) {
-      attributes[AzureMonitorSampleRate] = this._sampleRate;
+    if (this.sampleRate !== 100) {
+      attributes[AzureMonitorSampleRate] = this.sampleRate;
     }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }

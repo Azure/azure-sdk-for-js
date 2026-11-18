@@ -14,11 +14,12 @@ import { AzureMonitorSampleRate } from "../types.js";
  * @internal
  */
 export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
-  private readonly _options: { enableTraceBasedSamplingForLogs: boolean | undefined };
-
   constructor(
     exporter: LogRecordExporter,
-    options: { enableTraceBasedSamplingForLogs: boolean | undefined },
+    private readonly _options: {
+      enableTraceBasedSamplingForLogs?: boolean;
+      fallbackSampleRate?: number;
+    },
   ) {
     super({
       exporter,
@@ -27,7 +28,6 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
       scheduledDelayMillis: getPositiveNumberFromEnv("OTEL_BLRP_SCHEDULE_DELAY"),
       exportTimeoutMillis: getPositiveNumberFromEnv("OTEL_BLRP_EXPORT_TIMEOUT"),
     });
-    this._options = options;
   }
 
   public onEmit(logRecord: ReadWriteLogRecord, context?: Context): void {
@@ -38,11 +38,17 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
       }
 
       // Capture the sampler's decision before batching loses access to the emitting span.
-      const span = context && (trace.getSpan(context) as Partial<ReadableSpan> | undefined);
-      const spanRate = span?.attributes?.[AzureMonitorSampleRate];
-      if (typeof spanRate === "number") {
-        sampleRate = spanRate;
-      }
+      const span = context && trace.getSpan(context);
+      const sc = span?.spanContext();
+      const spanRate =
+        sc?.spanId === logRecord.spanContext.spanId && sc.traceId === logRecord.spanContext.traceId
+          ? (span as Partial<ReadableSpan>).attributes?.[AzureMonitorSampleRate]
+          : undefined;
+      const rate = typeof spanRate === "string" ? Number(spanRate) : spanRate;
+      sampleRate =
+        typeof rate === "number" && rate > 0 && rate <= 100
+          ? rate
+          : (this._options.fallbackSampleRate ?? 100);
     }
     if (sampleRate !== 100 || logRecord.attributes[AzureMonitorSampleRate] !== undefined) {
       logRecord.setAttribute(AzureMonitorSampleRate, sampleRate);

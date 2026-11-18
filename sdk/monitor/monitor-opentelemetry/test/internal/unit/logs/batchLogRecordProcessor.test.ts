@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { context } from "@opentelemetry/api";
+import { context, ROOT_CONTEXT, trace } from "@opentelemetry/api";
 import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
 import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { TracerProvider } from "@opentelemetry/sdk-trace";
@@ -74,6 +74,38 @@ describe("AzureBatchLogRecordProcessor", () => {
       }
     },
   );
+
+  it("uses the fixed fallback only when a sampled log has no usable rate from its own span", async () => {
+    const exporter = new InMemoryLogRecordExporter();
+    const loggerProvider = new LoggerProvider({
+      processors: [
+        new AzureBatchLogRecordProcessor(exporter, {
+          enableTraceBasedSamplingForLogs: true,
+          fallbackSampleRate: 5,
+        }),
+      ],
+    });
+    const tracerProvider = new TracerProvider();
+    const span = tracerProvider.getTracer("test").startSpan("test");
+    const spanContext = trace.setSpan(ROOT_CONTEXT, span);
+    const logger = loggerProvider.getLogger("test");
+    try {
+      span.setAttribute(AzureMonitorSampleRate, 25);
+      logger.emit({ context: spanContext });
+      span.setAttribute(AzureMonitorSampleRate, 101);
+      logger.emit({ context: spanContext });
+      // Propagated span contexts carry the sampled flag but not the sampler's attributes.
+      logger.emit({ context: trace.setSpanContext(ROOT_CONTEXT, span.spanContext()) });
+      logger.emit({ context: ROOT_CONTEXT });
+      await loggerProvider.forceFlush();
+      expect(
+        exporter.getFinishedLogRecords().map((log) => log.attributes[AzureMonitorSampleRate]),
+      ).toEqual([25, 5, 5, undefined]);
+    } finally {
+      span.end();
+      await Promise.all([loggerProvider.shutdown(), tracerProvider.shutdown()]);
+    }
+  });
 
   it("uses OpenTelemetry batch log environment variables", async () => {
     vi.stubEnv("OTEL_BLRP_MAX_QUEUE_SIZE", "4096");

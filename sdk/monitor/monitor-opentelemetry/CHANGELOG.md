@@ -13,7 +13,7 @@
 
 ### Bugs Fixed
 
-- Fixed under-counting of logs when `enableTraceBasedSamplingForLogs` is enabled. Retained logs now report the sampling percentage of their span. Logs emitted outside a span still count as one item each. [#40803](https://github.com/Azure/azure-sdk-for-js/issues/40803)
+- Fixed under-counting of logs when `enableTraceBasedSamplingForLogs` is enabled. Retained logs use their span's sampling percentage, or the configured fixed percentage if the span doesn't supply one. Rate-limited sampling never falls back to a fixed percentage. Logs emitted outside a span still count as one item each. [#40803](https://github.com/Azure/azure-sdk-for-js/issues/40803)
 
 ### Other Changes
 
