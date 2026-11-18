@@ -14,8 +14,6 @@
 - These changes do not impact the API of stable versions such as 4.10.2. Only code written against a beta version such as 4.11.0-beta.1 may be affected. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 
-### Bugs Fixed
-
 ### Other Changes
 
 - Key Vault API version `2026-04-01` is now the default. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
