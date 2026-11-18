@@ -210,10 +210,10 @@ describe("Local cryptography public tests", () => {
         const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
         const verifyResult = await localCryptoClient.verifyData(
           localAlgorithmName,
-          digest,
+          Buffer.from(signatureValue),
           signature.result,
         );
-        assert.isDefined(verifyResult);
+        assert.isTrue(verifyResult.result);
 
         await testClient.flushKey(keyName);
       });
