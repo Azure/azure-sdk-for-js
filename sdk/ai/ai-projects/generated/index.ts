@@ -933,7 +933,14 @@ export type {
   BetaVoiceAgentsLiveConversationsDownloadAudioItemResponse,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
-export type { FileSearchToolFiltersValue } from "./models/javaScriptToolCompatibility/index.js";
+export type {
+  MCPToolAllowedTools,
+  MCPToolRequireApproval,
+  FileSearchToolFiltersValue,
+  FileSearchToolFiltersValue_1,
+  FileSearchToolFiltersFilter,
+  CodeInterpreterToolContainer,
+} from "./models/javaScriptToolCompatibility/index.js";
 export type {
   Reasoning,
   ReasoningModeEnum,
@@ -941,7 +948,7 @@ export type {
   Tool,
   ToolUnion,
   ToolType,
-  MCPToolRequireApproval,
+  MCPToolRequireApproval as AIProjectClientMCPToolRequireApproval,
   MCPToolFilter,
   MCPTool,
   CallableToolAllowedCaller,

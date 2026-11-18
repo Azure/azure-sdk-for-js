@@ -9,21 +9,21 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
 import {
-  _MCPToolAllowedTools,
-  _MCPToolAllowedToolsSerializer,
-  _MCPToolAllowedToolsDeserializer,
-  _MCPToolRequireApproval,
-  _MCPToolRequireApprovalSerializer,
-  _MCPToolRequireApprovalDeserializer,
+  MCPToolAllowedTools,
+  mcpToolAllowedToolsSerializer,
+  mcpToolAllowedToolsDeserializer,
+  MCPToolRequireApproval as MCPToolRequireApproval_1,
+  mcpToolRequireApprovalSerializer as mcpToolRequireApprovalSerializer_1,
+  mcpToolRequireApprovalDeserializer as mcpToolRequireApprovalDeserializer_1,
   FileSearchToolFiltersValue,
   fileSearchToolFiltersValueSerializer,
   fileSearchToolFiltersValueDeserializer,
-  _FileSearchToolFiltersFilterArraySerializer,
-  _FileSearchToolFiltersFilterArrayDeserializer,
-  _FileSearchToolFiltersFilter,
-  _CodeInterpreterToolContainer,
-  _CodeInterpreterToolContainerSerializer,
-  _CodeInterpreterToolContainerDeserializer,
+  fileSearchToolFiltersFilterArraySerializer,
+  fileSearchToolFiltersFilterArrayDeserializer,
+  FileSearchToolFiltersFilter,
+  CodeInterpreterToolContainer,
+  codeInterpreterToolContainerSerializer,
+  codeInterpreterToolContainerDeserializer,
 } from "../javaScriptToolCompatibility/models.js";
 import {
   MicrosoftCopilotToolsetPreview,
@@ -670,9 +670,9 @@ export interface MCPTool extends Tool {
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
   headers?: Record<string, string>;
-  allowed_tools?: _MCPToolAllowedTools;
+  allowed_tools?: MCPToolAllowedTools;
   allowed_callers?: CallableToolAllowedCaller[];
-  require_approval?: _MCPToolRequireApproval;
+  require_approval?: MCPToolRequireApproval_1;
   /** Whether this MCP tool is deferred and discovered via tool search. */
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
@@ -693,7 +693,7 @@ export function mcpToolSerializer(item: MCPTool): any {
     headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _MCPToolAllowedToolsSerializer(item["allowed_tools"]),
+      : mcpToolAllowedToolsSerializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p: any) => {
@@ -701,7 +701,7 @@ export function mcpToolSerializer(item: MCPTool): any {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _MCPToolRequireApprovalSerializer(item["require_approval"]),
+      : mcpToolRequireApprovalSerializer_1(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -726,7 +726,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         ),
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
-      : _MCPToolAllowedToolsDeserializer(item["allowed_tools"]),
+      : mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
     allowed_callers: !item["allowed_callers"]
       ? item["allowed_callers"]
       : item["allowed_callers"].map((p1: any) => {
@@ -734,7 +734,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
         }),
     require_approval: !item["require_approval"]
       ? item["require_approval"]
-      : _MCPToolRequireApprovalDeserializer(item["require_approval"]),
+      : mcpToolRequireApprovalDeserializer_1(item["require_approval"]),
     defer_loading: item["defer_loading"],
     project_connection_id: item["project_connection_id"],
     tool_configs: !item["tool_configs"]
@@ -1107,20 +1107,20 @@ export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
   /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: _FileSearchToolFiltersFilter[];
+  filters: FileSearchToolFiltersFilter[];
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
   return {
     type: item["type"],
-    filters: _FileSearchToolFiltersFilterArraySerializer(item["filters"]),
+    filters: fileSearchToolFiltersFilterArraySerializer(item["filters"]),
   };
 }
 
 export function compoundFilterDeserializer(item: any): CompoundFilter {
   return {
     type: item["type"],
-    filters: _FileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
+    filters: fileSearchToolFiltersFilterArrayDeserializer(item["filters"]),
   };
 }
 
@@ -1310,7 +1310,7 @@ export interface CodeInterpreterTool extends Tool {
    * optional `memory_limit` setting.
    * If not provided, the service assumes auto.
    */
-  container?: _CodeInterpreterToolContainer;
+  container?: CodeInterpreterToolContainer;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
   name?: string;
   /** Deprecated. This property is deprecated and will be removed in a future version. */
@@ -1329,7 +1329,7 @@ export function codeInterpreterToolSerializer(item: CodeInterpreterTool): any {
         }),
     container: !item["container"]
       ? item["container"]
-      : _CodeInterpreterToolContainerSerializer(item["container"]),
+      : codeInterpreterToolContainerSerializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
@@ -1348,7 +1348,7 @@ export function codeInterpreterToolDeserializer(item: any): CodeInterpreterTool 
         }),
     container: !item["container"]
       ? item["container"]
-      : _CodeInterpreterToolContainerDeserializer(item["container"]),
+      : codeInterpreterToolContainerDeserializer(item["container"]),
     name: item["name"],
     description: item["description"],
     tool_configs: !item["tool_configs"]
