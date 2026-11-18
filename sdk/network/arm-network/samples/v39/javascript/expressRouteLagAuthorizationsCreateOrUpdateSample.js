@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an authorization in the specified express route LAG.
  *
  * @summary creates or updates an authorization in the specified express route LAG.
- * x-ms-original-file: 2026-03-01/ExpressRouteLagAuthorizationCreate.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteLagAuthorizationCreate.json
  */
 async function createExpressRouteLagAuthorization() {
   const credential = new DefaultAzureCredential();

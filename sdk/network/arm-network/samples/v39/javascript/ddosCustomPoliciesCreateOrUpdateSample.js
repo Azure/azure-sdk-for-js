@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a DDoS custom policy.
  *
  * @summary creates or updates a DDoS custom policy.
- * x-ms-original-file: 2026-03-01/DdosCustomPolicyCreate.json
+ * x-ms-original-file: 2026-05-01/DdosCustomPolicyCreate.json
  */
 async function createDDoSCustomPolicy() {
   const credential = new DefaultAzureCredential();
