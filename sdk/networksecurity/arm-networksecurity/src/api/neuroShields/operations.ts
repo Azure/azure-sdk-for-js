@@ -2,18 +2,20 @@
 // Licensed under the MIT License.
 
 import type { NetworkSecurityManagementContext as Client } from "../index.js";
+import type { _NeuroShieldResourceListResult } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  _neuroShieldResourceListResultDeserializer,
+} from "../../models/models.js";
 import type {
   NeuroShieldResource,
   NeuroShieldPatch,
-  _NeuroShieldResourceListResult,
-} from "../../models/models.js";
+} from "../../models/neuroShield/management/models.js";
 import {
-  errorResponseDeserializer,
   neuroShieldResourceSerializer,
   neuroShieldResourceDeserializer,
   neuroShieldPatchSerializer,
-  _neuroShieldResourceListResultDeserializer,
-} from "../../models/models.js";
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -36,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkSecurity/neuroShields{?api%2Dversion,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -76,11 +78,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }
 
@@ -94,7 +92,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -135,11 +133,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }
 
@@ -155,7 +149,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +196,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +261,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +325,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
