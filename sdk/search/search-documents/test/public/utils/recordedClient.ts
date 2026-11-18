@@ -86,6 +86,9 @@ export function createSampleRecorderStartOptions(chatModel = "gpt-5-mini"): Reco
       OPENAI_COMPATIBLE_EMBEDDING_DIMENSIONS: "1536",
       OPENAI_COMPATIBLE_API_KEY: "sanitized-provider-key",
       OPENAI_COMPATIBLE_AUTH_HEADER: "api-key",
+      SEARCH_SKILL_CHAT_URI:
+        "https://subdomain.openai.azure.com/openai/deployments/deployment-name/chat/completions?api-version=2025-04-01-preview",
+      SEARCH_SKILL_CHAT_API_KEY: "sanitized-provider-key",
     },
     sanitizerOptions: {
       ...options.sanitizerOptions,
@@ -113,6 +116,14 @@ export function createSampleRecorderStartOptions(chatModel = "gpt-5-mini"): Reco
         {
           jsonPath: "$..embeddingModel.azureOpenAIParameters.modelName",
           value: "text-embedding-3-small",
+        },
+        {
+          jsonPath: "$..embeddingModel.openAICompatibleParameters.modelName",
+          value: "text-embedding-3-small",
+        },
+        {
+          jsonPath: "$..chatCompletionModel.openAICompatibleParameters.modelName",
+          value: "gpt-5-mini",
         },
         {
           jsonPath: "$.vectorSearch.vectorizers[*].azureOpenAIParameters.modelName",

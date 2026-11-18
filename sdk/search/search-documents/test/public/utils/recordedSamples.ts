@@ -144,11 +144,19 @@ export async function runRecordedSample(
         });
         const client = Reflect.construct(target, args) as object;
         if (track) {
-          for (const kind of ["Index", "KnowledgeSource", "KnowledgeBase"]) {
+          for (const kind of [
+            "Index",
+            "KnowledgeSource",
+            "KnowledgeBase",
+            "Indexer",
+            "Skillset",
+            "DataSourceConnection",
+          ]) {
             const create = Reflect.get(client, `create${kind}`) as (
               ...parameters: unknown[]
             ) => Promise<unknown>;
             const get = Reflect.get(client, `get${kind}`) as (name: string) => Promise<unknown>;
+            if (typeof create !== "function" || typeof get !== "function") continue;
             Reflect.set(
               client,
               `create${kind}`,
@@ -171,15 +179,21 @@ export async function runRecordedSample(
           const remove = Reflect.get(client, "deleteKnowledgeSource") as (
             ...parameters: unknown[]
           ) => Promise<unknown>;
-          Reflect.set(client, "deleteKnowledgeSource", async (name: string, ...rest: unknown[]) => {
-            assert(
-              owned.some(
-                (resource) => resource.kind === "KnowledgeSource" && resource.name === name,
-              ),
+          if (typeof remove === "function") {
+            Reflect.set(
+              client,
+              "deleteKnowledgeSource",
+              async (name: string, ...rest: unknown[]) => {
+                assert(
+                  owned.some(
+                    (resource) => resource.kind === "KnowledgeSource" && resource.name === name,
+                  ),
+                );
+                await observeGenerated(name);
+                return remove.call(client, name, ...rest);
+              },
             );
-            await observeGenerated(name);
-            return remove.call(client, name, ...rest);
-          });
+          }
         }
         return client;
       },
@@ -220,7 +234,7 @@ export async function runRecordedSample(
     "@azure/search-documents": {
       ...sdk,
       SearchIndexClient: recordConstructor(sdk.SearchIndexClient, 2, true),
-      SearchIndexerClient: recordConstructor(sdk.SearchIndexerClient, 2),
+      SearchIndexerClient: recordConstructor(sdk.SearchIndexerClient, 2, true),
       SearchClient: recordConstructor(sdk.SearchClient, 3),
       KnowledgeRetrievalClient: recordConstructor(sdk.KnowledgeRetrievalClient, 3),
     },
@@ -280,7 +294,13 @@ export async function runRecordedSample(
     console: {
       log() {},
       error(...args: unknown[]) {
-        errors.push(args);
+        for (const arg of args) {
+          if (arg && typeof arg === "object" && "errors" in arg && Array.isArray(arg.errors)) {
+            errors.push(...arg.errors);
+          } else {
+            errors.push(arg);
+          }
+        }
       },
     },
     fetch: recordedFetch,

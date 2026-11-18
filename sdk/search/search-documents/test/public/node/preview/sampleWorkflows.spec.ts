@@ -85,4 +85,30 @@ describe("November preview sample workflows", { timeout: 720_000 }, () => {
   it("runs inline graph extraction, filtered provenance and hydrated KB source text", async () => {
     await runRecordedSample("knowledgeSourceGraphExtraction", recorder);
   });
+
+  it("runs managed Blob ingestion with compatible embeddings", async () => {
+    await runRecordedSample("knowledgeSourceCompatibleBlob", recorder, {
+      BLOB_SOURCE_APPROVED: "true",
+    });
+  });
+
+  it("runs ChatCompletionSkill indexing and verifies generated hotel facts", async () => {
+    await runRecordedSample("genAiPromptSkill", recorder, {
+      BLOB_SOURCE_APPROVED: "true",
+    });
+  });
+
+  it("runs compatible image verbalization during managed Blob ingestion", async () => {
+    await runRecordedSample("knowledgeSourceCompatibleBlob", recorder, {
+      BLOB_SOURCE_APPROVED: "true",
+      COMPATIBLE_BLOB_IMAGE_VERBALIZATION: "true",
+      BLOB_EXPECTED_CONTENT: "Alpine",
+    });
+  });
+
+  it("runs deferred graph extraction and replaces ontology without obsolete relationships", async () => {
+    await runRecordedSample("knowledgeSourceGraphLifecycle", recorder, {
+      BLOB_SOURCE_APPROVED: "true",
+    });
+  });
 });

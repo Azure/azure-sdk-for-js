@@ -169,6 +169,318 @@ const dp11Environment = {
   OPENAI_COMPATIBLE_API_KEY: "mock-provider-key",
 };
 
+describe("Managed ingestion sample safety", () => {
+  for (const directory of directories) {
+    describe(directory, () => {
+      async function execute(
+        sample: string,
+        environment: Record<string, string> = {},
+        failure?:
+          | "cascade"
+          | "content"
+          | "vectors"
+          | "pending"
+          | "obsolete"
+          | "cache"
+          | "cacheRead"
+          | "unrelated",
+      ): Promise<{
+        errors: unknown[];
+        sources: sdk.KnowledgeSourceInput[];
+        skills: sdk.SearchIndexerSkillset[];
+        sourceDeletes: number;
+        updates: sdk.KnowledgeSourceInput[];
+        runs: number;
+      }> {
+        const sources: sdk.KnowledgeSourceInput[] = [];
+        const skills: sdk.SearchIndexerSkillset[] = [];
+        const updates: sdk.KnowledgeSourceInput[] = [];
+        let sourceDeletes = 0;
+        let phase = 0;
+        let runs = 0;
+        let phaseRuns = 0;
+        const generated = {
+          index: "",
+          indexer: "",
+          skillset: "",
+          datasource: "",
+          graphIndex: "",
+        };
+        class IndexClient {
+          async createKnowledgeSource(source: sdk.KnowledgeSourceInput): Promise<void> {
+            sources.push(structuredClone(source));
+            for (const key of Object.keys(generated) as (keyof typeof generated)[]) {
+              generated[key] = `${source.name}-${key}`;
+            }
+          }
+          async createOrUpdateKnowledgeSource(source: sdk.KnowledgeSourceInput): Promise<void> {
+            updates.push(structuredClone(source));
+            phase++;
+            phaseRuns = 0;
+          }
+          async getKnowledgeSource(): Promise<unknown> {
+            return {
+              kind: "azureBlob",
+              azureBlobParameters: { createdResources: { additionalProperties: generated } },
+            };
+          }
+          async getKnowledgeSourceStatus(): Promise<unknown> {
+            return {
+              lastSynchronizationState: {
+                endTime: new Date((phase + 1) * 1000),
+                itemsUpdatesProcessed: 1,
+                itemsUpdatesFailed: failure === "cacheRead" && phase > 0 ? 1 : 0,
+              },
+            };
+          }
+          async deleteKnowledgeSource(): Promise<void> {
+            sourceDeletes++;
+            if (failure === "cascade" && sourceDeletes === 1) {
+              throw new Error("Partial cleanup failure.");
+            }
+          }
+          async createIndex(): Promise<void> {}
+          async getIndex(): Promise<unknown> {
+            return {
+              etag: "owned-etag",
+              graphProfile: { fields: { graphNameField: "graph_name" } },
+              fields: [{ name: "snippet" }, { name: "vector", vectorSearchDimensions: 1536 }],
+            };
+          }
+          async deleteIndex(): Promise<void> {}
+          getSearchClient(name: string): unknown {
+            return {
+              async getDocumentsCount() {
+                return name === generated.graphIndex && phase === 0 ? 0 : 1;
+              },
+              async graph(query: string) {
+                if (query.includes("[r:operatedBy]") && phase === 2 && failure !== "obsolete") {
+                  return { value: [] };
+                }
+                return {
+                  value: [
+                    {
+                      additionalProperties: {
+                        hotel: "Alpine Hotel",
+                        organization: "Summit Hospitality",
+                        relationship:
+                          phase === 1 || failure === "obsolete" ? "operatedBy" : "managedBy",
+                      },
+                    },
+                  ],
+                };
+              },
+              async search(_text: string, options?: { vectorSearchOptions?: unknown }) {
+                return {
+                  results: (async function* () {
+                    if (failure === "vectors" && options?.vectorSearchOptions) return;
+                    yield {
+                      document:
+                        sample === "genAiPromptSkill"
+                          ? {
+                              id: "fixture",
+                              content: "Alpine and Harbor",
+                              hotelFacts:
+                                failure === "content"
+                                  ? ""
+                                  : "Alpine: Summit Hospitality. Harbor: Coast Hospitality.",
+                            }
+                          : {
+                              snippet:
+                                failure === "content"
+                                  ? "unrelated"
+                                  : "Alpine hotel has an indoor pool.",
+                            },
+                    };
+                  })(),
+                };
+              },
+            };
+          }
+        }
+        class IndexerClient {
+          async createDataSourceConnection(): Promise<void> {}
+          async createSkillset(skillset: sdk.SearchIndexerSkillset): Promise<void> {
+            skills.push(skillset);
+          }
+          async createIndexer(): Promise<void> {}
+          async runIndexer(): Promise<void> {
+            runs++;
+            phaseRuns++;
+          }
+          async getIndexerStatus(): Promise<unknown> {
+            if (
+              ["pending", "cacheRead", "unrelated"].includes(failure || "") &&
+              phase > 0 &&
+              phaseRuns === 1
+            ) {
+              return {
+                lastResult: {
+                  status: "transientFailure",
+                  errorMessage:
+                    "Graph synchronization has pending cached documents and must be retried.",
+                  endTime: new Date(phase * 1000),
+                  failedItemCount: failure === "pending" ? 0 : 1,
+                  errors:
+                    failure === "pending"
+                      ? []
+                      : [
+                          {
+                            name:
+                              failure === "cacheRead" ? "Cache.ReadDocument" : "Unrelated.Failure",
+                          },
+                        ],
+                },
+              };
+            }
+            return {
+              lastResult: {
+                status: "success",
+                failedItemCount: 0,
+                itemCount: 1,
+                errors: [],
+                warnings: [],
+              },
+            };
+          }
+          async getDataSourceConnection(): Promise<unknown> {
+            return {
+              etag: "owned-etag",
+              container: { query: environment.AZURE_BLOB_FOLDER_PATH ?? "hotels" },
+            };
+          }
+          async getIndexer(): Promise<unknown> {
+            return {
+              etag: "owned-etag",
+              cache: {
+                id: failure === "cache" && phase > 0 ? "replacement-cache" : "original-cache",
+              },
+            };
+          }
+          async getSkillset(): Promise<unknown> {
+            return { etag: "owned-etag" };
+          }
+          async deleteDataSourceConnection(): Promise<void> {}
+          async deleteSkillset(): Promise<void> {}
+          async deleteIndexer(): Promise<void> {}
+        }
+        const errors = await runSample(
+          sample,
+          directory,
+          {
+            SearchIndexClient: IndexClient,
+            SearchIndexerClient: IndexerClient,
+          },
+          {
+            ...dp11Environment,
+            BLOB_SOURCE_APPROVED: "true",
+            SEARCH_SKILL_CHAT_URI:
+              "https://example.openai.azure.com/openai/deployments/chat/chat/completions",
+            SEARCH_SKILL_CHAT_API_KEY: "mock-skill-key",
+            ...environment,
+          },
+        );
+        return { errors, sources, skills, sourceDeletes, updates, runs };
+      }
+
+      it("ingests with compatible embeddings without client-side embedding requests", async () => {
+        const run = await execute("knowledgeSourceCompatibleBlob");
+        assert.isEmpty(run.errors);
+        assert.nestedPropertyVal(
+          run.sources[0],
+          "azureBlobParameters.ingestionParameters.embeddingModel.kind",
+          "openAICompatible",
+        );
+      });
+
+      it("enables compatible image verbalization and verifies its indexed content", async () => {
+        const run = await execute("knowledgeSourceCompatibleBlob", {
+          COMPATIBLE_BLOB_IMAGE_VERBALIZATION: "true",
+          BLOB_EXPECTED_CONTENT: "indoor pool",
+        });
+        assert.isEmpty(run.errors);
+        assert.nestedPropertyVal(
+          run.sources[0],
+          "azureBlobParameters.ingestionParameters.disableImageVerbalization",
+          false,
+        );
+        assert.nestedPropertyVal(
+          run.sources[0],
+          "azureBlobParameters.ingestionParameters.chatCompletionModel.kind",
+          "openAICompatible",
+        );
+      });
+
+      it("finishes a partially failed service-side deletion cascade", async () => {
+        const run = await execute("knowledgeSourceCompatibleBlob", {}, "cascade");
+        assert.isEmpty(run.errors);
+        assert.equal(run.sourceDeletes, 2);
+      });
+
+      it.each(["content", "vectors"] as const)("rejects missing ingested %s", async (failure) => {
+        const run = await execute("knowledgeSourceCompatibleBlob", {}, failure);
+        assert.isNotEmpty(run.errors);
+        assert.equal(run.sourceDeletes, 1);
+      });
+
+      it("executes ChatCompletionSkill and verifies generated fields", async () => {
+        const run = await execute("genAiPromptSkill");
+        assert.isEmpty(run.errors);
+        assert.equal(
+          run.skills[0].skills[0].odatatype,
+          "#Microsoft.Skills.Custom.ChatCompletionSkill",
+        );
+      });
+
+      it("rejects absent generated hotel facts", async () => {
+        const run = await execute("genAiPromptSkill", {}, "content");
+        assert.isNotEmpty(run.errors);
+      });
+
+      it("attaches and replaces an ontology while retaining the original cache", async () => {
+        const run = await execute("knowledgeSourceGraphLifecycle");
+        assert.isEmpty(run.errors);
+        assert.notNestedProperty(run.sources[0], "azureBlobParameters.graphExtraction.ontology");
+        assert.lengthOf(run.updates, 2);
+        assert.equal(run.runs, 2);
+      });
+
+      it("drains service-reported pending cached documents with bounded retries", async () => {
+        const run = await execute("knowledgeSourceGraphLifecycle", {}, "pending");
+        assert.isEmpty(run.errors);
+        assert.equal(run.runs, 4);
+      });
+
+      it("accounts for recovered cache reads without ignoring unrelated failed documents", async () => {
+        const recovered = await execute("knowledgeSourceGraphLifecycle", {}, "cacheRead");
+        assert.isEmpty(recovered.errors);
+        const unrelated = await execute("knowledgeSourceGraphLifecycle", {}, "unrelated");
+        assert.isNotEmpty(unrelated.errors);
+      });
+
+      it.each(["obsolete", "cache"] as const)(
+        "rejects graph lifecycle %s regressions",
+        async (failure) => {
+          const run = await execute("knowledgeSourceGraphLifecycle", {}, failure);
+          assert.isNotEmpty(run.errors);
+          assert.equal(run.sourceDeletes, 1);
+        },
+      );
+
+      it.each([
+        "knowledgeSourceCompatibleBlob",
+        "genAiPromptSkill",
+        "knowledgeSourceGraphLifecycle",
+      ])("rejects unapproved folders in %s", async (sample) => {
+        const run = await execute(sample, { BLOB_SOURCE_APPROVED: "false" });
+        assert.isNotEmpty(run.errors);
+        assert.isEmpty(run.sources);
+        assert.isEmpty(run.skills);
+      });
+    });
+  }
+});
+
 async function executeDp11Sample(
   sample: string,
   directory: string,
