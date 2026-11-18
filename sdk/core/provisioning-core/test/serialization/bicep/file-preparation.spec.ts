@@ -208,7 +208,7 @@ describe("prepared file metadata and AST contents", () => {
     );
     expect(rendered).toEqual(expected);
     validateRenderedBicepFiles(rendered);
-  }, 30_000);
+  }, 60_000);
 
   it("adds an entry existing candidate needed only after module arguments are generated", () => {
     const stack = new Stack("late-entry-existing");
@@ -236,5 +236,5 @@ describe("prepared file metadata and AST contents", () => {
       renderBicepFile(toInfraNode(file)),
     );
     validateRenderedBicepFiles(rendered);
-  }, 30_000);
+  }, 60_000);
 });

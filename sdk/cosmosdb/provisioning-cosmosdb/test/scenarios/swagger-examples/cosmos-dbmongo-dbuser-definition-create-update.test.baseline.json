@@ -1,0 +1,104 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "mongodbUserDefinition": {
+          "bicepIdentifier": "mongodbUserDefinition",
+          "type": "Microsoft.DocumentDB/databaseAccounts/mongodbUserDefinitions",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "mongouserdefinitiong-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "userName": {
+                    "kind": "string",
+                    "value": "myUserName"
+                  },
+                  "password": {
+                    "kind": "string",
+                    "value": "myPassword"
+                  },
+                  "databaseName": {
+                    "kind": "string",
+                    "value": "sales"
+                  },
+                  "customData": {
+                    "kind": "string",
+                    "value": "My custom data"
+                  },
+                  "roles": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "object",
+                        "value": {
+                          "role": {
+                            "kind": "string",
+                            "value": "myReadRole"
+                          },
+                          "db": {
+                            "kind": "string",
+                            "value": "sales"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "mechanisms": {
+                    "kind": "string",
+                    "value": "SCRAM-SHA-256"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource1Id": {
+          "bicepIdentifier": "resource1Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "mongodbUserDefinition"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -24,10 +24,10 @@ import type {
 } from "../../api/cloudAccounts/options.js";
 import type {
   CloudAccount,
+  CloudAccountUpdate,
   SaaSData,
   LatestLinkedSaaSResponse,
   CloudAccountCreateOrUpdate,
-  CloudAccountUpdate,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";

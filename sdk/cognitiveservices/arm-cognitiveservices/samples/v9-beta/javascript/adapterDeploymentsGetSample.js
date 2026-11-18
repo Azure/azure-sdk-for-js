@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an adapter deployment by name.
  *
  * @summary gets an adapter deployment by name.
- * x-ms-original-file: 2026-09-15-preview/GetAdapterDeployment.json
+ * x-ms-original-file: 2026-11-15-preview/GetAdapterDeployment.json
  */
 async function getAdapterDeployment() {
   const credential = new DefaultAzureCredential();

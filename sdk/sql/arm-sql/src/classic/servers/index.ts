@@ -168,6 +168,7 @@ export interface ServersOperations {
     options?: ServersGetOptionalParams,
   ) => Promise<Server>;
 }
+
 function _getServers(context: SqlManagementContext) {
   return {
     checkNameAvailability: (
@@ -297,6 +298,7 @@ function _getServers(context: SqlManagementContext) {
       get(context, resourceGroupName, serverName, options),
   };
 }
+
 export function _getServersOperations(context: SqlManagementContext): ServersOperations {
   return {
     ..._getServers(context),

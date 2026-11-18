@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of database restore points.
  *
  * @summary gets a list of database restore points.
- * x-ms-original-file: 2025-08-01-preview/DataWarehouseRestorePointsListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DataWarehouseRestorePointsListByDatabase.json
  */
 async function listDatawarehouseDatabaseRestorePoints() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listDatawarehouseDatabaseRestorePoints() {
  * This sample demonstrates how to gets a list of database restore points.
  *
  * @summary gets a list of database restore points.
- * x-ms-original-file: 2025-08-01-preview/DatabaseRestorePointsListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseRestorePointsListByDatabase.json
  */
 async function listDatabaseRestorePoints() {
   const credential = new DefaultAzureCredential();

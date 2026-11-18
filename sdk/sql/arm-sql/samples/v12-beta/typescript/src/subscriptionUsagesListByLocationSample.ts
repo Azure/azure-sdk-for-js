@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all subscription usage metrics in a given location.
  *
  * @summary gets all subscription usage metrics in a given location.
- * x-ms-original-file: 2025-08-01-preview/SubscriptionUsageListByLocation.json
+ * x-ms-original-file: 2026-08-01-preview/SubscriptionUsageListByLocation.json
  */
 async function listSubscriptionUsagesInTheGivenLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();

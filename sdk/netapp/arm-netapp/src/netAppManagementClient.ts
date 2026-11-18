@@ -41,8 +41,6 @@ import type { SnapshotPoliciesOperations } from "./classic/snapshotPolicies/inde
 import { _getSnapshotPoliciesOperations } from "./classic/snapshotPolicies/index.js";
 import type { SnapshotsOperations } from "./classic/snapshots/index.js";
 import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { SubvolumesOperations } from "./classic/subvolumes/index.js";
-import { _getSubvolumesOperations } from "./classic/subvolumes/index.js";
 import type { VolumeGroupsOperations } from "./classic/volumeGroups/index.js";
 import { _getVolumeGroupsOperations } from "./classic/volumeGroups/index.js";
 import type { VolumeQuotaRulesOperations } from "./classic/volumeQuotaRules/index.js";
@@ -84,7 +82,6 @@ export class NetAppManagementClient {
     this.pipeline = this._client.pipeline;
     this.netAppResourceUsages = _getNetAppResourceUsagesOperations(this._client);
     this.netAppResource = _getNetAppResourceOperations(this._client);
-    this.subvolumes = _getSubvolumesOperations(this._client);
     this.backupsUnderVolume = _getBackupsUnderVolumeOperations(this._client);
     this.backupsUnderBackupVault = _getBackupsUnderBackupVaultOperations(this._client);
     this.pools = _getPoolsOperations(this._client);
@@ -113,8 +110,6 @@ export class NetAppManagementClient {
   public readonly netAppResourceUsages: NetAppResourceUsagesOperations;
   /** The operation groups for netAppResource */
   public readonly netAppResource: NetAppResourceOperations;
-  /** The operation groups for subvolumes */
-  public readonly subvolumes: SubvolumesOperations;
   /** The operation groups for backupsUnderVolume */
   public readonly backupsUnderVolume: BackupsUnderVolumeOperations;
   /** The operation groups for backupsUnderBackupVault */

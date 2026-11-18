@@ -10,13 +10,26 @@
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule), version 22.15.0 or later
 
 - [OpenTelemetry supported runtimes](https://github.com/open-telemetry/opentelemetry-js#supported-runtimes)
 
 > _Warning:_ This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for web and browser scenarios.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+### OpenTelemetry compatibility
+
+This package uses OpenTelemetry SDK 3.x, API 1.10.0, and instrumentation 0.300.x.
+Custom span processors, log record processors, metric readers, and resources must use
+compatible SDK versions. Import tracing SDK types and processors from
+`@opentelemetry/sdk-trace` instead of `@opentelemetry/sdk-trace-base` or
+`@opentelemetry/sdk-trace-node`. Import `logs`, `SeverityNumber`, and log API types
+from `@opentelemetry/api` instead of `@opentelemetry/api-logs`.
+
+Span processors now accept an options object, for example
+`new BatchSpanProcessor({ exporter })`. `useAzureMonitor()` continues to configure
+context management and propagation automatically.
 
 ### Prerequisites
 
@@ -48,7 +61,7 @@ useAzureMonitor(options);
 
 ### ESM Support
 
-> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+> _Note:_ This package requires Node.js 22.15.0 or later, including for ESM applications. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
 
 For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
 
@@ -87,7 +100,7 @@ For CommonJS applications, no additional flags are needed - the loader is automa
 ```ts snippet:ReadmeSampleConfiguration
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api";
 
 const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
@@ -368,7 +381,7 @@ Any [attributes](#add-span-attributes) you add to spans are exported as custom p
 Use a custom processor:
 
 ```ts snippet:ReadmeSampleAddCustomProperty
-import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
 import { Span } from "@opentelemetry/api";
 import { SEMATTRS_HTTP_CLIENT_IP } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
@@ -402,10 +415,10 @@ useAzureMonitor(options);
 Use a custom span processor and log record processor in order to attach and correlate operation name from requests to dependencies and logs.
 
 ```ts snippet:ReadmeSampleAddOperationName
-import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
 import { Span, Context, trace } from "@opentelemetry/api";
 import { AI_OPERATION_NAME } from "@azure/monitor-opentelemetry-exporter";
-import { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import { LogRecordProcessor, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 class SpanEnrichingProcessor implements SpanProcessor {
@@ -432,7 +445,7 @@ class LogRecordEnrichingProcessor implements LogRecordProcessor {
   async shutdown(): Promise<void> {
     // shutdown code here
   }
-  onEmit(_logRecord: SdkLogRecord, _context: Context): void {
+  onEmit(_logRecord: ReadWriteLogRecord, _context: Context): void {
     const parentSpan = trace.getSpan(_context);
     if (parentSpan && "name" in parentSpan) {
       // If the parent span has a name we can assume it is a ReadableSpan and cast it.
@@ -495,7 +508,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace";
       import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
       class SpanEnrichingProcessor implements SpanProcessor {

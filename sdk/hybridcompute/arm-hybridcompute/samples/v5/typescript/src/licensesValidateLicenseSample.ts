@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to validate a license.
  *
  * @summary the operation to validate a license.
- * x-ms-original-file: 2026-07-15/license/License_ValidateLicense.json
+ * x-ms-original-file: 2026-09-01/license/License_ValidateLicense.json
  */
 async function validateALicense(): Promise<void> {
   const credential = new DefaultAzureCredential();

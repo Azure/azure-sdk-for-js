@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a token with the specified parameters.
  *
  * @summary updates a token with the specified parameters.
- * x-ms-original-file: 2026-09-01-preview/TokenUpdate.json
+ * x-ms-original-file: 2026-10-15-preview/TokenUpdate.json
  */
 async function tokenUpdate() {
   const credential = new DefaultAzureCredential();

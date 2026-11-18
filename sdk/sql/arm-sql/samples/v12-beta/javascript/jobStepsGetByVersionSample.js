@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified version of a job step.
  *
  * @summary gets the specified version of a job step.
- * x-ms-original-file: 2025-08-01-preview/GetJobStepByVersion.json
+ * x-ms-original-file: 2026-08-01-preview/GetJobStepByVersion.json
  */
 async function getTheSpecifiedVersionOfAJobStep() {
   const credential = new DefaultAzureCredential();

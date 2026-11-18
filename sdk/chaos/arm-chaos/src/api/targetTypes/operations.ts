@@ -25,7 +25,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       continuationToken: options?.continuationToken,
     },
     {
@@ -53,6 +53,7 @@ export async function _listDeserialize(
 
   return _targetTypeListResultDeserializer(result.body);
 }
+
 /** Get a list of Target Type resources for given location. */
 export function list(
   context: Client,
@@ -64,11 +65,7 @@ export function list(
     () => _listSend(context, location, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -84,7 +81,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       targetTypeName: targetTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,6 +106,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
 
   return targetTypeDeserializer(result.body);
 }
+
 /** Get a Target Type resources for given location. */
 export async function get(
   context: Client,

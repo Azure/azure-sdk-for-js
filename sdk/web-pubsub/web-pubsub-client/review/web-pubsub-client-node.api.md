@@ -215,7 +215,7 @@ export interface InvokeEventOptions {
 
 // @public
 export interface InvokeEventResult {
-    data?: JSONTypes | ArrayBuffer;
+    data?: JSONTypes | ArrayBuffer | null;
     dataType?: WebPubSubDataType;
     invocationId: string;
 }
@@ -238,7 +238,7 @@ export interface InvokeResponseError {
 
 // @public
 export interface InvokeResponseMessage extends WebPubSubMessageBase {
-    data?: JSONTypes | ArrayBuffer;
+    data?: JSONTypes | ArrayBuffer | null;
     dataType?: WebPubSubDataType;
     error?: InvokeResponseError;
     invocationId: string;

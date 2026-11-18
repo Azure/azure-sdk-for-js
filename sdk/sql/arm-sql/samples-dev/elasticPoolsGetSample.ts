@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an elastic pool.
  *
  * @summary gets an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolGet.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolGet.json
  */
 async function getAnElasticPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getAnElasticPool(): Promise<void> {
  * This sample demonstrates how to gets an elastic pool.
  *
  * @summary gets an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/ElasticPoolGetWithPreferredEnclaveType.json
+ * x-ms-original-file: 2026-08-01-preview/ElasticPoolGetWithPreferredEnclaveType.json
  */
 async function getAnElasticPoolWithPreferredEnclaveTypeParameter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getAnElasticPoolWithPreferredEnclaveTypeParameter(): Promise<void
  * This sample demonstrates how to gets an elastic pool.
  *
  * @summary gets an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/GetElasticPoolWithAvailabilityZone.json
+ * x-ms-original-file: 2026-08-01-preview/GetElasticPoolWithAvailabilityZone.json
  */
 async function getAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function getAnElasticPoolWithAvailabilityZone(): Promise<void> {
  * This sample demonstrates how to gets an elastic pool.
  *
  * @summary gets an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/GetElasticPoolWithServerlessProperties.json
+ * x-ms-original-file: 2026-08-01-preview/GetElasticPoolWithServerlessProperties.json
  */
 async function getAnElasticPoolWithServerlessProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getAnElasticPoolWithServerlessProperties(): Promise<void> {
  * This sample demonstrates how to gets an elastic pool.
  *
  * @summary gets an elastic pool.
- * x-ms-original-file: 2025-08-01-preview/HyperscaleElasticPoolGet.json
+ * x-ms-original-file: 2026-08-01-preview/HyperscaleElasticPoolGet.json
  */
 async function getAHyperscaleElasticPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

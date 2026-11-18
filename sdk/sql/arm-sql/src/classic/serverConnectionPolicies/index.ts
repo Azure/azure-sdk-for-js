@@ -58,6 +58,7 @@ export interface ServerConnectionPoliciesOperations {
     options?: ServerConnectionPoliciesGetOptionalParams,
   ) => Promise<ServerConnectionPolicy>;
 }
+
 function _getServerConnectionPolicies(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -122,6 +123,7 @@ function _getServerConnectionPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, connectionPolicyName, options),
   };
 }
+
 export function _getServerConnectionPoliciesOperations(
   context: SqlManagementContext,
 ): ServerConnectionPoliciesOperations {

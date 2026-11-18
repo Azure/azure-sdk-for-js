@@ -6,6 +6,7 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { AmqpApplicationProperty } from '@azure/core-amqp';
 import { Buffer as Buffer_2 } from 'buffer';
 import type { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
@@ -31,6 +32,8 @@ import type { TracingContext } from '@azure/core-tracing';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
+
+export { AmqpApplicationProperty }
 
 // @public
 export interface AuthorizationRule {
@@ -132,6 +135,16 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+}
+
+// @public
+export interface DeleteMessagesResult {
+    deletedCount: number;
+}
+
 export { Delivery }
 
 // @public
@@ -223,6 +236,17 @@ export interface ProcessErrorArgs {
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
     identifier: string;
+}
+
+// @public
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+    maxMessagesPerBatch?: number;
+}
+
+// @public
+export interface PurgeMessagesResult {
+    deletedCount: number;
 }
 
 // @public
@@ -438,7 +462,7 @@ export type ServiceBusErrorCode =
 // @public
 export interface ServiceBusMessage {
     applicationProperties?: {
-        [key: string]: number | boolean | string | Date | null;
+        [key: string]: number | boolean | string | Date | null | AmqpApplicationProperty;
     };
     body: any;
     contentType?: string;
@@ -468,6 +492,12 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
+    applicationProperties?: {
+        [key: string]: number | boolean | string | Date | null;
+    };
+    readonly applicationPropertiesWithAmqpTypes?: Readonly<{
+        [key: string]: AmqpApplicationProperty;
+    }>;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
@@ -495,11 +525,13 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
+    deleteMessages(maxMessageCount: number, options?: DeleteMessagesOptions): Promise<DeleteMessagesResult>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
+    purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";

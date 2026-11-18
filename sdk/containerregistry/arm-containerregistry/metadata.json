@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerRegistry": "2026-09-01-preview"
+    "Microsoft.ContainerRegistry": "2026-10-15-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerRegistry",
     "CrossLanguageDefinitionId": {
@@ -75,8 +75,14 @@
       "@azure/arm-containerregistry!CacheRuleProperties:interface": "Microsoft.ContainerRegistry.CacheRuleProperties",
       "@azure/arm-containerregistry!AdditionalAuthenticationProperties:interface": "Microsoft.ContainerRegistry.AdditionalAuthenticationProperties",
       "@azure/arm-containerregistry!GarAuthenticationProperties:interface": "Microsoft.ContainerRegistry.GarAuthenticationProperties",
+      "@azure/arm-containerregistry!EcrAuthenticationProperties:interface": "Microsoft.ContainerRegistry.EcrAuthenticationProperties",
+      "@azure/arm-containerregistry!EntraFederatedIdentityCredentialAuthenticationProperties:interface": "Microsoft.ContainerRegistry.EntraFederatedIdentityCredentialAuthenticationProperties",
       "@azure/arm-containerregistry!CacheRuleUpdateParameters:interface": "Microsoft.ContainerRegistry.CacheRuleUpdateParameters",
       "@azure/arm-containerregistry!CacheRuleUpdateProperties:interface": "Microsoft.ContainerRegistry.CacheRuleUpdateProperties",
+      "@azure/arm-containerregistry!AdditionalAuthenticationUpdateProperties:interface": "Microsoft.ContainerRegistry.AdditionalAuthenticationUpdateProperties",
+      "@azure/arm-containerregistry!GarAuthenticationUpdateProperties:interface": "Microsoft.ContainerRegistry.GarAuthenticationUpdateProperties",
+      "@azure/arm-containerregistry!EcrAuthenticationUpdateProperties:interface": "Microsoft.ContainerRegistry.EcrAuthenticationUpdateProperties",
+      "@azure/arm-containerregistry!EntraFederatedIdentityCredentialAuthenticationUpdateProperties:interface": "Microsoft.ContainerRegistry.EntraFederatedIdentityCredentialAuthenticationUpdateProperties",
       "@azure/arm-containerregistry!CacheRulesListResult:interface": "Microsoft.ContainerRegistry.CacheRulesListResult",
       "@azure/arm-containerregistry!CredentialSet:interface": "Microsoft.ContainerRegistry.CredentialSet",
       "@azure/arm-containerregistry!CredentialSetProperties:interface": "Microsoft.ContainerRegistry.CredentialSetProperties",

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or replaces one reusable Rego artifact.
  *
  * @summary creates or replaces one reusable Rego artifact.
- * x-ms-original-file: 2026-09-15-preview/PutRaiRego.json
+ * x-ms-original-file: 2026-11-15-preview/PutRaiRego.json
  */
 async function createAReusableRegoArtifact() {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function createAReusableRegoArtifact() {
  * This sample demonstrates how to creates or replaces one reusable Rego artifact.
  *
  * @summary creates or replaces one reusable Rego artifact.
- * x-ms-original-file: 2026-09-15-preview/UpdateRaiRego.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateRaiRego.json
  */
 async function replaceAReusableRegoArtifactConditionally() {
   const credential = new DefaultAzureCredential();

@@ -830,9 +830,6 @@ export interface Dimension {
 }
 
 // @public
-export type EnableSubvolumes = string;
-
-// @public
 export type EnableWriteBackState = string;
 
 // @public
@@ -1154,12 +1151,6 @@ export enum KnownDesiredRansomwareProtectionState {
 }
 
 // @public
-export enum KnownEnableSubvolumes {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownEnableWriteBackState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1246,7 +1237,7 @@ export enum KnownKeyVaultStatus {
 // @public
 export enum KnownLdapServerType {
     ActiveDirectory = "ActiveDirectory",
-    OpenLdap = "OpenLDAP"
+    OpenLdap = "OpenLdap"
 }
 
 // @public
@@ -1429,6 +1420,12 @@ export enum KnownSmbNonBrowsable {
 }
 
 // @public
+export enum KnownSmbOplocks {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownVersions {
     V20250601 = "2025-06-01",
     V20250801 = "2025-08-01",
@@ -1440,7 +1437,8 @@ export enum KnownVersions {
     V20260501 = "2026-05-01",
     V20260601 = "2026-06-01",
     V20260701 = "2026-07-01",
-    V20260801 = "2026-08-01"
+    V20260801 = "2026-08-01",
+    V20260901 = "2026-09-01"
 }
 
 // @public
@@ -1709,7 +1707,6 @@ export class NetAppManagementClient {
     readonly ransomwareReports: RansomwareReportsOperations;
     readonly snapshotPolicies: SnapshotPoliciesOperations;
     readonly snapshots: SnapshotsOperations;
-    readonly subvolumes: SubvolumesOperations;
     readonly volumeGroups: VolumeGroupsOperations;
     readonly volumeQuotaRules: VolumeQuotaRulesOperations;
     readonly volumes: VolumesOperations;
@@ -2243,10 +2240,14 @@ export type SmbEncryptionState = string;
 export type SmbNonBrowsable = string;
 
 // @public
+export type SmbOplocks = string;
+
+// @public
 export interface SmbSettings {
     smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbEncryption?: SmbEncryptionState;
     smbNonBrowsable?: SmbNonBrowsable;
+    smbOplocks?: SmbOplocks;
 }
 
 // @public
@@ -2375,90 +2376,6 @@ export interface SnapshotsRestoreFilesOptionalParams extends OperationOptions {
 
 // @public
 export interface SnapshotsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SubvolumeInfo extends ProxyResource {
-    properties?: SubvolumeProperties;
-}
-
-// @public
-export interface SubvolumeModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: SubvolumeModelProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface SubvolumeModelProperties {
-    accessedTimeStamp?: Date;
-    bytesUsed?: number;
-    changedTimeStamp?: Date;
-    creationTimeStamp?: Date;
-    modifiedTimeStamp?: Date;
-    parentPath?: string;
-    path?: string;
-    permissions?: string;
-    provisioningState?: string;
-    size?: number;
-}
-
-// @public
-export interface SubvolumePatchParams {
-    path?: string;
-    size?: number | null;
-}
-
-// @public
-export interface SubvolumePatchRequest {
-    properties?: SubvolumePatchParams;
-}
-
-// @public
-export interface SubvolumeProperties {
-    parentPath?: string | null;
-    path?: string;
-    readonly provisioningState?: string;
-    size?: number | null;
-}
-
-// @public
-export interface SubvolumesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SubvolumesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SubvolumesGetMetadataOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SubvolumesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SubvolumesListByVolumeOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SubvolumesOperations {
-    create: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumeInfo, options?: SubvolumesCreateOptionalParams) => PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
-    delete: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesGetOptionalParams) => Promise<SubvolumeInfo>;
-    getMetadata: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, options?: SubvolumesGetMetadataOptionalParams) => PollerLike<OperationState<SubvolumeModel>, SubvolumeModel>;
-    listByVolume: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: SubvolumesListByVolumeOptionalParams) => PagedAsyncIterableIterator<SubvolumeInfo>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, subvolumeName: string, body: SubvolumePatchRequest, options?: SubvolumesUpdateOptionalParams) => PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
-}
-
-// @public
-export interface SubvolumesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2654,6 +2571,7 @@ export interface VolumePatchProperties {
     serviceLevel?: ServiceLevel;
     smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
     smbNonBrowsable?: SmbNonBrowsable;
+    smbOplocks?: SmbOplocks;
     snapshotDirectoryVisible?: boolean;
     throughputMibps?: number;
     unixPermissions?: string | null;
@@ -2693,7 +2611,6 @@ export interface VolumeProperties {
     defaultUserQuotaInKiBs?: number;
     deleteBaseSnapshot?: boolean;
     readonly effectiveNetworkFeatures?: NetworkFeatures;
-    enableSubvolumes?: EnableSubvolumes;
     readonly encrypted?: boolean;
     encryptionKeySource?: EncryptionKeySource;
     exportPolicy?: VolumePropertiesExportPolicy;
@@ -2706,6 +2623,7 @@ export interface VolumeProperties {
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
+    ldapServerType?: LdapServerType;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
@@ -2722,6 +2640,7 @@ export interface VolumeProperties {
     smbContinuouslyAvailable?: boolean;
     smbEncryption?: boolean;
     smbNonBrowsable?: SmbNonBrowsable;
+    smbOplocks?: SmbOplocks;
     snapshotDirectoryVisible?: boolean;
     snapshotId?: string | null;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;

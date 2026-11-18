@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a firewall rule.
  *
  * @summary creates or updates a firewall rule.
- * x-ms-original-file: 2025-08-01-preview/FirewallRuleCreate.json
+ * x-ms-original-file: 2026-08-01-preview/FirewallRuleCreate.json
  */
 async function createAFirewallRuleMaxOrMin() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createAFirewallRuleMaxOrMin() {
  * This sample demonstrates how to creates or updates a firewall rule.
  *
  * @summary creates or updates a firewall rule.
- * x-ms-original-file: 2025-08-01-preview/FirewallRuleUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/FirewallRuleUpdate.json
  */
 async function updateAFirewallRuleMaxOrMin() {
   const credential = new DefaultAzureCredential();

@@ -3,17 +3,11 @@
 
 import type { NetAppManagementClient } from "./netAppManagementClient.js";
 import { _updateNetworkSiblingSetDeserialize } from "./api/netAppResource/operations.js";
-import {
-  _getMetadataDeserialize,
-  _$deleteDeserialize,
-  _updateDeserialize,
-  _createDeserialize,
-} from "./api/subvolumes/operations.js";
 import { _migrateBackupsDeserialize } from "./api/backupsUnderVolume/operations.js";
 import { _restoreFilesDeserialize } from "./api/backupsUnderBackupVault/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializePools,
-  _updateDeserialize as _updateDeserializePools,
+  _$deleteDeserialize,
+  _updateDeserialize,
   _createOrUpdateDeserialize,
 } from "./api/pools/operations.js";
 import { _migrateBackupsDeserialize as _migrateBackupsDeserializeBackupsUnderAccount } from "./api/backupsUnderAccount/operations.js";
@@ -50,7 +44,7 @@ import { _clearSuspectsDeserialize } from "./api/ransomwareReports/operations.js
 import {
   _$deleteDeserialize as _$deleteDeserializeVolumeQuotaRules,
   _updateDeserialize as _updateDeserializeVolumeQuotaRules,
-  _createDeserialize as _createDeserializeVolumeQuotaRules,
+  _createDeserialize,
 } from "./api/volumeQuotaRules/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeBackupPolicies,
@@ -174,22 +168,14 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet":
     { deserializer: _updateNetworkSiblingSetDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}/getMetadata":
-    { deserializer: _getMetadataDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/migrateBackups":
     { deserializer: _migrateBackupsDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}/restoreFiles":
     { deserializer: _restoreFilesDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}":
-    { deserializer: _$deleteDeserializePools, expectedStatuses: ["202", "204", "200"] },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}":
-    { deserializer: _updateDeserializePools, expectedStatuses: ["200", "202", "201"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateBackups":
@@ -252,7 +238,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}":
     { deserializer: _updateDeserializeVolumeQuotaRules, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}":
-    { deserializer: _createDeserializeVolumeQuotaRules, expectedStatuses: ["200", "201", "202"] },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}":
     { deserializer: _$deleteDeserializeBackupPolicies, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}":

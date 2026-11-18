@@ -6,6 +6,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
+import { indexOperations } from "../../../../scripts/customization/operations.mjs";
 import { planModelRemovals } from "./sync-generated-model-removals.mjs";
 
 const scriptPath = fileURLToPath(import.meta.url);
@@ -19,6 +20,7 @@ const symbolRenames = {
   "api/agents/options.ts": {
     AgentsCreateAgentOptionalParams: "AgentsCreateOptionalParams",
     AgentsUpdateAgentOptionalParams: "AgentsUpdateOptionalParams",
+    AgentsPatchAgentObjectOptionalParams: "AgentsUpdateAgentObjectOptionalParams",
   },
 };
 
@@ -54,6 +56,44 @@ const evaluatorPromotions = [
   ["List", "list"],
   ["ListVersions", "listVersions"],
 ];
+
+// Reviewed GA split in azure-rest-api-specs#47930. Campaigns and GPT Live
+// remain beta; only the listed operations and their unused options move.
+const voiceConversationPromotions = [
+  "downloadAudio",
+  "getAudio",
+  "downloadGeneratedAudioItem",
+  "getGeneratedAudioItem",
+  "downloadAudioItem",
+  "getAudioItem",
+  "getItem",
+  "listItems",
+  "listResponseItems",
+  "getResponse",
+  "listResponses",
+  "delete",
+  "get",
+  "list",
+].map((operation) => [operation[0].toUpperCase() + operation.slice(1), operation]);
+const voiceTelephonyPromotions = [
+  "cancelCallJob",
+  "getCallJob",
+  "createCallJob",
+  "replaceTransferTargets",
+  "getTransferTargets",
+  "endCall",
+  "transferCall",
+  "getCall",
+  "listCalls",
+  "deleteBinding",
+  "updateBinding",
+  "getBinding",
+  "listBindings",
+  "createBinding",
+  "deleteCallJob",
+  "listCallJobs",
+].map((operation) => [operation[0].toUpperCase() + operation.slice(1), operation]);
+const promptPromotion = [["CreateFromPrompt", "createFromPrompt"]];
 
 function identifiers(node) {
   const names = new Set();
@@ -128,7 +168,11 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
   function operationUses(files, file, operation, option) {
     const source = parse(files, file);
     for (const statement of source.statements) {
-      if (ts.isFunctionDeclaration(statement) && statement.name?.text === operation) {
+      if (
+        ts.isFunctionDeclaration(statement) &&
+        (statement.name?.text === operation ||
+          (operation === "delete" && statement.name?.text === "$delete"))
+      ) {
         return statement.parameters.some(
           (parameter) => parameter.type && identifiers(parameter.type).has(option),
         );
@@ -150,9 +194,11 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
 
   const allowed = new Set();
   for (const [group, prefix, promotions] of [
-    ["agents", "Agents", optimizationPromotions],
+    ["agents", "Agents", [...optimizationPromotions, ...promptPromotion]],
     ["datasets", "Datasets", generationPromotions],
     ["evaluators", "Evaluators", evaluatorPromotions],
+    ["voiceAgents/conversations", "VoiceAgentsConversations", voiceConversationPromotions],
+    ["voiceAgents/telephony", "VoiceAgentsTelephony", voiceTelephonyPromotions],
   ]) {
     const betaOptionsFile = `api/beta/${group}/options.ts`;
     const optionsFile = `api/${group}/options.ts`;
@@ -187,41 +233,254 @@ export function findPromotedOptionRemovals({ previousGenerated, currentGenerated
 
   // Only this verified, entirely promoted group may disappear. Extra members or
   // inherited operations must not be silently removed with the generation jobs.
-  const betaGroup = "BetaDatasetsOperations";
-  const betaGroupFile = "classic/beta/datasets/index.ts";
-  const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
-    (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
-  );
-  if (
-    previousGroups.length === 1 &&
-    collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
-    !previousGroups[0].heritageClauses?.length &&
-    previousGroups[0].members.length === generationPromotions.length &&
-    previousGroups[0].members.every(
-      (member) =>
-        member.name &&
-        generationPromotions.some(([, operation]) => propertyName(member.name) === operation),
-    ) &&
-    generationPromotions.every(([suffix]) => allowed.has(`BetaDatasets${suffix}OptionalParams`)) &&
-    !usedByBeta.has(betaGroup) &&
-    [currentGenerated, currentSource].every((files) => {
-      const betaSource = parse(files, betaGroupFile);
-      const gaMembers = collectInterfaces(parse(files, "classic/datasets/index.ts")).get(
-        "DatasetsOperations",
-      );
-      return (
-        !collectExportedNames(betaSource).has(betaGroup) &&
-        !collectInterfaces(betaSource).has(betaGroup) &&
-        generationPromotions.every(([, operation]) => gaMembers?.has(operation))
-      );
-    })
-  ) {
-    allowed.add(betaGroup);
+  for (const [group, prefix, promotions] of [
+    ["datasets", "Datasets", generationPromotions],
+    ["agents", "Agents", promptPromotion],
+    ["voiceAgents/conversations", "VoiceAgentsConversations", voiceConversationPromotions],
+  ]) {
+    const betaGroup = `Beta${prefix}Operations`;
+    const betaGroupFile = `classic/beta/${group}/index.ts`;
+    const previousGroups = parse(previousGenerated, betaGroupFile).statements.filter(
+      (statement) => ts.isInterfaceDeclaration(statement) && statement.name.text === betaGroup,
+    );
+    if (
+      previousGroups.length === 1 &&
+      collectExportedNames(parse(previousGenerated, betaGroupFile)).has(betaGroup) &&
+      !previousGroups[0].heritageClauses?.length &&
+      previousGroups[0].members.length === promotions.length &&
+      previousGroups[0].members.every(
+        (member) =>
+          member.name &&
+          promotions.some(([, operation]) => propertyName(member.name) === operation),
+      ) &&
+      promotions.every(([suffix]) => allowed.has(`Beta${prefix}${suffix}OptionalParams`)) &&
+      !usedByBeta.has(betaGroup) &&
+      [currentGenerated, currentSource].every((files) => {
+        const betaSource = parse(files, betaGroupFile);
+        const gaMembers = collectInterfaces(parse(files, `classic/${group}/index.ts`)).get(
+          `${prefix}Operations`,
+        );
+        return (
+          !collectExportedNames(betaSource).has(betaGroup) &&
+          !collectInterfaces(betaSource).has(betaGroup) &&
+          promotions.every(([, operation]) => gaMembers?.has(operation))
+        );
+      })
+    ) {
+      allowed.add(betaGroup);
+    }
   }
   return allowed;
 }
 
+// Verified campaigns-to-telephony merge in TypeSpec commit d7363f1cd9566b2a85b25b30ca5e28f893d36f2c.
+export function findCampaignRelocationRemovals({
+  previousGenerated,
+  previousSource,
+  currentGenerated,
+  currentSource,
+}) {
+  const oldApi = "api/beta/voiceAgents/campaigns";
+  const newApi = "api/beta/voiceAgents/telephony";
+  const oldClassic = "classic/beta/voiceAgents/campaigns/index.ts";
+  const newClassic = "classic/beta/voiceAgents/telephony/index.ts";
+  const allowed = new Set();
+  const parse = (tree, file) => parseSource(tree.get(file) ?? "", file);
+  if (
+    [currentGenerated, currentSource].some((tree) =>
+      [
+        oldClassic,
+        ...["index.ts", "operations.ts", "options.ts"].map((name) => `${oldApi}/${name}`),
+      ].some((file) => tree.has(file)),
+    )
+  )
+    return allowed;
+  const operations = (tree, directory) =>
+    indexOperations(
+      new Map([[`${directory}/operations.ts`, tree.get(`${directory}/operations.ts`) ?? ""]]),
+    );
+  const previous = operations(previousGenerated, oldApi);
+  const incoming = operations(currentGenerated, newApi);
+  const customized = operations(currentSource, newApi);
+  const currentNames = new Set(
+    [...currentSource].flatMap(([file, text]) => [...identifiers(parseSource(text, file))]),
+  );
+  const relocated = [
+    ["GetOperation", "getOperation"],
+    ["ListValidationErrors", "listValidationErrors"],
+    ["Delete", "deleteCampaign", "deleteTelephony"],
+    ["Cancel", "cancel"],
+    ["List", "list"],
+    ["Get", "get"],
+    ["Create", "create"],
+  ];
+  for (const [suffix, oldName, newName = oldName] of relocated) {
+    const oldOptions = `BetaVoiceAgentsCampaigns${suffix}OptionalParams`;
+    const newOptions = `BetaVoiceAgentsTelephony${suffix}OptionalParams`;
+    const prior = previous.filter(
+      (operation) => operation.name === oldName && operation.options === oldOptions,
+    );
+    if (prior.length !== 1 || currentNames.has(oldOptions)) continue;
+    const matches = (operations) =>
+      operations.filter((operation) => operation.identity === prior[0].identity);
+    const next = matches(incoming);
+    const source = matches(customized);
+    if (
+      [next, source].some(
+        (operations) =>
+          operations.length !== 1 ||
+          operations[0].name !== newName ||
+          operations[0].options !== newOptions,
+      ) ||
+      !collectExportedNames(parse(previousGenerated, `${oldApi}/options.ts`)).has(oldOptions) ||
+      ![currentGenerated, currentSource].every((tree) => {
+        const group = parse(tree, newClassic).statements.find(ts.isInterfaceDeclaration);
+        const member = group?.members.find((member) => propertyName(member.name) === newName);
+        return (
+          member &&
+          identifiers(member).has(newOptions) &&
+          collectExportedNames(parse(tree, `${newApi}/options.ts`)).has(newOptions) &&
+          collectExportedNames(parse(tree, "index.ts")).has(newOptions)
+        );
+      })
+    )
+      continue;
+    allowed.add(oldOptions);
+  }
+  const oldGroup = "BetaVoiceAgentsCampaignsOperations";
+  if (
+    allowed.size === relocated.length &&
+    !currentNames.has(oldGroup) &&
+    [currentGenerated, currentSource].every((tree) =>
+      collectExportedNames(parse(tree, "index.ts")).has("BetaVoiceAgentsTelephonyOperations"),
+    ) &&
+    [previousGenerated, previousSource].every((tree) => {
+      const groups = parse(tree, oldClassic).statements.filter(ts.isInterfaceDeclaration);
+      return (
+        groups.length === 1 &&
+        groups[0].name.text === oldGroup &&
+        !groups[0].heritageClauses?.length &&
+        groups[0].members.length === relocated.length &&
+        groups[0].members.every((member) =>
+          relocated.some(([, name]) => propertyName(member.name) === name),
+        )
+      );
+    })
+  )
+    allowed.add(oldGroup);
+  return allowed;
+}
+
+// Full Skills preview-contract reversion in azure-rest-api-specs#48068.
+// Only allow the six renamed options and the exact relocated operation group;
+// missing destinations, changed routes, or retained callers still fail preservation.
+export function findSkillsReversionRemovals({
+  previousGenerated,
+  previousSource,
+  currentGenerated,
+  currentSource,
+}) {
+  const allowed = new Set();
+  const oldApi = "api/skills";
+  const newApi = "api/beta/skills";
+  const oldClassic = "classic/skills/index.ts";
+  const newClassic = "classic/beta/skills/index.ts";
+  const parse = (tree, file) => parseSource(tree.get(file) ?? "", file);
+  if (
+    [currentGenerated, currentSource].some((tree) =>
+      [
+        oldClassic,
+        ...["index.ts", "operations.ts", "options.ts"].map((f) => `${oldApi}/${f}`),
+      ].some((file) => tree.has(file)),
+    )
+  )
+    return allowed;
+  const operations = (tree, directory) =>
+    indexOperations(
+      new Map([[`${directory}/operations.ts`, tree.get(`${directory}/operations.ts`) ?? ""]]),
+    );
+  const previous = operations(previousGenerated, oldApi);
+  const incoming = operations(currentGenerated, newApi);
+  const customized = operations(currentSource, newApi);
+  const members = [
+    "deleteVersion",
+    "downloadVersion",
+    "download",
+    "getVersion",
+    "listVersions",
+    "createFromFiles",
+    "create",
+    "$delete",
+    "update",
+    "list",
+    "get",
+  ];
+  if (
+    previous.length !== members.length ||
+    !members.every((name) => previous.some((op) => op.name === name))
+  )
+    return allowed;
+  for (const prior of previous) {
+    const option = prior.options?.replace(/^Skills/, "BetaSkills");
+    const identity = prior.identity.replace(" /openai/v1/skills", " /skills");
+    if (!identity.includes(" /skills") || !option) return allowed;
+    for (const [tree, indexed] of [
+      [currentGenerated, incoming],
+      [currentSource, customized],
+    ]) {
+      const matches = indexed.filter((op) => op.identity === identity && op.name === prior.name);
+      const group = parse(tree, newClassic).statements.find(ts.isInterfaceDeclaration);
+      const member = group?.members.find(
+        (item) => propertyName(item.name) === (prior.name === "$delete" ? "delete" : prior.name),
+      );
+      if (
+        matches.length !== 1 ||
+        matches[0].name !== prior.name ||
+        matches[0].options !== option ||
+        !member ||
+        !identifiers(member).has(option) ||
+        !collectExportedNames(parse(tree, `${newApi}/options.ts`)).has(option) ||
+        (prior.options.startsWith("Skills") &&
+          !collectExportedNames(parse(tree, "index.ts")).has(option)) ||
+        !collectExportedNames(parse(tree, "index.ts")).has("BetaSkillsOperations")
+      )
+        return allowed;
+    }
+  }
+  const retired = members
+    .filter(
+      (name) => !name.endsWith("Version") && !["listVersions", "createFromFiles"].includes(name),
+    )
+    .map(
+      (name) =>
+        `Skills${name === "$delete" ? "Delete" : name[0].toUpperCase() + name.slice(1)}OptionalParams`,
+    );
+  const currentNames = new Set(
+    [...currentSource].flatMap(([file, text]) => [...identifiers(parseSource(text, file))]),
+  );
+  if ([...retired, "SkillsOperations"].some((name) => currentNames.has(name))) return allowed;
+  for (const tree of [previousGenerated, previousSource]) {
+    const groups = parse(tree, oldClassic).statements.filter(ts.isInterfaceDeclaration);
+    if (
+      groups.length !== 1 ||
+      groups[0].name.text !== "SkillsOperations" ||
+      groups[0].heritageClauses?.length ||
+      groups[0].members.length !== members.length ||
+      !groups[0].members.every((item) =>
+        members.some((name) => propertyName(item.name) === (name === "$delete" ? "delete" : name)),
+      )
+    )
+      return allowed;
+  }
+  for (const name of retired) {
+    if (!collectExportedNames(parse(previousGenerated, `${oldApi}/options.ts`)).has(name))
+      return allowed;
+  }
+  return new Set([...retired, "SkillsOperations"]);
+}
+
 function propertyName(name) {
+  if (!name) return undefined;
   if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) {
     return name.text;
   }
@@ -689,11 +948,15 @@ function main() {
     );
   }
   const missingNames = new Set(allMissingPreservedExports.map((item) => item.name));
-  const promotedOptionRemovals = findPromotedOptionRemovals({
+  const trees = {
     previousGenerated: readTree(repoRoot, packageRelative, "generated", options.baseRef),
+    previousSource: readTree(repoRoot, packageRelative, "src", options.baseRef),
     currentGenerated: readTree(repoRoot, packageRelative, "generated", options.generatedRef),
     currentSource: readTree(repoRoot, packageRelative, "src", options.sourceRef),
-  });
+  };
+  const promotedOptionRemovals = findPromotedOptionRemovals(trees);
+  const campaignRelocationRemovals = findCampaignRelocationRemovals(trees);
+  const skillsReversionRemovals = findSkillsReversionRemovals(trees);
   const unusedSourceRemovalAllowances = [...options.allowedSourceRemovals].filter(
     (name) => !missingNames.has(name),
   );
@@ -701,6 +964,8 @@ function main() {
     (item) =>
       !allowedModelRemovals.has(item.name) &&
       !promotedOptionRemovals.has(item.name) &&
+      !campaignRelocationRemovals.has(item.name) &&
+      !skillsReversionRemovals.has(item.name) &&
       !options.allowedSourceRemovals.has(item.name),
   );
 
@@ -752,7 +1017,9 @@ function main() {
     `Customization parity passed for ${generatedFiles.length} changed generated file(s); ` +
       `preserved exports in ${sourceFiles.length} customized source file(s), allowing ` +
       `${allowedModelRemovals.size} generated-backed and ` +
-      `${promotedOptionRemovals.size} verified promotion removal(s), and ` +
+      `${promotedOptionRemovals.size} verified promotion removal(s), ` +
+      `${campaignRelocationRemovals.size} verified campaign relocation removal(s), ` +
+      `${skillsReversionRemovals.size} verified Skills reversion removal(s), and ` +
       `${options.allowedSourceRemovals.size} explicitly reviewed source removal(s).`,
   );
 }

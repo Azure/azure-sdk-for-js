@@ -20,7 +20,6 @@ export type { PoolsOperations } from "./pools/index.js";
 export type { RansomwareReportsOperations } from "./ransomwareReports/index.js";
 export type { SnapshotPoliciesOperations } from "./snapshotPolicies/index.js";
 export type { SnapshotsOperations } from "./snapshots/index.js";
-export type { SubvolumesOperations } from "./subvolumes/index.js";
 export type { VolumeGroupsOperations } from "./volumeGroups/index.js";
 export type { VolumeQuotaRulesOperations } from "./volumeQuotaRules/index.js";
 export type { VolumesOperations } from "./volumes/index.js";

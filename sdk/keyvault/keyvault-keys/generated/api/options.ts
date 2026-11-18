@@ -37,16 +37,10 @@ export interface ReleaseOptionalParams extends OperationOptions {}
 export interface UnwrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecureUnwrapKeyOptionalParams extends OperationOptions {
-  /** The version of the key. */
-  keyVersion?: string;
-}
+export interface SecureUnwrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecureWrapKeyOptionalParams extends OperationOptions {
-  /** The version of the key. */
-  keyVersion?: string;
-}
+export interface SecureWrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WrapKeyOptionalParams extends OperationOptions {}

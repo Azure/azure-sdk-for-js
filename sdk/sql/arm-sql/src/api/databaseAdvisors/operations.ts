@@ -32,7 +32,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -60,6 +60,7 @@ export async function _listByDatabaseDeserialize(
 
   return advisorArrayDeserializer(result.body);
 }
+
 /** Gets a list of database advisors. */
 export async function listByDatabase(
   context: Client,
@@ -95,7 +96,7 @@ export function _updateSend(
       serverName: serverName,
       databaseName: databaseName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return advisorDeserializer(result.body);
 }
+
 /** Updates a database advisor. */
 export async function update(
   context: Client,
@@ -160,7 +162,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       advisorName: advisorName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,6 +187,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ad
 
   return advisorDeserializer(result.body);
 }
+
 /** Gets a database advisor. */
 export async function get(
   context: Client,

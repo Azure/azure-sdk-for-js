@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a server's blob auditing policy.
  *
  * @summary gets a server's blob auditing policy.
- * x-ms-original-file: 2025-08-01-preview/ServerBlobAuditingGet.json
+ * x-ms-original-file: 2026-08-01-preview/ServerBlobAuditingGet.json
  */
 async function getAServerBlobAuditingPolicy() {
   const credential = new DefaultAzureCredential();

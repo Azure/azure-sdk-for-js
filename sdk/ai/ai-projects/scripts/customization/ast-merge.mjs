@@ -197,6 +197,12 @@ function fingerprints() {
       result = ["list", ...value.map(tree)];
     } else {
       const children = value.getChildren(value.getSourceFile()).filter((n) => !isDocumentation(n));
+      if (
+        value.kind === ts.SyntaxKind.SyntaxList &&
+        children.at(-1)?.kind === ts.SyntaxKind.CommaToken &&
+        children.at(-2)?.kind !== ts.SyntaxKind.OmittedExpression
+      )
+        children.pop();
       result = children.length
         ? [value.kind, ...children.map(tree)]
         : [
@@ -218,7 +224,8 @@ function fingerprints() {
 
 /**
  * Return an AST/token fingerprint, ignoring comments, whitespace, and string
- * quote style, but retaining statement boundaries, operators, and literal data.
+ * quote style and trailing commas, but retaining array holes, statement
+ * boundaries, operators, and literal data.
  * Parser errors throw SyntaxError; non-string input throws TypeError.
  *
  * @param {string} text

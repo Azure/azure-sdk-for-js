@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-netapp",
-  "version": "25.0.0",
+  "version": "26.0.0",
   "description": "A generated SDK for NetAppManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -155,20 +155,6 @@
       "require": {
         "types": "./dist/commonjs/api/netAppResource/index.d.ts",
         "default": "./dist/commonjs/api/netAppResource/index.js"
-      }
-    },
-    "./api/subvolumes": {
-      "browser": {
-        "types": "./dist/browser/api/subvolumes/index.d.ts",
-        "default": "./dist/browser/api/subvolumes/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/subvolumes/index.d.ts",
-        "default": "./dist/esm/api/subvolumes/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/subvolumes/index.d.ts",
-        "default": "./dist/commonjs/api/subvolumes/index.js"
       }
     },
     "./api/backupsUnderVolume": {

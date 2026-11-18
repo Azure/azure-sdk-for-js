@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to drains requests and deletes an adapter deployment and its serving snapshot.
  *
  * @summary drains requests and deletes an adapter deployment and its serving snapshot.
- * x-ms-original-file: 2026-09-15-preview/DeleteAdapterDeployment.json
+ * x-ms-original-file: 2026-11-15-preview/DeleteAdapterDeployment.json
  */
 async function deleteAdapterDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

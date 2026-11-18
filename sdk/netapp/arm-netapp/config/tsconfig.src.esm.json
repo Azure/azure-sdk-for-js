@@ -8,7 +8,6 @@
     "../src/api/index.ts",
     "../src/api/netAppResourceUsages/index.ts",
     "../src/api/netAppResource/index.ts",
-    "../src/api/subvolumes/index.ts",
     "../src/api/backupsUnderVolume/index.ts",
     "../src/api/backupsUnderBackupVault/index.ts",
     "../src/api/pools/index.ts",

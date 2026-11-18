@@ -23,7 +23,7 @@ export function _listByInstancePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instancePoolName: instancePoolName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       expandChildren: options?.expandChildren,
     },
     {
@@ -51,6 +51,7 @@ export async function _listByInstancePoolDeserialize(
 
   return _usageListResultDeserializer(result.body);
 }
+
 /** Gets all instance pool usage metrics */
 export function listByInstancePool(
   context: Client,
@@ -66,7 +67,7 @@ export function listByInstancePool(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }

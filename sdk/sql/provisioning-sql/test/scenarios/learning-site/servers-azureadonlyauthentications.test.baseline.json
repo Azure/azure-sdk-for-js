@@ -1,0 +1,47 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "server": {
+          "bicepIdentifier": "server",
+          "type": "Microsoft.Sql/servers",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "serversazureadonlyau"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "azureADOnlyAuthentication": {
+          "bicepIdentifier": "azureADOnlyAuthentication",
+          "type": "Microsoft.Sql/servers/azureADOnlyAuthentications",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "Default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "server"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

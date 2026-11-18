@@ -6,7 +6,6 @@ exports:
   "./api": "./src/api/index.ts"
   "./api/netAppResourceUsages": "./src/api/netAppResourceUsages/index.ts"
   "./api/netAppResource": "./src/api/netAppResource/index.ts"
-  "./api/subvolumes": "./src/api/subvolumes/index.ts"
   "./api/backupsUnderVolume": "./src/api/backupsUnderVolume/index.ts"
   "./api/backupsUnderBackupVault": "./src/api/backupsUnderBackupVault/index.ts"
   "./api/pools": "./src/api/pools/index.ts"

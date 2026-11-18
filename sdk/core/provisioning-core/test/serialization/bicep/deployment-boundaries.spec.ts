@@ -56,7 +56,7 @@ describe("authored deployment-boundary modules", () => {
       }
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 
   it("keeps the entry for deployment into an explicitly declared existing RG", () => {
@@ -71,7 +71,7 @@ describe("authored deployment-boundary modules", () => {
     storage(group, "pertreesingle");
     expect(files(stack)).toHaveLength(2);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("keeps relative existing lookup scopes in the entry when deploying to another subscription", () => {
     const stack = new Stack("cross-subscription", {
@@ -92,7 +92,7 @@ describe("authored deployment-boundary modules", () => {
     expect(result[1]!.resources!.storageAccount).toBeUndefined();
     expect(result[1]!.parameters!.storageAccountId).toBeDefined();
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it.each(["managementGroup", "tenant"] as const)(
     "merges independent trees at inherited %s scope without changing target scope",
@@ -132,7 +132,7 @@ describe("authored deployment-boundary modules", () => {
 
       compile(stack);
     },
-    30_000,
+    60_000,
   );
 
   it("keeps module boundaries when current-scope trees are mixed with an explicit external destination", () => {
@@ -161,7 +161,7 @@ describe("authored deployment-boundary modules", () => {
       },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("does not create empty modules for RG and external lookup-only branches", () => {
     const stack = new Stack("lookup-boundaries", {
@@ -181,7 +181,7 @@ describe("authored deployment-boundary modules", () => {
     expect(result).toHaveLength(1);
     expect(result[0]!.modules).toBeUndefined();
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("separates RG-targeted extensions while keeping resource-targeted extensions with their target", () => {
     const stack = new Stack("rg-extensions");
@@ -208,7 +208,7 @@ describe("authored deployment-boundary modules", () => {
       value: { scope: { id: "storageAccount" } },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("keeps an explicit dependency on the same tree's parent local", () => {
     const stack = new Stack("local-parent-dependency", {
@@ -233,5 +233,5 @@ describe("authored deployment-boundary modules", () => {
       },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 });

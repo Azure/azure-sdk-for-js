@@ -7,7 +7,11 @@ import type { HttpClient } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { assert, describe, it } from "vitest";
 import type { AgentInsightRunResult } from "../../src/index.js";
-import { getJobPoller, getRunPoller } from "../../src/static-helpers/pollingHelpers.js";
+import {
+  getJobPoller,
+  getRunPoller,
+  getLongRunningPoller,
+} from "../../src/static-helpers/pollingHelpers.js";
 
 const runResult: AgentInsightRunResult = {
   traces_in_window: 4,
@@ -61,6 +65,35 @@ function createClient(...pollResponses: PathUncheckedResponse[]): Client {
 }
 
 describe("identified long-running operation pollers", function () {
+  it.each([
+    { skipFinalGet: undefined, expected: "resource" },
+    { skipFinalGet: false, expected: "resource" },
+    { skipFinalGet: true, expected: "monitor" },
+  ])(
+    "forwards skipFinalGet=$skipFinalGet without changing the default PUT lookup",
+    async function ({ skipFinalGet, expected }) {
+      const initialResponse = createResponse(
+        "201",
+        {},
+        { "operation-location": "https://example.com/operations/operation-1" },
+      );
+      initialResponse.request.method = "PUT";
+      const poller = getLongRunningPoller(
+        createClient(
+          createResponse("200", { status: "succeeded", marker: "monitor" }),
+          createResponse("200", { marker: "resource" }),
+        ),
+        async (response) => response.body as { marker: string },
+        ["200", "201"],
+        { getInitialResponse: async () => initialResponse, skipFinalGet, updateIntervalInMs: 0 },
+      );
+      assert.deepEqual(await poller.pollUntilDone(), {
+        ...(skipFinalGet ? { status: "succeeded" } : {}),
+        marker: expected,
+      });
+    },
+  );
+
   it("exposes the Agent Insights run id through every state channel", async function () {
     const initialResponse = createResponse(
       "202",

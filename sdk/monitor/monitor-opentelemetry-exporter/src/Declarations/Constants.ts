@@ -181,13 +181,28 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
 
 /**
- * Gen AI property keys that use a higher 256KB truncation limit for custom dimensions
- * instead of the standard 64KB limit.
+ * Comma-separated experimental feature names.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES =
+  "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES";
+
+/**
+ * Gen AI message properties eligible for the opt-in 4 MiB limit.
+ * @internal
+ */
+export const CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS: ReadonlySet<string> = new Set([
+  "gen_ai.input.messages",
+  "gen_ai.output.messages",
+]);
+
+/**
+ * Gen AI property keys that use a higher 256 KiB truncation limit for custom dimensions
+ * instead of the standard 8 KiB limit.
  * @internal
  */
 export const CUSTOM_DIMENSIONS_GENAI_KEYS: ReadonlySet<string> = new Set([
-  "gen_ai.input.messages",
-  "gen_ai.output.messages",
+  ...CUSTOM_DIMENSIONS_GENAI_MESSAGE_KEYS,
   "gen_ai.system_instructions",
   "gen_ai.tool.definitions",
   "gen_ai.tool.call.arguments",

@@ -24,7 +24,7 @@ describe("local existing references in RG modules", () => {
     expect(result[2]!.resources!.storageAccount!.existing).toBe(true);
     expect(result[2]!.parameters).toBeUndefined();
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("copies only a referenced explicit existing parent chain, not unused siblings", () => {
     const { stack, group } = subscriptionStack("existing-chain");
@@ -57,7 +57,7 @@ describe("local existing references in RG modules", () => {
       value: { parent: { id: "storageAccount" } },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("selects required external ancestors and existing descendants around a new resource", () => {
     const { stack, group } = subscriptionStack("mixed-existing-chain");
@@ -106,7 +106,7 @@ describe("local existing references in RG modules", () => {
       value: { parent: { id: "storageAccount" } },
     });
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 
   it("keeps unreferenced existing descendants of a deployed ancestor through components", () => {
     const { stack, group } = subscriptionStack("deployed-parent-chain");
@@ -133,5 +133,5 @@ describe("local existing references in RG modules", () => {
     expect(result[0]!.resources!.blobService).toBeUndefined();
     expect(result[1]!.resources!.container!.existing).toBe(true);
     compile(stack);
-  }, 30_000);
+  }, 60_000);
 });

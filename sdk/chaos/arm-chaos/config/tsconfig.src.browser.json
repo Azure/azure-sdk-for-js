@@ -1,6 +1,30 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/connections/index.ts",
+    "../src/api/scenarioRuns/index.ts",
+    "../src/api/scenarioConfigurations/index.ts",
+    "../src/api/scenarioTemplateVersions/index.ts",
+    "../src/api/scenarioTemplates/index.ts",
+    "../src/api/scenarios/index.ts",
+    "../src/api/discoveredResources/index.ts",
+    "../src/api/workspaceEvaluations/index.ts",
+    "../src/api/workspaceDiscoveries/index.ts",
+    "../src/api/workspaces/index.ts",
+    "../src/api/operationStatuses/index.ts",
+    "../src/api/targetTypes/index.ts",
+    "../src/api/actionVersions/index.ts",
+    "../src/api/actions/index.ts",
+    "../src/api/experiments/index.ts",
+    "../src/api/capabilityTypes/index.ts",
+    "../src/api/targets/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/capabilities/index.ts",
+    "../src/models/index.ts"
   ]
 }

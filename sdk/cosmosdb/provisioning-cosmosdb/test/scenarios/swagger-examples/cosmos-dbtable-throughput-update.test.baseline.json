@@ -1,0 +1,102 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "databaseAccount": {
+          "bicepIdentifier": "databaseAccount",
+          "type": "Microsoft.DocumentDB/databaseAccounts",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccount-test"
+              }
+            }
+          }
+        },
+        "table": {
+          "bicepIdentifier": "table",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tables",
+          "apiVersion": "2026-03-15",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "databaseaccounttable-test"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "databaseAccount"
+              }
+            }
+          }
+        },
+        "throughputSetting": {
+          "bicepIdentifier": "throughputSetting",
+          "type": "Microsoft.DocumentDB/databaseAccounts/tables/throughputSettings",
+          "apiVersion": "2026-03-15",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "table"
+              },
+              "location": {
+                "kind": "string",
+                "value": "West US"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "resource": {
+                    "kind": "object",
+                    "value": {
+                      "throughput": {
+                        "kind": "integer",
+                        "value": "400"
+                      }
+                    }
+                  }
+                }
+              },
+              "tags": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        }
+      },
+      "outputs": {
+        "resource2Id": {
+          "bicepIdentifier": "resource2Id",
+          "valueType": {
+            "kind": "primitive-type",
+            "name": "string"
+          },
+          "value": {
+            "kind": "property-access",
+            "base": {
+              "kind": "identifier",
+              "id": "throughputSetting"
+            },
+            "property": "id",
+            "nullish": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,6 @@ import type {
   IndexedOneLakeKnowledgeSource,
   IndexedSharePointKnowledgeSource,
   IndexedSqlKnowledgeSource,
-  McpServerKnowledgeSource,
 } from "../../../src/index.js";
 import { AzureKeyCredential, KnowledgeRetrievalClient } from "../../../src/index.js";
 import { SearchIndexClient } from "../../../src/searchIndexClient.js";
@@ -149,7 +148,7 @@ describe("convenience layer carries generated fields", () => {
     assert.include(url, "search=prod");
     assert.include(url, "pageSize=5");
     assert.include(url, "searchType=prefix");
-    assert.include(url, "api-version=2026-08-01-preview");
+    assert.include(url, "api-version=2026-11-01-preview");
   });
 
   it("forwards listing parameters for synonym maps, indexers, data sources, and skillsets", async () => {
@@ -168,7 +167,7 @@ describe("convenience layer carries generated fields", () => {
       assert.include(request.url, "search=prod");
       assert.include(request.url, "pageSize=2");
       assert.include(request.url, "searchType=prefix");
-      assert.include(request.url, "api-version=2026-08-01-preview");
+      assert.include(request.url, "api-version=2026-11-01-preview");
     }
   });
 
@@ -358,58 +357,6 @@ describe("convenience layer carries generated fields", () => {
 
     const statistics = await client.getServiceStatistics();
     assert.equal(statistics.limits.maxVectorIndexSizePerIndexInBytes, 1024);
-  });
-
-  it("round-trips workIQParameters on a WorkIQ knowledge source", async () => {
-    const captured: PipelineRequest[] = [];
-    const workIQParameters = {
-      entraAppAuthentication: {
-        applicationId: "app",
-        federatedCredentialId: "cred",
-        tenantId: "tenant",
-      },
-    };
-    const client = captureClient({ name: "wiq", kind: "workIQ", workIQParameters }, captured, 201);
-
-    const created = await client.createKnowledgeSource({
-      name: "wiq",
-      kind: "workIQ",
-      workIQParameters,
-    });
-
-    assert.deepEqual(JSON.parse(captured[0].body as string).workIQParameters, workIQParameters);
-    assert.deepEqual(
-      (created as { workIQParameters?: unknown }).workIQParameters,
-      workIQParameters,
-    );
-  });
-
-  it("maps MCP serverUrl to the generated serverURL property", async () => {
-    const captured: PipelineRequest[] = [];
-    const client = captureClient(
-      {
-        name: "mcp",
-        kind: "mcpServer",
-        mcpServerParameters: { serverURL: "https://example.com/mcp", tools: [] },
-      },
-      captured,
-      201,
-    );
-
-    const created = await client.createKnowledgeSource({
-      name: "mcp",
-      kind: "mcpServer",
-      mcpServerParameters: { serverUrl: "https://example.com/mcp", tools: [] },
-    });
-
-    assert.equal(
-      JSON.parse(captured[0].body as string).mcpServerParameters.serverURL,
-      "https://example.com/mcp",
-    );
-    assert.equal(
-      (created as McpServerKnowledgeSource).mcpServerParameters.serverUrl,
-      "https://example.com/mcp",
-    );
   });
 
   it("round-trips private Azure Blob ingestion settings", async () => {

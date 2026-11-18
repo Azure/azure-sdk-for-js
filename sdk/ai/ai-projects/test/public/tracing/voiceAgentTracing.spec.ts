@@ -23,7 +23,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 import { resolveTracingConfig } from "$internal/tracing/configuration.js";
 import * as metricHelpers from "$internal/tracing/metrics.js";
 
@@ -144,7 +144,7 @@ function client(tracingOptions: GenAITracingOptions | undefined = enabled): {
   const realtime = new AIProjectClient(endpoint, credential, {
     realtimeOptions: { webSocketFactory: factory },
     tracingOptions,
-  }).beta.voiceAgents.realtime;
+  }).voiceAgents.realtime;
   return { realtime, transport };
 }
 
@@ -1030,7 +1030,7 @@ describe("Voice Agents tracing", () => {
     const realtime = new AIProjectClient(endpoint, badCredential, {
       tracingOptions: enabled,
       realtimeOptions: { webSocketFactory: { create: () => transport } },
-    }).beta.voiceAgents.realtime;
+    }).voiceAgents.realtime;
     await expect(realtime.connect("voice")).rejects.toMatchObject({ code: "authenticationFailed" });
     expect(spans.every((value) => value.endCount === 1)).toBe(true);
     expect(JSON.stringify(spans)).not.toContain("PRIVATE");
@@ -1214,8 +1214,8 @@ describe("Voice Agents tracing", () => {
       tracingOptions: { experimental: false },
       httpClient,
     });
-    await project.beta.voiceAgents.telephony.deleteBinding("voice", "binding", "*");
-    await project.beta.voiceAgents.conversations.delete("voice", "conversation");
+    await project.voiceAgents.telephony.deleteBinding("voice", "binding", "*");
+    await project.voiceAgents.conversations.delete("voice", "conversation");
     expect(spans).toHaveLength(0);
   });
 
@@ -1238,7 +1238,7 @@ describe("Voice Agents tracing", () => {
       retryOptions: { maxRetries: 0 },
     });
     await expect(
-      project.beta.agents.createFromPrompt({ kind: "voice", name: "voice" }),
+      project.agents.createFromPrompt({ kind: "voice", name: "voice" }),
     ).rejects.toMatchObject({ statusCode: 400 });
     expect(span("create_agent").attributes["http.response.status_code"]).toBe(400);
     expect(span("create_agent").status.code).toBe(SpanStatusCode.ERROR);
@@ -1582,7 +1582,7 @@ describe("Voice Agents tracing", () => {
                   object: "telephony.call_job",
                   status: "accepted",
                   destination: { type: "phone_number", value: "+15555550100" },
-                  source: "+15555550200",
+                  source: { type: "phone_number", value: "+15555550200" },
                   agent_name: "voice",
                   created_at: 1,
                   updated_at: 1,
@@ -1597,14 +1597,14 @@ describe("Voice Agents tracing", () => {
       httpClient,
       retryOptions: { maxRetries: 0 },
     });
-    await project.beta.agents.createFromPrompt({
+    await project.agents.createFromPrompt({
       kind: "voice",
       name: "voice",
       goal: "PRIVATE_GOAL",
     });
-    await project.beta.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
+    await project.voiceAgents.telephony.createCallJob("voice", "PRIVATE_IDEMPOTENCY", {
       connection_name: "PRIVATE_CONNECTION",
-      source: "+15555550200",
+      source: { type: "phone_number", value: "+15555550200" },
       destination: { type: "phone_number", value: "+15555550100" },
     });
     expect(span("create_agent").attributes["gen_ai.operation.name"]).toBe("create_agent");

@@ -8,14 +8,8 @@ import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
 import { CognitiveServicesManagementClient } from "../src/cognitiveServicesManagementClient.js";
-import type { CostControl, CostControlRule } from "../src/models/index.js";
-import {
-  KnownCostControlDimensionType,
-  KnownCostControlPeriod,
-  KnownCostControlThresholdAction,
-  KnownCostControlThresholdType,
-  KnownCostControlUnit,
-} from "../src/models/index.js";
+import type { AccountCostControl, CostControlTimePeriod } from "../src/models/index.js";
+import { KnownCostControlCategory, KnownCostControlTimeGrain } from "../src/models/index.js";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
 
 const subscriptionIdPlaceholder = "00000000-0000-0000-0000-000000000000";
@@ -51,29 +45,13 @@ const recorderOptions: RecorderStartOptions = {
   },
 };
 
-function createRule(amount: number): CostControlRule {
-  return {
-    name: "account-budget",
-    counterKey: { type: KnownCostControlDimensionType.Account },
-    unit: KnownCostControlUnit.Usd,
-    amount,
-    period: KnownCostControlPeriod.Month,
-    recurring: true,
-    thresholds: [
-      {
-        type: KnownCostControlThresholdType.Percentage,
-        value: 80,
-        action: KnownCostControlThresholdAction.Alert,
-      },
-    ],
-  };
-}
-
-function createCostControl(displayName: string, amount: number): CostControl {
+function createCostControl(amount: number, timePeriod: CostControlTimePeriod): AccountCostControl {
   return {
     properties: {
-      displayName,
-      rules: [createRule(amount)],
+      category: KnownCostControlCategory.Cost,
+      amount,
+      timeGrain: KnownCostControlTimeGrain.Monthly,
+      timePeriod,
     },
   };
 }
@@ -92,11 +70,30 @@ describe("Cost Controls recorded lifecycle", () => {
   let resourceGroupName: string;
   let accountName: string;
   let costControlName: string;
+  let timePeriod: CostControlTimePeriod;
+  let recorderStarted: boolean;
 
   beforeEach(async (context) => {
+    recorderStarted = false;
     recorder = new Recorder(context);
     await recorder.start(recorderOptions);
+    recorderStarted = true;
     costControlName = recorder.variable("costControlName", `sdk-cost-control-${randomUUID()}`);
+    const now = new Date();
+    timePeriod = {
+      startDate: new Date(
+        recorder.variable(
+          "startDate",
+          new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString(),
+        ),
+      ),
+      endDate: new Date(
+        recorder.variable(
+          "endDate",
+          new Date(Date.UTC(now.getUTCFullYear() + 1, now.getUTCMonth(), 1)).toISOString(),
+        ),
+      ),
+    };
 
     const subscriptionId = requiredEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
     resourceGroupName = requiredEnvironmentVariable("AZURE_RESOURCE_GROUP");
@@ -109,7 +106,9 @@ describe("Cost Controls recorded lifecycle", () => {
   });
 
   afterEach(async () => {
-    await recorder.stop();
+    if (recorderStarted) {
+      await recorder.stop();
+    }
   });
 
   it("creates, gets, lists, updates, deletes, and confirms deletion", async () => {
@@ -117,28 +116,41 @@ describe("Cost Controls recorded lifecycle", () => {
     let testFailed = false;
 
     try {
-      const createdCostControl = await client.costControls.createOrUpdate(
+      const createdCostControl = await client.accountCostControls.createOrUpdate(
         resourceGroupName,
         accountName,
         costControlName,
-        createCostControl("SDK Cost Control lifecycle", 25),
+        createCostControl(25, timePeriod),
         { ifNoneMatch: "*" },
       );
       created = true;
       assert.equal(createdCostControl.name, costControlName);
-      expect(createdCostControl.properties?.rules[0]).toMatchObject(createRule(25));
+      expect(createdCostControl.properties).toMatchObject({
+        category: "Cost",
+        amount: 25,
+        timeGrain: "Monthly",
+        timePeriod,
+      });
+      assert.isEmpty(createdCostControl.properties?.notifications ?? {});
+      assert.isEmpty(createdCostControl.properties?.providerProperties?.actions ?? {});
 
-      const fetched = await client.costControls.get(
+      await client.accountCostControls.checkExistence(
+        resourceGroupName,
+        accountName,
+        costControlName,
+      );
+      const fetched = await client.accountCostControls.get(
         resourceGroupName,
         accountName,
         costControlName,
       );
       assert.isString(fetched.etag);
-      expect(fetched.properties?.rules[0].counterKey).toMatchObject({ type: "Account" });
-      assert.equal(fetched.properties?.rules[0].amount, 25);
+      assert.equal(fetched.properties?.category, "Cost");
+      assert.equal(fetched.properties?.amount, 25);
+      assert.deepEqual(fetched.properties?.timePeriod, timePeriod);
 
-      const listed: CostControl[] = [];
-      for await (const item of client.costControls.list(resourceGroupName, accountName)) {
+      const listed: AccountCostControl[] = [];
+      for await (const item of client.accountCostControls.list(resourceGroupName, accountName)) {
         listed.push(item);
       }
       assert.include(
@@ -146,36 +158,40 @@ describe("Cost Controls recorded lifecycle", () => {
         costControlName,
       );
 
-      const updated = await client.costControls.update(
+      const updated = await client.accountCostControls.update(
         resourceGroupName,
         accountName,
         costControlName,
         {
           properties: {
-            displayName: "SDK Cost Control lifecycle updated",
-            rules: [createRule(50)],
+            amount: 50,
           },
         },
         { ifMatch: isPlaybackMode() ? sanitizedEtag : fetched.etag },
       );
-      assert.equal(updated.properties?.displayName, "SDK Cost Control lifecycle updated");
-      assert.equal(updated.properties?.rules[0].amount, 50);
+      assert.equal(updated.properties?.amount, 50);
+      assert.equal(updated.properties?.category, fetched.properties?.category);
+      assert.equal(updated.properties?.timeGrain, fetched.properties?.timeGrain);
+      assert.deepEqual(updated.properties?.timePeriod, timePeriod);
 
-      const fetchedAfterUpdate = await client.costControls.get(
+      const fetchedAfterUpdate = await client.accountCostControls.get(
         resourceGroupName,
         accountName,
         costControlName,
       );
       assert.isString(fetchedAfterUpdate.etag);
-      assert.equal(fetchedAfterUpdate.properties?.rules[0].amount, 50);
+      assert.equal(fetchedAfterUpdate.properties?.amount, 50);
 
-      await client.costControls.delete(resourceGroupName, accountName, costControlName, {
+      await client.accountCostControls.delete(resourceGroupName, accountName, costControlName, {
         ifMatch: isPlaybackMode() ? sanitizedEtag : fetchedAfterUpdate.etag,
       });
       created = false;
 
       await expect(
-        client.costControls.get(resourceGroupName, accountName, costControlName),
+        client.accountCostControls.get(resourceGroupName, accountName, costControlName),
+      ).rejects.toMatchObject({ statusCode: 404 });
+      await expect(
+        client.accountCostControls.checkExistence(resourceGroupName, accountName, costControlName),
       ).rejects.toMatchObject({ statusCode: 404 });
     } catch (error) {
       testFailed = true;
@@ -183,7 +199,7 @@ describe("Cost Controls recorded lifecycle", () => {
     } finally {
       if (created) {
         try {
-          await client.costControls.delete(resourceGroupName, accountName, costControlName);
+          await client.accountCostControls.delete(resourceGroupName, accountName, costControlName);
         } catch (error) {
           if (
             typeof error !== "object" ||
@@ -194,6 +210,7 @@ describe("Cost Controls recorded lifecycle", () => {
             if (!testFailed) {
               throw error;
             }
+            console.error("Failed to clean up the test cost control.", error);
           }
         }
       }

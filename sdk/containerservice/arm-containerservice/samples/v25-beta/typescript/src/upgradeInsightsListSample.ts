@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists the stored upgrade insights for the specified managed cluster, one entry per
  * scope that has been generated and not yet expired. This is a read-only operation and
  * does not regenerate any evaluation.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersListUpgradeInsights.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersListUpgradeInsights.json
  */
 async function listTheStoredUpgradeInsightsForAManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

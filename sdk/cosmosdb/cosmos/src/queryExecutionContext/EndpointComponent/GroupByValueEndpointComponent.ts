@@ -48,10 +48,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
 
     if (!response) {
-      if (this.aggregators.size > 0) {
-        return this.generateAggregateResponse(aggregateHeaders);
-      }
-      return { result: undefined, headers: aggregateHeaders };
+      return this.handleEmptyResponse(aggregateHeaders);
     }
 
     mergeHeaders(aggregateHeaders, response.headers);
@@ -61,10 +58,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      if (this.aggregators.size > 0) {
-        return this.generateAggregateResponse(aggregateHeaders);
-      }
-      return { result: undefined, headers: aggregateHeaders };
+      return this.handleEmptyResponse(aggregateHeaders);
     }
 
     const parallelResult = response.result as ParallelQueryResult;
@@ -123,6 +117,19 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
       return this.generateAggregateResponse(aggregateHeaders);
     }
+  }
+
+  private handleEmptyResponse(aggregateHeaders: CosmosHeaders): Response<any> {
+    if (this.executionContext.hasMoreResults()) {
+      return {
+        result: createParallelQueryResult([], new Map()),
+        headers: aggregateHeaders,
+      };
+    }
+    if (this.aggregators.size > 0) {
+      return this.generateAggregateResponse(aggregateHeaders);
+    }
+    return { result: undefined, headers: aggregateHeaders };
   }
 
   private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {

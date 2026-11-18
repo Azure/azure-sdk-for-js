@@ -730,6 +730,8 @@ export interface VolumeProperties {
   smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number | null;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
@@ -740,6 +742,8 @@ export interface VolumeProperties {
   keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
+  /** Specifies the type of LDAP server for a given NFS volume. */
+  ldapServerType?: LdapServerType;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -785,11 +789,6 @@ export interface VolumeProperties {
   readonly encrypted?: boolean;
   /** Application specific placement rules for the particular volume */
   placementRules?: PlacementKeyValuePairs[];
-  /**
-   * Flag indicating whether subvolume operations are enabled on the volume
-   * Deprecated. Subvolume operations and this flag will be removed in a future API version.
-   */
-  enableSubvolumes?: EnableSubvolumes;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
   readonly provisionedAvailabilityZone?: string | null;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
@@ -833,10 +832,12 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
     smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    smbOplocks: item["smbOplocks"],
     throughputMibps: item["throughputMibps"],
     encryptionKeySource: item["encryptionKeySource"],
     keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
     ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
     coolAccess: item["coolAccess"],
     coolnessPeriod: item["coolnessPeriod"],
     coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
@@ -852,7 +853,6 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
     placementRules: !item["placementRules"]
       ? item["placementRules"]
       : placementKeyValuePairsArraySerializer(item["placementRules"]),
-    enableSubvolumes: item["enableSubvolumes"],
     isLargeVolume: item["isLargeVolume"],
     breakthroughMode: item["breakthroughMode"],
   };
@@ -899,11 +899,13 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
     smbContinuouslyAvailable: item["smbContinuouslyAvailable"],
+    smbOplocks: item["smbOplocks"],
     throughputMibps: item["throughputMibps"],
     actualThroughputMibps: item["actualThroughputMibps"],
     encryptionKeySource: item["encryptionKeySource"],
     keyVaultPrivateEndpointResourceId: item["keyVaultPrivateEndpointResourceId"],
     ldapEnabled: item["ldapEnabled"],
+    ldapServerType: item["ldapServerType"],
     coolAccess: item["coolAccess"],
     coolnessPeriod: item["coolnessPeriod"],
     coolAccessRetrievalPolicy: item["coolAccessRetrievalPolicy"],
@@ -930,7 +932,6 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     placementRules: !item["placementRules"]
       ? item["placementRules"]
       : placementKeyValuePairsArrayDeserializer(item["placementRules"]),
-    enableSubvolumes: item["enableSubvolumes"],
     provisionedAvailabilityZone: item["provisionedAvailabilityZone"],
     isLargeVolume: item["isLargeVolume"],
     originatingResourceId: item["originatingResourceId"],
@@ -1644,6 +1645,24 @@ export enum KnownSmbNonBrowsable {
  */
 export type SmbNonBrowsable = string;
 
+/** SMB opportunistic-lock setting shared by volume and cache resources. Omit the property when unspecified. */
+export enum KnownSmbOplocks {
+  /** SMB opportunistic locks share setting is disabled. */
+  Disabled = "Disabled",
+  /** SMB opportunistic locks share setting is enabled. */
+  Enabled = "Enabled",
+}
+
+/**
+ * SMB opportunistic-lock setting shared by volume and cache resources. Omit the property when unspecified. \
+ * {@link KnownSmbOplocks} can be used interchangeably with SmbOplocks,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: SMB opportunistic locks share setting is disabled. \
+ * **Enabled**: SMB opportunistic locks share setting is enabled.
+ */
+export type SmbOplocks = string;
+
 /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
 export enum KnownEncryptionKeySource {
   /** Microsoft-managed key encryption */
@@ -1661,6 +1680,24 @@ export enum KnownEncryptionKeySource {
  * **Microsoft.KeyVault**: Customer-managed key encryption
  */
 export type EncryptionKeySource = string;
+
+/** The type of the LDAP server */
+export enum KnownLdapServerType {
+  /** The volume should use Active Directory for LDAP connections. */
+  ActiveDirectory = "ActiveDirectory",
+  /** The volume should use OpenLdap for LDAP connections. */
+  OpenLdap = "OpenLdap",
+}
+
+/**
+ * The type of the LDAP server \
+ * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
+ * **OpenLdap**: The volume should use OpenLdap for LDAP connections.
+ */
+export type LdapServerType = string;
 
 /**
  * coolAccessRetrievalPolicy determines the data retrieval behavior from the cool tier to standard storage based on the read pattern for cool access enabled volumes. The possible values for this field are:
@@ -1744,28 +1781,6 @@ export enum KnownAvsDataStore {
  * **Disabled**: avsDataStore is disabled
  */
 export type AvsDataStore = string;
-
-/**
- * Flag indicating whether subvolume operations are enabled on the volume
- * Deprecated. This type will be removed in a future API version.
- */
-export enum KnownEnableSubvolumes {
-  /** subvolumes are enabled */
-  Enabled = "Enabled",
-  /** subvolumes are not enabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Flag indicating whether subvolume operations are enabled on the volume
- * Deprecated. This type will be removed in a future API version. \
- * {@link KnownEnableSubvolumes} can be used interchangeably with EnableSubvolumes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: subvolumes are enabled \
- * **Disabled**: subvolumes are not enabled
- */
-export type EnableSubvolumes = string;
 
 /**
  * Specifies whether the volume operates in Breakthrough Mode. When set to 'Enabled', the volume runs on the resources configured for this mode,
@@ -2263,6 +2278,8 @@ export interface VolumePatchProperties {
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol volume */
+  smbOplocks?: SmbOplocks;
 }
 
 export function volumePatchPropertiesSerializer(item: VolumePatchProperties): any {
@@ -2292,6 +2309,7 @@ export function volumePatchPropertiesSerializer(item: VolumePatchProperties): an
     snapshotDirectoryVisible: item["snapshotDirectoryVisible"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
   };
 }
 
@@ -4588,6 +4606,8 @@ export interface SmbSettings {
   smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol cache */
   smbNonBrowsable?: SmbNonBrowsable;
+  /** Enables or disables SMB opportunistic lock property for SMB Shares. Only applicable for SMB/DualProtocol cache */
+  smbOplocks?: SmbOplocks;
 }
 
 export function smbSettingsSerializer(item: SmbSettings): any {
@@ -4595,6 +4615,7 @@ export function smbSettingsSerializer(item: SmbSettings): any {
     smbEncryption: item["smbEncryption"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
   };
 }
 
@@ -4603,6 +4624,7 @@ export function smbSettingsDeserializer(item: any): SmbSettings {
     smbEncryption: item["smbEncryption"],
     smbAccessBasedEnumeration: item["smbAccessBasedEnumeration"],
     smbNonBrowsable: item["smbNonBrowsable"],
+    smbOplocks: item["smbOplocks"],
   };
 }
 
@@ -4878,24 +4900,6 @@ export enum KnownLdapState {
  * **Enabled**: ldap is enabled
  */
 export type LdapState = string;
-
-/** The type of the LDAP server */
-export enum KnownLdapServerType {
-  /** The volume should use Active Directory for LDAP connections. */
-  ActiveDirectory = "ActiveDirectory",
-  /** The volume should use OpenLDAP for LDAP connections. */
-  OpenLdap = "OpenLDAP",
-}
-
-/**
- * The type of the LDAP server \
- * {@link KnownLdapServerType} can be used interchangeably with LdapServerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActiveDirectory**: The volume should use Active Directory for LDAP connections. \
- * **OpenLDAP**: The volume should use OpenLDAP for LDAP connections.
- */
-export type LdapServerType = string;
 
 /** Stores the origin cluster information associated to a cache. */
 export interface OriginClusterInformation {
@@ -6533,185 +6537,6 @@ export function backupRestoreFilesSerializer(item: BackupRestoreFiles): any {
   };
 }
 
-/**
- * Subvolume Information properties
- * Deprecated. This resource type will be removed in a future API version.
- */
-export interface SubvolumeInfo extends ProxyResource {
-  /** Subvolume Properties */
-  properties?: SubvolumeProperties;
-}
-
-export function subvolumeInfoSerializer(item: SubvolumeInfo): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumePropertiesSerializer(item["properties"]),
-  };
-}
-
-export function subvolumeInfoDeserializer(item: any): SubvolumeInfo {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** This represents path associated with the subvolume */
-export interface SubvolumeProperties {
-  /** Path to the subvolume */
-  path?: string;
-  /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
-  /** parent path to the subvolume */
-  parentPath?: string | null;
-  /** Azure lifecycle management */
-  readonly provisioningState?: string;
-}
-
-export function subvolumePropertiesSerializer(item: SubvolumeProperties): any {
-  return { path: item["path"], size: item["size"], parentPath: item["parentPath"] };
-}
-
-export function subvolumePropertiesDeserializer(item: any): SubvolumeProperties {
-  return {
-    path: item["path"],
-    size: item["size"],
-    parentPath: item["parentPath"],
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** Subvolume Patch Request properties */
-export interface SubvolumePatchRequest {
-  /** Subvolume Properties */
-  properties?: SubvolumePatchParams;
-}
-
-export function subvolumePatchRequestSerializer(item: SubvolumePatchRequest): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumePatchParamsSerializer(item["properties"]),
-  };
-}
-
-/** Parameters with which a subvolume can be updated */
-export interface SubvolumePatchParams {
-  /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
-  /** path to the subvolume */
-  path?: string;
-}
-
-export function subvolumePatchParamsSerializer(item: SubvolumePatchParams): any {
-  return { size: item["size"], path: item["path"] };
-}
-
-/** List of Subvolumes */
-export interface _SubvolumesList {
-  /** The SubvolumeInfo items on this page */
-  value: SubvolumeInfo[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _subvolumesListDeserializer(item: any): _SubvolumesList {
-  return {
-    value: subvolumeInfoArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function subvolumeInfoArraySerializer(result: Array<SubvolumeInfo>): any[] {
-  return result.map((item) => {
-    return subvolumeInfoSerializer(item);
-  });
-}
-
-export function subvolumeInfoArrayDeserializer(result: Array<SubvolumeInfo>): any[] {
-  return result.map((item) => {
-    return subvolumeInfoDeserializer(item);
-  });
-}
-
-/** Result of the post subvolume and action is to get metadata of the subvolume. */
-export interface SubvolumeModel {
-  /** Resource Id */
-  readonly id?: string;
-  /** Resource name */
-  readonly name?: string;
-  /** Resource type */
-  readonly type?: string;
-  /** It represents the minimal properties of the subvolume. */
-  properties?: SubvolumeModelProperties;
-}
-
-export function subvolumeModelDeserializer(item: any): SubvolumeModel {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : subvolumeModelPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties which represents actual subvolume model which is stored as a file in the system. */
-export interface SubvolumeModelProperties {
-  /** Path to the subvolume */
-  path?: string;
-  /** Path to the parent subvolume */
-  parentPath?: string;
-  /** Size of subvolume */
-  size?: number;
-  /** Bytes used */
-  bytesUsed?: number;
-  /** Permissions of the subvolume */
-  permissions?: string;
-  /** Creation time and date */
-  creationTimeStamp?: Date;
-  /** Most recent access time and date */
-  accessedTimeStamp?: Date;
-  /** Most recent modification time and date */
-  modifiedTimeStamp?: Date;
-  /** Most recent change time and date */
-  changedTimeStamp?: Date;
-  /** Azure lifecycle management */
-  provisioningState?: string;
-}
-
-export function subvolumeModelPropertiesDeserializer(item: any): SubvolumeModelProperties {
-  return {
-    path: item["path"],
-    parentPath: item["parentPath"],
-    size: item["size"],
-    bytesUsed: item["bytesUsed"],
-    permissions: item["permissions"],
-    creationTimeStamp: !item["creationTimeStamp"]
-      ? item["creationTimeStamp"]
-      : new Date(item["creationTimeStamp"]),
-    accessedTimeStamp: !item["accessedTimeStamp"]
-      ? item["accessedTimeStamp"]
-      : new Date(item["accessedTimeStamp"]),
-    modifiedTimeStamp: !item["modifiedTimeStamp"]
-      ? item["modifiedTimeStamp"]
-      : new Date(item["modifiedTimeStamp"]),
-    changedTimeStamp: !item["changedTimeStamp"]
-      ? item["changedTimeStamp"]
-      : new Date(item["changedTimeStamp"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
 /** Resource name availability request content. */
 export interface ResourceNameAvailabilityRequest {
   /** Resource name to verify. */
@@ -7067,4 +6892,6 @@ export enum KnownVersions {
   V20260701 = "2026-07-01",
   /** The 2026-08-01 API version. */
   V20260801 = "2026-08-01",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
 }

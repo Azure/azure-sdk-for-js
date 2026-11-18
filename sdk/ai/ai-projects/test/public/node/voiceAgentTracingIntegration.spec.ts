@@ -18,7 +18,7 @@ import type {
   VoiceAgentWebSocketFactory,
   VoiceAgentWebSocketHandlers,
   VoiceAgentWebSocketTransport,
-} from "$internal/realtime/webSocketTransportLike.js";
+} from "$internal/realtime/webSocketTransport.js";
 
 const endpoint = "https://example.test/api/projects/test";
 const restCredential = {
@@ -30,7 +30,7 @@ const callJob = {
   agent_name: "PRIVATE_AGENT",
   connection_name: "PRIVATE_CONNECTION",
   status: "accepted",
-  source: "+15555550200",
+  source: { type: "phone_number", value: "+15555550200" },
   destination: { type: "phone_number", value: "+15555550100" },
   retry_policy: { type: "none" },
   attempt_count: 0,
@@ -41,6 +41,7 @@ const callJob = {
 const binding = {
   id: "binding-1",
   provider: "twilio",
+  incoming_call_url: "https://example.com/incoming",
   connection_name: "PRIVATE_CONNECTION",
   phone_number: "+15555550100",
   label: "PRIVATE_LABEL",
@@ -87,7 +88,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
       },
     },
     invoke: (client, options) =>
-      client.beta.agents.createFromPrompt(
+      client.agents.createFromPrompt(
         { kind: "voice", name: "voice", goal: "PRIVATE_GOAL" },
         options,
       ),
@@ -98,12 +99,12 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 202,
     body: callJob,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.createCallJob(
+      client.voiceAgents.telephony.createCallJob(
         "PRIVATE_AGENT",
         "PRIVATE_IDEMPOTENCY",
         {
           connection_name: "PRIVATE_CONNECTION",
-          source: "+15555550200",
+          source: { type: "phone_number", value: "+15555550200" },
           destination: { type: "phone_number", value: "+15555550100" },
         },
         options,
@@ -115,12 +116,14 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 202,
     body: callJob,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.cancelCallJob(
-        "PRIVATE_AGENT",
-        "job-1",
-        "PRIVATE_ETAG",
-        options,
-      ),
+      client.voiceAgents.telephony.cancelCallJob("PRIVATE_AGENT", "job-1", "PRIVATE_ETAG", options),
+  },
+  {
+    name: "voice_agents.telephony.delete_call_job",
+    method: "DELETE",
+    status: 204,
+    invoke: (client, options) =>
+      client.voiceAgents.telephony.deleteCallJob("PRIVATE_AGENT", "job-1", options),
   },
   {
     name: "voice_agents.telephony.transfer_call",
@@ -128,7 +131,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 200,
     body: call,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.transferCall(
+      client.voiceAgents.telephony.transferCall(
         "PRIVATE_AGENT",
         "call-1",
         "PRIVATE_TARGET",
@@ -141,7 +144,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 200,
     body: call,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.endCall("PRIVATE_AGENT", "call-1", options),
+      client.voiceAgents.telephony.endCall("PRIVATE_AGENT", "call-1", options),
   },
   {
     name: "voice_agents.telephony.create_binding",
@@ -149,7 +152,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 201,
     body: binding,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.createBinding(
+      client.voiceAgents.telephony.createBinding(
         "PRIVATE_AGENT",
         {
           provider: "twilio",
@@ -165,7 +168,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 200,
     body: binding,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.updateBinding(
+      client.voiceAgents.telephony.updateBinding(
         "PRIVATE_AGENT",
         "binding-1",
         "PRIVATE_ETAG",
@@ -178,7 +181,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     method: "DELETE",
     status: 204,
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.deleteBinding(
+      client.voiceAgents.telephony.deleteBinding(
         "PRIVATE_AGENT",
         "binding-1",
         "PRIVATE_ETAG",
@@ -191,7 +194,7 @@ const restTelemetryCases: RestTelemetryCase[] = [
     status: 200,
     body: { transfer_targets: [] },
     invoke: (client, options) =>
-      client.beta.voiceAgents.telephony.replaceTransferTargets(
+      client.voiceAgents.telephony.replaceTransferTargets(
         "PRIVATE_AGENT",
         "PRIVATE_ETAG",
         [],
@@ -203,7 +206,14 @@ const restTelemetryCases: RestTelemetryCase[] = [
     method: "DELETE",
     status: 204,
     invoke: (client, options) =>
-      client.beta.voiceAgents.conversations.delete("PRIVATE_AGENT", "conversation-1", options),
+      client.voiceAgents.conversations.delete("PRIVATE_AGENT", "conversation-1", options),
+  },
+  {
+    name: "voice_agents.live_conversations.delete",
+    method: "DELETE",
+    status: 204,
+    invoke: (client, options) =>
+      client.beta.voiceAgents.liveConversations.delete("PRIVATE_AGENT", "conversation-1", options),
   },
 ];
 
@@ -284,7 +294,11 @@ describe("Voice Agents exported traces", () => {
       expect(requests[0].method).toBe(testCase.method);
       expect(requests[0].abortSignal).toBe(controller.signal);
       expect(requests[0].headers.get("x-test-correlation")).toBe("PRIVATE_HEADER");
-      expect(requests[0].headers.get("foundry-features")).toBe("VoiceAgents=V1Preview");
+      expect(requests[0].headers.get("foundry-features")).toBe(
+        testCase.name === "create_agent" || testCase.name === "voice_agents.conversations.delete"
+          ? undefined
+          : "VoiceAgents=V1Preview",
+      );
       if (testCase.body?.id) expect(result).toHaveProperty("id", testCase.body.id);
       else if (testCase.body) expect(result).toEqual(testCase.body);
       else expect(result).toBeUndefined();
@@ -389,37 +403,37 @@ describe("Voice Agents exported traces", () => {
       name: "getCallJob",
       body: callJob,
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.getCallJob("PRIVATE_AGENT", "job-1"),
+        client.voiceAgents.telephony.getCallJob("PRIVATE_AGENT", "job-1"),
     },
     {
       name: "getBinding",
       body: binding,
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.getBinding("PRIVATE_AGENT", "binding-1"),
+        client.voiceAgents.telephony.getBinding("PRIVATE_AGENT", "binding-1"),
     },
     {
       name: "getCall",
       body: call,
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.getCall("PRIVATE_AGENT", "call-1"),
+        client.voiceAgents.telephony.getCall("PRIVATE_AGENT", "call-1"),
     },
     {
       name: "getTransferTargets",
       body: { transfer_targets: [] },
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.getTransferTargets("PRIVATE_AGENT"),
+        client.voiceAgents.telephony.getTransferTargets("PRIVATE_AGENT"),
     },
     {
       name: "listBindings",
       body: { data: [], has_more: false },
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.listBindings("PRIVATE_AGENT").next(),
+        client.voiceAgents.telephony.listBindings("PRIVATE_AGENT").next(),
     },
     {
       name: "listCalls",
       body: { data: [], has_more: false },
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.telephony.listCalls("PRIVATE_AGENT").next(),
+        client.voiceAgents.telephony.listCalls("PRIVATE_AGENT").next(),
     },
     {
       name: "getConversation",
@@ -430,13 +444,13 @@ describe("Voice Agents exported traces", () => {
         created_at: 1,
       },
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.conversations.get("PRIVATE_AGENT", "conversation-1"),
+        client.voiceAgents.conversations.get("PRIVATE_AGENT", "conversation-1"),
     },
     {
       name: "listConversations",
       body: { data: [], has_more: false },
       invoke: (client: AIProjectClient) =>
-        client.beta.voiceAgents.conversations.list("PRIVATE_AGENT").next(),
+        client.voiceAgents.conversations.list("PRIVATE_AGENT").next(),
     },
   ])("does not add mutation telemetry for $name", async (testCase) => {
     const { client, requests } = createRestClient(
@@ -447,6 +461,7 @@ describe("Voice Agents exported traces", () => {
     await provider.forceFlush();
     expect(requests).toHaveLength(1);
     expect(requests[0].method).toBe("GET");
+    expect(requests[0].headers.get("foundry-features")).toBeUndefined();
     expect(exporter.getFinishedSpans()).toEqual([]);
   });
 
@@ -467,7 +482,7 @@ describe("Voice Agents exported traces", () => {
       new AIProjectClient("https://example.test", credential, {
         tracingOptions,
         realtimeOptions: { webSocketFactory: factory },
-      }).beta.voiceAgents.realtime;
+      }).voiceAgents.realtime;
     const realtime = createRealtime({ contentRecording: false });
     vi.stubEnv("AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING", "false");
     await (await realtime.connect("voice")).close();
@@ -523,7 +538,7 @@ describe("Voice Agents exported traces", () => {
     );
     const parent = trace.getTracer("application").startSpan("workflow");
     await context.with(trace.setSpan(context.active(), parent), async () => {
-      const connection = await client.beta.voiceAgents.realtime.connect("voice");
+      const connection = await client.voiceAgents.realtime.connect("voice");
       expect(trace.getSpan(context.active())).toBe(parent);
       // Simulate a callback outside the caller's context; children still belong to the session.
       context.with(ROOT_CONTEXT, () => {

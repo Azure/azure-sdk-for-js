@@ -1,0 +1,148 @@
+targetScope = 'resourceGroup'
+
+resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2026-03-15' existing = {
+  name: 'databaseaccount-test'
+}
+
+resource sqlDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2026-03-15' existing = {
+  name: 'sqldatabase-test'
+  parent: databaseAccount
+}
+
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2026-03-15' = {
+  name: 'containerName'
+  parent: sqlDatabase
+  location: 'West US'
+  properties: {
+    resource: {
+      id: 'containerName'
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        automatic: true
+        includedPaths: [
+          {
+            path: '/*'
+            indexes: [
+              {
+                kind: 'Range'
+                dataType: 'String'
+                precision: -1
+              }
+              {
+                kind: 'Range'
+                dataType: 'Number'
+                precision: -1
+              }
+            ]
+          }
+        ]
+        excludedPaths: []
+        vectorIndexes: [
+          {
+            path: '/vectorPath1'
+            type: 'flat'
+          }
+          {
+            path: '/vectorPath2'
+            type: 'quantizedFlat'
+          }
+          {
+            path: '/vectorPath3'
+            type: 'diskANN'
+          }
+        ]
+        fullTextIndexes: [
+          {
+            path: '/ftPath1'
+          }
+          {
+            path: '/ftPath2'
+          }
+          {
+            path: '/ftPath3'
+          }
+        ]
+      }
+      vectorEmbeddingPolicy: {
+        vectorEmbeddings: [
+          {
+            path: '/vectorPath1'
+            dataType: 'float32'
+            dimensions: 400
+            distanceFunction: 'euclidean'
+          }
+          {
+            path: '/vectorPath2'
+            dataType: 'uint8'
+            dimensions: 512
+            distanceFunction: 'cosine'
+          }
+          {
+            path: '/vectorPath3'
+            dataType: 'int8'
+            dimensions: 512
+            distanceFunction: 'dotproduct'
+          }
+        ]
+      }
+      fullTextPolicy: {
+        defaultLanguage: '1033'
+        fullTextPaths: [
+          {
+            path: '/ftPath1'
+            language: 'en-US'
+          }
+          {
+            path: '/ftPath2'
+            language: 'fr-FR'
+          }
+          {
+            path: '/ftPath3'
+            language: 'de-DE'
+          }
+        ]
+      }
+      partitionKey: {
+        paths: [
+          '/AccountNumber'
+        ]
+        kind: 'Hash'
+      }
+      defaultTtl: 100
+      uniqueKeyPolicy: {
+        uniqueKeys: [
+          {
+            paths: [
+              '/testPath'
+            ]
+          }
+        ]
+      }
+      conflictResolutionPolicy: {
+        mode: 'LastWriterWins'
+        conflictResolutionPath: '/path'
+      }
+      clientEncryptionPolicy: {
+        includedPaths: [
+          {
+            path: '/path'
+            clientEncryptionKeyId: 'keyId'
+            encryptionAlgorithm: 'AEAD_AES_256_CBC_HMAC_SHA256'
+            encryptionType: 'Deterministic'
+          }
+        ]
+        policyFormatVersion: 2
+      }
+      computedProperties: [
+        {
+          name: 'cp_lowerName'
+          query: 'SELECT VALUE LOWER(c.name) FROM c'
+        }
+      ]
+    }
+    options: {}
+  }
+  tags: {}
+}
+
+output resource2Id string = container.id
