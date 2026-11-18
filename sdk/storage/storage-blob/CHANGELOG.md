@@ -1,5 +1,18 @@
 # Release History
 
+## 12.35.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed downloads failing with `AbortError` when the connection drops while the body is read. They now resume from where they stopped, up to `maxRetryRequests` times (`maxRetryRequestsPerBlock` in `downloadToBuffer`, 5 by default), and fail with a "Data corruption failure" error once those retries are used up; only the caller's `abortSignal` cancels them. Downloads with CRC64 content validation don't resume yet. [#32268](https://github.com/Azure/azure-sdk-for-js/issues/32268)
+- Fixed an uncaught exception when a download with CRC64 content validation is aborted and its body stream is destroyed.
+
+### Other Changes
+
 ## 12.35.0-beta.1 (2026-11-11)
 
 ### Features Added

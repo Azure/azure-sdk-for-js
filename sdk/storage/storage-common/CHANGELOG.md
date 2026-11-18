@@ -1,5 +1,18 @@
 # Release History
 
+## 12.6.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed uncaught exceptions that could stop the process when an upload or download with CRC64 content validation was aborted. [#38481](https://github.com/Azure/azure-sdk-for-js/issues/38481)
+- Fixed CRC64 content validation adding process-wide `uncaughtException` and `unhandledRejection` handlers that re-throw, which stopped applications from handling their own errors.
+
+### Other Changes
+
 ## 12.6.0-beta.1 (2026-11-11)
 
 ### Features Added
