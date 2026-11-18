@@ -1472,6 +1472,10 @@ export type {
   TraceSourceEvalRunDataSource,
   TraceSourcePreviewEvalRunDataSource,
   CsvEvalRunDataSource,
+  SvgParam,
+  SvgReasoningParam,
+  ReasoningEffortEnum,
+  CacheWriteTokensDetails,
 } from "./models/index.js";
 export type { AIProjectClientOptionalParams } from "./api/index.js";
 export type { AgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
