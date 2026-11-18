@@ -79,7 +79,7 @@ export function _getApplicationPropertiesWithAmqpTypes(
 }
 
 /**
- * Adds the typed application property view without changing JSON serialization.
+ * Adds the typed view and retains metadata on SDK-copied application properties.
  *
  * @internal
  */
@@ -97,6 +97,19 @@ export function _defineApplicationPropertiesWithAmqpTypes(
     value: applicationPropertiesWithTypes,
     writable: true,
   });
+
+  if (
+    "applicationProperties" in target &&
+    typeof target.applicationProperties === "object" &&
+    target.applicationProperties !== null
+  ) {
+    Object.defineProperty(target.applicationProperties, applicationPropertiesWithTypesSymbol, {
+      configurable: false,
+      enumerable: false,
+      value: applicationPropertiesWithTypes,
+      writable: false,
+    });
+  }
 }
 
 /**
@@ -685,7 +698,7 @@ function installTypedApplicationPropertyDecoder(): void {
 
     Object.defineProperty(unwrapped, applicationPropertiesWithTypesSymbol, {
       configurable: false,
-      enumerable: true,
+      enumerable: false,
       value: Object.freeze(propertiesWithTypes),
       writable: false,
     });
