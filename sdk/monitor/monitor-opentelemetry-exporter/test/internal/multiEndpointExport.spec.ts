@@ -15,6 +15,7 @@ import { AggregationTemporality, DataPointType } from "@opentelemetry/sdk-metric
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { AzureMonitorExporterOptions } from "../../src/config.js";
+import { ENV_MULTI_ENDPOINT_AAD_AUDIENCE } from "../../src/Declarations/Constants.js";
 import {
   AzureMonitorLogExporter,
   AzureMonitorTraceExporter,
@@ -120,6 +121,7 @@ describe("multi-endpoint exporters", () => {
     requests = [];
     vi.spyOn(routing, "isMultiEndpointRoutingEnabled").mockReturnValue(true);
     vi.stubEnv("APPLICATIONINSIGHTS_CONNECTION_STRING", undefined);
+    vi.stubEnv(ENV_MULTI_ENDPOINT_AAD_AUDIENCE, undefined);
     vi.stubEnv("APPLICATION_INSIGHTS_NO_STATSBEAT", "true");
     vi.spyOn(ConfigurationManager.getInstance(), "initialize").mockImplementation(() => {});
     sendRequest = vi.fn<HttpClient["sendRequest"]>(async (request) => {
@@ -383,7 +385,14 @@ describe("multi-endpoint exporters", () => {
     },
   );
 
-  it("separates authentication modes without sending host credentials on key-only routes", async () => {
+  it.each([
+    [undefined, "https://monitor.azure.com/.default"],
+    ["   ", "https://monitor.azure.com/.default"],
+    [" https://monitor.azure.cn ", "https://monitor.azure.cn/.default"],
+    ["https://monitor.azure.cn/", "https://monitor.azure.cn//.default"],
+    ["https://monitor.azure.cn/.default", "https://monitor.azure.cn/.default"],
+  ])("uses the routed audience %s only on explicit AAD routes", async (audience, scope) => {
+    vi.stubEnv(ENV_MULTI_ENDPOINT_AAD_AUDIENCE, audience);
     const getToken = vi
       .fn()
       .mockResolvedValue({ token: "test-token", expiresOnTimestamp: Date.now() + 3600000 });
@@ -391,23 +400,86 @@ describe("multi-endpoint exporters", () => {
       new AzureMonitorLogExporter({
         ...options,
         credential: { getToken },
+        connectionString: `InstrumentationKey=${hostKey};AadAudience=https://host.test/.default`,
         host: "https://wrong.test",
         endpoint: "https://wrong.test/override",
       }),
     );
+    vi.stubEnv(ENV_MULTI_ENDPOINT_AAD_AUDIENCE, "https://changed.test");
     await exporter.export(
-      [log(route("key-only")), log({ ...route("aad-key"), "microsoft.ingestion_auth": " AAD " })],
+      [
+        log(route("key-only")),
+        log({ ...route("aad-key"), "microsoft.ingestion_auth": " AAD " }),
+        log({ ...route("another-key", "https://second.test"), "microsoft.ingestion_auth": "aad" }),
+      ],
       vi.fn(),
     );
-    expect(requests).toHaveLength(2);
     expect(requests.map((request) => request.url)).toEqual([
       "https://first.test/v2.1/track",
       "https://first.test/v2.1/track",
+      "https://second.test/v2.1/track",
     ]);
     expect(requests[0].headers.get("authorization")).toBeUndefined();
     expect(requests[1].headers.get("authorization")).toBe("Bearer test-token");
-    expect(getToken).toHaveBeenCalledOnce();
+    expect(requests[2].headers.get("authorization")).toBe("Bearer test-token");
+    expect(getToken.mock.calls.map(([scopes]) => scopes)).toEqual([[scope], [scope]]);
   });
+
+  it("ignores the routed audience in single-endpoint mode", async () => {
+    vi.mocked(routing.isMultiEndpointRoutingEnabled).mockReturnValue(false);
+    vi.stubEnv(ENV_MULTI_ENDPOINT_AAD_AUDIENCE, "https://monitor.azure.cn");
+    const getToken = vi.fn().mockResolvedValue({
+      token: "host-token",
+      expiresOnTimestamp: Date.now() + 3600000,
+    });
+    const exporter = create(
+      new AzureMonitorLogExporter({
+        ...options,
+        credential: { getToken },
+        connectionString: `InstrumentationKey=${hostKey};IngestionEndpoint=https://host.test;AadAudience=https://host.test/.default`,
+      }),
+    );
+    await exporter.export([log(route())], vi.fn());
+    expect(getToken.mock.calls[0][0]).toEqual(["https://host.test/.default"]);
+    expect(requests.map((request) => request.url)).toEqual(["https://host.test/v2.1/track"]);
+  });
+
+  it.each([
+    "https://unrelated.test/track",
+    "https://first.test:8443/track",
+    "http://first.test/track",
+    "https://user@first.test/track",
+  ])(
+    "does not send a second authenticated request for a refused redirect to %s",
+    async (location) => {
+      const exporter = create(
+        new AzureMonitorLogExporter({
+          ...options,
+          credential: {
+            getToken: async () => ({
+              token: "test-token",
+              expiresOnTimestamp: Date.now() + 3600000,
+            }),
+          },
+        }),
+      );
+      sendRequest.mockImplementationOnce(async (request) => ({
+        request,
+        status: 307,
+        headers: createHttpHeaders({ location }),
+      }));
+      const callback = vi.fn();
+      await exporter.export([log({ ...route(), "microsoft.ingestion_auth": "aad" })], callback);
+      expect(callback).toHaveBeenCalledExactlyOnceWith({
+        code: ExportResultCode.FAILED,
+        error: expect.any(Error),
+      });
+      expect(sendRequest).toHaveBeenCalledTimes(1);
+      const [request] = sendRequest.mock.calls[0];
+      expect(request.url).toBe("https://first.test/v2.1/track");
+      expect(request.headers.get("authorization")).toBe("Bearer test-token");
+    },
+  );
 
   it("reports missing AAD credentials while still sending independent destinations", async () => {
     const exporter = create(new AzureMonitorLogExporter(options));
@@ -459,6 +531,24 @@ describe("multi-endpoint exporters", () => {
           ],
         }),
     ).toThrow("additional policies");
+  });
+
+  it("does not adopt policies added after routing was configured", async () => {
+    const additionalPolicies: NonNullable<AzureMonitorExporterOptions["additionalPolicies"]> = [];
+    const exporter = create(new AzureMonitorLogExporter({ ...options, additionalPolicies }));
+    additionalPolicies.push({
+      position: "perCall",
+      policy: {
+        name: "custom-auth",
+        sendRequest: (request, next) => {
+          request.headers.set("authorization", "Bearer custom-token");
+          return next(request);
+        },
+      },
+    });
+    await exporter.export([log()], vi.fn());
+    expect(requests).toHaveLength(1);
+    expect(requests[0].headers.has("authorization")).toBe(false);
   });
 
   it("preserves host routing and existing property filtering when the feature is disabled", async () => {
