@@ -36,7 +36,10 @@ export function createAppConfiguration(
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://azconfig.io/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Connection String",

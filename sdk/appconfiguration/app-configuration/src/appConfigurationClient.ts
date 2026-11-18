@@ -52,7 +52,6 @@ import type { SendConfigurationSettingsOptions } from "./internal/helpers.js";
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
-  encodePathParameter,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -174,16 +173,12 @@ export class AppConfigurationClient {
         try {
           const originalResponse = await this.client.putKeyValue(
             "application/json",
-            encodePathParameter(configurationSetting.key),
+            configurationSetting.key,
             {
               ifNoneMatch: "*",
               label: configurationSetting.label,
               entity: keyValue,
               ...updatedOptions,
-              requestOptions: {
-                ...updatedOptions.requestOptions,
-                skipUrlEncoding: true,
-              },
             },
           );
           const response = transformKeyValueResponse(originalResponse);
@@ -233,17 +228,13 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         let status;
         logger.info("[deleteConfigurationSetting] Deleting key value pair");
-        const originalResponse = await this.client.deleteKeyValue(encodePathParameter(id.key), {
+        const originalResponse = await this.client.deleteKeyValue(id.key, {
           label: id.label,
           ...updatedOptions,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
           onResponse: (...args) => {
             status = args[0].status;
             updatedOptions.onResponse?.(...args);
-          },
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
           },
         });
 
@@ -285,7 +276,7 @@ export class AppConfigurationClient {
         let callbackThrew = false;
         logger.info("[getConfigurationSetting] Getting key value pair");
         try {
-          const originalResponse = await this.client.getKeyValue(encodePathParameter(id.key), {
+          const originalResponse = await this.client.getKeyValue(id.key, {
             ...updatedOptions,
             label: id.label,
             select: formatFieldsForSelect(options.fields),
@@ -300,10 +291,6 @@ export class AppConfigurationClient {
                 callbackThrew = true;
                 throw error;
               }
-            },
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
             },
           });
 
@@ -575,10 +562,6 @@ export class AppConfigurationClient {
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         const parsed = await _getKeyValuesDeserialize(rawResponse);
         return Object.assign(parsed, {
@@ -602,10 +585,6 @@ export class AppConfigurationClient {
           ...formatConfigurationSettingsFiltersAndSelect(options),
           ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         await _checkKeyValuesDeserialize(rawResponse);
         return {
@@ -671,10 +650,6 @@ export class AppConfigurationClient {
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(updatedOptions),
           after: pageLink,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         const parsed = await _getRevisionsDeserialize(rawResponse);
         return Object.assign(parsed, {
@@ -718,21 +693,12 @@ export class AppConfigurationClient {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
-          await this.client.putKeyValue(
-            "application/json",
-            encodePathParameter(configurationSetting.key),
-            {
-              ...updatedOptions,
-              label: configurationSetting.label,
-              entity: keyValue,
-              ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-
-              requestOptions: {
-                ...updatedOptions.requestOptions,
-                skipUrlEncoding: true,
-              },
-            },
-          ),
+          await this.client.putKeyValue("application/json", configurationSetting.key, {
+            ...updatedOptions,
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+          }),
         );
         assertResponse(response);
         return response;
@@ -756,27 +722,17 @@ export class AppConfigurationClient {
         let response;
         if (readOnly) {
           logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
-          response = await this.client.putLock(encodePathParameter(id.key), {
+          response = await this.client.putLock(id.key, {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-
-            requestOptions: {
-              ...newOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           });
         } else {
           logger.info("[setReadOnly] Deleting read-only lock");
-          response = await this.client.deleteLock(encodePathParameter(id.key), {
+          response = await this.client.deleteLock(id.key, {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
-
-            requestOptions: {
-              ...newOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           });
         }
         response = transformKeyValueResponse(response);
@@ -825,13 +781,7 @@ export class AppConfigurationClient {
                 "application/vnd.microsoft.appconfig.snapshot+json",
                 snapshot.name,
                 generatedSnapshot,
-                {
-                  ...updatedOptions,
-                  requestOptions: {
-                    ...updatedOptions.requestOptions,
-                    skipUrlEncoding: true,
-                  },
-                },
+                updatedOptions,
               ),
             resourceLocationConfig: "original-uri",
           },
@@ -871,13 +821,7 @@ export class AppConfigurationClient {
                 "application/vnd.microsoft.appconfig.snapshot+json",
                 snapshot.name,
                 generatedSnapshot,
-                {
-                  ...updatedOptions,
-                  requestOptions: {
-                    ...updatedOptions.requestOptions,
-                    skipUrlEncoding: true,
-                  },
-                },
+                updatedOptions,
               ),
             resourceLocationConfig: "original-uri",
           },
@@ -912,13 +856,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[getSnapshot] Get a snapshot");
-        const originalResponse = await this.client.getSnapshot(name, {
-          ...updatedOptions,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
+        const originalResponse = await this.client.getSnapshot(name, updatedOptions);
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
@@ -964,10 +902,6 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -1014,10 +948,6 @@ export class AppConfigurationClient {
               { etag: options.etag },
               { onlyIfUnchanged: true, ...options },
             ),
-            requestOptions: {
-              ...updatedOptions.requestOptions,
-              skipUrlEncoding: true,
-            },
           },
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -1085,10 +1015,6 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatSnapshotFiltersAndSelect(options),
           after: pageLink,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
         });
         const parsed = await _getSnapshotsDeserialize(rawResponse);
         return Object.assign(parsed, { _response: rawResponse });
