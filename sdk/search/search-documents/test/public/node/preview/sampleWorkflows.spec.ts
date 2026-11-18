@@ -4,7 +4,12 @@
 import { createRequire } from "node:module";
 import type * as Identity from "@azure/identity";
 import { afterEach, beforeEach, describe, it, vi } from "vitest";
-import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import {
+  assertEnvironmentVariable,
+  env,
+  isPlaybackMode,
+  Recorder,
+} from "@azure-tools/test-recorder";
 import { createSampleRecorderStartOptions } from "../../utils/recordedClient.js";
 import { runRecordedSample } from "../../utils/recordedSamples.js";
 
@@ -48,14 +53,21 @@ describe("November preview sample workflows", { timeout: 720_000 }, () => {
     const { DefaultAzureCredential } = createRequire(import.meta.url)(
       "@azure/identity",
     ) as typeof Identity;
-    const credential = isPlaybackMode()
+    const playback = isPlaybackMode();
+    const searchApiKey = env.AZURE_SEARCH_API_KEY;
+    const credential = playback
       ? vi
           .spyOn(DefaultAzureCredential.prototype, "getToken")
           .mockRejectedValue(new Error("Playback must not request Azure credentials."))
       : undefined;
     try {
+      if (playback) delete env.AZURE_SEARCH_API_KEY;
       await runRecordedSample("randomScoring", recorder);
     } finally {
+      if (playback) {
+        if (searchApiKey === undefined) delete env.AZURE_SEARCH_API_KEY;
+        else env.AZURE_SEARCH_API_KEY = searchApiKey;
+      }
       credential?.mockRestore();
     }
   });

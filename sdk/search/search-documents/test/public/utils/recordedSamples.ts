@@ -57,7 +57,9 @@ export async function runRecordedSample(
   });
   const owned: OwnedResource[] = [];
   const endpoint = env.ENDPOINT!;
-  const credential = new sdk.AzureKeyCredential(env.AZURE_SEARCH_API_KEY!);
+  const credential = env.AZURE_SEARCH_API_KEY
+    ? new sdk.AzureKeyCredential(env.AZURE_SEARCH_API_KEY)
+    : createTestCredential();
   const transport = createDefaultHttpClient();
   const httpClient: HttpClient = {
     async sendRequest(request) {

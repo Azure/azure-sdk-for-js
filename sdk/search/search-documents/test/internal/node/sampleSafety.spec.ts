@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import { join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
+import { parse } from "dotenv";
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
 import { assert, describe, it } from "vitest";
 import * as sdk from "../../../src/index.js";
@@ -26,6 +27,21 @@ const directories = [
   join("samples", "v13-beta", "typescript", "src"),
   join("samples", "v13-beta", "javascript"),
 ];
+
+describe("Sample environment authentication defaults", () => {
+  it("leaves optional API keys unset in source and published templates", () => {
+    const packageRoot = fileURLToPath(new URL("../../../", import.meta.url));
+    for (const directory of [
+      "",
+      join("samples", "v13-beta", "typescript"),
+      join("samples", "v13-beta", "javascript"),
+    ]) {
+      const settings = parse(readFileSync(resolve(packageRoot, directory, "sample.env")));
+      assert.notProperty(settings, "AZURE_SEARCH_API_KEY", directory);
+      assert.notProperty(settings, "AZURE_OPENAI_API_KEY", directory);
+    }
+  });
+});
 
 describe("Published sample README links", () => {
   for (const language of ["javascript", "typescript"]) {
