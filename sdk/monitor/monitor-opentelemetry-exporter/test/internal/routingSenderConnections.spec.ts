@@ -227,6 +227,24 @@ describe("routed sender connections", () => {
     );
   });
 
+  it("aborts a nonresponding overflow connection before sending the next destination", async () => {
+    const stalled = await ingestion(() => {});
+    const healthy = await ingestion();
+    const sender = router();
+    await fillCache(sender);
+    const exporting = sender.export(
+      new Map([...groups(stalled.endpoint), ...groups(healthy.endpoint)]),
+    );
+    await vi.waitFor(() => expect(stalled.requests).toHaveLength(1));
+    expect(healthy.requests).toHaveLength(0);
+    expect((await exporting).code).toBe(ExportResultCode.FAILED);
+    expect(healthy.requests).toHaveLength(1);
+    await vi.waitFor(() => {
+      expect(stalled.connections.size).toBe(0);
+      expect(healthy.connections.size).toBe(0);
+    });
+  }, 15_000);
+
   it.each(["HTTP client", "agent"])("does not close a caller-owned %s", async (transport) => {
     const target = await ingestion();
     const agent = new https.Agent({ keepAlive: true, ca: certificate });
