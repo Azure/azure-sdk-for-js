@@ -54,7 +54,7 @@ describe("EnvironmentCredential (internal)", function () {
     const scope = "https://vault.azure.net/.default";
     const otherTenantId = "other-tenant";
     const certificatePath = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
-    const notAllowedMessage = `The current credential is not configured to acquire tokens for tenant ${otherTenantId}`;
+    const notAllowedMessage = `The current credential is not configured to acquire tokens for tenant ${otherTenantId}. To enable acquiring tokens for this tenant add it to the additionallyAllowedTenants on the credential options, or add "*" to additionallyAllowedTenants to allow acquiring tokens for any tenant.`;
 
     let acquireTokenSpy: MockInstance<
       typeof ConfidentialClientApplication.prototype.acquireTokenByClientCredential
