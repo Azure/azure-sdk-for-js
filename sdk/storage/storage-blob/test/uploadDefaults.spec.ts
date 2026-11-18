@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect } from "vitest";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpOperationResponse, IHttpClient, WebResource } from "../src/index.js";
 import { AnonymousCredential, BlockBlobClient } from "../src/index.js";

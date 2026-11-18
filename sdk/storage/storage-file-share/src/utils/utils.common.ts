@@ -27,8 +27,8 @@ import {
 } from "../models.js";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNodeLike } from "@azure/core-util";
-import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
-import { toCompatResponse } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/storage-common/compatibility";
+import { toCompatResponse } from "@azure/storage-common/compatibility";
 import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";

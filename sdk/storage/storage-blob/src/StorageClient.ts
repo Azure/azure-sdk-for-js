@@ -29,7 +29,7 @@ import type {
   ServiceOperations,
 } from "./generated/index.js";
 import { BlobClient } from "./generated/index.js";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 /**
  * An interface for options common to every remote operation.

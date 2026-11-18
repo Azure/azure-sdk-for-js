@@ -36,7 +36,7 @@ import {
   type HttpResponse,
 } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
-import { toCompatResponse } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/storage-common/compatibility";
 import { errorXmlDeserializer } from "./generated/models/models.js";
 
 /**

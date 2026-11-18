@@ -8,7 +8,7 @@
 
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import type { OperationOptions } from "@azure/core-client";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 /** Storage service properties. */
 export interface FileServiceProperties {

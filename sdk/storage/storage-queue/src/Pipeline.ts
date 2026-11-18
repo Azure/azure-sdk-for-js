@@ -5,7 +5,7 @@ import type {
   KeepAliveOptions,
   ExtendedServiceClientOptions,
   HttpPipelineLogLevel,
-} from "@azure/core-http-compat";
+} from "@azure/storage-common/compatibility";
 import {
   CompatResponse as HttpOperationResponse,
   RequestPolicy as IHttpClient,
@@ -16,7 +16,7 @@ import {
   WebResourceLike as WebResource,
   convertHttpClient,
   createRequestPolicyFactoryPolicy,
-} from "@azure/core-http-compat";
+} from "@azure/storage-common/compatibility";
 import type {
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,

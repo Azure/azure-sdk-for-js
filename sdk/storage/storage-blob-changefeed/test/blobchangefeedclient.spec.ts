@@ -17,7 +17,7 @@ import path from "node:path";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";

@@ -9,8 +9,8 @@ import {
   DevelopmentConnectionString,
   PathStylePorts,
 } from "./constants.js";
-import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
-import { toCompatResponse } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/storage-common/compatibility";
+import { toCompatResponse } from "@azure/storage-common/compatibility";
 import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**

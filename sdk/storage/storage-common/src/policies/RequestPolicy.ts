@@ -7,7 +7,7 @@ import type {
   RequestPolicyOptionsLike,
   WebResourceLike,
   CompatResponse as HttpOperationResponse,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 
 /**
  * The base class from which all request policies derive.

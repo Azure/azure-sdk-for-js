@@ -15,7 +15,7 @@ import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 /**
  * An interface for options common to every remote operation.
