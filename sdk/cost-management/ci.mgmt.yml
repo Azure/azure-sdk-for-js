@@ -13,6 +13,7 @@ trigger:
     include:
       - sdk/cost-management/arm-costmanagement
       - sdk/cost-management/ci.mgmt.yml
+      - sdk/cost-management/arm-costmanagementpriceestimation
 pr:
   branches:
     include:
@@ -26,6 +27,7 @@ pr:
     include:
       - sdk/cost-management/arm-costmanagement
       - sdk/cost-management/ci.mgmt.yml
+      - sdk/cost-management/arm-costmanagementpriceestimation
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -33,3 +35,5 @@ extends:
     Artifacts:
       - name: azure-arm-costmanagement
         safeName: azurearmcostmanagement
+      - name: azure-arm-costmanagementpriceestimation
+        safeName: azurearmcostmanagementpriceestimation
