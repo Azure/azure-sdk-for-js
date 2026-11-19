@@ -9,7 +9,7 @@
 ### Bugs Fixed
 
 - Fixed `DataLakeFileClient.read`, `readToBuffer` and `readToFile` failing with `AbortError` when the connection drops while the body is read. They now resume from where they stopped, up to `maxRetryRequests` times (`maxRetryRequestsPerChunk` in `readToBuffer`, 5 by default), and fail with a "Data corruption failure" error once those retries are used up; only the caller's `abortSignal` cancels them. Reads with CRC64 content validation don't resume yet. [#32268](https://github.com/Azure/azure-sdk-for-js/issues/32268)
-- Fixed an uncaught exception when a read with CRC64 content validation is aborted and its body stream is destroyed.
+- Fixed an uncaught exception when a read with CRC64 content validation is aborted and its body stream is destroyed. [#40863](https://github.com/Azure/azure-sdk-for-js/pull/40863)
 
 ### Other Changes
 
