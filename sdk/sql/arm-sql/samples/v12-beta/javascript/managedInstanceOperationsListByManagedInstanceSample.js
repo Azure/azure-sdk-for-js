@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of operations performed on the managed instance.
  *
  * @summary gets a list of operations performed on the managed instance.
- * x-ms-original-file: 2025-08-01-preview/ListManagedInstanceOperations.json
+ * x-ms-original-file: 2026-08-01-preview/ListManagedInstanceOperations.json
  */
 async function listTheManagedInstanceManagementOperations() {
   const credential = new DefaultAzureCredential();

@@ -24,10 +24,10 @@ The package exposes the following CLI commands (defined in `package.json` `bin`)
 
 #### AutoPR / Release Pipeline
 
-| Command                     | Parameters                                                                                            | Description                                                                                                  |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `code-gen-pipeline`         | `--inputJsonPath`, `--outputJsonPath`, `--use`, `--typespecEmitter`, `--sdkGenerationType`, `--local` | Main automation entry point; used by the AutoPR release pipeline to generate and package SDK code end-to-end |
-| `hlc-code-gen-for-pipeline` | _(same as above)_                                                                                     | Alias for `code-gen-pipeline` (legacy HLC-specific name)                                                     |
+| Command                     | Parameters                                                                       | Description                                                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `code-gen-pipeline`         | `--inputJsonPath`, `--outputJsonPath`, `--use`, `--sdkGenerationType`, `--local` | Main automation entry point; used by the AutoPR release pipeline to generate and package SDK code end-to-end |
+| `hlc-code-gen-for-pipeline` | _(same as above)_                                                                | Alias for `code-gen-pipeline` (legacy HLC-specific name)                                                     |
 
 HLC generation is disabled for non-local runs through both pipeline commands. An HLC configuration causes an error and exit code `1`, with guidance to migrate to TypeSpec-based modular client generation. For services that already have a TypeSpec project, configure the `@azure-tools/typespec-ts` emitter in `tspconfig.yaml` and use that project instead of the Swagger README configuration. See the [TypeSpec migration guidance](../../../../documentation/migrating-to-typespec.md).
 

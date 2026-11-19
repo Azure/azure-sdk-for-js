@@ -1,0 +1,82 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "searchService": {
+          "bicepIdentifier": "searchService",
+          "type": "Microsoft.Search/searchServices",
+          "apiVersion": "2025-05-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "search-service"
+              }
+            }
+          }
+        },
+        "privateEndpointConnection": {
+          "bicepIdentifier": "privateEndpointConnection",
+          "type": "Microsoft.Search/searchServices/privateEndpointConnections",
+          "apiVersion": "2025-05-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "private-endpoint-connection"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "searchService"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "groupId": {
+                    "kind": "string",
+                    "value": "string"
+                  },
+                  "privateEndpoint": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "string"
+                      }
+                    }
+                  },
+                  "privateLinkServiceConnectionState": {
+                    "kind": "object",
+                    "value": {
+                      "actionsRequired": {
+                        "kind": "string",
+                        "value": "string"
+                      },
+                      "description": {
+                        "kind": "string",
+                        "value": "string"
+                      },
+                      "status": {
+                        "kind": "string",
+                        "value": "Approved"
+                      }
+                    }
+                  },
+                  "provisioningState": {
+                    "kind": "string",
+                    "value": "Succeeded"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -4,8 +4,12 @@
 import path from "node:path";
 import ts from "typescript";
 import { canonicalize } from "./ast-merge.mjs";
-import { isUpstreamDataGenerationType } from "./data-generation-policy.mjs";
+import {
+  isUpstreamDataGenerationType,
+  matchesUpstreamDataGenerationType,
+} from "./data-generation-policy.mjs";
 import { parse } from "./modules.mjs";
+import { verifiedEmittedRenames } from "./models.mjs";
 import { forwardsRequestHeaders, previewHeader } from "./preview-headers.mjs";
 
 const protectedFiles = new Set([
@@ -531,7 +535,7 @@ function checkDeclaration(base, custom, incoming, output, indexes, renames, repo
     isUpstreamDataGenerationType(custom?.node, true) &&
     isUpstreamDataGenerationType(incoming?.node)
   ) {
-    if (!isUpstreamDataGenerationType(output?.node))
+    if (!matchesUpstreamDataGenerationType(output?.node, incoming?.node))
       report(target.file, target.name, "Data generation discriminator must adopt upstream values.");
   } else {
     preserveCustom(unions[0], unions[1], unions[3], target, "union alternative", report, renames);
@@ -780,7 +784,7 @@ function exportsOf(modules, file, report, seen = new Set()) {
   return result;
 }
 
-function checkExports(trees, renames, report) {
+function checkExports(trees, renames, report, verifiedEmittedRename = () => undefined) {
   const baseInventory = inventory(trees.base);
   const customInventory = inventory(trees.custom);
   const incomingInventory = inventory(trees.incoming);
@@ -811,6 +815,13 @@ function checkExports(trees, renames, report) {
         }
         continue;
       }
+      // An approved emitted model rename carries the maintained export to the new name.
+      const renamedDeclaration = verifiedEmittedRename(entry.imported);
+      if (
+        renamedDeclaration !== undefined &&
+        output.get(mapped(name, renames))?.imported === renamedDeclaration
+      )
+        continue;
       const counterpart =
         emittedBase.get(name) ??
         [...emittedBase.values()].find((item) => mapped(item.name, renames) === name);
@@ -1176,7 +1187,7 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
             });
           if (
             !generatedAddition &&
-            !preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames)
+            !preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames)
           )
             return false;
         }
@@ -1206,24 +1217,37 @@ function additiveProtected(before, after, baseGenerated, generated, renames) {
   return false;
 }
 
-// Evaluators were promoted from beta in azure-rest-api-specs#46830. The
+// Evaluators, Agent Insight Monitors, Skills, and voice agents were promoted from beta. The
 // customized client has two auth contexts, unlike the emitted single _client.
-// Admit only the new evaluator factory, using the same context as beta before
+// Admit only the promoted factory, using the same context as beta before
 // promotion; never substitute or rewrite the maintained constructor.
-function preservesPromotedEvaluatorContext(statement, before, baseGenerated, generated, renames) {
+function preservesPromotedBetaContext(statement, before, baseGenerated, generated, renames) {
+  const member =
+    ts.isExpressionStatement(statement) &&
+    ts.isBinaryExpression(statement.expression) &&
+    ts.isPropertyAccessExpression(statement.expression.left)
+      ? statement.expression.left.name.text
+      : undefined;
+  const factory = {
+    evaluators: "_getEvaluatorsOperations",
+    agentInsightMonitors: "_getAgentInsightMonitorsOperations",
+    skills: "_getSkillsOperations",
+    voiceAgents: "_getVoiceAgentsOperations",
+  }[member];
   if (
+    !factory ||
     !ts.isClassDeclaration(before) ||
     before.name?.text !== "AIProjectClient" ||
     !baseGenerated ||
     !generated ||
     !ts.isClassDeclaration(generated) ||
-    baseGenerated?.members?.some((member) => nameOf(member.name) === "evaluators")
+    baseGenerated?.members?.some((item) => nameOf(item.name) === member)
   )
     return false;
   const key = (node) => (node ? nodeKey(node, renames) : "");
   const initializers = (node) => classInitializers({ node });
   const previousBeta = unwrap(initializers(before).get("beta"));
-  const emitted = unwrap(initializers(generated).get("evaluators"));
+  const emitted = unwrap(initializers(generated).get(member));
   if (
     !previousBeta ||
     !ts.isCallExpression(previousBeta) ||
@@ -1231,12 +1255,15 @@ function preservesPromotedEvaluatorContext(statement, before, baseGenerated, gen
     !previousBeta.arguments.length ||
     !emitted ||
     !ts.isCallExpression(emitted) ||
-    emitted.expression.getText() !== "_getEvaluatorsOperations" ||
+    emitted.expression.getText() !== factory ||
     emitted.arguments.length !== 1
   )
     return false;
+  if (member === "voiceAgents" && previousBeta.arguments[4]?.getText() !== "this._tracingConfig")
+    return false;
+  const tracing = member === "voiceAgents" ? `, ${previousBeta.arguments[4].getText()}` : "";
   const expected = parse(
-    `this.evaluators = _getEvaluatorsOperations(${previousBeta.arguments[0].getText()});`,
+    `this.${member} = ${factory}(${previousBeta.arguments[0].getText()}${tracing});`,
   ).statements[0];
   return key(statement) === key(expected);
 }
@@ -1441,7 +1468,141 @@ function checkProtectedAdditions(trees, renames, report) {
   }
 }
 
-function checkProtected(trees, renames, report, matches = []) {
+function synchronizedPackageVersion(file, previous, next, packageVersion) {
+  if (
+    file !== "constants.ts" ||
+    previous.name !== "SDK_VERSION" ||
+    !packageVersion ||
+    !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageVersion) ||
+    !ts.isVariableDeclaration(previous.node) ||
+    !ts.isVariableDeclaration(next?.node) ||
+    !previous.node.initializer ||
+    !next.node.initializer ||
+    !ts.isStringLiteralLike(previous.node.initializer) ||
+    !ts.isStringLiteralLike(next.node.initializer) ||
+    next.node.initializer.text !== packageVersion
+  ) {
+    return false;
+  }
+  // Only the literal may change. Types, names, and all other protected
+  // declarations still have to pass their existing checks.
+  const withoutVersion = (node) => {
+    const text = node.getText();
+    const start = node.initializer.getStart() - node.getStart();
+    const end = node.initializer.end - node.getStart();
+    return canonicalize(text.slice(0, start) + '"<package-version>"' + text.slice(end));
+  };
+  return withoutVersion(previous.node) === withoutVersion(next.node);
+}
+
+// Campaign create/cancel declare a guarded final operation, which core-lro cannot
+// infer from the HTTP verb/headers. Permit only forwarding its existing optional
+// skipFinalGet switch; every other token of this protected helper stays unchanged.
+function forwardsCoreLroSkipFinalGet(file, previous, next) {
+  if (file !== "static-helpers/pollingHelpers.ts") return false;
+  const before = previous.node;
+  const after = next.node;
+  let addition;
+  if (
+    previous.name === "GetLongRunningPollerOptions" &&
+    ts.isInterfaceDeclaration(before) &&
+    ts.isInterfaceDeclaration(after)
+  ) {
+    addition = after.members.find((member) => nameOf(member.name) === "skipFinalGet");
+    const expected = parse("interface Options { skipFinalGet?: boolean; }").statements[0]
+      .members[0];
+    if (!addition || nodeKey(addition) !== nodeKey(expected)) return false;
+  } else if (
+    previous.name === "getLongRunningPoller" &&
+    ts.isFunctionDeclaration(before) &&
+    ts.isFunctionDeclaration(after)
+  ) {
+    const candidates = [];
+    walk(after, (node) => {
+      if (
+        ts.isCallExpression(node) &&
+        ts.isIdentifier(node.expression) &&
+        node.expression.text === "createHttpPoller" &&
+        node.arguments.length === 2 &&
+        ts.isObjectLiteralExpression(node.arguments[1])
+      ) {
+        candidates.push(
+          ...node.arguments[1].properties.filter(
+            (property) => nameOf(property.name) === "skipFinalGet",
+          ),
+        );
+      }
+    });
+    const expected = parse("const options = { skipFinalGet: options?.skipFinalGet };").statements[0]
+      .declarationList.declarations[0].initializer.properties[0];
+    if (candidates.length !== 1 || nodeKey(candidates[0]) !== nodeKey(expected)) return false;
+    addition = candidates[0];
+  } else {
+    return false;
+  }
+  const text = after.getText();
+  const start = addition.getStart() - after.getStart();
+  const end = addition.end - after.getStart();
+  const remainder = text.slice(end);
+  const withoutAddition =
+    text.slice(0, start) +
+    (ts.isPropertyAssignment(addition) ? remainder.replace(/^\s*,/, "") : remainder);
+  return canonicalize(before.getText()) === canonicalize(withoutAddition);
+}
+
+// azure-rest-api-specs#48068 fully reverts Skills to beta. Permit only removal
+// of the root member, its exact initialization, and its two dedicated imports.
+// Comparing the entire remaining module keeps auth, tracing and all other
+// maintained constructor behavior protected.
+function skillsPreviewClientReversion(file, previous, output, trees) {
+  if (
+    file !== "aiProjectClient.ts" ||
+    !trees.base.has("classic/skills/index.ts") ||
+    trees.incoming.has("classic/skills/index.ts") ||
+    !trees.incoming.has("classic/beta/skills/index.ts") ||
+    !trees.output.has("classic/beta/skills/index.ts")
+  )
+    return false;
+  for (const tree of [trees.incoming, trees.output]) {
+    const beta = tree.get("classic/beta/index.ts")?.byName.get("BetaOperations");
+    const skills = beta?.node.members?.find((member) => nameOf(member.name) === "skills");
+    if (!skills || skills.type?.getText() !== "BetaSkillsOperations") return false;
+  }
+  const client = previous.byName.get("AIProjectClient")?.node;
+  if (!client || !ts.isClassDeclaration(client)) return false;
+  const removals = [];
+  const member = client.members.find((item) => nameOf(item.name) === "skills");
+  if (!member || !ts.isPropertyDeclaration(member) || member.type?.getText() !== "SkillsOperations")
+    return false;
+  removals.push(member);
+  const constructor = client.members.find(ts.isConstructorDeclaration);
+  const expected = canonicalize("this.skills = _getSkillsOperations(this._cognitiveScopeClient);");
+  const initializer = constructor?.body?.statements.filter(
+    (item) => canonicalize(item.getText()) === expected,
+  );
+  if (initializer?.length !== 1) return false;
+  removals.push(initializer[0]);
+  const dedicatedImports = previous.source.statements.filter(
+    (item) =>
+      ts.isImportDeclaration(item) && item.moduleSpecifier.text === "./classic/skills/index.js",
+  );
+  const bindings = imports(previous).filter((item) => item.module === "./classic/skills/index.js");
+  if (
+    bindings.length !== 2 ||
+    !["_getSkillsOperations", "SkillsOperations"].every((name) =>
+      bindings.some((item) => item.local === name && item.imported === name),
+    )
+  )
+    return false;
+  removals.push(...dedicatedImports);
+  let retained = previous.source.text;
+  for (const node of removals.sort((a, b) => b.getStart() - a.getStart())) {
+    retained = retained.slice(0, node.getFullStart()) + retained.slice(node.end);
+  }
+  return canonicalize(retained) === canonicalize(output.source.text);
+}
+
+function checkProtected(trees, renames, report, matches = [], packageVersion) {
   checkProtectedAdditions(trees, renames, report);
   const relocations = relocationsInto(matches);
   for (const [file, previous] of trees.custom) {
@@ -1452,6 +1613,7 @@ function checkProtected(trees, renames, report, matches = []) {
       continue;
     }
     if (canonicalize(previous.source.text) === canonicalize(output.source.text)) continue;
+    if (skillsPreviewClientReversion(file, previous, output, trees)) continue;
     const relocation = relocations.get(file);
     for (const entry of previous.entries) {
       const next = output.byName.get(entry.name);
@@ -1461,7 +1623,9 @@ function checkProtected(trees, renames, report, matches = []) {
         !next ||
         !(
           additiveProtected(entry.node, next.node, base?.node, incoming?.node, renames) ||
-          relocatedAdditive(entry.node, next.node, relocation, renames)
+          relocatedAdditive(entry.node, next.node, relocation, renames) ||
+          synchronizedPackageVersion(file, entry, next, packageVersion) ||
+          forwardsCoreLroSkipFinalGet(file, entry, next)
         )
       ) {
         report(
@@ -1820,6 +1984,7 @@ export function validateCustomization({
   modelRenames = new Map(),
   retained,
   unapplied,
+  packageVersion,
 }) {
   const diagnostics = [];
   const reported = new Set();
@@ -1865,7 +2030,17 @@ export function validateCustomization({
       }
     }
   if (diagnostics.length) return diagnostics;
-  const renames = new Map([...packageRenames, ...modelRenames]);
+  const trees = {
+    base: parseTree(baseGenerated, "baseGenerated", report),
+    custom: parseTree(baseSource, "baseSource", report),
+    incoming: parseTree(generated, "generated", report),
+    output: parseTree(source, "source", report),
+  };
+  const baselineModels = inventory(trees.custom, modelFile);
+  const renames = new Map([
+    ...[...packageRenames].filter(([original]) => !baselineModels.has(original)),
+    ...modelRenames,
+  ]);
   for (const name of renames.keys()) {
     try {
       mapped(name, renames);
@@ -1874,20 +2049,21 @@ export function validateCustomization({
     }
   }
   if (diagnostics.length) return diagnostics;
-  const trees = {
-    base: parseTree(baseGenerated, "baseGenerated", report),
-    custom: parseTree(baseSource, "baseSource", report),
-    incoming: parseTree(generated, "generated", report),
-    output: parseTree(source, "source", report),
-  };
-  const baselineModels = inventory(trees.custom, modelFile);
   const previousDiagnosticCount = diagnostics.length;
+  let emittedRenames;
+  const verifiedEmittedRename = (original) => {
+    if (!modelRenames.has(original)) return undefined;
+    emittedRenames ??= verifiedEmittedRenames({ baseGenerated, baseSource, generated });
+    const replacement = emittedRenames.get(original);
+    return replacement === modelRenames.get(original) ? replacement : undefined;
+  };
   for (const [original, replacement] of modelRenames) {
     if (original === replacement || baselineModels.has(replacement)) continue;
     const existing = baselineModels
       .get(original)
       ?.find((entry) => ts.isFunctionDeclaration(entry.node));
     if (existing) {
+      if (verifiedEmittedRename(original) === replacement) continue;
       report(
         existing.file,
         original,
@@ -1904,9 +2080,9 @@ export function validateCustomization({
     if (match.base?.options && match.customized?.options)
       exportRenames.set(match.base.options, match.customized.options);
   }
-  checkExports(trees, exportRenames, report);
+  checkExports(trees, exportRenames, report, verifiedEmittedRename);
   checkOperations(trees, matches, renames, report);
-  checkProtected(trees, renames, report, matches);
+  checkProtected(trees, renames, report, matches, packageVersion);
   checkKnownPolicies(trees, modelIndexes, renames, report);
   return diagnostics;
 }

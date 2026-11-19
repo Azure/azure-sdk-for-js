@@ -175,7 +175,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getIndexers(updatedOptions),
+            this.client.listIndexers(updatedOptions),
             utils.generatedSearchIndexerToPublicSearchIndexer,
           ),
         );
@@ -195,7 +195,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getIndexers({
+            this.client.listIndexers({
               ...updatedOptions,
               select: "name",
             }),
@@ -219,7 +219,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getDataSourceConnections(updatedOptions),
+            this.client.listDataSourceConnections(updatedOptions),
             utils.generatedDataSourceToPublicDataSource,
           ),
         );
@@ -241,7 +241,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getDataSourceConnections({
+            this.client.listDataSourceConnections({
               ...updatedOptions,
               select: "name",
             }),
@@ -265,7 +265,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSkillsets(updatedOptions),
+            this.client.listSkillsets(updatedOptions),
             utils.generatedSkillsetToPublicSkillset,
           ),
         );
@@ -285,7 +285,7 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         return utils.collectPagedAsyncIterable(
           utils.mapPagedAsyncIterable(
-            this.client.getSkillsets({
+            this.client.listSkillsets({
               ...updatedOptions,
               select: "name",
             }),
@@ -438,8 +438,8 @@ export class SearchIndexerClient {
         const { onlyIfUnchanged, ...restOptions } = updatedOptions;
         const etag = onlyIfUnchanged ? indexer.etag : undefined;
         const result = await this.client.createOrUpdateIndexer(
-          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
           indexer.name,
+          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
           {
             ...restOptions,
             ifMatch: etag,
@@ -465,8 +465,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
         const result = await this.client.createOrUpdateDataSourceConnection(
-          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
           dataSourceConnection.name,
+          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -492,8 +492,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
         const result = await this.client.createOrUpdateSkillset(
-          utils.publicSkillsetToGeneratedSkillset(skillset),
           skillset.name,
+          utils.publicSkillsetToGeneratedSkillset(skillset),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -657,7 +657,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-resetSkills",
       options,
       async (updatedOptions) => {
-        await this.client.resetSkills({ skillNames }, skillsetName, updatedOptions);
+        await this.client.resetSkills(skillsetName, { skillNames }, updatedOptions);
       },
     );
   }
@@ -703,7 +703,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-resyncIndexer",
       restOptions,
       async (updatedOptions) => {
-        await this.client.resync({ options: resyncOptions }, indexerName, updatedOptions);
+        await this.client.resync(indexerName, { options: resyncOptions }, updatedOptions);
       },
     );
   }

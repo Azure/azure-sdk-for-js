@@ -1,5 +1,118 @@
 # Release History
 
+## 12.0.0-beta.2 (2026-10-09)
+Compared with version 11.0.0
+
+### Features Added
+  - Added Interface DataSyncParticipantIdentity
+  - Added Interface DataSyncParticipantUserAssignedIdentity
+  - Added Interface EndpointTrustedRootCertificateInfo
+  - Interface BackupShortTermRetentionPolicy has a new optional parameter immutabilityStatus
+  - Interface BackupShortTermRetentionPolicy has a new optional parameter lockImmutability
+  - Interface BackupShortTermRetentionPolicyProperties has a new optional parameter immutabilityStatus
+  - Interface BackupShortTermRetentionPolicyProperties has a new optional parameter lockImmutability
+  - Interface Database has a new optional parameter provisioningState
+  - Interface DatabaseBlobAuditingPolicy has a new optional parameter requiredFields
+  - Interface DatabaseBlobAuditingPolicyProperties has a new optional parameter requiredFields
+  - Interface DatabaseProperties has a new optional parameter provisioningState
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter filter
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter orderby
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter skip
+  - Interface DatabasesListByServerOptionalParams has a new optional parameter top
+  - Interface DatabaseUpdate has a new optional parameter provisioningState
+  - Interface DatabaseUpdateProperties has a new optional parameter provisioningState
+  - Interface DataMaskingRulesListByDatabaseOptionalParams has a new optional parameter skip
+  - Interface DeletedServer has a new optional parameter originalResourceGroup
+  - Interface DeletedServer has a new optional parameter scheduledPurgeTime
+  - Interface DeletedServerProperties has a new optional parameter originalResourceGroup
+  - Interface DeletedServerProperties has a new optional parameter scheduledPurgeTime
+  - Interface DistributedAvailabilityGroup has a new optional parameter linkMode
+  - Interface DistributedAvailabilityGroup has a new optional parameter mostRecentError
+  - Interface DistributedAvailabilityGroup has a new optional parameter mostRecentErrorMessage
+  - Interface DistributedAvailabilityGroup has a new optional parameter mostRecentErrorTime
+  - Interface DistributedAvailabilityGroupProperties has a new optional parameter linkMode
+  - Interface DistributedAvailabilityGroupProperties has a new optional parameter mostRecentError
+  - Interface DistributedAvailabilityGroupProperties has a new optional parameter mostRecentErrorMessage
+  - Interface DistributedAvailabilityGroupProperties has a new optional parameter mostRecentErrorTime
+  - Interface ElasticPool has a new optional parameter currentSku
+  - Interface ElasticPoolProperties has a new optional parameter currentSku
+  - Interface ElasticPoolUpdate has a new optional parameter currentSku
+  - Interface ElasticPoolUpdateProperties has a new optional parameter currentSku
+  - Interface EndpointCertificate has a new optional parameter trustedRootCertificates
+  - Interface EndpointCertificateProperties has a new optional parameter trustedRootCertificates
+  - Interface ExtendedDatabaseBlobAuditingPolicy has a new optional parameter requiredFields
+  - Interface ExtendedDatabaseBlobAuditingPolicyProperties has a new optional parameter requiredFields
+  - Interface ExtendedServerBlobAuditingPolicy has a new optional parameter requiredFields
+  - Interface ExtendedServerBlobAuditingPolicyProperties has a new optional parameter requiredFields
+  - Interface LongTermRetentionBackupsListByLocationOptionalParams has a new optional parameter skiptoken
+  - Interface LongTermRetentionBackupsListByLocationOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionBackupsListByResourceGroupLocationOptionalParams has a new optional parameter skiptoken
+  - Interface LongTermRetentionBackupsListByResourceGroupLocationOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams has a new optional parameter skiptoken
+  - Interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams has a new optional parameter top
+  - Interface LongTermRetentionBackupsListByServerOptionalParams has a new optional parameter skiptoken
+  - Interface LongTermRetentionBackupsListByServerOptionalParams has a new optional parameter top
+  - Interface ManagedBackupShortTermRetentionPolicy has a new optional parameter immutabilityStatus
+  - Interface ManagedBackupShortTermRetentionPolicy has a new optional parameter lockImmutability
+  - Interface ManagedBackupShortTermRetentionPolicyProperties has a new optional parameter immutabilityStatus
+  - Interface ManagedBackupShortTermRetentionPolicyProperties has a new optional parameter lockImmutability
+  - Interface ManagedInstanceAdministrator has a new optional parameter principalType
+  - Interface ManagedInstanceAdministratorProperties has a new optional parameter principalType
+  - Interface ManagedInstanceDtc has a new optional parameter fqdnEnabled
+  - Interface ManagedInstanceDtcProperties has a new optional parameter fqdnEnabled
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter legalHoldImmutability
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter timeBasedImmutability
+  - Interface ManagedInstanceLongTermRetentionBackup has a new optional parameter timeBasedImmutabilityMode
+  - Interface ManagedInstanceLongTermRetentionBackupProperties has a new optional parameter isBackupImmutable
+  - Interface ManagedInstanceLongTermRetentionBackupProperties has a new optional parameter legalHoldImmutability
+  - Interface ManagedInstanceLongTermRetentionBackupProperties has a new optional parameter timeBasedImmutability
+  - Interface ManagedInstanceLongTermRetentionBackupProperties has a new optional parameter timeBasedImmutabilityMode
+  - Interface ManagedInstanceLongTermRetentionPolicy has a new optional parameter timeBasedImmutability
+  - Interface ManagedInstanceLongTermRetentionPolicy has a new optional parameter timeBasedImmutabilityMode
+  - Interface ManagedInstanceLongTermRetentionPolicyProperties has a new optional parameter timeBasedImmutability
+  - Interface ManagedInstanceLongTermRetentionPolicyProperties has a new optional parameter timeBasedImmutabilityMode
+  - Interface RestorableDroppedDatabasesListByServerOptionalParams has a new optional parameter skiptoken
+  - Interface RestorableDroppedDatabasesListByServerOptionalParams has a new optional parameter top
+  - Interface ServerBlobAuditingPolicy has a new optional parameter requiredFields
+  - Interface ServerBlobAuditingPolicyProperties has a new optional parameter requiredFields
+  - Interface ServerUsage has a new optional parameter nextResetTime
+  - Interface ServerUsage has a new optional parameter resourceName
+  - Interface ServerUsageProperties has a new optional parameter nextResetTime
+  - Interface ServerUsageProperties has a new optional parameter resourceName
+  - Interface SyncGroup has a new optional parameter identity
+  - Interface SyncMember has a new optional parameter identity
+  - Added Type Alias DataSyncParticipantIdentityType
+  - Added Type Alias ImmutabilityStatus
+  - Added Type Alias LinkModeType
+  - Added Type Alias ManagedInstanceAdministratorPrincipalType
+  - Added Enum KnownDataMaskingFunction
+  - Added Enum KnownDataMaskingRuleState
+  - Added Enum KnownDataSyncParticipantIdentityType
+  - Added Enum KnownImmutabilityStatus
+  - Added Enum KnownLinkModeType
+  - Added Enum KnownManagedInstanceAdministratorPrincipalType
+  - Enum KnownPrivateEndpointProvisioningState has a new value Canceled
+  - Enum KnownPrivateEndpointProvisioningState has a new value Created
+  - Enum KnownPrivateEndpointProvisioningState has a new value InProgress
+  - Enum KnownPrivateEndpointProvisioningState has a new value Succeeded
+  - Enum KnownServerNetworkAccessFlag has a new value SecuredByPerimeter
+  - Enum KnownVersions has a new value V20250201Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20260801Preview
+
+### Breaking Changes
+  - Operation DataMaskingRulesOperations.createOrUpdate has a new signature
+  - Operation DataMaskingRulesOperations.listByDatabase has a new signature
+  - Operation FirewallRulesOperations.replace has a new signature
+  - Interface DatabasesListByServerOptionalParams no longer has parameter skipToken
+  - Type alias "DataMaskingFunction" has been changed
+  - Type alias "DataMaskingRuleState" has been changed
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Approving
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Dropping
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Ready
+  - Enum KnownPrivateEndpointProvisioningState no longer has value Rejecting
+
 ## 12.0.0-beta.1 (2026-08-05)
 Compared with version 11.0.0
 

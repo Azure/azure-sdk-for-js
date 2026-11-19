@@ -2464,8 +2464,8 @@ export function cacheRulePropertiesDeserializer(item: any): CacheRuleProperties 
 
 /** Authentication configuration used by a cache rule to access an upstream registry. */
 export interface AdditionalAuthenticationProperties {
-  /** Authentication type discriminator. */
-  /** The discriminator possible values: GoogleArtifactRegistry */
+  /** Authentication type discriminator. The authentication type cannot change once configured. */
+  /** The discriminator possible values: GoogleArtifactRegistry, AwsElasticContainerRegistry, EntraFederatedIdentityCredential */
   authenticationType: AdditionalAuthenticationType;
 }
 
@@ -2485,7 +2485,10 @@ export function additionalAuthenticationPropertiesDeserializer(
 
 /** Alias for AdditionalAuthenticationPropertiesUnion */
 export type AdditionalAuthenticationPropertiesUnion =
-  GarAuthenticationProperties | AdditionalAuthenticationProperties;
+  | GarAuthenticationProperties
+  | EcrAuthenticationProperties
+  | EntraFederatedIdentityCredentialAuthenticationProperties
+  | AdditionalAuthenticationProperties;
 
 export function additionalAuthenticationPropertiesUnionSerializer(
   item: AdditionalAuthenticationPropertiesUnion,
@@ -2493,6 +2496,14 @@ export function additionalAuthenticationPropertiesUnionSerializer(
   switch (item.authenticationType) {
     case "GoogleArtifactRegistry":
       return garAuthenticationPropertiesSerializer(item as GarAuthenticationProperties);
+
+    case "AwsElasticContainerRegistry":
+      return ecrAuthenticationPropertiesSerializer(item as EcrAuthenticationProperties);
+
+    case "EntraFederatedIdentityCredential":
+      return entraFederatedIdentityCredentialAuthenticationPropertiesSerializer(
+        item as EntraFederatedIdentityCredentialAuthenticationProperties,
+      );
 
     default:
       return additionalAuthenticationPropertiesSerializer(item);
@@ -2506,6 +2517,14 @@ export function additionalAuthenticationPropertiesUnionDeserializer(
     case "GoogleArtifactRegistry":
       return garAuthenticationPropertiesDeserializer(item as GarAuthenticationProperties);
 
+    case "AwsElasticContainerRegistry":
+      return ecrAuthenticationPropertiesDeserializer(item as EcrAuthenticationProperties);
+
+    case "EntraFederatedIdentityCredential":
+      return entraFederatedIdentityCredentialAuthenticationPropertiesDeserializer(
+        item as EntraFederatedIdentityCredentialAuthenticationProperties,
+      );
+
     default:
       return additionalAuthenticationPropertiesDeserializer(item);
   }
@@ -2515,6 +2534,13 @@ export function additionalAuthenticationPropertiesUnionDeserializer(
 export enum KnownAdditionalAuthenticationType {
   /** Google Artifact Registry (GAR) authentication via workload identity federation. */
   GoogleArtifactRegistry = "GoogleArtifactRegistry",
+  /** Amazon Elastic Container Registry (ECR) authentication via workload identity federation. */
+  AwsElasticContainerRegistry = "AwsElasticContainerRegistry",
+  /**
+   * Microsoft Entra authentication via a federated identity credential on an application
+   * in another tenant.
+   */
+  EntraFederatedIdentityCredential = "EntraFederatedIdentityCredential",
 }
 
 /**
@@ -2522,7 +2548,10 @@ export enum KnownAdditionalAuthenticationType {
  * {@link KnownAdditionalAuthenticationType} can be used interchangeably with AdditionalAuthenticationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **GoogleArtifactRegistry**: Google Artifact Registry (GAR) authentication via workload identity federation.
+ * **GoogleArtifactRegistry**: Google Artifact Registry (GAR) authentication via workload identity federation. \
+ * **AwsElasticContainerRegistry**: Amazon Elastic Container Registry (ECR) authentication via workload identity federation. \
+ * **EntraFederatedIdentityCredential**: Microsoft Entra authentication via a federated identity credential on an application
+ * in another tenant.
  */
 export type AdditionalAuthenticationType = string;
 
@@ -2558,14 +2587,112 @@ export function garAuthenticationPropertiesDeserializer(item: any): GarAuthentic
   };
 }
 
+/** Amazon Elastic Container Registry (ECR) authentication configuration. */
+export interface EcrAuthenticationProperties extends AdditionalAuthenticationProperties {
+  authenticationType: "AwsElasticContainerRegistry";
+  /**
+   * The AWS account that owns the IAM role used for authentication.
+   * The IAM role is assumed via AWS Security Token Service (STS) when exchanging a
+   * federated Entra access token for an ECR access token. The full IAM role ARN is
+   * derived from `accountNumber`, `rolePath`, and `roleName` as
+   * `arn:aws:iam::{accountNumber}:role{rolePath}{roleName}` (the initial path defaults to `/`).
+   */
+  accountNumber: string;
+  /**
+   * The AWS region of the upstream Elastic Container Registry (e.g. `us-west-2`).
+   * Only commercial AWS regions are supported; the GovCloud (`us-gov-*`), China
+   * (`cn-*`), and Secret/Top Secret ISO (`us-iso*`) partitions are rejected. The
+   * pattern stays forward-compatible for new commercial regions without requiring a
+   * contract change.
+   */
+  region: string;
+  /**
+   * The name of the AWS IAM role assumed for authentication.
+   * This is the role name only, not the full ARN; the IAM path is supplied separately
+   * via `rolePath`, so '/' is not permitted here.
+   */
+  roleName: string;
+  /**
+   * Optional IAM path of the role (for example `/team/` or `/division/team/`). The value
+   * must be supplied in canonical form with a leading and trailing '/'; it is validated
+   * as-is and is never normalized. A non-root path must contain at least one character
+   * between the surrounding slashes. When authentication is first configured, an omitted
+   * path defaults to the root (`/`). When updating an existing authentication configuration,
+   * an omitted path retains its current value.
+   */
+  rolePath?: string;
+}
+
+export function ecrAuthenticationPropertiesSerializer(item: EcrAuthenticationProperties): any {
+  return {
+    authenticationType: item["authenticationType"],
+    accountNumber: item["accountNumber"],
+    region: item["region"],
+    roleName: item["roleName"],
+    rolePath: item["rolePath"],
+  };
+}
+
+export function ecrAuthenticationPropertiesDeserializer(item: any): EcrAuthenticationProperties {
+  return {
+    authenticationType: item["authenticationType"],
+    accountNumber: item["accountNumber"],
+    region: item["region"],
+    roleName: item["roleName"],
+    rolePath: item["rolePath"],
+  };
+}
+
+/** Microsoft Entra federated identity credential authentication configuration. */
+export interface EntraFederatedIdentityCredentialAuthenticationProperties extends AdditionalAuthenticationProperties {
+  authenticationType: "EntraFederatedIdentityCredential";
+  /**
+   * The upstream tenant that issues the token for `federatedApplicationClientId` and contains
+   * the application's enterprise application (service principal).
+   */
+  sourceTenantId: string;
+  /**
+   * The client ID of the multi-tenant application. Its application registration and
+   * federated identity credential must be in the cache rule managed identity's home tenant.
+   * The credential's subject is the managed identity's principal/object ID, not its client ID.
+   * Its enterprise application (service principal) must exist in `sourceTenantId`.
+   */
+  federatedApplicationClientId: string;
+}
+
+export function entraFederatedIdentityCredentialAuthenticationPropertiesSerializer(
+  item: EntraFederatedIdentityCredentialAuthenticationProperties,
+): any {
+  return {
+    authenticationType: item["authenticationType"],
+    sourceTenantId: item["sourceTenantId"],
+    federatedApplicationClientId: item["federatedApplicationClientId"],
+  };
+}
+
+export function entraFederatedIdentityCredentialAuthenticationPropertiesDeserializer(
+  item: any,
+): EntraFederatedIdentityCredentialAuthenticationProperties {
+  return {
+    authenticationType: item["authenticationType"],
+    sourceTenantId: item["sourceTenantId"],
+    federatedApplicationClientId: item["federatedApplicationClientId"],
+  };
+}
+
 /** The parameters for updating a cache rule. */
 export interface CacheRuleUpdateParameters {
   /** The identity of the cache rule. */
   identity?: IdentityProperties;
   /** The ARM resource ID of the credential store which is associated with the Cache rule. */
   credentialSetResourceId?: string;
-  /** Authentication configuration used by the cache rule to access the upstream source repository. */
-  additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
+  /**
+   * Authentication configuration used by the cache rule to access the upstream source repository.
+   * Omitted fields retain their current values. When authentication is first configured, all
+   * required fields of the selected authentication type must be supplied. Changing an existing
+   * authentication type is not supported.
+   */
+  additionalAuthenticationProperties?: AdditionalAuthenticationUpdatePropertiesUnion;
 }
 
 export function cacheRuleUpdateParametersSerializer(item: CacheRuleUpdateParameters): any {
@@ -2584,8 +2711,13 @@ export function cacheRuleUpdateParametersSerializer(item: CacheRuleUpdateParamet
 export interface CacheRuleUpdateProperties {
   /** The ARM resource ID of the credential store which is associated with the Cache rule. */
   credentialSetResourceId?: string;
-  /** Authentication configuration used by the cache rule to access the upstream source repository. */
-  additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
+  /**
+   * Authentication configuration used by the cache rule to access the upstream source repository.
+   * Omitted fields retain their current values. When authentication is first configured, all
+   * required fields of the selected authentication type must be supplied. Changing an existing
+   * authentication type is not supported.
+   */
+  additionalAuthenticationProperties?: AdditionalAuthenticationUpdatePropertiesUnion;
 }
 
 export function cacheRuleUpdatePropertiesSerializer(item: CacheRuleUpdateProperties): any {
@@ -2593,9 +2725,167 @@ export function cacheRuleUpdatePropertiesSerializer(item: CacheRuleUpdatePropert
     credentialSetResourceId: item["credentialSetResourceId"],
     additionalAuthenticationProperties: !item["additionalAuthenticationProperties"]
       ? item["additionalAuthenticationProperties"]
-      : additionalAuthenticationPropertiesUnionSerializer(
+      : additionalAuthenticationUpdatePropertiesUnionSerializer(
           item["additionalAuthenticationProperties"],
         ),
+  };
+}
+
+/**
+ * Partial authentication configuration for a cache rule. Omitted fields retain their current
+ * values. When authentication is first configured, all required fields of the selected
+ * authentication type must be supplied. Changing an existing authentication type is not supported.
+ */
+export interface AdditionalAuthenticationUpdateProperties {
+  /**
+   * The existing authentication type, or the type to configure when no authentication exists.
+   * This discriminator is required, but changing an existing authentication type is not supported.
+   */
+  /** The discriminator possible values: GoogleArtifactRegistry, AwsElasticContainerRegistry, EntraFederatedIdentityCredential */
+  authenticationType: AdditionalAuthenticationType;
+}
+
+export function additionalAuthenticationUpdatePropertiesSerializer(
+  item: AdditionalAuthenticationUpdateProperties,
+): any {
+  return { authenticationType: item["authenticationType"] };
+}
+
+/** Alias for AdditionalAuthenticationUpdatePropertiesUnion */
+export type AdditionalAuthenticationUpdatePropertiesUnion =
+  | GarAuthenticationUpdateProperties
+  | EcrAuthenticationUpdateProperties
+  | EntraFederatedIdentityCredentialAuthenticationUpdateProperties
+  | AdditionalAuthenticationUpdateProperties;
+
+export function additionalAuthenticationUpdatePropertiesUnionSerializer(
+  item: AdditionalAuthenticationUpdatePropertiesUnion,
+): any {
+  switch (item.authenticationType) {
+    case "GoogleArtifactRegistry":
+      return garAuthenticationUpdatePropertiesSerializer(item as GarAuthenticationUpdateProperties);
+
+    case "AwsElasticContainerRegistry":
+      return ecrAuthenticationUpdatePropertiesSerializer(item as EcrAuthenticationUpdateProperties);
+
+    case "EntraFederatedIdentityCredential":
+      return entraFederatedIdentityCredentialAuthenticationUpdatePropertiesSerializer(
+        item as EntraFederatedIdentityCredentialAuthenticationUpdateProperties,
+      );
+
+    default:
+      return additionalAuthenticationUpdatePropertiesSerializer(item);
+  }
+}
+
+/**
+ * Partial Google Artifact Registry (GAR) authentication configuration.
+ * When authentication is first configured, projectNumber, workloadIdentityPool, and
+ * workloadIdentityProvider must be supplied.
+ */
+export interface GarAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+  authenticationType: "GoogleArtifactRegistry";
+  /**
+   * The Google Cloud Platform project that is configured for authentication
+   * Permissions should be granted to principal://iam.googleapis.com/projects/{ProjectNumber}/locations/global/workloadIdentityPools/{WorkloadIdentityPool}/providers/{WorkloadIdentityProvider}/subject/{ManagedIdentityPrincipal}
+   */
+  projectNumber?: string;
+  /** The Google Cloud platform workload identity pool used for authentication. */
+  workloadIdentityPool?: string;
+  /** The Google Cloud Platform workload identity provider used for authentication. */
+  workloadIdentityProvider?: string;
+}
+
+export function garAuthenticationUpdatePropertiesSerializer(
+  item: GarAuthenticationUpdateProperties,
+): any {
+  return {
+    authenticationType: item["authenticationType"],
+    projectNumber: item["projectNumber"],
+    workloadIdentityPool: item["workloadIdentityPool"],
+    workloadIdentityProvider: item["workloadIdentityProvider"],
+  };
+}
+
+/**
+ * Partial Amazon Elastic Container Registry (ECR) authentication configuration.
+ * When authentication is first configured, accountNumber, region, and roleName must be supplied.
+ */
+export interface EcrAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+  authenticationType: "AwsElasticContainerRegistry";
+  /**
+   * The AWS account that owns the IAM role used for authentication.
+   * The IAM role is assumed via AWS Security Token Service (STS) when exchanging a
+   * federated Entra access token for an ECR access token. The full IAM role ARN is
+   * derived from `accountNumber`, `rolePath`, and `roleName` as
+   * `arn:aws:iam::{accountNumber}:role{rolePath}{roleName}` (the initial path defaults to `/`).
+   */
+  accountNumber?: string;
+  /**
+   * The AWS region of the upstream Elastic Container Registry (e.g. `us-west-2`).
+   * Only commercial AWS regions are supported; the GovCloud (`us-gov-*`), China
+   * (`cn-*`), and Secret/Top Secret ISO (`us-iso*`) partitions are rejected. The
+   * pattern stays forward-compatible for new commercial regions without requiring a
+   * contract change.
+   */
+  region?: string;
+  /**
+   * The name of the AWS IAM role assumed for authentication.
+   * This is the role name only, not the full ARN; the IAM path is supplied separately
+   * via `rolePath`, so '/' is not permitted here.
+   */
+  roleName?: string;
+  /**
+   * Optional IAM path of the role (for example `/team/` or `/division/team/`). The value
+   * must be supplied in canonical form with a leading and trailing '/'; it is validated
+   * as-is and is never normalized. A non-root path must contain at least one character
+   * between the surrounding slashes. When authentication is first configured, an omitted
+   * path defaults to the root (`/`). When updating an existing authentication configuration,
+   * an omitted path retains its current value.
+   */
+  rolePath?: string;
+}
+
+export function ecrAuthenticationUpdatePropertiesSerializer(
+  item: EcrAuthenticationUpdateProperties,
+): any {
+  return {
+    authenticationType: item["authenticationType"],
+    accountNumber: item["accountNumber"],
+    region: item["region"],
+    roleName: item["roleName"],
+    rolePath: item["rolePath"],
+  };
+}
+
+/**
+ * Partial Microsoft Entra federated identity credential authentication configuration.
+ * When authentication is first configured, sourceTenantId and federatedApplicationClientId
+ * must be supplied.
+ */
+export interface EntraFederatedIdentityCredentialAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+  authenticationType: "EntraFederatedIdentityCredential";
+  /**
+   * The upstream tenant that issues the token for `federatedApplicationClientId` and contains
+   * the application's enterprise application (service principal).
+   */
+  sourceTenantId?: string;
+  /**
+   * The client ID of the multi-tenant application. Its application registration and
+   * federated identity credential must be in the cache rule managed identity's home tenant.
+   * The credential's subject is the managed identity's principal/object ID, not its client ID.
+   * Its enterprise application (service principal) must exist in `sourceTenantId`.
+   */
+  federatedApplicationClientId?: string;
+}
+
+export function entraFederatedIdentityCredentialAuthenticationUpdatePropertiesSerializer(
+  item: EntraFederatedIdentityCredentialAuthenticationUpdateProperties,
+): any {
+  return {
+    authenticationType: item["authenticationType"],
+    sourceTenantId: item["sourceTenantId"],
+    federatedApplicationClientId: item["federatedApplicationClientId"],
   };
 }
 
@@ -5395,7 +5685,7 @@ export enum KnownVersions {
   /** The 2025-11-01 API version. */
   V20251101 = "2025-11-01",
   /** The latest preview API version. */
-  VLatestPreview = "2026-09-01-preview",
+  VLatestPreview = "2026-10-15-preview",
 }
 
 export function _operationDefinitionPropertiesDeserializer(item: any) {
@@ -5589,7 +5879,7 @@ export function _cacheRuleUpdateParametersPropertiesSerializer(
     credentialSetResourceId: item["credentialSetResourceId"],
     additionalAuthenticationProperties: !item["additionalAuthenticationProperties"]
       ? item["additionalAuthenticationProperties"]
-      : additionalAuthenticationPropertiesUnionSerializer(
+      : additionalAuthenticationUpdatePropertiesUnionSerializer(
           item["additionalAuthenticationProperties"],
         ),
   };

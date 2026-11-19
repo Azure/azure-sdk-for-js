@@ -37,7 +37,7 @@ export function _generateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -97,7 +97,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +144,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -163,7 +163,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       upgradeInsightName: upgradeInsightName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

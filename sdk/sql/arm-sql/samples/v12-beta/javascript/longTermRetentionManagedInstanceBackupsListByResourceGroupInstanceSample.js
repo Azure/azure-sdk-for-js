@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the long term retention backups for a given managed instance.
  *
  * @summary lists the long term retention backups for a given managed instance.
- * x-ms-original-file: 2025-08-01-preview/ResourceGroupBasedManagedInstanceLongTermRetentionBackupListByInstance.json
+ * x-ms-original-file: 2026-08-01-preview/ResourceGroupBasedManagedInstanceLongTermRetentionBackupListByInstance.json
  */
 async function getAllLongTermRetentionBackupsUnderTheManagedInstance() {
   const credential = new DefaultAzureCredential();

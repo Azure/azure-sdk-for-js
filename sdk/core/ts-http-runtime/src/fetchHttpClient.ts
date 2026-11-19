@@ -14,6 +14,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 import { isObject } from "./util/object.js";
+import { isError } from "./util/error.js";
 import { setResponseBodyCompletion } from "./util/responseBody.js";
 import { logger } from "./log.js";
 
@@ -43,6 +44,19 @@ class FetchHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    let headers: Headers;
+    try {
+      headers =
+        request.requestOverrides && "headers" in request.requestOverrides
+          ? new Headers(request.requestOverrides.headers as HeadersInit)
+          : buildFetchHeaders(request.headers);
+    } catch (error: unknown) {
+      throw getError(isError(error) ? error : new Error(String(error)), request);
+    }
+    if (headers.has("expect")) {
+      throw new Error("The Expect header is not supported by the Fetch HttpClient.");
+    }
+
     const url = new URL(request.url);
     const isInsecure = url.protocol !== "https:";
 
@@ -55,7 +69,7 @@ class FetchHttpClient implements HttpClient {
     }
 
     try {
-      return await makeRequest(request);
+      return await makeRequest(request, headers);
     } catch (e: any) {
       throw getError(e, request);
     }
@@ -65,10 +79,9 @@ class FetchHttpClient implements HttpClient {
 /**
  * Sends a request
  */
-async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
+async function makeRequest(request: PipelineRequest, headers: Headers): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
   try {
-    const headers = buildFetchHeaders(request.headers);
     const { streaming, body: requestBody } = buildRequestBody(request);
     const requestInit: RequestInit = {
       body: requestBody,
@@ -99,6 +112,8 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     const response = await fetch(request.url, {
       ...requestInit,
       ...request.requestOverrides,
+      // Reuse the validated collection; the original header override may be a one-shot iterator.
+      headers,
     });
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {

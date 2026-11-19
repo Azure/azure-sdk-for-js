@@ -1,5 +1,22 @@
 # Release History
 
+## 4.1.0-beta.1 (2026-11-11)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group PrivateDnsResourceReferenceOperations
+  - Added Interface PrivateDnsResourceReference
+  - Added Interface PrivateDnsResourceReferenceGetByTargetResourcesOptionalParams
+  - Added Interface PrivateDnsResourceReferenceRequest
+  - Added Interface PrivateDnsResourceReferenceRequestProperties
+  - Added Interface PrivateDnsResourceReferenceResult
+  - Added Interface PrivateDnsResourceReferenceResultProperties
+  - Interface RecordSet has a new optional parameter provisioningState
+  - Interface RecordSet has a new optional parameter trafficManagementProfile
+  - Interface RecordSetProperties has a new optional parameter provisioningState
+  - Interface RecordSetProperties has a new optional parameter trafficManagementProfile
+  - Enum KnownVersions has a new value V20260601Preview
+
 ## 4.0.0 (2026-07-16)
 
 ### Features Added

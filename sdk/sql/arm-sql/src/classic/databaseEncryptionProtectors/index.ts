@@ -63,6 +63,7 @@ export interface DatabaseEncryptionProtectorsOperations {
     options?: DatabaseEncryptionProtectorsRevalidateOptionalParams,
   ) => Promise<void>;
 }
+
 function _getDatabaseEncryptionProtectors(context: SqlManagementContext) {
   return {
     revert: (
@@ -165,6 +166,7 @@ function _getDatabaseEncryptionProtectors(context: SqlManagementContext) {
     },
   };
 }
+
 export function _getDatabaseEncryptionProtectorsOperations(
   context: SqlManagementContext,
 ): DatabaseEncryptionProtectorsOperations {

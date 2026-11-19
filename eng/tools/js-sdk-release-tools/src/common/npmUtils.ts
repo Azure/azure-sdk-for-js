@@ -155,57 +155,79 @@ export function checkGitTagExists(tag: string): boolean {
 export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmViewParameters) {
   const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } =
     NpmViewParameters;
+  let sdkFilePath = "";
   const targetFilePath =
     file === "CHANGELOG.md" ? path.join(npmPackagePath, file) : getApiReviewPath(npmPackagePath);
   const tag = `${packageName}_${version}`;
   const tagRef = `refs/tags/${tag}`;
+  const upstreamRepository = "https://github.com/Azure/azure-sdk-for-js.git";
   const runGit = (args: string[]) =>
     spawnSync("git", ["-C", sdkRootPath, "--no-pager", ...args], {
       encoding: "utf8",
       maxBuffer: 20 * 1024 * 1024,
     });
-  logger.info(`Start to read ${file} for ${packageName} from release tag ${tag}.`);
+  const defaultContent = "```ts\n```";
+  logger.info(`Start to get and clone ${npmPackagePath} from latest ${packageName} release tag.`);
 
   try {
-    const tagResult = runGit(["rev-parse", "--verify", "--quiet", `${tagRef}^{commit}`]);
-    if (tagResult.status !== 0) {
-      logger.info(`Release tag ${tag} is unavailable locally; fetching it from origin.`);
-      const fetchResult = runGit(["fetch", "--no-tags", "origin", `${tagRef}:${tagRef}`]);
+    const readReleaseFiles = (filePaths: string[]): string[] => {
+      const readFiles = (ref: string) =>
+        filePaths.map((filePath) => {
+          const result = runGit(["show", `${ref}:${filePath}`]);
+          return result.status === 0 ? result.stdout : "";
+        });
+      const localContents = readFiles(tagRef);
+      if (localContents.some((content) => content.trim())) {
+        return localContents;
+      }
+      const fetchResult = runGit(["fetch", "--no-tags", upstreamRepository, tagRef]);
       if (fetchResult.status !== 0) {
-        throw new Error(
-          `Failed to fetch release tag ${tag} from origin in ${sdkRootPath}: ${fetchResult.error?.message ?? fetchResult.stderr}`,
+        logger.warn(
+          `Failed to fetch release tag ${tag} from ${upstreamRepository}: ${fetchResult.error?.message ?? fetchResult.stderr}`,
+        );
+        return localContents;
+      }
+      return readFiles("FETCH_HEAD");
+    };
+    if (file === "CHANGELOG.md") {
+      sdkFilePath = relative(sdkRootPath, path.join(packageFolderPath, file)).replace(/\\/g, "/");
+      // For CHANGELOG.md, use sdkFilePath directly
+      const [changelogContent] = readReleaseFiles([sdkFilePath]);
+      if (!changelogContent.trim()) {
+        logger.warn(
+          `Warning: CHANGELOG.md content is empty for tag ${tag} at path ${sdkFilePath}.`,
         );
       }
-    }
-
-    const sdkFilePath = relative(
-      sdkRootPath,
-      file === "CHANGELOG.md"
-        ? path.join(packageFolderPath, file)
-        : getApiReviewBasePath(packageFolderPath),
-    ).replace(/\\/g, "/");
-    const candidatePaths =
-      file === "CHANGELOG.md"
-        ? [sdkFilePath]
-        : [`${sdkFilePath}-node.api.md`, `${sdkFilePath}.api.md`];
-    const failures: string[] = [];
-    for (const candidatePath of candidatePaths) {
-      const result = runGit(["show", `${tagRef}:${candidatePath}`]);
-      if (result.status === 0 && result.stdout.trim()) {
-        fs.writeFileSync(targetFilePath, result.stdout, { encoding: "utf-8" });
-        logger.info(`Created ${targetFilePath} from release tag ${tag} successfully.`);
-        return;
-      }
-      failures.push(
-        `${candidatePath}: ${result.error?.message ?? (result.stderr?.trim() || "File content is empty")}`,
+      fs.writeFileSync(targetFilePath, changelogContent, { encoding: "utf-8" });
+    } else {
+      sdkFilePath = relative(sdkRootPath, getApiReviewBasePath(packageFolderPath)).replace(
+        /\\/g,
+        "/",
       );
+      // For API review files, generate two file paths with different suffixes
+      const nodeApiFilePath = `${sdkFilePath}-node.api.md`;
+      const standardApiFilePath = `${sdkFilePath}.api.md`;
+
+      const [nodeApiExecResult, standardApiExecResult] = readReleaseFiles([
+        nodeApiFilePath,
+        standardApiFilePath,
+      ]);
+
+      // Use nodeApi result if it has content, otherwise use standardApi result
+      let apiViewContent = nodeApiExecResult.trim() ? nodeApiExecResult : standardApiExecResult;
+      if (!apiViewContent.trim()) {
+        logger.warn(
+          `Warning: No API view content found for either ${nodeApiFilePath} or ${standardApiFilePath}. Using default content.`,
+        );
+        apiViewContent = defaultContent;
+      }
+      fs.writeFileSync(targetFilePath, apiViewContent, { encoding: "utf-8" });
     }
-    throw new Error(
-      `Failed to read ${file} for ${packageName} from release tag ${tag} in ${sdkRootPath}:\n${failures.join("\n")}`,
-    );
+    logger.info(`Create ${packageFolderPath} from the tag ${tag} successfully`);
   } catch (error) {
-    logger.error(`Failed to restore ${targetFilePath} from release tag ${tag}: ${error}`);
-    throw error;
+    logger.error(
+      `Failed to read ${packageFolderPath} in ${sdkFilePath} from the tag ${tag}.\n Error details: ${error}`,
+    );
   }
 }
 

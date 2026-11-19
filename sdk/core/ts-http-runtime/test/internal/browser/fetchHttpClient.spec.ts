@@ -72,6 +72,171 @@ describe("FetchHttpClient", function () {
     }
   });
 
+  it("rejects the Expect header before calling fetch", async function () {
+    const client = createFetchHttpClient();
+    const request = createPipelineRequest({
+      url: "https://localhost/upload",
+      headers: createHttpHeaders({ Expect: "100-continue" }),
+    });
+
+    await expect(client.sendRequest(request)).rejects.toThrow(
+      "The Expect header is not supported by the Fetch HttpClient.",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { format: "object", createHeaders: () => ({ eXpEcT: "100-continue" }) },
+    { format: "Headers", createHeaders: () => new Headers({ Expect: "100-continue" }) },
+    { format: "Map", createHeaders: () => new Map([["Expect", "100-continue"]]) },
+    { format: "pair array", createHeaders: () => [["Expect", "100-continue"]] },
+    {
+      format: "generator",
+      createHeaders: function* (): Generator<[string, string]> {
+        yield ["Expect", "100-continue"];
+      },
+    },
+  ])("rejects Expect supplied through $format header overrides", async ({ createHeaders }) => {
+    const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+    const request = createPipelineRequest({
+      url: "https://localhost/upload",
+      body: bodyFactory,
+      requestOverrides: { headers: createHeaders() },
+    });
+
+    await expect(createFetchHttpClient().sendRequest(request)).rejects.toThrow(
+      "The Expect header is not supported by the Fetch HttpClient.",
+    );
+    expect(fetch).not.toHaveBeenCalled();
+    expect(bodyFactory).not.toHaveBeenCalled();
+  });
+
+  it("uses replacement Map headers instead of discarded pipeline headers", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    const overrideHeaders = new Map([["X-Test", "override"]]);
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue", "X-Pipeline": "discarded" }),
+      requestOverrides: { headers: overrideHeaders },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([["x-test", "override"]]);
+    expect(request.requestOverrides?.headers).toBe(overrideHeaders);
+  });
+
+  it("normalizes one-shot header iterators once and reuses them for sending", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    let iterations = 0;
+    function* headerPairs(): Generator<[string, string]> {
+      iterations++;
+      yield ["X-Test", "first"];
+      yield ["x-test", "second"];
+      yield ["X-Other", "value"];
+    }
+    const overrideHeaders = headerPairs();
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue", "X-Pipeline": "discarded" }),
+      requestOverrides: { headers: overrideHeaders },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([
+      ["x-other", "value"],
+      ["x-test", "first, second"],
+    ]);
+    expect(iterations).toBe(1);
+    expect(overrideHeaders.next().done).toBe(true);
+    expect(request.requestOverrides?.headers).toBe(overrideHeaders);
+  });
+
+  it("honors explicitly undefined header overrides", async () => {
+    vi.mocked(fetch).mockResolvedValue(createResponse(200));
+    const request = createPipelineRequest({
+      url: "https://localhost/headers",
+      headers: createHttpHeaders({ Expect: "100-continue" }),
+      requestOverrides: { headers: undefined },
+    });
+
+    await createFetchHttpClient().sendRequest(request);
+
+    const headers = vi.mocked(fetch).mock.calls[0][1]?.headers;
+    expect(headers).toBeInstanceOf(Headers);
+    expect(Array.from(new Headers(headers))).toEqual([]);
+  });
+
+  it.each([
+    { format: "null", headers: null },
+    { format: "invalid name", headers: { "invalid name": "value" } },
+    { format: "invalid value", headers: { "x-test": "line\r\nvalue" } },
+    { format: "invalid pair", headers: [["name-without-value"]] },
+    {
+      format: "throwing iterator",
+      headers: (function* (): Generator<[string, string]> {
+        yield ["x-test", "value"];
+        throw new Error("header iteration failed");
+      })(),
+    },
+  ])(
+    "normalizes $format header override errors before creating a body or calling fetch",
+    async ({ headers }) => {
+      const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+      const request = createPipelineRequest({
+        url: "https://localhost/headers",
+        body: bodyFactory,
+        requestOverrides: { headers },
+      });
+
+      const promise = createFetchHttpClient().sendRequest(request);
+      await expect(promise).rejects.toBeInstanceOf(RestError);
+      await expect(promise).rejects.toMatchObject({
+        code: RestError.REQUEST_SEND_ERROR,
+        message: expect.stringContaining("Error sending request: "),
+        request,
+      });
+      expect(fetch).not.toHaveBeenCalled();
+      expect(bodyFactory).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([false, true])(
+    "normalizes invalid pipeline headers before checking Expect (hasExpect=%s)",
+    async (hasExpect) => {
+      const bodyFactory = vi.fn(() => new ReadableStream<Uint8Array>());
+      const controller = new AbortController();
+      const addEventListener = vi.spyOn(controller.signal, "addEventListener");
+      const headers = createHttpHeaders({ "invalid name": "value" });
+      if (hasExpect) {
+        headers.set("Expect", "100-continue");
+      }
+      const request = createPipelineRequest({
+        url: "https://localhost/headers",
+        headers,
+        body: bodyFactory,
+        abortSignal: controller.signal,
+      });
+
+      const promise = createFetchHttpClient().sendRequest(request);
+
+      await expect(promise).rejects.toBeInstanceOf(RestError);
+      await expect(promise).rejects.toMatchObject({
+        code: RestError.REQUEST_SEND_ERROR,
+        message: expect.stringContaining("Error sending request: "),
+        request,
+      });
+      expect(fetch).not.toHaveBeenCalled();
+      expect(bodyFactory).not.toHaveBeenCalled();
+      expect(addEventListener).not.toHaveBeenCalled();
+    },
+  );
+
   it("shouldn't throw on 404", async function () {
     const mockedResponse = createResponse(404);
     vi.mocked(fetch).mockResolvedValue(mockedResponse);

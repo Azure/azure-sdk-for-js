@@ -33,7 +33,6 @@ import type {
 import type {
   AgentPool,
   AgentPoolDeleteMachinesParameter,
-  ListBootstrapDataRequest,
   PoolBootstrapData,
   AgentPoolUpdate,
   AgentPoolAvailableVersions,
@@ -88,7 +87,6 @@ export interface AgentPoolsOperations {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    body: ListBootstrapDataRequest,
     options?: AgentPoolsListBootstrapDataOptionalParams,
   ) => Promise<PoolBootstrapData>;
   /** Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade */
@@ -296,9 +294,8 @@ function _getAgentPools(context: ContainerServiceContext) {
       resourceGroupName: string,
       resourceName: string,
       agentPoolName: string,
-      body: ListBootstrapDataRequest,
       options?: AgentPoolsListBootstrapDataOptionalParams,
-    ) => listBootstrapData(context, resourceGroupName, resourceName, agentPoolName, body, options),
+    ) => listBootstrapData(context, resourceGroupName, resourceName, agentPoolName, options),
     upgradeNodeImageVersion: (
       resourceGroupName: string,
       resourceName: string,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to performs requested failover type in this distributed availability group.
  *
  * @summary performs requested failover type in this distributed availability group.
- * x-ms-original-file: 2025-08-01-preview/DistributedAvailabilityGroupsFailover.json
+ * x-ms-original-file: 2026-08-01-preview/DistributedAvailabilityGroupsFailover.json
  */
 async function failoverADistributedAvailabilityGroup() {
   const credential = new DefaultAzureCredential();

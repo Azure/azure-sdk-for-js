@@ -3,8 +3,8 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
+import type { TracerProviderOptions } from "@opentelemetry/sdk-trace";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
 import type { Attributes, SpanOptions } from "@opentelemetry/api";
 import {
   SpanKind,
@@ -82,7 +82,7 @@ import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js
 
 const context = getInstance();
 
-const tracerProviderConfig: TracerConfig = {
+const tracerProviderConfig: TracerProviderOptions = {
   resource: resourceFromAttributes({
     [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
     [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
@@ -90,7 +90,7 @@ const tracerProviderConfig: TracerConfig = {
   }),
 };
 
-const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
+const tracer = new TracerProvider(tracerProviderConfig).getTracer("default");
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
@@ -153,7 +153,7 @@ const emptyMeasurements: Measurements = {};
 describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
     it("does not attach applicationId to span envelopes", () => {
-      const tracerWithAppId = new BasicTracerProvider({
+      const tracerWithAppId = new TracerProvider({
         resource: resourceFromAttributes({
           [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
           [SEMRESATTRS_SERVICE_NAME]: "svc",

@@ -1,0 +1,10 @@
+{
+  "location": "eastus",
+  "sku": {
+    "name": "CapacityReservation",
+    "capacity": 100
+  },
+  "tags": {
+    "tag1": "val1"
+  }
+}

@@ -5,7 +5,12 @@ import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@az
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  isRestError,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
@@ -256,7 +261,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       abortSignal: this.generateAbortSignal(noCorrelationId),
     });
 
-    const response = await this.sendRequest(request);
+    const response = await this.sendRequestWithResponse(request);
 
     this.logIdentifiers(response);
 
@@ -281,7 +286,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });
 
-    const response = await this.sendRequest(request);
+    const response = await this.sendRequestWithResponse(request);
 
     this.logIdentifiers(response);
 
@@ -338,6 +343,21 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
         e.message,
       );
+    }
+  }
+
+  /**
+   * Preserve HTTP responses when pipeline deserialization fails so MSAL receives
+   * the status and the error body from parseResponseBody instead of a network error.
+   */
+  private async sendRequestWithResponse(request: PipelineRequest): Promise<PipelineResponse> {
+    try {
+      return await this.sendRequest(request);
+    } catch (error) {
+      if (isRestError(error) && error.code === RestError.PARSE_ERROR && error.response) {
+        return error.response;
+      }
+      throw error;
     }
   }
 

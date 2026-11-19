@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or replaces one RAI binding.
  *
  * @summary creates or replaces one RAI binding.
- * x-ms-original-file: 2026-09-15-preview/PutRaiBinding.json
+ * x-ms-original-file: 2026-11-15-preview/PutRaiBinding.json
  */
 async function bindAnAzureOpenAIDeploymentToAnACSPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function bindAnAzureOpenAIDeploymentToAnACSPolicy(): Promise<void> {
  * This sample demonstrates how to creates or replaces one RAI binding.
  *
  * @summary creates or replaces one RAI binding.
- * x-ms-original-file: 2026-09-15-preview/UpdateRaiBinding.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateRaiBinding.json
  */
 async function updateARAIBindingTargetConditionallyAcrossSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

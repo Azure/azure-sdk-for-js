@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
+import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace";
 import { context, trace, TraceFlags, SpanKind } from "@opentelemetry/api";
 import { describe, it, assert } from "vitest";
 import { AzureMonitorSampleRate } from "../../src/utils/constants/applicationinsights.js";

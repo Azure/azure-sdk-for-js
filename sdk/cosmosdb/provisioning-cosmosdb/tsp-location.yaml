@@ -1,0 +1,6 @@
+directory: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB
+commit: 4f58555f7ad06eede1bc41d3235c3732982fdfc3
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
+
+emitterPackageJsonPath: eng/provisioning-emitter-package.json

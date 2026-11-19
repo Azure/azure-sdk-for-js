@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a managed instance.
  *
  * @summary updates a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceRemoveMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceRemoveMaintenanceConfiguration.json
  */
 async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenanc
  * This sample demonstrates how to updates a managed instance.
  *
  * @summary updates a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceUpdateMax.json
  */
 async function updateManagedInstanceWithAllProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function updateManagedInstanceWithAllProperties(): Promise<void> {
  * This sample demonstrates how to updates a managed instance.
  *
  * @summary updates a managed instance.
- * x-ms-original-file: 2025-08-01-preview/ManagedInstanceUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedInstanceUpdateMin.json
  */
 async function updateManagedInstanceWithMinimalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,29 @@
 # Release History
 
+## 4.15.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed `ManagedIdentityCredential` reporting "Network unreachable" when an endpoint returns invalid JSON with a JSON content type. The authentication error now includes the HTTP status code. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
+
+### Other Changes
+
 ## 4.15.0-beta.2 (2026-11-03)
 
+
+### Bugs Fixed
+
+- Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#40547](https://github.com/Azure/azure-sdk-for-js/pull/40547)
+
+### Other Changes
+
+- Updated `@azure/msal-node` to `^7.1.0`. Interactive browser authentication now requires `form_post` callbacks, as described in the [MSAL Node v7 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/v7-migration.md). [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
+
+## 4.14.1 (2026-10-29)
 
 ### Bugs Fixed
 
@@ -16,16 +38,6 @@
 ### Features Added
 
 - Added `GitHubActionsCredential` for authenticating to Microsoft Entra ID using GitHub Actions OIDC federated identity credentials. This credential reads `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `ACTIONS_ID_TOKEN_REQUEST_URL`, and `ACTIONS_ID_TOKEN_REQUEST_TOKEN` from the environment and exchanges the GitHub OIDC token for an Azure access token. Sovereign cloud audience is derived automatically from `authorityHost`. [#38581](https://github.com/Azure/azure-sdk-for-js/pull/38581)
-
-## 4.14.1 (2026-10-29)
-
-### Bugs Fixed
-
-- Restored the fix from 4.13.3 that forwards constructor options from `DefaultAzureCredential` to `ManagedIdentityCredential` when selected through `AZURE_TOKEN_CREDENTIALS`, including `managedIdentityClientId` and `managedIdentityResourceId`. [#40547](https://github.com/Azure/azure-sdk-for-js/pull/40547)
-
-### Other Changes
-
-- Updated `@azure/msal-node` to `^7.1.0`. Interactive browser authentication now requires `form_post` callbacks, as described in the [MSAL Node v7 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-node/docs/v7-migration.md). [#40532](https://github.com/Azure/azure-sdk-for-js/pull/40532)
 
 ## 4.14.0 (2026-10-14)
 

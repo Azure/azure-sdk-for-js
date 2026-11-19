@@ -943,6 +943,44 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Long Interval Statsbeat Metrics", () => {
+      it.each([0, 16384, 32768, 49152])(
+        "exports experimental bitmap %s supplied by the distro without changing other bits",
+        async (experimentalBits) => {
+          vi.stubEnv("WEBSITE_SITE_NAME", "statsbeat-test");
+          vi.stubEnv("LONG_INTERVAL_EXPORT_MILLIS", "86400000");
+          vi.stubEnv(
+            "AZURE_MONITOR_STATSBEAT_FEATURES",
+            JSON.stringify({ feature: 16383 | experimentalBits, instrumentation: 10 }),
+          );
+          const statsbeat = new LongIntervalStatsbeatMetrics(options);
+
+          try {
+            await vi.waitFor(() => expect(statsbeat["initialExportTimer"]).toBeDefined());
+            const { resourceMetrics } = await statsbeat["longIntervalMetricReader"].collect();
+            const featureMetric = resourceMetrics.scopeMetrics
+              .flatMap((scopeMetric) => scopeMetric.metrics)
+              .find((entry) => entry.descriptor.name === StatsbeatCounter.FEATURE);
+
+            expect(featureMetric?.dataPoints).toEqual([
+              expect.objectContaining({
+                value: 1,
+                attributes: expect.objectContaining({ feature: 10, type: 1 }),
+              }),
+              expect.objectContaining({
+                value: 1,
+                attributes: expect.objectContaining({
+                  feature: 16383 | experimentalBits,
+                  type: 0,
+                }),
+              }),
+            ]);
+          } finally {
+            await statsbeat.shutdown();
+            vi.unstubAllEnvs();
+          }
+        },
+      );
+
       it("unrefs and cancels the delayed initial export during shutdown", async () => {
         const originalWebsiteSiteName = process.env.WEBSITE_SITE_NAME;
         process.env.WEBSITE_SITE_NAME = "statsbeat-test";

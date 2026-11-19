@@ -521,9 +521,9 @@ export interface InvokeResponseMessage extends WebPubSubMessageBase {
    */
   dataType?: WebPubSubDataType;
   /**
-   * Payload data.
+   * Payload data. A JSON response can contain null.
    */
-  data?: JSONTypes | ArrayBuffer;
+  data?: JSONTypes | ArrayBuffer | null;
   /**
    * Error details if the invocation failed.
    */

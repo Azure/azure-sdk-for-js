@@ -118,6 +118,50 @@ export interface AccountConnectionsUpdateOptionalParams extends OperationOptions
 }
 
 // @public
+export interface AccountCostControl extends ProxyResource {
+    readonly etag?: string;
+    properties?: CostControlProperties;
+}
+
+// @public
+export interface AccountCostControlsCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccountCostControlsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AccountCostControlsDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export interface AccountCostControlsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccountCostControlsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AccountCostControlsOperations {
+    checkExistence: (resourceGroupName: string, accountName: string, costControlName: string, options?: AccountCostControlsCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, costControlName: string, resource: AccountCostControl, options?: AccountCostControlsCreateOrUpdateOptionalParams) => Promise<AccountCostControl>;
+    delete: (resourceGroupName: string, accountName: string, costControlName: string, options?: AccountCostControlsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, costControlName: string, options?: AccountCostControlsGetOptionalParams) => Promise<AccountCostControl>;
+    list: (resourceGroupName: string, accountName: string, options?: AccountCostControlsListOptionalParams) => PagedAsyncIterableIterator<AccountCostControl>;
+    update: (resourceGroupName: string, accountName: string, costControlName: string, properties: CostControlPatch, options?: AccountCostControlsUpdateOptionalParams) => Promise<AccountCostControl>;
+}
+
+// @public
+export interface AccountCostControlsUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
 export interface AccountKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
     authType: "AccountKey";
     credentials?: ConnectionAccountKey;
@@ -154,7 +198,6 @@ export interface AccountProperties {
     capabilitySettings?: CapabilitySettings;
     readonly commitmentPlanAssociations?: CommitmentPlanAssociation[];
     costControlConnections?: CostControlConnections;
-    costControlIds?: string[];
     customSubDomainName?: string;
     readonly dateCreated?: string;
     defaultProject?: string;
@@ -186,6 +229,7 @@ export interface AccountProperties {
     readonly scheduledPurgeDate?: string;
     readonly skuChangeInfo?: SkuChangeInfo;
     storedCompletionsDisabled?: boolean;
+    trustedCertificateSources?: TrustedCertificateSource[];
     userOwnedStorage?: UserOwnedStorage[];
 }
 
@@ -600,6 +644,12 @@ export interface ArcDeploymentCpuMemoryResourceRequirements {
 }
 
 // @public
+export interface ArcDeploymentCreateOrUpdateContent {
+    properties: CreateOrUpdateArcDeploymentProperties;
+    sku: ArcDeploymentSku;
+}
+
+// @public
 export interface ArcDeploymentKubernetesResources {
     limits?: ArcDeploymentResourceRequirements;
     requests?: ArcDeploymentCpuMemoryResourceRequirements;
@@ -607,8 +657,10 @@ export interface ArcDeploymentKubernetesResources {
 
 // @public
 export interface ArcDeploymentModel {
-    format: string;
-    name: string;
+    assetId: string;
+    readonly format: string;
+    readonly name: string;
+    readonly version: string;
 }
 
 // @public
@@ -626,7 +678,7 @@ export interface ArcDeploymentPatchKubernetesResources {
 // @public
 export interface ArcDeploymentProperties {
     readonly capabilities?: Record<string, string>;
-    compute: ArcDeploymentComputeType;
+    readonly compute: ArcDeploymentComputeType;
     deploymentState?: DeploymentState;
     deploymentTemplate?: string;
     extensionId: string;
@@ -638,7 +690,7 @@ export interface ArcDeploymentProperties {
     raiPolicyName?: string;
     replicas: number;
     resources: ArcDeploymentKubernetesResources;
-    runtime: ArcDeploymentRuntime;
+    readonly runtime: ArcDeploymentRuntime;
     readonly vllmParameters?: ArcDeploymentVllmParameters;
 }
 
@@ -665,6 +717,7 @@ export interface ArcDeploymentsCreateOrUpdateOptionalParams extends OperationOpt
 
 // @public
 export interface ArcDeploymentsDeleteOptionalParams extends OperationOptions {
+    force?: boolean;
     updateIntervalInMs?: number;
 }
 
@@ -687,9 +740,9 @@ export interface ArcDeploymentsListOptionalParams extends OperationOptions {
 // @public
 export interface ArcDeploymentsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeployment, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ArcDeployment>, ArcDeployment>>;
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeploymentCreateOrUpdateContent, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ArcDeployment>, ArcDeployment>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeployment, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => Promise<ArcDeployment>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeploymentCreateOrUpdateContent, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => Promise<ArcDeployment>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, accountName: string, deploymentName: string, options?: ArcDeploymentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -698,7 +751,7 @@ export interface ArcDeploymentsOperations {
     beginUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, properties: ArcDeploymentUpdate, options?: ArcDeploymentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ArcDeployment>, ArcDeployment>>;
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, accountName: string, deploymentName: string, properties: ArcDeploymentUpdate, options?: ArcDeploymentsUpdateOptionalParams) => Promise<ArcDeployment>;
-    createOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeployment, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ArcDeployment>, ArcDeployment>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, deploymentName: string, resource: ArcDeploymentCreateOrUpdateContent, options?: ArcDeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ArcDeployment>, ArcDeployment>;
     delete: (resourceGroupName: string, accountName: string, deploymentName: string, options?: ArcDeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, deploymentName: string, options?: ArcDeploymentsGetOptionalParams) => Promise<ArcDeployment>;
     list: (resourceGroupName: string, accountName: string, options?: ArcDeploymentsListOptionalParams) => PagedAsyncIterableIterator<ArcDeployment>;
@@ -739,6 +792,230 @@ export interface AssignedIdentity {
     subject?: string;
     tenantId: string;
     type: IdentityManagementType;
+}
+
+// @public
+export interface AttachedAksCluster extends ProxyResource {
+    properties: AttachedAksClusterProperties;
+}
+
+// @public
+export interface AttachedAksClusterAccountIdentityStatus {
+    principalId?: string;
+    resourceId?: string;
+    revision?: number;
+    tenantId?: string;
+}
+
+// @public
+export interface AttachedAksClusterAiManagerStatus {
+    attachmentIncarnation?: string;
+    clusterResourceId?: string;
+    consumerState?: string;
+    deletePolicy?: string;
+    dependencyEpoch?: number;
+    dependentDeploymentCount?: number;
+    effectiveAccountIdentity?: AttachedAksClusterAccountIdentityStatus;
+    message?: string;
+    ownerAccountId?: string;
+    provisioningState?: string;
+    referenceAdmission?: string;
+    resourceId?: string;
+    roleAssignments?: AttachedAksClusterRoleAssignmentStatus;
+}
+
+// @public
+export type AttachedAksClusterCapability = string;
+
+// @public
+export interface AttachedAksClusterCapabilityStatus {
+    message?: string;
+    name?: string;
+    ready?: boolean;
+}
+
+// @public
+export interface AttachedAksClusterConnectorRegistration {
+    attachmentName?: string;
+    connectorClientId?: string;
+    connectorIdentityResourceId?: string;
+    connectorTenantId?: string;
+    endpoint?: string;
+    projectId?: string;
+    projectLocation?: string;
+    registrationId?: string;
+    tokenAudience?: string;
+}
+
+// @public
+export interface AttachedAksClusterExtensionConfiguration {
+    rayVersion?: string;
+}
+
+// @public
+export type AttachedAksClusterExtensionInstallationMode = string;
+
+// @public
+export interface AttachedAksClusterExtensionProfile {
+    configuration?: AttachedAksClusterExtensionConfiguration;
+    installationMode?: AttachedAksClusterExtensionInstallationMode;
+    releaseTrain?: string;
+    useExistingKubeRayOperator?: boolean;
+    version?: string;
+}
+
+// @public
+export interface AttachedAksClusterHealthComponent {
+    lastObservedAtUtc?: Date;
+    message?: string;
+    name?: string;
+    state?: AttachedAksClusterHealthState;
+}
+
+// @public
+export interface AttachedAksClusterHealthReason {
+    code?: string;
+    component?: string;
+    message?: string;
+    recommendedAction?: string;
+}
+
+// @public
+export type AttachedAksClusterHealthState = string;
+
+// @public
+export interface AttachedAksClusterHealthStatus {
+    components?: AttachedAksClusterHealthComponent[];
+    lastObservedAtUtc?: Date;
+    newWorkAdmissionAllowed?: boolean;
+    reasons?: AttachedAksClusterHealthReason[];
+    state?: AttachedAksClusterHealthState;
+    summary?: string;
+}
+
+// @public
+export interface AttachedAksClusterIdentityStatus {
+    clientId?: string;
+    federatedIdentityCredentialResourceId?: string;
+    kubernetesServiceAccountName?: string;
+    principalId?: string;
+    resourceId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface AttachedAksClusterIntegrationResourceStatus {
+    message?: string;
+    provisioningState?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface AttachedAksClusterListItem {
+    readonly id?: string;
+    readonly name?: string;
+    readonly properties?: AttachedAksClusterListProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface AttachedAksClusterListProperties {
+    capabilities?: AttachedAksClusterCapability[];
+    clusterResourceId?: string;
+    createdTime?: Date;
+    health?: AttachedAksClusterHealthStatus;
+    modifiedTime?: Date;
+    projectLocation?: string;
+    stage?: AttachedAksClusterProvisioningStage;
+}
+
+// @public
+export interface AttachedAksClusterProjectBinding {
+    allowedCapabilities?: AttachedAksClusterCapability[];
+    foundryNativeReady?: boolean;
+    kubeRayReady?: boolean;
+    message?: string;
+    namespace?: string;
+    projectId?: string;
+    projectName?: string;
+    serviceAccountName?: string;
+    stage?: AttachedAksClusterProjectBindingStage;
+    workloadIdentityClientId?: string;
+}
+
+// @public
+export type AttachedAksClusterProjectBindingStage = string;
+
+// @public
+export interface AttachedAksClusterProperties {
+    capabilities: AttachedAksClusterCapability[];
+    clusterResourceId: string;
+    extensionProfile?: AttachedAksClusterExtensionProfile;
+    readonly projectBindings?: AttachedAksClusterProjectBinding[];
+    readonly status?: AttachedAksClusterStatus;
+}
+
+// @public
+export type AttachedAksClusterProvisioningStage = string;
+
+// @public
+export interface AttachedAksClusterReadinessStatus {
+    blockers?: string[];
+    capabilities?: AttachedAksClusterCapabilityStatus[];
+    connectorReady?: boolean;
+}
+
+// @public
+export interface AttachedAksClusterRoleAssignmentStatus {
+    contributorId?: string;
+    inferenceOperatorId?: string;
+    status?: string;
+}
+
+// @public
+export interface AttachedAksClustersCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AttachedAksClustersDeleteOptionalParams extends OperationOptions {
+    clusterDisposition?: "Keep";
+}
+
+// @public
+export interface AttachedAksClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AttachedAksClustersListOptionalParams extends OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface AttachedAksClustersOperations {
+    createOrUpdate: (resourceGroupName: string, accountName: string, attachedAksClusterName: string, resource: AttachedAksCluster, options?: AttachedAksClustersCreateOrUpdateOptionalParams) => Promise<AttachedAksCluster>;
+    delete: (resourceGroupName: string, accountName: string, attachedAksClusterName: string, options?: AttachedAksClustersDeleteOptionalParams) => Promise<AttachedAksCluster | void>;
+    get: (resourceGroupName: string, accountName: string, attachedAksClusterName: string, options?: AttachedAksClustersGetOptionalParams) => Promise<AttachedAksCluster>;
+    list: (resourceGroupName: string, accountName: string, options?: AttachedAksClustersListOptionalParams) => PagedAsyncIterableIterator<AttachedAksClusterListItem>;
+}
+
+// @public
+export interface AttachedAksClusterStatus {
+    aiManager?: AttachedAksClusterAiManagerStatus;
+    clusterResourceId?: string;
+    connectorObservedAtUtc?: Date;
+    connectorRegistration?: AttachedAksClusterConnectorRegistration;
+    extension?: AttachedAksClusterIntegrationResourceStatus;
+    health?: AttachedAksClusterHealthStatus;
+    identity?: AttachedAksClusterIdentityStatus;
+    lastUpdatedTimeUtc?: Date;
+    message?: string;
+    observedGeneration?: number;
+    providerOperationId?: string;
+    readiness?: AttachedAksClusterReadinessStatus;
+    stage?: AttachedAksClusterProvisioningStage;
 }
 
 // @public
@@ -848,6 +1125,12 @@ export interface CapacityConfig {
 }
 
 // @public
+export interface CertificateBundleReference {
+    secretName: string;
+    secretVersion: string;
+}
+
+// @public
 export interface ChannelsBuiltInAuthorizationPolicy extends ApplicationAuthorizationPolicy {
     type: "Channels";
 }
@@ -888,11 +1171,13 @@ export class CognitiveServicesManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: CognitiveServicesManagementClientOptionalParams);
     readonly accountCapabilityHosts: AccountCapabilityHostsOperations;
     readonly accountConnections: AccountConnectionsOperations;
+    readonly accountCostControls: AccountCostControlsOperations;
     readonly accounts: AccountsOperations;
     readonly adapterDeployments: AdapterDeploymentsOperations;
     readonly agentApplications: AgentApplicationsOperations;
     readonly agentDeployments: AgentDeploymentsOperations;
     readonly arcDeployments: ArcDeploymentsOperations;
+    readonly attachedAksClusters: AttachedAksClustersOperations;
     calculateModelCapacity(options?: CalculateModelCapacityOptionalParams): Promise<CalculateModelCapacityResult>;
     checkDomainAvailability(subdomainName: string, typeParam: string, options?: CheckDomainAvailabilityOptionalParams): Promise<DomainAvailability>;
     checkSkuAvailability(location: string, skus: string[], typeParam: string, kind: string, options?: CheckSkuAvailabilityOptionalParams): Promise<SkuAvailabilityListResult>;
@@ -900,7 +1185,6 @@ export class CognitiveServicesManagementClient {
     readonly commitmentTiers: CommitmentTiersOperations;
     readonly computeOperations: ComputeOperationsOperations;
     readonly computes: ComputesOperations;
-    readonly costControls: CostControlsOperations;
     readonly defenderForAISettings: DefenderForAISettingsOperations;
     readonly deletedAccounts: DeletedAccountsOperations;
     readonly deployments: DeploymentsOperations;
@@ -922,6 +1206,7 @@ export class CognitiveServicesManagementClient {
     readonly privateLinkResources: PrivateLinkResourcesOperations;
     readonly projectCapabilityHosts: ProjectCapabilityHostsOperations;
     readonly projectConnections: ProjectConnectionsOperations;
+    readonly projectCostControls: ProjectCostControlsOperations;
     readonly projects: ProjectsOperations;
     readonly quotaTiers: QuotaTiersOperations;
     readonly raiBindings: RaiBindingsOperations;
@@ -1394,32 +1679,70 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
-export interface CostControl extends ProxyResource {
-    readonly etag?: string;
-    properties?: CostControlProperties;
+export interface CostControlAction {
+    operator: "GreaterThanOrEqualTo";
+    threshold: number;
+    thresholdType: CostControlThresholdType;
+    type: "Block";
 }
+
+// @public
+export interface CostControlActionPatch {
+    operator?: "GreaterThanOrEqualTo";
+    threshold?: number;
+    thresholdType?: CostControlThresholdType;
+    type?: "Block";
+}
+
+// @public
+export interface CostControlAdditionalInfoFilter {
+    name: CostControlFilterName;
+    operator: "In";
+    values: string[];
+}
+
+// @public
+export type CostControlCategory = string;
 
 // @public
 export interface CostControlConnections {
     appInsightsConnectionId?: string;
+}
+
+// @public
+export interface CostControlFilter {
+    additionalInfo?: CostControlAdditionalInfoFilter;
+    and?: CostControlFilter[];
+}
+
+// @public
+export type CostControlFilterName = string;
+
+// @public
+export interface CostControlGrouping {
+    name: CostControlGroupingName;
+    type: "AdditionalInfoKey";
+}
+
+// @public
+export type CostControlGroupingName = string;
+
+// @public
+export interface CostControlNotification {
+    enabled: boolean;
+    eventGridConnectionId: string;
+    operator: "GreaterThanOrEqualTo";
+    threshold: number;
+    thresholdType: CostControlThresholdType;
+}
+
+// @public
+export interface CostControlNotificationPatch {
+    enabled?: boolean;
     eventGridConnectionId?: string;
-}
-
-// @public
-export interface CostControlDimension {
-    readonly attribute?: string;
-    type: CostControlDimensionType;
-}
-
-// @public
-export type CostControlDimensionType = string;
-
-// @public
-export interface CostControlMatch {
-    agentResourceIds?: string[];
-    identityObjectIds?: string[];
-    projectIds?: string[];
-    sessionIds?: string[];
+    operator?: "GreaterThanOrEqualTo";
+    threshold?: number;
+    thresholdType?: CostControlThresholdType;
 }
 
 // @public
@@ -1429,82 +1752,77 @@ export interface CostControlPatch {
 
 // @public
 export interface CostControlPatchProperties {
-    displayName?: string;
-    rules?: CostControlRule[];
+    amount?: number;
+    category?: CostControlCategory;
+    filter?: CostControlFilter;
+    grouping?: CostControlGrouping[];
+    notifications?: Record<string, CostControlNotificationPatch>;
+    provider?: "Microsoft.CognitiveServices";
+    providerProperties?: CostControlProviderPropertiesPatch;
+    timeGrain?: CostControlTimeGrain;
+    timePeriod?: CostControlTimePeriodPatch;
 }
-
-// @public
-export type CostControlPeriod = string;
 
 // @public
 export interface CostControlProperties {
-    displayName?: string;
-    rules: CostControlRule[];
-}
-
-// @public
-export interface CostControlRule {
     amount: number;
-    counterKey: CostControlDimension;
-    match?: CostControlMatch;
-    name: string;
-    period?: CostControlPeriod;
-    recurring?: boolean;
-    thresholds?: CostControlThreshold[];
-    unit: CostControlUnit;
+    category: CostControlCategory;
+    filter?: CostControlFilter;
+    grouping?: CostControlGrouping[];
+    notifications?: Record<string, CostControlNotification>;
+    provider?: "Microsoft.CognitiveServices";
+    providerProperties?: CostControlProviderProperties;
+    timeGrain: CostControlTimeGrain;
+    timePeriod: CostControlTimePeriod;
 }
 
 // @public
-export interface CostControlsCreateOrUpdateOptionalParams extends OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
+export interface CostControlProviderProperties {
+    actions?: Record<string, CostControlAction>;
 }
 
 // @public
-export interface CostControlsDeleteOptionalParams extends OperationOptions {
-    ifMatch?: string;
+export interface CostControlProviderPropertiesPatch {
+    actions?: Record<string, CostControlActionPatch>;
 }
-
-// @public
-export interface CostControlsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CostControlsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CostControlsOperations {
-    createOrUpdate: (resourceGroupName: string, accountName: string, costControlName: string, resource: CostControl, options?: CostControlsCreateOrUpdateOptionalParams) => Promise<CostControl>;
-    delete: (resourceGroupName: string, accountName: string, costControlName: string, options?: CostControlsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, accountName: string, costControlName: string, options?: CostControlsGetOptionalParams) => Promise<CostControl>;
-    list: (resourceGroupName: string, accountName: string, options?: CostControlsListOptionalParams) => PagedAsyncIterableIterator<CostControl>;
-    update: (resourceGroupName: string, accountName: string, costControlName: string, properties: CostControlPatch, options?: CostControlsUpdateOptionalParams) => Promise<CostControl>;
-}
-
-// @public
-export interface CostControlsUpdateOptionalParams extends OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export interface CostControlThreshold {
-    action: CostControlThresholdAction;
-    type: CostControlThresholdType;
-    value: number;
-}
-
-// @public
-export type CostControlThresholdAction = string;
 
 // @public
 export type CostControlThresholdType = string;
 
 // @public
-export type CostControlUnit = string;
+export type CostControlTimeGrain = string;
+
+// @public
+export interface CostControlTimePeriod {
+    endDate: Date;
+    startDate: Date;
+}
+
+// @public
+export interface CostControlTimePeriodPatch {
+    endDate?: Date;
+    startDate?: Date;
+}
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateOrUpdateArcDeploymentModel {
+    assetId: string;
+}
+
+// @public
+export interface CreateOrUpdateArcDeploymentProperties {
+    deploymentState?: DeploymentState;
+    deploymentTemplate?: string;
+    extensionId: string;
+    model: CreateOrUpdateArcDeploymentModel;
+    nodeSelector?: Record<string, string>;
+    raiPolicyName?: string;
+    replicas: number;
+    resources: ArcDeploymentKubernetesResources;
+}
 
 // @public
 export interface CustomBlocklistConfig extends RaiBlocklistConfig {
@@ -1626,7 +1944,6 @@ export interface DeploymentProperties {
     readonly capabilities?: Record<string, string>;
     capacitySettings?: DeploymentCapacitySettings;
     contextCacheContainerId?: string;
-    costControlIds?: string[];
     currentCapacity?: number;
     deploymentState?: DeploymentState;
     readonly dynamicThrottlingEnabled?: boolean;
@@ -2019,6 +2336,50 @@ export enum KnownArcDeploymentSkuName {
 }
 
 // @public
+export enum KnownAttachedAksClusterCapability {
+    AiManager = "aiManager",
+    FoundryNative = "foundryNative",
+    Kuberay = "kuberay"
+}
+
+// @public
+export enum KnownAttachedAksClusterExtensionInstallationMode {
+    Managed = "Managed",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownAttachedAksClusterHealthState {
+    Degraded = "Degraded",
+    Healthy = "Healthy",
+    Unhealthy = "Unhealthy",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAttachedAksClusterProjectBindingStage {
+    Blocked = "Blocked",
+    Degraded = "Degraded",
+    Ready = "Ready",
+    Reconciling = "Reconciling"
+}
+
+// @public
+export enum KnownAttachedAksClusterProvisioningStage {
+    Accepted = "Accepted",
+    Blocked = "Blocked",
+    ClusterReady = "ClusterReady",
+    Degraded = "Degraded",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    PendingBootstrap = "PendingBootstrap",
+    ProvisioningCluster = "ProvisioningCluster",
+    ProvisioningIdentity = "ProvisioningIdentity",
+    Ready = "Ready",
+    Validating = "Validating"
+}
+
+// @public
 export enum KnownBuiltInAuthorizationScheme {
     Channels = "Channels",
     Custom = "Custom",
@@ -2254,30 +2615,25 @@ export enum KnownContentLevel {
 }
 
 // @public
-export enum KnownCostControlDimensionType {
-    Account = "Account",
-    Agent = "Agent",
-    Custom = "Custom",
-    Identity = "Identity",
-    Project = "Project",
-    Session = "Session"
+export enum KnownCostControlCategory {
+    Cost = "Cost",
+    Tokens = "Tokens"
 }
 
 // @public
-export enum KnownCostControlPeriod {
-    Day = "Day",
-    Hour = "Hour",
-    Minute = "Minute",
-    Month = "Month",
-    Week = "Week",
-    Year = "Year"
+export enum KnownCostControlFilterName {
+    Agent = "agent",
+    Deployment = "deployment",
+    Project = "project",
+    SessionId = "sessionId",
+    TokenType = "tokenType"
 }
 
 // @public
-export enum KnownCostControlThresholdAction {
-    Alert = "Alert",
-    Audit = "Audit",
-    Block = "Block"
+export enum KnownCostControlGroupingName {
+    Agent = "agent",
+    Project = "project",
+    SessionId = "sessionId"
 }
 
 // @public
@@ -2287,8 +2643,10 @@ export enum KnownCostControlThresholdType {
 }
 
 // @public
-export enum KnownCostControlUnit {
-    Usd = "Usd"
+export enum KnownCostControlTimeGrain {
+    Daily = "Daily",
+    Monthly = "Monthly",
+    Weekly = "Weekly"
 }
 
 // @public
@@ -2541,6 +2899,13 @@ export enum KnownQuotaUsageStatus {
 }
 
 // @public
+export enum KnownRaiAcsAnnotatorType {
+    Classifier = "classifier",
+    Endpoint = "endpoint",
+    Llm = "llm"
+}
+
+// @public
 export enum KnownRaiAcsHarmCategory {
     Hate = "Hate",
     PromptInjection = "PromptInjection",
@@ -2564,7 +2929,11 @@ export enum KnownRaiAcsPolicyDefinitionType {
 
 // @public
 export enum KnownRaiAcsPolicyTarget {
+    AgentInitialization = "$snap.agent_init",
+    AgentSummary = "$snap.summary",
     Input = "$snap.input",
+    ModelMessages = "$snap.messages",
+    ModelResponse = "$snap.response",
     Output = "$snap.output",
     ToolArguments = "$snap.tool_call.args",
     ToolResult = "$snap.tool_result.value"
@@ -2572,7 +2941,11 @@ export enum KnownRaiAcsPolicyTarget {
 
 // @public
 export enum KnownRaiAcsPolicyTargetKind {
+    AgentInitialization = "agent_init",
+    AgentSummary = "agent_summary",
     AssistantOutput = "assistant_output",
+    ModelMessages = "messages",
+    ModelResponse = "model_response",
     ToolArguments = "tool_args",
     ToolResult = "tool_result",
     UserInput = "user_input"
@@ -2633,9 +3006,13 @@ export enum KnownRaiEgressScheme {
 
 // @public
 export enum KnownRaiPolicyContentSource {
+    AgentShutdown = "AgentShutdown",
+    AgentStartup = "AgentStartup",
     Completion = "Completion",
+    PostModelCall = "PostModelCall",
     PostRun = "PostRun",
     PostToolCall = "PostToolCall",
+    PreModelCall = "PreModelCall",
     PreRun = "PreRun",
     PreToolCall = "PreToolCall",
     Prompt = "Prompt"
@@ -2745,8 +3122,51 @@ export enum KnownTierUpgradePolicy {
 }
 
 // @public
+export enum KnownToolControlsDefaultAction {
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownToolControlType {
+    A2A = "a2a",
+    A2APreview = "a2a_preview",
+    ApplyPatch = "apply_patch",
+    AzureAiSearch = "azure_ai_search",
+    AzureFunction = "azure_function",
+    BingCustomSearchPreview = "bing_custom_search_preview",
+    BingGrounding = "bing_grounding",
+    BrowserAutomation = "browser_automation",
+    BrowserAutomationPreview = "browser_automation_preview",
+    CaptureStructuredOutputs = "capture_structured_outputs",
+    CodeInterpreter = "code_interpreter",
+    ComputerUsePreview = "computer_use_preview",
+    Custom = "custom",
+    FabricDataagentPreview = "fabric_dataagent_preview",
+    FabricIqPreview = "fabric_iq_preview",
+    FileSearch = "file_search",
+    Function = "function",
+    ImageGeneration = "image_generation",
+    LocalShell = "local_shell",
+    Mcp = "mcp",
+    MemorySearchPreview = "memory_search_preview",
+    Openapi = "openapi",
+    SharepointGroundingPreview = "sharepoint_grounding_preview",
+    Shell = "shell",
+    ToolboxSearchPreview = "toolbox_search_preview",
+    WebIqPreview = "web_iq_preview",
+    WebSearch = "web_search",
+    WebSearchPreview = "web_search_preview",
+    WorkIqPreview = "work_iq_preview"
+}
+
+// @public
 export enum KnownTrafficRoutingProtocol {
     FixedRatio = "FixedRatio"
+}
+
+// @public
+export enum KnownTrustedCertificateSourceType {
+    AzureKeyVault = "AzureKeyVault"
 }
 
 // @public
@@ -2778,7 +3198,9 @@ export enum KnownVersions {
     V20260701 = "2026-07-01",
     V20260715Preview = "2026-07-15-preview",
     V20260901 = "2026-09-01",
-    V20260915Preview = "2026-09-15-preview"
+    V20260915Preview = "2026-09-15-preview",
+    V20261101 = "2026-11-01",
+    V20261115Preview = "2026-11-15-preview"
 }
 
 // @public
@@ -2836,6 +3258,7 @@ export interface ManagedClusterAgentHostingConfiguration extends AgentHostingCon
 export interface ManagedComputeCapacitiesListOptionalParams extends OperationOptions {
     acceleratorType?: string;
     deploymentId?: string;
+    location?: string;
 }
 
 // @public
@@ -2853,6 +3276,9 @@ export interface ManagedComputeCapacityProperties {
     readonly acceleratorType?: string;
     readonly availableAccelerators?: number;
     readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
+    readonly offerScope?: string;
+    readonly scopeId?: string;
+    readonly totalAvailableAccelerators?: number;
 }
 
 // @public
@@ -2953,6 +3379,7 @@ export interface ManagedComputeUsage {
     limit?: number;
     readonly name?: MetricName;
     offerScope?: string;
+    scopeId?: string;
     readonly type?: string;
     unit?: UnitType;
 }
@@ -3661,6 +4088,50 @@ export interface ProjectConnectionsUpdateOptionalParams extends OperationOptions
 }
 
 // @public
+export interface ProjectCostControl extends ProxyResource {
+    readonly etag?: string;
+    properties?: CostControlProperties;
+}
+
+// @public
+export interface ProjectCostControlsCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectCostControlsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface ProjectCostControlsDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export interface ProjectCostControlsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectCostControlsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectCostControlsOperations {
+    checkExistence: (resourceGroupName: string, accountName: string, projectName: string, costControlName: string, options?: ProjectCostControlsCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, projectName: string, costControlName: string, resource: ProjectCostControl, options?: ProjectCostControlsCreateOrUpdateOptionalParams) => Promise<ProjectCostControl>;
+    delete: (resourceGroupName: string, accountName: string, projectName: string, costControlName: string, options?: ProjectCostControlsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, projectName: string, costControlName: string, options?: ProjectCostControlsGetOptionalParams) => Promise<ProjectCostControl>;
+    list: (resourceGroupName: string, accountName: string, projectName: string, options?: ProjectCostControlsListOptionalParams) => PagedAsyncIterableIterator<ProjectCostControl>;
+    update: (resourceGroupName: string, accountName: string, projectName: string, costControlName: string, properties: CostControlPatch, options?: ProjectCostControlsUpdateOptionalParams) => Promise<ProjectCostControl>;
+}
+
+// @public
+export interface ProjectCostControlsUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
 export interface ProjectProperties {
     capabilitySettings?: CapabilitySettings;
     description?: string;
@@ -3668,6 +4139,7 @@ export interface ProjectProperties {
     readonly endpoints?: Record<string, string>;
     readonly isDefault?: boolean;
     readonly provisioningState?: ProvisioningState;
+    toolControls?: ToolControls;
 }
 
 // @public
@@ -3801,8 +4273,35 @@ export interface QuotaTierUpgradeEligibilityInfo {
 export type QuotaUsageStatus = string;
 
 // @public
-export interface RaiAcsEmptyObject {
+export interface RaiAcsAgentShutdownInterventionPoint {
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
+    policy: RaiAcsPolicyBinding;
+    policyTarget: "$snap.summary";
+    policyTargetKind: "agent_summary";
 }
+
+// @public
+export interface RaiAcsAgentStartupInterventionPoint {
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
+    policy: RaiAcsPolicyBinding;
+    policyTarget: "$snap.agent_init";
+    policyTargetKind: "agent_init";
+}
+
+// @public
+export interface RaiAcsAnnotationBinding {
+    additionalProperties?: Record<string, any>;
+    from: string;
+}
+
+// @public
+export interface RaiAcsAnnotatorDefinition {
+    additionalProperties?: Record<string, any>;
+    type: RaiAcsAnnotatorType;
+}
+
+// @public
+export type RaiAcsAnnotatorType = string;
 
 // @public
 export type RaiAcsHarmCategory = string;
@@ -3815,7 +4314,7 @@ export interface RaiAcsHarmConfiguration {
 
 // @public
 export interface RaiAcsInterventionPoint {
-    annotations?: RaiAcsEmptyObject;
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
     policy: RaiAcsPolicyBinding;
     policyTarget: RaiAcsPolicyTarget;
     policyTargetKind: RaiAcsPolicyTargetKind;
@@ -3823,16 +4322,20 @@ export interface RaiAcsInterventionPoint {
 
 // @public
 export interface RaiAcsInterventionPoints {
+    agentShutdown?: RaiAcsAgentShutdownInterventionPoint;
+    agentStartup?: RaiAcsAgentStartupInterventionPoint;
     input?: RaiAcsInterventionPoint;
     output?: RaiAcsInterventionPoint;
+    postModelCall?: RaiAcsPostModelCallInterventionPoint;
     postToolCall?: RaiAcsToolInterventionPoint;
+    preModelCall?: RaiAcsPreModelCallInterventionPoint;
     preToolCall?: RaiAcsToolInterventionPoint;
 }
 
 // @public
 export interface RaiAcsManifest {
     agentControlSpecificationVersion: string;
-    annotators?: RaiAcsEmptyObject;
+    annotators?: Record<string, RaiAcsAnnotatorDefinition>;
     interventionPoints: RaiAcsInterventionPoints;
     metadata?: Record<string, any>;
     policies: Record<string, RaiAcsRegoPolicyDefinition>;
@@ -3865,6 +4368,22 @@ export type RaiAcsPolicyTarget = string;
 export type RaiAcsPolicyTargetKind = string;
 
 // @public
+export interface RaiAcsPostModelCallInterventionPoint {
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
+    policy: RaiAcsPolicyBinding;
+    policyTarget: "$snap.response";
+    policyTargetKind: "model_response";
+}
+
+// @public
+export interface RaiAcsPreModelCallInterventionPoint {
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
+    policy: RaiAcsPolicyBinding;
+    policyTarget: "$snap.messages";
+    policyTargetKind: "messages";
+}
+
+// @public
 export interface RaiAcsRegoPolicyDefinition {
     query: string;
     type: RaiAcsPolicyDefinitionType;
@@ -3882,7 +4401,7 @@ export interface RaiAcsToolDefinition {
 
 // @public
 export interface RaiAcsToolInterventionPoint {
-    annotations?: RaiAcsEmptyObject;
+    annotations?: Record<string, RaiAcsAnnotationBinding>;
     policy: RaiAcsPolicyBinding;
     policyTarget: RaiAcsPolicyTarget;
     policyTargetKind: RaiAcsPolicyTargetKind;
@@ -4747,6 +5266,25 @@ export interface ThrottlingRule {
 export type TierUpgradePolicy = string;
 
 // @public
+export interface ToolControlEntry {
+    connectorId?: string;
+    serverUrl?: string;
+    type: ToolControlType;
+}
+
+// @public
+export interface ToolControls {
+    allowedTools?: ToolControlEntry[];
+    defaultAction?: ToolControlsDefaultAction;
+}
+
+// @public
+export type ToolControlsDefaultAction = string;
+
+// @public
+export type ToolControlType = string;
+
+// @public
 export type TrafficRoutingProtocol = string;
 
 // @public
@@ -4756,6 +5294,16 @@ export interface TrafficRoutingRule {
     ruleId?: string;
     trafficPercentage?: number;
 }
+
+// @public
+export interface TrustedCertificateSource {
+    certificateBundleReferences: CertificateBundleReference[];
+    resourceId: string;
+    type: TrustedCertificateSourceType;
+}
+
+// @public
+export type TrustedCertificateSourceType = string;
 
 // @public
 export type UnitType = string;

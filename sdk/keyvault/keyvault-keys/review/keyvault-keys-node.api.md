@@ -431,8 +431,6 @@ export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
-    SecureUnwrapKey = "secureUnwrapKey",
-    SecureWrapKey = "secureWrapKey",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
     Verify = "verify",

@@ -46,7 +46,7 @@ function getSDKType(isMgmtWithHLC: boolean, isModular: boolean) {
 }
 
 // TODO: generate interface for inputJson
-export async function parseInputJson(inputJson: any, typespecEmitter?: string) {
+export async function parseInputJson(inputJson: any) {
   // inputJson schema: https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateInputSchema.json
   // todo: add interface for the schema
   const specFolder: string = inputJson["specFolder"];
@@ -55,6 +55,7 @@ export async function parseInputJson(inputJson: any, typespecEmitter?: string) {
     : inputJson["relatedReadmeMdFile"];
   const typespecProjectFolder: string[] | string | undefined =
     inputJson["relatedTypeSpecProjectFolder"];
+  const selectedTypespecEmitter = inputJson["typespecEmitter"];
   const gitCommitId: string = inputJson["headSha"];
   const repoHttpsUrl: string = inputJson["repoHttpsUrl"];
   const runMode: string = inputJson["runMode"];
@@ -101,11 +102,11 @@ export async function parseInputJson(inputJson: any, typespecEmitter?: string) {
 
   const isMgmtWithHLC = isTypeSpecProject ? false : readmeMd!.includes("resource-manager");
   const isModular = await isModularClient(specFolder, typespecProjectFolder);
-  if (typespecEmitter === provisioningEmitterName && !isTypeSpecProject) {
+  if (selectedTypespecEmitter === provisioningEmitterName && !isTypeSpecProject) {
     throw new Error("Provisioning generation requires a TypeSpec project.");
   }
   const sdkType =
-    typespecEmitter === provisioningEmitterName
+    selectedTypespecEmitter === provisioningEmitterName
       ? SDKType.Provisioning
       : getSDKType(isMgmtWithHLC, isModular);
 

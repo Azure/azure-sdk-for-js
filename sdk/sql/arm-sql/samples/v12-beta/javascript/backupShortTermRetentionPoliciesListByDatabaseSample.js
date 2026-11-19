@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a database's short term retention policy.
  *
  * @summary gets a database's short term retention policy.
- * x-ms-original-file: 2025-08-01-preview/ListShortTermRetentionPoliciesByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/ListShortTermRetentionPoliciesByDatabase.json
  */
 async function getTheShortTermRetentionPolicyForTheDatabase() {
   const credential = new DefaultAzureCredential();

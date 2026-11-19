@@ -30,6 +30,7 @@ export interface ManagedDatabaseTablesOperations {
     options?: ManagedDatabaseTablesGetOptionalParams,
   ) => Promise<DatabaseTable>;
 }
+
 function _getManagedDatabaseTables(context: SqlManagementContext) {
   return {
     listBySchema: (
@@ -66,6 +67,7 @@ function _getManagedDatabaseTables(context: SqlManagementContext) {
       ),
   };
 }
+
 export function _getManagedDatabaseTablesOperations(
   context: SqlManagementContext,
 ): ManagedDatabaseTablesOperations {

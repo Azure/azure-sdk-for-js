@@ -88,6 +88,7 @@ const mockStatsbeatManager = {
 interface MockFilePersist {
   push: Mock<(envelopes: unknown[]) => Promise<boolean>>;
   restore: Mock<(envelopes: unknown[]) => Promise<boolean>>;
+  release: Mock<(envelopes: unknown[]) => void>;
   shutdown: Mock<() => void>;
   shift: Mock<() => Promise<unknown[] | null>>;
   cleanExpiredFiles: Mock<() => Promise<void>>;
@@ -100,6 +101,7 @@ interface MockFilePersist {
 export const mockPersist: MockFilePersist = {
   push: vi.fn().mockResolvedValue(true),
   restore: vi.fn((envelopes: unknown[]) => mockPersist.push(envelopes)),
+  release: vi.fn(),
   shutdown: vi.fn(),
   shift: vi.fn().mockResolvedValue(null),
   cleanExpiredFiles: vi.fn().mockResolvedValue(undefined),

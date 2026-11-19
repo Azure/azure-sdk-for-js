@@ -4,15 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface A2AAddDisksInput extends AddDisksProviderSpecificInput {
@@ -60,6 +62,20 @@ export interface A2AClusterUnplannedFailoverInput extends ClusterUnplannedFailov
     clusterRecoveryPointId?: string;
     individualNodeRecoveryPoints?: string[];
     instanceType: "A2A";
+}
+
+// @public
+export interface A2AClusterVmManagedDiskInputDetails {
+    diskEncryptionInfo?: DiskEncryptionInfo;
+    diskId: string;
+    primaryStagingAzureStorageAccountId: string;
+    recoveryDiskAccessId?: string;
+    recoveryDiskEncryptionSetId?: string;
+    recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
+    recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
+    recoveryReplicaDiskAccountType?: string;
+    recoveryResourceGroupId: string;
+    recoveryTargetDiskAccountType?: string;
 }
 
 // @public
@@ -151,6 +167,7 @@ export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecif
     recoveryBootDiagStorageAccountId?: string;
     recoveryCapacityReservationGroupId?: string;
     recoveryCloudServiceId?: string;
+    recoveryConfidentialDataDiskEncryptionIdentity?: string;
     recoveryContainerId?: string;
     recoveryExtendedLocation?: ExtendedLocation;
     recoveryProximityPlacementGroupId?: string;
@@ -251,12 +268,13 @@ export interface A2AProtectedItemDetail {
     recoveryResourceGroupId?: string;
     recoveryVirtualMachineScaleSetId?: string;
     replicationProtectedItemName?: string;
-    vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+    vmManagedDisks?: A2AClusterVmManagedDiskInputDetails[];
 }
 
 // @public
 export interface A2AProtectedManagedDiskDetails {
     allowedDiskLevelOperation?: string[];
+    readonly confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo;
     dataPendingAtSourceAgentInMB?: number;
     dataPendingInStagingStorageAccountInMB?: number;
     dekKeyVaultArmId?: string;
@@ -274,8 +292,11 @@ export interface A2AProtectedManagedDiskDetails {
     monitoringPercentageCompletion?: number;
     primaryDiskEncryptionSetId?: string;
     primaryStagingAzureStorageAccountId?: string;
+    recoveryDiskAccessId?: string;
     recoveryDiskEncryptionSetId?: string;
+    recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
     recoveryOrignalTargetDiskId?: string;
+    recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
     recoveryReplicaDiskAccountType?: string;
     recoveryReplicaDiskId?: string;
     recoveryResourceGroupId?: string;
@@ -386,6 +407,7 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
     recoveryBootDiagStorageAccountId?: string;
     recoveryCapacityReservationGroupId?: string;
     recoveryCloudService?: string;
+    recoveryConfidentialDataDiskEncryptionIdentity?: string;
     recoveryExtendedLocation?: ExtendedLocation;
     recoveryFabricLocation?: string;
     recoveryFabricObjectId?: string;
@@ -515,6 +537,7 @@ export interface A2ASwitchProtectionInput extends SwitchProtectionProviderSpecif
     recoveryBootDiagStorageAccountId?: string;
     recoveryCapacityReservationGroupId?: string;
     recoveryCloudServiceId?: string;
+    recoveryConfidentialDataDiskEncryptionIdentity?: string;
     recoveryContainerId?: string;
     recoveryProximityPlacementGroupId?: string;
     recoveryResourceGroupId?: string;
@@ -561,6 +584,7 @@ export interface A2AUpdateReplicationProtectedItemInput extends UpdateReplicatio
     recoveryBootDiagStorageAccountId?: string;
     recoveryCapacityReservationGroupId?: string;
     recoveryCloudServiceId?: string;
+    recoveryConfidentialDataDiskEncryptionIdentity?: string;
     recoveryProximityPlacementGroupId?: string;
     recoveryResourceGroupId?: string;
     recoveryVirtualMachineScaleSetId?: string;
@@ -576,10 +600,14 @@ export interface A2AVmDiskInputDetails {
 
 // @public
 export interface A2AVmManagedDiskInputDetails {
+    confidentialDiskEncryptionInfo?: ConfidentialDiskEncryptionInfo;
     diskEncryptionInfo?: DiskEncryptionInfo;
     diskId: string;
     primaryStagingAzureStorageAccountId: string;
+    recoveryDiskAccessId?: string;
     recoveryDiskEncryptionSetId?: string;
+    recoveryNetworkAccessPolicy?: DiskNetworkAccessPolicy;
+    recoveryPublicNetworkAccess?: DiskPublicNetworkAccess;
     recoveryReplicaDiskAccountType?: string;
     recoveryResourceGroupId: string;
     recoveryTargetDiskAccountType?: string;
@@ -587,6 +615,7 @@ export interface A2AVmManagedDiskInputDetails {
 
 // @public
 export interface A2AVmManagedDiskUpdateDetails {
+    confidentialDiskEncryptionInfo?: UpdateConfidentialDiskEncryptionInfo;
     diskEncryptionInfo?: DiskEncryptionInfo;
     diskId?: string;
     failoverDiskName?: string;
@@ -993,6 +1022,12 @@ export interface ComputeSizeErrorDetails {
 }
 
 // @public
+export interface ConfidentialDiskEncryptionInfo {
+    recoveryReplicaConfidentialDiskEncryptionSetId?: string;
+    recoveryTargetConfidentialDiskEncryptionSetId?: string;
+}
+
+// @public
 export interface ConfigurationSettings {
     instanceType: string;
 }
@@ -1199,6 +1234,12 @@ export interface DiskEncryptionKeyInfo {
     keyVaultResourceArmId?: string;
     secretIdentifier?: string;
 }
+
+// @public
+export type DiskNetworkAccessPolicy = string;
+
+// @public
+export type DiskPublicNetworkAccess = string;
 
 // @public
 export type DiskReplicationProgressHealth = string;
@@ -2412,6 +2453,7 @@ export interface InMageRcmDiscoveredProtectedVmDetails {
 
 // @public
 export interface InMageRcmDiskInput {
+    confidentialDiskEncryptionSetId?: string;
     diskEncryptionSetId?: string;
     diskId: string;
     diskSizeInGB?: number;
@@ -2424,6 +2466,7 @@ export interface InMageRcmDiskInput {
 
 // @public
 export interface InMageRcmDisksDefaultInput {
+    confidentialDiskEncryptionSetId?: string;
     diskEncryptionSetId?: string;
     diskSizeInGB?: number;
     diskType: DiskAccountType;
@@ -2450,6 +2493,7 @@ export interface InMageRcmEnableProtectionInput extends EnableProtectionProvider
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
     targetCapacityReservationGroupId?: string;
+    targetExtendedLocation?: ExtendedLocation;
     targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
     targetNicTags?: UserCreatedResourceTag[];
@@ -2670,7 +2714,7 @@ export interface InMageRcmLastAgentUpgradeErrorDetails {
 export interface InMageRcmMobilityAgentDetails {
     readonly agentReinstallAttemptToVersion?: string;
     readonly agentReinstallJobId?: string;
-    readonly agentReinstallState?: MobilityAgentReinstallType[];
+    readonly agentReinstallState?: MobilityAgentReinstallType;
     readonly agentVersionExpiryDate?: Date;
     distroName?: string;
     distroNameForWhichAgentIsInstalled?: string;
@@ -2743,6 +2787,7 @@ export interface InMageRcmPolicyDetails extends PolicyProviderSpecificDetails {
 // @public
 export interface InMageRcmProtectedDiskDetails {
     readonly capacityInBytes?: number;
+    readonly confidentialDiskEncryptionSetId?: string;
     customTargetDiskName?: string;
     readonly dataPendingAtSourceAgentInMB?: number;
     readonly dataPendingInLogDataStoreInMB?: number;
@@ -2829,6 +2874,7 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
     targetCapacityReservationGroupId?: string;
+    targetExtendedLocation?: ExtendedLocation;
     readonly targetGeneration?: string;
     targetLocation?: string;
     targetManagedDiskTags?: UserCreatedResourceTag[];
@@ -3041,6 +3087,7 @@ export interface InputEndpoint {
 export interface IPConfigDetails {
     // (undocumented)
     ipAddressType?: string;
+    readonly ipVersion?: IPVersion;
     // (undocumented)
     isPrimary?: boolean;
     // (undocumented)
@@ -3096,6 +3143,11 @@ export interface IPConfigInputDetails {
     // (undocumented)
     tfoSubnetName?: string;
 }
+
+// @public
+export type IPVersion = string;
+
+export { isRestError }
 
 // @public
 export interface Job extends ProxyResource {
@@ -3305,6 +3357,19 @@ export enum KnownDiskAccountType {
 }
 
 // @public
+export enum KnownDiskNetworkAccessPolicy {
+    AllowAll = "AllowAll",
+    AllowPrivate = "AllowPrivate",
+    DenyAll = "DenyAll"
+}
+
+// @public
+export enum KnownDiskPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownDiskReplicationProgressHealth {
     InProgress = "InProgress",
     None = "None",
@@ -3392,6 +3457,12 @@ export enum KnownInMageV2RpRecoveryPointType {
     LatestApplicationConsistent = "LatestApplicationConsistent",
     LatestCrashConsistent = "LatestCrashConsistent",
     LatestProcessed = "LatestProcessed"
+}
+
+// @public
+export enum KnownIPVersion {
+    IPv4 = "IPv4",
+    IPv6 = "IPv6"
 }
 
 // @public
@@ -3508,6 +3579,12 @@ export enum KnownRcmComponentStatus {
     Healthy = "Healthy",
     Unknown = "Unknown",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownRecoveryNetworkConfigAutoSyncPolicy {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3630,7 +3707,12 @@ export enum KnownTestMigrationState {
 
 // @public
 export enum KnownVersions {
-    V20250801 = "2025-08-01"
+    V20250801 = "2025-08-01",
+    V20260101 = "2026-01-01",
+    V20260201 = "2026-02-01",
+    V20260501 = "2026-05-01",
+    V20260701 = "2026-07-01",
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -4221,6 +4303,9 @@ export interface RecoveryAvailabilitySetCustomDetails {
 
 // @public
 export type RecoveryAvailabilitySetCustomDetailsUnion = ExistingRecoveryAvailabilitySet | RecoveryAvailabilitySetCustomDetails;
+
+// @public
+export type RecoveryNetworkConfigAutoSyncPolicy = string;
 
 // @public
 export interface RecoveryPlan extends ProxyResource {
@@ -6124,6 +6209,8 @@ export interface ResourceHealthSummary {
     resourceCount?: number;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: SiteRecoveryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -6655,6 +6742,11 @@ export interface UpdateApplianceForReplicationProtectedItemProviderSpecificInput
 export type UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion = InMageRcmUpdateApplianceForReplicationProtectedItemInput | UpdateApplianceForReplicationProtectedItemProviderSpecificInput;
 
 // @public
+export interface UpdateConfidentialDiskEncryptionInfo {
+    recoveryTargetConfidentialDiskEncryptionSetId?: string;
+}
+
+// @public
 export interface UpdateDiskInput {
     diskId: string;
     diskSizeInGB?: number;
@@ -6808,12 +6900,14 @@ export interface VaultSettingCreationInput {
 // @public
 export interface VaultSettingCreationInputProperties {
     migrationSolutionId?: string;
+    recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy;
     vmwareToAzureProviderType?: string;
 }
 
 // @public
 export interface VaultSettingProperties {
     migrationSolutionId?: string;
+    recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy;
     vmwareToAzureProviderType?: string;
 }
 
@@ -6965,6 +7059,7 @@ export interface VMwareCbtContainerMappingInput extends ReplicationProviderSpeci
 
 // @public
 export interface VMwareCbtDiskInput {
+    confidentialDiskEncryptionSetId?: string;
     diskEncryptionSetId?: string;
     diskId: string;
     diskSizeInGB?: number;
@@ -7129,6 +7224,7 @@ export interface VmwareCbtPolicyDetails extends PolicyProviderSpecificDetails {
 // @public
 export interface VMwareCbtProtectedDiskDetails {
     readonly capacityInBytes?: number;
+    readonly confidentialDiskEncryptionSetId?: string;
     readonly diskEncryptionSetId?: string;
     readonly diskId?: string;
     readonly diskName?: string;

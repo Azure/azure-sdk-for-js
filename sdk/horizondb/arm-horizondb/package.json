@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-horizondb",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for HorizonDbClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -382,7 +382,11 @@
     "LICENSE"
   ],
   "sdk-type": "mgmt",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "github:Azure/azure-sdk-for-js",
+    "directory": "sdk/horizondb/arm-horizondb"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

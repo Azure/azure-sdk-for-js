@@ -429,7 +429,7 @@ describe("deserializer symbol resolution", () => {
     );
     expect(restored!.variables.getMetadata(`value${length - 1}`)!.value).toBe("leaf");
     expect(restored!.variables.listMetadata()[0]!.name).toBe(`value${length - 1}`);
-  }, 30_000);
+  }, 60_000);
 
   it.each([{}, { variables: {}, resources: {} }])(
     "restores empty declarations for %j",

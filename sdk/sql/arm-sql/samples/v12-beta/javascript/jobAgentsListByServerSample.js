@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of job agents in a server.
  *
  * @summary gets a list of job agents in a server.
- * x-ms-original-file: 2025-08-01-preview/ListJobAgentsByServer.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobAgentsByServer.json
  */
 async function listJobAgentsInAServer() {
   const credential = new DefaultAzureCredential();

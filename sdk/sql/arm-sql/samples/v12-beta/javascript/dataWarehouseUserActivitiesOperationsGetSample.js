@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the user activities of a data warehouse which includes running and suspended queries
  *
  * @summary gets the user activities of a data warehouse which includes running and suspended queries
- * x-ms-original-file: 2025-08-01-preview/GetDataWarehouseUserActivities.json
+ * x-ms-original-file: 2026-08-01-preview/GetDataWarehouseUserActivities.json
  */
 async function getTheListOfTheUserActivitiesOfADataWarehouse() {
   const credential = new DefaultAzureCredential();

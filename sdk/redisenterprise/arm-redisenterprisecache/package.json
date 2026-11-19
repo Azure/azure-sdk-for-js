@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-redisenterprisecache",
-  "version": "5.0.0-beta.4",
+  "version": "6.0.0-beta.1",
   "description": "A generated SDK for RedisEnterpriseManagementClient.",
   "engines": {
     "node": ">=22.0.0"

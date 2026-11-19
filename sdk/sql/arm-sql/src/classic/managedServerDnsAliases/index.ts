@@ -111,6 +111,7 @@ export interface ManagedServerDnsAliasesOperations {
     options?: ManagedServerDnsAliasesGetOptionalParams,
   ) => Promise<ManagedServerDnsAlias>;
 }
+
 function _getManagedServerDnsAliases(context: SqlManagementContext) {
   return {
     acquire: (
@@ -247,6 +248,7 @@ function _getManagedServerDnsAliases(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, managedInstanceName, dnsAliasName, options),
   };
 }
+
 export function _getManagedServerDnsAliasesOperations(
   context: SqlManagementContext,
 ): ManagedServerDnsAliasesOperations {

@@ -1626,7 +1626,17 @@ export interface Cluster extends TrackedResource {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
-  /** Firewall rules associated with the cluster. */
+  /**
+   * The complete set of firewall rules for an Azure Managed Redis (AMR) cluster. At most 250 rules are supported, and non-empty rules require publicNetworkAccess to be Enabled.
+   *
+   * On PUT, the supplied array replaces all existing rules. Omitting this property or supplying an empty array clears all rules.
+   *
+   * On PATCH, omitting this property preserves existing rules. A supplied array replaces all existing rules; rules absent from it are deleted. Supplying an empty array clears all rules.
+   *
+   * Disabling publicNetworkAccess also clears existing rules. With publicNetworkAccess Enabled, an empty rule set allows all public traffic; it does not deny all traffic.
+   *
+   * Firewall rule changes cannot be combined with scaling or encryption changes in the same update request.
+   */
   firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
@@ -2086,7 +2096,17 @@ export interface ClusterCommonProperties {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
-  /** Firewall rules associated with the cluster. */
+  /**
+   * The complete set of firewall rules for an Azure Managed Redis (AMR) cluster. At most 250 rules are supported, and non-empty rules require publicNetworkAccess to be Enabled.
+   *
+   * On PUT, the supplied array replaces all existing rules. Omitting this property or supplying an empty array clears all rules.
+   *
+   * On PATCH, omitting this property preserves existing rules. A supplied array replaces all existing rules; rules absent from it are deleted. Supplying an empty array clears all rules.
+   *
+   * Disabling publicNetworkAccess also clears existing rules. With publicNetworkAccess Enabled, an empty rule set allows all public traffic; it does not deny all traffic.
+   *
+   * Firewall rule changes cannot be combined with scaling or encryption changes in the same update request.
+   */
   firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
@@ -2434,9 +2454,9 @@ export function firewallRuleArrayDeserializer(result: Array<FirewallRule>): any[
 
 /** A firewall rule associated with the cluster. */
 export interface FirewallRule {
-  /** The name of the firewall rule. */
+  /** The name of the firewall rule, unique within the cluster ignoring case. Must be 1-80 characters and contain only letters, numbers, hyphens, or underscores. */
   name: string;
-  /** The source address prefix for the firewall rule. */
+  /** An IPv4 address (for example, "203.0.113.1"), IPv4 CIDR prefix (for example, "203.0.113.0/24"), or Azure service tag (for example, "AzureCloud"). IPv6 addresses are not supported. */
   sourceAddressPrefix: string;
 }
 
@@ -2515,7 +2535,17 @@ export interface ClusterUpdate {
   encryption?: ClusterCommonPropertiesEncryption;
   /** Cluster-level maintenance configuration. */
   maintenanceConfiguration?: MaintenanceConfiguration;
-  /** Firewall rules associated with the cluster. */
+  /**
+   * The complete set of firewall rules for an Azure Managed Redis (AMR) cluster. At most 250 rules are supported, and non-empty rules require publicNetworkAccess to be Enabled.
+   *
+   * On PUT, the supplied array replaces all existing rules. Omitting this property or supplying an empty array clears all rules.
+   *
+   * On PATCH, omitting this property preserves existing rules. A supplied array replaces all existing rules; rules absent from it are deleted. Supplying an empty array clears all rules.
+   *
+   * Disabling publicNetworkAccess also clears existing rules. With publicNetworkAccess Enabled, an empty rule set allows all public traffic; it does not deny all traffic.
+   *
+   * Firewall rule changes cannot be combined with scaling or encryption changes in the same update request.
+   */
   firewallRules?: FirewallRule[];
   /** DNS name of the cluster endpoint */
   readonly hostName?: string;
@@ -2717,15 +2747,19 @@ export function privateLinkResourcePropertiesDeserializer(
 export interface AccessPolicyAssignment extends ProxyResource {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
+  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
   accessPolicyName?: string;
+  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
+  accessString?: string;
+  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
+  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
   /** The user associated with the access policy. */
   user?: AccessPolicyAssignmentPropertiesUser;
 }
 
 export function accessPolicyAssignmentSerializer(item: AccessPolicyAssignment): any {
   return {
-    properties: areAllPropsUndefined(item, ["accessPolicyName", "user"])
+    properties: areAllPropsUndefined(item, ["accessPolicyName", "accessString", "user"])
       ? undefined
       : _accessPolicyAssignmentPropertiesSerializer(item),
   };
@@ -2749,8 +2783,12 @@ export function accessPolicyAssignmentDeserializer(item: any): AccessPolicyAssig
 export interface AccessPolicyAssignmentProperties {
   /** Current provisioning status of the access policy assignment. */
   readonly provisioningState?: ProvisioningState;
-  /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
-  accessPolicyName: string;
+  /** **Deprecated.** This property always returns "default". Use `accessString` to configure custom Redis ACL permissions instead. */
+  accessPolicyName?: string;
+  /** The Redis ACL permissions string applied to this assignment, for example `+@read ~cache:*`. Defaults to `+@all ~*` if not specified. */
+  accessString?: string;
+  /** Provisioning error details when the access string failed to apply (e.g., invalid ACL syntax). Null when provisioning succeeded. */
+  readonly provisioningError?: AccessPolicyAssignmentProvisioningError;
   /** The user associated with the access policy. */
   user: AccessPolicyAssignmentPropertiesUser;
 }
@@ -2760,6 +2798,7 @@ export function accessPolicyAssignmentPropertiesSerializer(
 ): any {
   return {
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
     user: accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
   };
 }
@@ -2770,7 +2809,31 @@ export function accessPolicyAssignmentPropertiesDeserializer(
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
+    provisioningError: !item["provisioningError"]
+      ? item["provisioningError"]
+      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),
+  };
+}
+
+/** Error details for access policy assignment provisioning failures. */
+export interface AccessPolicyAssignmentProvisioningError {
+  /** Machine-readable error code (e.g., "InvalidAccessString"). */
+  code: string;
+  /** Human-readable error message describing the failure. */
+  message: string;
+  /** The property that caused the error (e.g., "properties.accessString"). */
+  target?: string;
+}
+
+export function accessPolicyAssignmentProvisioningErrorDeserializer(
+  item: any,
+): AccessPolicyAssignmentProvisioningError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
   };
 }
 
@@ -3037,6 +3100,7 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
 export function _accessPolicyAssignmentPropertiesSerializer(item: AccessPolicyAssignment): any {
   return {
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserSerializer(item["user"]),
@@ -3047,6 +3111,10 @@ export function _accessPolicyAssignmentPropertiesDeserializer(item: any) {
   return {
     provisioningState: item["provisioningState"],
     accessPolicyName: item["accessPolicyName"],
+    accessString: item["accessString"],
+    provisioningError: !item["provisioningError"]
+      ? item["provisioningError"]
+      : accessPolicyAssignmentProvisioningErrorDeserializer(item["provisioningError"]),
     user: !item["user"]
       ? item["user"]
       : accessPolicyAssignmentPropertiesUserDeserializer(item["user"]),

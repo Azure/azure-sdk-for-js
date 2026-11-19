@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a job.
  *
  * @summary creates or updates a job.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobMax.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobMax.json
  */
 async function createAJobWithAllPropertiesSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createAJobWithAllPropertiesSpecified(): Promise<void> {
  * This sample demonstrates how to creates or updates a job.
  *
  * @summary creates or updates a job.
- * x-ms-original-file: 2025-08-01-preview/CreateOrUpdateJobMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateOrUpdateJobMin.json
  */
 async function createAJobWithDefaultProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

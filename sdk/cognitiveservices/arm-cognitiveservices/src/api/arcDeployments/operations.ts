@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type { CognitiveServicesManagementContext as Client } from "../index.js";
+import type { ArcDeploymentCreateOrUpdateContent } from "../../models/cognitiveServicesClientCustomizations/models.js";
+import { arcDeploymentCreateOrUpdateContentSerializer } from "../../models/cognitiveServicesClientCustomizations/models.js";
 import type {
   ArcDeployment,
   ArcDeploymentUpdate,
@@ -9,7 +11,6 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  arcDeploymentSerializer,
   arcDeploymentDeserializer,
   arcDeploymentUpdateSerializer,
   _arcDeploymentListResultDeserializer,
@@ -41,7 +42,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +85,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
     },
   );
 }
@@ -97,13 +98,14 @@ export function _$deleteSend(
   options: ArcDeploymentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/arcDeployments/{deploymentName}{?api%2Dversion,force}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
+      force: options?.force,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, deploymentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -159,7 +161,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, deploymentName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<OperationState<ArcDeployment>, ArcDeployment>;
 }
 
@@ -211,7 +213,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   accountName: string,
   deploymentName: string,
-  resource: ArcDeployment,
+  resource: ArcDeploymentCreateOrUpdateContent,
   options: ArcDeploymentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -221,7 +223,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -231,7 +233,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: arcDeploymentSerializer(resource),
+    body: arcDeploymentCreateOrUpdateContentSerializer(resource),
   });
 }
 
@@ -257,7 +259,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   accountName: string,
   deploymentName: string,
-  resource: ArcDeployment,
+  resource: ArcDeploymentCreateOrUpdateContent,
   options: ArcDeploymentsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ArcDeployment>, ArcDeployment> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
@@ -273,7 +275,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-15-preview",
+    apiVersion: context.apiVersion ?? "2026-11-15-preview",
   }) as PollerLike<OperationState<ArcDeployment>, ArcDeployment>;
 }
 
@@ -291,7 +293,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       deploymentName: deploymentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

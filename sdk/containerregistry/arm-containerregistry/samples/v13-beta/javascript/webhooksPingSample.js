@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to triggers a ping event to be sent to the webhook.
  *
  * @summary triggers a ping event to be sent to the webhook.
- * x-ms-original-file: 2026-09-01-preview/WebhookPing.json
+ * x-ms-original-file: 2026-10-15-preview/WebhookPing.json
  */
 async function webhookPing() {
   const credential = new DefaultAzureCredential();
