@@ -1,14 +1,40 @@
 # Release History
 
-## 11.0.1 (Unreleased)
+## 12.0.0 (2026-11-19)
 
 ### Features Added
+  - Added Interface DeploymentConfigurationPatch
+  - Added Interface HardwareProfile
+  - Added Interface MaxInstancePercentPerZonePolicy
+  - Added Interface MaxInstancePercentPerZonePolicyPatch
+  - Added Interface Placement
+  - Added Interface PlacementPatch
+  - Added Interface PoolPatch
+  - Added Interface PoolPatchProperties
+  - Added Interface ResiliencyPolicy
+  - Added Interface ResiliencyPolicyPatch
+  - Added Interface VirtualMachineConfigurationPatch
+  - Added Interface VirtualMachineSkuProfile
+  - Added Interface VirtualMachineSkuProfileVmSize
+  - Added Interface VmSizeProperties
+  - Added Interface ZoneAllocationPolicy
+  - Added Interface ZoneAllocationPolicyPatch
+  - Interface Pool has a new optional parameter vmSkuProfile
+  - Interface PoolProperties has a new optional parameter vmSkuProfile
+  - Interface VirtualMachineConfiguration has a new optional parameter hardwareProfile
+  - Interface VirtualMachineConfiguration has a new optional parameter placement
+  - Interface VirtualMachineConfiguration has a new optional parameter resiliencyPolicy
+  - Added Type Alias RequestedComputeNodeDeallocationOption
+  - Added Type Alias VirtualMachineSkuAllocationStrategy
+  - Added Type Alias ZonePlacementPolicyType
+  - Added Enum KnownVirtualMachineSkuAllocationStrategy
+  - Added Enum KnownZonePlacementPolicyType
+  - Enum KnownVersions has a new value V20261001
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Type of property batchAccount of class BatchManagementClient has changed
+  - Type of property pool of class BatchManagementClient has changed
+  - Type alias "AuthenticationMode" has been changed
 
 ## 11.0.0 (2026-03-20)
 

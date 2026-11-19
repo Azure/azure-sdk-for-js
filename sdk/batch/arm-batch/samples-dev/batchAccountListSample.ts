@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the Batch accounts associated with the subscription.
  *
  * @summary gets information about the Batch accounts associated with the subscription.
- * x-ms-original-file: 2025-06-01/BatchAccountList.json
+ * x-ms-original-file: 2026-10-01/BatchAccountList.json
  */
 async function batchAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();

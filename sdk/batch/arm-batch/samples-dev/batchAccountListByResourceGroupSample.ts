@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the Batch accounts associated with the specified resource group.
  *
  * @summary gets information about the Batch accounts associated with the specified resource group.
- * x-ms-original-file: 2025-06-01/BatchAccountListByResourceGroup.json
+ * x-ms-original-file: 2026-10-01/BatchAccountListByResourceGroup.json
  */
 async function batchAccountListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the pools in the specified account.
  *
  * @summary lists all of the pools in the specified account.
- * x-ms-original-file: 2025-06-01/PoolList.json
+ * x-ms-original-file: 2026-10-01/PoolList.json
  */
 async function listPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listPool(): Promise<void> {
  * This sample demonstrates how to lists all of the pools in the specified account.
  *
  * @summary lists all of the pools in the specified account.
- * x-ms-original-file: 2025-06-01/PoolListWithFilter.json
+ * x-ms-original-file: 2026-10-01/PoolListWithFilter.json
  */
 async function listPoolWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,10 +40,11 @@ async function listPoolWithFilter(): Promise<void> {
     "default-azurebatch-japaneast",
     "sampleacct",
     {
+      maxresults: 50,
       select:
         "properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes",
       filter:
-        "startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')",
+        "startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-09-01')",
     },
   )) {
     resArray.push(item);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the NSP configurations in the specified account.
  *
  * @summary lists all of the NSP configurations in the specified account.
- * x-ms-original-file: 2025-06-01/NspConfigurationsList.json
+ * x-ms-original-file: 2026-10-01/NspConfigurationsList.json
  */
 async function listNspConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

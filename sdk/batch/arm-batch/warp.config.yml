@@ -1,5 +1,19 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/location": "./src/api/location/index.ts"
+  "./api/networkSecurityPerimeter": "./src/api/networkSecurityPerimeter/index.ts"
+  "./api/pool": "./src/api/pool/index.ts"
+  "./api/privateEndpointConnection": "./src/api/privateEndpointConnection/index.ts"
+  "./api/privateLinkResource": "./src/api/privateLinkResource/index.ts"
+  "./api/application": "./src/api/application/index.ts"
+  "./api/applicationPackage": "./src/api/applicationPackage/index.ts"
+  "./api/batchAccount": "./src/api/batchAccount/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

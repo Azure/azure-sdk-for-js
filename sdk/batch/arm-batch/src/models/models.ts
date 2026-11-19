@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -254,6 +254,7 @@ export function batchAccountPropertiesDeserializer(item: any): BatchAccountPrope
 /** The provisioned state of the resource */
 export type ProvisioningState =
   "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
+
 /** The allocation mode for creating pools in the Batch account. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 
@@ -608,7 +609,7 @@ export function virtualMachineFamilyCoreQuotaDeserializer(
 }
 
 /** The authentication mode for the Batch account. */
-export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
+export type AuthenticationMode = "SharedKey" | "AAD";
 
 /** The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode. */
 export interface BatchAccountIdentity {
@@ -673,8 +674,8 @@ export interface UserAssignedIdentities {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesSerializer(item: UserAssignedIdentities): any {
-  return item;
+export function userAssignedIdentitiesSerializer(_item: UserAssignedIdentities): any {
+  return {};
 }
 
 export function userAssignedIdentitiesDeserializer(item: any): UserAssignedIdentities {
@@ -687,8 +688,8 @@ export function userAssignedIdentitiesDeserializer(item: any): UserAssignedIdent
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -714,8 +715,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1275,9 +1276,9 @@ export interface ApplicationPackage extends ProxyResource {
   readonly state?: PackageState;
   /** The format of the application package, if the package is active. */
   readonly format?: string;
-  /** The URL for the application package in Azure Storage. */
+  /** The URL for the application package in Azure Storage. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   readonly storageUrl?: string;
-  /** The UTC time at which the Azure Storage URL will expire. */
+  /** The UTC time at which the Azure Storage URL will expire. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   readonly storageUrlExpiry?: Date;
   /** The time at which the package was last activated, if the package is active. */
   readonly lastActivationTime?: Date;
@@ -1316,16 +1317,16 @@ export interface ApplicationPackageProperties {
   readonly state?: PackageState;
   /** The format of the application package, if the package is active. */
   readonly format?: string;
-  /** The URL for the application package in Azure Storage. */
+  /** The URL for the application package in Azure Storage. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   readonly storageUrl?: string;
-  /** The UTC time at which the Azure Storage URL will expire. */
+  /** The UTC time at which the Azure Storage URL will expire. This property is only returned for the PUT application package (create or update) operation. For the GET application package and POST activate application package operations, this property is not populated. */
   readonly storageUrlExpiry?: Date;
   /** The time at which the package was last activated, if the package is active. */
   readonly lastActivationTime?: Date;
 }
 
-export function applicationPackagePropertiesSerializer(item: ApplicationPackageProperties): any {
-  return item;
+export function applicationPackagePropertiesSerializer(_item: ApplicationPackageProperties): any {
+  return {};
 }
 
 export function applicationPackagePropertiesDeserializer(item: any): ApplicationPackageProperties {
@@ -1604,6 +1605,8 @@ export interface Pool extends ProxyResource {
   readonly allocationStateTransitionTime?: Date;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
   /** The number of dedicated compute nodes currently in the pool. */
@@ -1643,6 +1646,7 @@ export function poolSerializer(item: Pool): any {
     properties: areAllPropsUndefined(item, [
       "displayName",
       "vmSize",
+      "vmSkuProfile",
       "deploymentConfiguration",
       "scaleSettings",
       "interNodeCommunication",
@@ -1700,6 +1704,8 @@ export interface PoolProperties {
   readonly allocationStateTransitionTime?: Date;
   /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
   /** The number of dedicated compute nodes currently in the pool. */
@@ -1738,6 +1744,9 @@ export function poolPropertiesSerializer(item: PoolProperties): any {
   return {
     displayName: item["displayName"],
     vmSize: item["vmSize"],
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileSerializer(item["vmSkuProfile"]),
     deploymentConfiguration: !item["deploymentConfiguration"]
       ? item["deploymentConfiguration"]
       : deploymentConfigurationSerializer(item["deploymentConfiguration"]),
@@ -1783,6 +1792,9 @@ export function poolPropertiesDeserializer(item: any): PoolProperties {
       ? item["allocationStateTransitionTime"]
       : new Date(item["allocationStateTransitionTime"]),
     vmSize: item["vmSize"],
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileDeserializer(item["vmSkuProfile"]),
     deploymentConfiguration: !item["deploymentConfiguration"]
       ? item["deploymentConfiguration"]
       : deploymentConfigurationDeserializer(item["deploymentConfiguration"]),
@@ -1826,8 +1838,95 @@ export function poolPropertiesDeserializer(item: any): PoolProperties {
 
 /** The current state of the pool. */
 export type PoolProvisioningState = "Succeeded" | "Deleting";
+
 /** Whether the pool is resizing. */
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
+
+/** Specifies the set of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. */
+export interface VirtualMachineSkuProfile {
+  /** The list of VM sizes (up to 5) that may be allocated for the Pool. VM sizes may span the supported A, B, D, E, and F VM families, but must have the same vCPU count and CPU architecture and compatible VM capabilities. This must be specified when the vmSkuProfile is provided during Pool creation. */
+  vmSizes?: VirtualMachineSkuProfileVmSize[];
+  /** The allocation strategy used to select VM sizes from vmSizes. Defaults to LowestPrice when not specified. */
+  allocationStrategy?: VirtualMachineSkuAllocationStrategy;
+}
+
+export function virtualMachineSkuProfileSerializer(item: VirtualMachineSkuProfile): any {
+  return {
+    vmSizes: !item["vmSizes"]
+      ? item["vmSizes"]
+      : virtualMachineSkuProfileVmSizeArraySerializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function virtualMachineSkuProfileDeserializer(item: any): VirtualMachineSkuProfile {
+  return {
+    vmSizes: !item["vmSizes"]
+      ? item["vmSizes"]
+      : virtualMachineSkuProfileVmSizeArrayDeserializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function virtualMachineSkuProfileVmSizeArraySerializer(
+  result: Array<VirtualMachineSkuProfileVmSize>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineSkuProfileVmSizeSerializer(item);
+  });
+}
+
+export function virtualMachineSkuProfileVmSizeArrayDeserializer(
+  result: Array<VirtualMachineSkuProfileVmSize>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineSkuProfileVmSizeDeserializer(item);
+  });
+}
+
+/** Specifies a single VM size that may be allocated for an Instance Mix pool. */
+export interface VirtualMachineSkuProfileVmSize {
+  /** The name of the VM size (for example, "Standard_D8s_v5"). */
+  name: string;
+  /** The 0-based rank (a.k.a. priority) associated with this VM size. Lower values indicate higher priority. Rank is required only when the allocation strategy is 'Prioritized' and must be omitted otherwise. */
+  rank?: number;
+}
+
+export function virtualMachineSkuProfileVmSizeSerializer(
+  item: VirtualMachineSkuProfileVmSize,
+): any {
+  return { name: item["name"], rank: item["rank"] };
+}
+
+export function virtualMachineSkuProfileVmSizeDeserializer(
+  item: any,
+): VirtualMachineSkuProfileVmSize {
+  return {
+    name: item["name"],
+    rank: item["rank"],
+  };
+}
+
+/** Specifies the allocation strategy that the Fungible Compute Platform uses to select VM sizes from the vmSkuProfile when allocating nodes for an Instance Mix pool. */
+export enum KnownVirtualMachineSkuAllocationStrategy {
+  /** Select the cheapest available SKU in the region. This is the default strategy. */
+  LowestPrice = "LowestPrice",
+  /** Select the SKU with the most regional physical capacity. */
+  CapacityOptimized = "CapacityOptimized",
+  /** Follow the customer-defined ranking via the 0-based rank, falling back to the next rank when a preferred SKU is unavailable. */
+  Prioritized = "Prioritized",
+}
+
+/**
+ * Specifies the allocation strategy that the Fungible Compute Platform uses to select VM sizes from the vmSkuProfile when allocating nodes for an Instance Mix pool. \
+ * {@link KnownVirtualMachineSkuAllocationStrategy} can be used interchangeably with VirtualMachineSkuAllocationStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LowestPrice**: Select the cheapest available SKU in the region. This is the default strategy. \
+ * **CapacityOptimized**: Select the SKU with the most regional physical capacity. \
+ * **Prioritized**: Follow the customer-defined ranking via the 0-based rank, falling back to the next rank when a preferred SKU is unavailable.
+ */
+export type VirtualMachineSkuAllocationStrategy = string;
 
 /** Deployment configuration properties. */
 export interface DeploymentConfiguration {
@@ -1882,6 +1981,21 @@ export interface VirtualMachineConfiguration {
   securityProfile?: SecurityProfile;
   /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
   serviceArtifactReference?: ServiceArtifactReference;
+  /** Specifies the hardware settings for the compute nodes. */
+  hardwareProfile?: HardwareProfile;
+  /**
+   * The availability zone placement policy for compute nodes in the pool. Set zonePlacementPolicy to Auto to delegate availability zone selection and balancing to the virtual machine scale set.
+   * On pool creation, if placement is omitted, Batch uses nodePlacementConfiguration when it is specified; otherwise, the pool uses Regional placement, which provides no availability zone distribution guarantee. This property cannot be combined with nodePlacementConfiguration.
+   * On PATCH, omitting placement preserves the existing placement policy, including when virtualMachineConfiguration is supplied.
+   * On PUT, the supplied virtual machine configuration replaces the existing policies; omitting placement clears the placement policy.
+   */
+  placement?: Placement;
+  /**
+   * The resiliency policy for compute nodes in the pool. This property requires placement.zonePlacementPolicy to be Auto.
+   * On PATCH, omitting resiliencyPolicy preserves the existing resiliency policy independently of whether placement is supplied.
+   * On PUT, the supplied virtual machine configuration replaces the existing policies; omitting resiliencyPolicy clears the resiliency policy.
+   */
+  resiliencyPolicy?: ResiliencyPolicy;
 }
 
 export function virtualMachineConfigurationSerializer(item: VirtualMachineConfiguration): any {
@@ -1912,6 +2026,13 @@ export function virtualMachineConfigurationSerializer(item: VirtualMachineConfig
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceSerializer(item["serviceArtifactReference"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileSerializer(item["hardwareProfile"]),
+    placement: !item["placement"] ? item["placement"] : placementSerializer(item["placement"]),
+    resiliencyPolicy: !item["resiliencyPolicy"]
+      ? item["resiliencyPolicy"]
+      : resiliencyPolicySerializer(item["resiliencyPolicy"]),
   };
 }
 
@@ -1945,6 +2066,13 @@ export function virtualMachineConfigurationDeserializer(item: any): VirtualMachi
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceDeserializer(item["serviceArtifactReference"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileDeserializer(item["hardwareProfile"]),
+    placement: !item["placement"] ? item["placement"] : placementDeserializer(item["placement"]),
+    resiliencyPolicy: !item["resiliencyPolicy"]
+      ? item["resiliencyPolicy"]
+      : resiliencyPolicyDeserializer(item["resiliencyPolicy"]),
   };
 }
 
@@ -2628,6 +2756,143 @@ export function serviceArtifactReferenceDeserializer(item: any): ServiceArtifact
   };
 }
 
+/** Specifies the hardware settings for the compute nodes. */
+export interface HardwareProfile {
+  /** Specifies the properties for customizing the size of the virtual machine. */
+  vmSizeProperties?: VmSizeProperties;
+}
+
+export function hardwareProfileSerializer(item: HardwareProfile): any {
+  return {
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vmSizePropertiesSerializer(item["vmSizeProperties"]),
+  };
+}
+
+export function hardwareProfileDeserializer(item: any): HardwareProfile {
+  return {
+    vmSizeProperties: !item["vmSizeProperties"]
+      ? item["vmSizeProperties"]
+      : vmSizePropertiesDeserializer(item["vmSizeProperties"]),
+  };
+}
+
+/** Specifies the properties for customizing the size of the virtual machine. */
+export interface VmSizeProperties {
+  /** Specifies the number of vCPUs available for the VM. When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size. */
+  vCPUsAvailable?: number;
+  /** Specifies the vCPU to physical core ratio. When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size. **Setting this property to 1 also means that hyper-threading is disabled.** */
+  vCPUsPerCore?: number;
+}
+
+export function vmSizePropertiesSerializer(item: VmSizeProperties): any {
+  return { vCPUsAvailable: item["vCPUsAvailable"], vCPUsPerCore: item["vCPUsPerCore"] };
+}
+
+export function vmSizePropertiesDeserializer(item: any): VmSizeProperties {
+  return {
+    vCPUsAvailable: item["vCPUsAvailable"],
+    vCPUsPerCore: item["vCPUsPerCore"],
+  };
+}
+
+/** The placement policy for compute nodes in a pool. */
+export interface Placement {
+  /** Auto delegates zone selection and balancing to the virtual machine scale set. */
+  zonePlacementPolicy: ZonePlacementPolicyType;
+}
+
+export function placementSerializer(item: Placement): any {
+  return { zonePlacementPolicy: item["zonePlacementPolicy"] };
+}
+
+export function placementDeserializer(item: any): Placement {
+  return {
+    zonePlacementPolicy: item["zonePlacementPolicy"],
+  };
+}
+
+/** The zone placement policy for compute nodes in a pool. */
+export enum KnownZonePlacementPolicyType {
+  /** The Virtual Machine Scale Set automatically selects availability zones and balances instances across them. */
+  Auto = "Auto",
+}
+
+/**
+ * The zone placement policy for compute nodes in a pool. \
+ * {@link KnownZonePlacementPolicyType} can be used interchangeably with ZonePlacementPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: The Virtual Machine Scale Set automatically selects availability zones and balances instances across them.
+ */
+export type ZonePlacementPolicyType = string;
+
+/** The resiliency policy for compute nodes in a pool. */
+export interface ResiliencyPolicy {
+  /** The policy that controls allocation across availability zones. */
+  zoneAllocationPolicy: ZoneAllocationPolicy;
+}
+
+export function resiliencyPolicySerializer(item: ResiliencyPolicy): any {
+  return { zoneAllocationPolicy: zoneAllocationPolicySerializer(item["zoneAllocationPolicy"]) };
+}
+
+export function resiliencyPolicyDeserializer(item: any): ResiliencyPolicy {
+  return {
+    zoneAllocationPolicy: zoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
+  };
+}
+
+/** The policy that controls allocation across availability zones. */
+export interface ZoneAllocationPolicy {
+  /** The maximum number of availability zones that may be used. The value cannot exceed the number of zones supported by the region. */
+  maxZoneCount?: number;
+  /** The policy that limits the percentage of pool instances that may be allocated in a single availability zone. */
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+}
+
+export function zoneAllocationPolicySerializer(item: ZoneAllocationPolicy): any {
+  return {
+    maxZoneCount: item["maxZoneCount"],
+    maxInstancePercentPerZonePolicy: !item["maxInstancePercentPerZonePolicy"]
+      ? item["maxInstancePercentPerZonePolicy"]
+      : maxInstancePercentPerZonePolicySerializer(item["maxInstancePercentPerZonePolicy"]),
+  };
+}
+
+export function zoneAllocationPolicyDeserializer(item: any): ZoneAllocationPolicy {
+  return {
+    maxZoneCount: item["maxZoneCount"],
+    maxInstancePercentPerZonePolicy: !item["maxInstancePercentPerZonePolicy"]
+      ? item["maxInstancePercentPerZonePolicy"]
+      : maxInstancePercentPerZonePolicyDeserializer(item["maxInstancePercentPerZonePolicy"]),
+  };
+}
+
+/** The policy that limits the percentage of pool instances that may be allocated in a single availability zone. */
+export interface MaxInstancePercentPerZonePolicy {
+  /** Whether the maximum instance percentage policy is enabled. */
+  enabled?: boolean;
+  /** The maximum percentage of pool instances that may be allocated in a single availability zone. */
+  value: number;
+}
+
+export function maxInstancePercentPerZonePolicySerializer(
+  item: MaxInstancePercentPerZonePolicy,
+): any {
+  return { enabled: item["enabled"], value: item["value"] };
+}
+
+export function maxInstancePercentPerZonePolicyDeserializer(
+  item: any,
+): MaxInstancePercentPerZonePolicy {
+  return {
+    enabled: item["enabled"],
+    value: item["value"],
+  };
+}
+
 /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
 export interface ScaleSettings {
   /** This property and autoScale are mutually exclusive and one of the properties must be specified. */
@@ -2667,7 +2932,7 @@ export interface FixedScaleSettings {
   /** At least one of targetDedicatedNodes, targetLowPriorityNodes must be set. */
   targetLowPriorityNodes?: number;
   /** If omitted, the default value is Requeue. */
-  nodeDeallocationOption?: ComputeNodeDeallocationOption;
+  nodeDeallocationOption?: RequestedComputeNodeDeallocationOption;
 }
 
 export function fixedScaleSettingsSerializer(item: FixedScaleSettings): any {
@@ -2688,9 +2953,8 @@ export function fixedScaleSettingsDeserializer(item: any): FixedScaleSettings {
   };
 }
 
-/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
-export type ComputeNodeDeallocationOption =
-  "Requeue" | "Terminate" | "TaskCompletion" | "RetainedData";
+/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. This is the set of values that can be requested; `RetainedData` is no longer accepted as of the 2026-10-01 API version. */
+export type RequestedComputeNodeDeallocationOption = "Requeue" | "Terminate" | "TaskCompletion";
 
 /** AutoScale settings for the pool. */
 export interface AutoScaleSettings {
@@ -3067,6 +3331,7 @@ export enum KnownJobDefaultOrder {
  * **CreationTime**: If jobs have equal priority, tasks from jobs that were created earlier should be scheduled first.
  */
 export type JobDefaultOrder = string;
+
 /** How tasks should be distributed across compute nodes. */
 export type ComputeNodeFillType = "Spread" | "Pack";
 
@@ -3273,9 +3538,9 @@ export function resourceFileArrayDeserializer(result: Array<ResourceFile>): any[
 export interface ResourceFile {
   /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. */
   autoStorageContainerName?: string;
-  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access. */
+  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. Do not embed credentials in the URL. For Azure Blob Storage, use a managed identity with read and list permissions on the container and specify it using identityReference. */
   storageContainerUrl?: string;
-  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access. */
+  /** The autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. Do not embed credentials in the URL. For Azure Blob Storage, use a managed identity with read permission on the blob and specify it using identityReference. */
   httpUrl?: string;
   /** The property is valid only when autoStorageContainerName or storageContainerUrl is used. This prefix can be a partial filename or a subdirectory. If a prefix is not specified, all the files in the container will be downloaded. */
   blobPrefix?: string;
@@ -3567,6 +3832,10 @@ export function resizeOperationStatusDeserializer(item: any): ResizeOperationSta
     errors: !item["errors"] ? item["errors"] : resizeErrorArrayDeserializer(item["errors"]),
   };
 }
+
+/** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
+export type ComputeNodeDeallocationOption =
+  "Requeue" | "Terminate" | "TaskCompletion" | "RetainedData";
 
 export function resizeErrorArrayDeserializer(result: Array<ResizeError>): any[] {
   return result.map((item) => {
@@ -3863,7 +4132,7 @@ export function automaticOSUpgradePolicyDeserializer(item: any): AutomaticOSUpgr
 
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
-  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field can be set to true or false only when nodePlacementConfiguration.policy is Zonal or placement.zonePlacementPolicy is Auto. */
   enableCrossZoneUpgrade?: boolean;
   /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
   maxBatchInstancePercent?: number;
@@ -3932,6 +4201,272 @@ export function batchPoolIdentityDeserializer(item: any): BatchPoolIdentity {
 /** The type of identity used for the Batch Pool. */
 export type PoolIdentityType = "UserAssigned" | "None";
 
+/** Properties supplied when updating a pool. */
+export interface PoolPatch {
+  /** The type of identity used for the Batch Pool. */
+  identity?: BatchPoolIdentity;
+  /** The ETag of the resource, used for concurrency statements. */
+  readonly etag?: string;
+  /** The tags of the resource. */
+  tags?: Record<string, string>;
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+  /** The pool properties to update. */
+  properties?: PoolPatchProperties;
+}
+
+export function poolPatchSerializer(item: PoolPatch): any {
+  return {
+    identity: !item["identity"] ? item["identity"] : batchPoolIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : poolPatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Pool settings with partial updates for the new zone policies. */
+export interface PoolPatchProperties {
+  /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
+  displayName?: string;
+  /** This is the last time at which the pool level data, such as the targetDedicatedNodes or autoScaleSettings, changed. It does not factor in node-level changes such as a compute node changing state. */
+  readonly lastModified?: Date;
+  /** The creation time of the pool. */
+  readonly creationTime?: Date;
+  /** The current state of the pool. */
+  readonly provisioningState?: PoolProvisioningState;
+  /** The time at which the pool entered its current state. */
+  readonly provisioningStateTransitionTime?: Date;
+  /** Whether the pool is resizing. */
+  readonly allocationState?: AllocationState;
+  /** The time at which the pool entered its current allocation state. */
+  readonly allocationStateTransitionTime?: Date;
+  /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  vmSize?: string;
+  /** Specifies the profile of VM sizes and the allocation strategy used to allocate compute nodes for an Instance Mix pool. When specified, vmSize must be "Mix". This property can only be changed while the pool has no compute nodes. */
+  vmSkuProfile?: VirtualMachineSkuProfile;
+  /** The number of dedicated compute nodes currently in the pool. */
+  readonly currentDedicatedNodes?: number;
+  /** The number of Spot/low-priority compute nodes currently in the pool. */
+  readonly currentLowPriorityNodes?: number;
+  /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
+  scaleSettings?: ScaleSettings;
+  /** This property is set only if the pool automatically scales, i.e. autoScaleSettings are used. */
+  readonly autoScaleRun?: AutoScaleRun;
+  /** This imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. */
+  interNodeCommunication?: InterNodeCommunicationState;
+  /** The network configuration for a pool. */
+  networkConfiguration?: NetworkConfiguration;
+  /** If not specified, the default is spread. */
+  taskSchedulingPolicy?: TaskSchedulingPolicy;
+  /** The list of user accounts to be created on each node in the pool. */
+  userAccounts?: UserAccount[];
+  /** The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */
+  metadata?: MetadataItem[];
+  /** In an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool. */
+  startTask?: StartTask;
+  /** Changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool. */
+  applicationPackages?: ApplicationPackageReference[];
+  /** Describes either the current operation (if the pool AllocationState is Resizing) or the previously completed operation (if the AllocationState is Steady). */
+  readonly resizeOperationStatus?: ResizeOperationStatus;
+  /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
+  mountConfiguration?: MountConfiguration[];
+  /** Describes an upgrade policy - automatic, manual, or rolling. */
+  upgradePolicy?: UpgradePolicy;
+  /** Deployment configuration properties. */
+  deploymentConfiguration?: DeploymentConfigurationPatch;
+  /** When omitted, the existing value is preserved. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
+  taskSlotsPerNode?: number;
+}
+
+export function poolPatchPropertiesSerializer(item: PoolPatchProperties): any {
+  return {
+    displayName: item["displayName"],
+    vmSize: item["vmSize"],
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileSerializer(item["vmSkuProfile"]),
+    scaleSettings: !item["scaleSettings"]
+      ? item["scaleSettings"]
+      : scaleSettingsSerializer(item["scaleSettings"]),
+    interNodeCommunication: item["interNodeCommunication"],
+    networkConfiguration: !item["networkConfiguration"]
+      ? item["networkConfiguration"]
+      : networkConfigurationSerializer(item["networkConfiguration"]),
+    taskSchedulingPolicy: !item["taskSchedulingPolicy"]
+      ? item["taskSchedulingPolicy"]
+      : taskSchedulingPolicySerializer(item["taskSchedulingPolicy"]),
+    userAccounts: !item["userAccounts"]
+      ? item["userAccounts"]
+      : userAccountArraySerializer(item["userAccounts"]),
+    metadata: !item["metadata"] ? item["metadata"] : metadataItemArraySerializer(item["metadata"]),
+    startTask: !item["startTask"] ? item["startTask"] : startTaskSerializer(item["startTask"]),
+    applicationPackages: !item["applicationPackages"]
+      ? item["applicationPackages"]
+      : applicationPackageReferenceArraySerializer(item["applicationPackages"]),
+    mountConfiguration: !item["mountConfiguration"]
+      ? item["mountConfiguration"]
+      : mountConfigurationArraySerializer(item["mountConfiguration"]),
+    upgradePolicy: !item["upgradePolicy"]
+      ? item["upgradePolicy"]
+      : upgradePolicySerializer(item["upgradePolicy"]),
+    deploymentConfiguration: !item["deploymentConfiguration"]
+      ? item["deploymentConfiguration"]
+      : deploymentConfigurationPatchSerializer(item["deploymentConfiguration"]),
+    taskSlotsPerNode: item["taskSlotsPerNode"],
+  };
+}
+
+/** Deployment settings with partial updates for the new zone policies. */
+export interface DeploymentConfigurationPatch {
+  /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
+  virtualMachineConfiguration?: VirtualMachineConfigurationPatch;
+}
+
+export function deploymentConfigurationPatchSerializer(item: DeploymentConfigurationPatch): any {
+  return {
+    virtualMachineConfiguration: !item["virtualMachineConfiguration"]
+      ? item["virtualMachineConfiguration"]
+      : virtualMachineConfigurationPatchSerializer(item["virtualMachineConfiguration"]),
+  };
+}
+
+/** Virtual machine settings retaining legacy requirements when updating zone policies. */
+export interface VirtualMachineConfigurationPatch {
+  /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
+  imageReference: ImageReference;
+  /** The Batch node agent is a program that runs on each node in the pool, and provides the command-and-control interface between the node and the Batch service. There are different implementations of the node agent, known as SKUs, for different operating systems. You must specify a node agent SKU which matches the selected image reference. To get the list of supported node agent SKUs along with their list of verified image references, see the 'List supported node agent SKUs' operation. */
+  nodeAgentSkuId: string;
+  /** This property must not be specified if the imageReference specifies a Linux OS image. */
+  windowsConfiguration?: WindowsConfiguration;
+  /** This property must be specified if the compute nodes in the pool need to have empty data disks attached to them. */
+  dataDisks?: DataDisk[];
+  /**
+   * This only applies to images that contain the Windows operating system, and should only be used when you hold valid on-premises licenses for the nodes which will be deployed. If omitted, no on-premises licensing discount is applied. Values are:
+   *
+   * Windows_Server - The on-premises license is for Windows Server.
+   * Windows_Client - The on-premises license is for Windows Client.
+   */
+  licenseType?: string;
+  /** If specified, setup is performed on each node in the pool to allow tasks to run in containers. All regular tasks and job manager tasks run on this pool must specify the containerSettings property, and all other tasks may specify it. */
+  containerConfiguration?: ContainerConfiguration;
+  /** If specified, encryption is performed on each node in the pool during node provisioning. */
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  /** This configuration will specify rules on how nodes in the pool will be physically allocated. */
+  nodePlacementConfiguration?: NodePlacementConfiguration;
+  /** If specified, the extensions mentioned in this configuration will be installed on each node. */
+  extensions?: VMExtension[];
+  /** Contains configuration for ephemeral OSDisk settings. */
+  osDisk?: OSDisk;
+  /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+  securityProfile?: SecurityProfile;
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  serviceArtifactReference?: ServiceArtifactReference;
+  /** Specifies the hardware settings for the compute nodes. */
+  hardwareProfile?: HardwareProfile;
+  /** The availability zone placement policy to update. Omitted fields retain their existing values. */
+  placement?: PlacementPatch;
+  /** The resiliency policy to update. Omitted fields retain their existing values. */
+  resiliencyPolicy?: ResiliencyPolicyPatch;
+}
+
+export function virtualMachineConfigurationPatchSerializer(
+  item: VirtualMachineConfigurationPatch,
+): any {
+  return {
+    imageReference: imageReferenceSerializer(item["imageReference"]),
+    nodeAgentSkuId: item["nodeAgentSkuId"],
+    windowsConfiguration: !item["windowsConfiguration"]
+      ? item["windowsConfiguration"]
+      : windowsConfigurationSerializer(item["windowsConfiguration"]),
+    dataDisks: !item["dataDisks"] ? item["dataDisks"] : dataDiskArraySerializer(item["dataDisks"]),
+    licenseType: item["licenseType"],
+    containerConfiguration: !item["containerConfiguration"]
+      ? item["containerConfiguration"]
+      : containerConfigurationSerializer(item["containerConfiguration"]),
+    diskEncryptionConfiguration: !item["diskEncryptionConfiguration"]
+      ? item["diskEncryptionConfiguration"]
+      : diskEncryptionConfigurationSerializer(item["diskEncryptionConfiguration"]),
+    nodePlacementConfiguration: !item["nodePlacementConfiguration"]
+      ? item["nodePlacementConfiguration"]
+      : nodePlacementConfigurationSerializer(item["nodePlacementConfiguration"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : vmExtensionArraySerializer(item["extensions"]),
+    osDisk: !item["osDisk"] ? item["osDisk"] : osDiskSerializer(item["osDisk"]),
+    securityProfile: !item["securityProfile"]
+      ? item["securityProfile"]
+      : securityProfileSerializer(item["securityProfile"]),
+    serviceArtifactReference: !item["serviceArtifactReference"]
+      ? item["serviceArtifactReference"]
+      : serviceArtifactReferenceSerializer(item["serviceArtifactReference"]),
+    hardwareProfile: !item["hardwareProfile"]
+      ? item["hardwareProfile"]
+      : hardwareProfileSerializer(item["hardwareProfile"]),
+    placement: !item["placement"] ? item["placement"] : placementPatchSerializer(item["placement"]),
+    resiliencyPolicy: !item["resiliencyPolicy"]
+      ? item["resiliencyPolicy"]
+      : resiliencyPolicyPatchSerializer(item["resiliencyPolicy"]),
+  };
+}
+
+/** Availability zone placement fields to update, leaving omitted fields unchanged. */
+export interface PlacementPatch {
+  /** Auto delegates zone selection and balancing to the virtual machine scale set. */
+  zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+export function placementPatchSerializer(item: PlacementPatch): any {
+  return { zonePlacementPolicy: item["zonePlacementPolicy"] };
+}
+
+/** Resiliency policy fields to update, leaving omitted fields unchanged. */
+export interface ResiliencyPolicyPatch {
+  /** The zone allocation policy fields to update. */
+  zoneAllocationPolicy?: ZoneAllocationPolicyPatch;
+}
+
+export function resiliencyPolicyPatchSerializer(item: ResiliencyPolicyPatch): any {
+  return {
+    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
+      ? item["zoneAllocationPolicy"]
+      : zoneAllocationPolicyPatchSerializer(item["zoneAllocationPolicy"]),
+  };
+}
+
+/** Zone allocation policy fields to update, leaving omitted fields unchanged. */
+export interface ZoneAllocationPolicyPatch {
+  /** The maximum number of availability zones that may be used. The value cannot exceed the number of zones supported by the region. */
+  maxZoneCount?: number;
+  /** The per-zone instance percentage policy fields to update. */
+  maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicyPatch;
+}
+
+export function zoneAllocationPolicyPatchSerializer(item: ZoneAllocationPolicyPatch): any {
+  return {
+    maxZoneCount: item["maxZoneCount"],
+    maxInstancePercentPerZonePolicy: !item["maxInstancePercentPerZonePolicy"]
+      ? item["maxInstancePercentPerZonePolicy"]
+      : maxInstancePercentPerZonePolicyPatchSerializer(item["maxInstancePercentPerZonePolicy"]),
+  };
+}
+
+/** Per-zone instance percentage fields to update, leaving omitted fields unchanged. */
+export interface MaxInstancePercentPerZonePolicyPatch {
+  /** Whether the maximum instance percentage policy is enabled. */
+  enabled?: boolean;
+  /** The maximum percentage of pool instances that may be allocated in a single availability zone. */
+  value?: number;
+}
+
+export function maxInstancePercentPerZonePolicyPatchSerializer(
+  item: MaxInstancePercentPerZonePolicyPatch,
+): any {
+  return { enabled: item["enabled"], value: item["value"] };
+}
+
 /** Values returned by the List operation. */
 export interface _ListPoolsResult {
   /** The Pool items on this page */
@@ -3983,11 +4518,15 @@ export function networkSecurityPerimeterConfigurationDeserializer(
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
+  /** Provisioning state of the network security perimeter configuration */
   readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
   /** List of provisioning issues, if any */
   readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about the network security perimeter (NSP) */
   networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about the resource association */
   resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
   profile?: NetworkSecurityProfile;
 }
 
@@ -4013,19 +4552,19 @@ export function networkSecurityPerimeterConfigurationPropertiesDeserializer(
 
 /** Provisioning state of a network security perimeter configuration that is being created or updated. */
 export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
-  /** Succeeded */
+  /** The configuration was provisioned successfully. */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** The configuration is being created. */
   Creating = "Creating",
-  /** Updating */
+  /** The configuration is being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** The configuration is being deleted. */
   Deleting = "Deleting",
-  /** Accepted */
+  /** The configuration request was accepted and provisioning has not started yet. */
   Accepted = "Accepted",
-  /** Failed */
+  /** The configuration failed to provision. */
   Failed = "Failed",
-  /** Canceled */
+  /** The configuration provisioning was canceled. */
   Canceled = "Canceled",
 }
 
@@ -4034,13 +4573,13 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
  * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Accepted** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: The configuration was provisioned successfully. \
+ * **Creating**: The configuration is being created. \
+ * **Updating**: The configuration is being updated. \
+ * **Deleting**: The configuration is being deleted. \
+ * **Accepted**: The configuration request was accepted and provisioning has not started yet. \
+ * **Failed**: The configuration failed to provision. \
+ * **Canceled**: The configuration provisioning was canceled.
  */
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
@@ -4054,6 +4593,7 @@ export function provisioningIssueArrayDeserializer(result: Array<ProvisioningIss
 export interface ProvisioningIssue {
   /** Name of the issue */
   readonly name?: string;
+  /** Details of the provisioning issue */
   readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -4122,9 +4662,9 @@ export type IssueType = string;
 
 /** Severity of the issue. */
 export enum KnownSeverity {
-  /** Warning */
+  /** The issue is a warning and does not prevent the configuration from being applied. */
   Warning = "Warning",
-  /** Error */
+  /** The issue is an error and prevents the configuration from being applied. */
   Error = "Error",
 }
 
@@ -4133,8 +4673,8 @@ export enum KnownSeverity {
  * {@link KnownSeverity} can be used interchangeably with Severity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Warning** \
- * **Error**
+ * **Warning**: The issue is a warning and does not prevent the configuration from being applied. \
+ * **Error**: The issue is an error and prevents the configuration from being applied.
  */
 export type Severity = string;
 
@@ -4148,6 +4688,7 @@ export function accessRuleArrayDeserializer(result: Array<AccessRule>): any[] {
 export interface AccessRule {
   /** Name of the access rule */
   name?: string;
+  /** Properties of the access rule */
   properties?: AccessRuleProperties;
 }
 
@@ -4162,6 +4703,7 @@ export function accessRuleDeserializer(item: any): AccessRule {
 
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
+  /** Direction of the access rule */
   direction?: AccessRuleDirection;
   /** Address prefixes in the CIDR format for inbound rules */
   addressPrefixes?: string[];
@@ -4279,6 +4821,7 @@ export function networkSecurityPerimeterDeserializer(item: any): NetworkSecurity
 export interface ResourceAssociation {
   /** Name of the resource association */
   name?: string;
+  /** Access mode of the resource association */
   accessMode?: ResourceAssociationAccessMode;
 }
 
@@ -4500,6 +5043,8 @@ export enum KnownVersions {
   V20240701 = "2024-07-01",
   /** The 2025-06-01 API version. */
   V20250601 = "2025-06-01",
+  /** The 2026-10-01 API version. */
+  V20261001 = "2026-10-01",
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
@@ -4675,6 +5220,9 @@ export function _poolPropertiesSerializer(item: Pool): any {
   return {
     displayName: item["displayName"],
     vmSize: item["vmSize"],
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileSerializer(item["vmSkuProfile"]),
     deploymentConfiguration: !item["deploymentConfiguration"]
       ? item["deploymentConfiguration"]
       : deploymentConfigurationSerializer(item["deploymentConfiguration"]),
@@ -4720,6 +5268,9 @@ export function _poolPropertiesDeserializer(item: any) {
       ? item["allocationStateTransitionTime"]
       : new Date(item["allocationStateTransitionTime"]),
     vmSize: item["vmSize"],
+    vmSkuProfile: !item["vmSkuProfile"]
+      ? item["vmSkuProfile"]
+      : virtualMachineSkuProfileDeserializer(item["vmSkuProfile"]),
     deploymentConfiguration: !item["deploymentConfiguration"]
       ? item["deploymentConfiguration"]
       : deploymentConfigurationDeserializer(item["deploymentConfiguration"]),

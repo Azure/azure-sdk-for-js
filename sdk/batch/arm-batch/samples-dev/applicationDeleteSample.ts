@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an application.
  *
  * @summary deletes an application.
- * x-ms-original-file: 2025-06-01/ApplicationDelete.json
+ * x-ms-original-file: 2026-10-01/ApplicationDelete.json
  */
 async function applicationDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

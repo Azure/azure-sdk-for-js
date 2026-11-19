@@ -1,6 +1,20 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/location/index.ts",
+    "../src/api/networkSecurityPerimeter/index.ts",
+    "../src/api/pool/index.ts",
+    "../src/api/privateEndpointConnection/index.ts",
+    "../src/api/privateLinkResource/index.ts",
+    "../src/api/application/index.ts",
+    "../src/api/applicationPackage/index.ts",
+    "../src/api/batchAccount/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

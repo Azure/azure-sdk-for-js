@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified NSP configuration.
  *
  * @summary gets information about the specified NSP configuration.
- * x-ms-original-file: 2025-06-01/NspConfigurationGet.json
+ * x-ms-original-file: 2026-10-01/NspConfigurationGet.json
  */
 async function getNspConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
