@@ -576,6 +576,9 @@ function buildExportSections(
   const unresolvedReferences = checkResolution(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
+  const declarationRoot = path.dirname(
+    exportFiles.find((exportFile) => exportFile.path === ".")?.file ?? exportFiles[0].file,
+  );
   const packageFiles = program
     .getSourceFiles()
     .filter(
@@ -584,7 +587,7 @@ function buildExportSections(
     )
     .sort((a, b) => a.fileName.localeCompare(b.fileName, "en"));
   const supplemental = packageFiles.flatMap((file) => {
-    const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+    const relativeFile = path.relative(declarationRoot, file.fileName).split(path.sep).join("/");
     return file.statements.flatMap((statement, index) => {
       const augmentation =
         ts.isModuleDeclaration(statement) &&
@@ -675,8 +678,18 @@ function buildExportSections(
   const forgottenSymbol = (identifier: ts.Identifier): ts.Symbol | undefined => {
     const symbol = checker.getSymbolAtLocation(identifier);
     const target = symbol && resolveAlias(symbol);
-    const parent = target?.declarations?.[0]?.parent;
-    if (!target || !parent || !ts.isSourceFile(parent) || exposed.has(target)) {
+    const declaration = target?.declarations?.[0];
+    if (!target || !declaration || exposed.has(target)) {
+      return undefined;
+    }
+    const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
+    const parent = node.parent;
+    if (
+      !parent ||
+      !ts.isSourceFile(parent) ||
+      (ts.isModuleDeclaration(node) &&
+        (ts.isStringLiteral(node.name) || Boolean(node.flags & ts.NodeFlags.GlobalAugmentation)))
+    ) {
       return undefined;
     }
     return program.isSourceFileFromExternalLibrary(parent) ||
@@ -708,6 +721,9 @@ function buildExportSections(
     }
     if (reference) {
       if (ts.isImportTypeNode(node)) {
+        if (!reference.module && node.qualifier) {
+          collectReferences(node.qualifier);
+        }
         node.typeArguments?.forEach(collectReferences);
       }
       return;

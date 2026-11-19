@@ -8,7 +8,7 @@ Describe "Check-ApiReviewHubApproval.ps1" {
       param ([Parameter(ValueFromRemainingArguments = $true)] [object[]] $Arguments)
       if ($Arguments.Count -eq 1 -and $Arguments[0] -eq "--version") {
         $global:LASTEXITCODE = 0
-        return "0.6.38"
+        return $global:AzSdkVersion
       }
       $global:CapturedAzSdkArguments = @($Arguments)
       $global:LASTEXITCODE = $global:AzSdkExitCode
@@ -18,7 +18,7 @@ Describe "Check-ApiReviewHubApproval.ps1" {
 
   AfterAll {
     Remove-Item Function:\azsdk -ErrorAction SilentlyContinue
-    Remove-Variable CapturedAzSdkArguments, AzSdkExitCode, AzSdkOutput -Scope Global -ErrorAction SilentlyContinue
+    Remove-Variable CapturedAzSdkArguments, AzSdkExitCode, AzSdkOutput, AzSdkVersion -Scope Global -ErrorAction SilentlyContinue
   }
 
   BeforeEach {
@@ -31,6 +31,7 @@ Describe "Check-ApiReviewHubApproval.ps1" {
     } | ConvertTo-Json | Set-Content $packageInfoPath
     $global:CapturedAzSdkArguments = @()
     $global:AzSdkExitCode = 0
+    $global:AzSdkVersion = "0.6.55"
     $global:AzSdkOutput = '{"result":{"isApproved":true,"finalSource":"ApiReviewHub","reviewHub":{"statusCode":200,"isApproved":true,"isApiApproved":true,"isPackageNameApproved":true}}}'
   }
 
@@ -82,6 +83,12 @@ Describe "Check-ApiReviewHubApproval.ps1" {
   It "rejects a CLI failure even if its output claims approval" {
     $global:AzSdkExitCode = 1
     { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Throw "*exit code 1*"
+  }
+
+  It "requires a CLI version that reports API and package name approval" {
+    $global:AzSdkVersion = "0.6.54"
+    { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Throw "*0.6.55 or later*"
+    $global:CapturedAzSdkArguments.Count | Should -Be 0
   }
 
   It "rejects missing or invalid candidate hashes before invoking the CLI" -TestCases @(

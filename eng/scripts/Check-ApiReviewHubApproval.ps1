@@ -42,7 +42,7 @@ if ($packageInfo.PSObject.Properties["ReleaseStatus"] -and $null -ne $packageInf
   }
 }
 
-Confirm-AzSdkCliMinimumVersion $AzSdkExePath ([version] "0.6.38")
+Confirm-AzSdkCliMinimumVersion $AzSdkExePath ([version] "0.6.55")
 $arguments = @(
   "package", "get-approval-status",
   "--language", "javascript",

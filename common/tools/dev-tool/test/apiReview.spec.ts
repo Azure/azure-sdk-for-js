@@ -1318,6 +1318,46 @@ export declare class AIProjectClient {
       expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
+    it("includes unexported variables used in public types", async () => {
+      const review = (value: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+        generateApiReview(
+          fixture({
+            "dist/esm/index.d.ts": 'export type { Value } from "./internal.js";',
+            "dist/esm/internal.d.ts": [
+              `declare const values: readonly ["${value}"];`,
+              "export type Value = (typeof values)[number];",
+            ].join("\n"),
+          }),
+        );
+
+      const before = await review("a");
+      const after = await review("b");
+
+      expect(before.apiMd).toContain("declare const values: readonly [");
+      expect(before.apiMd).toContain('"a"');
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
+    });
+
+    it("includes transitive declarations referenced by local import types", async () => {
+      const review = (valueType: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+        generateApiReview(
+          fixture({
+            "dist/esm/index.d.ts": 'export type ClientOptions = import("./internal.js").Options;',
+            "dist/esm/internal.d.ts": [
+              `interface Inner { value: ${valueType}; }`,
+              "export interface Options { nested: Inner; }",
+            ].join("\n"),
+          }),
+        );
+
+      const before = await review("string");
+      const after = await review("number");
+
+      expect(before.apiMd).toContain("interface Options {");
+      expect(before.apiMd).toContain("interface Inner {");
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
+    });
+
     it("warns above each member that uses a forgotten declaration", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export type { DatasetsOperations } from "./datasets.js";',
@@ -1811,6 +1851,53 @@ export declare function isRestError(error: unknown): error is RestError;`,
       expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
+    it("compares supplemental declarations relative to each runtime declaration root", async () => {
+      const exports = {
+        ".": {
+          browser: { types: "./dist/browser/index.d.ts" },
+          import: { types: "./dist/esm/index.d.ts" },
+        },
+      };
+      const index = [
+        'import "./augment.js";',
+        'import "./nested/augment.js";',
+        'export type * from "./models.js";',
+        "export declare const value: string;",
+      ].join("\n");
+      const augmentation = (name: string, type: string): string =>
+        `export {};\ndeclare global { interface Window { ${name}: ${type}; } }`;
+      const review = (
+        browserType: string,
+      ): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+        generateApiReview(
+          fixture(
+            {
+              "dist/esm/index.d.ts": index,
+              "dist/browser/index.d.ts": index,
+              "dist/esm/augment.d.ts": augmentation("added", "string"),
+              "dist/browser/augment.d.ts": augmentation("added", "string"),
+              "dist/esm/nested/augment.d.ts": augmentation("nested", "string"),
+              "dist/browser/nested/augment.d.ts": augmentation("nested", browserType),
+              "dist/esm/models.d.ts": "export interface Model { name: string; }",
+              "dist/browser/models.d.ts": "export interface Model { name: string; }",
+            },
+            { exports },
+          ),
+        );
+
+      const identical = await review("string");
+      const changed = await review("number");
+
+      expect(identical.apiMd).toContain("Identical to the ESM view: `browser`.");
+      expect(identical.apiMd).toContain("// augment.d.ts");
+      expect(identical.apiMd).toContain("// nested/augment.d.ts");
+      expect(identical.apiMd).not.toContain("### `browser`");
+      expect(identical.apiMd).not.toContain("__global");
+      expect(changed.apiMd).toContain("### `browser`");
+      expect(changed.apiMd).toContain("nested: number;");
+      expect(changed.metadata.apiHash).not.toBe(identical.metadata.apiHash);
+    });
+
     it("resolves imports used only by an augmentation without exported declarations", async () => {
       const root = fixture({
         ...dependency("@example/dependency", "export interface Shape { size: number; }"),
@@ -2178,6 +2265,34 @@ describe("release API review", () => {
       ),
     ).rejects.toThrow("archive name or version does not match");
     expect(JSON.parse(readFileSync(changedApi.infoFile, "utf8")).ApiHash).toBeUndefined();
+  });
+
+  it.each([
+    {
+      name: "unexported variable",
+      index: 'export type { Value } from "./internal.js";',
+      internal: (value: string): string =>
+        `declare const values: readonly ["${value}"];\nexport type Value = (typeof values)[number];`,
+    },
+    {
+      name: "local import type",
+      index: 'export type Value = import("./internal.js").Options;',
+      internal: (value: string): string => `export interface Options { value: "${value}"; }`,
+    },
+  ])("rejects a packed candidate with a changed $name", async ({ index, internal }) => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const sourceDir = path.join(root, "dist", "esm");
+    const candidateDir = path.join(root, "candidate", "package", "dist", "esm");
+    writeFileSync(path.join(sourceDir, "index.d.ts"), index);
+    writeFileSync(path.join(candidateDir, "index.d.ts"), index);
+    writeFileSync(path.join(sourceDir, "internal.d.ts"), internal("a"));
+    writeFileSync(path.join(candidateDir, "internal.d.ts"), internal("b"));
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "package API hash does not match",
+    );
+    expect(JSON.parse(readFileSync(infoFile, "utf8")).ApiHash).toBeUndefined();
   });
 
   it("rejects an unreleased package before checking approval", async () => {

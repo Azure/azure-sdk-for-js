@@ -64,6 +64,8 @@ The `dev-tool about` command will print some information about how to use the co
 
 The release pipeline requires API Review Hub approval for both the package name and the verified API hash. Repository registration, service-connection authorization, and an end-to-end release test must be completed before production use; see the [API Review Hub onboarding guide](https://github.com/Azure/azure-sdk-tools/wiki/API-Review-Hub-Onboarding).
 
+Hub reviews use `languageToolsRef` (default `main`), while release verification uses the release checkout's generator. Different revisions can produce different hashes for the same API. When requesting a review with the `azsdk` CLI, set `AZSDK_API_REVIEW_LANGUAGE_TOOLS_REF` to a `refs/tags/...` tag for the release checkout, and do not move the tag. Automatic reuse requires the Hub to expose the approved generator revision.
+
 ## Extending the Tool
 
 The source hierarchy matches the command hierarchy. Every sub-command has its own folder and `index.ts` file in `src/commands`, where `src/commands/index.ts` defines the behavior of the root `dev-tool` command, and each subfolder's `index.ts` file describes a nested sub-command. Every leaf node in the command tree ("leaf command") has its own TypeScript file. For example, `src/commands/about.ts` defines the behavior of the `dev-tool about` command, and `src/commands/package/resolve.ts` defines the behavior of the `dev-tool package resolve` command.

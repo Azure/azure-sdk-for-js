@@ -17,7 +17,7 @@ import { resolveRoot } from "./resolveProject.ts";
 // ./apiReview/model.ts holds the data that flows between them.
 
 // Bump when the api.md format changes. Baseline and target reviews must use the same parser.
-const parserVersion = "1.1.0";
+const parserVersion = "1.2.0";
 
 /**
  * The contents of api.metadata.yml. Only `apiHash` identifies the reviewed API surface.
