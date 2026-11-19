@@ -30,17 +30,11 @@ output directories are skipped):
 
 - compiled files under `dist/` corresponding to `//metadata.constantPaths`
   (including declaration files and source-map `sourcesContent`);
-- any other `dist/` occurrence of a named SDK version context (`SDK_VERSION`,
-  `SDKVersion`, `AZURE_MONITOR_OPENTELEMETRY_VERSION`, `packageVersion`,
-  `userAgentInfo`, `packageDetails`) whose first version on the line is exactly the
-  package's old version. Each such patch logs a warning, because its source is missing
-  from `constantPaths` (known gaps are tracked in
-  [#40867](https://github.com/Azure/azure-sdk-for-js/issues/40867));
 - the runtime `dist/*/package.json` files, and `metadata.version` and
   `metadata.dependencies` in `temp/*.api.json`.
 
-Other occurrences of the old version left in `dist/` may be unrelated versions, so they
-are reported as warnings rather than failing the build.
+Version constants not listed in `constantPaths` are not patched. Known metadata gaps
+are tracked in [#40867](https://github.com/Azure/azure-sdk-for-js/issues/40867).
 
 ```bash
 node set-dev.js --build-id 20191027.3 --service keyvault

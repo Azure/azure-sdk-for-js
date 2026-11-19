@@ -10,7 +10,7 @@ import { updateBuiltPackageVersion } from "../BuiltVersionUtils.js";
 
 const oldVersion = "1.2.3-beta.1";
 const version = "1.2.3-alpha.20261119.1";
-const source = `export const SDK_VERSION = "${oldVersion}";\nconst dependency = "${oldVersion}";\n`;
+const source = `export const SDK_VERSION = "${oldVersion}";\nconst packageVersion = "${oldVersion}";\nconst dependency = "${oldVersion}";\n`;
 const manifest = {
   version,
   dependencies: { "@azure/core-util": ">=1.14.0-alpha <1.14.0-alphb" },
@@ -101,28 +101,22 @@ test("skips missing outputs and non-compiled metadata paths", async (t) => {
   );
 });
 
-test("patches unlisted SDK version constants equal to the package version only", async (t) => {
+test("leaves unlisted version constants and source maps unchanged", async (t) => {
   const { root, put, get } = await fixture(t);
   const unlisted = [
     `export const SDK_VERSION: string = "${oldVersion}";`,
-    `const userAgentInfo = \`azsdk-js-pkg/${oldVersion} core-rest-pipeline/1.2.3-beta.2\`;`,
-    `const packageVersion = "9.9.9";`,
+    `const userAgentInfo = \`azsdk-js-pkg/${oldVersion}\`;`,
+    `const packageVersion = "${oldVersion}";`,
     "",
   ].join("\n");
   await put("dist/esm/utils/constants.js", unlisted);
-  await put("dist/esm/utils/constants.js.map", JSON.stringify({ sourcesContent: [unlisted] }));
+  const map = JSON.stringify({ sourcesContent: [unlisted] });
+  await put("dist/esm/utils/constants.js.map", map);
   await updateBuiltPackageVersion(root, manifest, oldVersion);
-  const expected = [
-    `export const SDK_VERSION: string = "${version}";`,
-    `const userAgentInfo = \`azsdk-js-pkg/${version} core-rest-pipeline/1.2.3-beta.2\`;`,
-    `const packageVersion = "9.9.9";`,
-    "",
-  ].join("\n");
-  assert.equal(await get("dist/esm/utils/constants.js"), expected);
-  assert.deepEqual(JSON.parse(await get("dist/esm/utils/constants.js.map")).sourcesContent, [
-    expected,
-  ]);
+  assert.equal(await get("dist/esm/utils/constants.js"), unlisted);
+  assert.equal(await get("dist/esm/utils/constants.js.map"), map);
 });
+
 test("patches configured outputs without a runtime subdirectory", async (t) => {
   const { root, put, get } = await fixture(t);
   await put("dist/internal/constants.js", `const x = "v"; // SDK_VERSION ${oldVersion}\n`);

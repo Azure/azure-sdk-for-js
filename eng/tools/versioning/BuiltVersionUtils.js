@@ -4,24 +4,8 @@
 // @ts-check
 
 import path from "node:path";
-import process from "node:process";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { buildSemverRegex } from "./VersionUtils.js";
-
-/**
- * Named contexts that hold a package's own version in SDK sources. These are the prefixes used by
- * `//metadata.constantPaths` across the repository (excluding the generic `version`). A match is
- * only rewritten when the version is exactly the package's own pre-rewrite version, so dependency
- * versions that happen to appear in the same line (for example in a user agent) are left alone.
- */
-export const versionContexts = [
-  "\\bSDK_VERSION\\b",
-  "\\bSDKVersion\\b",
-  "\\bAZURE_MONITOR_OPENTELEMETRY_VERSION\\b",
-  "\\bpackageVersion\\b",
-  "\\buserAgentInfo\\b",
-  "\\bpackageDetails\\b",
-];
 
 const compiledOutput = /\.(?:[cm]?js|d\.[cm]?ts)(?:\.map)?$/;
 
@@ -41,13 +25,6 @@ async function outputFiles(directory) {
     }
     throw error;
   }
-}
-
-/**
- * @param {string} message
- */
-function warn(message) {
-  console.warn(process.env.TF_BUILD ? `##vso[task.logissue type=warning]${message}` : message);
 }
 
 /**
@@ -80,20 +57,6 @@ function transform(file, contents, fn) {
 }
 
 /**
- * @param {string} file
- * @param {string} contents
- * @returns {string[]}
- */
-function texts(file, contents) {
-  if (!file.endsWith(".map")) {
-    return [contents];
-  }
-  return (JSON.parse(contents).sourcesContent ?? []).filter(
-    /** @param {string | null} s */ (s) => s !== null,
-  );
-}
-
-/**
  * Updates only build output, never the tracked sources used to compute build hashes.
  * @param {string} packagePath
  * @param {import("./VersionUtils.js").VersionedPackageJson & {name?: string, version: string, dependencies?: Record<string, string>}} packageJson
@@ -104,13 +67,8 @@ export async function updateBuiltPackageVersion(packagePath, packageJson, oldVer
   if (oldVersion === newVersion) {
     return;
   }
-  const name = packageJson.name ?? packagePath;
   const constants = packageJson["//metadata"]?.constantPaths ?? [];
   const dist = path.join(packagePath, "dist");
-  const oldLiteral = new RegExp(
-    `(?<![0-9A-Za-z.+-])${escapeRegex(oldVersion)}(?![0-9A-Za-z.+-])`,
-    "g",
-  );
 
   for (const file of await outputFiles(dist)) {
     // Build tools emit per-runtime package.json files (for example dist/esm/package.json) that
@@ -141,43 +99,17 @@ export async function updateBuiltPackageVersion(packagePath, packageJson, oldVer
         );
       })
       .map((constant) => constant.prefix);
+    if (prefixes.length === 0) continue;
 
     const contents = await readFile(file, "utf8");
     // Same replacement as updatePackageConstants for configured constants.
-    const configured = transform(file, contents, (text) =>
+    const updated = transform(file, contents, (text) =>
       prefixes.reduce(
         (result, prefix) => result.replace(buildSemverRegex(prefix), `$1${newVersion}`),
         text,
       ),
     );
-    // Named version contexts pinned to this package's own version, including ones missing from
-    // constantPaths (see https://github.com/Azure/azure-sdk-for-js/issues/40867).
-    const updated = transform(file, configured, (text) =>
-      versionContexts.reduce(
-        (result, context) =>
-          result.replace(buildSemverRegex(context), (match, before, version) =>
-            version === oldVersion ? `${before}${newVersion}` : match,
-          ),
-        text,
-      ),
-    );
-    if (updated !== configured && !file.endsWith(".map")) {
-      warn(
-        `${name}: patched version ${oldVersion} in ${relative}, which is not covered by //metadata.constantPaths. Add its source to constantPaths so increment-version keeps it in sync.`,
-      );
-    }
     if (updated !== contents) await writeFile(file, updated);
-
-    // Remaining occurrences may legitimately be unrelated versions, so report rather than fail.
-    for (const text of texts(file, updated)) {
-      for (const line of text.split("\n")) {
-        if (line.match(oldLiteral)) {
-          warn(
-            `${name}: ${relative} still contains ${oldVersion} outside a known version context: ${line.trim().slice(0, 200)}`,
-          );
-        }
-      }
-    }
   }
 
   for (const file of await outputFiles(path.join(packagePath, "temp"))) {
