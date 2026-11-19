@@ -45,12 +45,11 @@ export function dirName(): string {
 }
 
 /**
- * Returns the current module URL for loader registration scenarios.
- * Used by the instrumentation loader to register Node.js module hooks.
+ * Resolves a loader specifier to a URL relative to this package.
  * @internal
  */
-export function getModuleParentURL(): string {
+export function resolveLoaderURL(specifier: string): string {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore ESM only output
-  return import.meta.url;
+  return import.meta.resolve(specifier);
 }
