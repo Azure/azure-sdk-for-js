@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreate.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreate.json
  */
 async function createRouteTable() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function createRouteTable() {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithDisablePeeringRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithDisablePeeringRoute.json
  */
 async function createRouteTableWithDisablePeeringRoute() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function createRouteTableWithDisablePeeringRoute() {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithEcmpRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithEcmpRoute.json
  */
 async function createRouteTableWithEcmpRoute() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function createRouteTableWithEcmpRoute() {
  * This sample demonstrates how to create or updates a route table in a specified resource group.
  *
  * @summary create or updates a route table in a specified resource group.
- * x-ms-original-file: 2026-01-01/RouteTableCreateWithRoute.json
+ * x-ms-original-file: 2026-03-01/RouteTableCreateWithRoute.json
  */
 async function createRouteTableWithRoute() {
   const credential = new DefaultAzureCredential();

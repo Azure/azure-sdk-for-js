@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGet.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGet.json
  */
 async function getAzureFirewall() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getAzureFirewall() {
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGetWithAdditionalProperties.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGetWithAdditionalProperties.json
  */
 async function getAzureFirewallWithAdditionalProperties() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getAzureFirewallWithAdditionalProperties() {
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGetWithAfcConfiguration.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGetWithAfcConfiguration.json
  */
 async function getAzureFirewallWithAFCControlPlane() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getAzureFirewallWithAFCControlPlane() {
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGetWithIpGroups.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGetWithIpGroups.json
  */
 async function getAzureFirewallWithIpGroups() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function getAzureFirewallWithIpGroups() {
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGetWithMgmtSubnet.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGetWithMgmtSubnet.json
  */
 async function getAzureFirewallWithManagementSubnet() {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function getAzureFirewallWithManagementSubnet() {
  * This sample demonstrates how to gets the specified Azure Firewall.
  *
  * @summary gets the specified Azure Firewall.
- * x-ms-original-file: 2026-01-01/AzureFirewallGetWithZones.json
+ * x-ms-original-file: 2026-03-01/AzureFirewallGetWithZones.json
  */
 async function getAzureFirewallWithZones() {
   const credential = new DefaultAzureCredential();

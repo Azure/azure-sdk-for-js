@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a network watcher in the specified resource group.
  *
  * @summary creates or updates a network watcher in the specified resource group.
- * x-ms-original-file: 2026-01-01/NetworkWatcherCreate.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherCreate.json
  */
 async function createNetworkWatcher(): Promise<void> {
   const credential = new DefaultAzureCredential();

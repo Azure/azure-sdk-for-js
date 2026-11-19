@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseConfiguredBackupStorageRedundancy.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseConfiguredBackupStorageRedundancy.json
  */
 async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseCopyMode.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseCopyMode.json
  */
 async function createsADatabaseAsACopy() {
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function createsADatabaseAsACopy() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseDefaultEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseDefaultEnclave.json
  */
 async function createsADatabaseWithDefaultEnclaveType() {
   const credential = new DefaultAzureCredential();
@@ -71,7 +71,7 @@ async function createsADatabaseWithDefaultEnclaveType() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseDefaultMode.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseDefaultMode.json
  */
 async function createsADatabaseWithDefaultMode() {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function createsADatabaseWithDefaultMode() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseDefaultModeWithKeysAndEncryptionProtector.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseDefaultModeWithKeysAndEncryptionProtector.json
  */
 async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
@@ -133,7 +133,7 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseDefaultModeWithVersionlessKeysAndVersionlessEncryptionProtector.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseDefaultModeWithVersionlessKeysAndVersionlessEncryptionProtector.json
  */
 async function createsADatabaseWithDatabaseLevelVersionlessCustomerManagedKeys() {
   const credential = new DefaultAzureCredential();
@@ -170,7 +170,7 @@ async function createsADatabaseWithDatabaseLevelVersionlessCustomerManagedKeys()
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseLedger.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseLedger.json
  */
 async function createsADatabaseWithLedgerOn() {
   const credential = new DefaultAzureCredential();
@@ -189,7 +189,7 @@ async function createsADatabaseWithLedgerOn() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseMaintenanceConfiguration.json
  */
 async function createsADatabaseWithPreferredMaintenanceWindow() {
   const credential = new DefaultAzureCredential();
@@ -216,7 +216,7 @@ async function createsADatabaseWithPreferredMaintenanceWindow() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseMin.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseMin.json
  */
 async function createsADatabaseWithMinimumNumberOfParameters() {
   const credential = new DefaultAzureCredential();
@@ -235,7 +235,7 @@ async function createsADatabaseWithMinimumNumberOfParameters() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseNamedReplica.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseNamedReplica.json
  */
 async function createsADatabaseAsNamedReplicaSecondary() {
   const credential = new DefaultAzureCredential();
@@ -261,7 +261,7 @@ async function createsADatabaseAsNamedReplicaSecondary() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabasePITRMode.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabasePITRMode.json
  */
 async function createsADatabaseFromPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
@@ -286,7 +286,7 @@ async function createsADatabaseFromPointInTimeRestore() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseSecondaryMode.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseSecondaryMode.json
  */
 async function createsADatabaseAsAnOnLineSecondary() {
   const credential = new DefaultAzureCredential();
@@ -312,7 +312,7 @@ async function createsADatabaseAsAnOnLineSecondary() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseStandbyMode.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseStandbyMode.json
  */
 async function createsADatabaseAsAStandbySecondary() {
   const credential = new DefaultAzureCredential();
@@ -338,7 +338,7 @@ async function createsADatabaseAsAStandbySecondary() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseVBSEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseVBSEnclave.json
  */
 async function createsADatabaseWithVBSEnclaveType() {
   const credential = new DefaultAzureCredential();
@@ -357,7 +357,7 @@ async function createsADatabaseWithVBSEnclaveType() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseWithAvailabilityZone.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseWithAvailabilityZone.json
  */
 async function createsADatabaseWithAvailabilityZoneSpecified() {
   const credential = new DefaultAzureCredential();
@@ -383,7 +383,7 @@ async function createsADatabaseWithAvailabilityZoneSpecified() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDatabaseWithEncryptionProtectorAutoRotation.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDatabaseWithEncryptionProtectorAutoRotation.json
  */
 async function createsADatabaseWithEncryptionProtectorAutoRotation() {
   const credential = new DefaultAzureCredential();
@@ -417,7 +417,7 @@ async function createsADatabaseWithEncryptionProtectorAutoRotation() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDwDatabaseCrossSubscriptionPITR.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDwDatabaseCrossSubscriptionPITR.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase() {
   const credential = new DefaultAzureCredential();
@@ -442,7 +442,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDwDatabaseCrossSubscriptionRecovery.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDwDatabaseCrossSubscriptionRecovery.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup() {
   const credential = new DefaultAzureCredential();
@@ -461,7 +461,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateDwDatabaseCrossSubscriptionRestore.json
+ * x-ms-original-file: 2026-08-01-preview/CreateDwDatabaseCrossSubscriptionRestore.json
  */
 async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase() {
   const credential = new DefaultAzureCredential();
@@ -485,7 +485,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateVCoreDatabaseByServiceObjective.json
+ * x-ms-original-file: 2026-08-01-preview/CreateVCoreDatabaseByServiceObjective.json
  */
 async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
   const credential = new DefaultAzureCredential();
@@ -504,7 +504,7 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/CreateVCoreDatabaseBySkuNameCapacity.json
+ * x-ms-original-file: 2026-08-01-preview/CreateVCoreDatabaseBySkuNameCapacity.json
  */
 async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
   const credential = new DefaultAzureCredential();
@@ -523,7 +523,7 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/UpdateDatabaseHyperscaleMigrationPerformCutover.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateDatabaseHyperscaleMigrationPerformCutover.json
  */
 async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow() {
   const credential = new DefaultAzureCredential();
@@ -552,7 +552,7 @@ async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMi
  * This sample demonstrates how to creates a new database or updates an existing database.
  *
  * @summary creates a new database or updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/UpdateDatabaseHyperscaleMigrationWithManualCutover.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateDatabaseHyperscaleMigrationWithManualCutover.json
  */
 async function updatesADatabaseToHyperscaleSLOWithManualCutover() {
   const credential = new DefaultAzureCredential();

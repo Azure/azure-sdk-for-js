@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified NSP profile.
  *
  * @summary gets the specified NSP profile.
- * x-ms-original-file: 2026-01-01/NspProfileGet.json
+ * x-ms-original-file: 2026-03-01/NspProfileGet.json
  */
 async function nspProfilesGet() {
   const credential = new DefaultAzureCredential();

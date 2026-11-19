@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2.
  *
  * @summary creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2.
- * x-ms-original-file: 2026-01-01/VirtualHubRouteTableV2Put.json
+ * x-ms-original-file: 2026-03-01/VirtualHubRouteTableV2Put.json
  */
 async function virtualHubRouteTableV2Put(): Promise<void> {
   const credential = new DefaultAzureCredential();

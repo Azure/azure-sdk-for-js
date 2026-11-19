@@ -41,10 +41,18 @@ export interface AdditionalAuthenticationProperties {
 }
 
 // @public
-export type AdditionalAuthenticationPropertiesUnion = GarAuthenticationProperties | AdditionalAuthenticationProperties;
+export type AdditionalAuthenticationPropertiesUnion = GarAuthenticationProperties | EcrAuthenticationProperties | EntraFederatedIdentityCredentialAuthenticationProperties | AdditionalAuthenticationProperties;
 
 // @public
 export type AdditionalAuthenticationType = string;
+
+// @public
+export interface AdditionalAuthenticationUpdateProperties {
+    authenticationType: AdditionalAuthenticationType;
+}
+
+// @public
+export type AdditionalAuthenticationUpdatePropertiesUnion = GarAuthenticationUpdateProperties | EcrAuthenticationUpdateProperties | EntraFederatedIdentityCredentialAuthenticationUpdateProperties | AdditionalAuthenticationUpdateProperties;
 
 // @public
 export interface Archive extends ProxyResource {
@@ -271,14 +279,14 @@ export interface CacheRulesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface CacheRuleUpdateParameters {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
+    additionalAuthenticationProperties?: AdditionalAuthenticationUpdatePropertiesUnion;
     credentialSetResourceId?: string;
     identity?: IdentityProperties;
 }
 
 // @public
 export interface CacheRuleUpdateProperties {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
+    additionalAuthenticationProperties?: AdditionalAuthenticationUpdatePropertiesUnion;
     credentialSetResourceId?: string;
 }
 
@@ -544,6 +552,26 @@ export interface CredentialSetUpdateProperties {
 export type DefaultAction = string;
 
 // @public
+export interface EcrAuthenticationProperties extends AdditionalAuthenticationProperties {
+    accountNumber: string;
+    // (undocumented)
+    authenticationType: "AwsElasticContainerRegistry";
+    region: string;
+    roleName: string;
+    rolePath?: string;
+}
+
+// @public
+export interface EcrAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+    accountNumber?: string;
+    // (undocumented)
+    authenticationType: "AwsElasticContainerRegistry";
+    region?: string;
+    roleName?: string;
+    rolePath?: string;
+}
+
+// @public
 export interface EncryptionProperty {
     keyVaultProperties?: KeyVaultProperties;
     status?: EncryptionStatus;
@@ -554,6 +582,22 @@ export type EncryptionStatus = string;
 
 // @public
 export type EndpointProtocol = string;
+
+// @public
+export interface EntraFederatedIdentityCredentialAuthenticationProperties extends AdditionalAuthenticationProperties {
+    // (undocumented)
+    authenticationType: "EntraFederatedIdentityCredential";
+    federatedApplicationClientId: string;
+    sourceTenantId: string;
+}
+
+// @public
+export interface EntraFederatedIdentityCredentialAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+    // (undocumented)
+    authenticationType: "EntraFederatedIdentityCredential";
+    federatedApplicationClientId?: string;
+    sourceTenantId?: string;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -689,6 +733,15 @@ export interface GarAuthenticationProperties extends AdditionalAuthenticationPro
     projectNumber: string;
     workloadIdentityPool: string;
     workloadIdentityProvider: string;
+}
+
+// @public
+export interface GarAuthenticationUpdateProperties extends AdditionalAuthenticationUpdateProperties {
+    // (undocumented)
+    authenticationType: "GoogleArtifactRegistry";
+    projectNumber?: string;
+    workloadIdentityPool?: string;
+    workloadIdentityProvider?: string;
 }
 
 // @public
@@ -839,6 +892,8 @@ export enum KnownActivationStatus {
 
 // @public
 export enum KnownAdditionalAuthenticationType {
+    AwsElasticContainerRegistry = "AwsElasticContainerRegistry",
+    EntraFederatedIdentityCredential = "EntraFederatedIdentityCredential",
     GoogleArtifactRegistry = "GoogleArtifactRegistry"
 }
 
@@ -1122,7 +1177,7 @@ export enum KnownTrustPolicyType {
 // @public
 export enum KnownVersions {
     V20251101 = "2025-11-01",
-    VLatestPreview = "2026-09-01-preview"
+    VLatestPreview = "2026-10-15-preview"
 }
 
 // @public

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reimages one VM belonging to the specified Network Virtual Appliance.
  *
  * @summary reimages one VM belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: 2026-01-01/NetworkVirtualApplianceSpecificReimage.json
+ * x-ms-original-file: 2026-03-01/NetworkVirtualApplianceSpecificReimage.json
  */
 async function reimagesSpecificNetworkVirtualApplianceVMsInVMScaleSet() {
   const credential = new DefaultAzureCredential();

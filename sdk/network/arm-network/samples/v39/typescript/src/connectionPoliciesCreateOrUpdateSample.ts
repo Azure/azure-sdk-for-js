@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a ConnectionPolicy if it doesn't exist else updates the existing one.
  *
  * @summary creates a ConnectionPolicy if it doesn't exist else updates the existing one.
- * x-ms-original-file: 2026-01-01/ConnectionPolicyPut.json
+ * x-ms-original-file: 2026-03-01/ConnectionPolicyPut.json
  */
 async function connectionPolicyPut(): Promise<void> {
   const credential = new DefaultAzureCredential();

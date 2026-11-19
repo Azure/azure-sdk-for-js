@@ -40,6 +40,40 @@ describe("WebPubSubClient invoke support", () => {
     client.stop();
   });
 
+  it("invokeEvent resolves with a null JSON payload", async () => {
+    const client = new WebPubSubClient("wss://service.com");
+    const testWs = new TestWebSocketClient(client);
+    makeStartable(testWs);
+
+    await client.start();
+    try {
+      testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
+
+      const invokePromise = client.invokeEvent("echo", "ping", "text", {
+        invocationId: "invoke-null",
+      });
+
+      testWs.invokemessage(
+        JSON.stringify({
+          type: "invokeResponse",
+          invocationId: "invoke-null",
+          success: true,
+          dataType: "json",
+          data: null,
+        }),
+      );
+
+      const result = await invokePromise;
+      expect(result).toEqual({
+        invocationId: "invoke-null",
+        dataType: "json",
+        data: null,
+      });
+    } finally {
+      await client.stop();
+    }
+  });
+
   it("invokeEvent rejects when service returns an error", async () => {
     const client = new WebPubSubClient("wss://service.com");
     const testWs = new TestWebSocketClient(client);

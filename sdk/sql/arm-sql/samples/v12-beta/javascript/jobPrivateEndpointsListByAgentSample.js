@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of job agent private endpoints.
  *
  * @summary gets a list of job agent private endpoints.
- * x-ms-original-file: 2025-08-01-preview/ListJobPrivateEndpointsByAgent.json
+ * x-ms-original-file: 2026-08-01-preview/ListJobPrivateEndpointsByAgent.json
  */
 async function listPrivateEndpointsInAJobAgent() {
   const credential = new DefaultAzureCredential();

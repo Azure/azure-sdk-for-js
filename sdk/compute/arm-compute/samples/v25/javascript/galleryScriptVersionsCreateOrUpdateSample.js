@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a gallery Script Version.
  *
  * @summary create or update a gallery Script Version.
- * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScriptVersion_Create.json
+ * x-ms-original-file: 2026-03-03/galleryScriptExamples/GalleryScriptVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryScriptVersion() {
   const credential = new DefaultAzureCredential();

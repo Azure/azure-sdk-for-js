@@ -6,6 +6,8 @@ import type {
   ContextCache,
   ContextCacheUpdate,
   _ContextCacheListResult,
+  ContextCacheCheckNameAvailabilityParameters,
+  ContextCacheCheckNameAvailabilityResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer_1,
@@ -13,12 +15,15 @@ import {
   contextCacheDeserializer,
   contextCacheUpdateSerializer,
   _contextCacheListResultDeserializer,
+  contextCacheCheckNameAvailabilityParametersSerializer,
+  contextCacheCheckNameAvailabilityResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ContextCachesCheckNameAvailabilityOptionalParams,
   ContextCachesListBySubscriptionOptionalParams,
   ContextCachesListByResourceGroupOptionalParams,
   ContextCachesDeleteOptionalParams,
@@ -30,6 +35,55 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _checkNameAvailabilitySend(
+  context: Client,
+  body: ContextCacheCheckNameAvailabilityParameters,
+  options: ContextCachesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCacheCheckNameAvailability{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: contextCacheCheckNameAvailabilityParametersSerializer(body),
+  });
+}
+
+export async function _checkNameAvailabilityDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ContextCacheCheckNameAvailabilityResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer_1(result.body);
+    }
+
+    throw error;
+  }
+
+  return contextCacheCheckNameAvailabilityResultDeserializer(result.body);
+}
+
+/** Check the availability of a context cache resource name. */
+export async function checkNameAvailability(
+  context: Client,
+  body: ContextCacheCheckNameAvailabilityParameters,
+  options: ContextCachesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
+): Promise<ContextCacheCheckNameAvailabilityResult> {
+  const result = await _checkNameAvailabilitySend(context, body, options);
+  return _checkNameAvailabilityDeserialize(result);
+}
+
 export function _listBySubscriptionSend(
   context: Client,
   options: ContextCachesListBySubscriptionOptionalParams = { requestOptions: {} },
@@ -38,7 +92,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCaches{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +130,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -90,7 +144,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +183,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -145,7 +199,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +234,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, contextCacheName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +251,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +293,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, contextCacheName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<ContextCache>, ContextCache>;
 }
 
@@ -256,7 +310,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +354,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, contextCacheName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<ContextCache>, ContextCache>;
 }
 
@@ -316,7 +370,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       contextCacheName: contextCacheName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

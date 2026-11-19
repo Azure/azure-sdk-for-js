@@ -201,6 +201,7 @@ test("routes a fork PR with empty run.pull_requests using API-owned commit metad
       workflow_id: "archie.lock.yml",
       ref: "main",
       inputs: {
+        aw_context: JSON.stringify({ item_type: "pull_request", item_number: 42 }),
         item_number: "42",
         head_sha: headSha,
         request_run_id: "100",
@@ -504,6 +505,7 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
       [`${reviewerId}.lock.yml`],
     );
     assert.deepEqual(state.calls.dispatches[0].inputs, {
+      aw_context: JSON.stringify({ item_type: "pull_request", item_number: 42 }),
       item_number: "42",
       head_sha: headSha,
       request_run_id: "100",
@@ -1171,7 +1173,7 @@ for (const [reviewerId, prefix] of Object.entries(reviewFlows)) {
     assert.doesNotMatch(compiled, /^\s+pull_request_target:/m);
     assert.match(
       compiled,
-      /^  safe_outputs:\n    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m,
+      /^  safe_outputs:\n(?:    .*\n)*?    needs:\n(?:      - [\w-]+\n)*      - validate_request\n/m,
     );
     const jobStart = compiled.indexOf("\n  safe_outputs:\n");
     const guard = compiled.indexOf("- name: Reject stale review outputs", jobStart);

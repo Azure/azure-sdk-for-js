@@ -20,8 +20,6 @@ import type { GoalAssignmentsOperations } from "./classic/goalAssignments/index.
 import { _getGoalAssignmentsOperations } from "./classic/goalAssignments/index.js";
 import type { GoalResourcesOperations } from "./classic/goalResources/index.js";
 import { _getGoalResourcesOperations } from "./classic/goalResources/index.js";
-import type { GoalTemplatesOperations } from "./classic/goalTemplates/index.js";
-import { _getGoalTemplatesOperations } from "./classic/goalTemplates/index.js";
 import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
 import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
@@ -85,7 +83,6 @@ export class AzureResilienceManagementClient {
     this.recoveryPlanActions = _getRecoveryPlanActionsOperations(this._client);
     this.recoveryPlans = _getRecoveryPlansOperations(this._client);
     this.goalResources = _getGoalResourcesOperations(this._client);
-    this.goalTemplates = _getGoalTemplatesOperations(this._client);
     this.goalAssignments = _getGoalAssignmentsOperations(this._client);
     this.operationStatus = _getOperationStatusOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -117,8 +114,6 @@ export class AzureResilienceManagementClient {
   public readonly recoveryPlans: RecoveryPlansOperations;
   /** The operation groups for goalResources */
   public readonly goalResources: GoalResourcesOperations;
-  /** The operation groups for goalTemplates */
-  public readonly goalTemplates: GoalTemplatesOperations;
   /** The operation groups for goalAssignments */
   public readonly goalAssignments: GoalAssignmentsOperations;
   /** The operation groups for operationStatus */

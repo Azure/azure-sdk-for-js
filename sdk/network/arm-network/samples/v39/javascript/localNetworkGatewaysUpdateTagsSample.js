@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a local network gateway tags.
  *
  * @summary updates a local network gateway tags.
- * x-ms-original-file: 2026-01-01/LocalNetworkGatewayUpdateTags.json
+ * x-ms-original-file: 2026-03-01/LocalNetworkGatewayUpdateTags.json
  */
 async function updateLocalNetworkGatewayTags() {
   const credential = new DefaultAzureCredential();

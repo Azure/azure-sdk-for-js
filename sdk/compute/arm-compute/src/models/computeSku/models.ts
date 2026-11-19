@@ -7,6 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The List Resource Skus operation response. */
 export interface _ResourceSkusResult {
   /** The ResourceSku items on this page */
@@ -176,9 +177,9 @@ export interface ResourceSkuZoneDetails {
 
 export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
   return {
-    name: !item["name"]
-      ? item["name"]
-      : item["name"].map((p: any) => {
+    name: !item["Name"]
+      ? item["Name"]
+      : item["Name"].map((p: any) => {
           return p;
         }),
     capabilities: !item["capabilities"]

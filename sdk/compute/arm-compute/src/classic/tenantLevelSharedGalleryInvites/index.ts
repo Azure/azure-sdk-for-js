@@ -59,6 +59,7 @@ export interface TenantLevelSharedGalleryInvitesOperations {
     options?: TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams,
   ) => Promise<void>;
 }
+
 function _getTenantLevelSharedGalleryInvites(context: ComputeManagementContext) {
   return {
     tenantLevelGallerySharingReject: (
@@ -149,6 +150,7 @@ function _getTenantLevelSharedGalleryInvites(context: ComputeManagementContext) 
     },
   };
 }
+
 export function _getTenantLevelSharedGalleryInvitesOperations(
   context: ComputeManagementContext,
 ): TenantLevelSharedGalleryInvitesOperations {

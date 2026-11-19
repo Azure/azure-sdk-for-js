@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the Bastion Shareable Links for all the tokens specified in the request.
  *
  * @summary deletes the Bastion Shareable Links for all the tokens specified in the request.
- * x-ms-original-file: 2026-01-01/BastionShareableLinkDeleteByToken.json
+ * x-ms-original-file: 2026-03-01/BastionShareableLinkDeleteByToken.json
  */
 async function deleteBastionShareableLinksForTheRequestVMs(): Promise<void> {
   const credential = new DefaultAzureCredential();

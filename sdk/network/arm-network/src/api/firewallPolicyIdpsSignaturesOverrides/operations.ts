@@ -31,7 +31,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -83,7 +83,7 @@ export function _patchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +144,7 @@ export function _putSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +202,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-01-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

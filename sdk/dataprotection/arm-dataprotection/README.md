@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dataprotection/arm-dataprotection)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-dataprotection)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dataprotection)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dataprotection?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dataprotection/arm-dataprotection/samples)
 
 ## Getting started

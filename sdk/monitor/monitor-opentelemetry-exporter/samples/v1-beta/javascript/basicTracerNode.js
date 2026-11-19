@@ -3,7 +3,7 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-sdk-trace-base)
+ * [@opentelemetry/sdk-trace](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/sdk-trace)
  * to instrument a simple Node.js application - e.g. a batch job.
  * It also demonstrates how to associate custom measurements with spans and span events.
  *
@@ -13,7 +13,7 @@
 const opentelemetry = require("@opentelemetry/api");
 const { resourceFromAttributes } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
-const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { TracerProvider, SimpleSpanProcessor } = require("@opentelemetry/sdk-trace");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 // Load the .env file if it exists
@@ -26,15 +26,15 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-const provider = new BasicTracerProvider({
+const provider = new TracerProvider({
   resource: resourceFromAttributes({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
-  spanProcessors: [new SimpleSpanProcessor(exporter)],
+  spanProcessors: [new SimpleSpanProcessor({ exporter })],
 });
 
 /**
- * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
+ * Initialize the OpenTelemetry APIs to use the TracerProvider bindings.
  *
  * This registers the tracer provider with the OpenTelemetry API as the global
  * tracer provider. This means when you call API methods like

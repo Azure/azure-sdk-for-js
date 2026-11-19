@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Context Cache.
  *
  * @summary create or update a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate.json
  */
 async function createAContextCache(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,41 @@ async function createAContextCache(): Promise<void> {
  * This sample demonstrates how to create or update a Context Cache.
  *
  * @summary create or update a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate_SystemIdentity.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate_SystemAssignedUserAssigned.json
+ */
+async function createAContextCacheWithSystemAssignedAndUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.contextCaches.createOrUpdate("testrg", "testcontextcache", {
+    location: "eastus",
+    tags: { environment: "test" },
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-uami":
+          {},
+      },
+    },
+    properties: {
+      accountKind: "Regional",
+      description: "Test context cache",
+      encryption: {
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: { identityType: "systemAssignedIdentity" },
+          keyEncryptionKeyUrl: "https://mykeyvault.vault.azure.net/keys/encryptionKey",
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create or update a Context Cache.
+ *
+ * @summary create or update a Context Cache.
+ * x-ms-original-file: 2026-09-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate_SystemIdentity.json
  */
 async function createAAzureContextCacheAccountWithSystemAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,9 +84,49 @@ async function createAAzureContextCacheAccountWithSystemAssignedIdentity(): Prom
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to create or update a Context Cache.
+ *
+ * @summary create or update a Context Cache.
+ * x-ms-original-file: 2026-09-01/StorageContextCacheCRUD/ContextCaches_CreateOrUpdate_UserAssignedIdentity.json
+ */
+async function createAContextCacheWithUserAssignedIdentity(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new StorageManagementClient(credential, subscriptionId);
+  const result = await client.contextCaches.createOrUpdate("testrg", "testcontextcache", {
+    location: "eastus",
+    tags: { environment: "test" },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-uami":
+          {},
+      },
+    },
+    properties: {
+      accountKind: "Regional",
+      description: "Test context cache",
+      encryption: {
+        customerManagedKeyEncryption: {
+          keyEncryptionKeyIdentity: {
+            identityType: "userAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-uami",
+          },
+          keyEncryptionKeyUrl: "https://mykeyvault.vault.azure.net/keys/encryptionKey",
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await createAContextCache();
+  await createAContextCacheWithSystemAssignedAndUserAssignedIdentity();
   await createAAzureContextCacheAccountWithSystemAssignedIdentity();
+  await createAContextCacheWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

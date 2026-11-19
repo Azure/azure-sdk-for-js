@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all available web application firewall rule sets.
  *
  * @summary lists all available web application firewall rule sets.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayAvailableWafRuleSetsGet.json
+ * x-ms-original-file: 2026-03-01/ApplicationGatewayAvailableWafRuleSetsGet.json
  */
 async function getAvailableWafRuleSets() {
   const credential = new DefaultAzureCredential();

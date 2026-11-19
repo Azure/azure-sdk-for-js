@@ -1,9 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SeverityNumber } from "@opentelemetry/api-logs";
+import { SeverityNumber } from "@opentelemetry/api";
 import type { Resource } from "@opentelemetry/resources";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { gunzipSync } from "node:zlib";
+import { assert } from "vitest";
+import type { TelemetryItem as Envelope } from "./models/index.js";
+
+export function parseBreezeRequest(request: PipelineRequest): Envelope[] {
+  assert.strictEqual(request.headers.get("Content-Encoding"), "gzip");
+  if (!Buffer.isBuffer(request.body)) {
+    throw new Error("Expected a gzip-compressed Breeze request body");
+  }
+  assert.strictEqual(request.headers.get("Content-Length"), String(request.body.length));
+  return JSON.parse(gunzipSync(request.body).toString("utf8")) as Envelope[];
+}
 
 export function successfulBreezeResponse(count: number): any {
   return {
@@ -48,7 +61,7 @@ export function createMockSdkLogRecord(
   resource?: Resource,
   instrumentationScope?: { name: string; version?: string },
   initialData: any = {},
-): SdkLogRecord {
+): ReadWriteLogRecord {
   const { body, ...otherData } = initialData;
   return {
     resource: resource || { attributes: {} },
@@ -61,5 +74,5 @@ export function createMockSdkLogRecord(
     attributes: otherData.attributes || {},
     droppedAttributesCount: otherData.droppedAttributesCount || 0,
     spanContext: otherData.spanContext,
-  } as SdkLogRecord;
+  } as ReadWriteLogRecord;
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an NSP access rule.
  *
  * @summary deletes an NSP access rule.
- * x-ms-original-file: 2026-01-01/NspAccessRuleDelete.json
+ * x-ms-original-file: 2026-03-01/NspAccessRuleDelete.json
  */
 async function nspAccessRulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

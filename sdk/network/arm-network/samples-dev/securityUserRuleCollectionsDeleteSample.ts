@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Security User Rule collection.
  *
  * @summary deletes a Security User Rule collection.
- * x-ms-original-file: 2026-01-01/NetworkManagerSecurityUserRuleCollectionDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkManagerSecurityUserRuleCollectionDelete.json
  */
 async function deletesASecurityUserRuleCollection(): Promise<void> {
   const credential = new DefaultAzureCredential();

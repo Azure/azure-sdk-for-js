@@ -10,6 +10,8 @@ export interface ArcDeploymentsListOptionalParams extends OperationOptions {}
 export interface ArcDeploymentsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Whether to delete the Arc deployment even when its associated extension is disconnected. Defaults to false. */
+  force?: boolean;
 }
 
 /** Optional parameters. */

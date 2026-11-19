@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified interconnect group.
  *
  * @summary deletes the specified interconnect group.
- * x-ms-original-file: 2026-01-01/InterconnectGroupDelete.json
+ * x-ms-original-file: 2026-03-01/InterconnectGroupDelete.json
  */
 async function deleteInterconnectGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

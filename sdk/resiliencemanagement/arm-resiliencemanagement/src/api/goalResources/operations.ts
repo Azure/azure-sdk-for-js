@@ -26,7 +26,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       "%24skipToken": options?.skipToken,
       "%24top": options?.top,
     },
@@ -56,7 +56,7 @@ export async function _listDeserialize(
   return _goalResourceListResultDeserializer(result.body);
 }
 
-/** List GoalResource resources by GoalAssignment */
+/** Lists goal resources under a goal assignment. */
 export function list(
   context: Client,
   serviceGroupName: string,
@@ -68,11 +68,7 @@ export function list(
     () => _listSend(context, serviceGroupName, goalAssignmentName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-31-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -89,7 +85,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       goalAssignmentName: goalAssignmentName,
       goalResourceName: goalResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +111,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Go
   return goalResourceDeserializer(result.body);
 }
 
-/** Get a GoalResource */
+/** Gets a goal resource. */
 export async function get(
   context: Client,
   serviceGroupName: string,

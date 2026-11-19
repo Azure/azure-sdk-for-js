@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "autoRotationEnabled": false,
+    "serverKeyName": "someVault_someKey_01234567890123456789012345678901",
+    "serverKeyType": "AzureKeyVault"
+  }
+}

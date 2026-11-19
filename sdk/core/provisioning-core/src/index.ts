@@ -5,7 +5,7 @@ export type {
   PrimitiveTypeMap,
   PrimitiveTypeName,
   TargetScope,
-} from "./serialization/contract/index.js";
+} from "./serialization/ast/index.js";
 export {
   createOutput,
   OutputCollection,
@@ -23,7 +23,6 @@ export {
   type Parameter,
   type ParameterMetadata,
   type ParameterOptions,
-  type ParameterValue,
 } from "./constructs/parameter.js";
 export {
   createVariable,
@@ -75,7 +74,7 @@ export {
   type NamingPolicy,
   type NamingPolicyOptions,
 } from "./naming/naming-policy.js";
-export type { ResourceNamingRules, ResourceNamingValidCharacters } from "./naming/naming-rules.js";
+export type { ResourceNamingRules } from "./naming/naming-rules.js";
 export { type QueryOptions } from "./constructs/resource/resource-query.js";
 export {
   isResource,
@@ -141,7 +140,6 @@ export {
   type PlainDateEncodingDescriptor,
   type StringValueEncodingDescriptor,
   type UnixTimestampEncodingDescriptor,
-  type ValueEncodingDescriptor,
 } from "./shape/value-encoding.js";
 export type { PropertySegment } from "./types.js";
 export {

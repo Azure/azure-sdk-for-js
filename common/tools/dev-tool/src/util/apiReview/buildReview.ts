@@ -3,7 +3,6 @@
 
 // Step 1: reads a package's built declaration files and package.json into a Review.
 
-import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
@@ -20,6 +19,7 @@ import type {
   ExportSection,
   NamedImports,
   Review,
+  UnresolvedReference,
 } from "./model.ts";
 import { codeText } from "./model.ts";
 
@@ -79,7 +79,7 @@ function compatibleVersion(specifier: string): string {
 }
 
 export async function buildReview(packageRoot: string): Promise<Review> {
-  const packageJson = JSON.parse(readFileSync(path.join(packageRoot, "package.json"), "utf8"));
+  const packageJson = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
   const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
     .filter(([exportPath]) => exportPath !== "./package.json")
     .sort(([a], [b]) => a.localeCompare(b, "en"));
@@ -90,20 +90,17 @@ export async function buildReview(packageRoot: string): Promise<Review> {
       file: path.join(packageRoot, conditions[condition].types),
     }));
 
-  const { references, sections } = buildExportSections(
-    packageRoot,
-    "import",
-    exportFiles("import"),
-  );
+  const esm = buildExportSections(packageRoot, "import", exportFiles("import"));
   const presentConditions = runtimeConditions.filter((condition) =>
     exportEntries.some(([, conditions]) => condition in conditions),
   );
+  const views = presentConditions.map((condition) => ({
+    condition,
+    ...buildExportSections(packageRoot, condition, exportFiles(condition)),
+  }));
   const { identicalConditions, conditionDiffs } = compareConditions(
-    { references, sections },
-    presentConditions.map((condition) => ({
-      condition,
-      ...buildExportSections(packageRoot, condition, exportFiles(condition)),
-    })),
+    { references: esm.references, sections: esm.sections },
+    views,
   );
 
   return {
@@ -137,10 +134,11 @@ export async function buildReview(packageRoot: string): Promise<Review> {
           return { ...dependency, resolved, hashed: compatibleVersion(resolved) };
         }),
     ),
-    references,
-    exportSections: sections,
+    references: esm.references,
+    exportSections: esm.sections,
     identicalConditions,
     conditionDiffs,
+    unresolvedReferences: [esm, ...views].flatMap((view) => view.unresolvedReferences),
   };
 }
 
@@ -176,8 +174,22 @@ function compareConditions(
         .map((esmSection, index) => ({
           path: esmSection.path,
           items: diffItems(esmSection.declarations, sections[index].declarations),
+          reExports: [
+            ...esmSection.reExports
+              .filter(
+                (reference) =>
+                  !sections[index].reExports.some((other) => isDeepStrictEqual(reference, other)),
+              )
+              .map((reference) => ({ change: "removed" as const, reference })),
+            ...sections[index].reExports
+              .filter(
+                (reference) =>
+                  !esmSection.reExports.some((other) => isDeepStrictEqual(reference, other)),
+              )
+              .map((reference) => ({ change: "added" as const, reference })),
+          ],
         }))
-        .filter((changed) => changed.items.length),
+        .filter((changed) => changed.items.length || changed.reExports.length),
     });
   }
   return { identicalConditions, conditionDiffs };
@@ -259,7 +271,7 @@ const compilerHost = createLibCachingHost({ skipLibCheck: true });
  */
 function compilerOptionsFor(condition: string, packageRoot: string): ts.CompilerOptions {
   const shared: ts.CompilerOptions = {
-    // assertComplete relies on diagnostics for the package's own declaration files.
+    // checkResolution relies on diagnostics for the package's own declaration files.
     skipDefaultLibCheck: true,
     types: ["node"],
     typeRoots: [path.join(packageRoot, "node_modules", "@types")],
@@ -278,15 +290,21 @@ function compilerOptionsFor(condition: string, packageRoot: string): ts.Compiler
       };
 }
 
-// Cannot find module (2307, 2792), no exported member (2305, 2614, 2694, 2724), and cannot find
-// type definition (2688). Other diagnostics are ignored: the review doesn't type-check.
-const resolutionErrorCodes = new Set([2307, 2792, 2305, 2614, 2694, 2724, 2688]);
+// Cannot find module (2307, 2792), namespace has no exported member (2694), and cannot find type
+// definition (2688). Other diagnostics are ignored: the review doesn't type-check.
+const resolutionErrorCodes = new Set([2307, 2792, 2694, 2688]);
+// Module has no exported member (2305, 2614, 2724).
+const missingMemberCodes = new Set([2305, 2614, 2724]);
 
 /**
  * Throws when the review would be silently incomplete: implementation files in the program, or
- * modules and names that don't resolve (they would otherwise quietly become unresolved types).
+ * modules that don't resolve. Returns names missing from their module so the review lists them.
  */
-function assertComplete(program: ts.Program, condition: string, packageRoot: string): void {
+function checkResolution(
+  program: ts.Program,
+  condition: string,
+  packageRoot: string,
+): UnresolvedReference[] {
   const packageFiles = program
     .getSourceFiles()
     .filter(
@@ -297,20 +315,24 @@ function assertComplete(program: ts.Program, condition: string, packageRoot: str
   for (const file of packageFiles) {
     if (!file.isDeclarationFile) {
       throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName)}: Implementation file is part of the review program`,
+        `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: Implementation file is part of the review program`,
       );
     }
   }
+  const unresolved: UnresolvedReference[] = [];
   for (const file of packageFiles) {
-    const unresolved = program
-      .getSemanticDiagnostics(file)
-      .find((diagnostic) => resolutionErrorCodes.has(diagnostic.code));
-    if (unresolved) {
-      throw new Error(
-        `[${condition}] ${path.relative(packageRoot, file.fileName)}: ${ts.flattenDiagnosticMessageText(unresolved.messageText, " ")}`,
-      );
+    const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+    for (const diagnostic of program.getSemanticDiagnostics(file)) {
+      const problem = ts.flattenDiagnosticMessageText(diagnostic.messageText, " ");
+      if (resolutionErrorCodes.has(diagnostic.code)) {
+        throw new Error(`[${condition}] ${relativeFile}: ${problem}`);
+      }
+      if (missingMemberCodes.has(diagnostic.code)) {
+        unresolved.push({ condition, file: relativeFile, problem });
+      }
     }
   }
+  return unresolved;
 }
 
 /**
@@ -347,18 +369,19 @@ function buildExportSections(
 ): {
   references: NamedImports[];
   sections: ExportSection[];
+  unresolvedReferences: UnresolvedReference[];
 } {
   const program = ts.createProgram(
     exportFiles.map((exportFile) => exportFile.file),
     compilerOptionsFor(condition, packageRoot),
     compilerHost,
   );
-  assertComplete(program, condition, packageRoot);
+  const unresolvedReferences = checkResolution(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
   const shownUnder = new Map<ts.Symbol, string>();
   const rootNames = new Set<string>();
-  const references = new Map<string, Set<string>>();
+  const references = new Map<string, Map<string, string>>();
 
   const resolveAlias = (symbol: ts.Symbol): ts.Symbol =>
     symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
@@ -388,9 +411,22 @@ function buildExportSections(
   const isModuleObject = (symbol: ts.Symbol): boolean =>
     symbol.declarations?.some(ts.isSourceFile) ?? false;
 
+  // Names missing from their module resolve to `unknown`; Unresolved references lists them.
   const exportsByFile = exportFiles.map(({ file }) =>
-    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!),
+    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!).filter(
+      (exported) => resolveAlias(exported).declarations?.length,
+    ),
   );
+
+  // A local symbol keeps the public name used by its first export path.
+  // AddPolicyOptions -> AddPipelineOptions, both at the declaration and its usages.
+  const localNames = new Map<ts.Symbol, string>();
+  for (const exported of exportsByFile.flat()) {
+    const symbol = resolveAlias(exported);
+    if (exported.name !== "default" && !isExternal(program, symbol) && !localNames.has(symbol)) {
+      localNames.set(symbol, exported.name);
+    }
+  }
 
   // Everything reachable through an export path, including members of exported module objects.
   const exposed = new Set<ts.Symbol>();
@@ -405,6 +441,71 @@ function buildExportSections(
     }
   };
   expose(exportsByFile.flat());
+
+  const collectReferences = (node: ts.Node): void => {
+    if (isPrivateMember(node)) {
+      return;
+    }
+    const reference = resolveReference(program, node);
+    if (reference?.module) {
+      references.set(
+        reference.module,
+        (references.get(reference.module) ?? new Map()).set(
+          reference.name,
+          reference.preferredName ?? reference.name,
+        ),
+      );
+    }
+    if (reference) {
+      if (ts.isImportTypeNode(node)) {
+        node.typeArguments?.forEach(collectReferences);
+      }
+      return;
+    }
+    ts.forEachChild(node, collectReferences);
+  };
+  for (const symbol of exposed) {
+    if (isExternal(program, symbol) || isModuleObject(symbol)) {
+      continue;
+    }
+    for (const declaration of symbol.declarations ?? []) {
+      collectReferences(
+        ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration,
+      );
+    }
+  }
+
+  const usedNames = new Set(
+    exportsByFile
+      .flat()
+      .filter((symbol) => !isExternal(program, resolveAlias(symbol)))
+      .map((symbol) => symbol.name),
+  );
+  const importedNames = new Set([...references.values()].flatMap((names) => [...names.values()]));
+  const aliases = new Map<string, Map<string, string>>();
+  // { "azure": ["ClientOptions"], "openai": ["ClientOptions"] }
+  //   -> imports ["ClientOptions", "ClientOptions as ClientOptions_2"], with matching usage names.
+  const namedReferences = [...references]
+    .sort(([a], [b]) => a.localeCompare(b, "en"))
+    .map(([module, names]) => {
+      const moduleAliases = new Map<string, string>();
+      aliases.set(module, moduleAliases);
+      return {
+        module,
+        names: [...names]
+          .sort(([a], [b]) => a.localeCompare(b, "en"))
+          .map(([name, preferredName]) => {
+            let alias = preferredName;
+            let suffix = 2;
+            while (usedNames.has(alias) || (alias !== preferredName && importedNames.has(alias))) {
+              alias = `${preferredName}_${suffix++}`;
+            }
+            usedNames.add(alias);
+            moduleAliases.set(name, alias);
+            return alias === name ? name : `${name} as ${alias}`;
+          }),
+      };
+    });
 
   // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
   const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
@@ -422,12 +523,15 @@ function buildExportSections(
     rewritten: (node) => {
       const reference = resolveReference(program, node);
       if (reference?.module) {
-        references.set(
-          reference.module,
-          (references.get(reference.module) ?? new Set()).add(reference.name),
-        );
+        return aliases.get(reference.module)!.get(reference.name)!;
       }
-      return reference?.name;
+      const localReference = ts.isImportTypeNode(node)
+        ? node.qualifier
+        : ts.isIdentifier(node) || ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)
+          ? node
+          : undefined;
+      const symbol = localReference && checker.getSymbolAtLocation(localReference);
+      return (symbol && localNames.get(resolveAlias(symbol))) ?? reference?.name;
     },
     forgotten: (identifier) => {
       const symbol = checker.getSymbolAtLocation(identifier);
@@ -452,10 +556,10 @@ function buildExportSections(
     const differsFromRoot: Code[] = [];
     const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
+      const symbol = resolveAlias(exportedSymbol);
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const symbol = resolveAlias(exportedSymbol);
       const earlierPath = shownUnder.get(symbol);
       if (earlierPath !== undefined) {
         alsoExported.push({ path: earlierPath, name: exportedSymbol.name });
@@ -508,43 +612,58 @@ function buildExportSections(
   });
 
   return {
-    // Map { "b" => Set { "Z" }, "a" => Set { "Y", "X" } }
-    //   -> [{ module: "a", names: ["X", "Y"] }, { module: "b", names: ["Z"] }]
-    references: [...references]
-      .map(([module, names]) => ({
-        module,
-        names: [...names].sort((a, b) => a.localeCompare(b, "en")),
-      }))
-      .sort((a, b) => a.module.localeCompare(b.module, "en")),
+    references: namedReferences,
     sections,
+    unresolvedReferences,
   };
 }
 
 /**
  * Returns the external module, the name exported by that module, and the public name exposed by
- * this package for an alias created by `import { X }` or `export { X }`, following local hops.
+ * this package for named or default imports/re-exports, following local hops.
  */
 function externalImport(
   program: ts.Program,
   symbol: ts.Symbol,
-): { module: string; importedName: string; exportedName: string } | undefined {
+):
+  | { module: string; importedName: string; exportedName: string; preferredName?: string }
+  | undefined {
   const checker = program.getTypeChecker();
   const exportedName = symbol.name;
   let current: ts.Symbol | undefined = symbol;
   while (current && current.flags & ts.SymbolFlags.Alias) {
     const declaration = current.declarations?.[0];
     const next = checker.getImmediateAliasedSymbol(current);
-    if (!declaration || !(ts.isImportSpecifier(declaration) || ts.isExportSpecifier(declaration))) {
+    if (
+      !declaration ||
+      !(
+        ts.isImportSpecifier(declaration) ||
+        ts.isExportSpecifier(declaration) ||
+        ts.isImportClause(declaration)
+      )
+    ) {
       return undefined;
     }
     if (isExternal(program, next)) {
-      const moduleSpecifier = ts.isImportSpecifier(declaration)
-        ? declaration.parent.parent.parent.moduleSpecifier
-        : declaration.parent.parent.moduleSpecifier;
+      const moduleSpecifier = ts.isImportClause(declaration)
+        ? declaration.parent.moduleSpecifier
+        : ts.isImportSpecifier(declaration)
+          ? declaration.parent.parent.parent.moduleSpecifier
+          : declaration.parent.parent.moduleSpecifier;
+      const declaredName = ts.getNameOfDeclaration(
+        checker.getAliasedSymbol(current).declarations?.[0],
+      );
       return {
         module: (moduleSpecifier as ts.StringLiteral).text,
-        importedName: (declaration.propertyName ?? declaration.name).text,
+        importedName: ts.isImportClause(declaration)
+          ? "default"
+          : (declaration.propertyName ?? declaration.name).text,
         exportedName,
+        preferredName: ts.isImportClause(declaration)
+          ? declaredName && ts.isIdentifier(declaredName)
+            ? declaredName.text
+            : exportedName
+          : undefined,
       };
     }
     current = next;
@@ -560,17 +679,23 @@ function isExternal(program: ts.Program, symbol: ts.Symbol | undefined): boolean
 /**
  * Resolves how a type reference prints: its exported name, plus the module it comes from when
  * the reference is external. Handles `X` (from `import { X }`), `ns.X` (from `import * as ns`),
- * and `import("m").X`.
+ * default imports, and `import("m").X`.
  */
 function resolveReference(
   program: ts.Program,
   node: ts.Node,
-): { name: string; module?: string } | undefined {
+): { name: string; module?: string; preferredName?: string } | undefined {
   const checker = program.getTypeChecker();
   if (ts.isIdentifier(node)) {
     const symbol = checker.getSymbolAtLocation(node);
     const external = symbol && externalImport(program, symbol);
-    return external && { module: external.module, name: external.importedName };
+    return (
+      external && {
+        module: external.module,
+        name: external.importedName,
+        preferredName: external.preferredName,
+      }
+    );
   }
   if (ts.isQualifiedName(node) || ts.isPropertyAccessExpression(node)) {
     const left = ts.isQualifiedName(node) ? node.left : node.expression;

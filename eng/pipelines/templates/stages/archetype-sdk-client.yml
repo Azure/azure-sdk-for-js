@@ -111,8 +111,8 @@ extends:
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
               TestProxy: ${{ parameters.TestProxy }}
               Artifacts: ${{ parameters.Artifacts }}
+              ReleasePlanId: ${{ parameters.ReleasePlanId }}
               ${{ if eq(parameters.ServiceDirectory, 'template') }}:
                 TestPipeline: true
-                ReleasePlanId: ${{ parameters.ReleasePlanId }}
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

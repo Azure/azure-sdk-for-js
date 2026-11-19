@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or Update Rule Collection Group Draft.
  *
  * @summary create or Update Rule Collection Group Draft.
- * x-ms-original-file: 2026-01-01/FirewallPolicyRuleCollectionGroupDraftPut.json
+ * x-ms-original-file: 2026-03-01/FirewallPolicyRuleCollectionGroupDraftPut.json
  */
 async function createOrUpdateRuleCollectionGroupDraft() {
   const credential = new DefaultAzureCredential();

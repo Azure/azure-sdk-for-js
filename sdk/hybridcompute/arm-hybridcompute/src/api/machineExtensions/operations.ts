@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
       "%24expand": options?.expand,
     },
     {
@@ -69,6 +69,7 @@ export async function _listDeserialize(
 
   return _machineExtensionsListResultDeserializer(result.body);
 }
+
 /** The operation to get all extensions of a non-Azure machine */
 export function list(
   context: Client,
@@ -81,7 +82,7 @@ export function list(
     () => _listSend(context, resourceGroupName, machineName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -99,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,6 +122,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** The operation to delete the extension. */
 export function $delete(
   context: Client,
@@ -135,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, machineName, extensionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +156,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,6 +183,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return machineExtensionDeserializer(result.body);
 }
+
 /** The operation to create or update the extension. */
 export function update(
   context: Client,
@@ -203,7 +206,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<MachineExtension>, MachineExtension>;
 }
 
@@ -222,7 +225,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,6 +254,7 @@ export async function _createOrUpdateDeserialize(
 
   return machineExtensionDeserializer(result.body);
 }
+
 /** The operation to create or update the extension. */
 export function createOrUpdate(
   context: Client,
@@ -273,7 +277,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-15",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<MachineExtension>, MachineExtension>;
 }
 
@@ -291,7 +295,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       machineName: machineName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-15",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -316,6 +320,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
 
   return machineExtensionDeserializer(result.body);
 }
+
 /** The operation to get the extension. */
 export async function get(
   context: Client,

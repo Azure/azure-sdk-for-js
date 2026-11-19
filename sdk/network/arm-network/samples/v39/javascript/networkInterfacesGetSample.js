@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about the specified network interface.
  *
  * @summary gets information about the specified network interface.
- * x-ms-original-file: 2026-01-01/NetworkInterfaceGet.json
+ * x-ms-original-file: 2026-03-01/NetworkInterfaceGet.json
  */
 async function getNetworkInterface() {
   const credential = new DefaultAzureCredential();

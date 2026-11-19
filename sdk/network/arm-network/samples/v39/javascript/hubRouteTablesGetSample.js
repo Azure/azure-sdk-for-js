@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the details of a RouteTable.
  *
  * @summary retrieves the details of a RouteTable.
- * x-ms-original-file: 2026-01-01/HubRouteTableGet.json
+ * x-ms-original-file: 2026-03-01/HubRouteTableGet.json
  */
 async function routeTableGet() {
   const credential = new DefaultAzureCredential();

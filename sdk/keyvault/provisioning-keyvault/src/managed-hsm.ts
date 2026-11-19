@@ -89,15 +89,10 @@ export class KeyVaultManagedHsmKey extends Resource<"Microsoft.KeyVault/managedH
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "v",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: false,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "^[a-fA-F0-9]{32}$",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -174,15 +169,10 @@ export class ManagedHsmKey extends Resource<"Microsoft.KeyVault/managedHSMs/keys
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "k",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: false,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "^[a-zA-Z0-9-]{1,127}$",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -297,15 +287,10 @@ export class ManagedHsmPrivateEndpointConnection extends Resource<"Microsoft.Key
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "pec",
-    minLength: 1,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
-    scope: "global",
+    scope: "parent",
   };
 
   static {
@@ -437,13 +422,8 @@ export class ManagedHsm extends Resource<"Microsoft.KeyVault/managedHSMs"> {
   static apiVersion = API_VERSION;
   protected static namingRules: ResourceNamingRules = {
     abbreviation: "mhsm",
-    minLength: 3,
-    maxLength: 24,
-    validCharacters: {
-      uppercase: true,
-      hyphens: true,
-      underscores: false,
-      periods: false,
+    pattern: {
+      regex: "",
     },
     scope: "global",
   };

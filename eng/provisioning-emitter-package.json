@@ -1,0 +1,24 @@
+{
+  "name": "typescript-emitter-package",
+  "main": "dist/src/index.js",
+  "dependencies": {
+    "@azure-tools/openai-typespec": "1.28.0",
+    "@typespec/events": "0.88.0",
+    "@typespec/openapi": "1.18.0",
+    "@typespec/openapi3": "1.18.0",
+    "@typespec/streams": "0.88.0",
+    "@azure-tools/typespec-ts-provisioning": "0.3.1-alpha.20261112.1",
+    "@azure/provisioning-core": "1.0.0-beta.2",
+    "@azure-tools/typespec-client-generator-core": "0.74.0",
+    "@azure-tools/typespec-azure-resource-manager": "0.74.0",
+    "@azure-tools/typespec-azure-rulesets": "0.74.0",
+    "@azure-tools/typespec-liftr-base": "0.14.0",
+    "@typespec/compiler": "1.18.0",
+    "@typespec/http": "1.18.0",
+    "@typespec/rest": "0.88.0",
+    "@typespec/versioning": "0.88.0"
+  },
+  "overrides": {
+    "@alloy-js/core": "0.23.0-dev.18"
+  }
+}

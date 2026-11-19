@@ -5,7 +5,7 @@ import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder"
 
 import { EventGridSenderClient, EventGridReceiverClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { AdditionalPolicyConfig } from "@azure-rest/core-client";
 
 export interface RecordedV2Client {
   senderClient: EventGridSenderClient;

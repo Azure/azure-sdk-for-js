@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a job agent.
  *
  * @summary updates a job agent.
- * x-ms-original-file: 2025-08-01-preview/UpdateJobAgent.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateJobAgent.json
  */
 async function updateAJobAgentTags() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateAJobAgentTags() {
  * This sample demonstrates how to updates a job agent.
  *
  * @summary updates a job agent.
- * x-ms-original-file: 2025-08-01-preview/UpdateJobAgentWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateJobAgentWithIdentity.json
  */
 async function updateAJobAgentIdentity() {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function updateAJobAgentIdentity() {
  * This sample demonstrates how to updates a job agent.
  *
  * @summary updates a job agent.
- * x-ms-original-file: 2025-08-01-preview/UpdateJobAgentWithSku.json
+ * x-ms-original-file: 2026-08-01-preview/UpdateJobAgentWithSku.json
  */
 async function updateAJobAgentSku() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the load balancers in a resource group.
  *
  * @summary gets all the load balancers in a resource group.
- * x-ms-original-file: 2026-01-01/LoadBalancerList.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerList.json
  */
 async function listLoadBalancersInResourceGroup() {
   const credential = new DefaultAzureCredential();

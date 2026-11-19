@@ -20,7 +20,16 @@ export type ActionType = string;
 
 // @public
 export interface ActivateSaaSParameterRequest {
-    saaSGuid: string;
+    activateSaaSRequestParam?: ActivateSaaSRequestParam;
+    publisherId?: string;
+    saasGuid: string;
+}
+
+// @public
+export interface ActivateSaaSRequestParam {
+    company?: CompanyProfile;
+    saasResourceId?: string;
+    user?: UserDetails;
 }
 
 // @public
@@ -70,12 +79,48 @@ export interface CloudAccount extends TrackedResource {
 }
 
 // @public
+export interface CloudAccountCreateOrUpdate extends TrackedResourceCreateOrUpdate {
+    identity?: ManagedServiceIdentityCreateOrUpdate;
+    properties?: CloudAccountPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface CloudAccountIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, CloudAccountUserAssignedIdentity>;
+}
+
+// @public
+export interface CloudAccountMarketplaceUpdate {
+    offerDetails?: CloudAccountOfferDetailsUpdate;
+    saasResourceId?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface CloudAccountOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
 export interface CloudAccountProperties {
-    backupAdminOnCcaCreate?: EntityInfo;
+    company?: CompanyProfile;
     marketplace: MarketplaceDetails;
-    multiPersonAuthorizationOnCcaCreate?: EntityInfo;
     readonly provisioningState?: ResourceProvisioningState;
     readonly ssoUrl?: string;
+    user: UserDetails;
+}
+
+// @public
+export interface CloudAccountPropertiesCreateOrUpdate {
+    company?: CompanyProfile;
+    marketplace: MarketplaceDetailsCreateOrUpdate;
+    roleAssignmentsOnCcaCreate?: RoleAssignment[];
     user: UserDetails;
 }
 
@@ -112,7 +157,7 @@ export interface CloudAccountsListBySubscriptionOptionalParams extends Operation
 
 // @public
 export interface CloudAccountsOperations {
-    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, resource: CloudAccount, options?: CloudAccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
+    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, resource: CloudAccountCreateOrUpdate, options?: CloudAccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudAccount>, CloudAccount>;
     delete: (resourceGroupName: string, cloudAccountName: string, options?: CloudAccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cloudAccountName: string, options?: CloudAccountsGetOptionalParams) => Promise<CloudAccount>;
     latestLinkedSaaS: (resourceGroupName: string, cloudAccountName: string, options?: CloudAccountsLatestLinkedSaaSOptionalParams) => Promise<LatestLinkedSaaSResponse>;
@@ -129,21 +174,55 @@ export interface CloudAccountsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface CloudAccountUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: CloudAccountIdentityUpdate;
     properties?: CloudAccountUpdateProperties;
     tags?: Record<string, string>;
 }
 
 // @public
 export interface CloudAccountUpdateProperties {
-    marketplace?: MarketplaceDetails;
-    user?: UserDetails;
+    company?: CompanyProfile;
+    marketplace?: CloudAccountMarketplaceUpdate;
+    user?: CloudAccountUserUpdate;
+}
+
+// @public
+export interface CloudAccountUserAssignedIdentity {
+}
+
+// @public
+export interface CloudAccountUserUpdate {
+    emailAddress?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+    upn?: string;
 }
 
 // @public
 export interface CommvaultPlan extends ProxyResource {
     properties?: PlanProperties;
 }
+
+// @public
+export interface CommvaultPlanCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: PlanPropertiesCreateOrUpdate;
+}
+
+// @public
+export interface CompanyProfile {
+    city?: string;
+    companyName?: string;
+    country?: string;
+    jobTitle?: string;
+    postalCode?: string;
+    state?: string;
+    street?: string;
+    website?: string;
+}
+
+// @public
+export type ComplianceLockStatus = string;
 
 // @public (undocumented)
 export class ContentStoreClient {
@@ -261,6 +340,13 @@ export enum KnownBackUpType {
     Both = "BOTH",
     Full = "FULL",
     Incremental = "INCREMENTAL"
+}
+
+// @public
+export enum KnownComplianceLockStatus {
+    Disabled = "Disabled",
+    DisablementPending = "DisablementPending",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -406,7 +492,8 @@ export enum KnownRuleProperty {
 
 // @public
 export enum KnownStorageClassType {
-    Cool = "COLD",
+    Cold = "COLD",
+    Cool = "COOL",
     Hot = "HOT"
 }
 
@@ -422,14 +509,8 @@ export enum KnownVendor {
 
 // @public
 export enum KnownVersions {
-    V1Preview = "2024-10-01-preview",
-    V2Preview = "2025-01-01-preview",
-    V3Preview = "2026-03-01-preview",
-    V4Preview = "2026-05-01-preview",
-    V5Preview = "2026-06-01-preview",
-    V6Preview = "2026-06-02-preview",
-    V7Preview = "2026-07-01-preview",
-    V8Preview = "2026-07-03-preview"
+    V20260930 = "2026-09-30",
+    V20261103 = "2026-11-03"
 }
 
 // @public
@@ -467,6 +548,12 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
+export interface ManagedServiceIdentityCreateOrUpdate {
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentityCreateOrUpdate>;
+}
+
+// @public
 export type ManagedServiceIdentityType = string;
 
 // @public
@@ -475,6 +562,13 @@ export interface MarketplaceDetails {
     saasResourceId?: string;
     subscriptionId?: string;
     readonly subscriptionStatus?: MarketplaceSubscriptionStatus;
+}
+
+// @public
+export interface MarketplaceDetailsCreateOrUpdate {
+    offerDetails: OfferDetails;
+    saasResourceId?: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -550,6 +644,14 @@ export interface PlanProperties {
 }
 
 // @public
+export interface PlanPropertiesCreateOrUpdate {
+    location: string;
+    retention?: Retention;
+    schedules?: Schedule[];
+    storagePlans: StoragePlan[];
+}
+
+// @public
 export interface PlansCreateOrupdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -569,7 +671,7 @@ export interface PlansListByCloudAccountOptionalParams extends OperationOptions 
 
 // @public
 export interface PlansOperations {
-    createOrupdate: (resourceGroupName: string, cloudAccountName: string, planName: string, resource: CommvaultPlan, options?: PlansCreateOrupdateOptionalParams) => PollerLike<OperationState<CommvaultPlan>, CommvaultPlan>;
+    createOrupdate: (resourceGroupName: string, cloudAccountName: string, planName: string, resource: CommvaultPlanCreateOrUpdate, options?: PlansCreateOrupdateOptionalParams) => PollerLike<OperationState<CommvaultPlan>, CommvaultPlan>;
     delete: (resourceGroupName: string, cloudAccountName: string, planName: string, options?: PlansDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cloudAccountName: string, planName: string, options?: PlansGetOptionalParams) => Promise<CommvaultPlan>;
     listByCloudAccount: (resourceGroupName: string, cloudAccountName: string, options?: PlansListByCloudAccountOptionalParams) => PagedAsyncIterableIterator<CommvaultPlan>;
@@ -628,14 +730,26 @@ export interface ProtectionGroup extends ProxyResource {
 }
 
 // @public
+export interface ProtectionGroupCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: ProtectionGroupPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface ProtectionGroupProperties {
     readonly backupActivityStatus?: string;
     dataSourceType: "AzureVM";
-    readonly lastBackUpTime?: number;
-    readonly numberOfProtectedItems?: number;
+    readonly lastBackUpTime: number;
+    readonly numberOfProtectedItems: number;
     plan: string;
-    readonly protectionStatus?: ProtectionStatus;
+    readonly protectionStatus: ProtectionStatus;
     readonly provisioningState?: ResourceProvisioningState;
+    resources: ProtectionGroupResources;
+}
+
+// @public
+export interface ProtectionGroupPropertiesCreateOrUpdate {
+    dataSourceType: "AzureVM";
+    plan: string;
     resources: ProtectionGroupResources;
 }
 
@@ -673,7 +787,7 @@ export interface ProtectionGroupsListByCloudAccountOptionalParams extends Operat
 // @public
 export interface ProtectionGroupsOperations {
     backup: (resourceGroupName: string, cloudAccountName: string, protectionGroupName: string, request: BackupProtectionGroupRequest, options?: ProtectionGroupsBackupOptionalParams) => Promise<BackupProtectionGroupResponse>;
-    createOrupdate: (resourceGroupName: string, cloudAccountName: string, protectionGroupName: string, resource: ProtectionGroup, options?: ProtectionGroupsCreateOrupdateOptionalParams) => PollerLike<OperationState<ProtectionGroup>, ProtectionGroup>;
+    createOrupdate: (resourceGroupName: string, cloudAccountName: string, protectionGroupName: string, resource: ProtectionGroupCreateOrUpdate, options?: ProtectionGroupsCreateOrupdateOptionalParams) => PollerLike<OperationState<ProtectionGroup>, ProtectionGroup>;
     delete: (resourceGroupName: string, cloudAccountName: string, protectionGroupName: string, options?: ProtectionGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, cloudAccountName: string, protectionGroupName: string, options?: ProtectionGroupsGetOptionalParams) => Promise<ProtectionGroup>;
     listByCloudAccount: (resourceGroupName: string, cloudAccountName: string, options?: ProtectionGroupsListByCloudAccountOptionalParams) => PagedAsyncIterableIterator<ProtectionGroup>;
@@ -703,11 +817,19 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface ProxyResourceCreateOrUpdate extends ResourceCreateOrUpdate {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceCreateOrUpdate {
 }
 
 // @public
@@ -757,8 +879,8 @@ export type RetentionTime = string;
 
 // @public
 export interface RoleAssignment {
-    entities?: EntityInfo[];
-    roleName?: RoleName;
+    entities: EntityInfo[];
+    roleName: RoleName;
 }
 
 // @public
@@ -767,8 +889,18 @@ export interface RoleMapping extends ProxyResource {
 }
 
 // @public
+export interface RoleMappingCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: RoleMappingPropertiesCreateOrUpdate;
+}
+
+// @public
 export interface RoleMappingProperties {
     readonly provisioningState?: ResourceProvisioningState;
+    roles?: RoleAssignment[];
+}
+
+// @public
+export interface RoleMappingPropertiesCreateOrUpdate {
     roles?: RoleAssignment[];
 }
 
@@ -790,7 +922,7 @@ export interface RoleMappingsListOptionalParams extends OperationOptions {
 
 // @public
 export interface RoleMappingsOperations {
-    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, resource: RoleMapping, options?: RoleMappingsCreateOrUpdateOptionalParams) => Promise<RoleMapping>;
+    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, resource: RoleMappingCreateOrUpdate, options?: RoleMappingsCreateOrUpdateOptionalParams) => Promise<RoleMapping>;
     delete: (resourceGroupName: string, cloudAccountName: string, options?: RoleMappingsDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, cloudAccountName: string, options?: RoleMappingsGetOptionalParams) => Promise<RoleMapping>;
     list: (resourceGroupName: string, cloudAccountName: string, options?: RoleMappingsListOptionalParams) => PagedAsyncIterableIterator<RoleMapping>;
@@ -859,6 +991,11 @@ export { Storage_2 as Storage }
 export type StorageClassType = string;
 
 // @public
+export interface StorageCreateOrUpdate extends ProxyResourceCreateOrUpdate {
+    properties?: StoragePropertiesCreateOrUpdate;
+}
+
+// @public
 export interface StoragePlan {
     backupRuleType?: BackupRuleType;
     copyName?: string;
@@ -873,8 +1010,17 @@ export interface StoragePlan {
 // @public
 export interface StorageProperties {
     class: StorageClassType;
+    readonly complianceLockStatus?: ComplianceLockStatus;
     location: string;
     readonly provisioningState?: ResourceProvisioningState;
+    storageType: StorageType;
+    vendor: Vendor;
+}
+
+// @public
+export interface StoragePropertiesCreateOrUpdate {
+    class: StorageClassType;
+    location: string;
     storageType: StorageType;
     vendor: Vendor;
 }
@@ -890,6 +1036,14 @@ export interface StoragesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface StoragesDisableComplianceLockOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StoragesEnableComplianceLockOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StoragesGetOptionalParams extends OperationOptions {
 }
 
@@ -899,10 +1053,17 @@ export interface StoragesListByCloudAccountOptionalParams extends OperationOptio
 
 // @public
 export interface StoragesOperations {
-    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, storageName: string, resource: Storage_2, options?: StoragesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Storage_2>, Storage_2>;
+    createOrUpdate: (resourceGroupName: string, cloudAccountName: string, storageName: string, resource: StorageCreateOrUpdate, options?: StoragesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Storage_2>, Storage_2>;
     delete: (resourceGroupName: string, cloudAccountName: string, storageName: string, options?: StoragesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    disableComplianceLock: (resourceGroupName: string, cloudAccountName: string, storageName: string, options?: StoragesDisableComplianceLockOptionalParams) => Promise<Storage_2>;
+    enableComplianceLock: (resourceGroupName: string, cloudAccountName: string, storageName: string, options?: StoragesEnableComplianceLockOptionalParams) => Promise<Storage_2>;
     get: (resourceGroupName: string, cloudAccountName: string, storageName: string, options?: StoragesGetOptionalParams) => Promise<Storage_2>;
     listByCloudAccount: (resourceGroupName: string, cloudAccountName: string, options?: StoragesListByCloudAccountOptionalParams) => PagedAsyncIterableIterator<Storage_2>;
+    refresh: (resourceGroupName: string, cloudAccountName: string, storageName: string, options?: StoragesRefreshOptionalParams) => Promise<Storage_2>;
+}
+
+// @public
+export interface StoragesRefreshOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -925,9 +1086,19 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface TrackedResourceCreateOrUpdate extends ResourceCreateOrUpdate {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface UserAssignedIdentityCreateOrUpdate {
 }
 
 // @public

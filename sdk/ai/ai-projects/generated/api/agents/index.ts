@@ -15,6 +15,7 @@ export {
   deleteOptimizationJob,
   cancelOptimizationJob,
   listOptimizationJobs,
+  downloadOptimizationJobFile,
   getOptimizationJob,
   estimateOptimizationJob,
   createOptimizationJob,
@@ -39,6 +40,7 @@ export {
   updateAgentFromManifest,
   createAgentFromManifest,
   updateAgent,
+  createFromPrompt,
   createAgent,
   get,
 } from "./operations.js";
@@ -56,6 +58,7 @@ export type {
   AgentsDeleteOptimizationJobOptionalParams,
   AgentsCancelOptimizationJobOptionalParams,
   AgentsListOptimizationJobsOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
@@ -80,6 +83,7 @@ export type {
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
   AgentsUpdateAgentOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
   AgentsCreateAgentOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";

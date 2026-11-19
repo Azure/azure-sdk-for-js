@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list gallery image versions in a gallery image definition.
  *
  * @summary list gallery image versions in a gallery image definition.
- * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
+ * x-ms-original-file: 2026-03-03/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
  */
 async function listGalleryImageVersionsInAGalleryImageDefinition() {
   const credential = new DefaultAzureCredential();

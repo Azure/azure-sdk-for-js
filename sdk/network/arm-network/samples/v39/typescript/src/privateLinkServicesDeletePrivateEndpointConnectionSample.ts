@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete private end point connection for a private link service in a subscription.
  *
  * @summary delete private end point connection for a private link service in a subscription.
- * x-ms-original-file: 2026-01-01/PrivateLinkServiceDeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-03-01/PrivateLinkServiceDeletePrivateEndpointConnection.json
  */
 async function deletePrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
   const credential = new DefaultAzureCredential();

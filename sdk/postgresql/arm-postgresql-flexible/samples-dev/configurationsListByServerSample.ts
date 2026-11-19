@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all configurations (also known as server parameters) of a server.
  *
  * @summary lists all configurations (also known as server parameters) of a server.
- * x-ms-original-file: 2026-07-01-preview/ConfigurationsListByServer.json
+ * x-ms-original-file: 2026-10-01/ConfigurationsListByServer.json
  */
 async function listAllConfigurationsAlsoKnownAsServerParametersOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

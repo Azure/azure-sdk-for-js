@@ -8,6 +8,7 @@ export interface LogAnalyticsExportThrottledRequestsOptionalParams extends Opera
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface LogAnalyticsExportRequestRateByIntervalOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */

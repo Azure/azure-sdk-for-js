@@ -5,44 +5,38 @@ import { AzureResilienceManagementClient } from "@azure/arm-resiliencemanagement
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a GoalAssignment
+ * This sample demonstrates how to creates or updates a goal assignment.
  *
- * @summary create a GoalAssignment
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary creates or updates a goal assignment.
+ * x-ms-original-file: 2026-10-01/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.goalAssignments.createOrUpdate("sg1", "ga1", {
+  await client.goalAssignments.createOrUpdate("production-sg", "zonal-resiliency-goal", {
     properties: {
-      goalTemplateId: "/providers/Microsoft.AzureResilienceManagement/goaltemplates/gt1",
-      goalAssignmentType: "Resiliency",
       serviceLevelResources: [
         {
           serviceLevelIndicatorResourceId:
             "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/MyResourceGroup/providers/Microsoft.Compute/virtualMachines/MyVirtualMachine",
-          serviceLevelObjectiveResourceId:
-            "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/MyResourceGroup/providers/Microsoft.Compute/virtualMachines/MyVirtualMachine",
         },
       ],
+      requireZonalResiliency: true,
     },
   });
 }
 
 /**
- * This sample demonstrates how to create a GoalAssignment
+ * This sample demonstrates how to creates or updates a goal assignment.
  *
- * @summary create a GoalAssignment
- * x-ms-original-file: 2026-08-31-preview/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
+ * @summary creates or updates a goal assignment.
+ * x-ms-original-file: 2026-10-01/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.goalAssignments.createOrUpdate("sg1", "ga1", {
-    properties: {
-      goalTemplateId: "/providers/Microsoft.AzureResilienceManagement/goaltemplates/gt1",
-      goalAssignmentType: "Resiliency",
-    },
+  await client.goalAssignments.createOrUpdate("production-sg", "zonal-resiliency-goal", {
+    properties: { requireZonalResiliency: true },
   });
 }
 

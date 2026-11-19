@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all address prefix sets in an application security group.
  *
  * @summary gets all address prefix sets in an application security group.
- * x-ms-original-file: 2026-01-01/AddressPrefixSetList.json
+ * x-ms-original-file: 2026-03-01/AddressPrefixSetList.json
  */
 async function listAddressPrefixSets(): Promise<void> {
   const credential = new DefaultAzureCredential();

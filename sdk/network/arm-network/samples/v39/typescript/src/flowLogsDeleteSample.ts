@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified flow log resource.
  *
  * @summary deletes the specified flow log resource.
- * x-ms-original-file: 2026-01-01/NetworkWatcherFlowLogDelete.json
+ * x-ms-original-file: 2026-03-01/NetworkWatcherFlowLogDelete.json
  */
 async function deleteFlowLog(): Promise<void> {
   const credential = new DefaultAzureCredential();

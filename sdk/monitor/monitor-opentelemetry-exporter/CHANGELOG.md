@@ -1,5 +1,35 @@
 # Release History
 
+## 1.0.0-beta.48 (Unreleased)
+
+### Breaking Changes
+
+- Updated to OpenTelemetry SDK 3.x and the matching 0.300.x instrumentation packages. Tracing now uses `@opentelemetry/sdk-trace`, and the logs API comes from `@opentelemetry/api` 1.10.0 instead of `@opentelemetry/api-logs`. See the [OpenTelemetry migration guide](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/3.x/migration-guide.md). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+- Raised the minimum supported Node.js version to 22.15.0 to match [OpenTelemetry SDK 3.x requirements](https://github.com/open-telemetry/opentelemetry-js/issues/6420). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+### Bugs Fixed
+
+- Isolated the Microsoft Entra audience for multi-endpoint exports from the host connection string. Set `APPLICATIONINSIGHTS_MULTI_ENDPOINT_AAD_AUDIENCE` to override the public cloud default for routed telemetry. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
+- Bounded routed requests and shutdown so a stalled destination cannot indefinitely block queued overflow destinations. Timed-out telemetry remains eligible for offline retry when storage is available. [#40831](https://github.com/Azure/azure-sdk-for-js/pull/40831)
+- Closed exporter-owned connections after each temporary overflow routing request, while preserving connection reuse for cached routes and caller-owned transports. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
+- Preserved compatible sampler attribute value types for OpenTelemetry 2.x consumers while including the numeric sample-rate attribute in the return type. [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)
+
+## 1.0.0-beta.47 (2026-11-05)
+
+### Features Added
+
+- Added opt-in multi-endpoint routing for logs, traces, and metrics, with a 64-route cache and sequential temporary senders for overflow destinations. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
+- Added automatic gzip request compression for Azure Monitor ingestion, including internal Statsbeat and customer SDK Stats, while preserving uncompressed requests to custom ingestion domains and falling back to the original request if compression fails. [#40414](https://github.com/Azure/azure-sdk-for-js/pull/40414)
+- Added an opt-in 4 MiB limit for `gen_ai.input.messages` and `gen_ai.output.messages` through `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=gen_ai_input_output_limit_increase`. Default GenAI limits remain at 256 KiB, and all other custom dimensions remain limited to 8 KiB. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
+
+### Bugs Fixed
+
+- Fixed custom dimension truncation splitting UTF-8 characters and potentially exceeding the configured byte limit. [#40609](https://github.com/Azure/azure-sdk-for-js/pull/40609)
+
+### Other Changes
+
+- Added an internal `_configuration` subscription entry point so the Azure Monitor distro can reuse the existing OneSettings polling worker and boolean feature evaluation. [#40282](https://github.com/Azure/azure-sdk-for-js/pull/40282)
+
 ## 1.0.0-beta.46 (2026-10-05)
 
 ### Features Added

@@ -34,6 +34,7 @@ export function layoutReview(review: Review): Block[] {
     heading(1, plain("API review: "), inlineCode(review.name)),
     ...layoutEntryPoints(review),
     ...layoutDependencies(review),
+    ...layoutUnresolvedReferences(review),
     ...layoutReferences(review),
     ...review.exportSections.flatMap((section, _, [root]) =>
       layoutExportSection(section, root.path),
@@ -74,6 +75,24 @@ function layoutDependencies(review: Review): Block[] {
           field === "type" ? plain(dependency.type) : inlineCode(dependency[field] ?? ""),
         ]),
       ),
+    },
+  ];
+}
+
+function layoutUnresolvedReferences(review: Review): Block[] {
+  if (!review.unresolvedReferences.length) {
+    return [];
+  }
+  return [
+    heading(2, plain("Unresolved references")),
+    {
+      kind: "table",
+      headers: ["Condition", "File", "Problem"],
+      rows: review.unresolvedReferences.map(({ condition, file, problem }) => [
+        [inlineCode(condition)],
+        [inlineCode(file)],
+        [plain(problem)],
+      ]),
     },
   ];
 }
@@ -159,9 +178,19 @@ function layoutRuntimeDifferences(review: Review): Block[] {
       });
     }
     for (const changed of exports) {
+      const items = [...changed.items];
+      if (changed.reExports.length) {
+        items.push(
+          changed.reExports.flatMap(({ change, reference }) =>
+            formatNamedImports("export", reference)
+              .split("\n")
+              .map((text) => ({ change, text })),
+          ),
+        );
+      }
       blocks.push(heading(4, plain("Export "), inlineCode(changed.path)), {
         kind: "diff",
-        items: changed.items,
+        items,
       });
     }
   }

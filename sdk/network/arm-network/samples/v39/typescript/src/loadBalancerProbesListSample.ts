@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the load balancer probes.
  *
  * @summary gets all the load balancer probes.
- * x-ms-original-file: 2026-01-01/LoadBalancerProbeList.json
+ * x-ms-original-file: 2026-03-01/LoadBalancerProbeList.json
  */
 async function loadBalancerProbeList(): Promise<void> {
   const credential = new DefaultAzureCredential();

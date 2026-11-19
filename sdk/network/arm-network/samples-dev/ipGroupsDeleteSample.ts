@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified ipGroups.
  *
  * @summary deletes the specified ipGroups.
- * x-ms-original-file: 2026-01-01/IpGroupsDelete.json
+ * x-ms-original-file: 2026-03-01/IpGroupsDelete.json
  */
 async function deleteIpGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

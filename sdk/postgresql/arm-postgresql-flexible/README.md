@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-postgresql-flexible)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible/samples)
 
 ## Getting started

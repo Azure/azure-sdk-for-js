@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to resets the virtual network gateway connection specified.
  *
  * @summary resets the virtual network gateway connection specified.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayConnectionReset.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayConnectionReset.json
  */
 async function resetVirtualNetworkGatewayConnection() {
   const credential = new DefaultAzureCredential();

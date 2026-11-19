@@ -54,7 +54,7 @@ export async function _listByVmsDeserialize(
   return _scheduledActionResourcesListResultDeserializer(result.body);
 }
 
-/** Lists scheduled actions associated with the specified VM. */
+/** Lists recurring bulk actions associated with the specified VM. */
 export function listByVms(
   context: Client,
   resourceUri: string,

@@ -57,7 +57,7 @@ export function _listReportDownloadUrlSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,7 +115,7 @@ export function listReportDownloadUrl(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<ListReportDownloadUrlResponse>, ListReportDownloadUrlResponse>;
 }
 
@@ -133,7 +133,7 @@ export function _generateReportSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +180,7 @@ export function generateReport(
     getInitialResponse: () =>
       _generateReportSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<DrillReportSummary>, DrillReportSummary>;
 }
 
@@ -199,7 +199,7 @@ export function _markAsCompleteSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,7 +255,7 @@ export function markAsComplete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -273,7 +273,7 @@ export function _resumeSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +318,7 @@ export function resume(
     getInitialResponse: () =>
       _resumeSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -337,7 +337,7 @@ export function _addNotesSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,7 +385,7 @@ export function addNotes(
     getInitialResponse: () =>
       _addNotesSend(context, serviceGroupName, operationId, drillName, drillRunName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -403,7 +403,7 @@ export function _reprotectSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -450,7 +450,7 @@ export function reprotect(
     getInitialResponse: () =>
       _reprotectSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -468,7 +468,7 @@ export function _failOverSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -515,7 +515,7 @@ export function failOver(
     getInitialResponse: () =>
       _failOverSend(context, serviceGroupName, operationId, drillName, drillRunName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-31-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -530,7 +530,7 @@ export function _listSend(
     {
       serviceGroupName: serviceGroupName,
       drillName: drillName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -570,11 +570,7 @@ export function list(
     () => _listSend(context, serviceGroupName, drillName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-31-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -591,7 +587,7 @@ export function _getSend(
       serviceGroupName: serviceGroupName,
       drillName: drillName,
       drillRunName: drillRunName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

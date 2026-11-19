@@ -44,6 +44,8 @@ import {
   getOptimizationJob,
   estimateOptimizationJob,
   createOptimizationJob,
+  createFromPrompt,
+  downloadOptimizationJobFile,
 } from "../../api/agents/operations.js";
 import type {
   AgentsDeleteSessionFileOptionalParams,
@@ -86,6 +88,8 @@ import type {
   AgentsGetOptimizationJobOptionalParams,
   AgentsEstimateOptimizationJobOptionalParams,
   AgentsCreateOptimizationJobOptionalParams,
+  AgentsCreateFromPromptOptionalParams,
+  AgentsDownloadOptimizationJobFileOptionalParams,
 } from "../../api/agents/options.js";
 import type {
   Agent,
@@ -109,9 +113,12 @@ import type {
   AgentOptimizationEstimateInputs,
   AgentOptimizationEstimateResult,
   AgentOptimizationCandidate,
+  GenerateAgentRequest,
+  AgentsDownloadOptimizationJobFileResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { JobPoller } from "../../static-helpers/pollingHelpers.js";
+import { traceVoiceAgentOperation } from "../../tracing/voiceAgentTracing.js";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
@@ -212,6 +219,12 @@ export interface AgentsOperations {
   listOptimizationJobs: (
     options?: AgentsListOptimizationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentOptimizationJob>;
+  /** Downloads a declared file as a binary stream. The path must match a file descriptor returned by the service. When candidate_id is omitted, the request is scoped to the job. */
+  downloadOptimizationJobFile: (
+    jobId: string,
+    path: string,
+    options?: AgentsDownloadOptimizationJobFileOptionalParams,
+  ) => Promise<AgentsDownloadOptimizationJobFileResponse>;
   /** Retrieves an optimization job by its identifier. */
   getOptimizationJob: (
     jobId: string,
@@ -339,6 +352,14 @@ export interface AgentsOperations {
   updateAgent: (
     agentName: string,
     options?: AgentsUpdateAgentObjectOptionalParams,
+  ) => Promise<Agent>;
+  /**
+   * Generates and creates an agent from kind-specific high-level inputs.
+   * The generated definition remains fully editable through the standard agent versioning operations.
+   */
+  createFromPrompt: (
+    body: GenerateAgentRequest,
+    options?: AgentsCreateFromPromptOptionalParams,
   ) => Promise<Agent>;
   /** Modifies an existing agent. */
   patchAgentObject: (
@@ -483,6 +504,11 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
       cancelOptimizationJob(context, jobId, options),
     listOptimizationJobs: (options?: AgentsListOptimizationJobsOptionalParams) =>
       listOptimizationJobs(context, options),
+    downloadOptimizationJobFile: (
+      jobId: string,
+      path: string,
+      options?: AgentsDownloadOptimizationJobFileOptionalParams,
+    ) => downloadOptimizationJobFile(context, jobId, path, options),
     getOptimizationJob: (jobId: string, options?: AgentsGetOptimizationJobOptionalParams) =>
       getOptimizationJob(context, jobId, options),
     estimateOptimizationJob: (
@@ -532,6 +558,17 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
+    createFromPrompt: (
+      body: GenerateAgentRequest,
+      options?: AgentsCreateFromPromptOptionalParams,
+    ) =>
+      traceVoiceAgentOperation(
+        "create_agent",
+        context.endpoint,
+        tracingConfig,
+        () => createFromPrompt(context, body, options),
+        (agent) => ({ "gen_ai.agent.name": agent.name, "gen_ai.agent.id": agent.id }),
+      ),
     patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
       patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>

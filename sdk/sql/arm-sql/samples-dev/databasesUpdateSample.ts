@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchDatabaseDefaultEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/PatchDatabaseDefaultEnclave.json
  */
 async function updatesADatabaseWithDefaultEnclaveType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updatesADatabaseWithDefaultEnclaveType(): Promise<void> {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchDatabaseVBSEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/PatchDatabaseVBSEnclave.json
  */
 async function updatesADatabaseWithVBSEnclaveType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function updatesADatabaseWithVBSEnclaveType(): Promise<void> {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchVCoreDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/PatchVCoreDatabase.json
  */
 async function updatesADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function updatesADatabase(): Promise<void> {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
  */
 async function assignsMaintenanceWindowToADatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -76,7 +76,7 @@ async function assignsMaintenanceWindowToADatabase(): Promise<void> {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchVCoreDatabaseResetMaintenanceConfiguration.json
+ * x-ms-original-file: 2026-08-01-preview/PatchVCoreDatabaseResetMaintenanceConfiguration.json
  */
 async function resetsMaintenanceWindowOfADatabaseToDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -94,7 +94,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault(): Promise<void> {
  * This sample demonstrates how to updates an existing database.
  *
  * @summary updates an existing database.
- * x-ms-original-file: 2025-08-01-preview/PatchVCoreDatabaseWithKeysAndEncryptionProtector.json
+ * x-ms-original-file: 2026-08-01-preview/PatchVCoreDatabaseWithKeysAndEncryptionProtector.json
  */
 async function patchADatabaseWithDatabaseLevelCustomerManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

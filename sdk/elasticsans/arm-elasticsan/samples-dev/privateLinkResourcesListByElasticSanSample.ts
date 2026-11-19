@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources that need to be created for a elastic San.
  *
  * @summary gets the private link resources that need to be created for a elastic San.
- * x-ms-original-file: 2025-09-01/PrivateLinkResources_ListByElasticSan_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateLinkResources_ListByElasticSan_MaximumSet_Gen.json
  */
 async function privateLinkResourcesListByElasticSanMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function privateLinkResourcesListByElasticSanMaximumSetGen(): Promise<void
  * This sample demonstrates how to gets the private link resources that need to be created for a elastic San.
  *
  * @summary gets the private link resources that need to be created for a elastic San.
- * x-ms-original-file: 2025-09-01/PrivateLinkResources_ListByElasticSan_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PrivateLinkResources_ListByElasticSan_MinimumSet_Gen.json
  */
 async function privateLinkResourcesListByElasticSanMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,4 +1,4 @@
-# Contract tests for the template-only release completion correlation pilot.
+# Contract tests for optional manual release-plan ID forwarding.
 # Requires Pester 5 and powershell-yaml. No Azure pipeline or release is executed.
 
 BeforeAll {
@@ -7,10 +7,9 @@ BeforeAll {
   $entryPath = 'sdk/template/ci.yml'
   $clientPath = 'eng/pipelines/templates/stages/archetype-sdk-client.yml'
   $releasePath = 'eng/pipelines/templates/stages/archetype-js-release.yml'
-  $templateGuard = '${{ if eq(parameters.ServiceDirectory, ''template'') }}'
-  $autoGuard = '${{ if and(eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
-  $variableGuard = '${{ if and(eq(parameters.ServiceDirectory, ''template''), eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
-  $expression = '$[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs[''resolve.AutoReleaseSdkPullRequestUrl''] ]'
+  $script:templateGuard = '${{ if eq(parameters.ServiceDirectory, ''template'') }}'
+  $script:autoGuard = '${{ if and(eq(variables[''Build.Reason''], ''IndividualCI''), eq(variables[''Build.SourceBranch''], ''refs/heads/main'')) }}'
+  $script:expression = '$[ stageDependencies.AutoReleasePrepare.ResolveAutoReleasePackages.outputs[''resolve.AutoReleaseSdkPullRequestUrl''] ]'
 
   function Read-Pipeline([string] $Path) {
     $raw = [IO.File]::ReadAllText((Join-Path $repoRoot $Path))
@@ -38,25 +37,12 @@ BeforeAll {
     return $nodes[0]
   }
 
-  # Evaluate only the new pilot guards, not Azure's full template language.
-  function Get-Correlation($Pipeline, [string] $Service, [string] $Reason, [string] $Branch) {
-    $completion = Get-Completion $Pipeline
-    $result = @{}
-    if ($Service -eq 'template') {
-      $result.ReleasePlanId = $completion.parameters[$templateGuard].ReleasePlanId
-      if ($Reason -eq 'IndividualCI' -and $Branch -eq 'refs/heads/main') {
-        $result.SdkPullRequest = $completion.parameters[$templateGuard][$autoGuard].SdkPullRequest
-      }
-    }
-    return $result
-  }
-
-  $entry = Read-Pipeline $entryPath
-  $client = Read-Pipeline $clientPath
-  $release = Read-Pipeline $releasePath
+  $script:entry = Read-Pipeline $entryPath
+  $script:client = Read-Pipeline $clientPath
+  $script:release = Read-Pipeline $releasePath
 }
 
-Describe 'Template completion correlation' {
+Describe 'Manual release-plan ID forwarding' -Tag 'UnitTest' {
   It 'declares a string sentinel and relays the input without conversion' {
     $inputParameter = @($entry.parameters | Where-Object name -EQ ReleasePlanId)
     $inputParameter.Count | Should -Be 1
@@ -69,68 +55,52 @@ Describe 'Template completion correlation' {
     $clientParameter.default | Should -BeOfType ([string])
     $clientParameter.default | Should -BeExactly '0'
     $relay = Get-ReleaseRelay $client
-    $relay.parameters.Contains('ReleasePlanId') | Should -BeFalse
-    $relay.parameters[$templateGuard].ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
+    $relay.parameters.ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
     $release.parameters.ReleasePlanId | Should -BeOfType ([string])
     $release.parameters.ReleasePlanId | Should -BeExactly '0'
   }
 
   It 'preserves raw string <Raw> for downstream CLI validation' -ForEach @(
-    @{ Raw = '0' }, @{ Raw = '35307' }, @{ Raw = '2147483647' }, @{ Raw = '100.6' }
+    @{ Raw = '0' }, @{ Raw = '35307' }, @{ Raw = '2147483647' }, @{ Raw = '100.6' },
+    @{ Raw = "0'; Write-Output 'probe'; #" }, @{ Raw = '$(Write-Output probe)' }
   ) {
-    $rawYaml = [IO.File]::ReadAllText((Join-Path $repoRoot $entryPath))
-    $parsed = ConvertFrom-Yaml ($rawYaml.Replace("default: '0'", "default: '$Raw'")) -Ordered
-    $parameter = @($parsed.parameters | Where-Object name -EQ ReleasePlanId)[0]
-    $parameter.default | Should -BeOfType ([string])
-    $parameter.default | Should -BeExactly $Raw
-    $correlation = Get-Correlation $release 'template' 'Manual' 'refs/heads/main'
-    # The relay and completion use the same unmodified parameter expression.
-    $correlation.ReleasePlanId | Should -BeExactly $parsed.extends.parameters.ReleasePlanId
+    $parsed = ConvertFrom-Yaml (ConvertTo-Yaml @{ ReleasePlanId = $Raw })
+    $parsed.ReleasePlanId | Should -BeOfType ([string])
+    $parsed.ReleasePlanId | Should -BeExactly $Raw
+    foreach ($relay in @($entry.extends, (Get-ReleaseRelay $client), (Get-Completion $release))) {
+      $relay.parameters.ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
+    }
   }
 
-  It 'maps the output at release-stage scope only for automatic template main CI' {
+  It 'preserves the existing automatic SDK PR binding for all services' {
     $stages = @(Find-Nodes $release 'stage' 'Release_${{artifact.safename}}')
     $stages.Count | Should -Be 1
-    $mapping = @($stages[0].variables | Where-Object { $_.Contains($variableGuard) })
+    $mapping = @($stages[0].variables | Where-Object { $_.Contains('${{ else }}') })
     $mapping.Count | Should -Be 1
-    @($mapping[0][$variableGuard]).Count | Should -Be 1
-    $mapping[0][$variableGuard][0].name | Should -BeExactly 'AutoReleaseSdkPullRequestUrl'
-    $mapping[0][$variableGuard][0].value | Should -BeExactly $expression
-    @(Find-Nodes $release 'name' 'AutoReleaseSdkPullRequestUrl').Count | Should -Be 1
-    $correlation = Get-Correlation $release 'template' 'IndividualCI' 'refs/heads/main'
-    $correlation.SdkPullRequest | Should -BeExactly '$(AutoReleaseSdkPullRequestUrl)'
+    @($mapping[0]['${{ else }}']).Count | Should -Be 1
+    $mapping[0]['${{ else }}'][0].name | Should -BeExactly 'AutoReleaseSdkPullRequestUrl'
+    $mapping[0]['${{ else }}'][0].value | Should -BeExactly $expression
+    @(Find-Nodes $release 'name' 'AutoReleaseSdkPullRequestUrl').Count | Should -Be 2
     $completion = Get-Completion $release
     $completion.parameters.Contains('SdkPullRequest') | Should -BeFalse
-    $completion.parameters.Contains('ReleasePlanId') | Should -BeFalse
+    $completion.parameters.Contains('ReleasePlanId') | Should -BeTrue
   }
 
-  It 'does not pass an automatic PR for <Reason> on <Branch>' -ForEach @(
-    @{ Reason = 'Manual'; Branch = 'refs/heads/main' },
-    @{ Reason = 'Schedule'; Branch = 'refs/heads/main' },
-    @{ Reason = 'PullRequest'; Branch = 'refs/pull/1/merge' },
-    @{ Reason = 'BatchedCI'; Branch = 'refs/heads/main' },
-    @{ Reason = 'IndividualCI'; Branch = 'refs/heads/release/test' },
-    @{ Reason = 'IndividualCI'; Branch = 'refs/heads/hotfix/test' }
-  ) {
-    $correlation = Get-Correlation $release 'template' $Reason $Branch
-    $correlation.ContainsKey('SdkPullRequest') | Should -BeFalse
+  It 'keeps the existing empty SDK PR binding for manual releases' {
+    $stage = @(Find-Nodes $release 'stage' 'Release_${{artifact.safename}}')[0]
+    $guard = '${{ if in(variables[''Build.Reason''], ''Manual'', '''') }}'
+    $binding = @($stage.variables | Where-Object { $_.Contains($guard) })
+    $binding.Count | Should -Be 1
+    $binding[0][$guard][0].name | Should -BeExactly 'AutoReleaseSdkPullRequestUrl'
+    $binding[0][$guard][0].value | Should -BeExactly ''
   }
 
-  It 'leaves non-template completion inputs unchanged for <Service> / <Reason>' -ForEach @(
-    @{ Service = 'identity'; Reason = 'Manual' },
-    @{ Service = 'identity'; Reason = 'IndividualCI' },
-    @{ Service = 'not-specified'; Reason = 'IndividualCI' }
-  ) {
-    (Get-Correlation $release $Service $Reason 'refs/heads/main').Count | Should -Be 0
+  It 'adds only the manual ID to shared completion inputs' {
     $parameters = (Get-Completion $release).parameters
-    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('ConfigFileDir', 'PackageArtifactName', $templateGuard) | Sort-Object) -join '|')
+    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly 'ConfigFileDir|PackageArtifactName|ReleasePlanId'
     $parameters.ConfigFileDir | Should -BeExactly '$(Pipeline.Workspace)/packages/PackageInfo'
     $parameters.PackageArtifactName | Should -BeExactly '${{ artifact.name }}'
-    $pilot = $parameters[$templateGuard]
-    (@($pilot.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('ReleasePlanId', $autoGuard) | Sort-Object) -join '|')
-    (@($pilot[$autoGuard].Keys) -join '|') | Should -BeExactly 'SdkPullRequest'
-    $pilot.ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
-    $pilot[$autoGuard].SdkPullRequest | Should -BeExactly '$(AutoReleaseSdkPullRequestUrl)'
+    $parameters.ReleasePlanId | Should -BeExactly '${{ parameters.ReleasePlanId }}'
   }
 
   It 'keeps completion inside UpdatePackageVersion after publication and APIView' {
@@ -145,11 +115,12 @@ Describe 'Template completion correlation' {
     $job.condition | Should -BeExactly "and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))"
     @(Find-Nodes $job 'template' '/eng/common/pipelines/templates/steps/mark-release-completion.yml').Count | Should -Be 1
     $job.steps[-1].template | Should -BeExactly '/eng/common/pipelines/templates/steps/mark-release-completion.yml'
-    $job.steps[-2].template | Should -BeExactly '/eng/common/pipelines/templates/steps/create-apireview.yml'
-    $job.steps[-2].parameters.MarkPackageAsShipped | Should -BeTrue
-    $job.steps[-2].parameters.PackageName | Should -BeExactly '${{ artifact.name }}'
-    $job.steps[-2].parameters.ArtifactName | Should -BeExactly '${{ parameters.ArtifactName }}'
-    $job.steps[-2].parameters.ConfigFileDir | Should -BeExactly '$(Pipeline.Workspace)/packages/PackageInfo'
+    $reviews = @(Find-Nodes $job 'template' '/eng/common/pipelines/templates/steps/create-apireview.yml')
+    $reviews.Count | Should -Be 1
+    $reviews[0].parameters.MarkPackageAsShipped | Should -BeTrue
+    $reviews[0].parameters.PackageName | Should -BeExactly '${{ artifact.name }}'
+    $reviews[0].parameters.ArtifactName | Should -BeExactly '${{ parameters.ArtifactName }}'
+    $reviews[0].parameters.ConfigFileDir | Should -BeExactly '$(Pipeline.Workspace)/packages/PackageInfo'
   }
 
   # Assert checked-in safety contracts directly: shallow CI needs no historical objects.
@@ -180,12 +151,12 @@ Describe 'Template completion correlation' {
     $guarded.Count | Should -Be 1
     @(Find-Nodes $guarded[0][$gate] 'template' 'archetype-js-release.yml@self').Count | Should -Be 1
     $parameters = (Get-ReleaseRelay $client).parameters
-    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('DependsOn', 'ServiceDirectory', 'TestProxy', 'Artifacts', 'TargetDocRepoOwner', 'TargetDocRepoName', $templateGuard) | Sort-Object) -join '|')
+    (@($parameters.Keys | Sort-Object) -join '|') | Should -BeExactly ((@('DependsOn', 'ServiceDirectory', 'TestProxy', 'Artifacts', 'TargetDocRepoOwner', 'TargetDocRepoName', 'ReleasePlanId', $templateGuard) | Sort-Object) -join '|')
     $parameters.DependsOn | Should -BeExactly 'Build'
     foreach ($name in @('ServiceDirectory', 'TestProxy', 'Artifacts', 'TargetDocRepoOwner', 'TargetDocRepoName')) {
       $parameters[$name] | Should -BeExactly ('${{ parameters.' + $name + ' }}')
     }
-    (@($parameters[$templateGuard].Keys | Sort-Object) -join '|') | Should -BeExactly 'ReleasePlanId|TestPipeline'
+    (@($parameters[$templateGuard].Keys | Sort-Object) -join '|') | Should -BeExactly 'TestPipeline'
     $parameters[$templateGuard].TestPipeline | Should -BeTrue
     foreach ($name in @('IncludeRelease', 'TestProxy')) {
       $parameter = @($client.parameters | Where-Object name -EQ $name)

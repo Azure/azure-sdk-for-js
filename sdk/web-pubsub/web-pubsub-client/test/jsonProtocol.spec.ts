@@ -7,6 +7,7 @@ import type {
   GroupDataMessage,
   GroupStateSnapshotMessage,
   GroupStateUpdateMessage,
+  InvokeResponseMessage,
   JoinGroupMessage,
   LeaveGroupMessage,
   SendEventMessage,
@@ -299,7 +300,55 @@ describe("JsonProtocol", function () {
   });
 
   describe("Parse downstream messages", () => {
+    it("ignores invoke responses with an unsupported data type", () => {
+      assert.isNull(
+        protocol.parseMessages(
+          JSON.stringify({
+            type: "invokeResponse",
+            invocationId: "invoke-unknown",
+            success: true,
+            dataType: "unknown",
+            data: null,
+          }),
+        ),
+      );
+    });
+
     const tests = [
+      {
+        testName: "invokeResponse with null JSON payload",
+        message: {
+          type: "invokeResponse",
+          invocationId: "invoke-null",
+          success: true,
+          dataType: "json",
+          data: null,
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "invokeResponse");
+          const typedMessage = msg as InvokeResponseMessage;
+          assert.equal(typedMessage.invocationId, "invoke-null");
+          assert.isTrue(typedMessage.success);
+          assert.equal(typedMessage.dataType, "json");
+          assert.isNull(typedMessage.data);
+        },
+      },
+      {
+        testName: "invokeResponse without a payload",
+        message: {
+          type: "invokeResponse",
+          invocationId: "invoke-empty",
+          success: true,
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "invokeResponse");
+          const typedMessage = msg as InvokeResponseMessage;
+          assert.equal(typedMessage.invocationId, "invoke-empty");
+          assert.isTrue(typedMessage.success);
+          assert.isUndefined(typedMessage.dataType);
+          assert.isUndefined(typedMessage.data);
+        },
+      },
       {
         testName: "ack1",
         message: { type: "ack", ackId: 123, success: true },

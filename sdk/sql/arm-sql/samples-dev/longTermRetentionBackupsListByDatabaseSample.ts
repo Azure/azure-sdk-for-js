@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all long term retention backups for a database.
  *
  * @summary lists all long term retention backups for a database.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionBackupListByDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionBackupListByDatabase.json
  */
 async function getAllLongTermRetentionBackupsUnderTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase(): Promise<void> {
  * This sample demonstrates how to lists all long term retention backups for a database.
  *
  * @summary lists all long term retention backups for a database.
- * x-ms-original-file: 2025-08-01-preview/LongTermRetentionBackupListByDatabaseWithPagination.json
+ * x-ms-original-file: 2026-08-01-preview/LongTermRetentionBackupListByDatabaseWithPagination.json
  */
 async function getLongTermRetentionBackupsUnderTheDatabaseWithPagination(): Promise<void> {
   const credential = new DefaultAzureCredential();

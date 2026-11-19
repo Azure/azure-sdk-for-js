@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreate.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreate.json
  */
 async function createVirtualNetwork() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function createVirtualNetwork() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateServiceEndpointPolicy.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateServiceEndpointPolicy.json
  */
 async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy() {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateServiceEndpoints.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateServiceEndpoints.json
  */
 async function createVirtualNetworkWithServiceEndpoints() {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function createVirtualNetworkWithServiceEndpoints() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateSubnet.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateSubnet.json
  */
 async function createVirtualNetworkWithSubnet() {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function createVirtualNetworkWithSubnet() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateSubnetWithAddressPrefixes.json
  */
 async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
   const credential = new DefaultAzureCredential();
@@ -110,7 +110,7 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateSubnetWithDelegation.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateSubnetWithDelegation.json
  */
 async function createVirtualNetworkWithDelegatedSubnets() {
   const credential = new DefaultAzureCredential();
@@ -133,7 +133,7 @@ async function createVirtualNetworkWithDelegatedSubnets() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateWithBgpCommunities.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateWithBgpCommunities.json
  */
 async function createVirtualNetworkWithBgpCommunities() {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function createVirtualNetworkWithBgpCommunities() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateWithEncryption.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateWithEncryption.json
  */
 async function createVirtualNetworkWithEncryption() {
   const credential = new DefaultAzureCredential();
@@ -171,7 +171,7 @@ async function createVirtualNetworkWithEncryption() {
  * This sample demonstrates how to creates or updates a virtual network in the specified resource group.
  *
  * @summary creates or updates a virtual network in the specified resource group.
- * x-ms-original-file: 2026-01-01/VirtualNetworkCreateWithIpamPool.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkCreateWithIpamPool.json
  */
 async function createVirtualNetworkWithIpamPool() {
   const credential = new DefaultAzureCredential();

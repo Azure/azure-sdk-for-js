@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete the extension.
  *
  * @summary the operation to delete the extension.
- * x-ms-original-file: 2026-07-15/extension/Extension_Delete.json
+ * x-ms-original-file: 2026-09-01/extension/Extension_Delete.json
  */
 async function deleteAMachineExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "resource": {
+      "id": "storedProcedureName",
+      "body": "body"
+    },
+    "options": {}
+  }
+}

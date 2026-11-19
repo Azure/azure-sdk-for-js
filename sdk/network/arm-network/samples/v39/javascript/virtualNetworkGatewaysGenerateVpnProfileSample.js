@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
  *
  * @summary generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
- * x-ms-original-file: 2026-01-01/VirtualNetworkGatewayGenerateVpnProfile.json
+ * x-ms-original-file: 2026-03-01/VirtualNetworkGatewayGenerateVpnProfile.json
  */
 async function generateVirtualNetworkGatewayVPNProfile() {
   const credential = new DefaultAzureCredential();

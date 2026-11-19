@@ -24,6 +24,15 @@ export function loadAzureFunctionCore(): ReturnType<typeof require> {
   }
 }
 
+/** Load the CommonJS instrumentation base used by registration hooks. */
+export function loadOpenTelemetryInstrumentation(): typeof import("@opentelemetry/instrumentation") {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore ESM only output
+  return createRequire(import.meta.url)(
+    "@opentelemetry/instrumentation",
+  ) as typeof import("@opentelemetry/instrumentation");
+}
+
 /**
  * A polyfill for __dirname in ESM.
  *
@@ -36,12 +45,11 @@ export function dirName(): string {
 }
 
 /**
- * Returns the current module URL for loader registration scenarios.
- * Used by the instrumentation loader to register Node.js module hooks.
+ * Resolves a loader specifier to a URL relative to this package.
  * @internal
  */
-export function getModuleParentURL(): string {
+export function resolveLoaderURL(specifier: string): string {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore ESM only output
-  return import.meta.url;
+  return import.meta.resolve(specifier);
 }
