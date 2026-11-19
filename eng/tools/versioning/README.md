@@ -25,16 +25,22 @@ node increment.js --artifact-name azure-tempate
 Sets a dev version for the whole SDK or a given service.
 
 Run this **after building and before packing**. For packages whose version changes,
-it also patches the compiled files under `dist/` corresponding to
-`//metadata.constantPaths` (including declaration files and source-map
-`sourcesContent`) and refreshes `metadata.version` and `metadata.dependencies`
-in `temp/*.api.json`. Source files are never modified. Missing output directories
-are skipped.
+it also patches build output only (source files are never modified, and missing
+output directories are skipped):
 
-The script fails if the old package version remains in a configured prefix or
-a named SDK version context in `dist/`. Unrelated version literals are left alone.
-Missing `constantPaths` entries must be corrected separately; known gaps are
-tracked in [#40867](https://github.com/Azure/azure-sdk-for-js/issues/40867).
+- compiled files under `dist/` corresponding to `//metadata.constantPaths`
+  (including declaration files and source-map `sourcesContent`);
+- any other `dist/` occurrence of a named SDK version context (`SDK_VERSION`,
+  `SDKVersion`, `AZURE_MONITOR_OPENTELEMETRY_VERSION`, `packageVersion`,
+  `userAgentInfo`, `packageDetails`) whose first version on the line is exactly the
+  package's old version. Each such patch logs a warning, because its source is missing
+  from `constantPaths` (known gaps are tracked in
+  [#40867](https://github.com/Azure/azure-sdk-for-js/issues/40867));
+- the runtime `dist/*/package.json` files, and `metadata.version` and
+  `metadata.dependencies` in `temp/*.api.json`.
+
+Other occurrences of the old version left in `dist/` may be unrelated versions, so they
+are reported as warnings rather than failing the build.
 
 ```bash
 node set-dev.js --build-id 20191027.3 --service keyvault

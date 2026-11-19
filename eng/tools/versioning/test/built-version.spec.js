@@ -54,7 +54,11 @@ test("patches runtime constants, declarations and embedded sources, without chan
       members: [],
     }),
   );
-  await updateBuiltPackageVersion(root, manifest, oldVersion);
+  const runtimeManifest = (v) =>
+    `{\n  "name": "pkg",\n  "version": "${v}",\n  "type": "module"\n}\n`;
+  await put("dist/esm/package.json", runtimeManifest(oldVersion));
+  await updateBuiltPackageVersion(root, { ...manifest, name: "pkg" }, oldVersion);
+  assert.equal(await get("dist/esm/package.json"), runtimeManifest(version));
   assert.equal(await get("src/internal/constants.ts"), source);
   for (const runtime of ["esm", "commonjs", "browser", "react-native"]) {
     for (const extension of [".js", ".d.ts", ".js.map", ".d.ts.map"]) {
@@ -97,23 +101,34 @@ test("skips missing outputs and non-compiled metadata paths", async (t) => {
   );
 });
 
-test("fails with the output path when an untracked SDK constant retains the old version", async (t) => {
-  const { root, put } = await fixture(t);
-  await put("dist/esm/untracked.js", source);
-  await assert.rejects(
-    updateBuiltPackageVersion(root, manifest, oldVersion),
-    /Unpatched version.*untracked\.js.*40867/,
-  );
-});
-
-test("patches outputs without a runtime subdirectory and checks embedded source in untracked maps", async (t) => {
+test("patches unlisted SDK version constants equal to the package version only", async (t) => {
   const { root, put, get } = await fixture(t);
-  await put("dist/internal/constants.js", source);
+  const unlisted = [
+    `export const SDK_VERSION: string = "${oldVersion}";`,
+    `const userAgentInfo = \`azsdk-js-pkg/${oldVersion} core-rest-pipeline/1.2.3-beta.2\`;`,
+    `const packageVersion = "9.9.9";`,
+    "",
+  ].join("\n");
+  await put("dist/esm/utils/constants.js", unlisted);
+  await put("dist/esm/utils/constants.js.map", JSON.stringify({ sourcesContent: [unlisted] }));
   await updateBuiltPackageVersion(root, manifest, oldVersion);
-  assert((await get("dist/internal/constants.js")).includes(version));
-  await put("dist/esm/untracked.js.map", JSON.stringify({ sourcesContent: [source] }));
-  await assert.rejects(
-    updateBuiltPackageVersion(root, manifest, oldVersion),
-    /Unpatched version.*untracked\.js\.map/,
+  const expected = [
+    `export const SDK_VERSION: string = "${version}";`,
+    `const userAgentInfo = \`azsdk-js-pkg/${version} core-rest-pipeline/1.2.3-beta.2\`;`,
+    `const packageVersion = "9.9.9";`,
+    "",
+  ].join("\n");
+  assert.equal(await get("dist/esm/utils/constants.js"), expected);
+  assert.deepEqual(JSON.parse(await get("dist/esm/utils/constants.js.map")).sourcesContent, [
+    expected,
+  ]);
+});
+test("patches configured outputs without a runtime subdirectory", async (t) => {
+  const { root, put, get } = await fixture(t);
+  await put("dist/internal/constants.js", `const x = "v"; // SDK_VERSION ${oldVersion}\n`);
+  await updateBuiltPackageVersion(root, manifest, oldVersion);
+  assert.equal(
+    await get("dist/internal/constants.js"),
+    `const x = "v"; // SDK_VERSION ${version}\n`,
   );
 });
