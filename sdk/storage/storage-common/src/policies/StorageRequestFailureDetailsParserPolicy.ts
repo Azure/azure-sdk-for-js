@@ -15,6 +15,12 @@ export const storageRequestFailureDetailsParserPolicyName =
   "storageRequestFailureDetailsParserPolicy";
 
 /**
+ * The message for a request whose x-ms-version the storage account doesn't support.
+ */
+const unsupportedVersionMessage =
+  "The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.";
+
+/**
  * StorageRequestFailureDetailsParserPolicy
  */
 export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy {
@@ -37,7 +43,7 @@ Time:2026-03-05T17:24:34.6688015Z</Message><HeaderName>x-ms-version</HeaderName>
           */
           response.bodyAsText = response.bodyAsText.replace(
             /<Message>.*<\/Message>/s,
-            "<Message>The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.</Message>",
+            `<Message>${unsupportedVersionMessage}</Message>`,
           );
         }
         return response;
@@ -52,8 +58,11 @@ Time:2026-03-05T17:24:34.6688015Z</Message><HeaderName>x-ms-version</HeaderName>
             (err as any).response.parsedBody.code === "InvalidHeaderValue" &&
             (err as any).response.parsedBody.HeaderName === "x-ms-version"
           ) {
-            (err as any).message =
-              "The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.\n";
+            (err as any).message = `${unsupportedVersionMessage}\n`;
+            const details = (err as any).details;
+            if (typeof details === "object" && details !== null) {
+              details.message = unsupportedVersionMessage;
+            }
           }
         }
         throw err;

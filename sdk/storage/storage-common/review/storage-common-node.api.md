@@ -184,6 +184,12 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
+export function storageServiceErrorPolicy(): PipelinePolicy;
+
+// @public
+export const storageServiceErrorPolicyName = "storageServiceErrorPolicy";
+
+// @public
 export class StorageSharedKeyCredential extends Credential {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
