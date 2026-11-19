@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Readable } from "node:stream";
 import { assert, describe, it } from "vitest";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest, isRestError } from "@azure/core-rest-pipeline";
 import { storageServiceErrorPolicy } from "../../src/policies/StorageServiceErrorPolicy.js";
+import { readStreamedBody as readStreamedBodyInBrowsers } from "../../src/utils/readStreamedBody-browser.mjs";
+import { readStreamedBody as readStreamedBodyInReactNative } from "../../src/utils/readStreamedBody-react-native.mjs";
 
 const MESSAGE =
   "The specified blob does not exist.\nRequestId:4f6c8f4a-001e-0035-3a6b-1f3b0d000000\nTime:2026-11-17T00:00:00.0000000Z";
@@ -35,6 +38,21 @@ function send(
   return { request, response, result };
 }
 
+/** Sends a request through the policy, with a `next` that answers 404 with the given streamed body. */
+function sendStreamed(
+  body: Pick<PipelineResponse, "readableStreamBody" | "browserStreamBody" | "blobBody">,
+  request: PipelineRequest = createRequest(),
+): { response: PipelineResponse; result: Promise<PipelineResponse> } {
+  const response: PipelineResponse = {
+    request,
+    status: 404,
+    headers: createHttpHeaders({ "content-type": "application/xml" }),
+    ...body,
+  };
+  const result = storageServiceErrorPolicy().sendRequest(request, async () => response);
+  return { response, result };
+}
+
 async function getError(result: Promise<unknown>): Promise<any> {
   try {
     await result;
@@ -43,6 +61,14 @@ async function getError(result: Promise<unknown>): Promise<any> {
     return error;
   }
   assert.fail("The request should have failed.");
+}
+
+async function readText(stream: NodeJS.ReadableStream): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of stream) {
+    chunks.push(Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks).toString();
 }
 
 describe("storageServiceErrorPolicy", () => {
@@ -174,56 +200,95 @@ describe("storageServiceErrorPolicy", () => {
     }
   });
 
-  it("streams only successful responses of a request that streams every status", async () => {
-    const request = createRequest();
-    const everyStatus = new Set([Number.POSITIVE_INFINITY]);
-    request.streamResponseStatusCodes = everyStatus;
-    let streamed: Set<number> | undefined;
+  it("reads the body of a streamed error, and leaves the request's streamed statuses alone", async () => {
+    const body = errorXml("BlobNotFound", MESSAGE);
+    const bytes = Buffer.from(body);
+    // Chunks that split the byte-order mark, then text chunks.
+    for (const chunks of [[bytes.subarray(0, 2), bytes.subarray(2)], [body]]) {
+      const request = createRequest();
+      const everyStatus = new Set([Number.POSITIVE_INFINITY]);
+      request.streamResponseStatusCodes = everyStatus;
+      let streamed: Set<number> | undefined;
 
-    await storageServiceErrorPolicy().sendRequest(request, async (sent) => {
-      streamed = sent.streamResponseStatusCodes;
-      return { request: sent, status: 200, headers: createHttpHeaders() };
-    });
+      const error = await getError(
+        storageServiceErrorPolicy().sendRequest(request, async (sent) => {
+          streamed = sent.streamResponseStatusCodes;
+          return {
+            request: sent,
+            status: 404,
+            headers: createHttpHeaders(),
+            readableStreamBody: Readable.from(chunks),
+          };
+        }),
+      );
 
-    assert.isTrue(streamed?.has(200));
-    assert.isTrue(streamed?.has(206));
-    assert.isFalse(streamed?.has(404));
-    assert.isFalse(streamed?.has(Number.POSITIVE_INFINITY));
-    assert.strictEqual(request.streamResponseStatusCodes, everyStatus);
+      assert.equal(error.message, MESSAGE);
+      assert.equal(error.response.bodyAsText, body);
+      assert.isUndefined(error.response.readableStreamBody);
+      assert.strictEqual(streamed, everyStatus);
+    }
   });
 
-  it("restores the streamed statuses when the request fails without a response", async () => {
-    const request = createRequest();
-    const everyStatus = new Set([Number.POSITIVE_INFINITY]);
-    request.streamResponseStatusCodes = everyStatus;
+  it("returns a streamed error that isn't a storage error with an unread copy of its body", async () => {
+    const page = "<html><body><h2>Bad Request - Invalid URL</h2></body></html>";
+    const { response, result } = sendStreamed({
+      readableStreamBody: Readable.from([Buffer.from(page)]),
+    });
 
-    const sent = storageServiceErrorPolicy().sendRequest(request, async () => {
-      throw new Error("socket hang up");
+    assert.strictEqual(await result, response);
+    assert.equal(await readText(response.readableStreamBody!), page);
+  });
+
+  it("returns a streamed error whose body is cut short while the caller's signal is live", async () => {
+    // A cut connection, and the HTTP client giving up on the body on its own.
+    const timedOut = Object.assign(new Error("The operation was aborted."), { name: "AbortError" });
+    for (const failure of [new Error("aborted"), timedOut]) {
+      const request = createRequest();
+      request.abortSignal = new AbortController().signal;
+      const cut = new Readable({
+        read() {
+          this.destroy(failure);
+        },
+      });
+      const { response, result } = sendStreamed({ readableStreamBody: cut }, request);
+
+      assert.strictEqual(await result, response, failure.name);
+      assert.isUndefined(response.readableStreamBody, failure.name);
+    }
+  });
+
+  it("rethrows the error of a body read the caller aborted", async () => {
+    const request = createRequest();
+    request.abortSignal = AbortSignal.abort();
+    const aborted = new Error("The operation was aborted.");
+    aborted.name = "AbortError";
+    const stream = new Readable({
+      read() {
+        this.destroy(aborted);
+      },
     });
 
     let failure: unknown;
     try {
-      await sent;
+      await sendStreamed({ readableStreamBody: stream }, request).result;
     } catch (error: unknown) {
       failure = error;
     }
-    assert.equal((failure as Error | undefined)?.message, "socket hang up");
-    assert.strictEqual(request.streamResponseStatusCodes, everyStatus);
+    assert.strictEqual(failure, aborted);
   });
 
-  it("leaves the streamed statuses of other requests alone", async () => {
-    for (const statuses of [undefined, new Set([200, 206])]) {
-      const request = createRequest();
-      request.streamResponseStatusCodes = statuses;
-      let streamed: Set<number> | undefined;
+  it("passes on a failure to send the request", async () => {
+    const sendError = new Error("socket hang up");
 
-      await storageServiceErrorPolicy().sendRequest(request, async (sent) => {
-        streamed = sent.streamResponseStatusCodes;
-        return { request: sent, status: 200, headers: createHttpHeaders() };
+    let failure: unknown;
+    try {
+      await storageServiceErrorPolicy().sendRequest(createRequest(), async () => {
+        throw sendError;
       });
-
-      assert.strictEqual(streamed, statuses);
+    } catch (error: unknown) {
+      failure = error;
     }
+    assert.strictEqual(failure, sendError);
   });
 
   it("doesn't let element names replace inherited members", async () => {
@@ -240,5 +305,36 @@ describe("storageServiceErrorPolicy", () => {
 
     assert.typeOf(error.details.isPrototypeOf, "function");
     assert.typeOf(error.details.additionalProperties.isPrototypeOf, "function");
+  });
+});
+
+describe("readStreamedBody", () => {
+  const body = "<Error><Code>BlobNotFound</Code></Error>";
+
+  function streamed(parts: Partial<PipelineResponse>): PipelineResponse {
+    return { request: createRequest(), status: 404, headers: createHttpHeaders(), ...parts };
+  }
+
+  it("reads a browser stream in browsers, and leaves an unread copy on the response", async () => {
+    const response = streamed({ browserStreamBody: new Response(body).body! });
+
+    assert.equal(await readStreamedBodyInBrowsers(response), body, "the text");
+    assert.equal(await new Response(response.browserStreamBody).text(), body, "the copy");
+  });
+
+  it("reads a Blob in browsers", async () => {
+    const response = streamed({ blobBody: Promise.resolve(new Blob([body])) });
+
+    assert.equal(await readStreamedBodyInBrowsers(response), body);
+  });
+
+  it("reads nothing in browsers when the response streamed no body", async () => {
+    assert.isUndefined(await readStreamedBodyInBrowsers(streamed({})));
+  });
+
+  it("reads nothing in React Native", async () => {
+    const response = streamed({ blobBody: Promise.resolve(new Blob([body])) });
+
+    assert.isUndefined(await readStreamedBodyInReactNative(response));
   });
 });

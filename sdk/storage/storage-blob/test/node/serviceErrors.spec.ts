@@ -4,7 +4,7 @@
 import { Readable } from "node:stream";
 import { assert, describe, it } from "vitest";
 import type { Pipeline, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { createHttpHeaders, isRestError } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, isRestError, RestError } from "@azure/core-rest-pipeline";
 import {
   AnonymousCredential,
   BlobBatchClient,
@@ -29,13 +29,17 @@ interface Answer {
   status: number;
   headers?: Record<string, string>;
   body?: string;
+  /** The connection drops while the body is read. */
+  cut?: boolean;
 }
 
-/** A request the fake service received, with the statuses it asked to stream at that moment. */
+/** The statuses a request the fake service received asked to stream at that moment. */
 interface Sent {
-  request: PipelineRequest;
   streamedStatuses?: Set<number>;
 }
+
+/** The assert message of the precondition that an error body reaches the policies as a stream. */
+const STREAMED = "the error body is streamed";
 
 const NOT_FOUND: Answer = {
   status: 404,
@@ -52,7 +56,8 @@ const CONTAINER_NOT_FOUND: Answer = {
 /**
  * Stands in for the service after signing. Each attempt gets the next answer (the last one repeats),
  * and a body is handed over the way the HTTP client does: as a stream when the request asks to
- * stream that status, otherwise as text.
+ * stream that status, otherwise as text. A cut body fails as it does there: the stream errors, or
+ * reading it as text throws the client's `PARSE_ERROR`.
  */
 function answerWith(client: object, ...answers: Answer[]): Sent[] {
   const sent: Sent[] = [];
@@ -62,7 +67,7 @@ function answerWith(client: object, ...answers: Answer[]): Sent[] {
       name: "fakeServicePolicy",
       async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
         const streamedStatuses = request.streamResponseStatusCodes;
-        sent.push({ request, streamedStatuses: streamedStatuses && new Set(streamedStatuses) });
+        sent.push({ streamedStatuses: streamedStatuses && new Set(streamedStatuses) });
         const answer = answers[Math.min(sent.length, answers.length) - 1];
         const response: PipelineResponse = {
           request,
@@ -74,7 +79,17 @@ function answerWith(client: object, ...answers: Answer[]): Sent[] {
             streamedStatuses?.has(Number.POSITIVE_INFINITY) ||
             streamedStatuses?.has(answer.status)
           ) {
-            response.readableStreamBody = Readable.from([Buffer.from(answer.body)]);
+            response.readableStreamBody = answer.cut
+              ? new Readable({
+                  read() {
+                    this.destroy(new Error("aborted"));
+                  },
+                })
+              : Readable.from([Buffer.from(answer.body)]);
+          } else if (answer.cut) {
+            throw new RestError("Error reading response as text: aborted", {
+              code: RestError.PARSE_ERROR,
+            });
           } else {
             response.bodyAsText = answer.body;
           }
@@ -128,6 +143,7 @@ describe("Service errors", () => {
 
     const error = await getError(client.download());
 
+    assert.isTrue(sent[0].streamedStatuses?.has(Number.POSITIVE_INFINITY), STREAMED);
     assert.equal(error.message, NOT_FOUND_MESSAGE);
     assert.equal(error.code, "BlobNotFound");
     assert.include(error.details, {
@@ -136,28 +152,26 @@ describe("Service errors", () => {
       errorCode: "BlobNotFound",
     });
     assert.equal(error.response.bodyAsText, (NOT_FOUND as { body: string }).body);
-    // Only 2xx was streamed, and the request asks to stream every status again once it's done.
-    assert.isTrue(sent[0].streamedStatuses?.has(200));
-    assert.isFalse(sent[0].streamedStatuses?.has(404));
-    assert.isTrue(sent[0].request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY));
   });
 
   it("carry the service's message for a query", async () => {
     const client = new BlockBlobClient(BLOB_URL);
-    answerWith(client, NOT_FOUND);
+    const sent = answerWith(client, NOT_FOUND);
 
     const error = await getError(client.query("select * from BlobStorage"));
 
+    assert.isTrue(sent[0].streamedStatuses?.has(Number.POSITIVE_INFINITY), STREAMED);
     assert.equal(error.message, NOT_FOUND_MESSAGE);
     assert.include(error.details, { code: "BlobNotFound", message: NOT_FOUND_MESSAGE });
   });
 
   it("carry the service's message for a failed batch", async () => {
     const client = new BlobBatchClient(CONTAINER_URL);
-    answerWith(client, CONTAINER_NOT_FOUND);
+    const sent = answerWith(client, CONTAINER_NOT_FOUND);
 
     const error = await getError(client.deleteBlobs([BLOB_URL], new AnonymousCredential()));
 
+    assert.isTrue(sent[0].streamedStatuses?.has(Number.POSITIVE_INFINITY), STREAMED);
     assert.equal(error.message, "The specified container does not exist.");
     assert.include(error.details, {
       code: "ContainerNotFound",
@@ -168,10 +182,11 @@ describe("Service errors", () => {
 
   it("carry the service's message for a blob listing", async () => {
     const client = new ContainerClient(CONTAINER_URL);
-    answerWith(client, CONTAINER_NOT_FOUND);
+    const sent = answerWith(client, CONTAINER_NOT_FOUND);
 
     const error = await getError(client.listBlobsFlat().byPage().next());
 
+    assert.isTrue(sent[0].streamedStatuses?.has(Number.POSITIVE_INFINITY), STREAMED);
     assert.equal(error.message, "The specified container does not exist.");
     assert.include(error.details, {
       code: "ContainerNotFound",
@@ -232,7 +247,7 @@ describe("Service errors", () => {
     assert.isUndefined(error.code);
   });
 
-  it("read the error of the last attempt after a retry", async () => {
+  it("retry a 503 whose body is cut, and read the error of the last attempt", async () => {
     const client = new BlobClient(
       BLOB_URL,
       newPipeline(new AnonymousCredential(), {
@@ -245,6 +260,7 @@ describe("Service errors", () => {
         status: 503,
         headers: { "x-ms-error-code": "ServerBusy" },
         body: errorXml("ServerBusy", "The server is busy."),
+        cut: true,
       },
       NOT_FOUND,
     );
@@ -253,10 +269,24 @@ describe("Service errors", () => {
 
     assert.equal(error.message, NOT_FOUND_MESSAGE);
     assert.lengthOf(sent, 2);
-    for (const attempt of sent) {
-      assert.isFalse(attempt.streamedStatuses?.has(Number.POSITIVE_INFINITY));
-    }
-    assert.isTrue(sent[1].request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY));
+  });
+
+  it("keep the status of a 503 whose body is cut on the last attempt", async () => {
+    const client = new BlobClient(
+      BLOB_URL,
+      newPipeline(new AnonymousCredential(), { retryOptions: { maxTries: 1 } }),
+    );
+    answerWith(client, {
+      status: 503,
+      headers: { "x-ms-error-code": "ServerBusy" },
+      body: errorXml("ServerBusy", "The server is busy."),
+      cut: true,
+    });
+
+    const error = await getError(client.download());
+
+    assert.equal(error.statusCode, 503);
+    assert.equal(error.code, "ServerBusy");
   });
 
   it("leave a successful download streamed", async () => {

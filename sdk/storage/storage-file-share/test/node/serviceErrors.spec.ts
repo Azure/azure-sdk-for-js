@@ -29,16 +29,18 @@ const NOT_FOUND: Answer = {
 
 /**
  * Stands in for the service after signing. It hands the body over the way the HTTP client does: as a
- * stream when the request asks to stream that status, otherwise as text. Returns the requests sent.
+ * stream when the request asks to stream that status, otherwise as text. Returns the statuses each
+ * request asked to stream when it was sent.
  */
-function answerWith(client: object, answer: Answer): PipelineRequest[] {
-  const requests: PipelineRequest[] = [];
+function answerWith(client: object, answer: Answer): Array<Set<number> | undefined> {
+  const streamedStatuses: Array<Set<number> | undefined> = [];
   const pipeline: Pipeline = (client as any).storageClientContext.client.pipeline;
   pipeline.addPolicy(
     {
       name: "fakeServicePolicy",
       async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-        requests.push(request);
+        const statuses = request.streamResponseStatusCodes;
+        streamedStatuses.push(statuses && new Set(statuses));
         const response: PipelineResponse = {
           request,
           status: answer.status,
@@ -59,7 +61,7 @@ function answerWith(client: object, answer: Answer): PipelineRequest[] {
     },
     { afterPhase: "Sign" },
   );
-  return requests;
+  return streamedStatuses;
 }
 
 async function getError(operation: Promise<unknown>): Promise<any> {
@@ -91,10 +93,11 @@ describe("Service errors", () => {
 
   it("carry the service's message and details for a download", async () => {
     const client = new ShareFileClient(FILE_URL);
-    const requests = answerWith(client, NOT_FOUND);
+    const streamedStatuses = answerWith(client, NOT_FOUND);
 
     const error = await getError(client.download());
 
+    assert.isTrue(streamedStatuses[0]?.has(Number.POSITIVE_INFINITY), "the error body is streamed");
     assert.equal(error.message, NOT_FOUND_MESSAGE);
     assert.include(error.details, {
       code: "ResourceNotFound",
@@ -102,7 +105,5 @@ describe("Service errors", () => {
       errorCode: "ResourceNotFound",
     });
     assert.equal(error.response.bodyAsText, NOT_FOUND.body);
-    // The request still asks to stream every status once it's done.
-    assert.isTrue(requests[0].streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY));
   });
 });

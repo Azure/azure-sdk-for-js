@@ -8,18 +8,13 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import { isReactNative } from "@azure/core-util";
 import { XMLParser } from "fast-xml-parser";
+import { readStreamedBody } from "#platform/utils/readStreamedBody";
 
 /**
  * The programmatic identifier of the storageServiceErrorPolicy.
  */
 export const storageServiceErrorPolicyName = "storageServiceErrorPolicy";
-
-/** Every 2xx status: the responses whose body a streamed operation returns as a stream. */
-const successStatusCodes: ReadonlySet<number> = new Set(
-  Array.from({ length: 100 }, (_, i) => 200 + i),
-);
 
 const xmlParser = new XMLParser({
   ignoreAttributes: true,
@@ -50,13 +45,11 @@ const errorModelFields = new Set([
  * A pipeline policy that turns a storage error response into a `RestError` with the error the
  * service returned, for use by the Azure Storage client libraries.
  *
- * For a request that asks for every response body as a stream (`streamResponseStatusCodes` has
- * `Number.POSITIVE_INFINITY`), it asks for a stream only on success (2xx), so the body of any other
- * response is read as text. The request's own set is put back afterwards. On React Native such a
- * request is left unchanged, because the default HTTP client there can't read those bodies as text.
- *
- * For a response with status 400 or above whose body is a storage error (an `Error` element with a
- * non-empty `Code` or `Message`), it throws a `RestError` with:
+ * For a response with status 400 or above, it takes the body as text: `bodyAsText`, or the body the
+ * response streamed, which it reads itself after `next` returns, so after any retries. A streamed
+ * body that fails while it's read is dropped, or its error is thrown if the request was aborted; a
+ * React Native `Blob`, which can't be read as text, is left alone. When the body is a storage error
+ * (an `Error` element with a non-empty `Code` or `Message`), it throws a `RestError` with:
  * - `message`: the error's `Message`, or `Unexpected status code: <status>` when it has none;
  * - `code`: the `x-ms-error-code` header, or else the error's `Code`;
  * - `statusCode` and `request`: those of the response;
@@ -65,18 +58,24 @@ const errorModelFields = new Set([
  *   own names; `additionalProperties`, the fields other than `Code`, `Message` and the `CopySource`
  *   fields; `errorCode`, the `x-ms-error-code` header; and `xMsCopySourceErrorCode` and
  *   `xMsCopySourceStatusCode` (as a number) when the response has those headers;
- * - `response`: the response, with `parsedBody` set to the error's fields as named in `details`.
+ * - `response`: the response, with `bodyAsText` set to the body, its body stream removed, and
+ *   `parsedBody` set to the error's fields as named in `details`.
  *
- * Other responses pass through unchanged. Add the policy outside the retry and authentication
- * policies, as the storage clients do with `{ afterPhase: "Deserialize" }`, so that they still see
- * the responses they act on.
+ * Other responses are returned as they are; when it has read a streamed body, the response has an
+ * unread copy of it. Add the policy outside the retry and authentication policies, as the storage
+ * clients do with `{ afterPhase: "Deserialize" }`, so that they still see the responses they act on
+ * and only the final error body is read.
  */
 export function storageServiceErrorPolicy(): PipelinePolicy {
   return {
     name: storageServiceErrorPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const response = await sendReadingErrorBodies(request, next);
-      const error = response.status >= 400 ? toServiceError(response) : undefined;
+      const response = await next(request);
+      if (response.status < 400) {
+        return response;
+      }
+      const body = response.bodyAsText ?? (await readErrorBody(request, response));
+      const error = toServiceError(response, body);
       if (error) {
         throw error;
       }
@@ -85,27 +84,30 @@ export function storageServiceErrorPolicy(): PipelinePolicy {
   };
 }
 
-async function sendReadingErrorBodies(
+/** The body a response streamed, or undefined when it has none or it can't be read. */
+async function readErrorBody(
   request: PipelineRequest,
-  next: SendRequest,
-): Promise<PipelineResponse> {
-  const streamResponseStatusCodes = request.streamResponseStatusCodes;
-  // React Native's default HTTP client reads a body it doesn't stream with `Blob.text()`, which
-  // React Native's `Blob` lacks, so the request would never settle.
-  if (isReactNative || !streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY)) {
-    return next(request);
-  }
-  request.streamResponseStatusCodes = new Set(successStatusCodes);
+  response: PipelineResponse,
+): Promise<string | undefined> {
   try {
-    return await next(request);
-  } finally {
-    request.streamResponseStatusCodes = streamResponseStatusCodes;
+    return await readStreamedBody(response);
+  } catch (e: unknown) {
+    if (request.abortSignal?.aborted) {
+      throw e;
+    }
+    // A body that failed while it was read can't be read again.
+    response.readableStreamBody = undefined;
+    response.browserStreamBody = undefined;
+    return undefined;
   }
 }
 
 /** The `RestError` for a response whose body is a storage error, or undefined for any other body. */
-function toServiceError(response: PipelineResponse): RestError | undefined {
-  const fields = parseErrorFields(response.bodyAsText);
+function toServiceError(
+  response: PipelineResponse,
+  body: string | null | undefined,
+): RestError | undefined {
+  const fields = parseErrorFields(body);
   const serviceCode = fields?.get("Code");
   const serviceMessage = fields?.get("Message");
   if (!fields || (!serviceCode && !serviceMessage)) {
@@ -140,6 +142,9 @@ function toServiceError(response: PipelineResponse): RestError | undefined {
     details.xMsCopySourceStatusCode = Number(copySourceStatusCode);
   }
 
+  response.bodyAsText = body;
+  response.readableStreamBody = undefined;
+  response.browserStreamBody = undefined;
   // storageRequestFailureDetailsParserPolicy reads the parsed body of the error, to explain an
   // x-ms-version the account doesn't support.
   (response as PipelineResponse & { parsedBody?: unknown }).parsedBody = serviceError;
