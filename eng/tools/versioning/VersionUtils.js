@@ -45,7 +45,7 @@ export async function updatePackageConstants(packagePath, packageJson, newVersio
 /**
  * @param {string} prefix
  */
-function buildSemverRegex(prefix) {
+export function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
