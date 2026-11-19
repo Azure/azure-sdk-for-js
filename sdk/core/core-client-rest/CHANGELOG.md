@@ -1,5 +1,11 @@
 # Release History
 
+## 2.10.0 (Unreleased)
+
+### Features Added
+
+- Added `ArmClientOptions` and ARM-only default pipeline support for the External Evaluation policy, with a `disableExternalEvaluation` opt-out. [#40611](https://github.com/Azure/azure-sdk-for-js/pull/40611)
+
 ## 2.9.0 (2026-09-03)
 
 ### Features Added

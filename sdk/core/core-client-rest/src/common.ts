@@ -16,7 +16,7 @@ import type {
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { InternalClientOptions } from "@typespec/ts-http-runtime";
+import type { InternalClientOptions as RuntimeInternalClientOptions } from "@typespec/ts-http-runtime";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -379,8 +379,32 @@ export type ClientOptions = PipelineOptions & {
    * Options that are intended for use by generated clients and are not meant to
    * be set by end users directly.
    */
-  internal?: InternalClientOptions;
+  internal?: RuntimeInternalClientOptions & {
+    /**
+     * Configuration for generated ARM clients. Its presence enables ARM-only pipeline behavior.
+     * Intended for use by generated clients.
+     */
+    arm?: {
+      /**
+       * Disables automatic External Evaluation token acquisition and replay for this ARM client.
+       */
+      disableExternalEvaluation?: boolean;
+    };
+  };
 };
+
+/**
+ * Options for generated Azure Resource Manager clients.
+ */
+export interface ArmClientOptions extends ClientOptions {
+  /**
+   * Disables automatic External Evaluation token acquisition and replay.
+   *
+   * Defaults to `false`. ARM clients pass this option to `internal.arm` when creating the
+   * underlying `@azure-rest/core-client` client. Data-plane clients should use `ClientOptions`.
+   */
+  disableExternalEvaluation?: boolean;
+}
 
 /**
  * Represents the shape of an HttpResponse

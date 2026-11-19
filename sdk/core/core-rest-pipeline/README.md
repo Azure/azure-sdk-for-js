@@ -163,6 +163,46 @@ After all other constraints have been satisfied, policies are applied in the ord
 
 Examples can be found in the `samples` folder.
 
+### ARM External Evaluation prototype
+
+`externalEvaluationPolicy` is an opt-in prototype for authenticated ARM clients.
+Install it on an existing client's pipeline before bearer authentication:
+
+```ts snippet:ReadmeSampleExternalEvaluation
+import {
+  Pipeline,
+  externalEvaluationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
+
+function enableExternalEvaluation(client: { pipeline: Pipeline }): void {
+  client.pipeline.addPolicy(externalEvaluationPolicy(), {
+    beforePolicies: [bearerTokenAuthenticationPolicyName],
+  });
+}
+```
+
+The policy handles a subscription-scoped `PUT`, `PATCH`, `POST`, or `DELETE` rejected
+with `403 RequestDisallowedByPolicy` and `missingPolicyTokenDetails`. It calls
+`acquirePolicyToken` on the original ARM origin, using API version `2025-11-01`
+(overridable through `apiVersion`), and replays the operation once if acquisition
+succeeds with a usable token and no `Deny` or `Error` verdict. Bearer authentication,
+CAE challenges, and standard transient retries continue to apply.
+
+Only bodyless operations and serialized JSON strings are supported. The exact
+serialized JSON is embedded in the acquisition request and preserved for replay;
+the service's `contentHash` canonicalization contract still needs confirmation
+before production enablement. Management-group operations, non-JSON or streaming
+bodies, multipart/form data, `changeReference`, token caching, and special
+`retryAfter` handling are not supported. An unsuccessful acquisition preserves the
+original 403 response or error and emits a diagnostic without sensitive data.
+Cancellation is propagated instead of being replaced with the original 403.
+
+This policy is not installed by `createPipelineFromOptions` and does not change
+default behavior for ARM or data-plane clients. See the
+[cross-language design discussion](https://github.com/Azure/azure-sdk/issues/10081)
+for the proposed production integration.
+
 ## Next steps
 
 You can build and run the tests locally by executing `npm run test`. Explore the `test` folder to see advanced usage and behavior of the public classes.

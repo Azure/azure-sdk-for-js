@@ -40,6 +40,11 @@ export interface AdditionalPolicyConfig {
 }
 
 // @public
+export interface ArmClientOptions extends ClientOptions {
+    disableExternalEvaluation?: boolean;
+}
+
+// @public
 export interface Client {
     path: Function;
     pathUnchecked: PathUnchecked;
@@ -60,7 +65,11 @@ export type ClientOptions = PipelineOptions & {
     httpClient?: HttpClient;
     loggingOptions?: LogPolicyOptions;
     pipeline?: Pipeline;
-    internal?: InternalClientOptions;
+    internal?: InternalClientOptions & {
+        arm?: {
+            disableExternalEvaluation?: boolean;
+        };
+    };
 };
 
 // @public

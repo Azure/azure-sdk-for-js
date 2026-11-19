@@ -155,6 +155,18 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
+export function externalEvaluationPolicy(options?: ExternalEvaluationPolicyOptions): PipelinePolicy;
+
+// @public
+export const externalEvaluationPolicyName = "externalEvaluationPolicy";
+
+// @public
+export interface ExternalEvaluationPolicyOptions {
+    apiVersion?: string;
+    logger?: AzureLogger;
+}
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };

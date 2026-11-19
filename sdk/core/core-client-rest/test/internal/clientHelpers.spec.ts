@@ -3,7 +3,10 @@
 
 import { describe, it, assert, expect } from "vitest";
 import { createDefaultPipeline } from "../../src/clientHelpers.js";
-import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicyName,
+  externalEvaluationPolicyName,
+} from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../../src/keyCredentialAuthenticationPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { apiVersionPolicyName } from "../../src/apiVersionPolicy.js";
@@ -100,6 +103,56 @@ describe("clientHelpers", () => {
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
       "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+    );
+  });
+
+  it("adds External Evaluation only for ARM clients and by default enables it", () => {
+    const mockCredential: TokenCredential = {
+      getToken: async () => ({ expiresOnTimestamp: 0, token: "mockToken" }),
+    };
+    const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential, {
+      internal: { arm: {} },
+    });
+
+    const policies = pipeline.getOrderedPolicies();
+    const externalEvaluationIndex = policies.findIndex(
+      (policy) => policy.name === externalEvaluationPolicyName,
+    );
+    const bearerIndex = policies.findIndex(
+      (policy) => policy.name === bearerTokenAuthenticationPolicyName,
+    );
+    assert.isAtLeast(externalEvaluationIndex, 0);
+    assert.isBelow(externalEvaluationIndex, bearerIndex);
+  });
+
+  it("does not add External Evaluation to data-plane clients", () => {
+    const mockCredential: TokenCredential = {
+      getToken: async () => ({ expiresOnTimestamp: 0, token: "mockToken" }),
+    };
+    const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential);
+    assert.isUndefined(
+      pipeline.getOrderedPolicies().find((policy) => policy.name === externalEvaluationPolicyName),
+    );
+  });
+
+  it("allows ARM clients to disable External Evaluation", () => {
+    const mockCredential: TokenCredential = {
+      getToken: async () => ({ expiresOnTimestamp: 0, token: "mockToken" }),
+    };
+    const pipeline = createDefaultPipeline(mockBaseUrl, mockCredential, {
+      internal: { arm: { disableExternalEvaluation: true } },
+    });
+    assert.isUndefined(
+      pipeline.getOrderedPolicies().find((policy) => policy.name === externalEvaluationPolicyName),
+    );
+  });
+
+  it("does not add External Evaluation for ARM clients without a TokenCredential", () => {
+    const pipeline = createDefaultPipeline(mockBaseUrl, undefined, {
+      internal: { arm: {} },
+    });
+    assert.isUndefined(
+      pipeline.getOrderedPolicies().find((policy) => policy.name === externalEvaluationPolicyName),
     );
   });
 });

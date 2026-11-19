@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import type { Client } from "../src/index.js";
+import { getClient } from "../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ArmClientOptions, Client } from "../src/index.js";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -14,6 +16,26 @@ interface Routes {
 }
 
 describe("snippets", () => {
+  it("ReadmeSampleArmClientOptions", () => {
+    function createArmClient(
+      endpoint: string,
+      credential: TokenCredential,
+      options: ArmClientOptions,
+    ): ReturnType<typeof getClient> {
+      const { disableExternalEvaluation, ...clientOptions } = options;
+      return getClient(endpoint, credential, {
+        ...clientOptions,
+        internal: {
+          ...clientOptions.internal,
+          arm: {
+            ...clientOptions.internal?.arm,
+            disableExternalEvaluation,
+          },
+        },
+      });
+    }
+  });
+
   it("PathExample", () => {
     type MyClient = Client & {
       path: Routes;

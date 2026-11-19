@@ -23,6 +23,44 @@ This package is primarily used in generated code and not meant to be consumed di
 
 Examples can be found in the `samples` folder.
 
+### ARM External Evaluation policy integration
+
+The shared REST client can enable External Evaluation for generated ARM clients
+without changing data-plane clients. ARM client generators should use
+`ArmClientOptions` and map its `disableExternalEvaluation` option to the
+`internal.arm` marker when calling `getClient`:
+
+```ts snippet:ReadmeSampleArmClientOptions
+import { getClient } from "@azure-rest/core-client";
+import type { ArmClientOptions } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+
+function createArmClient(
+  endpoint: string,
+  credential: TokenCredential,
+  options: ArmClientOptions,
+): ReturnType<typeof getClient> {
+  const { disableExternalEvaluation, ...clientOptions } = options;
+  return getClient(endpoint, credential, {
+    ...clientOptions,
+    internal: {
+      ...clientOptions.internal,
+      arm: {
+        ...clientOptions.internal?.arm,
+        disableExternalEvaluation,
+      },
+    },
+  });
+}
+```
+
+The `internal.arm` marker installs `externalEvaluationPolicy` in the default
+pipeline when a `TokenCredential` is provided. It runs before bearer
+authentication and is enabled by default for marked ARM clients.
+`disableExternalEvaluation: true` opts out. Data-plane clients should continue
+using `ClientOptions` and must not set the ARM marker. A caller-supplied pipeline
+is used as-is and does not receive the policy automatically.
+
 ## Next steps
 
 You can build and run the tests locally by executing `npm run test`. Explore the `test` folder to see advanced usage and behavior of the public classes.

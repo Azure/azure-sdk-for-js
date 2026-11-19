@@ -108,6 +108,11 @@ export {
   type AuthorizeRequestOptions,
   type AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy.js";
+export {
+  externalEvaluationPolicy,
+  externalEvaluationPolicyName,
+  type ExternalEvaluationPolicyOptions,
+} from "./policies/externalEvaluationPolicy.js";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
 export {
   auxiliaryAuthenticationHeaderPolicy,

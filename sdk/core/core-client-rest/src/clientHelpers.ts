@@ -4,7 +4,9 @@
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
   createPipelineFromOptions,
+  externalEvaluationPolicy,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
@@ -71,6 +73,17 @@ export function createDefaultPipeline(
   pipeline.addPolicy(apiVersionPolicy(options));
 
   addCredentialPipelinePolicy(pipeline, endpoint, { credential, clientOptions: options });
+
+  if (
+    options.internal?.arm &&
+    !options.internal.arm.disableExternalEvaluation &&
+    isTokenCredential(credential)
+  ) {
+    pipeline.addPolicy(externalEvaluationPolicy(), {
+      beforePolicies: [bearerTokenAuthenticationPolicyName],
+    });
+  }
+
   return pipeline;
 }
 
