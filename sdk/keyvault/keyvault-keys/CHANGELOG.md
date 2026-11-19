@@ -1,5 +1,17 @@
 # Release History
 
+## 4.10.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Corrected local RSA signature verification to use the padding and salt length required by the requested algorithm. [#40780](https://github.com/Azure/azure-sdk-for-js/pull/40780)
+
+### Other Changes
+
 ## 4.10.2 (2026-06-09)
 
 ### Features Added
