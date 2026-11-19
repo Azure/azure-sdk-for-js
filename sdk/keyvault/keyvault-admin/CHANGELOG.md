@@ -1,6 +1,6 @@
 # Release History
 
-## 4.8.0 (Unreleased)
+## 4.8.0 (2026-11-18)
 
 ### Features Added
 
@@ -12,8 +12,6 @@
 
 - These changes do not impact the API of stable versions such as 4.7.2. Only code written against a beta version such as 4.7.3-beta.1 may be affected. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
-
-### Bugs Fixed
 
 ### Other Changes
 

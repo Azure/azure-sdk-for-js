@@ -39,6 +39,7 @@ import {
 import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
+const ROUTED_EXPORT_TIMEOUT_MS = 10_000;
 
 // Startup replay throttling. After a Breeze outage, every process restarting at once
 // (autoscale, rolling deploy) would otherwise drain its full on-disk backlog the moment
@@ -71,7 +72,7 @@ export abstract class BaseSender {
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
-  private readonly isRouted: boolean;
+  protected readonly isRouted: boolean;
   private routeBackoffUntil = 0;
   private disableOfflineStorage: boolean;
   private remoteStorageEnabled = true;
@@ -191,7 +192,7 @@ export abstract class BaseSender {
     }
   }
 
-  abstract send(payload: unknown[]): Promise<SenderResult>;
+  abstract send(payload: unknown[], deadlineInMs?: number): Promise<SenderResult>;
   abstract handlePermanentRedirect(location: string | undefined): boolean;
 
   public async retryPersistedEnvelopes(): Promise<void> {
@@ -239,6 +240,7 @@ export abstract class BaseSender {
     redirectIsSerialized: boolean = false,
     redirectCount: number = 0,
     isReplay: boolean = false,
+    deadlineInMs?: number,
   ): Promise<ExportResult> {
     if (this.isShutdown) {
       return { code: ExportResultCode.FAILED, error: SENDER_SHUTDOWN_ERROR };
@@ -255,9 +257,13 @@ export abstract class BaseSender {
       return this.persist(envelopes, isReplay);
     }
 
+    const deadline =
+      deadlineInMs ?? (this.isRouted ? Date.now() + ROUTED_EXPORT_TIMEOUT_MS : undefined);
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await (deadline === undefined
+        ? this.send(envelopes)
+        : this.send(envelopes, deadline));
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       if (statusCode === 200) {
@@ -381,6 +387,7 @@ export abstract class BaseSender {
               redirectIsSerialized,
               nextRedirectCount,
               isReplay,
+              deadline,
             );
           }
         } else {
@@ -742,7 +749,7 @@ export abstract class BaseSender {
     return { breezeResponse, retriableEnvelopes };
   }
 
-  private scheduleRetryTimer(retryAfterMs?: number, failed = false): void {
+  protected scheduleRetryTimer(retryAfterMs?: number, failed = false): void {
     if (this.isShutdown || this.disableOfflineStorage) {
       return;
     }
@@ -815,6 +822,7 @@ export abstract class BaseSender {
     redirectIsSerialized: boolean,
     redirectCount: number,
     isReplay: boolean,
+    deadlineInMs?: number,
   ): Promise<ExportResult> {
     const operation = async (): Promise<ExportResult> => {
       if (this.isShutdown) {
@@ -839,7 +847,7 @@ export abstract class BaseSender {
       if (this.collectStats) {
         await this.statsbeatManager.updateEndpoint(location);
       }
-      return this.exportEnvelopes(envelopes, true, redirectCount, isReplay);
+      return this.exportEnvelopes(envelopes, true, redirectCount, isReplay, deadlineInMs);
     };
 
     if (redirectIsSerialized || this.isStatsbeatSender || this.isRouted) {

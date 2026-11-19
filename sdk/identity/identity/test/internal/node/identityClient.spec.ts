@@ -12,7 +12,12 @@ import { isExpectedError } from "../../authTestUtils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import type { HttpClient } from "@azure/core-rest-pipeline";
-import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+  RestError,
+} from "@azure/core-rest-pipeline";
 
 describe("IdentityClient", function () {
   let testContext: IdentityTestContextInterface;
@@ -26,6 +31,81 @@ describe("IdentityClient", function () {
     }
     await testContext.restore();
   });
+
+  for (const method of ["sendGetRequestAsync", "sendPostRequestAsync"] as const) {
+    describe(method, () => {
+      it.each([
+        [400, "client_error"],
+        [502, "server_error"],
+        [200, "unknown_error"],
+      ])("preserves HTTP status %i for malformed JSON responses", async (status, errorType) => {
+        const client = new IdentityClient({
+          retryOptions: { maxRetries: 0 },
+          httpClient: {
+            async sendRequest(request) {
+              return {
+                request,
+                status,
+                headers: createHttpHeaders({ "content-type": "application/json" }),
+                bodyAsText: "Invalid JSON",
+              };
+            },
+          },
+        });
+
+        const response = await client[method]<{ error: string; error_description: string }>(
+          "https://identity.test/token",
+        );
+
+        assert.strictEqual(response.status, status);
+        assert.strictEqual(response.headers["content-type"], "application/json");
+        assert.strictEqual(response.body.error, errorType);
+        assert.include(response.body.error_description, `Http status code: ${status}`);
+        assert.include(response.body.error_description, "Http status message: Invalid JSON");
+      });
+
+      it("preserves valid JSON error responses", async () => {
+        const body = { error: "test_error", error_description: "This is a test error" };
+        const client = new IdentityClient({
+          httpClient: {
+            async sendRequest(request) {
+              return {
+                request,
+                status: 400,
+                headers: createHttpHeaders({ "content-type": "application/json" }),
+                bodyAsText: JSON.stringify(body),
+              };
+            },
+          },
+        });
+
+        const response = await client[method]("https://identity.test/token");
+
+        assert.strictEqual(response.status, 400);
+        assert.deepEqual(response.body, body);
+      });
+
+      it("rethrows errors other than parse errors with a response", async () => {
+        const response = {
+          request: createPipelineRequest({ url: "https://identity.test/token" }),
+          status: 502,
+          headers: createHttpHeaders(),
+        };
+        const errors = [
+          new Error("Unexpected error"),
+          new RestError("Network error", { code: RestError.REQUEST_SEND_ERROR, response }),
+          new RestError("Parse error without a response", { code: RestError.PARSE_ERROR }),
+        ];
+        const client = new IdentityClient();
+        const sendRequest = vi.spyOn(client, "sendRequest");
+
+        for (const error of errors) {
+          sendRequest.mockRejectedValueOnce(error);
+          await expect(client[method]("https://identity.test/token")).rejects.toBe(error);
+        }
+      });
+    });
+  }
 
   it("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
     const { error } = await testContext.sendCredentialRequests({

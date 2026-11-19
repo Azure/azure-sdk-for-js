@@ -37,7 +37,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
     if (this.multiEndpointRouting) {
-      this.routingSender = new RoutingSender(options, this.instrumentationKey, this.aadAudience);
+      this.routingSender = new RoutingSender(options, this.instrumentationKey);
     }
 
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
