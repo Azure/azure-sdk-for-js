@@ -51,7 +51,15 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
           : (this._options.fallbackSampleRate ?? 100);
     }
     if (sampleRate !== 100 || logRecord.attributes[AzureMonitorSampleRate] !== undefined) {
-      Object.assign(logRecord, { [logSampleRateKey]: sampleRate });
+      // Other processors receive the same record. Expose the rate only to our exporter.
+      super.onEmit(
+        new Proxy(logRecord, {
+          has: (record, key) => key === logSampleRateKey || Reflect.has(record, key),
+          get: (record, key): unknown =>
+            key === logSampleRateKey ? sampleRate : Reflect.get(record, key),
+        }),
+      );
+      return;
     }
     super.onEmit(logRecord);
   }

@@ -8,52 +8,73 @@ import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
 import { describe, expect, it, afterEach, vi } from "vitest";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
-import { ROOT_CONTEXT, trace } from "@opentelemetry/api";
-import { LoggerProvider } from "@opentelemetry/sdk-logs";
+import { ROOT_CONTEXT, trace, TraceFlags } from "@opentelemetry/api";
+import { BatchLogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { TracerProvider } from "@opentelemetry/sdk-trace";
 import { AzureBatchLogRecordProcessor } from "../../../src/logs/batchLogRecordProcessor.js";
 import { AzureMonitorSampleRate } from "../../../src/types.js";
 
+function createExporter(sent: Envelope[]): AzureMonitorLogExporter {
+  return new AzureMonitorLogExporter({
+    connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000001",
+    httpClient: {
+      sendRequest(request) {
+        const envelopes = parseBreezeRequest(request);
+        sent.push(...envelopes);
+        return Promise.resolve({
+          request,
+          headers: request.headers,
+          status: 200,
+          bodyAsText: JSON.stringify(successfulBreezeResponse(envelopes.length)),
+        });
+      },
+    },
+  });
+}
+
 /** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {
-  it("exports the span sample rate even when all log attribute slots are used", async () => {
-    const sent: Envelope[] = [];
-    const exporter = new AzureMonitorLogExporter({
-      connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000001",
-      httpClient: {
-        sendRequest(request) {
-          const envelopes = parseBreezeRequest(request);
-          sent.push(...envelopes);
-          return Promise.resolve({
-            request,
-            headers: request.headers,
-            status: 200,
-            bodyAsText: JSON.stringify(successfulBreezeResponse(envelopes.length)),
-          });
-        },
-      },
-    });
+  it("keeps the span sample rate local to the filtering processor even when log attributes are full", async () => {
+    const filtered: Envelope[] = [];
+    const unfiltered: Envelope[] = [];
     const loggerProvider = new LoggerProvider({
       logRecordLimits: { attributeCountLimit: 1 },
       processors: [
-        new AzureBatchLogRecordProcessor(exporter, { enableTraceBasedSamplingForLogs: true }),
+        new AzureBatchLogRecordProcessor(createExporter(filtered), {
+          enableTraceBasedSamplingForLogs: true,
+        }),
+        new BatchLogRecordProcessor({ exporter: createExporter(unfiltered) }),
       ],
     });
     const tracerProvider = new TracerProvider();
     const span = tracerProvider.getTracer("test").startSpan("sampled");
+    const logger = loggerProvider.getLogger("test");
     try {
       span.setAttribute(AzureMonitorSampleRate, 5);
-      loggerProvider.getLogger("test").emit({
-        body: "full log",
+      logger.emit({
+        body: "sampled",
         attributes: { customer: "preserved" },
         context: trace.setSpan(ROOT_CONTEXT, span),
       });
-      await loggerProvider.forceFlush();
-      expect(sent).toHaveLength(1);
-      expect(sent[0]).toMatchObject({
-        sampleRate: 5,
-        data: { baseData: { properties: { customer: "preserved" } } },
+      logger.emit({
+        body: "unsampled",
+        context: trace.setSpanContext(ROOT_CONTEXT, {
+          traceId: "00000000000000000000000000000002",
+          spanId: "0000000000000002",
+          traceFlags: TraceFlags.NONE,
+        }),
       });
+      await loggerProvider.forceFlush();
+      expect(filtered).toMatchObject([
+        {
+          sampleRate: 5,
+          data: { baseData: { message: "sampled", properties: { customer: "preserved" } } },
+        },
+      ]);
+      expect(unfiltered).toMatchObject([
+        { sampleRate: 100, data: { baseData: { message: "sampled" } } },
+        { sampleRate: 100, data: { baseData: { message: "unsampled" } } },
+      ]);
     } finally {
       span.end();
       await Promise.all([loggerProvider.shutdown(), tracerProvider.shutdown()]);
