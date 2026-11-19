@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- `storageRequestFailureDetailsParserPolicy` now also puts its explanation of a service version the storage account doesn't support in the error's `details.message`, not only in its `message`.
+- `storageRequestFailureDetailsParserPolicy` now also puts its explanation of a service version the storage account doesn't support in the error's `details.message`, not only in its `message`. [#40864](https://github.com/Azure/azure-sdk-for-js/pull/40864)
 
 ## 12.6.0-beta.1 (2026-11-11)
 
