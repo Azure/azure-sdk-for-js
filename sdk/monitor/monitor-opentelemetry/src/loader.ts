@@ -12,33 +12,53 @@
  */
 
 import * as nodeModule from "node:module";
+import * as workerThreads from "node:worker_threads";
 import { Logger } from "./shared/logging/index.js";
-import { getModuleParentURL } from "./shared/module.js";
+import { resolveLoaderURL } from "./shared/module.js";
 
 const OTEL_LOADER_SPECIFIER = "@opentelemetry/instrumentation/hook.mjs";
 
-// Register the OpenTelemetry instrumentation loader immediately when this module is imported
-const registerFn = (nodeModule as { register?: (specifier: string, parentURL?: string) => void })
-  .register;
+interface SyncHooks {
+  supportsSyncHooks(): boolean;
+  register(): void;
+}
 
-if (typeof registerFn === "function") {
-  const parentURL = getModuleParentURL();
-  if (parentURL) {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = registerFn(OTEL_LOADER_SPECIFIER, parentURL) as any;
+function tryRegisterSyncHooks(otelLoaderURL: string): boolean {
+  if (typeof nodeModule.registerHooks !== "function" || !process.features.require_module) {
+    return false;
+  }
 
-      // Handle potential promise rejection (Node.js 20.6+ returns a promise-like object)
-      if (result && typeof result.catch === "function") {
-        void result.catch((error: unknown) => {
-          Logger.getInstance().warn(
-            "Failed to register OpenTelemetry instrumentation loader",
-            error,
-          );
-        });
-      }
-    } catch (error) {
-      Logger.getInstance().warn("Failed to register OpenTelemetry instrumentation loader", error);
+  // A separately installed copy would not see OpenTelemetry's hook subscriptions.
+  // eslint-disable-next-line no-restricted-syntax -- Resolve the optional hook from OpenTelemetry's own dependency tree.
+  const otelRequire = nodeModule.createRequire(otelLoaderURL);
+  let hooks: SyncHooks;
+  try {
+    hooks = otelRequire("import-in-the-middle/register-hooks.mjs") as SyncHooks;
+  } catch (error) {
+    // Older versions in OpenTelemetry's dependency range lack a synchronously loadable entry point.
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code === "MODULE_NOT_FOUND" || code === "ERR_REQUIRE_ASYNC_MODULE") {
+      return false;
     }
+    throw error;
+  }
+
+  // Some Node releases expose registerHooks but cannot handle the loader's CommonJS sources.
+  if (!hooks.supportsSyncHooks()) {
+    return false;
+  }
+  hooks.register();
+  return true;
+}
+
+// The legacy loader thread inherits --require. It must not register the hooks again.
+if (!workerThreads.isInternalThread) {
+  try {
+    const otelLoaderURL = resolveLoaderURL(OTEL_LOADER_SPECIFIER);
+    if (!tryRegisterSyncHooks(otelLoaderURL)) {
+      nodeModule.register(otelLoaderURL);
+    }
+  } catch (error) {
+    Logger.getInstance().warn("Failed to register OpenTelemetry instrumentation loader", error);
   }
 }
