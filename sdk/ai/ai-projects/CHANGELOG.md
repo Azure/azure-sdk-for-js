@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Report unexpected Realtime WebSocket error closes in browsers instead of silently ending event iteration. [#40832](https://github.com/Azure/azure-sdk-for-js/pull/40832)
+- Allow `sendResponseItem()`, `sendToolOutput()`, and `requestResponse()` on GPT Live sessions with Foundry-managed agent delegation. Foundry handles these commands in managed sessions, so the client no longer rejects function results for the managed agent's local tools or typed user input. Client delegation still rejects them. [#40837](https://github.com/Azure/azure-sdk-for-js/pull/40837)
 
 ### Other Changes
 

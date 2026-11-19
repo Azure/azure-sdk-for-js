@@ -72,7 +72,7 @@ export abstract class BaseSender {
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
   private isStatsbeatSender: boolean;
-  private readonly isRouted: boolean;
+  protected readonly isRouted: boolean;
   private routeBackoffUntil = 0;
   private disableOfflineStorage: boolean;
   private remoteStorageEnabled = true;
