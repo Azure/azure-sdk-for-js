@@ -2,6 +2,14 @@
   "name": "@azure/storage-common",
   "sdk-type": "client",
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "author": "Microsoft Corporation",
   "version": "12.6.0-beta.1",
   "description": "Azure Storage Common Client Library for JavaScript",
