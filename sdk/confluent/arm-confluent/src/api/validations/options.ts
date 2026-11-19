@@ -5,5 +5,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ValidationsValidateOrganizationV2OptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface ValidationsValidateOrganizationOptionalParams extends OperationOptions {}

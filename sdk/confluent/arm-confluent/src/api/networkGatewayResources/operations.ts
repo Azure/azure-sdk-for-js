@@ -7,9 +7,9 @@ import type {
   _NetworkGatewayResourceListResult,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
   networkGatewayResourceSerializer,
   networkGatewayResourceDeserializer,
-  errorResponseDeserializer,
   _networkGatewayResourceListResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -40,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listDeserialize(
 
   return _networkGatewayResourceListResultDeserializer(result.body);
 }
+
 /** Lists all network gateways in an environment */
 export function list(
   context: Client,
@@ -83,7 +84,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }
@@ -104,7 +105,7 @@ export function _$deleteSend(
       organizationName: organizationName,
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,6 +127,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete confluent network gateway by id */
 export function $delete(
   context: Client,
@@ -148,7 +150,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -169,7 +171,7 @@ export function _createOrReplaceSend(
       organizationName: organizationName,
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,6 +200,7 @@ export async function _createOrReplaceDeserialize(
 
   return networkGatewayResourceDeserializer(result.body);
 }
+
 /** Create or replace a confluent network gateway */
 export function createOrReplace(
   context: Client,
@@ -222,7 +225,7 @@ export function createOrReplace(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<NetworkGatewayResource>, NetworkGatewayResource>;
 }
 
@@ -242,7 +245,7 @@ export function _getSend(
       organizationName: organizationName,
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,6 +272,7 @@ export async function _getDeserialize(
 
   return networkGatewayResourceDeserializer(result.body);
 }
+
 /** Get confluent network gateway by Id */
 export async function get(
   context: Client,

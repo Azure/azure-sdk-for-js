@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all access points in a network gateway
  *
  * @summary lists all access points in a network gateway
- * x-ms-original-file: 2026-06-02-preview/AccessPointResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/AccessPointResources_List_MaximumSet_Gen.json
  */
 async function accessPointResourcesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to links a new SaaS to the Confluent organization of the underlying resource.
  *
  * @summary links a new SaaS to the Confluent organization of the underlying resource.
- * x-ms-original-file: 2026-06-02-preview/Organization_LinkSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Organization_LinkSaaS_MaximumSet_Gen.json
  */
 async function organizationLinkSaaSMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

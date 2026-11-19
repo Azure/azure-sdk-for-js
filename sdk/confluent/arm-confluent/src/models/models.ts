@@ -8,6 +8,665 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import type { VnetInjectionDetails } from "./liftrBase/models.js";
+import {
+  vnetInjectionDetailsSerializer,
+  vnetInjectionDetailsDeserializer,
+} from "./liftrBase/models.js";
+
+/**
+ * A monitor that defines the Confluent environment, cluster, and topic to which
+ * selected Azure logs are sent.
+ */
+export interface MonitorResource extends TrackedResource {
+  /** The configured Confluent log destination and current status of the monitor. */
+  properties: MonitorProperties;
+}
+
+export function monitorResourceSerializer(item: MonitorResource): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: monitorPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function monitorResourceDeserializer(item: any): MonitorResource {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: monitorPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The Confluent log destination and current status of a monitor. */
+export interface MonitorProperties {
+  /**
+   * The identifier of the Confluent organization that contains the destination
+   * environment.
+   */
+  organizationId?: string;
+  /**
+   * The identifier of the Confluent environment that contains the destination
+   * cluster.
+   */
+  environmentId: string;
+  /**
+   * The display name of the Confluent environment that contains the destination
+   * cluster.
+   */
+  environmentName?: string;
+  /** The identifier of the Confluent cluster containing the destination topic. */
+  clusterId: string;
+  /** The display name of the Confluent cluster containing the destination topic. */
+  clusterName?: string;
+  /** The identifier of the Confluent topic that receives the selected Azure logs. */
+  topicId?: string;
+  /** The name of the Confluent topic that receives the selected Azure logs. */
+  topicName: string;
+  /** Additional key-value information associated with the monitor. */
+  dictionary?: KeyValuePair[];
+  /** The status of the most recent operation performed on the monitor. */
+  readonly provisioningState?: ProvisionState;
+  /** Indicates whether the monitor is currently sending Azure logs to Confluent. */
+  readonly monitoringStatus?: MonitoringStatus;
+}
+
+export function monitorPropertiesSerializer(item: MonitorProperties): any {
+  return {
+    organizationId: item["organizationId"],
+    environmentId: item["environmentId"],
+    environmentName: item["environmentName"],
+    clusterId: item["clusterId"],
+    clusterName: item["clusterName"],
+    topicId: item["topicId"],
+    topicName: item["topicName"],
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArraySerializer(item["dictionary"]),
+  };
+}
+
+export function monitorPropertiesDeserializer(item: any): MonitorProperties {
+  return {
+    organizationId: item["organizationId"],
+    environmentId: item["environmentId"],
+    environmentName: item["environmentName"],
+    clusterId: item["clusterId"],
+    clusterName: item["clusterName"],
+    topicId: item["topicId"],
+    topicName: item["topicName"],
+    dictionary: !item["dictionary"]
+      ? item["dictionary"]
+      : keyValuePairArrayDeserializer(item["dictionary"]),
+    provisioningState: item["provisioningState"],
+    monitoringStatus: item["monitoringStatus"],
+  };
+}
+
+export function keyValuePairArraySerializer(result: Array<KeyValuePair>): any[] {
+  return result.map((item) => {
+    return keyValuePairSerializer(item);
+  });
+}
+
+export function keyValuePairArrayDeserializer(result: Array<KeyValuePair>): any[] {
+  return result.map((item) => {
+    return keyValuePairDeserializer(item);
+  });
+}
+
+/** A key-value pair for extensibility. */
+export interface KeyValuePair {
+  /** The key. */
+  key: string;
+  /** The value. */
+  value: string;
+}
+
+export function keyValuePairSerializer(item: KeyValuePair): any {
+  return { key: item["key"], value: item["value"] };
+}
+
+export function keyValuePairDeserializer(item: any): KeyValuePair {
+  return {
+    key: item["key"],
+    value: item["value"],
+  };
+}
+
+/** Provision states for confluent RP */
+export enum KnownProvisionState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+}
+
+/**
+ * Provision states for confluent RP \
+ * {@link KnownProvisionState} can be used interchangeably with ProvisionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleted** \
+ * **NotSpecified**
+ */
+export type ProvisionState = string;
+
+/**
+ * Indicates whether a monitor is currently sending Azure logs to its configured
+ * Confluent topic.
+ */
+export enum KnownMonitoringStatus {
+  /** The monitor is sending logs selected by its configured rule sets. */
+  Enabled = "Enabled",
+  /** The monitor is not currently sending Azure logs. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Indicates whether a monitor is currently sending Azure logs to its configured
+ * Confluent topic. \
+ * {@link KnownMonitoringStatus} can be used interchangeably with MonitoringStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: The monitor is sending logs selected by its configured rule sets. \
+ * **Disabled**: The monitor is not currently sending Azure logs.
+ */
+export type MonitoringStatus = string;
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Default error response for resource provider */
+export interface ResourceProviderDefaultErrorResponse {
+  /** Response body of Error */
+  readonly error?: ErrorResponseBody;
+}
+
+export function resourceProviderDefaultErrorResponseDeserializer(
+  item: any,
+): ResourceProviderDefaultErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorResponseBodyDeserializer(item["error"]),
+  };
+}
+
+/** Response body of Error */
+export interface ErrorResponseBody {
+  /** Error code */
+  readonly code?: string;
+  /** Error message */
+  readonly message?: string;
+  /** Error target */
+  readonly target?: string;
+  /** Error detail */
+  readonly details?: ErrorResponseBody[];
+}
+
+export function errorResponseBodyDeserializer(item: any): ErrorResponseBody {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorResponseBodyArrayDeserializer(item["details"]),
+  };
+}
+
+export function errorResponseBodyArrayDeserializer(result: Array<ErrorResponseBody>): any[] {
+  return result.map((item) => {
+    return errorResponseBodyDeserializer(item);
+  });
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
+/** The parameters for updating the Azure resource tags of a Confluent monitor. */
+export interface MonitorResourceUpdateParameters {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+}
+
+export function monitorResourceUpdateParametersSerializer(
+  item: MonitorResourceUpdateParameters,
+): any {
+  return { tags: item["tags"] };
+}
+
+/** The response of a MonitorResource list operation. */
+export interface _MonitorResourceListResult {
+  /** The MonitorResource items on this page */
+  value: MonitorResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _monitorResourceListResultDeserializer(item: any): _MonitorResourceListResult {
+  return {
+    value: monitorResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function monitorResourceArraySerializer(result: Array<MonitorResource>): any[] {
+  return result.map((item) => {
+    return monitorResourceSerializer(item);
+  });
+}
+
+export function monitorResourceArrayDeserializer(result: Array<MonitorResource>): any[] {
+  return result.map((item) => {
+    return monitorResourceDeserializer(item);
+  });
+}
+
+/**
+ * A rule set that specifies which Azure logs are sent to a monitor's configured
+ * Confluent topic.
+ */
+export interface MonitorTagRule extends ProxyResource {
+  /** The rules that select Azure logs and the current status of the rule set. */
+  properties?: MonitorTagRuleProperties;
+}
+
+export function monitorTagRuleSerializer(item: MonitorTagRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : monitorTagRulePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function monitorTagRuleDeserializer(item: any): MonitorTagRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : monitorTagRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The Azure log-selection rules and current status of a monitor rule set. */
+export interface MonitorTagRuleProperties {
+  /** The status of the most recent operation performed on the rule set. */
+  readonly provisioningState?: ProvisionState;
+  /**
+   * Rules that specify which Azure logs are sent to the monitor's configured
+   * Confluent topic.
+   */
+  logRules?: LogRules;
+}
+
+export function monitorTagRulePropertiesSerializer(item: MonitorTagRuleProperties): any {
+  return { logRules: !item["logRules"] ? item["logRules"] : logRulesSerializer(item["logRules"]) };
+}
+
+export function monitorTagRulePropertiesDeserializer(item: any): MonitorTagRuleProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    logRules: !item["logRules"] ? item["logRules"] : logRulesDeserializer(item["logRules"]),
+  };
+}
+
+/**
+ * Rules that select Azure log categories and Azure resources whose logs are
+ * sent to the monitor's configured Confluent topic.
+ */
+export interface LogRules {
+  /** Specifies whether Microsoft Entra ID logs are sent to Confluent. */
+  sendAadLogs?: boolean;
+  /** Specifies whether Azure subscription logs are sent to Confluent. */
+  sendSubscriptionLogs?: boolean;
+  /** Specifies whether activity logs from Azure resources are sent to Confluent. */
+  sendActivityLogs?: boolean;
+  /**
+   * Azure resource-tag filters applied when activity logs are enabled. If only
+   * exclusion filters are present, logs from all resources except matching
+   * resources are sent. If any inclusion filter is present, logs are sent only
+   * from matching resources. Exclusion filters take precedence over inclusion
+   * filters.
+   */
+  filteringTags?: FilteringTag[];
+}
+
+export function logRulesSerializer(item: LogRules): any {
+  return {
+    sendAadLogs: item["sendAadLogs"],
+    sendSubscriptionLogs: item["sendSubscriptionLogs"],
+    sendActivityLogs: item["sendActivityLogs"],
+    filteringTags: !item["filteringTags"]
+      ? item["filteringTags"]
+      : filteringTagArraySerializer(item["filteringTags"]),
+  };
+}
+
+export function logRulesDeserializer(item: any): LogRules {
+  return {
+    sendAadLogs: item["sendAadLogs"],
+    sendSubscriptionLogs: item["sendSubscriptionLogs"],
+    sendActivityLogs: item["sendActivityLogs"],
+    filteringTags: !item["filteringTags"]
+      ? item["filteringTags"]
+      : filteringTagArrayDeserializer(item["filteringTags"]),
+  };
+}
+
+export function filteringTagArraySerializer(result: Array<FilteringTag>): any[] {
+  return result.map((item) => {
+    return filteringTagSerializer(item);
+  });
+}
+
+export function filteringTagArrayDeserializer(result: Array<FilteringTag>): any[] {
+  return result.map((item) => {
+    return filteringTagDeserializer(item);
+  });
+}
+
+/**
+ * A tag filter that includes or excludes activity logs from matching Azure
+ * resources.
+ */
+export interface FilteringTag {
+  /** The Azure resource tag name to match. */
+  name: string;
+  /**
+   * The Azure resource tag value to match. When omitted, the filter matches any
+   * value for the specified tag name.
+   */
+  value?: string;
+  /**
+   * Specifies whether logs from resources matching the tag filter are included
+   * or excluded.
+   */
+  action: TagAction;
+}
+
+export function filteringTagSerializer(item: FilteringTag): any {
+  return { name: item["name"], value: item["value"], action: item["action"] };
+}
+
+export function filteringTagDeserializer(item: any): FilteringTag {
+  return {
+    name: item["name"],
+    value: item["value"],
+    action: item["action"],
+  };
+}
+
+/**
+ * Specifies whether activity logs from Azure resources matching a tag are
+ * included or excluded.
+ */
+export enum KnownTagAction {
+  /** Includes activity logs from Azure resources matching the tag filter. */
+  Include = "Include",
+  /**
+   * Excludes activity logs from Azure resources matching the tag filter.
+   * Exclusion takes precedence over inclusion.
+   */
+  Exclude = "Exclude",
+}
+
+/**
+ * Specifies whether activity logs from Azure resources matching a tag are
+ * included or excluded. \
+ * {@link KnownTagAction} can be used interchangeably with TagAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Include**: Includes activity logs from Azure resources matching the tag filter. \
+ * **Exclude**: Excludes activity logs from Azure resources matching the tag filter.
+ * Exclusion takes precedence over inclusion.
+ */
+export type TagAction = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a MonitorTagRule list operation. */
+export interface _MonitorTagRuleListResult {
+  /** The MonitorTagRule items on this page */
+  value: MonitorTagRule[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _monitorTagRuleListResultDeserializer(item: any): _MonitorTagRuleListResult {
+  return {
+    value: monitorTagRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function monitorTagRuleArraySerializer(result: Array<MonitorTagRule>): any[] {
+  return result.map((item) => {
+    return monitorTagRuleSerializer(item);
+  });
+}
+
+export function monitorTagRuleArrayDeserializer(result: Array<MonitorTagRule>): any[] {
+  return result.map((item) => {
+    return monitorTagRuleDeserializer(item);
+  });
+}
 
 /** Details of network gateway record */
 export interface NetworkGatewayResource extends ProxyResource {
@@ -105,239 +764,6 @@ export function scMetadataEntityDeserializer(item: any): SCMetadataEntity {
     createdTimestamp: item["createdTimestamp"],
     updatedTimestamp: item["updatedTimestamp"],
     deletedTimestamp: item["deletedTimestamp"],
-  };
-}
-
-/** Provision states for confluent RP */
-export enum KnownProvisionState {
-  /** Accepted */
-  Accepted = "Accepted",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** NotSpecified */
-  NotSpecified = "NotSpecified",
-}
-
-/**
- * Provision states for confluent RP \
- * {@link KnownProvisionState} can be used interchangeably with ProvisionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Creating** \
- * **Updating** \
- * **Deleting** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleted** \
- * **NotSpecified**
- */
-export type ProvisionState = string;
-
-export function keyValuePairArraySerializer(result: Array<KeyValuePair>): any[] {
-  return result.map((item) => {
-    return keyValuePairSerializer(item);
-  });
-}
-
-export function keyValuePairArrayDeserializer(result: Array<KeyValuePair>): any[] {
-  return result.map((item) => {
-    return keyValuePairDeserializer(item);
-  });
-}
-
-/** A key-value pair for extensibility. */
-export interface KeyValuePair {
-  /** The key. */
-  key: string;
-  /** The value. */
-  value: string;
-}
-
-export function keyValuePairSerializer(item: KeyValuePair): any {
-  return { key: item["key"], value: item["value"] };
-}
-
-export function keyValuePairDeserializer(item: any): KeyValuePair {
-  return {
-    key: item["key"],
-    value: item["value"],
-  };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
   };
 }
 
@@ -455,28 +881,6 @@ export function accessPointPropertiesDeserializer(item: any): AccessPointPropert
   };
 }
 
-/** Details for VNet injection */
-export interface VnetInjectionDetails {
-  /** Resource ID of the virtual network */
-  virtualNetworkResourceId: string;
-  /** Resource ID of the subnet */
-  subnetResourceId: string;
-}
-
-export function vnetInjectionDetailsSerializer(item: VnetInjectionDetails): any {
-  return {
-    virtualNetworkResourceId: item["virtualNetworkResourceId"],
-    subnetResourceId: item["subnetResourceId"],
-  };
-}
-
-export function vnetInjectionDetailsDeserializer(item: any): VnetInjectionDetails {
-  return {
-    virtualNetworkResourceId: item["virtualNetworkResourceId"],
-    subnetResourceId: item["subnetResourceId"],
-  };
-}
-
 /** The response of a AccessPointResource list operation. */
 export interface _AccessPointResourceListResult {
   /** The AccessPointResource items on this page */
@@ -564,49 +968,6 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
     operation: item["operation"],
     description: item["description"],
   };
-}
-
-/** Default error response for resource provider */
-export interface ResourceProviderDefaultErrorResponse {
-  /** Response body of Error */
-  readonly error?: ErrorResponseBody;
-}
-
-export function resourceProviderDefaultErrorResponseDeserializer(
-  item: any,
-): ResourceProviderDefaultErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorResponseBodyDeserializer(item["error"]),
-  };
-}
-
-/** Response body of Error */
-export interface ErrorResponseBody {
-  /** Error code */
-  readonly code?: string;
-  /** Error message */
-  readonly message?: string;
-  /** Error target */
-  readonly target?: string;
-  /** Error detail */
-  readonly details?: ErrorResponseBody[];
-}
-
-export function errorResponseBodyDeserializer(item: any): ErrorResponseBody {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorResponseBodyArrayDeserializer(item["details"]),
-  };
-}
-
-export function errorResponseBodyArrayDeserializer(result: Array<ErrorResponseBody>): any[] {
-  return result.map((item) => {
-    return errorResponseBodyDeserializer(item);
-  });
 }
 
 /** Details API key */
@@ -952,33 +1313,6 @@ export function linkOrganizationSerializer(item: LinkOrganization): any {
 export function linkOrganizationDeserializer(item: any): LinkOrganization {
   return {
     token: item["token"],
-  };
-}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
-}
-
-export function trackedResourceDeserializer(item: any): TrackedResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
   };
 }
 
@@ -3670,6 +4004,11 @@ export enum KnownVersions {
   V20260501Preview = "2026-05-01-preview",
   /** The 2026-06-02-preview API version. */
   V20260602Preview = "2026-06-02-preview",
+  /**
+   * The 2026-10-21-preview API version adds monitors and rule sets for sending
+   * Azure logs to Confluent.
+   */
+  V20261021Preview = "2026-10-21-preview",
 }
 
 export function _apiKeyRecordPropertiesDeserializer(item: any) {

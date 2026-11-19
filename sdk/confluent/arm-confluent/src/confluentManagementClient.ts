@@ -18,6 +18,10 @@ import type { EnvironmentOperations } from "./classic/environment/index.js";
 import { _getEnvironmentOperations } from "./classic/environment/index.js";
 import type { MarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
 import { _getMarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
+import type { MonitorResourcesOperations } from "./classic/monitorResources/index.js";
+import { _getMonitorResourcesOperations } from "./classic/monitorResources/index.js";
+import type { MonitorTagRulesOperations } from "./classic/monitorTagRules/index.js";
+import { _getMonitorTagRulesOperations } from "./classic/monitorTagRules/index.js";
 import type { NetworkGatewayResourcesOperations } from "./classic/networkGatewayResources/index.js";
 import { _getNetworkGatewayResourcesOperations } from "./classic/networkGatewayResources/index.js";
 import type { OrganizationOperations } from "./classic/organization/index.js";
@@ -71,6 +75,8 @@ export class ConfluentManagementClient {
     this.organizationOperations = _getOrganizationOperationsOperations(this._client);
     this.accessPointResources = _getAccessPointResourcesOperations(this._client);
     this.networkGatewayResources = _getNetworkGatewayResourcesOperations(this._client);
+    this.monitorTagRules = _getMonitorTagRulesOperations(this._client);
+    this.monitorResources = _getMonitorResourcesOperations(this._client);
   }
 
   /** The operation groups for validations */
@@ -95,4 +101,8 @@ export class ConfluentManagementClient {
   public readonly accessPointResources: AccessPointResourcesOperations;
   /** The operation groups for networkGatewayResources */
   public readonly networkGatewayResources: NetworkGatewayResourcesOperations;
+  /** The operation groups for monitorTagRules */
+  public readonly monitorTagRules: MonitorTagRulesOperations;
+  /** The operation groups for monitorResources */
+  public readonly monitorResources: MonitorResourcesOperations;
 }

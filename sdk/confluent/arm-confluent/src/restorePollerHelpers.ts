@@ -20,6 +20,11 @@ import {
   _$deleteDeserialize as _$deleteDeserializeNetworkGatewayResources,
   _createOrReplaceDeserialize as _createOrReplaceDeserializeNetworkGatewayResources,
 } from "./api/networkGatewayResources/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMonitorResources,
+  _updateDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/monitorResources/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -125,6 +130,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrReplaceDeserializeNetworkGatewayResources,
       expectedStatuses: ["200", "201", "202"],
     },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/monitors/{monitorName}":
+    { deserializer: _$deleteDeserializeMonitorResources, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/monitors/{monitorName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/monitors/{monitorName}":
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
 };
 
 function getDeserializationHelper(

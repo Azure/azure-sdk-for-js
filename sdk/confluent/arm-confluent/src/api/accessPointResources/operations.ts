@@ -39,7 +39,7 @@ export function _listSend(
       organizationName: organizationName,
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +66,7 @@ export async function _listDeserialize(
 
   return _accessPointResourceListResultDeserializer(result.body);
 }
+
 /** Lists all access points in a network gateway */
 export function list(
   context: Client,
@@ -91,7 +92,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }
@@ -114,7 +115,7 @@ export function _$deleteSend(
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
       accessPointId: accessPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,6 +137,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete confluent access point by id */
 export function $delete(
   context: Client,
@@ -160,7 +162,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -183,7 +185,7 @@ export function _createOrReplaceSend(
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
       accessPointId: accessPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,6 +214,7 @@ export async function _createOrReplaceDeserialize(
 
   return accessPointResourceDeserializer(result.body);
 }
+
 /** Create or replace a confluent access point */
 export function createOrReplace(
   context: Client,
@@ -238,7 +241,7 @@ export function createOrReplace(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<AccessPointResource>, AccessPointResource>;
 }
 
@@ -260,7 +263,7 @@ export function _getSend(
       environmentId: environmentId,
       networkGatewayId: networkGatewayId,
       accessPointId: accessPointId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,6 +288,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ac
 
   return accessPointResourceDeserializer(result.body);
 }
+
 /** Get confluent access point by Id */
 export async function get(
   context: Client,
