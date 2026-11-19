@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { pathToFileURL } from "node:url";
+
 // Provides CommonJS-specific implementation for various functions
 // As per https://github.com/isaacs/tshy?tab=readme-ov-file#commonjs-dialect-polyfills
 // Encapsulating the ESM / CommonJS specific implementation as needed.
@@ -34,18 +36,9 @@ export function dirName(): string {
 }
 
 /**
- * Returns a file URL for the current module for loader registration scenarios.
- * Used by the instrumentation loader to register Node.js module hooks.
+ * Resolves a loader specifier to a URL relative to this package.
  * @internal
  */
-export function getModuleParentURL(): string | undefined {
-  try {
-    // Convert __filename to a file URL for consistency with ESM
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { pathToFileURL }: typeof import("node:url") = require("node:url");
-    return pathToFileURL(__filename).href;
-  } catch {
-    // node:url not available
-    return undefined;
-  }
+export function resolveLoaderURL(specifier: string): string {
+  return pathToFileURL(require.resolve(specifier)).href;
 }
