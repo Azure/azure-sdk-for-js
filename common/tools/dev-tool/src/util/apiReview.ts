@@ -17,7 +17,7 @@ import { resolveRoot } from "./resolveProject.ts";
 // ./apiReview/model.ts holds the data that flows between them.
 
 // Bump when the api.md format changes. Baseline and target reviews must use the same parser.
-const parserVersion = "1.0.0";
+const parserVersion = "1.1.0";
 
 /**
  * The contents of api.metadata.yml. Only `apiHash` identifies the reviewed API surface.
@@ -31,11 +31,18 @@ export interface ApiReviewMetadata {
   typescriptVersion: string;
 }
 
-export async function generateApiReview(packageRoot: string): Promise<{
+export async function generateApiReview(
+  packageRoot: string,
+  options: { requireCompleteResolution?: boolean } = {},
+): Promise<{
   apiMd: string;
   metadata: ApiReviewMetadata;
 }> {
   const review = await buildReview(packageRoot);
+  if (options.requireCompleteResolution && review.unresolvedReferences.length) {
+    const { condition, file, problem } = review.unresolvedReferences[0];
+    throw new Error(`[${condition}] ${file}: Unresolved API reference: ${problem}`);
+  }
   return {
     apiMd: renderMarkdown(layoutReview(review)),
     metadata: {
