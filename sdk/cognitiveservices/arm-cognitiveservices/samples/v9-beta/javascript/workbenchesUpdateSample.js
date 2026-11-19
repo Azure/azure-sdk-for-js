@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbench.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbench.json
  */
 async function updateWorkbench() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function updateWorkbench() {
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbenchComputeProperties.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbenchComputeProperties.json
  */
 async function updateWorkbenchComputeProperties() {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function updateWorkbenchComputeProperties() {
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbenchResetComputeProperties.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbenchResetComputeProperties.json
  */
 async function updateWorkbenchResetComputeProperties() {
   const credential = new DefaultAzureCredential();

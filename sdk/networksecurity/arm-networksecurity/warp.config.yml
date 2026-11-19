@@ -4,6 +4,12 @@ exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
+  "./api/egressTrustBundles": "./src/api/egressTrustBundles/index.ts"
+  "./api/clusterAssociations": "./src/api/clusterAssociations/index.ts"
+  "./api/operationStatus": "./src/api/operationStatus/index.ts"
+  "./api/policyGroups": "./src/api/policyGroups/index.ts"
+  "./api/members": "./src/api/members/index.ts"
+  "./api/agentFabrics": "./src/api/agentFabrics/index.ts"
   "./api/neuroShieldMitigations": "./src/api/neuroShieldMitigations/index.ts"
   "./api/neuroShieldFindings": "./src/api/neuroShieldFindings/index.ts"
   "./api/neuroShieldProtectedResources": "./src/api/neuroShieldProtectedResources/index.ts"
@@ -12,6 +18,8 @@ exports:
   "./api/neuroShieldOperationStatuses": "./src/api/neuroShieldOperationStatuses/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/microsoft/networkSecurity": "./src/models/microsoft/networkSecurity/index.ts"
+  "./models/neuroShield/management": "./src/models/neuroShield/management/index.ts"
 
 targets:
   - name: browser

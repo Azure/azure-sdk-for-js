@@ -3,10 +3,15 @@
 
 import { AIProjectClient } from "./aiProjectClient.js";
 import { _createGenerationJobDeserialize } from "./api/evaluators/operations.js";
+import { _createRunDeserialize } from "./api/agentInsightMonitors/operations.js";
 import { _createGenerationJobDeserialize as _createGenerationJobDeserializeDatasets } from "./api/datasets/operations.js";
 import { _createOptimizationJobDeserialize } from "./api/agents/operations.js";
 import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
-import { _createRunDeserialize } from "./api/beta/agentInsightMonitors/operations.js";
+import {
+  _deleteTelephonyDeserialize,
+  _cancelDeserialize,
+  _createDeserialize,
+} from "./api/beta/voiceAgents/telephony/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -85,6 +90,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _createGenerationJobDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
+  "POST /agent_insight_monitors/{monitor_id}/runs": {
+    deserializer: _createRunDeserialize,
+    expectedStatuses: ["201", "200", "202"],
+  },
   "POST /data_generation_jobs": {
     deserializer: _createGenerationJobDeserializeDatasets,
     expectedStatuses: ["201", "200", "202"],
@@ -97,8 +106,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     deserializer: _updateMemoriesDeserialize,
     expectedStatuses: ["202", "200", "201"],
   },
-  "POST /agent_insight_monitors/{monitor_id}/runs": {
-    deserializer: _createRunDeserialize,
+  "DELETE /agents/{agent_name}/telephony_campaigns/{campaign_name}": {
+    deserializer: _deleteTelephonyDeserialize,
+    expectedStatuses: ["202", "204", "200"],
+  },
+  "POST /agents/{agent_name}/telephony_campaigns/{campaign_name}:cancel": {
+    deserializer: _cancelDeserialize,
+    expectedStatuses: ["202", "200", "201"],
+  },
+  "PUT /agents/{agent_name}/telephony_campaigns/{campaign_name}": {
+    deserializer: _createDeserialize,
     expectedStatuses: ["201", "200", "202"],
   },
 };

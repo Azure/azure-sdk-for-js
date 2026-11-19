@@ -178,7 +178,7 @@ export async function create(
   return _createDeserialize(result);
 }
 
-export function _$deleteSend(
+export function _deleteRoleAssignmentSend(
   context: Client,
   scope: string,
   roleAssignmentName: string,
@@ -204,7 +204,9 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<RoleAssignment> {
+export async function _deleteRoleAssignmentDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleAssignment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -216,17 +218,12 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a role assignment. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export async function deleteRoleAssignment(
   context: Client,
   scope: string,
   roleAssignmentName: string,
   options: RoleAssignmentsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<RoleAssignment> {
-  const result = await _$deleteSend(context, scope, roleAssignmentName, options);
-  return _$deleteDeserialize(result);
+  const result = await _deleteRoleAssignmentSend(context, scope, roleAssignmentName, options);
+  return _deleteRoleAssignmentDeserialize(result);
 }

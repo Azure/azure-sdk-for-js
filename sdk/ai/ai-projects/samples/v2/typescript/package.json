@@ -1,6 +1,7 @@
 {
   "name": "@azure-samples/ai-projects-ts",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "description": "Azure AI Projects client library samples for TypeScript",
   "engines": {
@@ -40,7 +41,8 @@
     "@opentelemetry/instrumentation": "^0.220.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0",
     "@azure/arm-cognitiveservices": "8.1.0",
-    "@modelcontextprotocol/sdk": "^1.25.1"
+    "@modelcontextprotocol/sdk": "^1.25.1",
+    "@azure/core-util": "^1.9.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

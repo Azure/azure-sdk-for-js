@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes one RAI binding.
  *
  * @summary deletes one RAI binding.
- * x-ms-original-file: 2026-09-15-preview/DeleteRaiBinding.json
+ * x-ms-original-file: 2026-11-15-preview/DeleteRaiBinding.json
  */
 async function deleteARAIBinding() {
   const credential = new DefaultAzureCredential();

@@ -9,14 +9,13 @@ import type {
   ActivityProtocolAccessBoundary,
   DigitalWorkerType,
   AgentCard,
+  JobStatus,
   Microsoft365PermissionScopes,
   AgentDefinitionOptInKeys,
   PageOrder,
-  TelephonyProvider,
-  TelephonyBindingStatus,
-  TelephonyCallStatus,
-  JobStatus,
   AgentOptimizationCandidateExpand,
+  TelephonyProvider,
+  TelephonyCallStatus,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -262,6 +261,12 @@ export interface AgentsListOptimizationJobsOptionalParams extends OperationOptio
 }
 
 /** Optional parameters. */
+export interface AgentsDownloadOptimizationJobFileOptionalParams extends OperationOptions {
+  /** The candidate that owns the file. Omit to request a job-level file. */
+  candidateId?: string;
+}
+
+/** Optional parameters. */
 export interface AgentsGetOptimizationJobOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -335,10 +340,15 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
+export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: AgentDefinitionOptInKeys;
+}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /** The endpoint configuration for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */
@@ -386,6 +396,8 @@ export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -401,7 +413,12 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 
 /** Optional parameters. */
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -458,6 +475,8 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -473,6 +492,8 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "A2AAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -488,7 +509,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
@@ -506,8 +532,16 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
+export interface AgentsCreateFromPromptOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface AgentsCreateOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  /**
+   * Opt in to preview features in the agent definition. Realtime/cascaded voice definitions, delegate
+   * subagents, and phone system tools do not require a flag. GPT Live, Handoff/inline subagents, SIP
+   * transfer destinations, and `post_call` require `VoiceAgents=V1Preview`.
+   * The transfer tool's `require_handoff` summary setting remains GA.
+   */
   foundryFeatures?: AgentDefinitionOptInKeys;
   /** The initial operational state of the agent. Defaults to 'enabled' if not specified. */
   state?: AgentState;
@@ -597,8 +631,6 @@ export interface AgentsListTelephonyBindingsOptionalParams extends OperationOpti
   foundryFeatures?: "VoiceAgents=V1Preview";
   /** Filters bindings by provider. */
   provider?: TelephonyProvider;
-  /** Filters bindings by lifecycle status. */
-  status?: TelephonyBindingStatus;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.

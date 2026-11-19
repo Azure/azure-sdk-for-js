@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a description for the specified consumer group.
  *
  * @summary gets a description for the specified consumer group.
- * x-ms-original-file: 2026-01-01/ConsumerGroup/EHConsumerGroupGet.json
+ * x-ms-original-file: 2026-07-01-preview/ConsumerGroup/EHConsumerGroupGet.json
  */
 async function consumerGroupGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

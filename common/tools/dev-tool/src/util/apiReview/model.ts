@@ -13,6 +13,13 @@ export interface Review {
   exportSections: ExportSection[];
   identicalConditions: string[];
   conditionDiffs: ConditionDiff[];
+  unresolvedReferences: UnresolvedReference[];
+}
+
+export interface UnresolvedReference {
+  condition: string;
+  file: string;
+  problem: string;
 }
 
 export interface ConditionDiff {

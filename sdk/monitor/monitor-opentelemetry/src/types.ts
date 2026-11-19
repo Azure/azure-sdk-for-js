@@ -91,6 +91,8 @@ export interface StatsbeatFeatures {
   customerSdkStats?: boolean;
   multiIkey?: boolean;
   aksResourceDetectorPopulation?: boolean;
+  genAiInputOutputLimitIncrease?: boolean;
+  multiEndpointRouting?: boolean;
 }
 
 /**
@@ -107,6 +109,8 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["customerSdkStats", 64],
   ["multiIkey", 128],
   ["aksResourceDetectorPopulation", 256],
+  ["genAiInputOutputLimitIncrease", 16384],
+  ["multiEndpointRouting", 32768],
 ]);
 
 /**
@@ -226,6 +230,9 @@ export enum StatsbeatFeature {
   CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
   AKS_RESOURCE_DETECTOR_POPULATION = 256,
+  // Bits 9-13 are reserved for other SDK features in the microsoft distro.
+  GEN_AI_INPUT_OUTPUT_LIMIT_INCREASE = 16384,
+  MULTI_ENDPOINT_ROUTING = 32768,
 }
 
 export enum StatsbeatInstrumentation {

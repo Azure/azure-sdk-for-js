@@ -9,13 +9,14 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 
 /** Interface representing a Replicas operations. */
 export interface ReplicasOperations {
-  /** List all the replicas for the mongo cluster. */
+  /** List all the replicas for the DocumentDB cluster. */
   listByParent: (
     resourceGroupName: string,
     mongoClusterName: string,
     options?: ReplicasListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<Replica>;
 }
+
 function _getReplicas(context: MongoClusterManagementContext) {
   return {
     listByParent: (
@@ -25,6 +26,7 @@ function _getReplicas(context: MongoClusterManagementContext) {
     ) => listByParent(context, resourceGroupName, mongoClusterName, options),
   };
 }
+
 export function _getReplicasOperations(context: MongoClusterManagementContext): ReplicasOperations {
   return {
     ..._getReplicas(context),

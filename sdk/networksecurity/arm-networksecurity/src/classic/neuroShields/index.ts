@@ -18,7 +18,10 @@ import type {
   NeuroShieldsCreateOrUpdateOptionalParams,
   NeuroShieldsGetOptionalParams,
 } from "../../api/neuroShields/options.js";
-import type { NeuroShieldResource, NeuroShieldPatch } from "../../models/models.js";
+import type {
+  NeuroShieldResource,
+  NeuroShieldPatch,
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NeuroShields operations. */
