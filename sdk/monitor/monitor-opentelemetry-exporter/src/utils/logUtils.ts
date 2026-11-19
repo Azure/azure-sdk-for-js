@@ -56,6 +56,9 @@ import {
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
+// The distro puts its sampling decision on the record, outside the user's attribute quota.
+const logSampleRateKey = Symbol.for(AzureMonitorSampleRate);
+
 /**
  * Log to Azure envelope parsing.
  * @internal
@@ -66,7 +69,8 @@ export function logToEnvelope(
   increaseGenAiMessageLimit = false,
 ): Envelope | undefined {
   const time = hrTimeToDate(log.hrTime);
-  const sampleRate = log.attributes[AzureMonitorSampleRate];
+  const sampleRate =
+    logSampleRateKey in log ? log[logSampleRateKey] : log.attributes[AzureMonitorSampleRate];
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
   // eslint-disable-next-line prefer-const

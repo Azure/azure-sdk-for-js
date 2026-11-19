@@ -7,7 +7,7 @@ import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-lo
 import { TracerProvider } from "@opentelemetry/sdk-trace";
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor.js";
-import { AzureMonitorSampleRate } from "../../../../src/types.js";
+import { AzureMonitorSampleRate, logSampleRateKey } from "../../../../src/types.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("AzureBatchLogRecordProcessor", () => {
@@ -53,7 +53,8 @@ describe("AzureBatchLogRecordProcessor", () => {
           expect(records).toHaveLength(expected);
           if (expected > 0) {
             expect(records[0].spanContext).toEqual(span.spanContext());
-            expect(records[0].attributes[AzureMonitorSampleRate]).toBe(
+            const record = records[0];
+            expect(logSampleRateKey in record ? record[logSampleRateKey] : undefined).toBe(
               enableTraceBasedSamplingForLogs && samplingRatio < 1
                 ? samplingRatio * 100
                 : undefined,
@@ -68,7 +69,8 @@ describe("AzureBatchLogRecordProcessor", () => {
         });
         await loggerProvider.forceFlush();
         expect(exporter.getFinishedLogRecords()).toHaveLength(1);
-        expect(exporter.getFinishedLogRecords()[0].attributes[AzureMonitorSampleRate]).toBe(100);
+        const [record] = exporter.getFinishedLogRecords();
+        expect(logSampleRateKey in record && record[logSampleRateKey]).toBe(100);
       } finally {
         await Promise.all([loggerProvider.shutdown(), tracerProvider.shutdown()]);
       }
@@ -99,7 +101,9 @@ describe("AzureBatchLogRecordProcessor", () => {
       logger.emit({ context: ROOT_CONTEXT });
       await loggerProvider.forceFlush();
       expect(
-        exporter.getFinishedLogRecords().map((log) => log.attributes[AzureMonitorSampleRate]),
+        exporter
+          .getFinishedLogRecords()
+          .map((log) => (logSampleRateKey in log ? log[logSampleRateKey] : undefined)),
       ).toEqual([25, 5, 5, undefined]);
     } finally {
       span.end();

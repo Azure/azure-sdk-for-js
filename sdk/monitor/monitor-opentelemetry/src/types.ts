@@ -213,6 +213,9 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
  */
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
+// Shared with the exporter without consuming an OpenTelemetry log attribute slot.
+export const logSampleRateKey = Symbol.for(AzureMonitorSampleRate);
+
 /**
  * Disables customer-facing SDK Stats.
  * @internal

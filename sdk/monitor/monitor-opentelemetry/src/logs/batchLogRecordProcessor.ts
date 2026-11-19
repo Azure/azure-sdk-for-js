@@ -7,7 +7,7 @@ import type { LogRecordExporter, ReadWriteLogRecord } from "@opentelemetry/sdk-l
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { getPositiveNumberFromEnv } from "../shared/envConfig.js";
-import { AzureMonitorSampleRate } from "../types.js";
+import { AzureMonitorSampleRate, logSampleRateKey } from "../types.js";
 
 /**
  * Azure Monitor BatchLogRecord Processor.
@@ -51,7 +51,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
           : (this._options.fallbackSampleRate ?? 100);
     }
     if (sampleRate !== 100 || logRecord.attributes[AzureMonitorSampleRate] !== undefined) {
-      logRecord.setAttribute(AzureMonitorSampleRate, sampleRate);
+      Object.assign(logRecord, { [logSampleRateKey]: sampleRate });
     }
     super.onEmit(logRecord);
   }
