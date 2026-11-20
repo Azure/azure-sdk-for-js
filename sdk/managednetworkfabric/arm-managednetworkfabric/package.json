@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-managednetworkfabric",
-  "version": "2.0.1",
+  "version": "3.0.0-beta.1",
   "description": "A generated SDK for AzureNetworkFabricManagementServiceAPI.",
   "engines": {
     "node": ">=22.0.0"
@@ -40,6 +40,34 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/fabrics": {
+      "browser": {
+        "types": "./dist/browser/api/fabrics/index.d.ts",
+        "default": "./dist/browser/api/fabrics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/fabrics/index.d.ts",
+        "default": "./dist/esm/api/fabrics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/fabrics/index.d.ts",
+        "default": "./dist/commonjs/api/fabrics/index.js"
+      }
+    },
+    "./api/edgeConnectors": {
+      "browser": {
+        "types": "./dist/browser/api/edgeConnectors/index.d.ts",
+        "default": "./dist/browser/api/edgeConnectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeConnectors/index.d.ts",
+        "default": "./dist/esm/api/edgeConnectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeConnectors/index.d.ts",
+        "default": "./dist/commonjs/api/edgeConnectors/index.js"
       }
     },
     "./api/networkBootstrapInterfaces": {
@@ -472,11 +500,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -514,7 +542,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-managednetworkfabric",
@@ -522,7 +551,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-managednetworkfabric?view=azure-node-preview"
   },
   "imports": {
     "#platform/*": {

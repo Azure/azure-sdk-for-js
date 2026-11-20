@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
  *
  * @summary updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncCertificates.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncCertificates.json
  */
 async function successfulCertificateResyncForAllNetworkDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function successfulCertificateResyncForAllNetworkDevices(): Promise<void> 
  * This sample demonstrates how to updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
  *
  * @summary updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncCertificates_Error.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncCertificates_Error.json
  */
 async function totalFailureToResyncCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function totalFailureToResyncCertificates(): Promise<void> {
  * This sample demonstrates how to updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
  *
  * @summary updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncCertificates_PartialSuccess.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncCertificates_PartialSuccess.json
  */
 async function partialFailureToResyncCertificatesForSomeDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

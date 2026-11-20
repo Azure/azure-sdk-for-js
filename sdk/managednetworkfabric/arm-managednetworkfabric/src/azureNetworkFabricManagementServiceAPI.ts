@@ -8,8 +8,12 @@ import type {
 import { createAzureNetworkFabricManagementServiceAPI } from "./api/index.js";
 import type { AccessControlListsOperations } from "./classic/accessControlLists/index.js";
 import { _getAccessControlListsOperations } from "./classic/accessControlLists/index.js";
+import type { EdgeConnectorsOperations } from "./classic/edgeConnectors/index.js";
+import { _getEdgeConnectorsOperations } from "./classic/edgeConnectors/index.js";
 import type { ExternalNetworksOperations } from "./classic/externalNetworks/index.js";
 import { _getExternalNetworksOperations } from "./classic/externalNetworks/index.js";
+import type { FabricsOperations } from "./classic/fabrics/index.js";
+import { _getFabricsOperations } from "./classic/fabrics/index.js";
 import type { InternalNetworksOperations } from "./classic/internalNetworks/index.js";
 import { _getInternalNetworksOperations } from "./classic/internalNetworks/index.js";
 import type { InternetGatewayRulesOperations } from "./classic/internetGatewayRules/index.js";
@@ -76,15 +80,14 @@ export class AzureNetworkFabricManagementServiceAPI {
     subscriptionId: string,
     options: AzureNetworkFabricManagementServiceAPIOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createAzureNetworkFabricManagementServiceAPI(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createAzureNetworkFabricManagementServiceAPI(
+      credential,
+      subscriptionId,
+      options,
+    );
     this.pipeline = this._client.pipeline;
+    this.fabrics = _getFabricsOperations(this._client);
+    this.edgeConnectors = _getEdgeConnectorsOperations(this._client);
     this.networkBootstrapInterfaces = _getNetworkBootstrapInterfacesOperations(this._client);
     this.networkBootstrapDevices = _getNetworkBootstrapDevicesOperations(this._client);
     this.networkMonitors = _getNetworkMonitorsOperations(this._client);
@@ -114,6 +117,10 @@ export class AzureNetworkFabricManagementServiceAPI {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for fabrics */
+  public readonly fabrics: FabricsOperations;
+  /** The operation groups for edgeConnectors */
+  public readonly edgeConnectors: EdgeConnectorsOperations;
   /** The operation groups for networkBootstrapInterfaces */
   public readonly networkBootstrapInterfaces: NetworkBootstrapInterfacesOperations;
   /** The operation groups for networkBootstrapDevices */

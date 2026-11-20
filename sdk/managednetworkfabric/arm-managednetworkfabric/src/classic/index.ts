@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 export type { AccessControlListsOperations } from "./accessControlLists/index.js";
+export type { EdgeConnectorsOperations } from "./edgeConnectors/index.js";
 export type { ExternalNetworksOperations } from "./externalNetworks/index.js";
+export type { FabricsOperations } from "./fabrics/index.js";
 export type { InternalNetworksOperations } from "./internalNetworks/index.js";
 export type { InternetGatewayRulesOperations } from "./internetGatewayRules/index.js";
 export type { InternetGatewaysOperations } from "./internetGateways/index.js";

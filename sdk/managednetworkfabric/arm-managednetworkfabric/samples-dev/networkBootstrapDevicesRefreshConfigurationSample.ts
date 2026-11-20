@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to refreshes the configuration of Network Bootstrap Device.
  *
  * @summary refreshes the configuration of Network Bootstrap Device.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_RefreshConfiguration.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_RefreshConfiguration.json
  */
 async function networkBootstrapDevicesRefreshConfigurationMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to aPI to update certain properties of the Route Policy resource.
  *
  * @summary aPI to update certain properties of the Route Policy resource.
- * x-ms-original-file: 2025-07-15/RoutePolicies_Update.json
+ * x-ms-original-file: 2026-01-15-preview/RoutePolicies_Update.json
  */
 async function routePoliciesUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

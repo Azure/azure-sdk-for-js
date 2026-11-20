@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
  *
  * @summary creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotateCertificates.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotateCertificates.json
  */
 async function successfulCertificateRotationForAllNetworkDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function successfulCertificateRotationForAllNetworkDevices(): Promise<void
  * This sample demonstrates how to creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
  *
  * @summary creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotateCertificates_Error.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotateCertificates_Error.json
  */
 async function totalFailureToRotateCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function totalFailureToRotateCertificates(): Promise<void> {
  * This sample demonstrates how to creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
  *
  * @summary creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotateCertificates_PartialSuccess.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotateCertificates_PartialSuccess.json
  */
 async function partialFailureToRotateCertificatesForSomeDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

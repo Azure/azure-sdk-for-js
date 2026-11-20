@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the Neighbor Group.
  *
  * @summary updates the Neighbor Group.
- * x-ms-original-file: 2025-07-15/NeighborGroups_Update.json
+ * x-ms-original-file: 2026-01-15-preview/NeighborGroups_Update.json
  */
 async function neighborGroupsUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

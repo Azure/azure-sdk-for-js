@@ -28,7 +28,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   L3IsolationDomain,
   L3IsolationDomainPatch,
 } from "../../models/models.js";
@@ -70,21 +70,24 @@ export interface L3IsolationDomainsOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     options?: L3IsolationDomainsValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     options?: L3IsolationDomainsValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Updates the administrative state of the L3 Isolation Domain resource. */
   updateAdministrativeState: (
     resourceGroupName: string,

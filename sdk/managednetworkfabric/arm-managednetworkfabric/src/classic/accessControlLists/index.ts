@@ -30,7 +30,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -44,21 +44,24 @@ export interface AccessControlListsOperations {
     resourceGroupName: string,
     accessControlListName: string,
     options?: AccessControlListsValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
     accessControlListName: string,
     options?: AccessControlListsValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
     resourceGroupName: string,
     accessControlListName: string,
     options?: AccessControlListsValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Implements the operation to the underlying resources. */
   resync: (
     resourceGroupName: string,

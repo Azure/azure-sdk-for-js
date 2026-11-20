@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements the operation to the underlying resources.
  *
  * @summary implements the operation to the underlying resources.
- * x-ms-original-file: 2025-07-15/NetworkTapRules_UpdateAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkTapRules_UpdateAdministrativeState.json
  */
 async function networkTapRulesUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
