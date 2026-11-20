@@ -1,0 +1,44 @@
+{
+  "apiVersions": {
+    "Microsoft.CostManagement": "2026-10-01-preview"
+  },
+  "emitterVersion": "0.58.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.CostManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-costmanagementpriceestimation!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-costmanagementpriceestimation!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-costmanagementpriceestimation!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-costmanagementpriceestimation!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-costmanagementpriceestimation!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-costmanagementpriceestimation!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-costmanagementpriceestimation!EstimateContent:interface": "Microsoft.CostManagement.EstimateContent",
+      "@azure/arm-costmanagementpriceestimation!EstimateResourceInput:interface": "Microsoft.CostManagement.EstimateResourceInput",
+      "@azure/arm-costmanagementpriceestimation!EstimateNamedValue:interface": "Microsoft.CostManagement.EstimateNamedValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateValue:interface": "Microsoft.CostManagement.EstimateValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateStringValue:interface": "Microsoft.CostManagement.EstimateStringValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateNumberValue:interface": "Microsoft.CostManagement.EstimateNumberValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateBooleanValue:interface": "Microsoft.CostManagement.EstimateBooleanValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateObjectValue:interface": "Microsoft.CostManagement.EstimateObjectValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateArrayValue:interface": "Microsoft.CostManagement.EstimateArrayValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateResult:interface": "Microsoft.CostManagement.EstimateResult",
+      "@azure/arm-costmanagementpriceestimation!EstimateResourceResult:interface": "Microsoft.CostManagement.EstimateResourceResult",
+      "@azure/arm-costmanagementpriceestimation!EstimateEffectiveConfiguration:interface": "Microsoft.CostManagement.EstimateEffectiveConfiguration",
+      "@azure/arm-costmanagementpriceestimation!EstimateAppliedValue:interface": "Microsoft.CostManagement.EstimateAppliedValue",
+      "@azure/arm-costmanagementpriceestimation!EstimateCostSummary:interface": "Microsoft.CostManagement.EstimateCostSummary",
+      "@azure/arm-costmanagementpriceestimation!EstimateComponentResult:interface": "Microsoft.CostManagement.EstimateComponentResult",
+      "@azure/arm-costmanagementpriceestimation!EstimateDiagnostic:interface": "Microsoft.CostManagement.EstimateDiagnostic",
+      "@azure/arm-costmanagementpriceestimation!EstimateTotals:interface": "Microsoft.CostManagement.EstimateTotals",
+      "@azure/arm-costmanagementpriceestimation!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-costmanagementpriceestimation!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-costmanagementpriceestimation!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-costmanagementpriceestimation!KnownEstimateValueKind:enum": "Microsoft.CostManagement.EstimateValueKind",
+      "@azure/arm-costmanagementpriceestimation!KnownEstimateCostStatus:enum": "Microsoft.CostManagement.EstimateCostStatus",
+      "@azure/arm-costmanagementpriceestimation!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-costmanagementpriceestimation!KnownVersions:enum": "Microsoft.CostManagement.Versions",
+      "@azure/arm-costmanagementpriceestimation!PriceEstimationOperations#getEstimatePricesOperationResult:member": "Microsoft.CostManagement.PriceEstimation.getEstimatePricesOperationResult",
+      "@azure/arm-costmanagementpriceestimation!PriceEstimationOperations#estimatePrices:member": "Microsoft.CostManagement.PriceEstimation.estimatePrices",
+      "@azure/arm-costmanagementpriceestimation!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

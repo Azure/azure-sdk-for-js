@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-costmanagementpriceestimation": ["../src/index.ts"],
+      "@azure/arm-costmanagementpriceestimation/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
