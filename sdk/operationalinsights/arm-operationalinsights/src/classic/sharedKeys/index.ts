@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { regenerate, getSharedKeys } from "../../api/sharedKeys/operations.js";
-import {
+import type {
   SharedKeysRegenerateOptionalParams,
   SharedKeysGetSharedKeysOptionalParams,
 } from "../../api/sharedKeys/options.js";
-import { SharedKeys } from "../../models/models.js";
+import type { SharedKeys } from "../../models/models.js";
 
 /** Interface representing a SharedKeys operations. */
 export interface SharedKeysOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes Log Analytics workspace Summary rules.
  *
  * @summary deletes Log Analytics workspace Summary rules.
- * x-ms-original-file: 2025-07-01/SummaryLogsDelete.json
+ * x-ms-original-file: 2026-03-01/SummaryLogsDelete.json
  */
 async function summaryLogsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

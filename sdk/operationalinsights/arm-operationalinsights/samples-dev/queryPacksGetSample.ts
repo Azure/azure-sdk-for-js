@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Log Analytics QueryPack.
  *
  * @summary returns a Log Analytics QueryPack.
- * x-ms-original-file: 2025-07-01/QueryPacksGet.json
+ * x-ms-original-file: 2026-03-01/QueryPacksGet.json
  */
 async function queryPackGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

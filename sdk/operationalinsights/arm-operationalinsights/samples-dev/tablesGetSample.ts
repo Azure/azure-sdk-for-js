@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Log Analytics workspace table.
  *
  * @summary gets a Log Analytics workspace table.
- * x-ms-original-file: 2025-07-01/TablesGet.json
+ * x-ms-original-file: 2026-03-01/TablesGet.json
  */
 async function tablesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

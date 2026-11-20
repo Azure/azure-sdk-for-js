@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a data export instance.
  *
  * @summary gets a data export instance.
- * x-ms-original-file: 2025-07-01/DataExportGet.json
+ * x-ms-original-file: 2026-03-01/DataExportGet.json
  */
 async function dataExportGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

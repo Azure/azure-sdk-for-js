@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Log Analytics cluster.
  *
  * @summary create or update a Log Analytics cluster.
- * x-ms-original-file: 2025-07-01/ClustersCreate.json
+ * x-ms-original-file: 2026-03-01/ClustersCreate.json
  */
 async function clustersCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

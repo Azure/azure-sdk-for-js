@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a linked service instance.
  *
  * @summary deletes a linked service instance.
- * x-ms-original-file: 2025-07-01/LinkedServicesDelete.json
+ * x-ms-original-file: 2026-03-01/LinkedServicesDelete.json
  */
 async function linkedServicesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

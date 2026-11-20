@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: 2025-07-01/QueryPackUpdateNoName.json
+ * x-ms-original-file: 2026-03-01/QueryPackUpdateNoName.json
  */
 async function queryPackUpdateNoName(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function queryPackUpdateNoName(): Promise<void> {
  * This sample demonstrates how to creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: 2025-07-01/QueryPacksCreateNoName.json
+ * x-ms-original-file: 2026-03-01/QueryPacksCreateNoName.json
  */
 async function queryPackCreateNoName(): Promise<void> {
   const credential = new DefaultAzureCredential();

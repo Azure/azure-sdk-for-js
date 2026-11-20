@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deactivates failover for the specified workspace.
  *
  * The failback operation is asynchronous and can take up to 30 minutes to complete. The status of the operation can be checked using the operationId returned in the response.
- * x-ms-original-file: 2025-07-01/WorkspacesFailback.json
+ * x-ms-original-file: 2026-03-01/WorkspacesFailback.json
  */
 async function workspacesFailover(): Promise<void> {
   const credential = new DefaultAzureCredential();

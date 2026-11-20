@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs.
  *
  * @summary migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs.
- * x-ms-original-file: 2025-07-01/TablesMigrate.json
+ * x-ms-original-file: 2026-03-01/TablesMigrate.json
  */
 async function tablesMigrate(): Promise<void> {
   const credential = new DefaultAzureCredential();

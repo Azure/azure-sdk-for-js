@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the data export instances within a workspace.
  *
  * @summary lists the data export instances within a workspace.
- * x-ms-original-file: 2025-07-01/DataExportListByWorkspace.json
+ * x-ms-original-file: 2026-03-01/DataExportListByWorkspace.json
  */
 async function dataExportGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

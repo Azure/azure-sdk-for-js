@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of management groups connected to a workspace.
  *
  * @summary gets a list of management groups connected to a workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesListManagementGroups.json
+ * x-ms-original-file: 2026-03-01/WorkspacesListManagementGroups.json
  */
 async function workspacesListManagementGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

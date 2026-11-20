@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets recently deleted workspaces in a resource group, available for recovery.
  *
  * @summary gets recently deleted workspaces in a resource group, available for recovery.
- * x-ms-original-file: 2025-07-01/WorkspacesListByResourceGroupForDeleted.json
+ * x-ms-original-file: 2026-03-01/WorkspacesListByResourceGroupForDeleted.json
  */
 async function workspacesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or Update a link relation between current workspace and a group of storage accounts of a specific data source type.
  *
  * @summary create or Update a link relation between current workspace and a group of storage accounts of a specific data source type.
- * x-ms-original-file: 2025-07-01/LinkedStorageAccountsCreate.json
+ * x-ms-original-file: 2026-03-01/LinkedStorageAccountsCreate.json
  */
 async function linkedStorageAccountsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

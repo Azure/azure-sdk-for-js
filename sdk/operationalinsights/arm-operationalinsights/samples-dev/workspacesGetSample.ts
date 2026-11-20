@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a workspace instance.
  *
  * @summary gets a workspace instance.
- * x-ms-original-file: 2025-07-01/WorkspacesGet.json
+ * x-ms-original-file: 2026-03-01/WorkspacesGet.json
  */
 async function workspaceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
