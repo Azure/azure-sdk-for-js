@@ -357,17 +357,19 @@ describe("OneSettings local storage", () => {
   )(
     "reserves routed replay capacity for $replayMethod on $outcome",
     async ({ replayMethod, outcome }) => {
-      const root = join(directory, "routes");
+      const exporterRoot = join(directory, "exporter");
+      const root = join(exporterRoot, "routes");
       const sender = new StorageSender({
         instrumentationKey: "",
         endpointUrl: "https://example.test",
         trackStatsbeat: false,
         isRouted: true,
-        storagePartition: { root, name: "a".repeat(64) },
+        storagePartition: { exporterRoot, root, name: "a".repeat(64) },
         exporterOptions: {},
       });
       senders.push(sender);
       const competing = new FileSystemPersist("", {}, undefined, undefined, {
+        exporterRoot,
         root,
         name: "b".repeat(64),
       });

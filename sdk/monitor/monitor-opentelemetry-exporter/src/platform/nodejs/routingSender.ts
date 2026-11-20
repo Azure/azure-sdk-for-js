@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
+import { dirname } from "node:path";
 import { context, diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
@@ -151,6 +152,7 @@ export class RoutingSender {
       routingAbortSignal: this.abortController.signal,
       disableKeepAlive: temporary,
       storagePartition: {
+        exporterRoot: dirname(this.storageRoot),
         root: this.storageRoot,
         name: createHash("sha256").update(key).digest("hex"),
       },
