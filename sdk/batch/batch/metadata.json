@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Azure.Batch": "2025-06-01"
+    "Azure.Batch": "2026-10-01"
   },
-  "emitterVersion": "0.52.2",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Azure.Batch",
     "CrossLanguageDefinitionId": {
@@ -11,8 +11,6 @@
       "@azure/batch!BatchError:interface": "Azure.Batch.BatchError",
       "@azure/batch!BatchErrorMessage:interface": "Azure.Batch.BatchErrorMessage",
       "@azure/batch!BatchErrorDetail:interface": "Azure.Batch.BatchErrorDetail",
-      "@azure/batch!BatchPoolListUsageMetricsResult:interface": "Azure.Batch.BatchPoolListUsageMetricsResult",
-      "@azure/batch!BatchPoolUsageMetrics:interface": "Azure.Batch.BatchPoolUsageMetrics",
       "@azure/batch!BatchPoolCreateOptions:interface": "Azure.Batch.BatchPoolCreateOptions",
       "@azure/batch!VirtualMachineConfiguration:interface": "Azure.Batch.VirtualMachineConfiguration",
       "@azure/batch!BatchVmImageReference:interface": "Azure.Batch.BatchVmImageReference",
@@ -36,6 +34,14 @@
       "@azure/batch!HostEndpointSettings:interface": "Azure.Batch.HostEndpointSettings",
       "@azure/batch!BatchUefiSettings:interface": "Azure.Batch.BatchUefiSettings",
       "@azure/batch!ServiceArtifactReference:interface": "Azure.Batch.ServiceArtifactReference",
+      "@azure/batch!HardwareProfile:interface": "Azure.Batch.HardwareProfile",
+      "@azure/batch!VMSizeProperties:interface": "Azure.Batch.VMSizeProperties",
+      "@azure/batch!Placement:interface": "Azure.Batch.Placement",
+      "@azure/batch!ResiliencyPolicy:interface": "Azure.Batch.ResiliencyPolicy",
+      "@azure/batch!ZoneAllocationPolicy:interface": "Azure.Batch.ZoneAllocationPolicy",
+      "@azure/batch!MaxInstancePercentPerZonePolicy:interface": "Azure.Batch.MaxInstancePercentPerZonePolicy",
+      "@azure/batch!VirtualMachineSkuProfile:interface": "Azure.Batch.VirtualMachineSkuProfile",
+      "@azure/batch!VirtualMachineSkuProfileVmSize:interface": "Azure.Batch.VirtualMachineSkuProfileVmSize",
       "@azure/batch!NetworkConfiguration:interface": "Azure.Batch.NetworkConfiguration",
       "@azure/batch!BatchPoolEndpointConfiguration:interface": "Azure.Batch.BatchPoolEndpointConfiguration",
       "@azure/batch!BatchInboundNatPool:interface": "Azure.Batch.BatchInboundNatPool",
@@ -70,7 +76,6 @@
       "@azure/batch!AutoScaleRun:interface": "Azure.Batch.AutoScaleRun",
       "@azure/batch!AutoScaleRunError:interface": "Azure.Batch.AutoScaleRunError",
       "@azure/batch!BatchPoolStatistics:interface": "Azure.Batch.BatchPoolStatistics",
-      "@azure/batch!BatchPoolUsageStatistics:interface": "Azure.Batch.BatchPoolUsageStatistics",
       "@azure/batch!BatchPoolResourceStatistics:interface": "Azure.Batch.BatchPoolResourceStatistics",
       "@azure/batch!BatchPoolIdentity:interface": "Azure.Batch.BatchPoolIdentity",
       "@azure/batch!BatchUserAssignedIdentity:interface": "Azure.Batch.BatchUserAssignedIdentity",
@@ -179,6 +184,8 @@
       "@azure/batch!KnownDiffDiskPlacement:enum": "Azure.Batch.DiffDiskPlacement",
       "@azure/batch!KnownHostEndpointSettingsModeTypes:enum": "Azure.Batch.HostEndpointSettingsModeTypes",
       "@azure/batch!KnownSecurityTypes:enum": "Azure.Batch.SecurityTypes",
+      "@azure/batch!KnownZonePlacementPolicyType:enum": "Azure.Batch.ZonePlacementPolicyType",
+      "@azure/batch!KnownVirtualMachineSkuAllocationStrategy:enum": "Azure.Batch.VirtualMachineSkuAllocationStrategy",
       "@azure/batch!KnownDynamicVNetAssignmentScope:enum": "Azure.Batch.DynamicVNetAssignmentScope",
       "@azure/batch!KnownInboundEndpointProtocol:enum": "Azure.Batch.InboundEndpointProtocol",
       "@azure/batch!KnownNetworkSecurityGroupRuleAccess:enum": "Azure.Batch.NetworkSecurityGroupRuleAccess",
@@ -292,7 +299,6 @@
       "@azure/batch!BatchClient#deletePool:member(1)": "Client.BatchClient.deletePool",
       "@azure/batch!BatchClient#listPools:member(1)": "Client.BatchClient.listPools",
       "@azure/batch!BatchClient#createPool:member(1)": "Client.BatchClient.createPool",
-      "@azure/batch!BatchClient#listPoolUsageMetrics:member(1)": "Client.BatchClient.listPoolUsageMetrics",
       "@azure/batch!BatchClient#getApplication:member(1)": "Client.BatchClient.getApplication",
       "@azure/batch!BatchClient#listApplications:member(1)": "Client.BatchClient.listApplications"
     }
