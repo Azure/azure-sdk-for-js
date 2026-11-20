@@ -36,7 +36,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,7 @@ export function list(
     () => _listSend(context, providerNamespace, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -91,7 +91,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       applicationId: applicationId,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +138,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       applicationId: applicationId,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,7 +182,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, providerNamespace, applicationId, properties, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-10-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<AuthorizedApplication>, AuthorizedApplication>;
 }
 
@@ -198,7 +198,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       applicationId: applicationId,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

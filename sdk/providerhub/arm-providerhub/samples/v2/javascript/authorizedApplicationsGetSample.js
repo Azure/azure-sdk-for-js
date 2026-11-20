@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the authorized application details.
  *
  * @summary gets the authorized application details.
- * x-ms-original-file: 2025-10-01/AuthorizedApplications_Get.json
+ * x-ms-original-file: 2026-10-01/AuthorizedApplications_Get.json
  */
 async function authorizedApplicationsGet() {
   const credential = new DefaultAzureCredential();

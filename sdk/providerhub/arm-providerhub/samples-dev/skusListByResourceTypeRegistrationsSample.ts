@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of skus for the given resource type.
  *
  * @summary gets the list of skus for the given resource type.
- * x-ms-original-file: 2025-10-01/Skus_ListByResourceTypeRegistrations.json
+ * x-ms-original-file: 2026-10-01/Skus_ListByResourceTypeRegistrations.json
  */
 async function skusListByResourceTypeRegistrations(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function skusListByResourceTypeRegistrations(): Promise<void> {
   const resArray = new Array();
   for await (const item of client.skus.listByResourceTypeRegistrations(
     "Microsoft.Contoso",
-    "testResourceType",
+    "employees",
   )) {
     resArray.push(item);
   }

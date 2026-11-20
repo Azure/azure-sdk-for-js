@@ -4,6 +4,21 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface ResourceTypeRegistrationsListByProviderRegistrationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

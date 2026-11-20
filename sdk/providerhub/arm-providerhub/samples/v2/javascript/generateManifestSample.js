@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generates the manifest for the given provider.
  *
  * @summary generates the manifest for the given provider.
- * x-ms-original-file: 2025-10-01/GenerateManifest.json
+ * x-ms-original-file: 2026-10-01/GenerateManifest.json
  */
 async function generateManifest() {
   const credential = new DefaultAzureCredential();

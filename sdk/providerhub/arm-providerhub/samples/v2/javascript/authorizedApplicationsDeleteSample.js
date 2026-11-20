@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an authorized application.
  *
  * @summary deletes an authorized application.
- * x-ms-original-file: 2025-10-01/AuthorizedApplications_Delete.json
+ * x-ms-original-file: 2026-10-01/AuthorizedApplications_Delete.json
  */
 async function authorizedApplicationsDelete() {
   const credential = new DefaultAzureCredential();
