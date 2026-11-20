@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Context } from "@opentelemetry/api";
+import type { Context, SpanContext } from "@opentelemetry/api";
 import { trace, TraceFlags } from "@opentelemetry/api";
 import type { LogRecordExporter, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { getPositiveNumberFromEnv } from "../shared/envConfig.js";
 import { AzureMonitorSampleRate, logSampleRateKey } from "../types.js";
+
+export type LogSampleRateFallback = number | ((spanContext: SpanContext) => number);
 
 /**
  * Azure Monitor BatchLogRecord Processor.
@@ -18,7 +20,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     exporter: LogRecordExporter,
     private readonly _options: {
       enableTraceBasedSamplingForLogs?: boolean;
-      fallbackSampleRate?: number;
+      fallbackSampleRate?: LogSampleRateFallback;
     },
   ) {
     super({
@@ -45,10 +47,13 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
           ? (span as Partial<ReadableSpan>).attributes?.[AzureMonitorSampleRate]
           : undefined;
       const rate = typeof spanRate === "string" ? Number(spanRate) : spanRate;
+      const fallback = this._options.fallbackSampleRate;
       sampleRate =
         typeof rate === "number" && rate > 0 && rate <= 100
           ? rate
-          : (this._options.fallbackSampleRate ?? 100);
+          : typeof fallback === "function"
+            ? fallback(logRecord.spanContext)
+            : (fallback ?? 100);
     }
     if (sampleRate !== 100 || logRecord.attributes[AzureMonitorSampleRate] !== undefined) {
       // Other processors receive the same record. Expose the rate only to our exporter.

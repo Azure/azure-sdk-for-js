@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Context } from "@opentelemetry/api";
+import type { Context, SpanContext } from "@opentelemetry/api";
 import { trace } from "@opentelemetry/api";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace";
 import type { MetricHandler } from "../metrics/index.js";
@@ -20,7 +20,10 @@ import {
 export class AzureMonitorSpanProcessor implements SpanProcessor {
   private readonly _metricHandler: MetricHandler;
 
-  constructor(metricHandler: MetricHandler) {
+  constructor(
+    metricHandler: MetricHandler,
+    private readonly localRootSpans?: WeakSet<SpanContext>,
+  ) {
     this._metricHandler = metricHandler;
   }
 
@@ -29,6 +32,12 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
   }
 
   onStart(span: Span, parentContext: Context): void {
+    if (
+      this.localRootSpans &&
+      (!span.parentSpanContext || this.localRootSpans.has(span.parentSpanContext))
+    ) {
+      this.localRootSpans.add(span.spanContext());
+    }
     try {
       this._propagateMainAgentAttributesFromParent(span, parentContext);
     } catch (error) {
