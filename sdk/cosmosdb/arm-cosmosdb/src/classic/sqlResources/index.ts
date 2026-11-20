@@ -24,7 +24,6 @@ import {
   createUpdateSqlStoredProcedure,
   getSqlStoredProcedure,
   retrieveContinuousBackupInformation,
-  listSqlContainerPartitionMerge,
   listSqlContainers,
   deleteSqlContainer,
   createUpdateSqlContainer,
@@ -32,19 +31,14 @@ import {
   listClientEncryptionKeys,
   createUpdateClientEncryptionKey,
   getClientEncryptionKey,
-  sqlContainerRedistributeThroughput,
-  sqlContainerRetrieveThroughputDistribution,
   migrateSqlContainerToManualThroughput,
   migrateSqlContainerToAutoscale,
   updateSqlContainerThroughput,
   getSqlContainerThroughput,
-  sqlDatabaseRedistributeThroughput,
-  sqlDatabaseRetrieveThroughputDistribution,
   migrateSqlDatabaseToManualThroughput,
   migrateSqlDatabaseToAutoscale,
   updateSqlDatabaseThroughput,
   getSqlDatabaseThroughput,
-  sqlDatabasePartitionMerge,
   listSqlDatabases,
   deleteSqlDatabase,
   createUpdateSqlDatabase,
@@ -72,7 +66,6 @@ import type {
   SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
   SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
-  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
   SqlResourcesListSqlContainersOptionalParams,
   SqlResourcesDeleteSqlContainerOptionalParams,
   SqlResourcesCreateUpdateSqlContainerOptionalParams,
@@ -80,19 +73,14 @@ import type {
   SqlResourcesListClientEncryptionKeysOptionalParams,
   SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
   SqlResourcesGetClientEncryptionKeyOptionalParams,
-  SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
-  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams,
   SqlResourcesUpdateSqlDatabaseThroughputOptionalParams,
   SqlResourcesGetSqlDatabaseThroughputOptionalParams,
-  SqlResourcesSqlDatabasePartitionMergeOptionalParams,
   SqlResourcesListSqlDatabasesOptionalParams,
   SqlResourcesDeleteSqlDatabaseOptionalParams,
   SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
@@ -101,13 +89,8 @@ import type {
 import type {
   SqlDatabaseGetResults,
   SqlDatabaseCreateUpdateParameters,
-  MergeParameters,
-  PhysicalPartitionStorageInfoCollection,
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
-  RetrieveThroughputParameters,
-  PhysicalPartitionThroughputInfoResult,
-  RedistributeThroughputParameters,
   ClientEncryptionKeyGetResults,
   ClientEncryptionKeyCreateUpdateParameters,
   SqlContainerGetResults,
@@ -511,41 +494,6 @@ export interface SqlResourcesOperations {
     location: ContinuousBackupRestoreLocation,
     options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
   ) => Promise<BackupInformation>;
-  /** Merges the partitions of a SQL Container */
-  listSqlContainerPartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
-  /** @deprecated use listSqlContainerPartitionMerge instead */
-  beginListSqlContainerPartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionStorageInfoCollection>,
-      PhysicalPartitionStorageInfoCollection
-    >
-  >;
-  /** @deprecated use listSqlContainerPartitionMerge instead */
-  beginListSqlContainerPartitionMergeAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-  ) => Promise<PhysicalPartitionStorageInfoCollection>;
   /** Lists the SQL container under an existing Azure Cosmos DB database account. */
   listSqlContainers: (
     resourceGroupName: string,
@@ -656,76 +604,6 @@ export interface SqlResourcesOperations {
     clientEncryptionKeyName: string,
     options?: SqlResourcesGetClientEncryptionKeyOptionalParams,
   ) => Promise<ClientEncryptionKeyGetResults>;
-  /** Redistribute throughput for an Azure Cosmos DB SQL container */
-  sqlContainerRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use sqlContainerRedistributeThroughput instead */
-  beginSqlContainerRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use sqlContainerRedistributeThroughput instead */
-  beginSqlContainerRedistributeThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
-  /** Retrieve throughput distribution for an Azure Cosmos DB SQL container */
-  sqlContainerRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use sqlContainerRetrieveThroughputDistribution instead */
-  beginSqlContainerRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use sqlContainerRetrieveThroughputDistribution instead */
-  beginSqlContainerRetrieveThroughputDistributionAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    containerName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
   /** Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput */
   migrateSqlContainerToManualThroughput: (
     resourceGroupName: string,
@@ -815,70 +693,6 @@ export interface SqlResourcesOperations {
     containerName: string,
     options?: SqlResourcesGetSqlContainerThroughputOptionalParams,
   ) => Promise<ThroughputSettingsGetResults>;
-  /** Redistribute throughput for an Azure Cosmos DB SQL database */
-  sqlDatabaseRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use sqlDatabaseRedistributeThroughput instead */
-  beginSqlDatabaseRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use sqlDatabaseRedistributeThroughput instead */
-  beginSqlDatabaseRedistributeThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
-  /** Retrieve throughput distribution for an Azure Cosmos DB SQL database */
-  sqlDatabaseRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use sqlDatabaseRetrieveThroughputDistribution instead */
-  beginSqlDatabaseRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use sqlDatabaseRetrieveThroughputDistribution instead */
-  beginSqlDatabaseRetrieveThroughputDistributionAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
   /** Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput */
   migrateSqlDatabaseToManualThroughput: (
     resourceGroupName: string,
@@ -958,38 +772,6 @@ export interface SqlResourcesOperations {
     databaseName: string,
     options?: SqlResourcesGetSqlDatabaseThroughputOptionalParams,
   ) => Promise<ThroughputSettingsGetResults>;
-  /** Merges the partitions of a SQL database */
-  sqlDatabasePartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
-  /** @deprecated use sqlDatabasePartitionMerge instead */
-  beginSqlDatabasePartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionStorageInfoCollection>,
-      PhysicalPartitionStorageInfoCollection
-    >
-  >;
-  /** @deprecated use sqlDatabasePartitionMerge instead */
-  beginSqlDatabasePartitionMergeAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-  ) => Promise<PhysicalPartitionStorageInfoCollection>;
   /** Lists the SQL databases under an existing Azure Cosmos DB database account. */
   listSqlDatabases: (
     resourceGroupName: string,
@@ -1745,61 +1527,6 @@ function _getSqlResources(context: CosmosDBManagementContext) {
         options,
       );
     },
-    listSqlContainerPartitionMerge: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-    ) =>
-      listSqlContainerPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        mergeParameters,
-        options,
-      ),
-    beginListSqlContainerPartitionMerge: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-    ) => {
-      const poller = listSqlContainerPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        mergeParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginListSqlContainerPartitionMergeAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams,
-    ) => {
-      return await listSqlContainerPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        mergeParameters,
-        options,
-      );
-    },
     listSqlContainers: (
       resourceGroupName: string,
       accountName: string,
@@ -2001,116 +1728,6 @@ function _getSqlResources(context: CosmosDBManagementContext) {
         clientEncryptionKeyName,
         options,
       ),
-    sqlContainerRedistributeThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-    ) =>
-      sqlContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        redistributeThroughputParameters,
-        options,
-      ),
-    beginSqlContainerRedistributeThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-    ) => {
-      const poller = sqlContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        redistributeThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginSqlContainerRedistributeThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-    ) => {
-      return await sqlContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        redistributeThroughputParameters,
-        options,
-      );
-    },
-    sqlContainerRetrieveThroughputDistribution: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-    ) =>
-      sqlContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        retrieveThroughputParameters,
-        options,
-      ),
-    beginSqlContainerRetrieveThroughputDistribution: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      const poller = sqlContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        retrieveThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginSqlContainerRetrieveThroughputDistributionAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      containerName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      return await sqlContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        containerName,
-        retrieveThroughputParameters,
-        options,
-      );
-    },
     migrateSqlContainerToManualThroughput: (
       resourceGroupName: string,
       accountName: string,
@@ -2279,104 +1896,6 @@ function _getSqlResources(context: CosmosDBManagementContext) {
         containerName,
         options,
       ),
-    sqlDatabaseRedistributeThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-    ) =>
-      sqlDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      ),
-    beginSqlDatabaseRedistributeThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-    ) => {
-      const poller = sqlDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginSqlDatabaseRedistributeThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-    ) => {
-      return await sqlDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      );
-    },
-    sqlDatabaseRetrieveThroughputDistribution: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) =>
-      sqlDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      ),
-    beginSqlDatabaseRetrieveThroughputDistribution: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      const poller = sqlDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginSqlDatabaseRetrieveThroughputDistributionAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      return await sqlDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      );
-    },
     migrateSqlDatabaseToManualThroughput: (
       resourceGroupName: string,
       accountName: string,
@@ -2512,55 +2031,6 @@ function _getSqlResources(context: CosmosDBManagementContext) {
       databaseName: string,
       options?: SqlResourcesGetSqlDatabaseThroughputOptionalParams,
     ) => getSqlDatabaseThroughput(context, resourceGroupName, accountName, databaseName, options),
-    sqlDatabasePartitionMerge: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-    ) =>
-      sqlDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      ),
-    beginSqlDatabasePartitionMerge: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-    ) => {
-      const poller = sqlDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginSqlDatabasePartitionMergeAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: SqlResourcesSqlDatabasePartitionMergeOptionalParams,
-    ) => {
-      return await sqlDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      );
-    },
     listSqlDatabases: (
       resourceGroupName: string,
       accountName: string,

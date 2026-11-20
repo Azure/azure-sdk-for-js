@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Azure Cosmos DB SQL database.
  *
  * @summary deletes an existing Azure Cosmos DB SQL database.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlDatabaseDelete.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlDatabaseDelete.json
  */
 async function cosmosDBSqlDatabaseDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
