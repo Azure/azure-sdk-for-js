@@ -1,14 +1,22 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2026-09-02)
+Compared with version 1.0.0-beta.2
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added Interface ErrorDetails
+  - Interface AzureMonitorInformation has a new optional parameter errorDetails
+  - Interface ChangeTrackingInformation has a new optional parameter errorDetails
+  - Interface DefenderCspmInformation has a new optional parameter errorDetails
+  - Interface DefenderForServersInformation has a new optional parameter errorDetails
+  - Interface GuestConfigurationInformation has a new optional parameter errorDetails
+  - Interface UpdateManagerInformation has a new optional parameter errorDetails
+  - Added Type Alias SkuName
+  - Added Type Alias SkuTier
+  - Added Enum KnownSkuName
+  - Added Enum KnownSkuTier
+  - Enum KnownProvisioningState has a new value Accepted
+  - Enum KnownVersions has a new value V20260106Preview
 
 ## 1.0.0-beta.2 (2026-03-05)
 Compared with version 1.0.0-beta.1
