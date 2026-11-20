@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FileShare
  *
  * @summary get a FileShare
- * x-ms-original-file: 2026-06-01/FileShares_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-09-01/FileShares_Get_MaximumSet_Gen.json
  */
 async function fileSharesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

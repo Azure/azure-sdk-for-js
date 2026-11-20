@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 export {
+  getRedundancyConversionStatus,
+  startRedundancyConversion,
   checkNameAvailability,
   listByParent,
   listBySubscription,
@@ -11,6 +13,8 @@ export {
   get,
 } from "./operations.js";
 export type {
+  FileSharesGetRedundancyConversionStatusOptionalParams,
+  FileSharesStartRedundancyConversionOptionalParams,
   FileSharesCheckNameAvailabilityOptionalParams,
   FileSharesListByParentOptionalParams,
   FileSharesListBySubscriptionOptionalParams,
