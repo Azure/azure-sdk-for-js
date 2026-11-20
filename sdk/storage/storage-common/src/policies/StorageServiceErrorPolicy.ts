@@ -47,9 +47,10 @@ const errorModelFields = new Set([
  *
  * For a response with status 400 or above, it takes the body as text: `bodyAsText`, or the body the
  * response streamed, which it reads itself after `next` returns, so after any retries. A streamed
- * body that fails while it's read is dropped, or its error is thrown if the request was aborted; a
- * React Native `Blob`, which can't be read as text, is left alone. When the body is a storage error
- * (an `Error` element with a non-empty `Code` or `Message`), it throws a `RestError` with:
+ * body that fails while it's read, or in Node.js takes longer than the request's `timeout`, is
+ * dropped, or its error is thrown if the request was aborted; a React Native `Blob`, which can't be
+ * read as text, is left alone. When the body is a storage error (an `Error` element with a non-empty
+ * `Code` or `Message`), it throws a `RestError` with:
  * - `message`: the error's `Message`, or `Unexpected status code: <status>` when it has none;
  * - `code`: the `x-ms-error-code` header, or else the error's `Code`;
  * - `statusCode` and `request`: those of the response;
