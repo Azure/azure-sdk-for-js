@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance.json
  */
 async function createBackupInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -79,7 +79,7 @@ async function createBackupInstance(): Promise<void> {
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstanceWithGenericParameters.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstanceWithGenericParameters.json
  */
 async function createBackupInstanceWithGenericBackupDatasourceParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -142,7 +142,7 @@ async function createBackupInstanceWithGenericBackupDatasourceParameters(): Prom
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_ADLSBlobBackupAutoProtection.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance_ADLSBlobBackupAutoProtection.json
  */
 async function createBackupInstanceWithAdlsBlobBackupAutoProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -217,7 +217,7 @@ async function createBackupInstanceWithAdlsBlobBackupAutoProtection(): Promise<v
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_ADLSBlobBackupDatasourceParameters.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance_ADLSBlobBackupDatasourceParameters.json
  */
 async function createBackupInstanceWithAdlsBlobBackupDatasourceParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -272,7 +272,7 @@ async function createBackupInstanceWithAdlsBlobBackupDatasourceParameters(): Pro
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_BlobBackupAutoProtection.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance_BlobBackupAutoProtection.json
  */
 async function createBackupInstanceWithBlobBackupAutoProtection(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -347,7 +347,7 @@ async function createBackupInstanceWithBlobBackupAutoProtection(): Promise<void>
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_KubernetesClusterBackupDatasourceParameters.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance_KubernetesClusterBackupDatasourceParameters.json
  */
 async function createBackupInstanceWithKubernetesClusterBackupDatasourceParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -415,65 +415,7 @@ async function createBackupInstanceWithKubernetesClusterBackupDatasourceParamete
  * This sample demonstrates how to create or update a backup instance in a backup vault
  *
  * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_PostgreSqlFlexibleServerBackupDatasourceParameters.json
- */
-async function createBackupInstanceWithPostgreSqlFlexibleServerBackupDatasourceParameters(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "62b829ee-7936-40c9-a1c9-47a93f9f3965";
-  const client = new DataProtectionClient(credential, subscriptionId);
-  const result = await client.backupInstances.createOrUpdate(
-    "pgflexrg",
-    "pgflexvault",
-    "pgflexbi",
-    {
-      properties: {
-        dataSourceInfo: {
-          datasourceType: "Microsoft.DBforPostgreSQL/flexibleServers",
-          objectType: "Datasource",
-          resourceID:
-            "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/pgflexrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/pgflexserver",
-          resourceLocation: "eastus2euap",
-          resourceName: "pgflexserver",
-          resourceType: "Microsoft.DBforPostgreSQL/flexibleServers",
-          resourceUri:
-            "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/pgflexrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/pgflexserver",
-        },
-        dataSourceSetInfo: {
-          datasourceType: "Microsoft.DBforPostgreSQL/flexibleServers",
-          objectType: "DatasourceSet",
-          resourceID:
-            "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/pgflexrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/pgflexserver",
-          resourceLocation: "eastus2euap",
-          resourceName: "pgflexserver",
-          resourceType: "Microsoft.DBforPostgreSQL/flexibleServers",
-          resourceUri:
-            "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/pgflexrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/pgflexserver",
-        },
-        friendlyName: "pgflexbi",
-        objectType: "BackupInstance",
-        policyInfo: {
-          policyId:
-            "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/pgflexrg/providers/Microsoft.DataProtection/BackupVaults/pgflexvault/backupPolicies/pgflexpolicy",
-          policyParameters: {
-            backupDatasourceParametersList: [
-              {
-                objectType: "PostgreSqlFlexibleServerBackupDatasourceParameters",
-                backupSolutionType: "PhysicalBackup",
-              },
-            ],
-          },
-        },
-      },
-    },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to create or update a backup instance in a backup vault
- *
- * @summary create or update a backup instance in a backup vault
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
  */
 async function createBackupInstanceToPerformCriticalOperationWithMUA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -545,7 +487,6 @@ async function main(): Promise<void> {
   await createBackupInstanceWithAdlsBlobBackupDatasourceParameters();
   await createBackupInstanceWithBlobBackupAutoProtection();
   await createBackupInstanceWithKubernetesClusterBackupDatasourceParameters();
-  await createBackupInstanceWithPostgreSqlFlexibleServerBackupDatasourceParameters();
   await createBackupInstanceToPerformCriticalOperationWithMUA();
 }
 

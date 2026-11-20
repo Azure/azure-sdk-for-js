@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the Cross Region Restore Job
  *
  * @summary fetches the Cross Region Restore Job
- * x-ms-original-file: 2026-07-01/CrossRegionRestore/FetchCrossRegionRestoreJob.json
+ * x-ms-original-file: 2026-08-31-preview/CrossRegionRestore/FetchCrossRegionRestoreJob.json
  */
 async function getCrossRegionRestoreJob() {
   const credential = new DefaultAzureCredential();

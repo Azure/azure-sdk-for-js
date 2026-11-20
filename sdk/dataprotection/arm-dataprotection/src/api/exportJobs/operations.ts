@@ -22,7 +22,7 @@ export function _triggerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-31-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,6 +57,6 @@ export function trigger(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _triggerSend(context, resourceGroupName, vaultName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

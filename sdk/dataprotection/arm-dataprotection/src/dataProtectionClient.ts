@@ -3,10 +3,20 @@
 
 import type { DataProtectionContext, DataProtectionClientOptionalParams } from "./api/index.js";
 import { createDataProtection } from "./api/index.js";
+import type { BackupInstanceFromDppCrossTenantVaultOperations } from "./classic/backupInstanceFromDppCrossTenantVault/index.js";
+import { _getBackupInstanceFromDppCrossTenantVaultOperations } from "./classic/backupInstanceFromDppCrossTenantVault/index.js";
+import type { BackupInstanceOperationResultFromDppCrossTenantVaultOperations } from "./classic/backupInstanceOperationResultFromDppCrossTenantVault/index.js";
+import { _getBackupInstanceOperationResultFromDppCrossTenantVaultOperations } from "./classic/backupInstanceOperationResultFromDppCrossTenantVault/index.js";
+import type { BackupInstanceOperationStatusFromDppCrossTenantVaultOperations } from "./classic/backupInstanceOperationStatusFromDppCrossTenantVault/index.js";
+import { _getBackupInstanceOperationStatusFromDppCrossTenantVaultOperations } from "./classic/backupInstanceOperationStatusFromDppCrossTenantVault/index.js";
 import type { BackupInstancesOperations } from "./classic/backupInstances/index.js";
 import { _getBackupInstancesOperations } from "./classic/backupInstances/index.js";
 import type { BackupInstancesExtensionRoutingOperations } from "./classic/backupInstancesExtensionRouting/index.js";
 import { _getBackupInstancesExtensionRoutingOperations } from "./classic/backupInstancesExtensionRouting/index.js";
+import type { BackupInstancesFromDppCrossTenantVaultOperations } from "./classic/backupInstancesFromDppCrossTenantVault/index.js";
+import { _getBackupInstancesFromDppCrossTenantVaultOperations } from "./classic/backupInstancesFromDppCrossTenantVault/index.js";
+import type { BackupJobsFromDppCrossTenantVaultOperations } from "./classic/backupJobsFromDppCrossTenantVault/index.js";
+import { _getBackupJobsFromDppCrossTenantVaultOperations } from "./classic/backupJobsFromDppCrossTenantVault/index.js";
 import type { BackupPoliciesOperations } from "./classic/backupPolicies/index.js";
 import { _getBackupPoliciesOperations } from "./classic/backupPolicies/index.js";
 import type { BackupVaultOperationResultsOperations } from "./classic/backupVaultOperationResults/index.js";
@@ -21,6 +31,10 @@ import type { DeletedBackupInstancesOperations } from "./classic/deletedBackupIn
 import { _getDeletedBackupInstancesOperations } from "./classic/deletedBackupInstances/index.js";
 import type { DeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
 import { _getDeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
+import type { DppCrossTenantVaultMappingStatusOperations } from "./classic/dppCrossTenantVaultMappingStatus/index.js";
+import { _getDppCrossTenantVaultMappingStatusOperations } from "./classic/dppCrossTenantVaultMappingStatus/index.js";
+import type { DppCrossTenantVaultMappingsOperations } from "./classic/dppCrossTenantVaultMappings/index.js";
+import { _getDppCrossTenantVaultMappingsOperations } from "./classic/dppCrossTenantVaultMappings/index.js";
 import type { DppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
 import { _getDppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
 import type { ExportJobsOperations } from "./classic/exportJobs/index.js";
@@ -33,6 +47,8 @@ import type { FetchCrossRegionRestoreJobsOperations } from "./classic/fetchCross
 import { _getFetchCrossRegionRestoreJobsOperations } from "./classic/fetchCrossRegionRestoreJobs/index.js";
 import type { FetchSecondaryRecoveryPointsOperations } from "./classic/fetchSecondaryRecoveryPoints/index.js";
 import { _getFetchSecondaryRecoveryPointsOperations } from "./classic/fetchSecondaryRecoveryPoints/index.js";
+import type { JobFromDppCrossTenantVaultOperations } from "./classic/jobFromDppCrossTenantVault/index.js";
+import { _getJobFromDppCrossTenantVaultOperations } from "./classic/jobFromDppCrossTenantVault/index.js";
 import type { JobsOperations } from "./classic/jobs/index.js";
 import { _getJobsOperations } from "./classic/jobs/index.js";
 import type { OperationResultOperations } from "./classic/operationResult/index.js";
@@ -43,12 +59,22 @@ import type { OperationStatusBackupVaultContextOperations } from "./classic/oper
 import { _getOperationStatusBackupVaultContextOperations } from "./classic/operationStatusBackupVaultContext/index.js";
 import type { OperationStatusResourceGroupContextOperations } from "./classic/operationStatusResourceGroupContext/index.js";
 import { _getOperationStatusResourceGroupContextOperations } from "./classic/operationStatusResourceGroupContext/index.js";
+import type { RecoveryPointFromDppCrossTenantVaultOperations } from "./classic/recoveryPointFromDppCrossTenantVault/index.js";
+import { _getRecoveryPointFromDppCrossTenantVaultOperations } from "./classic/recoveryPointFromDppCrossTenantVault/index.js";
 import type { RecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
 import { _getRecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
+import type { RecoveryPointsFromDppCrossTenantVaultOperations } from "./classic/recoveryPointsFromDppCrossTenantVault/index.js";
+import { _getRecoveryPointsFromDppCrossTenantVaultOperations } from "./classic/recoveryPointsFromDppCrossTenantVault/index.js";
 import type { ResourceGuardsOperations } from "./classic/resourceGuards/index.js";
 import { _getResourceGuardsOperations } from "./classic/resourceGuards/index.js";
 import type { RestorableTimeRangesOperations } from "./classic/restorableTimeRanges/index.js";
 import { _getRestorableTimeRangesOperations } from "./classic/restorableTimeRanges/index.js";
+import type { RestorableTimeRangesFromDppCrossTenantVaultOperations } from "./classic/restorableTimeRangesFromDppCrossTenantVault/index.js";
+import { _getRestorableTimeRangesFromDppCrossTenantVaultOperations } from "./classic/restorableTimeRangesFromDppCrossTenantVault/index.js";
+import type { RestoresFromDppCrossTenantVaultOperations } from "./classic/restoresFromDppCrossTenantVault/index.js";
+import { _getRestoresFromDppCrossTenantVaultOperations } from "./classic/restoresFromDppCrossTenantVault/index.js";
+import type { ValidateRestoreFromDppCrossTenantVaultOperations } from "./classic/validateRestoreFromDppCrossTenantVault/index.js";
+import { _getValidateRestoreFromDppCrossTenantVaultOperations } from "./classic/validateRestoreFromDppCrossTenantVault/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -106,6 +132,34 @@ export class DataProtectionClient {
       this._client,
     );
     this.backupVaults = _getBackupVaultsOperations(this._client);
+    this.backupInstanceOperationResultFromDppCrossTenantVault =
+      _getBackupInstanceOperationResultFromDppCrossTenantVaultOperations(this._client);
+    this.backupInstanceOperationStatusFromDppCrossTenantVault =
+      _getBackupInstanceOperationStatusFromDppCrossTenantVaultOperations(this._client);
+    this.jobFromDppCrossTenantVault = _getJobFromDppCrossTenantVaultOperations(this._client);
+    this.backupJobsFromDppCrossTenantVault = _getBackupJobsFromDppCrossTenantVaultOperations(
+      this._client,
+    );
+    this.recoveryPointFromDppCrossTenantVault = _getRecoveryPointFromDppCrossTenantVaultOperations(
+      this._client,
+    );
+    this.recoveryPointsFromDppCrossTenantVault =
+      _getRecoveryPointsFromDppCrossTenantVaultOperations(this._client);
+    this.restorableTimeRangesFromDppCrossTenantVault =
+      _getRestorableTimeRangesFromDppCrossTenantVaultOperations(this._client);
+    this.validateRestoreFromDppCrossTenantVault =
+      _getValidateRestoreFromDppCrossTenantVaultOperations(this._client);
+    this.restoresFromDppCrossTenantVault = _getRestoresFromDppCrossTenantVaultOperations(
+      this._client,
+    );
+    this.backupInstanceFromDppCrossTenantVault =
+      _getBackupInstanceFromDppCrossTenantVaultOperations(this._client);
+    this.backupInstancesFromDppCrossTenantVault =
+      _getBackupInstancesFromDppCrossTenantVaultOperations(this._client);
+    this.dppCrossTenantVaultMappingStatus = _getDppCrossTenantVaultMappingStatusOperations(
+      this._client,
+    );
+    this.dppCrossTenantVaultMappings = _getDppCrossTenantVaultMappingsOperations(this._client);
     this.resourceGuards = _getResourceGuardsOperations(this._client);
     this.deletedBackupVaults = _getDeletedBackupVaultsOperations(this._client);
     this.backupVaultOperationResults = _getBackupVaultOperationResultsOperations(this._client);
@@ -149,6 +203,32 @@ export class DataProtectionClient {
   public readonly operationStatusBackupVaultContext: OperationStatusBackupVaultContextOperations;
   /** The operation groups for backupVaults */
   public readonly backupVaults: BackupVaultsOperations;
+  /** The operation groups for backupInstanceOperationResultFromDppCrossTenantVault */
+  public readonly backupInstanceOperationResultFromDppCrossTenantVault: BackupInstanceOperationResultFromDppCrossTenantVaultOperations;
+  /** The operation groups for backupInstanceOperationStatusFromDppCrossTenantVault */
+  public readonly backupInstanceOperationStatusFromDppCrossTenantVault: BackupInstanceOperationStatusFromDppCrossTenantVaultOperations;
+  /** The operation groups for jobFromDppCrossTenantVault */
+  public readonly jobFromDppCrossTenantVault: JobFromDppCrossTenantVaultOperations;
+  /** The operation groups for backupJobsFromDppCrossTenantVault */
+  public readonly backupJobsFromDppCrossTenantVault: BackupJobsFromDppCrossTenantVaultOperations;
+  /** The operation groups for recoveryPointFromDppCrossTenantVault */
+  public readonly recoveryPointFromDppCrossTenantVault: RecoveryPointFromDppCrossTenantVaultOperations;
+  /** The operation groups for recoveryPointsFromDppCrossTenantVault */
+  public readonly recoveryPointsFromDppCrossTenantVault: RecoveryPointsFromDppCrossTenantVaultOperations;
+  /** The operation groups for restorableTimeRangesFromDppCrossTenantVault */
+  public readonly restorableTimeRangesFromDppCrossTenantVault: RestorableTimeRangesFromDppCrossTenantVaultOperations;
+  /** The operation groups for validateRestoreFromDppCrossTenantVault */
+  public readonly validateRestoreFromDppCrossTenantVault: ValidateRestoreFromDppCrossTenantVaultOperations;
+  /** The operation groups for restoresFromDppCrossTenantVault */
+  public readonly restoresFromDppCrossTenantVault: RestoresFromDppCrossTenantVaultOperations;
+  /** The operation groups for backupInstanceFromDppCrossTenantVault */
+  public readonly backupInstanceFromDppCrossTenantVault: BackupInstanceFromDppCrossTenantVaultOperations;
+  /** The operation groups for backupInstancesFromDppCrossTenantVault */
+  public readonly backupInstancesFromDppCrossTenantVault: BackupInstancesFromDppCrossTenantVaultOperations;
+  /** The operation groups for dppCrossTenantVaultMappingStatus */
+  public readonly dppCrossTenantVaultMappingStatus: DppCrossTenantVaultMappingStatusOperations;
+  /** The operation groups for dppCrossTenantVaultMappings */
+  public readonly dppCrossTenantVaultMappings: DppCrossTenantVaultMappingsOperations;
   /** The operation groups for resourceGuards */
   public readonly resourceGuards: ResourceGuardsOperations;
   /** The operation groups for deletedBackupVaults */

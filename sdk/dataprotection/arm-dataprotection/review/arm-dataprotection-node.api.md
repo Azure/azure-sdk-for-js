@@ -308,6 +308,33 @@ export interface BackupInstance {
 }
 
 // @public
+export interface BackupInstanceFromDppCrossTenantVaultGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BackupInstanceFromDppCrossTenantVaultOperations {
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, options?: BackupInstanceFromDppCrossTenantVaultGetOptionalParams) => Promise<CrossTenantBackupInstanceResource>;
+}
+
+// @public
+export interface BackupInstanceOperationResultFromDppCrossTenantVaultGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BackupInstanceOperationResultFromDppCrossTenantVaultOperations {
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, operationId: string, options?: BackupInstanceOperationResultFromDppCrossTenantVaultGetOptionalParams) => Promise<OperationJobExtendedInfo | void>;
+}
+
+// @public
+export interface BackupInstanceOperationStatusFromDppCrossTenantVaultGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BackupInstanceOperationStatusFromDppCrossTenantVaultOperations {
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, operationId: string, options?: BackupInstanceOperationStatusFromDppCrossTenantVaultGetOptionalParams) => Promise<OperationResource>;
+}
+
+// @public
 export interface BackupInstanceResource extends ProxyResource {
     properties?: BackupInstance;
     tags?: Record<string, string>;
@@ -339,6 +366,15 @@ export interface BackupInstancesExtensionRoutingListOptionalParams extends Opera
 // @public
 export interface BackupInstancesExtensionRoutingOperations {
     list: (resourceId: string, options?: BackupInstancesExtensionRoutingListOptionalParams) => PagedAsyncIterableIterator<BackupInstanceResource>;
+}
+
+// @public
+export interface BackupInstancesFromDppCrossTenantVaultListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BackupInstancesFromDppCrossTenantVaultOperations {
+    list: (resourceGroupName: string, vaultName: string, mappingName: string, options?: BackupInstancesFromDppCrossTenantVaultListOptionalParams) => PagedAsyncIterableIterator<CrossTenantBackupInstanceResource>;
 }
 
 // @public
@@ -441,6 +477,15 @@ export interface BackupInstancesValidateForModifyBackupOptionalParams extends Op
 // @public
 export interface BackupInstancesValidateForRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface BackupJobsFromDppCrossTenantVaultListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BackupJobsFromDppCrossTenantVaultOperations {
+    list: (resourceGroupName: string, vaultName: string, mappingName: string, options?: BackupJobsFromDppCrossTenantVaultListOptionalParams) => PagedAsyncIterableIterator<AzureBackupJobResource>;
 }
 
 // @public
@@ -757,6 +802,79 @@ export interface CrossSubscriptionRestoreSettings {
 export type CrossSubscriptionRestoreState = string;
 
 // @public
+export interface CrossTenantAuthCredentials {
+    objectType: string;
+}
+
+// @public
+export type CrossTenantAuthCredentialsUnion = CrossTenantSecretStoreBasedAuthCredentials | CrossTenantAuthCredentials;
+
+// @public
+export interface CrossTenantBackupInstance {
+    readonly currentProtectionState?: CurrentProtectionState;
+    datasourceAuthCredentials?: CrossTenantAuthCredentialsUnion;
+    dataSourceInfo: Datasource;
+    dataSourceSetInfo?: DatasourceSet;
+    friendlyName?: string;
+    identityDetails?: IdentityDetails;
+    // (undocumented)
+    objectType: string;
+    policyInfo: PolicyInfo;
+    readonly protectionErrorDetails?: UserFacingError;
+    readonly protectionStatus?: ProtectionStatusDetails;
+    readonly provisioningState?: string;
+    resourceGuardOperationRequests?: string[];
+    validationType?: ValidationType;
+}
+
+// @public
+export interface CrossTenantBackupInstanceResource extends ProxyResource {
+    properties?: CrossTenantBackupInstance;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CrossTenantSecretStoreBasedAuthCredentials extends CrossTenantAuthCredentials {
+    objectType: "SecretStoreBasedAuthCredentials";
+    secretStoreResource?: CrossTenantSecretStoreResource;
+}
+
+// @public
+export interface CrossTenantSecretStoreResource {
+    secretStoreType: SecretStoreType;
+    uri?: string;
+}
+
+// @public
+export interface CrossTenantVaultMapping extends ProxyResource {
+    properties?: CrossTenantVaultMappingProperties;
+}
+
+// @public
+export interface CrossTenantVaultMappingProperties {
+    readonly provisioningState?: ProvisioningState;
+    resourceGuardOperationRequests?: string[];
+    readonly sourceTenantId?: string;
+    sourceVaultId: string;
+}
+
+// @public
+export interface CrossTenantVaultMappingRemoveRequest {
+    properties?: CrossTenantVaultMappingRemoveRequestProperties;
+}
+
+// @public
+export interface CrossTenantVaultMappingRemoveRequestProperties {
+    resourceGuardOperationRequests?: string[];
+}
+
+// @public
+export interface CrossTenantVaultMappingStatusResponse {
+    mappingName?: string;
+    mappingState?: VaultMappingState;
+}
+
+// @public
 export type CurrentProtectionState = string;
 
 // @public
@@ -773,8 +891,13 @@ export interface DataProtectionCheckFeatureSupportOptionalParams extends Operati
 export class DataProtectionClient {
     constructor(credential: TokenCredential, options?: DataProtectionClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: DataProtectionClientOptionalParams);
+    readonly backupInstanceFromDppCrossTenantVault: BackupInstanceFromDppCrossTenantVaultOperations;
+    readonly backupInstanceOperationResultFromDppCrossTenantVault: BackupInstanceOperationResultFromDppCrossTenantVaultOperations;
+    readonly backupInstanceOperationStatusFromDppCrossTenantVault: BackupInstanceOperationStatusFromDppCrossTenantVaultOperations;
     readonly backupInstances: BackupInstancesOperations;
     readonly backupInstancesExtensionRouting: BackupInstancesExtensionRoutingOperations;
+    readonly backupInstancesFromDppCrossTenantVault: BackupInstancesFromDppCrossTenantVaultOperations;
+    readonly backupJobsFromDppCrossTenantVault: BackupJobsFromDppCrossTenantVaultOperations;
     readonly backupPolicies: BackupPoliciesOperations;
     readonly backupVaultOperationResults: BackupVaultOperationResultsOperations;
     readonly backupVaults: BackupVaultsOperations;
@@ -782,21 +905,29 @@ export class DataProtectionClient {
     readonly dataProtectionOperations: DataProtectionOperationsOperations;
     readonly deletedBackupInstances: DeletedBackupInstancesOperations;
     readonly deletedBackupVaults: DeletedBackupVaultsOperations;
+    readonly dppCrossTenantVaultMappings: DppCrossTenantVaultMappingsOperations;
+    readonly dppCrossTenantVaultMappingStatus: DppCrossTenantVaultMappingStatusOperations;
     readonly dppResourceGuardProxy: DppResourceGuardProxyOperations;
     readonly exportJobs: ExportJobsOperations;
     readonly exportJobsOperationResult: ExportJobsOperationResultOperations;
     readonly fetchCrossRegionRestoreJob: FetchCrossRegionRestoreJobOperations;
     readonly fetchCrossRegionRestoreJobs: FetchCrossRegionRestoreJobsOperations;
     readonly fetchSecondaryRecoveryPoints: FetchSecondaryRecoveryPointsOperations;
+    readonly jobFromDppCrossTenantVault: JobFromDppCrossTenantVaultOperations;
     readonly jobs: JobsOperations;
     readonly operationResult: OperationResultOperations;
     readonly operationStatus: OperationStatusOperations;
     readonly operationStatusBackupVaultContext: OperationStatusBackupVaultContextOperations;
     readonly operationStatusResourceGroupContext: OperationStatusResourceGroupContextOperations;
     readonly pipeline: Pipeline;
+    readonly recoveryPointFromDppCrossTenantVault: RecoveryPointFromDppCrossTenantVaultOperations;
     readonly recoveryPoints: RecoveryPointsOperations;
+    readonly recoveryPointsFromDppCrossTenantVault: RecoveryPointsFromDppCrossTenantVaultOperations;
     readonly resourceGuards: ResourceGuardsOperations;
     readonly restorableTimeRanges: RestorableTimeRangesOperations;
+    readonly restorableTimeRangesFromDppCrossTenantVault: RestorableTimeRangesFromDppCrossTenantVaultOperations;
+    readonly restoresFromDppCrossTenantVault: RestoresFromDppCrossTenantVaultOperations;
+    readonly validateRestoreFromDppCrossTenantVault: ValidateRestoreFromDppCrossTenantVaultOperations;
 }
 
 // @public
@@ -964,6 +1095,40 @@ export interface DeletionInfo {
 
 // @public
 export interface DppBaseResource extends ProxyResource {
+}
+
+// @public
+export interface DppCrossTenantVaultMappingsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DppCrossTenantVaultMappingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DppCrossTenantVaultMappingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DppCrossTenantVaultMappingsOperations {
+    createOrUpdate: (resourceGroupName: string, vaultName: string, mappingName: string, resource: CrossTenantVaultMapping, options?: DppCrossTenantVaultMappingsCreateOrUpdateOptionalParams) => Promise<CrossTenantVaultMapping>;
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, options?: DppCrossTenantVaultMappingsGetOptionalParams) => Promise<CrossTenantVaultMapping>;
+    list: (resourceGroupName: string, vaultName: string, options?: DppCrossTenantVaultMappingsListOptionalParams) => PagedAsyncIterableIterator<CrossTenantVaultMapping>;
+    remove: (resourceGroupName: string, vaultName: string, mappingName: string, options?: DppCrossTenantVaultMappingsRemoveOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface DppCrossTenantVaultMappingsRemoveOptionalParams extends OperationOptions {
+    body?: CrossTenantVaultMappingRemoveRequest;
+}
+
+// @public
+export interface DppCrossTenantVaultMappingStatusCheckOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DppCrossTenantVaultMappingStatusOperations {
+    check: (resourceGroupName: string, vaultName: string, options?: DppCrossTenantVaultMappingStatusCheckOptionalParams) => Promise<CrossTenantVaultMappingStatusResponse>;
 }
 
 // @public
@@ -1267,6 +1432,15 @@ export interface JobExtendedInfo {
     readonly subTasks?: JobSubTask[];
     readonly targetRecoverPoint?: RestoreJobRecoveryPointDetails;
     readonly warningDetails?: UserFacingWarningDetail[];
+}
+
+// @public
+export interface JobFromDppCrossTenantVaultGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface JobFromDppCrossTenantVaultOperations {
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, jobId: string, options?: JobFromDppCrossTenantVaultGetOptionalParams) => Promise<AzureBackupJobResource>;
 }
 
 // @public
@@ -1624,12 +1798,20 @@ export enum KnownValidationType {
 }
 
 // @public
+export enum KnownVaultMappingState {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
 export enum KnownVersions {
     V20250701 = "2025-07-01",
     V20250901 = "2025-09-01",
     V20260301 = "2026-03-01",
+    V20260401Preview = "2026-04-01-preview",
     V20260601 = "2026-06-01",
-    V20260701 = "2026-07-01"
+    V20260701 = "2026-07-01",
+    V20260831Preview = "2026-08-31-preview"
 }
 
 // @public
@@ -1906,9 +2088,28 @@ export interface RecoveryPointDataStoreDetails {
 }
 
 // @public
+export interface RecoveryPointFromDppCrossTenantVaultGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecoveryPointFromDppCrossTenantVaultOperations {
+    get: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, recoveryPointId: string, options?: RecoveryPointFromDppCrossTenantVaultGetOptionalParams) => Promise<AzureBackupRecoveryPointResource>;
+}
+
+// @public
 export interface RecoveryPointImmutabilityProperties {
     expiryTime?: Date;
     isImmutable: boolean;
+}
+
+// @public
+export interface RecoveryPointsFromDppCrossTenantVaultListOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface RecoveryPointsFromDppCrossTenantVaultOperations {
+    list: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, options?: RecoveryPointsFromDppCrossTenantVaultListOptionalParams) => PagedAsyncIterableIterator<AzureBackupRecoveryPointResource>;
 }
 
 // @public
@@ -2125,6 +2326,15 @@ export interface RestorableTimeRangesFindOptionalParams extends OperationOptions
 }
 
 // @public
+export interface RestorableTimeRangesFromDppCrossTenantVaultFindOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RestorableTimeRangesFromDppCrossTenantVaultOperations {
+    find: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, body: AzureBackupFindRestorableTimeRangesRequest, options?: RestorableTimeRangesFromDppCrossTenantVaultFindOptionalParams) => Promise<AzureBackupFindRestorableTimeRangesResponseResource>;
+}
+
+// @public
 export interface RestorableTimeRangesOperations {
     // (undocumented)
     find: (resourceGroupName: string, vaultName: string, backupInstanceName: string, parameters: AzureBackupFindRestorableTimeRangesRequest, options?: RestorableTimeRangesFindOptionalParams) => Promise<AzureBackupFindRestorableTimeRangesResponseResource>;
@@ -2151,6 +2361,16 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RestoresFromDppCrossTenantVaultOperations {
+    trigger: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, body: AzureBackupRestoreRequestUnion, options?: RestoresFromDppCrossTenantVaultTriggerOptionalParams) => PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
+}
+
+// @public
+export interface RestoresFromDppCrossTenantVaultTriggerOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2395,12 +2615,25 @@ export interface ValidateForModifyBackupRequest {
 }
 
 // @public
+export interface ValidateRestoreFromDppCrossTenantVaultOperations {
+    trigger: (resourceGroupName: string, vaultName: string, mappingName: string, backupInstanceName: string, body: ValidateRestoreRequestObject, options?: ValidateRestoreFromDppCrossTenantVaultTriggerOptionalParams) => PollerLike<OperationState<OperationJobExtendedInfo>, OperationJobExtendedInfo>;
+}
+
+// @public
+export interface ValidateRestoreFromDppCrossTenantVaultTriggerOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ValidateRestoreRequestObject {
     restoreRequestObject: AzureBackupRestoreRequestUnion;
 }
 
 // @public
 export type ValidationType = string;
+
+// @public
+export type VaultMappingState = string;
 
 // @public
 export type WeekNumber = string;

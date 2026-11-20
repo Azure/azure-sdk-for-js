@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validate whether adhoc backup will be successful or not
  *
  * @summary validate whether adhoc backup will be successful or not
- * x-ms-original-file: 2026-07-01/BackupInstanceOperations/ValidateForBackup.json
+ * x-ms-original-file: 2026-08-31-preview/BackupInstanceOperations/ValidateForBackup.json
  */
 async function validateForBackup() {
   const credential = new DefaultAzureCredential();
