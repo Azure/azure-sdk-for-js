@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of Experiments
  *
  * @summary gets a list of Experiments
- * x-ms-original-file: 2025-11-01/NetworkExperimentListExperiments.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentListExperiments.json
  */
 async function getsAListOfExperiments(): Promise<void> {
   const credential = new DefaultAzureCredential();

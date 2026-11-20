@@ -24,7 +24,7 @@ export function _purgeContentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       frontDoorName: frontDoorName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,6 @@ export function purgeContent(
     getInitialResponse: () =>
       _purgeContentSend(context, resourceGroupName, frontDoorName, contentFilePaths, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-11-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }

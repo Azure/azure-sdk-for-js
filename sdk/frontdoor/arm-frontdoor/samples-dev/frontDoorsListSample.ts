@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the Front Doors within an Azure subscription.
  *
  * @summary lists all of the Front Doors within an Azure subscription.
- * x-ms-original-file: 2025-11-01/FrontdoorListAll.json
+ * x-ms-original-file: 2026-04-01/FrontdoorListAll.json
  */
 async function listAllFrontDoors(): Promise<void> {
   const credential = new DefaultAzureCredential();

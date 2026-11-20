@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of Network Experiment Profiles under a subscription
  *
  * @summary gets a list of Network Experiment Profiles under a subscription
- * x-ms-original-file: 2025-11-01/NetworkExperimentListProfiles.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentListProfiles.json
  */
 async function listNetworkExperimentProfilesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

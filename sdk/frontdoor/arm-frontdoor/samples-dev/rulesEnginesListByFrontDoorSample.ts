@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the Rules Engine Configurations within a Front Door.
  *
  * @summary lists all of the Rules Engine Configurations within a Front Door.
- * x-ms-original-file: 2025-11-01/FrontdoorRulesEngineList.json
+ * x-ms-original-file: 2026-04-01/FrontdoorRulesEngineList.json
  */
 async function listRulesEngineConfigurationsInAFrontDoor(): Promise<void> {
   const credential = new DefaultAzureCredential();

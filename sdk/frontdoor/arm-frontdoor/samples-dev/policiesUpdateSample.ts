@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
  *
  * @summary patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.
- * x-ms-original-file: 2025-11-01/WafPolicyPatch.json
+ * x-ms-original-file: 2026-04-01/WafPolicyPatch.json
  */
 async function patchesSpecificPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
