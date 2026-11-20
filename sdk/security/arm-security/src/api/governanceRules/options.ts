@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ExecuteGovernanceRuleParams } from "../../models/governanceAPI/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { ExecuteGovernanceRuleParams } from "../../models/governanceAPI/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface GovernanceRulesOperationResultsOptionalParams extends OperationOptions {}

@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  jitNetworkAccessPolicyVirtualMachineArraySerializer,
-  JitNetworkAccessPolicyVirtualMachine,
-  jitNetworkAccessRequestArraySerializer,
-  JitNetworkAccessRequest,
-} from "../securitySolutionsAPI/models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type {
+  JitNetworkAccessPolicyVirtualMachine,
+  JitNetworkAccessRequest,
+} from "../securitySolutionsAPI/models.js";
+import {
+  jitNetworkAccessPolicyVirtualMachineArraySerializer,
+  jitNetworkAccessRequestArraySerializer,
+} from "../securitySolutionsAPI/models.js";
+
 /**
  * JIT network access policy resource for create/update operations.
  * Omits server-side read-only fields: location, provisioningState.

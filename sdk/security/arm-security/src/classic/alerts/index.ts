@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   simulate,
   listByResourceGroup,
@@ -19,7 +19,7 @@ import {
   listSubscriptionLevelByRegion,
   getSubscriptionLevel,
 } from "../../api/alerts/operations.js";
-import {
+import type {
   AlertsSimulateOptionalParams,
   AlertsListByResourceGroupOptionalParams,
   AlertsListOptionalParams,
@@ -36,10 +36,11 @@ import {
   AlertsListSubscriptionLevelByRegionOptionalParams,
   AlertsGetSubscriptionLevelOptionalParams,
 } from "../../api/alerts/options.js";
-import { Alert, AlertSimulatorRequestBody } from "../../models/alertsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Alert, AlertSimulatorRequestBody } from "../../models/alertsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Alerts operations. */
 export interface AlertsOperations {

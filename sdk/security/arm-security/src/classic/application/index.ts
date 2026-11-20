@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { $delete, createOrUpdate, get } from "../../api/application/operations.js";
-import {
+import type {
   ApplicationDeleteOptionalParams,
   ApplicationCreateOrUpdateOptionalParams,
   ApplicationGetOptionalParams,
 } from "../../api/application/options.js";
-import { Application } from "../../models/applicationsAPI/models.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
 
 /** Interface representing a Application operations. */
 export interface ApplicationOperations {

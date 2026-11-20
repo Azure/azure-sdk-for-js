@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/locations/operations.js";
-import {
+import type {
   LocationsListOptionalParams,
   LocationsGetOptionalParams,
 } from "../../api/locations/options.js";
-import { AscLocation } from "../../models/locationsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { AscLocation } from "../../models/locationsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Locations operations. */
 export interface LocationsOperations {

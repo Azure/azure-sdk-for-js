@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/securityStandards/operations.js";
-import {
+import type {
   SecurityStandardsListOptionalParams,
   SecurityStandardsDeleteOptionalParams,
   SecurityStandardsCreateOrUpdateOptionalParams,
   SecurityStandardsGetOptionalParams,
 } from "../../api/securityStandards/options.js";
-import { SecurityStandard } from "../../models/securityStandardsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecurityStandard } from "../../models/securityStandardsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityStandards operations. */
 export interface SecurityStandardsOperations {

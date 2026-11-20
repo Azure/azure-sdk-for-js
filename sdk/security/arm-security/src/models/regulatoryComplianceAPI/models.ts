@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { State } from "../common/models.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { State } from "../common/models.js";
+import type { ProxyResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Regulatory compliance standard details and state */
 export interface RegulatoryComplianceStandard extends ProxyResource {
   /** Aggregative state based on the standard's supported controls states */

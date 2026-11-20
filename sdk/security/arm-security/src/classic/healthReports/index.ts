@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/healthReports/operations.js";
-import {
+import type {
   HealthReportsListOptionalParams,
   HealthReportsGetOptionalParams,
 } from "../../api/healthReports/options.js";
-import { HealthReport } from "../../models/healthReportsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { HealthReport } from "../../models/healthReportsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HealthReports operations. */
 export interface HealthReportsOperations {

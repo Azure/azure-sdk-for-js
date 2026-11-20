@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, update, get } from "../../api/settings/operations.js";
-import {
+import type {
   SettingsListOptionalParams,
   SettingsUpdateOptionalParams,
   SettingsGetOptionalParams,
 } from "../../api/settings/options.js";
-import { SettingName } from "../../models/common/models.js";
-import { SettingUnion } from "../../models/settingsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SettingName } from "../../models/common/models.js";
+import type { SettingUnion } from "../../models/settingsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Settings operations. */
 export interface SettingsOperations {

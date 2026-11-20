@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listBySubscription,
   list,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/standards/operations.js";
-import {
+import type {
   StandardsListBySubscriptionOptionalParams,
   StandardsListOptionalParams,
   StandardsDeleteOptionalParams,
   StandardsCreateOrUpdateOptionalParams,
   StandardsGetOptionalParams,
 } from "../../api/standards/options.js";
-import { Standard } from "../../models/standardsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Standard } from "../../models/standardsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Standards operations. */
 export interface StandardsOperations {

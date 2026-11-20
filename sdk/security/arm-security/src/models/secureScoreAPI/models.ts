@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProxyResource, Resource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { ProxyResource, Resource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Secure score item data model */
 export interface SecureScoreItem extends ProxyResource {
   /** The initiative's name */

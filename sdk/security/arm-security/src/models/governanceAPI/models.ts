@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { ExtensionResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Governance assignment over a given scope */
 export interface GovernanceAssignment extends ExtensionResource {
   /** The Owner for the governance assignment - e.g. user@contoso.com - see example */

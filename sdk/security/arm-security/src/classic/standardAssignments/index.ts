@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, create, get } from "../../api/standardAssignments/operations.js";
-import {
+import type {
   StandardAssignmentsListOptionalParams,
   StandardAssignmentsDeleteOptionalParams,
   StandardAssignmentsCreateOptionalParams,
   StandardAssignmentsGetOptionalParams,
 } from "../../api/standardAssignments/options.js";
-import { StandardAssignment } from "../../models/securityStandardsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { StandardAssignment } from "../../models/securityStandardsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandardAssignments operations. */
 export interface StandardAssignmentsOperations {

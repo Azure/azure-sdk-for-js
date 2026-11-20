@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -176,6 +177,15 @@ export {
   KnownSecurityContactName,
 } from "./models/automationsAPI/index.js";
 export type {
+  PricingBatch,
+  PricingBatchProperties,
+  PricingBatchPlanItem,
+  PricingPropertiesReference,
+  PricingPlanOperationStatus,
+  PricingPlanOperationStatusCode,
+} from "./models/batchPricingsAPI/index.js";
+export { KnownPricingPlanOperationStatusCode } from "./models/batchPricingsAPI/index.js";
+export type {
   CloudError,
   CloudErrorBody,
   Severity,
@@ -213,15 +223,27 @@ export type {
   BlobScanResultsOptions,
   AutomatedResponseType,
   SensitiveDataDiscoveryProperties,
+  ManagedByType,
   MalwareScan,
   MalwareScanProperties,
+  MalwareScanStatus,
   ScanSummary,
   BlobsScanSummary,
   FilesScanSummary,
+  StartMalwareScanRequest,
+  StartMalwareScanRequestProperties,
+  MalwareScanFilters,
+  BlobScanFilter,
+  MatchFilter,
+  MatchType,
+  FileScanFilter,
 } from "./models/defenderForStorageAPI/index.js";
 export {
   KnownBlobScanResultsOptions,
   KnownAutomatedResponseType,
+  KnownManagedByType,
+  KnownMalwareScanStatus,
+  KnownMatchType,
 } from "./models/defenderForStorageAPI/index.js";
 export type {
   GovernanceAssignment,
@@ -372,6 +394,7 @@ export type {
   ResourcesCoverageStatus,
   Extension,
   IsEnabled,
+  OriginatedFrom,
   PricingList,
 } from "./models/pricingsAPI/index.js";
 export {
@@ -380,6 +403,7 @@ export {
   KnownInherited,
   KnownResourcesCoverageStatus,
   KnownIsEnabled,
+  KnownOriginatedFrom,
 } from "./models/pricingsAPI/index.js";
 export type {
   PrivateLinkGroupResource,
@@ -426,6 +450,7 @@ export type {
   DefenderForContainersAwsOfferingKubernetesDataCollection,
   DefenderForContainersAwsOfferingCloudWatchToKinesis,
   DefenderForContainersAwsOfferingKinesisToS3,
+  InstallationMethod,
   DefenderForContainersAwsOfferingMdcContainersImageAssessment,
   DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S,
   DefenderForContainersAwsOfferingVmScanners,
@@ -469,12 +494,22 @@ export type {
   DefenderCspmAwsOfferingDataSensitivityDiscovery,
   DefenderCspmAwsOfferingDatabasesDspm,
   DefenderCspmAwsOfferingCiem,
-  DefenderCspmAwsOfferingCiemDiscovery,
   DefenderCspmAwsOfferingCiemOidc,
+  DefenderCspmAwsOfferingCiemLogCollectionOidc,
+  AwsCloudTrailConfiguration,
+  AwsCloudTrailProvisioningType,
+  AwsCloudTrailResourceSet,
   DefenderCspmAwsOfferingMdcContainersImageAssessment,
   DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S,
+  DefenderCspmAwsOfferingServerlessContainers,
+  DefenderCspmAwsOfferingAgentlessServerlessPosture,
   DefenderCspmGcpOffering,
   DefenderCspmGcpOfferingCiemDiscovery,
+  DefenderCspmGcpOfferingCiem,
+  DefenderCspmGcpOfferingCiemOidc,
+  GcpAuditLogConfiguration,
+  GcpLoggingProvisioningType,
+  GcpLoggingResourceSet,
   DefenderCspmGcpOfferingVmScanners,
   DefenderCspmGcpOfferingDataSensitivityDiscovery,
   DefenderCspmGcpOfferingMdcContainersImageAssessment,
@@ -524,8 +559,11 @@ export type {
 export {
   KnownCloudName,
   KnownOfferingType,
+  KnownInstallationMethod,
   KnownType,
   KnownSubPlan,
+  KnownAwsCloudTrailProvisioningType,
+  KnownGcpLoggingProvisioningType,
   KnownEnvironmentType,
   KnownOrganizationMembershipType,
   KnownAuthenticationType,
@@ -890,6 +928,11 @@ export type {
   AzureDevOpsReposGetOptionalParams,
 } from "./api/azureDevOpsRepos/index.js";
 export type {
+  BatchPricingsCreateOrUpdateOptionalParams,
+  BatchPricingsGetOptionalParams,
+  BatchPricingsListOptionalParams,
+} from "./api/batchPricings/index.js";
+export type {
   ComplianceResultsListOptionalParams,
   ComplianceResultsGetOptionalParams,
 } from "./api/complianceResults/index.js";
@@ -905,8 +948,8 @@ export type {
 } from "./api/customRecommendations/index.js";
 export type {
   DefenderForStorageGetMalwareScanOptionalParams,
-  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageStartMalwareScanOptionalParams,
+  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageListOptionalParams,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageGetOptionalParams,
@@ -1208,6 +1251,7 @@ export type {
   AzureDevOpsOrgsOperations,
   AzureDevOpsProjectsOperations,
   AzureDevOpsReposOperations,
+  BatchPricingsOperations,
   ComplianceResultsOperations,
   CompliancesOperations,
   CustomRecommendationsOperations,

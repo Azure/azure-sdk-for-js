@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import {
-  Severity,
-  ResourceDetails,
-  resourceDetailsUnionSerializer,
-  resourceDetailsUnionDeserializer,
-  ResourceDetailsUnion,
-} from "../common/models.js";
-import { ProxyResource, Resource, systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { Severity, ResourceDetails, ResourceDetailsUnion } from "../common/models.js";
+import {
+  resourceDetailsUnionSerializer,
+  resourceDetailsUnionDeserializer,
+} from "../common/models.js";
+import type { ProxyResource, Resource, ExtensionResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Security assessment metadata response */
 export interface SecurityAssessmentMetadataResponse extends ProxyResource {
   /** User friendly display name of the assessment */

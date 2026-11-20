@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext as Client } from "../index.js";
+import type { SecurityCenterContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type { Pricing, PricingList } from "../../models/pricingsAPI/models.js";
 import {
-  Pricing,
   pricingSerializer,
   pricingDeserializer,
-  PricingList,
   pricingListDeserializer,
 } from "../../models/pricingsAPI/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   PricingsListOptionalParams,
   PricingsDeleteOptionalParams,
   PricingsUpdateOptionalParams,
   PricingsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -33,7 +28,7 @@ export function _listSend(
     "/{+scopeId}/providers/Microsoft.Security/pricings{?api%2Dversion,%24filter}",
     {
       scopeId: scopeId,
-      "api%2Dversion": "2024-01-01",
+      "api%2Dversion": "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -50,7 +45,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -79,7 +76,7 @@ export function _$deleteSend(
     {
       scopeId: scopeId,
       pricingName: pricingName,
-      "api%2Dversion": "2024-01-01",
+      "api%2Dversion": "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,7 +89,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,7 +122,7 @@ export function _updateSend(
     {
       scopeId: scopeId,
       pricingName: pricingName,
-      "api%2Dversion": "2024-01-01",
+      "api%2Dversion": "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +140,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -172,7 +173,7 @@ export function _getSend(
     {
       scopeId: scopeId,
       pricingName: pricingName,
-      "api%2Dversion": "2024-01-01",
+      "api%2Dversion": "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -188,7 +189,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { listAvailable, list, get } from "../../api/gitLabGroups/operations.js";
-import {
+import type {
   GitLabGroupsListAvailableOptionalParams,
   GitLabGroupsListOptionalParams,
   GitLabGroupsGetOptionalParams,
 } from "../../api/gitLabGroups/options.js";
-import {
+import type {
   GitLabGroup,
   GitLabGroupListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GitLabGroups operations. */
 export interface GitLabGroupsOperations {

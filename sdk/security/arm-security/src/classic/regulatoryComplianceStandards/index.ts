@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/regulatoryComplianceStandards/operations.js";
-import {
+import type {
   RegulatoryComplianceStandardsListOptionalParams,
   RegulatoryComplianceStandardsGetOptionalParams,
 } from "../../api/regulatoryComplianceStandards/options.js";
-import { RegulatoryComplianceStandard } from "../../models/regulatoryComplianceAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { RegulatoryComplianceStandard } from "../../models/regulatoryComplianceAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RegulatoryComplianceStandards operations. */
 export interface RegulatoryComplianceStandardsOperations {

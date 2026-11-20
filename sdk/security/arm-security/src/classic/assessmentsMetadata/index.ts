@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   list,
   get,
@@ -10,7 +10,7 @@ import {
   createInSubscription,
   getInSubscription,
 } from "../../api/assessmentsMetadata/operations.js";
-import {
+import type {
   AssessmentsMetadataListOptionalParams,
   AssessmentsMetadataGetOptionalParams,
   AssessmentsMetadataListBySubscriptionOptionalParams,
@@ -18,8 +18,8 @@ import {
   AssessmentsMetadataCreateInSubscriptionOptionalParams,
   AssessmentsMetadataGetInSubscriptionOptionalParams,
 } from "../../api/assessmentsMetadata/options.js";
-import { SecurityAssessmentMetadataResponse } from "../../models/assessmentAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecurityAssessmentMetadataResponse } from "../../models/assessmentAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AssessmentsMetadata operations. */
 export interface AssessmentsMetadataOperations {

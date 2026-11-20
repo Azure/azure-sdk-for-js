@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/privateLinkResources/operations.js";
-import {
+import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import { PrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PrivateLinkGroupResource } from "../../models/privateLinksAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

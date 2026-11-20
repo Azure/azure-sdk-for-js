@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/securityConnectors/operations.js";
-import {
+import type {
   SecurityConnectorsListOptionalParams,
   SecurityConnectorsListByResourceGroupOptionalParams,
   SecurityConnectorsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import {
   SecurityConnectorsCreateOrUpdateOptionalParams,
   SecurityConnectorsGetOptionalParams,
 } from "../../api/securityConnectors/options.js";
-import { SecurityConnector } from "../../models/securityConnectorsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecurityConnector } from "../../models/securityConnectorsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityConnectors operations. */
 export interface SecurityConnectorsOperations {

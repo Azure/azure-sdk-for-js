@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, createOrUpdate, get } from "../../api/sensitivitySettings/operations.js";
-import {
+import type {
   SensitivitySettingsListOptionalParams,
   SensitivitySettingsCreateOrUpdateOptionalParams,
   SensitivitySettingsGetOptionalParams,
 } from "../../api/sensitivitySettings/options.js";
-import {
+import type {
   GetSensitivitySettingsResponse,
   UpdateSensitivitySettingsRequest,
   GetSensitivitySettingsListResponse,

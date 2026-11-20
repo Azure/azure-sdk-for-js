@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { get } from "../../api/devOpsOperationResults/operations.js";
-import { DevOpsOperationResultsGetOptionalParams } from "../../api/devOpsOperationResults/options.js";
-import { OperationStatusResult } from "../../models/models.js";
+import type { DevOpsOperationResultsGetOptionalParams } from "../../api/devOpsOperationResults/options.js";
+import type { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a DevOpsOperationResults operations. */
 export interface DevOpsOperationResultsOperations {

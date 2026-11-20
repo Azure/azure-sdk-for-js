@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { create, get } from "../../api/advancedThreatProtection/operations.js";
-import {
+import type {
   AdvancedThreatProtectionCreateOptionalParams,
   AdvancedThreatProtectionGetOptionalParams,
 } from "../../api/advancedThreatProtection/options.js";
-import { AdvancedThreatProtectionSetting } from "../../models/atpSettingsAPI/models.js";
+import type { AdvancedThreatProtectionSetting } from "../../models/atpSettingsAPI/models.js";
 
 /** Interface representing a AdvancedThreatProtection operations. */
 export interface AdvancedThreatProtectionOperations {

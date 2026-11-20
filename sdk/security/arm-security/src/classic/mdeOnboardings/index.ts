@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, get } from "../../api/mdeOnboardings/operations.js";
-import {
+import type {
   MdeOnboardingsListOptionalParams,
   MdeOnboardingsGetOptionalParams,
 } from "../../api/mdeOnboardings/options.js";
-import { MdeOnboardingData, MdeOnboardingDataList } from "../../models/mdeOnboardingAPI/models.js";
+import type {
+  MdeOnboardingData,
+  MdeOnboardingDataList,
+} from "../../models/mdeOnboardingAPI/models.js";
 
 /** Interface representing a MdeOnboardings operations. */
 export interface MdeOnboardingsOperations {

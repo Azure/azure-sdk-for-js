@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { OperationStatus, operationStatusDeserializer } from "../common/models.js";
-import { systemDataDeserializer, ExtensionResource } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { OperationStatus } from "../common/models.js";
+import { operationStatusDeserializer } from "../common/models.js";
+import type { ExtensionResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
 export interface Pricing extends ExtensionResource {
   /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
@@ -35,11 +37,23 @@ export interface Pricing extends ExtensionResource {
   readonly deprecated?: boolean;
   /** Optional. List of plans that replace this plan. This property exists only if this plan is deprecated. */
   readonly replacedBy?: string[];
+  /** Resource ID of the security operator associated with the pricing configuration. */
+  securityOperatorResourceId?: string;
+  /** Indicates the origin of the most recent configuration change. */
+  readonly originatedFrom?: OriginatedFrom;
+  /** Indicates who exclusively manages the pricing configuration. */
+  readonly managedBy?: string;
 }
 
 export function pricingSerializer(item: Pricing): any {
   return {
-    properties: areAllPropsUndefined(item, ["pricingTier", "subPlan", "enforce", "extensions"])
+    properties: areAllPropsUndefined(item, [
+      "pricingTier",
+      "subPlan",
+      "enforce",
+      "extensions",
+      "securityOperatorResourceId",
+    ])
       ? undefined
       : _pricingPropertiesSerializer(item),
   };
@@ -83,6 +97,12 @@ export interface PricingProperties {
   readonly deprecated?: boolean;
   /** Optional. List of plans that replace this plan. This property exists only if this plan is deprecated. */
   readonly replacedBy?: string[];
+  /** Resource ID of the security operator associated with the pricing configuration. */
+  securityOperatorResourceId?: string;
+  /** Indicates the origin of the most recent configuration change. */
+  readonly originatedFrom?: OriginatedFrom;
+  /** Indicates who exclusively manages the pricing configuration. */
+  readonly managedBy?: string;
 }
 
 export function pricingPropertiesSerializer(item: PricingProperties): any {
@@ -93,6 +113,7 @@ export function pricingPropertiesSerializer(item: PricingProperties): any {
     extensions: !item["extensions"]
       ? item["extensions"]
       : extensionArraySerializer(item["extensions"]),
+    securityOperatorResourceId: item["securityOperatorResourceId"],
   };
 }
 
@@ -117,6 +138,9 @@ export function pricingPropertiesDeserializer(item: any): PricingProperties {
       : item["replacedBy"].map((p: any) => {
           return p;
         }),
+    securityOperatorResourceId: item["securityOperatorResourceId"],
+    originatedFrom: item["originatedFrom"],
+    managedBy: item["managedBy"],
   };
 }
 
@@ -217,6 +241,8 @@ export interface Extension {
   additionalExtensionProperties?: Record<string, any>;
   /** Optional. A status describing the success/failure of the extension's enablement/disablement operation. */
   readonly operationStatus?: OperationStatus;
+  /** Resource ID of the security operator associated with the extension. */
+  securityOperatorResourceId?: string;
 }
 
 export function extensionSerializer(item: Extension): any {
@@ -224,6 +250,7 @@ export function extensionSerializer(item: Extension): any {
     name: item["name"],
     isEnabled: item["isEnabled"],
     additionalExtensionProperties: item["additionalExtensionProperties"],
+    securityOperatorResourceId: item["securityOperatorResourceId"],
   };
 }
 
@@ -242,6 +269,7 @@ export function extensionDeserializer(item: any): Extension {
     operationStatus: !item["operationStatus"]
       ? item["operationStatus"]
       : operationStatusDeserializer(item["operationStatus"]),
+    securityOperatorResourceId: item["securityOperatorResourceId"],
   };
 }
 
@@ -262,6 +290,21 @@ export enum KnownIsEnabled {
  * **False**: Indicates the extension is disabled
  */
 export type IsEnabled = string;
+
+/** Indicates the origin of the most recent pricing configuration change. */
+export enum KnownOriginatedFrom {
+  /** Indicates that the configuration change originated from Microsoft 365. */
+  M365 = "M365",
+}
+
+/**
+ * Indicates the origin of the most recent pricing configuration change. \
+ * {@link KnownOriginatedFrom} can be used interchangeably with OriginatedFrom,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **M365**: Indicates that the configuration change originated from Microsoft 365.
+ */
+export type OriginatedFrom = string;
 
 /** List of pricing configurations response. */
 export interface PricingList {
@@ -295,6 +338,7 @@ export function _pricingPropertiesSerializer(item: Pricing): any {
     extensions: !item["extensions"]
       ? item["extensions"]
       : extensionArraySerializer(item["extensions"]),
+    securityOperatorResourceId: item["securityOperatorResourceId"],
   };
 }
 
@@ -319,5 +363,8 @@ export function _pricingPropertiesDeserializer(item: any) {
       : item["replacedBy"].map((p: any) => {
           return p;
         }),
+    securityOperatorResourceId: item["securityOperatorResourceId"],
+    originatedFrom: item["originatedFrom"],
+    managedBy: item["managedBy"],
   };
 }

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, listByHomeRegion, get } from "../../api/topology/operations.js";
-import {
+import type {
   TopologyListOptionalParams,
   TopologyListByHomeRegionOptionalParams,
   TopologyGetOptionalParams,
 } from "../../api/topology/options.js";
-import { TopologyResource } from "../../models/securitySolutionsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { TopologyResource } from "../../models/securitySolutionsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Topology operations. */
 export interface TopologyOperations {

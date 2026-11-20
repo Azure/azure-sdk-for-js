@@ -1,41 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext as Client } from "../index.js";
-import { cloudErrorDeserializer, SettingName } from "../../models/common/models.js";
-import {
+import type { SecurityCenterContext as Client } from "../index.js";
+import { cloudErrorDeserializer } from "../../models/common/models.js";
+import type {
   DefenderForStorageSetting,
-  defenderForStorageSettingSerializer,
-  defenderForStorageSettingDeserializer,
   _DefenderForStorageSettingList,
-  _defenderForStorageSettingListDeserializer,
   MalwareScan,
-  malwareScanDeserializer,
 } from "../../models/defenderForStorageAPI/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  defenderForStorageSettingSerializer,
+  defenderForStorageSettingDeserializer,
+  _defenderForStorageSettingListDeserializer,
+  malwareScanDeserializer,
+  startMalwareScanRequestSerializer,
+} from "../../models/defenderForStorageAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DefenderForStorageGetMalwareScanOptionalParams,
-  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageStartMalwareScanOptionalParams,
+  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageListOptionalParams,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getMalwareScanSend(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   scanId: string,
   options: DefenderForStorageGetMalwareScanOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -45,7 +42,7 @@ export function _getMalwareScanSend(
       resourceId: resourceId,
       settingName: settingName,
       scanId: scanId,
-      "api%2Dversion": "2025-09-01-preview",
+      "api%2Dversion": "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +60,9 @@ export async function _getMalwareScanDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -75,7 +74,7 @@ export async function _getMalwareScanDeserialize(
 export async function getMalwareScan(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   scanId: string,
   options: DefenderForStorageGetMalwareScanOptionalParams = { requestOptions: {} },
 ): Promise<MalwareScan> {
@@ -83,10 +82,62 @@ export async function getMalwareScan(
   return _getMalwareScanDeserialize(result);
 }
 
+export function _startMalwareScanSend(
+  context: Client,
+  resourceId: string,
+  settingName: string,
+  options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/{+resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/startMalwareScan{?api%2Dversion}",
+    {
+      resourceId: resourceId,
+      settingName: settingName,
+      "api%2Dversion": "2026-09-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.body ? options?.body : startMalwareScanRequestSerializer(options?.body),
+  });
+}
+
+export async function _startMalwareScanDeserialize(
+  result: PathUncheckedResponse,
+): Promise<MalwareScan> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return malwareScanDeserializer(result.body);
+}
+
+/** Initiate a Defender for Storage malware scan for the specified storage account. Blobs and Files will be scanned for malware. */
+export async function startMalwareScan(
+  context: Client,
+  resourceId: string,
+  settingName: string,
+  options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
+): Promise<MalwareScan> {
+  const result = await _startMalwareScanSend(context, resourceId, settingName, options);
+  return _startMalwareScanDeserialize(result);
+}
+
 export function _cancelMalwareScanSend(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   scanId: string,
   options: DefenderForStorageCancelMalwareScanOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -96,7 +147,7 @@ export function _cancelMalwareScanSend(
       resourceId: resourceId,
       settingName: settingName,
       scanId: scanId,
-      "api%2Dversion": "2025-09-01-preview",
+      "api%2Dversion": "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +165,9 @@ export async function _cancelMalwareScanDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -126,60 +179,12 @@ export async function _cancelMalwareScanDeserialize(
 export async function cancelMalwareScan(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   scanId: string,
   options: DefenderForStorageCancelMalwareScanOptionalParams = { requestOptions: {} },
 ): Promise<MalwareScan> {
   const result = await _cancelMalwareScanSend(context, resourceId, settingName, scanId, options);
   return _cancelMalwareScanDeserialize(result);
-}
-
-export function _startMalwareScanSend(
-  context: Client,
-  resourceId: string,
-  settingName: SettingName,
-  options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/{+resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/startMalwareScan{?api%2Dversion}",
-    {
-      resourceId: resourceId,
-      settingName: settingName,
-      "api%2Dversion": "2025-09-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _startMalwareScanDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MalwareScan> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return malwareScanDeserializer(result.body);
-}
-
-/** Initiate a Defender for Storage malware scan for the specified storage account. Blobs and Files will be scanned for malware. */
-export async function startMalwareScan(
-  context: Client,
-  resourceId: string,
-  settingName: SettingName,
-  options: DefenderForStorageStartMalwareScanOptionalParams = { requestOptions: {} },
-): Promise<MalwareScan> {
-  const result = await _startMalwareScanSend(context, resourceId, settingName, options);
-  return _startMalwareScanDeserialize(result);
 }
 
 export function _listSend(
@@ -191,7 +196,7 @@ export function _listSend(
     "/{+resourceId}/providers/Microsoft.Security/defenderForStorageSettings{?api%2Dversion}",
     {
       resourceId: resourceId,
-      "api%2Dversion": "2025-09-01-preview",
+      "api%2Dversion": "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +214,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -228,14 +235,14 @@ export function list(
     () => _listSend(context, resourceId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-09-01-preview" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-09-01" },
   );
 }
 
 export function _createSend(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   defenderForStorageSetting: DefenderForStorageSetting,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -244,7 +251,7 @@ export function _createSend(
     {
       resourceId: resourceId,
       settingName: settingName,
-      "api%2Dversion": "2025-09-01-preview",
+      "api%2Dversion": "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -264,7 +271,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -276,7 +285,7 @@ export async function _createDeserialize(
 export async function create(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   defenderForStorageSetting: DefenderForStorageSetting,
   options: DefenderForStorageCreateOptionalParams = { requestOptions: {} },
 ): Promise<DefenderForStorageSetting> {
@@ -293,7 +302,7 @@ export async function create(
 export function _getSend(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   options: DefenderForStorageGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -301,7 +310,7 @@ export function _getSend(
     {
       resourceId: resourceId,
       settingName: settingName,
-      "api%2Dversion": "2025-09-01-preview",
+      "api%2Dversion": "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,7 +328,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -331,7 +342,7 @@ export async function _getDeserialize(
 export async function get(
   context: Client,
   resourceId: string,
-  settingName: SettingName,
+  settingName: string,
   options: DefenderForStorageGetOptionalParams = { requestOptions: {} },
 ): Promise<DefenderForStorageSetting> {
   const result = await _getSend(context, resourceId, settingName, options);

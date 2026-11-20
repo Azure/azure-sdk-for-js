@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listByResourceGroup,
   list,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jitNetworkAccessPolicies/operations.js";
-import {
+import type {
   JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
   JitNetworkAccessPoliciesListOptionalParams,
   JitNetworkAccessPoliciesInitiateOptionalParams,
@@ -22,13 +22,13 @@ import {
   JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
   JitNetworkAccessPoliciesGetOptionalParams,
 } from "../../api/jitNetworkAccessPolicies/options.js";
-import { JitNetworkAccessPolicyCreate } from "../../models/securityManagementClient/models.js";
-import {
+import type { JitNetworkAccessPolicyCreate } from "../../models/securityManagementClient/models.js";
+import type {
   JitNetworkAccessPolicy,
   JitNetworkAccessRequest,
   JitNetworkAccessPolicyInitiateRequest,
 } from "../../models/securitySolutionsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JitNetworkAccessPolicies operations. */
 export interface JitNetworkAccessPoliciesOperations {

@@ -1,275 +1,164 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  SecurityCenterContext,
-  SecurityCenterOptionalParams,
-  createSecurityCenter,
-} from "./api/index.js";
-import {
-  AdvancedThreatProtectionOperations,
-  _getAdvancedThreatProtectionOperations,
-} from "./classic/advancedThreatProtection/index.js";
-import { AlertsOperations, _getAlertsOperations } from "./classic/alerts/index.js";
-import {
-  AlertsSuppressionRulesOperations,
-  _getAlertsSuppressionRulesOperations,
-} from "./classic/alertsSuppressionRules/index.js";
-import {
-  AllowedConnectionsOperations,
-  _getAllowedConnectionsOperations,
-} from "./classic/allowedConnections/index.js";
-import {
-  APICollectionsOperations,
-  _getAPICollectionsOperations,
-} from "./classic/apiCollections/index.js";
-import { ApplicationOperations, _getApplicationOperations } from "./classic/application/index.js";
-import {
-  ApplicationsOperations,
-  _getApplicationsOperations,
-} from "./classic/applications/index.js";
-import { AssessmentsOperations, _getAssessmentsOperations } from "./classic/assessments/index.js";
-import {
-  AssessmentsMetadataOperations,
-  _getAssessmentsMetadataOperations,
-} from "./classic/assessmentsMetadata/index.js";
-import { AssignmentsOperations, _getAssignmentsOperations } from "./classic/assignments/index.js";
-import {
-  AutoProvisioningSettingsOperations,
-  _getAutoProvisioningSettingsOperations,
-} from "./classic/autoProvisioningSettings/index.js";
-import { AutomationsOperations, _getAutomationsOperations } from "./classic/automations/index.js";
-import {
-  AzureDevOpsOrgsOperations,
-  _getAzureDevOpsOrgsOperations,
-} from "./classic/azureDevOpsOrgs/index.js";
-import {
-  AzureDevOpsProjectsOperations,
-  _getAzureDevOpsProjectsOperations,
-} from "./classic/azureDevOpsProjects/index.js";
-import {
-  AzureDevOpsReposOperations,
-  _getAzureDevOpsReposOperations,
-} from "./classic/azureDevOpsRepos/index.js";
-import {
-  ComplianceResultsOperations,
-  _getComplianceResultsOperations,
-} from "./classic/complianceResults/index.js";
-import { CompliancesOperations, _getCompliancesOperations } from "./classic/compliances/index.js";
-import {
-  CustomRecommendationsOperations,
-  _getCustomRecommendationsOperations,
-} from "./classic/customRecommendations/index.js";
-import {
-  DefenderForStorageOperations,
-  _getDefenderForStorageOperations,
-} from "./classic/defenderForStorage/index.js";
-import {
-  DevOpsConfigurationsOperations,
-  _getDevOpsConfigurationsOperations,
-} from "./classic/devOpsConfigurations/index.js";
-import {
-  DevOpsOperationResultsOperations,
-  _getDevOpsOperationResultsOperations,
-} from "./classic/devOpsOperationResults/index.js";
-import {
-  DeviceSecurityGroupsOperations,
-  _getDeviceSecurityGroupsOperations,
-} from "./classic/deviceSecurityGroups/index.js";
-import {
-  DiscoveredSecuritySolutionsOperations,
-  _getDiscoveredSecuritySolutionsOperations,
-} from "./classic/discoveredSecuritySolutions/index.js";
-import {
-  ExternalSecuritySolutionsOperations,
-  _getExternalSecuritySolutionsOperations,
-} from "./classic/externalSecuritySolutions/index.js";
-import {
-  GitHubIssuesOperations,
-  _getGitHubIssuesOperations,
-} from "./classic/gitHubIssues/index.js";
-import {
-  GitHubOwnersOperations,
-  _getGitHubOwnersOperations,
-} from "./classic/gitHubOwners/index.js";
-import { GitHubReposOperations, _getGitHubReposOperations } from "./classic/gitHubRepos/index.js";
-import {
-  GitLabGroupsOperations,
-  _getGitLabGroupsOperations,
-} from "./classic/gitLabGroups/index.js";
-import {
-  GitLabProjectsOperations,
-  _getGitLabProjectsOperations,
-} from "./classic/gitLabProjects/index.js";
-import {
-  GitLabSubgroupsOperations,
-  _getGitLabSubgroupsOperations,
-} from "./classic/gitLabSubgroups/index.js";
-import {
-  GovernanceAssignmentsOperations,
-  _getGovernanceAssignmentsOperations,
-} from "./classic/governanceAssignments/index.js";
-import {
-  GovernanceRulesOperations,
-  _getGovernanceRulesOperations,
-} from "./classic/governanceRules/index.js";
-import {
-  HealthReportsOperations,
-  _getHealthReportsOperations,
-} from "./classic/healthReports/index.js";
-import {
-  InformationProtectionPoliciesOperations,
-  _getInformationProtectionPoliciesOperations,
-} from "./classic/informationProtectionPolicies/index.js";
-import {
-  IotSecuritySolutionOperations,
-  _getIotSecuritySolutionOperations,
-} from "./classic/iotSecuritySolution/index.js";
-import {
-  IotSecuritySolutionAnalyticsOperations,
-  _getIotSecuritySolutionAnalyticsOperations,
-} from "./classic/iotSecuritySolutionAnalytics/index.js";
-import {
-  IotSecuritySolutionsAnalyticsAggregatedAlertOperations,
-  _getIotSecuritySolutionsAnalyticsAggregatedAlertOperations,
-} from "./classic/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js";
-import {
-  IotSecuritySolutionsAnalyticsRecommendationOperations,
-  _getIotSecuritySolutionsAnalyticsRecommendationOperations,
-} from "./classic/iotSecuritySolutionsAnalyticsRecommendation/index.js";
-import {
-  JitNetworkAccessPoliciesOperations,
-  _getJitNetworkAccessPoliciesOperations,
-} from "./classic/jitNetworkAccessPolicies/index.js";
-import { LocationsOperations, _getLocationsOperations } from "./classic/locations/index.js";
-import {
-  MdeOnboardingsOperations,
-  _getMdeOnboardingsOperations,
-} from "./classic/mdeOnboardings/index.js";
-import {
-  OperationResultsOperations,
-  _getOperationResultsOperations,
-} from "./classic/operationResults/index.js";
-import {
-  OperationStatusesOperations,
-  _getOperationStatusesOperations,
-} from "./classic/operationStatuses/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { PricingsOperations, _getPricingsOperations } from "./classic/pricings/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import {
-  PrivateLinksOperations,
-  _getPrivateLinksOperations,
-} from "./classic/privateLinks/index.js";
-import {
-  RegulatoryComplianceAssessmentsOperations,
-  _getRegulatoryComplianceAssessmentsOperations,
-} from "./classic/regulatoryComplianceAssessments/index.js";
-import {
-  RegulatoryComplianceControlsOperations,
-  _getRegulatoryComplianceControlsOperations,
-} from "./classic/regulatoryComplianceControls/index.js";
-import {
-  RegulatoryComplianceStandardsOperations,
-  _getRegulatoryComplianceStandardsOperations,
-} from "./classic/regulatoryComplianceStandards/index.js";
-import {
-  SecureScoreControlDefinitionsOperations,
-  _getSecureScoreControlDefinitionsOperations,
-} from "./classic/secureScoreControlDefinitions/index.js";
-import {
-  SecureScoreControlsOperations,
-  _getSecureScoreControlsOperations,
-} from "./classic/secureScoreControls/index.js";
-import {
-  SecureScoresOperations,
-  _getSecureScoresOperations,
-} from "./classic/secureScores/index.js";
-import {
-  SecurityConnectorApplicationOperations,
-  _getSecurityConnectorApplicationOperations,
-} from "./classic/securityConnectorApplication/index.js";
-import {
-  SecurityConnectorApplicationsOperations,
-  _getSecurityConnectorApplicationsOperations,
-} from "./classic/securityConnectorApplications/index.js";
-import {
-  SecurityConnectorsOperations,
-  _getSecurityConnectorsOperations,
-} from "./classic/securityConnectors/index.js";
-import {
-  SecurityContactsOperations,
-  _getSecurityContactsOperations,
-} from "./classic/securityContacts/index.js";
-import {
-  SecurityOperatorsOperations,
-  _getSecurityOperatorsOperations,
-} from "./classic/securityOperators/index.js";
-import {
-  SecuritySolutionsOperations,
-  _getSecuritySolutionsOperations,
-} from "./classic/securitySolutions/index.js";
-import {
-  SecuritySolutionsReferenceDataOperations,
-  _getSecuritySolutionsReferenceDataOperations,
-} from "./classic/securitySolutionsReferenceData/index.js";
-import {
-  SecurityStandardsOperations,
-  _getSecurityStandardsOperations,
-} from "./classic/securityStandards/index.js";
-import {
-  SensitivitySettingsOperations,
-  _getSensitivitySettingsOperations,
-} from "./classic/sensitivitySettings/index.js";
-import {
-  ServerVulnerabilityAssessmentOperations,
-  _getServerVulnerabilityAssessmentOperations,
-} from "./classic/serverVulnerabilityAssessment/index.js";
-import {
-  ServerVulnerabilityAssessmentsSettingsOperations,
-  _getServerVulnerabilityAssessmentsSettingsOperations,
-} from "./classic/serverVulnerabilityAssessmentsSettings/index.js";
-import { SettingsOperations, _getSettingsOperations } from "./classic/settings/index.js";
-import {
-  SqlVulnerabilityAssessmentBaselineRulesOperations,
-  _getSqlVulnerabilityAssessmentBaselineRulesOperations,
-} from "./classic/sqlVulnerabilityAssessmentBaselineRules/index.js";
-import {
-  SqlVulnerabilityAssessmentScanResultsOperations,
-  _getSqlVulnerabilityAssessmentScanResultsOperations,
-} from "./classic/sqlVulnerabilityAssessmentScanResults/index.js";
-import {
-  SqlVulnerabilityAssessmentScansOperations,
-  _getSqlVulnerabilityAssessmentScansOperations,
-} from "./classic/sqlVulnerabilityAssessmentScans/index.js";
-import {
-  SqlVulnerabilityAssessmentSettingsOperations,
-  _getSqlVulnerabilityAssessmentSettingsOperations,
-} from "./classic/sqlVulnerabilityAssessmentSettings/index.js";
-import {
-  StandardAssignmentsOperations,
-  _getStandardAssignmentsOperations,
-} from "./classic/standardAssignments/index.js";
-import { StandardsOperations, _getStandardsOperations } from "./classic/standards/index.js";
-import {
-  SubAssessmentsOperations,
-  _getSubAssessmentsOperations,
-} from "./classic/subAssessments/index.js";
-import { TasksOperations, _getTasksOperations } from "./classic/tasks/index.js";
-import { TopologyOperations, _getTopologyOperations } from "./classic/topology/index.js";
-import {
-  WorkspaceSettingsOperations,
-  _getWorkspaceSettingsOperations,
-} from "./classic/workspaceSettings/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { SecurityCenterContext, SecurityCenterOptionalParams } from "./api/index.js";
+import { createSecurityCenter } from "./api/index.js";
+import type { AdvancedThreatProtectionOperations } from "./classic/advancedThreatProtection/index.js";
+import { _getAdvancedThreatProtectionOperations } from "./classic/advancedThreatProtection/index.js";
+import type { AlertsOperations } from "./classic/alerts/index.js";
+import { _getAlertsOperations } from "./classic/alerts/index.js";
+import type { AlertsSuppressionRulesOperations } from "./classic/alertsSuppressionRules/index.js";
+import { _getAlertsSuppressionRulesOperations } from "./classic/alertsSuppressionRules/index.js";
+import type { AllowedConnectionsOperations } from "./classic/allowedConnections/index.js";
+import { _getAllowedConnectionsOperations } from "./classic/allowedConnections/index.js";
+import type { APICollectionsOperations } from "./classic/apiCollections/index.js";
+import { _getAPICollectionsOperations } from "./classic/apiCollections/index.js";
+import type { ApplicationOperations } from "./classic/application/index.js";
+import { _getApplicationOperations } from "./classic/application/index.js";
+import type { ApplicationsOperations } from "./classic/applications/index.js";
+import { _getApplicationsOperations } from "./classic/applications/index.js";
+import type { AssessmentsOperations } from "./classic/assessments/index.js";
+import { _getAssessmentsOperations } from "./classic/assessments/index.js";
+import type { AssessmentsMetadataOperations } from "./classic/assessmentsMetadata/index.js";
+import { _getAssessmentsMetadataOperations } from "./classic/assessmentsMetadata/index.js";
+import type { AssignmentsOperations } from "./classic/assignments/index.js";
+import { _getAssignmentsOperations } from "./classic/assignments/index.js";
+import type { AutoProvisioningSettingsOperations } from "./classic/autoProvisioningSettings/index.js";
+import { _getAutoProvisioningSettingsOperations } from "./classic/autoProvisioningSettings/index.js";
+import type { AutomationsOperations } from "./classic/automations/index.js";
+import { _getAutomationsOperations } from "./classic/automations/index.js";
+import type { AzureDevOpsOrgsOperations } from "./classic/azureDevOpsOrgs/index.js";
+import { _getAzureDevOpsOrgsOperations } from "./classic/azureDevOpsOrgs/index.js";
+import type { AzureDevOpsProjectsOperations } from "./classic/azureDevOpsProjects/index.js";
+import { _getAzureDevOpsProjectsOperations } from "./classic/azureDevOpsProjects/index.js";
+import type { AzureDevOpsReposOperations } from "./classic/azureDevOpsRepos/index.js";
+import { _getAzureDevOpsReposOperations } from "./classic/azureDevOpsRepos/index.js";
+import type { BatchPricingsOperations } from "./classic/batchPricings/index.js";
+import { _getBatchPricingsOperations } from "./classic/batchPricings/index.js";
+import type { ComplianceResultsOperations } from "./classic/complianceResults/index.js";
+import { _getComplianceResultsOperations } from "./classic/complianceResults/index.js";
+import type { CompliancesOperations } from "./classic/compliances/index.js";
+import { _getCompliancesOperations } from "./classic/compliances/index.js";
+import type { CustomRecommendationsOperations } from "./classic/customRecommendations/index.js";
+import { _getCustomRecommendationsOperations } from "./classic/customRecommendations/index.js";
+import type { DefenderForStorageOperations } from "./classic/defenderForStorage/index.js";
+import { _getDefenderForStorageOperations } from "./classic/defenderForStorage/index.js";
+import type { DevOpsConfigurationsOperations } from "./classic/devOpsConfigurations/index.js";
+import { _getDevOpsConfigurationsOperations } from "./classic/devOpsConfigurations/index.js";
+import type { DevOpsOperationResultsOperations } from "./classic/devOpsOperationResults/index.js";
+import { _getDevOpsOperationResultsOperations } from "./classic/devOpsOperationResults/index.js";
+import type { DeviceSecurityGroupsOperations } from "./classic/deviceSecurityGroups/index.js";
+import { _getDeviceSecurityGroupsOperations } from "./classic/deviceSecurityGroups/index.js";
+import type { DiscoveredSecuritySolutionsOperations } from "./classic/discoveredSecuritySolutions/index.js";
+import { _getDiscoveredSecuritySolutionsOperations } from "./classic/discoveredSecuritySolutions/index.js";
+import type { ExternalSecuritySolutionsOperations } from "./classic/externalSecuritySolutions/index.js";
+import { _getExternalSecuritySolutionsOperations } from "./classic/externalSecuritySolutions/index.js";
+import type { GitHubIssuesOperations } from "./classic/gitHubIssues/index.js";
+import { _getGitHubIssuesOperations } from "./classic/gitHubIssues/index.js";
+import type { GitHubOwnersOperations } from "./classic/gitHubOwners/index.js";
+import { _getGitHubOwnersOperations } from "./classic/gitHubOwners/index.js";
+import type { GitHubReposOperations } from "./classic/gitHubRepos/index.js";
+import { _getGitHubReposOperations } from "./classic/gitHubRepos/index.js";
+import type { GitLabGroupsOperations } from "./classic/gitLabGroups/index.js";
+import { _getGitLabGroupsOperations } from "./classic/gitLabGroups/index.js";
+import type { GitLabProjectsOperations } from "./classic/gitLabProjects/index.js";
+import { _getGitLabProjectsOperations } from "./classic/gitLabProjects/index.js";
+import type { GitLabSubgroupsOperations } from "./classic/gitLabSubgroups/index.js";
+import { _getGitLabSubgroupsOperations } from "./classic/gitLabSubgroups/index.js";
+import type { GovernanceAssignmentsOperations } from "./classic/governanceAssignments/index.js";
+import { _getGovernanceAssignmentsOperations } from "./classic/governanceAssignments/index.js";
+import type { GovernanceRulesOperations } from "./classic/governanceRules/index.js";
+import { _getGovernanceRulesOperations } from "./classic/governanceRules/index.js";
+import type { HealthReportsOperations } from "./classic/healthReports/index.js";
+import { _getHealthReportsOperations } from "./classic/healthReports/index.js";
+import type { InformationProtectionPoliciesOperations } from "./classic/informationProtectionPolicies/index.js";
+import { _getInformationProtectionPoliciesOperations } from "./classic/informationProtectionPolicies/index.js";
+import type { IotSecuritySolutionOperations } from "./classic/iotSecuritySolution/index.js";
+import { _getIotSecuritySolutionOperations } from "./classic/iotSecuritySolution/index.js";
+import type { IotSecuritySolutionAnalyticsOperations } from "./classic/iotSecuritySolutionAnalytics/index.js";
+import { _getIotSecuritySolutionAnalyticsOperations } from "./classic/iotSecuritySolutionAnalytics/index.js";
+import type { IotSecuritySolutionsAnalyticsAggregatedAlertOperations } from "./classic/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js";
+import { _getIotSecuritySolutionsAnalyticsAggregatedAlertOperations } from "./classic/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js";
+import type { IotSecuritySolutionsAnalyticsRecommendationOperations } from "./classic/iotSecuritySolutionsAnalyticsRecommendation/index.js";
+import { _getIotSecuritySolutionsAnalyticsRecommendationOperations } from "./classic/iotSecuritySolutionsAnalyticsRecommendation/index.js";
+import type { JitNetworkAccessPoliciesOperations } from "./classic/jitNetworkAccessPolicies/index.js";
+import { _getJitNetworkAccessPoliciesOperations } from "./classic/jitNetworkAccessPolicies/index.js";
+import type { LocationsOperations } from "./classic/locations/index.js";
+import { _getLocationsOperations } from "./classic/locations/index.js";
+import type { MdeOnboardingsOperations } from "./classic/mdeOnboardings/index.js";
+import { _getMdeOnboardingsOperations } from "./classic/mdeOnboardings/index.js";
+import type { OperationResultsOperations } from "./classic/operationResults/index.js";
+import { _getOperationResultsOperations } from "./classic/operationResults/index.js";
+import type { OperationStatusesOperations } from "./classic/operationStatuses/index.js";
+import { _getOperationStatusesOperations } from "./classic/operationStatuses/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PricingsOperations } from "./classic/pricings/index.js";
+import { _getPricingsOperations } from "./classic/pricings/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import { _getPrivateLinksOperations } from "./classic/privateLinks/index.js";
+import type { RegulatoryComplianceAssessmentsOperations } from "./classic/regulatoryComplianceAssessments/index.js";
+import { _getRegulatoryComplianceAssessmentsOperations } from "./classic/regulatoryComplianceAssessments/index.js";
+import type { RegulatoryComplianceControlsOperations } from "./classic/regulatoryComplianceControls/index.js";
+import { _getRegulatoryComplianceControlsOperations } from "./classic/regulatoryComplianceControls/index.js";
+import type { RegulatoryComplianceStandardsOperations } from "./classic/regulatoryComplianceStandards/index.js";
+import { _getRegulatoryComplianceStandardsOperations } from "./classic/regulatoryComplianceStandards/index.js";
+import type { SecureScoreControlDefinitionsOperations } from "./classic/secureScoreControlDefinitions/index.js";
+import { _getSecureScoreControlDefinitionsOperations } from "./classic/secureScoreControlDefinitions/index.js";
+import type { SecureScoreControlsOperations } from "./classic/secureScoreControls/index.js";
+import { _getSecureScoreControlsOperations } from "./classic/secureScoreControls/index.js";
+import type { SecureScoresOperations } from "./classic/secureScores/index.js";
+import { _getSecureScoresOperations } from "./classic/secureScores/index.js";
+import type { SecurityConnectorApplicationOperations } from "./classic/securityConnectorApplication/index.js";
+import { _getSecurityConnectorApplicationOperations } from "./classic/securityConnectorApplication/index.js";
+import type { SecurityConnectorApplicationsOperations } from "./classic/securityConnectorApplications/index.js";
+import { _getSecurityConnectorApplicationsOperations } from "./classic/securityConnectorApplications/index.js";
+import type { SecurityConnectorsOperations } from "./classic/securityConnectors/index.js";
+import { _getSecurityConnectorsOperations } from "./classic/securityConnectors/index.js";
+import type { SecurityContactsOperations } from "./classic/securityContacts/index.js";
+import { _getSecurityContactsOperations } from "./classic/securityContacts/index.js";
+import type { SecurityOperatorsOperations } from "./classic/securityOperators/index.js";
+import { _getSecurityOperatorsOperations } from "./classic/securityOperators/index.js";
+import type { SecuritySolutionsOperations } from "./classic/securitySolutions/index.js";
+import { _getSecuritySolutionsOperations } from "./classic/securitySolutions/index.js";
+import type { SecuritySolutionsReferenceDataOperations } from "./classic/securitySolutionsReferenceData/index.js";
+import { _getSecuritySolutionsReferenceDataOperations } from "./classic/securitySolutionsReferenceData/index.js";
+import type { SecurityStandardsOperations } from "./classic/securityStandards/index.js";
+import { _getSecurityStandardsOperations } from "./classic/securityStandards/index.js";
+import type { SensitivitySettingsOperations } from "./classic/sensitivitySettings/index.js";
+import { _getSensitivitySettingsOperations } from "./classic/sensitivitySettings/index.js";
+import type { ServerVulnerabilityAssessmentOperations } from "./classic/serverVulnerabilityAssessment/index.js";
+import { _getServerVulnerabilityAssessmentOperations } from "./classic/serverVulnerabilityAssessment/index.js";
+import type { ServerVulnerabilityAssessmentsSettingsOperations } from "./classic/serverVulnerabilityAssessmentsSettings/index.js";
+import { _getServerVulnerabilityAssessmentsSettingsOperations } from "./classic/serverVulnerabilityAssessmentsSettings/index.js";
+import type { SettingsOperations } from "./classic/settings/index.js";
+import { _getSettingsOperations } from "./classic/settings/index.js";
+import type { SqlVulnerabilityAssessmentBaselineRulesOperations } from "./classic/sqlVulnerabilityAssessmentBaselineRules/index.js";
+import { _getSqlVulnerabilityAssessmentBaselineRulesOperations } from "./classic/sqlVulnerabilityAssessmentBaselineRules/index.js";
+import type { SqlVulnerabilityAssessmentScanResultsOperations } from "./classic/sqlVulnerabilityAssessmentScanResults/index.js";
+import { _getSqlVulnerabilityAssessmentScanResultsOperations } from "./classic/sqlVulnerabilityAssessmentScanResults/index.js";
+import type { SqlVulnerabilityAssessmentScansOperations } from "./classic/sqlVulnerabilityAssessmentScans/index.js";
+import { _getSqlVulnerabilityAssessmentScansOperations } from "./classic/sqlVulnerabilityAssessmentScans/index.js";
+import type { SqlVulnerabilityAssessmentSettingsOperations } from "./classic/sqlVulnerabilityAssessmentSettings/index.js";
+import { _getSqlVulnerabilityAssessmentSettingsOperations } from "./classic/sqlVulnerabilityAssessmentSettings/index.js";
+import type { StandardAssignmentsOperations } from "./classic/standardAssignments/index.js";
+import { _getStandardAssignmentsOperations } from "./classic/standardAssignments/index.js";
+import type { StandardsOperations } from "./classic/standards/index.js";
+import { _getStandardsOperations } from "./classic/standards/index.js";
+import type { SubAssessmentsOperations } from "./classic/subAssessments/index.js";
+import { _getSubAssessmentsOperations } from "./classic/subAssessments/index.js";
+import type { TasksOperations } from "./classic/tasks/index.js";
+import { _getTasksOperations } from "./classic/tasks/index.js";
+import type { TopologyOperations } from "./classic/topology/index.js";
+import { _getTopologyOperations } from "./classic/topology/index.js";
+import type { WorkspaceSettingsOperations } from "./classic/workspaceSettings/index.js";
+import { _getWorkspaceSettingsOperations } from "./classic/workspaceSettings/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SecurityCenterOptionalParams } from "./api/securityCenterContext.js";
 
@@ -298,14 +187,7 @@ export class SecurityCenter {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createSecurityCenter(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createSecurityCenter(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.subAssessments = _getSubAssessmentsOperations(this._client);
     this.sqlVulnerabilityAssessmentScans = _getSqlVulnerabilityAssessmentScansOperations(
@@ -389,6 +271,7 @@ export class SecurityCenter {
     this.governanceRules = _getGovernanceRulesOperations(this._client);
     this.governanceAssignments = _getGovernanceAssignmentsOperations(this._client);
     this.complianceResults = _getComplianceResultsOperations(this._client);
+    this.batchPricings = _getBatchPricingsOperations(this._client);
     this.securityContacts = _getSecurityContactsOperations(this._client);
     this.automations = _getAutomationsOperations(this._client);
     this.assessmentsMetadata = _getAssessmentsMetadataOperations(this._client);
@@ -536,6 +419,8 @@ export class SecurityCenter {
   public readonly governanceAssignments: GovernanceAssignmentsOperations;
   /** The operation groups for complianceResults */
   public readonly complianceResults: ComplianceResultsOperations;
+  /** The operation groups for batchPricings */
+  public readonly batchPricings: BatchPricingsOperations;
   /** The operation groups for securityContacts */
   public readonly securityContacts: SecurityContactsOperations;
   /** The operation groups for automations */

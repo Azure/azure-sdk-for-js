@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listBySubscription,
   list,
@@ -11,7 +11,7 @@ import {
   head,
   get,
 } from "../../api/privateLinks/operations.js";
-import {
+import type {
   PrivateLinksListBySubscriptionOptionalParams,
   PrivateLinksListOptionalParams,
   PrivateLinksDeleteOptionalParams,
@@ -20,10 +20,14 @@ import {
   PrivateLinksHeadOptionalParams,
   PrivateLinksGetOptionalParams,
 } from "../../api/privateLinks/options.js";
-import { PrivateLinkResource, PrivateLinkUpdate } from "../../models/privateLinksAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  PrivateLinkResource,
+  PrivateLinkUpdate,
+} from "../../models/privateLinksAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {

@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { listAvailable, list, get } from "../../api/gitHubOwners/operations.js";
-import {
+import type {
   GitHubOwnersListAvailableOptionalParams,
   GitHubOwnersListOptionalParams,
   GitHubOwnersGetOptionalParams,
 } from "../../api/gitHubOwners/options.js";
-import {
+import type {
   GitHubOwner,
   GitHubOwnerListResponse,
 } from "../../models/securityConnectorsDevOpsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GitHubOwners operations. */
 export interface GitHubOwnersOperations {

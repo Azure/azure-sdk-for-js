@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { listAll, list, get } from "../../api/subAssessments/operations.js";
-import {
+import type {
   SubAssessmentsListAllOptionalParams,
   SubAssessmentsListOptionalParams,
   SubAssessmentsGetOptionalParams,
 } from "../../api/subAssessments/options.js";
-import { SecuritySubAssessment } from "../../models/subAssessmentsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecuritySubAssessment } from "../../models/subAssessmentsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SubAssessments operations. */
 export interface SubAssessmentsOperations {
