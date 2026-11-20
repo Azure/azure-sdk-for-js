@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the budget for the scope by budget name.
  *
  * @summary gets the budget for the scope by budget name.
- * x-ms-original-file: 2025-03-01/Budgets/Get/Cost/Get-Cost-Budget.json
+ * x-ms-original-file: 2026-06-01/Budgets/Get/Cost/Get-Cost-Budget.json
  */
 async function getCostBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getCostBudget(): Promise<void> {
  * This sample demonstrates how to gets the budget for the scope by budget name.
  *
  * @summary gets the budget for the scope by budget name.
- * x-ms-original-file: 2025-03-01/Budgets/Get/ReservationUtilization/Get-ReservationUtilization-AlertRule.json
+ * x-ms-original-file: 2026-06-01/Budgets/Get/ReservationUtilization/Get-ReservationUtilization-AlertRule.json
  */
 async function getReservationUtilizationAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -33,7 +33,7 @@ export function _listBySavingsPlanIdSend(
     {
       savingsPlanOrderId: savingsPlanOrderId,
       savingsPlanId: savingsPlanId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       grainParameter: options?.grainParameter,
     },
@@ -62,7 +62,6 @@ export async function _listBySavingsPlanIdDeserialize(
 
   return _benefitUtilizationSummariesListResultDeserializer(result.body);
 }
-
 /** Lists the savings plan utilization summaries for daily or monthly grain. */
 export function listBySavingsPlanId(
   context: Client,
@@ -75,7 +74,7 @@ export function listBySavingsPlanId(
     () => _listBySavingsPlanIdSend(context, savingsPlanOrderId, savingsPlanId, options),
     _listBySavingsPlanIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -88,7 +87,7 @@ export function _listBySavingsPlanOrderSend(
     "/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries{?api%2Dversion,%24filter,grainParameter}",
     {
       savingsPlanOrderId: savingsPlanOrderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
       grainParameter: options?.grainParameter,
     },
@@ -117,7 +116,6 @@ export async function _listBySavingsPlanOrderDeserialize(
 
   return _benefitUtilizationSummariesListResultDeserializer(result.body);
 }
-
 /** Lists the savings plan utilization summaries for daily or monthly grain. */
 export function listBySavingsPlanOrder(
   context: Client,
@@ -129,7 +127,7 @@ export function listBySavingsPlanOrder(
     () => _listBySavingsPlanOrderSend(context, savingsPlanOrderId, options),
     _listBySavingsPlanOrderDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -144,7 +142,7 @@ export function _listByBillingProfileIdSend(
     {
       billingAccountId: billingAccountId,
       billingProfileId: billingProfileId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       grainParameter: options?.grainParameter,
       filter: options?.filter,
     },
@@ -173,7 +171,6 @@ export async function _listByBillingProfileIdDeserialize(
 
   return _benefitUtilizationSummariesListResultDeserializer(result.body);
 }
-
 /** Lists savings plan utilization summaries for billing profile. Supported at grain values: 'Daily' and 'Monthly'. */
 export function listByBillingProfileId(
   context: Client,
@@ -186,7 +183,7 @@ export function listByBillingProfileId(
     () => _listByBillingProfileIdSend(context, billingAccountId, billingProfileId, options),
     _listByBillingProfileIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -199,7 +196,7 @@ export function _listByBillingAccountIdSend(
     "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries{?api%2Dversion,grainParameter,filter}",
     {
       billingAccountId: billingAccountId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       grainParameter: options?.grainParameter,
       filter: options?.filter,
     },
@@ -228,7 +225,6 @@ export async function _listByBillingAccountIdDeserialize(
 
   return _benefitUtilizationSummariesListResultDeserializer(result.body);
 }
-
 /** Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'. */
 export function listByBillingAccountId(
   context: Client,
@@ -240,6 +236,6 @@ export function listByBillingAccountId(
     () => _listByBillingAccountIdSend(context, billingAccountId, options),
     _listByBillingAccountIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportRunByBillingAccount.json
  */
 async function exportRunByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function exportRunByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByBillingAccountWithOptionalRequestBody.json
+ * x-ms-original-file: 2026-06-01/ExportRunByBillingAccountWithOptionalRequestBody.json
  */
 async function exportRunByBillingAccountWithOptionalRequestBody(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function exportRunByBillingAccountWithOptionalRequestBody(): Promise<void>
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportRunByDepartment.json
  */
 async function exportRunByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function exportRunByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportRunByEnrollmentAccount.json
  */
 async function exportRunByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function exportRunByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportRunByManagementGroup.json
  */
 async function exportRunByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -77,7 +77,7 @@ async function exportRunByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportRunByResourceGroup.json
  */
 async function exportRunByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function exportRunByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to run an export.
  *
  * @summary the operation to run an export.
- * x-ms-original-file: 2025-03-01/ExportRunBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportRunBySubscription.json
  */
 async function exportRunBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

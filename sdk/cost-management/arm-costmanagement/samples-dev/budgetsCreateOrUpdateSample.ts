@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/Cost/CreateOrUpdate-Cost-Subscription-Budget.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/Cost/CreateOrUpdate-Cost-Subscription-Budget.json
  */
 async function createOrUpdateCostSubscriptionBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function createOrUpdateCostSubscriptionBudget(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservationIdFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservationIdFilter.json
  */
 async function createOrUpdateReservationUtilizationBillingAccountEAAlertRuleReservationIdFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -110,7 +110,7 @@ async function createOrUpdateReservationUtilizationBillingAccountEAAlertRuleRese
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservedResourceTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservedResourceTypeFilter.json
  */
 async function createOrUpdateReservationUtilizationBillingAccountEAAlertRuleReservedResourceTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function createOrUpdateReservationUtilizationBillingAccountEAAlertRuleRese
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule.json
  */
 async function createOrUpdateReservationUtilizationBillingAccountEAAlertRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -188,7 +188,7 @@ async function createOrUpdateReservationUtilizationBillingAccountEAAlertRule(): 
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservationIdFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservationIdFilter.json
  */
 async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleReservationIdFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -234,7 +234,7 @@ async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleRes
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservedResourceTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservedResourceTypeFilter.json
  */
 async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleReservedResourceTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -276,7 +276,7 @@ async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleRes
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule.json
  */
 async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -312,7 +312,7 @@ async function createOrUpdateReservationUtilizationBillingProfileMCAAlertRuleJso
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservationIdFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservationIdFilter.json
  */
 async function createOrUpdateReservationUtilizationCustomerCSPAlertRuleReservationIdFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -358,7 +358,7 @@ async function createOrUpdateReservationUtilizationCustomerCSPAlertRuleReservati
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservedResourceTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservedResourceTypeFilter.json
  */
 async function createOrUpdateReservationUtilizationCustomerCSPAlertRuleReservedResourceTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -400,7 +400,7 @@ async function createOrUpdateReservationUtilizationCustomerCSPAlertRuleReservedR
  * This sample demonstrates how to the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary the operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
- * x-ms-original-file: 2025-03-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule.json
+ * x-ms-original-file: 2026-06-01/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule.json
  */
 async function createOrUpdateReservationUtilizationCustomerCSPAlertRuleJson(): Promise<void> {
   const credential = new DefaultAzureCredential();

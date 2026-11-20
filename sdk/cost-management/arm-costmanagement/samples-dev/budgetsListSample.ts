@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/EA/BillingAccountBudgetsList-EA-CategoryTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/EA/BillingAccountBudgetsList-EA-CategoryTypeFilter.json
  */
 async function billingAccountBudgetsListEACategoryTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function billingAccountBudgetsListEACategoryTypeFilter(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/EA/BillingAccountBudgetsList-EA.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/EA/BillingAccountBudgetsList-EA.json
  */
 async function billingAccountBudgetsListEA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function billingAccountBudgetsListEA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/EA/DepartmentBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/EA/DepartmentBudgetsList.json
  */
 async function departmentBudgetsListEA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function departmentBudgetsListEA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/EA/EnrollmentAccountBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/EA/EnrollmentAccountBudgetsList.json
  */
 async function enrollmentAccountBudgetsListEA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -85,7 +85,7 @@ async function enrollmentAccountBudgetsListEA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/BillingAccountBudgetsList-MCA-CategoryTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/BillingAccountBudgetsList-MCA-CategoryTypeFilter.json
  */
 async function billingAccountBudgetsListMCACategoryTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -105,7 +105,7 @@ async function billingAccountBudgetsListMCACategoryTypeFilter(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/BillingAccountBudgetsList-MCA.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/BillingAccountBudgetsList-MCA.json
  */
 async function billingAccountBudgetsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -124,7 +124,7 @@ async function billingAccountBudgetsListMCA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/BillingProfileBudgetsList-CategoryTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/BillingProfileBudgetsList-CategoryTypeFilter.json
  */
 async function billingProfileBudgetsListMCACategoryTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -144,7 +144,7 @@ async function billingProfileBudgetsListMCACategoryTypeFilter(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/BillingProfileBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/BillingProfileBudgetsList.json
  */
 async function billingProfileBudgetsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -163,7 +163,7 @@ async function billingProfileBudgetsListMCA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/CustomerBudgetsList-CategoryTypeFilter.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/CustomerBudgetsList-CategoryTypeFilter.json
  */
 async function customerBudgetsListMCACSPCategoryTypeFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -183,7 +183,7 @@ async function customerBudgetsListMCACSPCategoryTypeFilter(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/CustomerBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/CustomerBudgetsList.json
  */
 async function customerBudgetsListMCACSP(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -202,7 +202,7 @@ async function customerBudgetsListMCACSP(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/MCA/InvoiceSectionBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/MCA/InvoiceSectionBudgetsList.json
  */
 async function invoiceSectionBudgetsListMCA(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -221,7 +221,7 @@ async function invoiceSectionBudgetsListMCA(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/RBAC/ManagementGroupBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/RBAC/ManagementGroupBudgetsList.json
  */
 async function managementGroupBudgetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -240,7 +240,7 @@ async function managementGroupBudgetsList(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/RBAC/ResourceGroupBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/RBAC/ResourceGroupBudgetsList.json
  */
 async function resourceGroupBudgetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -259,7 +259,7 @@ async function resourceGroupBudgetsList(): Promise<void> {
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2025-03-01/Budgets/List/RBAC/SubscriptionBudgetsList.json
+ * x-ms-original-file: 2026-06-01/Budgets/List/RBAC/SubscriptionBudgetsList.json
  */
 async function subscriptionBudgetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

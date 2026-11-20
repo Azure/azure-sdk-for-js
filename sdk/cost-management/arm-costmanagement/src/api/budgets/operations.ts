@@ -30,7 +30,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.CostManagement/budgets{?api%2Dversion,%24filter}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24filter": options?.filter,
     },
     {
@@ -56,7 +56,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _budgetsListResultDeserializer(result.body);
 }
-
 /** Lists all budgets for the defined scope. */
 export function list(
   context: Client,
@@ -68,7 +67,7 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -83,7 +82,7 @@ export function _$deleteSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +104,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a budget. */
 export async function $delete(
   context: Client,
@@ -129,7 +127,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -156,7 +154,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return budgetDeserializer(result.body);
 }
-
 /** The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation. */
 export async function createOrUpdate(
   context: Client,
@@ -180,7 +177,7 @@ export function _getSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,7 +202,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bu
 
   return budgetDeserializer(result.body);
 }
-
 /** Gets the budget for the scope by budget name. */
 export async function get(
   context: Client,

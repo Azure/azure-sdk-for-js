@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers generation of a benefit utilization summaries report for the provided billing account. This API supports only enrollment accounts.
  *
  * @summary triggers generation of a benefit utilization summaries report for the provided billing account. This API supports only enrollment accounts.
- * x-ms-original-file: 2025-03-01/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingAccount.json
  */
 async function generateUtilizationSummariesReportByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the setting from the given scope by name.
  *
  * @summary get the setting from the given scope by name.
- * x-ms-original-file: 2025-03-01/setting-get.json
+ * x-ms-original-file: 2026-06-01/setting-get.json
  */
 async function settingByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

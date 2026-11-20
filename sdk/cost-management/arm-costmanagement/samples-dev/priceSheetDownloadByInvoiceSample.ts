@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  *
  * @summary gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
- * x-ms-original-file: 2025-03-01/PricesheetDownload.json
+ * x-ms-original-file: 2026-06-01/PricesheetDownload.json
  */
 async function pricesheetDownload(): Promise<void> {
   const credential = new DefaultAzureCredential();

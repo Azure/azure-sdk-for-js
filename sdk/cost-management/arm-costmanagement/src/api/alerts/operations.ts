@@ -35,7 +35,7 @@ export function _listExternalSend(
     {
       externalCloudProviderType: externalCloudProviderType,
       externalCloudProviderId: externalCloudProviderId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,6 @@ export async function _listExternalDeserialize(
 
   return alertsResultDeserializer(result.body);
 }
-
 /** Lists the Alerts for external cloud provider type defined. */
 export async function listExternal(
   context: Client,
@@ -88,7 +87,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.CostManagement/alerts{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +112,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<A
 
   return alertsResultDeserializer(result.body);
 }
-
 /** Lists the alerts for scope defined. */
 export async function list(
   context: Client,
@@ -136,7 +134,7 @@ export function _dismissSend(
     {
       scope: scope,
       alertId: alertId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +161,6 @@ export async function _dismissDeserialize(result: PathUncheckedResponse): Promis
 
   return alertDeserializer(result.body);
 }
-
 /** Dismisses the specified alert */
 export async function dismiss(
   context: Client,
@@ -187,7 +184,7 @@ export function _getSend(
     {
       scope: scope,
       alertId: alertId,
-      "api%2Dversion": context.apiVersion ?? "2025-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +209,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Al
 
   return alertDeserializer(result.body);
 }
-
 /** Gets the alert for the scope by alert ID. */
 export async function get(
   context: Client,

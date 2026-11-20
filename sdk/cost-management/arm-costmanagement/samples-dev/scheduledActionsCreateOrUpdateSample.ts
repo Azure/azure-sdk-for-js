@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a private scheduled action.
  *
  * @summary create or update a private scheduled action.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-createOrUpdate-private.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-createOrUpdate-private.json
  */
 async function createOrUpdatePrivateScheduledAction(): Promise<void> {
   const credential = new DefaultAzureCredential();

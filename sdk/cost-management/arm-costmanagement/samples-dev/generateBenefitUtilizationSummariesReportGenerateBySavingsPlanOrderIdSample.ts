@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to triggers generation of a benefit utilization summaries report for the provided savings plan order.
  *
  * @summary triggers generation of a benefit utilization summaries report for the provided savings plan order.
- * x-ms-original-file: 2025-03-01/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportBySavingsPlanOrder.json
+ * x-ms-original-file: 2026-06-01/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportBySavingsPlanOrder.json
  */
 async function generateUtilizationSummariesReportBySavingsPlanOrder(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteByBillingAccount.json
  */
 async function exportDeleteByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,7 +20,7 @@ async function exportDeleteByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteByDepartment.json
  */
 async function exportDeleteByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -35,7 +35,7 @@ async function exportDeleteByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteByEnrollmentAccount.json
  */
 async function exportDeleteByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function exportDeleteByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteByManagementGroup.json
  */
 async function exportDeleteByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function exportDeleteByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteByResourceGroup.json
  */
 async function exportDeleteByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function exportDeleteByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to delete a export.
  *
  * @summary the operation to delete a export.
- * x-ms-original-file: 2025-03-01/ExportDeleteBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportDeleteBySubscription.json
  */
 async function exportDeleteBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

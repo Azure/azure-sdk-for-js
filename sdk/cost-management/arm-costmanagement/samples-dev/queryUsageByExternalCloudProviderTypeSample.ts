@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to query the usage data for external cloud provider type defined.
  *
  * @summary query the usage data for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalBillingAccountsQuery.json
+ * x-ms-original-file: 2026-06-01/ExternalBillingAccountsQuery.json
  */
 async function externalBillingAccountQueryList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function externalBillingAccountQueryList(): Promise<void> {
  * This sample demonstrates how to query the usage data for external cloud provider type defined.
  *
  * @summary query the usage data for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalSubscriptionsQuery.json
+ * x-ms-original-file: 2026-06-01/ExternalSubscriptionsQuery.json
  */
 async function externalSubscriptionsQuery(): Promise<void> {
   const credential = new DefaultAzureCredential();

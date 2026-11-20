@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a scheduled action within the given scope.
  *
  * @summary delete a scheduled action within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-delete-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-delete-shared.json
  */
 async function scheduledActionDeleteByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

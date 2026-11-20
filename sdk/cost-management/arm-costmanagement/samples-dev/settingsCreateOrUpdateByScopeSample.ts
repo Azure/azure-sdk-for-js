@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a setting within the given scope.
  *
  * @summary create or update a setting within the given scope.
- * x-ms-original-file: 2025-03-01/settings-createOrUpdate.json
+ * x-ms-original-file: 2026-06-01/settings-createOrUpdate.json
  */
 async function createOrUpdateSettingByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

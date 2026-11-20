@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetByBillingAccount.json
  */
 async function exportRunHistoryGetByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function exportRunHistoryGetByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetByDepartment.json
  */
 async function exportRunHistoryGetByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function exportRunHistoryGetByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetByEnrollmentAccount.json
  */
 async function exportRunHistoryGetByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function exportRunHistoryGetByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetByManagementGroup.json
  */
 async function exportRunHistoryGetByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function exportRunHistoryGetByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetByResourceGroup.json
  */
 async function exportRunHistoryGetByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -88,7 +88,7 @@ async function exportRunHistoryGetByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to get the run history of an export for the defined scope and export name.
  *
  * @summary the operation to get the run history of an export for the defined scope and export name.
- * x-ms-original-file: 2025-03-01/ExportRunHistoryGetBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportRunHistoryGetBySubscription.json
  */
 async function exportRunHistoryGetBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

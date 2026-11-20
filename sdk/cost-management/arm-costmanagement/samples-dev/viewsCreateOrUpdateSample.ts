@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/PrivateViewCreateOrUpdate.json
+ * x-ms-original-file: 2026-06-01/PrivateViewCreateOrUpdate.json
  */
 async function createOrUpdatePrivateView(): Promise<void> {
   const credential = new DefaultAzureCredential();
