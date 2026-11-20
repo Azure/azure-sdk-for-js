@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Quota": "2026-09-01-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Quota",
     "CrossLanguageDefinitionId": {
