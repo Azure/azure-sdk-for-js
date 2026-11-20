@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
  *
  * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_BasicSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkCancel_BasicSuccess.json
  */
 async function _01CancelMultipleOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function _01CancelMultipleOperations(): Promise<void> {
  * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
  *
  * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_OperationNotFoundError.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkCancel_OperationNotFoundError.json
  */
 async function _03ResponseWithAnUnknownOperationErrorDuringCancellation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function _03ResponseWithAnUnknownOperationErrorDuringCancellation(): Promi
  * This sample demonstrates how to cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
  *
  * @summary cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkCancel_PartialSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkCancel_PartialSuccess.json
  */
 async function _02ResponseWithPartiallySuccessfulResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

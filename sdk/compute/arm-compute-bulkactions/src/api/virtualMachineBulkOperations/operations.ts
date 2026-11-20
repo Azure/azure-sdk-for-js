@@ -5,7 +5,6 @@ import type { ComputeContext as Client } from "../index.js";
 import type {
   ExecuteDeallocateContent,
   DeallocateResourceOperationResponse,
-  ResourceOperation,
   ExecuteHibernateContent,
   HibernateResourceOperationResponse,
   ExecuteStartContent,
@@ -16,11 +15,6 @@ import type {
   GetOperationStatusResponse,
   CancelOperationsContent,
   CancelOperationsResponse,
-  ExecuteReimageRequest,
-  ReimageResourceOperationResponse,
-  _ListBulkOperationErrorsResponse,
-  AcknowledgeBulkOperationErrorsRequest,
-  AcknowledgeBulkOperationErrorsResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -36,19 +30,9 @@ import {
   getOperationStatusResponseDeserializer,
   cancelOperationsContentSerializer,
   cancelOperationsResponseDeserializer,
-  executeReimageRequestSerializer,
-  reimageResourceOperationResponseDeserializer,
-  _listBulkOperationErrorsResponseDeserializer,
-  acknowledgeBulkOperationErrorsRequestSerializer,
-  acknowledgeBulkOperationErrorsResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams,
-  VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams,
-  VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
   VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
@@ -58,201 +42,6 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-
-export function _bulkAcknowledgeOperationErrorsSend(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  body: AcknowledgeBulkOperationErrorsRequest,
-  options: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/acknowledgeBulkOperationErrors{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: acknowledgeBulkOperationErrorsRequestSerializer(body),
-  });
-}
-
-export async function _bulkAcknowledgeOperationErrorsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AcknowledgeBulkOperationErrorsResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return acknowledgeBulkOperationErrorsResponseDeserializer(result.body);
-}
-
-/** Acknowledge errors for specified operations in a resource group. */
-export async function bulkAcknowledgeOperationErrors(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  body: AcknowledgeBulkOperationErrorsRequest,
-  options: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<AcknowledgeBulkOperationErrorsResponse> {
-  const result = await _bulkAcknowledgeOperationErrorsSend(
-    context,
-    resourceGroupName,
-    location,
-    body,
-    options,
-  );
-  return _bulkAcknowledgeOperationErrorsDeserialize(result);
-}
-
-export function _bulkListOperationErrorsSend(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  options: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/listBulkOperationErrors{?api%2Dversion,lookbackInMinutes}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
-      lookbackInMinutes: options?.lookbackInMinutes,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _bulkListOperationErrorsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_ListBulkOperationErrorsResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _listBulkOperationErrorsResponseDeserializer(result.body);
-}
-
-/** List recent errors for operations in a resource group. */
-export function bulkListOperationErrors(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  options: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<ResourceOperation> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _bulkListOperationErrorsSend(context, resourceGroupName, location, options),
-    _bulkListOperationErrorsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-06-preview",
-    },
-  );
-}
-
-export function _bulkReimageOperationSend(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  requestBody: ExecuteReimageRequest,
-  options: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/virtualMachinesBulkReimage{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: executeReimageRequestSerializer(requestBody),
-  });
-}
-
-export async function _bulkReimageOperationDeserialize(
-  result: PathUncheckedResponse,
-): Promise<ReimageResourceOperationResponse> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return reimageResourceOperationResponseDeserializer(result.body);
-}
-
-/**
- * This feature is currently in preview.
- *
- * Reimage one or more virtual machines. Reimaging is destructive and can replace operating system disk contents. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- */
-export async function bulkReimageOperation(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  requestBody: ExecuteReimageRequest,
-  options: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams = { requestOptions: {} },
-): Promise<ReimageResourceOperationResponse> {
-  const result = await _bulkReimageOperationSend(
-    context,
-    resourceGroupName,
-    location,
-    requestBody,
-    options,
-  );
-  return _bulkReimageOperationDeserialize(result);
-}
 
 export function _bulkCancelOperationsSend(
   context: Client,
@@ -267,7 +56,7 @@ export function _bulkCancelOperationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,7 +119,7 @@ export function _bulkGetOperationsStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,7 +182,7 @@ export function _bulkDeleteOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -454,7 +243,7 @@ export function _bulkStartOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -517,7 +306,7 @@ export function _bulkHibernateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,7 +371,7 @@ export function _bulkDeallocateOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

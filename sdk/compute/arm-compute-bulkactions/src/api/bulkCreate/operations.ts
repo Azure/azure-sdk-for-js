@@ -25,9 +25,7 @@ import type {
   BulkCreateListBySubscriptionOptionalParams,
   BulkCreateListByResourceGroupOptionalParams,
   BulkCreateVirtualMachinesGetOperationStatusOptionalParams,
-  BulkCreateCancelOptionalParams,
-  BulkCreateDeleteOptionalParams,
-  BulkCreateCreateOrUpdateOptionalParams,
+  BulkCreateCreateOptionalParams,
   BulkCreateGetAsyncOperationStatusOptionalParams,
   BulkCreateGetOptionalParams,
 } from "./options.js";
@@ -45,7 +43,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,11 +82,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, location, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-06-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-16" },
   );
 }
 
@@ -104,7 +98,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,11 +138,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, location, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-06-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-16" },
   );
 }
 
@@ -166,7 +156,7 @@ export function _virtualMachinesGetOperationStatusSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,127 +201,18 @@ export function virtualMachinesGetOperationStatus(
     {
       itemName: "results",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-06-preview",
+      apiVersion: context.apiVersion ?? "2026-10-16",
     },
   );
 }
 
-export function _cancelSend(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  name: string,
-  options: BulkCreateCancelOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}/cancel{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      location: location,
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Cancels BulkCreate instances that have not yet launched. */
-export function cancel(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  name: string,
-  options: BulkCreateCancelOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _cancelSend(context, resourceGroupName, location, name, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-10-06-preview",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _$deleteSend(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  name: string,
-  options: BulkCreateDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}{?api%2Dversion,deleteInstances}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      location: location,
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
-      deleteInstances: options?.deleteInstances,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Deletes BulkCreates. */
-export function $delete(
-  context: Client,
-  resourceGroupName: string,
-  location: string,
-  name: string,
-  options: BulkCreateDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _$deleteSend(context, resourceGroupName, location, name, options),
-    resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-10-06-preview",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _createOrUpdateSend(
+export function _createSend(
   context: Client,
   resourceGroupName: string,
   location: string,
   name: string,
   resource: LocationBasedBulkCreate,
-  options: BulkCreateCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: BulkCreateCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreate/{name}{?api%2Dversion}",
@@ -340,7 +221,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -354,7 +235,7 @@ export function _createOrUpdateSend(
   });
 }
 
-export async function _createOrUpdateDeserialize(
+export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<LocationBasedBulkCreate> {
   const expectedStatuses = ["200", "201", "202"];
@@ -370,22 +251,22 @@ export async function _createOrUpdateDeserialize(
   return locationBasedBulkCreateDeserializer(result.body);
 }
 
-/** Creates or updates BulkCreates. */
-export function createOrUpdate(
+/** Creates virtual machines in bulk. */
+export function create(
   context: Client,
   resourceGroupName: string,
   location: string,
   name: string,
   resource: LocationBasedBulkCreate,
-  options: BulkCreateCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: BulkCreateCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<LocationBasedBulkCreate>, LocationBasedBulkCreate> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, location, name, resource, options),
+      _createSend(context, resourceGroupName, location, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-06-preview",
+    apiVersion: context.apiVersion ?? "2026-10-16",
   }) as PollerLike<OperationState<LocationBasedBulkCreate>, LocationBasedBulkCreate>;
 }
 
@@ -401,7 +282,7 @@ export function _getAsyncOperationStatusSend(
       subscriptionId: context.subscriptionId,
       location: location,
       asyncOperationId: asyncOperationId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -454,7 +335,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       location: location,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-10-06-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-16",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

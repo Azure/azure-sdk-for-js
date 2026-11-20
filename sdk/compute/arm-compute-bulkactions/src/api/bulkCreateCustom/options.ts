@@ -13,21 +13,7 @@ export interface BulkCreateCustomListByResourceGroupOptionalParams extends Opera
 export interface BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BulkCreateCustomCancelOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface BulkCreateCustomDeleteOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** When true, deletes all virtual machines created by this BulkAction Operation. */
-  deleteInstances?: boolean;
-}
-
-/** Optional parameters. */
-export interface BulkCreateCustomCreateOrUpdateOptionalParams extends OperationOptions {
+export interface BulkCreateCustomCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

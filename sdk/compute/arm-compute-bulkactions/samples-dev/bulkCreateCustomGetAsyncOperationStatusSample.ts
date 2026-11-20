@@ -8,21 +8,39 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of an async operation of a BulkCreateCustom.
  *
  * @summary get the status of an async operation of a BulkCreateCustom.
- * x-ms-original-file: 2026-10-06-preview/BulkCreateCustom_GetAsyncOperationStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-16/BulkCreateCustom_GetAsyncOperationStatus.json
  */
-async function bulkCreateCustomGetAsyncOperationStatusMaximumSet(): Promise<void> {
+async function getTheStatusOfACompletedBulkCreateCustomOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "1FBA3C66-5C9C-4391-B72F-9F52735FC9F2";
+  const subscriptionId = "57018409-63ae-4ec4-91ef-57bafe128d74";
   const client = new ComputeClient(credential, subscriptionId);
   const result = await client.bulkCreateCustom.getAsyncOperationStatus(
     "eastus",
-    "f1ac145b-9d8b-417d-8101-9962d03c0904",
+    "58553c25-b4f4-4210-bfee-e460a04d609f",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get the status of an async operation of a BulkCreateCustom.
+ *
+ * @summary get the status of an async operation of a BulkCreateCustom.
+ * x-ms-original-file: 2026-10-16/BulkCreateCustom_GetAsyncOperationStatus_Failed.json
+ */
+async function getTheStatusOfAFailedBulkCreateCustomOperation(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "57018409-63ae-4ec4-91ef-57bafe128d74";
+  const client = new ComputeClient(credential, subscriptionId);
+  const result = await client.bulkCreateCustom.getAsyncOperationStatus(
+    "eastus",
+    "cbdbac52-dad1-4c54-81e1-972427ecd140",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await bulkCreateCustomGetAsyncOperationStatusMaximumSet();
+  await getTheStatusOfACompletedBulkCreateCustomOperation();
+  await getTheStatusOfAFailedBulkCreateCustomOperation();
 }
 
 main().catch(console.error);
