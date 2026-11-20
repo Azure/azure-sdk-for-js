@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists goal assignments in a service group.
  *
  * @summary lists goal assignments in a service group.
- * x-ms-original-file: 2026-10-01/GoalAssignments_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_List_MaximumSet_Gen.json
  */
 async function goalAssignmentsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.goalAssignments.list("production-sg", {
+  for await (const item of client.goalAssignments.list("zldmpkvqzifygkqau", {
     skipToken: "xntbyoswztnmvitj",
     top: 69,
   })) {
@@ -28,13 +28,13 @@ async function goalAssignmentsListMaximumSet(): Promise<void> {
  * This sample demonstrates how to lists goal assignments in a service group.
  *
  * @summary lists goal assignments in a service group.
- * x-ms-original-file: 2026-10-01/GoalAssignments_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_List_MinimumSet_Gen.json
  */
 async function goalAssignmentsListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
   const resArray = new Array();
-  for await (const item of client.goalAssignments.list("production-sg")) {
+  for await (const item of client.goalAssignments.list("sg1")) {
     resArray.push(item);
   }
 

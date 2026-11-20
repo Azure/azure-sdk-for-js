@@ -8,12 +8,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a goal assignment.
  *
  * @summary gets a goal assignment.
- * x-ms-original-file: 2026-10-01/GoalAssignments_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_Get_MaximumSet_Gen.json
  */
 async function goalAssignmentsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  const result = await client.goalAssignments.get("production-sg", "zonal-resiliency-goal");
+  const result = await client.goalAssignments.get("sg1", "ga1");
   console.log(result);
 }
 

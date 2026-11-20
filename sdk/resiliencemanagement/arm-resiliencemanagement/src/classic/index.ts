@@ -10,6 +10,7 @@ export type { GoalAssignmentsOperations } from "./goalAssignments/index.js";
 export type { GoalResourcesOperations } from "./goalResources/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { OperationStatusOperations } from "./operationStatus/index.js";
+export type { RecoveryConfigProfilesOperations } from "./recoveryConfigProfiles/index.js";
 export type { RecoveryJobResourcesOperations } from "./recoveryJobResources/index.js";
 export type { RecoveryJobsOperations } from "./recoveryJobs/index.js";
 export type { RecoveryPlanActionsOperations } from "./recoveryPlanActions/index.js";
