@@ -3,13 +3,13 @@
 
 import { describe, it, assert, expect, vi, beforeEach, type Mock } from "vitest";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse } from "../../src/index.js";
 import {
+  authorizeRequestOnTenantChallenge,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { authorizeRequestOnTenantChallenge } from "../../src/index.js";
+} from "../../src/index.js";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
