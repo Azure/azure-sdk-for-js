@@ -8,17 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the operation status for virtual machines in a BulkCreateCustom operation.
  *
  * @summary gets the operation status for virtual machines in a BulkCreateCustom operation.
- * x-ms-original-file: 2026-10-06-preview/BulkCreateCustom_VirtualMachinesGetOperationStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-16/BulkCreateCustom_VirtualMachinesGetOperationStatus.json
  */
-async function bulkCreateCustomVirtualMachinesGetOperationStatusMaximumSet(): Promise<void> {
+async function getTheIndividualVirtualMachineResultsForABulkCreateCustomOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "700935bc-adf2-4176-b9ad-c571731c09fc";
+  const subscriptionId = "57018409-63ae-4ec4-91ef-57bafe128d74";
   const client = new ComputeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.bulkCreateCustom.virtualMachinesGetOperationStatus(
-    "local-test-rg",
+    "rg-bulk-create",
     "eastus",
-    "00000000-0000-0000-0000-000000000102",
+    "a1223fe4-126f-4905-a870-6d53e360cab5",
   )) {
     resArray.push(item);
   }
@@ -27,7 +27,7 @@ async function bulkCreateCustomVirtualMachinesGetOperationStatusMaximumSet(): Pr
 }
 
 async function main(): Promise<void> {
-  await bulkCreateCustomVirtualMachinesGetOperationStatusMaximumSet();
+  await getTheIndividualVirtualMachineResultsForABulkCreateCustomOperation();
 }
 
 main().catch(console.error);

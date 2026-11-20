@@ -6,9 +6,7 @@ import {
   listBySubscription,
   listByResourceGroup,
   virtualMachinesGetOperationStatus,
-  cancel,
-  $delete,
-  createOrUpdate,
+  create,
   getAsyncOperationStatus,
   get,
 } from "../../api/bulkCreateCustom/operations.js";
@@ -16,9 +14,7 @@ import type {
   BulkCreateCustomListBySubscriptionOptionalParams,
   BulkCreateCustomListByResourceGroupOptionalParams,
   BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
-  BulkCreateCustomCancelOptionalParams,
-  BulkCreateCustomDeleteOptionalParams,
-  BulkCreateCustomCreateOrUpdateOptionalParams,
+  BulkCreateCustomCreateOptionalParams,
   BulkCreateCustomGetAsyncOperationStatusOptionalParams,
   BulkCreateCustomGetOptionalParams,
 } from "../../api/bulkCreateCustom/options.js";
@@ -50,27 +46,13 @@ export interface BulkCreateCustomOperations {
     name: string,
     options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
   ) => PagedAsyncIterableIterator<ResourceOperation>;
-  /** Cancels BulkCreateCustom instances that have not yet launched. */
-  cancel: (
-    resourceGroupName: string,
-    location: string,
-    name: string,
-    options?: BulkCreateCustomCancelOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** Deletes BulkCreateCustoms. */
-  delete: (
-    resourceGroupName: string,
-    location: string,
-    name: string,
-    options?: BulkCreateCustomDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** Creates or updates BulkCreateCustoms. */
-  createOrUpdate: (
+  /** Creates virtual machines in bulk with custom settings. */
+  create: (
     resourceGroupName: string,
     location: string,
     name: string,
     resource: LocationBasedBulkCreateCustom,
-    options?: BulkCreateCustomCreateOrUpdateOptionalParams,
+    options?: BulkCreateCustomCreateOptionalParams,
   ) => PollerLike<OperationState<LocationBasedBulkCreateCustom>, LocationBasedBulkCreateCustom>;
   /** Get the status of an async operation of a BulkCreateCustom. */
   getAsyncOperationStatus: (
@@ -104,25 +86,13 @@ function _getBulkCreateCustom(context: ComputeContext) {
       name: string,
       options?: BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
     ) => virtualMachinesGetOperationStatus(context, resourceGroupName, location, name, options),
-    cancel: (
-      resourceGroupName: string,
-      location: string,
-      name: string,
-      options?: BulkCreateCustomCancelOptionalParams,
-    ) => cancel(context, resourceGroupName, location, name, options),
-    delete: (
-      resourceGroupName: string,
-      location: string,
-      name: string,
-      options?: BulkCreateCustomDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, location, name, options),
-    createOrUpdate: (
+    create: (
       resourceGroupName: string,
       location: string,
       name: string,
       resource: LocationBasedBulkCreateCustom,
-      options?: BulkCreateCustomCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, location, name, resource, options),
+      options?: BulkCreateCustomCreateOptionalParams,
+    ) => create(context, resourceGroupName, location, name, resource, options),
     getAsyncOperationStatus: (
       location: string,
       asyncOperationId: string,

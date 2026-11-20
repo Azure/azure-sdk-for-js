@@ -13,21 +13,7 @@ export interface BulkCreateListByResourceGroupOptionalParams extends OperationOp
 export interface BulkCreateVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BulkCreateCancelOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface BulkCreateDeleteOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** When true, deletes all virtual machines created by this BulkAction Operation. */
-  deleteInstances?: boolean;
-}
-
-/** Optional parameters. */
-export interface BulkCreateCreateOrUpdateOptionalParams extends OperationOptions {
+export interface BulkCreateCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

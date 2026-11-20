@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkHibernate_Basic.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkHibernate_Basic.json
  */
 async function _01HibernateMultipleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function _01HibernateMultipleVirtualMachines(): Promise<void> {
  * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkHibernate_VmNotFoundError.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkHibernate_VmNotFoundError.json
  */
 async function _03ResponseWhenAVirtualMachineDoesNotExist(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function _03ResponseWhenAVirtualMachineDoesNotExist(): Promise<void> {
  * This sample demonstrates how to hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary hibernate one or more virtual machines that support hibernation. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkHibernate_WithFallback.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkHibernate_WithFallback.json
  */
 async function _02HibernateVirtualMachinesAndFallbackToDeallocationIfHibernateIsNotSuccessful(): Promise<void> {
   const credential = new DefaultAzureCredential();

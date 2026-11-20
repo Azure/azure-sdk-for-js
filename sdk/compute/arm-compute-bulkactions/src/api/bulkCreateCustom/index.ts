@@ -5,9 +5,7 @@ export {
   listBySubscription,
   listByResourceGroup,
   virtualMachinesGetOperationStatus,
-  cancel,
-  $delete,
-  createOrUpdate,
+  create,
   getAsyncOperationStatus,
   get,
 } from "./operations.js";
@@ -15,9 +13,7 @@ export type {
   BulkCreateCustomListBySubscriptionOptionalParams,
   BulkCreateCustomListByResourceGroupOptionalParams,
   BulkCreateCustomVirtualMachinesGetOperationStatusOptionalParams,
-  BulkCreateCustomCancelOptionalParams,
-  BulkCreateCustomDeleteOptionalParams,
-  BulkCreateCustomCreateOrUpdateOptionalParams,
+  BulkCreateCustomCreateOptionalParams,
   BulkCreateCustomGetAsyncOperationStatusOptionalParams,
   BulkCreateCustomGetOptionalParams,
 } from "./options.js";

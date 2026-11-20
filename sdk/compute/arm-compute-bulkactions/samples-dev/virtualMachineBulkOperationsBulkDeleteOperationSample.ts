@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkDelete_BasicSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkDelete_BasicSuccess.json
  */
 async function _01DeleteMultipleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function _01DeleteMultipleVirtualMachines(): Promise<void> {
  * This sample demonstrates how to delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkDelete_ForceDeleteSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkDelete_ForceDeleteSuccess.json
  */
 async function _02ForceDeleteMultipleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -61,7 +61,7 @@ async function _02ForceDeleteMultipleVirtualMachines(): Promise<void> {
  * This sample demonstrates how to delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary delete one or more virtual machines. This operation is destructive. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkDelete_VmNotFoundError.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkDelete_VmNotFoundError.json
  */
 async function _03ResponseWhenAVirtualMachineDoesNotExist(): Promise<void> {
   const credential = new DefaultAzureCredential();
