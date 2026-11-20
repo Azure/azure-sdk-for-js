@@ -7,8 +7,6 @@ exports:
   "./api/workloads": "./src/api/workloads/index.ts"
   "./api/assessmentTypes": "./src/api/assessmentTypes/index.ts"
   "./api/configurations": "./src/api/configurations/index.ts"
-  "./api/triageResources": "./src/api/triageResources/index.ts"
-  "./api/triageRecommendations": "./src/api/triageRecommendations/index.ts"
   "./api/resiliencyReviews": "./src/api/resiliencyReviews/index.ts"
   "./api/assessments": "./src/api/assessments/index.ts"
   "./api/advisorScores": "./src/api/advisorScores/index.ts"

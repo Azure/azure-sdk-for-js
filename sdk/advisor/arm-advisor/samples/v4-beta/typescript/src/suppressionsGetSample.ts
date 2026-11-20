@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to obtains the details of a suppression.
  *
  * @summary obtains the details of a suppression.
- * x-ms-original-file: 2026-02-01-preview/GetSuppressionDetail.json
+ * x-ms-original-file: 2026-08-01-preview/GetSuppressionDetail.json
  */
 async function getSuppressionDetail(): Promise<void> {
   const credential = new DefaultAzureCredential();

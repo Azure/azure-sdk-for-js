@@ -34,6 +34,8 @@ export type {
   ResourceRecommendationBase,
   RecommendationProperties,
   Control,
+  ResourceRecommendationSavings,
+  ResourceRecommendationSavingsDetails,
   RecommendationStatus,
   RecommendationDismissReason,
   Risk,
@@ -60,14 +62,6 @@ export type {
   ResiliencyReview,
   ResiliencyReviewProperties,
   ReviewStatus,
-  TriageRecommendation,
-  TriageRecommendationProperties,
-  PriorityName,
-  RecommendationStatusName,
-  RecommendationRejectBody,
-  ReasonForRejectionName,
-  TriageResource,
-  TriageResourceProperties,
   ConfigData,
   ConfigDataProperties,
   CpuThreshold,
@@ -76,6 +70,7 @@ export type {
   DigestConfigState,
   AssessmentTypeResult,
   WorkloadResult,
+  RecommendationListMode,
   ConfigurationName,
 } from "./models/index.js";
 export {
@@ -91,12 +86,10 @@ export {
   KnownPriority,
   KnownAggregated,
   KnownReviewStatus,
-  KnownPriorityName,
-  KnownRecommendationStatusName,
-  KnownReasonForRejectionName,
   KnownCpuThreshold,
   KnownDuration,
   KnownDigestConfigState,
+  KnownRecommendationListMode,
   KnownConfigurationName,
   KnownVersions,
 } from "./models/index.js";
@@ -126,6 +119,9 @@ export type {
 export type {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGenerateOptionalParams,
+  RecommendationsUpdateByServiceGroupOptionalParams,
+  RecommendationsGetByServiceGroupOptionalParams,
+  RecommendationsListByServiceGroupOptionalParams,
   RecommendationsListByTenantOptionalParams,
   RecommendationsListOptionalParams,
   RecommendationsUpdateOptionalParams,
@@ -141,17 +137,6 @@ export type {
   SuppressionsCreateOptionalParams,
   SuppressionsGetOptionalParams,
 } from "./api/suppressions/index.js";
-export type {
-  TriageRecommendationsResetTriageRecommendationOptionalParams,
-  TriageRecommendationsRejectTriageRecommendationOptionalParams,
-  TriageRecommendationsApproveTriageRecommendationOptionalParams,
-  TriageRecommendationsListOptionalParams,
-  TriageRecommendationsGetOptionalParams,
-} from "./api/triageRecommendations/index.js";
-export type {
-  TriageResourcesListOptionalParams,
-  TriageResourcesGetOptionalParams,
-} from "./api/triageResources/index.js";
 export type { WorkloadsListOptionalParams } from "./api/workloads/index.js";
 export type {
   AdvisorScoresOperations,
@@ -163,8 +148,6 @@ export type {
   RecommendationsOperations,
   ResiliencyReviewsOperations,
   SuppressionsOperations,
-  TriageRecommendationsOperations,
-  TriageResourcesOperations,
   WorkloadsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

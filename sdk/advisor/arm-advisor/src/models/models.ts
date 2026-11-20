@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Parameters for predict recommendation. */
 export interface PredictionRequest {
   /** Type of the prediction. */
@@ -483,6 +483,16 @@ export interface ResourceRecommendationBase extends ExtensionResource {
   impactedField?: string;
   /** The resource identified by Advisor. */
   impactedValue?: string;
+  /** The criticality score assigned to the recommendation. */
+  readonly criticalityScore?: string;
+  /** The criticality assigned to the recommendation. */
+  readonly criticality?: string;
+  /** The time when the recommendation's criticality score last changed. */
+  readonly scoreChangedAt?: string;
+  /** The service group ID associated with the recommendation. */
+  readonly serviceGroupId?: string;
+  /** The estimated savings associated with the recommendation. */
+  readonly savings?: ResourceRecommendationSavings;
   /** The state of the Recommendation */
   recommendationStatus?: RecommendationStatus;
   /** The type of recommendation completion, which is either MarkedByUser or SystemVerified */
@@ -563,6 +573,16 @@ export interface RecommendationProperties {
   impactedField?: string;
   /** The resource identified by Advisor. */
   impactedValue?: string;
+  /** The criticality score assigned to the recommendation. */
+  readonly criticalityScore?: string;
+  /** The criticality assigned to the recommendation. */
+  readonly criticality?: string;
+  /** The time when the recommendation's criticality score last changed. */
+  readonly scoreChangedAt?: string;
+  /** The service group ID associated with the recommendation. */
+  readonly serviceGroupId?: string;
+  /** The estimated savings associated with the recommendation. */
+  readonly savings?: ResourceRecommendationSavings;
   /** The state of the Recommendation */
   recommendationStatus?: RecommendationStatus;
   /** The type of recommendation completion, which is either MarkedByUser or SystemVerified */
@@ -624,6 +644,13 @@ export function recommendationPropertiesDeserializer(item: any): RecommendationP
     impact: item["impact"],
     impactedField: item["impactedField"],
     impactedValue: item["impactedValue"],
+    criticalityScore: item["criticalityScore"],
+    criticality: item["criticality"],
+    scoreChangedAt: item["scoreChangedAt"],
+    serviceGroupId: item["serviceGroupId"],
+    savings: !item["savings"]
+      ? item["savings"]
+      : resourceRecommendationSavingsDeserializer(item["savings"]),
     recommendationStatus: item["recommendationStatus"],
     completionType: item["completionType"],
     recommendationDismissReason: item["recommendationDismissReason"],
@@ -721,6 +748,70 @@ export enum KnownControl {
  * **Personalized**
  */
 export type Control = string;
+
+/** The estimated savings associated with a resource recommendation. */
+export interface ResourceRecommendationSavings {
+  /** The currency used by the recommendation provider. */
+  providerCurrency?: string;
+  /** The currency used for billing. */
+  billingCurrency?: string;
+  /** Indicates whether the recommendation is for a direct billing channel. */
+  isDirectChannel?: boolean;
+  /** The time when the recommended resource was deleted. */
+  resourceDeletedOn?: Date;
+  /** The savings calculated using retail pricing. */
+  retail?: ResourceRecommendationSavingsDetails;
+  /** The savings calculated using contracted pricing. */
+  contracted?: ResourceRecommendationSavingsDetails;
+}
+
+export function resourceRecommendationSavingsDeserializer(
+  item: any,
+): ResourceRecommendationSavings {
+  return {
+    providerCurrency: item["providerCurrency"],
+    billingCurrency: item["billingCurrency"],
+    isDirectChannel: item["isDirectChannel"],
+    resourceDeletedOn: !item["resourceDeletedOn"]
+      ? item["resourceDeletedOn"]
+      : new Date(item["resourceDeletedOn"]),
+    retail: !item["retail"]
+      ? item["retail"]
+      : resourceRecommendationSavingsDetailsDeserializer(item["retail"]),
+    contracted: !item["contracted"]
+      ? item["contracted"]
+      : resourceRecommendationSavingsDetailsDeserializer(item["contracted"]),
+  };
+}
+
+/** The detailed savings amounts for a resource recommendation. */
+export interface ResourceRecommendationSavingsDetails {
+  /** The potential savings in the provider currency. */
+  potentialSavings?: number;
+  /** The potential savings in the billing currency. */
+  potentialSavingsInBillingCurrency?: number;
+  /** The amount wasted to date in the provider currency. */
+  wastedTillDate?: number;
+  /** The amount wasted to date in the billing currency. */
+  wastedTillDateInBillingCurrency?: number;
+  /** The realized savings in the provider currency. */
+  realizedSavings?: number;
+  /** The realized savings in the billing currency. */
+  realizedSavingsInBillingCurrency?: number;
+}
+
+export function resourceRecommendationSavingsDetailsDeserializer(
+  item: any,
+): ResourceRecommendationSavingsDetails {
+  return {
+    potentialSavings: item["potentialSavings"],
+    potentialSavingsInBillingCurrency: item["potentialSavingsInBillingCurrency"],
+    wastedTillDate: item["wastedTillDate"],
+    wastedTillDateInBillingCurrency: item["wastedTillDateInBillingCurrency"],
+    realizedSavings: item["realizedSavings"],
+    realizedSavingsInBillingCurrency: item["realizedSavingsInBillingCurrency"],
+  };
+}
 
 /** The state of the Recommendation applicable from v2026-02-01-preview. */
 export enum KnownRecommendationStatus {
@@ -1445,8 +1536,6 @@ export enum KnownReviewStatus {
   New = "New",
   /** The review is currently in progress. */
   InProgress = "InProgress",
-  /** The review has been triaged. */
-  Triaged = "Triaged",
   /** The review has been completed. */
   Completed = "Completed",
 }
@@ -1458,7 +1547,6 @@ export enum KnownReviewStatus {
  * ### Known values supported by the service
  * **New**: The review has been newly created. \
  * **InProgress**: The review is currently in progress. \
- * **Triaged**: The review has been triaged. \
  * **Completed**: The review has been completed.
  */
 export type ReviewStatus = string;
@@ -1481,265 +1569,6 @@ export function _resiliencyReviewCollectionDeserializer(item: any): _ResiliencyR
 export function resiliencyReviewArrayDeserializer(result: Array<ResiliencyReview>): any[] {
   return result.map((item) => {
     return resiliencyReviewDeserializer(item);
-  });
-}
-
-/** Triage recommendation data structure. */
-export interface TriageRecommendation extends ProxyResource {
-  /** Review id. */
-  readonly reviewId?: string;
-  /** Recommendation label. */
-  readonly title?: string;
-  /** Recommendation priority. */
-  readonly priority?: PriorityName;
-  /** List of subscription ids. */
-  readonly appliesToSubscriptions?: string[];
-  /** Recommendation status. */
-  readonly recommendationStatus?: RecommendationStatusName;
-  /** Recommendation potential benefit. */
-  readonly updatedAt?: string;
-  /** Recommendation rejection reason. */
-  readonly rejectReason?: string;
-  /** Recommendation potential benefit. */
-  readonly potentialBenefits?: string;
-  /** Recommendation description. */
-  readonly description?: string;
-  /** Recommendation notes. */
-  readonly notes?: string;
-}
-
-export function triageRecommendationDeserializer(item: any): TriageRecommendation {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _triageRecommendationPropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Triage recommendation properties. */
-export interface TriageRecommendationProperties {
-  /** Review id. */
-  readonly reviewId?: string;
-  /** Recommendation label. */
-  readonly title?: string;
-  /** Recommendation priority. */
-  readonly priority?: PriorityName;
-  /** List of subscription ids. */
-  readonly appliesToSubscriptions?: string[];
-  /** Recommendation status. */
-  readonly recommendationStatus?: RecommendationStatusName;
-  /** Recommendation potential benefit. */
-  readonly updatedAt?: string;
-  /** Recommendation rejection reason. */
-  readonly rejectReason?: string;
-  /** Recommendation potential benefit. */
-  readonly potentialBenefits?: string;
-  /** Recommendation description. */
-  readonly description?: string;
-  /** Recommendation notes. */
-  readonly notes?: string;
-}
-
-export function triageRecommendationPropertiesDeserializer(
-  item: any,
-): TriageRecommendationProperties {
-  return {
-    reviewId: item["reviewId"],
-    title: item["title"],
-    priority: item["priority"],
-    appliesToSubscriptions: !item["appliesToSubscriptions"]
-      ? item["appliesToSubscriptions"]
-      : item["appliesToSubscriptions"].map((p: any) => {
-          return p;
-        }),
-    recommendationStatus: item["recommendationStatus"],
-    updatedAt: item["updatedAt"],
-    rejectReason: item["rejectReason"],
-    potentialBenefits: item["potentialBenefits"],
-    description: item["description"],
-    notes: item["notes"],
-  };
-}
-
-/** Recommendation priority name enum. */
-export enum KnownPriorityName {
-  /** High */
-  High = "High",
-  /** Medium */
-  Medium = "Medium",
-  /** Low */
-  Low = "Low",
-}
-
-/**
- * Recommendation priority name enum. \
- * {@link KnownPriorityName} can be used interchangeably with PriorityName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **High**: High \
- * **Medium**: Medium \
- * **Low**: Low
- */
-export type PriorityName = string;
-
-/** Recommendation status name enum. */
-export enum KnownRecommendationStatusName {
-  /** Approved */
-  Approved = "Approved",
-  /** Rejected */
-  Rejected = "Rejected",
-  /** Pending */
-  Pending = "Pending",
-}
-
-/**
- * Recommendation status name enum. \
- * {@link KnownRecommendationStatusName} can be used interchangeably with RecommendationStatusName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Approved**: Approved \
- * **Rejected**: Rejected \
- * **Pending**: Pending
- */
-export type RecommendationStatusName = string;
-
-/** Collection of Advisor triage recommendations. */
-export interface _TriageRecommendationCollection {
-  /** List of triage recommendations. */
-  value: TriageRecommendation[];
-  /** The URL to get the next set of triage recommendations, if there are any. */
-  nextLink?: string;
-}
-
-export function _triageRecommendationCollectionDeserializer(
-  item: any,
-): _TriageRecommendationCollection {
-  return {
-    value: triageRecommendationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function triageRecommendationArrayDeserializer(result: Array<TriageRecommendation>): any[] {
-  return result.map((item) => {
-    return triageRecommendationDeserializer(item);
-  });
-}
-
-/** Recommendation reject body. */
-export interface RecommendationRejectBody {
-  /** Reason for rejecting recommendation. */
-  reasonForRejection?: ReasonForRejectionName;
-}
-
-export function recommendationRejectBodySerializer(item: RecommendationRejectBody): any {
-  return { reasonForRejection: item["reasonForRejection"] };
-}
-
-/** Reason for rejecting recommendation name enum. */
-export enum KnownReasonForRejectionName {
-  /** Not A Risk */
-  NotARisk = "NotARisk",
-  /** Risk Accepted */
-  RiskAccepted = "RiskAccepted",
-}
-
-/**
- * Reason for rejecting recommendation name enum. \
- * {@link KnownReasonForRejectionName} can be used interchangeably with ReasonForRejectionName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotARisk**: Not A Risk \
- * **RiskAccepted**: Risk Accepted
- */
-export type ReasonForRejectionName = string;
-
-/** Triage resource data structure. */
-export interface TriageResource extends ProxyResource {
-  /** Unique identifier for the review resource this triageResource belongs to. */
-  readonly reviewId?: string;
-  /** Unique identifier for the recommendation resource this triageResource belongs to. */
-  readonly recommendationId?: string;
-  /** Unique identifier for the subscription resource this triageResource belongs to. */
-  readonly subscriptionId?: string;
-  /** Name of the resource group this triageResource belongs to. */
-  readonly resourceGroup?: string;
-  /** Type of resource this triageResource corresponds to e.g. "Cosmos DB". */
-  readonly resourceType?: string;
-  /** Full Azure resource id path of the resource this triageResource corresponds to. */
-  readonly resourceId?: string;
-  /** Name of the resource this triageResource corresponds to. */
-  readonly resourceName?: string;
-}
-
-export function triageResourceDeserializer(item: any): TriageResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _triageResourcePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Triage resource properties. */
-export interface TriageResourceProperties {
-  /** Unique identifier for the review resource this triageResource belongs to. */
-  readonly reviewId?: string;
-  /** Unique identifier for the recommendation resource this triageResource belongs to. */
-  readonly recommendationId?: string;
-  /** Unique identifier for the subscription resource this triageResource belongs to. */
-  readonly subscriptionId?: string;
-  /** Name of the resource group this triageResource belongs to. */
-  readonly resourceGroup?: string;
-  /** Type of resource this triageResource corresponds to e.g. "Cosmos DB". */
-  readonly resourceType?: string;
-  /** Full Azure resource id path of the resource this triageResource corresponds to. */
-  readonly resourceId?: string;
-  /** Name of the resource this triageResource corresponds to. */
-  readonly resourceName?: string;
-}
-
-export function triageResourcePropertiesDeserializer(item: any): TriageResourceProperties {
-  return {
-    reviewId: item["reviewId"],
-    recommendationId: item["recommendationId"],
-    subscriptionId: item["subscriptionId"],
-    resourceGroup: item["resourceGroup"],
-    resourceType: item["resourceType"],
-    resourceId: item["resourceId"],
-    resourceName: item["resourceName"],
-  };
-}
-
-/** Collection of Advisor triage resources. */
-export interface _TriageResourceCollection {
-  /** The TriageResource items on this page */
-  value: TriageResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _triageResourceCollectionDeserializer(item: any): _TriageResourceCollection {
-  return {
-    value: triageResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function triageResourceArrayDeserializer(result: Array<TriageResource>): any[] {
-  return result.map((item) => {
-    return triageResourceDeserializer(item);
   });
 }
 
@@ -2051,6 +1880,24 @@ export function workloadResultDeserializer(item: any): WorkloadResult {
   };
 }
 
+/** The mode used to retrieve recommendations. */
+export enum KnownRecommendationListMode {
+  /** Returns all recommendations. */
+  All = "all",
+  /** Returns prioritized subset of recommendations ordered descending by their criticality score. */
+  Contextual = "contextual",
+}
+
+/**
+ * The mode used to retrieve recommendations. \
+ * {@link KnownRecommendationListMode} can be used interchangeably with RecommendationListMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **all**: Returns all recommendations. \
+ * **contextual**: Returns prioritized subset of recommendations ordered descending by their criticality score.
+ */
+export type RecommendationListMode = string;
+
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
   /** default */
@@ -2066,6 +1913,10 @@ export enum KnownVersions {
   V20250501Preview = "2025-05-01-preview",
   /** The 2026-02-01-preview API version. */
   V20260201Preview = "2026-02-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
+  /** The 2026-08-01-preview API version. */
+  V20260801Preview = "2026-08-01-preview",
 }
 
 export function _predictionRequestPropertiesSerializer(item: PredictionRequest): any {
@@ -2112,6 +1963,13 @@ export function _resourceRecommendationBasePropertiesDeserializer(item: any) {
     impact: item["impact"],
     impactedField: item["impactedField"],
     impactedValue: item["impactedValue"],
+    criticalityScore: item["criticalityScore"],
+    criticality: item["criticality"],
+    scoreChangedAt: item["scoreChangedAt"],
+    serviceGroupId: item["serviceGroupId"],
+    savings: !item["savings"]
+      ? item["savings"]
+      : resourceRecommendationSavingsDeserializer(item["savings"]),
     recommendationStatus: item["recommendationStatus"],
     completionType: item["completionType"],
     recommendationDismissReason: item["recommendationDismissReason"],
@@ -2223,37 +2081,6 @@ export function _resiliencyReviewPropertiesDeserializer(item: any) {
     recommendationsCount: item["recommendationsCount"],
     publishedAt: item["publishedAt"],
     updatedAt: item["updatedAt"],
-  };
-}
-
-export function _triageRecommendationPropertiesDeserializer(item: any) {
-  return {
-    reviewId: item["reviewId"],
-    title: item["title"],
-    priority: item["priority"],
-    appliesToSubscriptions: !item["appliesToSubscriptions"]
-      ? item["appliesToSubscriptions"]
-      : item["appliesToSubscriptions"].map((p: any) => {
-          return p;
-        }),
-    recommendationStatus: item["recommendationStatus"],
-    updatedAt: item["updatedAt"],
-    rejectReason: item["rejectReason"],
-    potentialBenefits: item["potentialBenefits"],
-    description: item["description"],
-    notes: item["notes"],
-  };
-}
-
-export function _triageResourcePropertiesDeserializer(item: any) {
-  return {
-    reviewId: item["reviewId"],
-    recommendationId: item["recommendationId"],
-    subscriptionId: item["subscriptionId"],
-    resourceGroup: item["resourceGroup"],
-    resourceType: item["resourceType"],
-    resourceId: item["resourceId"],
-    resourceName: item["resourceName"],
   };
 }
 

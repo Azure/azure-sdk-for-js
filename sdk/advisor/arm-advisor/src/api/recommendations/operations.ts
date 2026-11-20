@@ -20,6 +20,9 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGenerateOptionalParams,
+  RecommendationsUpdateByServiceGroupOptionalParams,
+  RecommendationsGetByServiceGroupOptionalParams,
+  RecommendationsListByServiceGroupOptionalParams,
   RecommendationsListByTenantOptionalParams,
   RecommendationsListOptionalParams,
   RecommendationsUpdateOptionalParams,
@@ -38,7 +41,7 @@ export function _getGenerateStatusSend(
     {
       subscriptionId: context.subscriptionId,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +82,7 @@ export function _generateSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,6 +114,176 @@ export async function generate(
   return _generateDeserialize(result);
 }
 
+export function _updateByServiceGroupSend(
+  context: Client,
+  serviceGroupName: string,
+  recommendationId: string,
+  properties: RecommendationPatchPayload,
+  options: RecommendationsUpdateByServiceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Advisor/recommendations/{recommendationId}{?api%2Dversion}",
+    {
+      serviceGroupName: serviceGroupName,
+      recommendationId: recommendationId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: recommendationPatchPayloadSerializer(properties),
+  });
+}
+
+export async function _updateByServiceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ResourceRecommendationBase> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return resourceRecommendationBaseDeserializer(result.body);
+}
+
+/** Updates the state of a recommendation for a service group. */
+export async function updateByServiceGroup(
+  context: Client,
+  serviceGroupName: string,
+  recommendationId: string,
+  properties: RecommendationPatchPayload,
+  options: RecommendationsUpdateByServiceGroupOptionalParams = { requestOptions: {} },
+): Promise<ResourceRecommendationBase> {
+  const result = await _updateByServiceGroupSend(
+    context,
+    serviceGroupName,
+    recommendationId,
+    properties,
+    options,
+  );
+  return _updateByServiceGroupDeserialize(result);
+}
+
+export function _getByServiceGroupSend(
+  context: Client,
+  serviceGroupName: string,
+  recommendationId: string,
+  options: RecommendationsGetByServiceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Advisor/recommendations/{recommendationId}{?api%2Dversion}",
+    {
+      serviceGroupName: serviceGroupName,
+      recommendationId: recommendationId,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getByServiceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ResourceRecommendationBase> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return resourceRecommendationBaseDeserializer(result.body);
+}
+
+/** Obtains details of a recommendation for a service group. */
+export async function getByServiceGroup(
+  context: Client,
+  serviceGroupName: string,
+  recommendationId: string,
+  options: RecommendationsGetByServiceGroupOptionalParams = { requestOptions: {} },
+): Promise<ResourceRecommendationBase> {
+  const result = await _getByServiceGroupSend(context, serviceGroupName, recommendationId, options);
+  return _getByServiceGroupDeserialize(result);
+}
+
+export function _listByServiceGroupSend(
+  context: Client,
+  serviceGroupName: string,
+  options: RecommendationsListByServiceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/providers/Microsoft.Management/serviceGroups/{serviceGroupName}/providers/Microsoft.Advisor/recommendations{?api%2Dversion,%24filter,mode,%24top,%24skipToken}",
+    {
+      serviceGroupName: serviceGroupName,
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "%24filter": options?.filter,
+      mode: options?.mode,
+      "%24top": options?.top,
+      "%24skipToken": options?.skipToken,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listByServiceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_ResourceRecommendationBaseListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = armErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _resourceRecommendationBaseListResultDeserializer(result.body);
+}
+
+/** Obtains recommendations for a service group. */
+export function listByServiceGroup(
+  context: Client,
+  serviceGroupName: string,
+  options: RecommendationsListByServiceGroupOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<ResourceRecommendationBase> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listByServiceGroupSend(context, serviceGroupName, options),
+    _listByServiceGroupDeserialize,
+    ["200"],
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
+  );
+}
+
 export function _listByTenantSend(
   context: Client,
   resourceUri: string,
@@ -120,7 +293,7 @@ export function _listByTenantSend(
     "/{+resourceUri}/providers/Microsoft.Advisor/recommendations{?api%2Dversion,%24filter,%24top,%24skipToken}",
     {
       resourceUri: resourceUri,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
@@ -165,7 +338,7 @@ export function listByTenant(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -175,11 +348,12 @@ export function _listSend(
   options: RecommendationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations{?api%2Dversion,%24filter,%24top,%24skipToken}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations{?api%2Dversion,%24filter,mode,%24top,%24skipToken}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24filter": options?.filter,
+      mode: options?.mode,
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -209,7 +383,7 @@ export async function _listDeserialize(
   return _resourceRecommendationBaseListResultDeserializer(result.body);
 }
 
-/** Obtains cached recommendations for a subscription. The recommendations are generated or computed by invoking generateRecommendations. */
+/** Obtains recommendations for a subscription. */
 export function list(
   context: Client,
   options: RecommendationsListOptionalParams = { requestOptions: {} },
@@ -222,7 +396,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -238,7 +412,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       recommendationId: recommendationId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -290,7 +464,7 @@ export function _getSend(
     {
       resourceUri: resourceUri,
       recommendationId: recommendationId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

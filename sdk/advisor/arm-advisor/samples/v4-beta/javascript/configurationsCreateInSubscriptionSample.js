@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
  *
  * @summary create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
- * x-ms-original-file: 2026-02-01-preview/CreateConfiguration_CreateInSubscription.json
+ * x-ms-original-file: 2026-08-01-preview/CreateConfiguration_CreateInSubscription.json
  */
 async function putConfigurations() {
   const credential = new DefaultAzureCredential();

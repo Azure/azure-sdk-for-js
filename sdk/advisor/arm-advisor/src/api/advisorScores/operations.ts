@@ -23,7 +23,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/advisorScore{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -61,7 +61,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", apiVersion: context.apiVersion ?? "2026-02-01-preview" },
+    { itemName: "value", apiVersion: context.apiVersion ?? "2026-08-01-preview" },
   );
 }
 
@@ -75,7 +75,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

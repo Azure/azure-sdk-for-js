@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to predicts a recommendation.
  *
  * @summary predicts a recommendation.
- * x-ms-original-file: 2026-02-01-preview/Predict.json
+ * x-ms-original-file: 2026-08-01-preview/Predict.json
  */
 async function predict() {
   const credential = new DefaultAzureCredential();
