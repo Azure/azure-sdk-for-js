@@ -214,7 +214,10 @@ export class FileSystemPersist implements PersistentStorage {
 
   private async _prepareDirectory(create: boolean, envelopes?: Envelope[]): Promise<boolean> {
     try {
-      // Protect both exporter-owned levels, never the caller's storageDirectory or the OS temp root.
+      // Routed partitions have one extra exporter-owned ancestor above their shared root.
+      if (this._storagePartition) {
+        await confirmDirExists(this._storagePartition.exporterRoot, create);
+      }
       await confirmDirExists(dirname(this._tempDirectory), create);
       await confirmDirExists(this._tempDirectory, create);
       return this._enabled;
