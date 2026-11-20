@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { EventEmitter } from "events";
 import { PooledBuffer } from "./PooledBuffer.js";
 
@@ -126,8 +128,8 @@ export class BufferScheduler {
    * Creates an instance of BufferScheduler.
    *
    * @param readable - A Node.js Readable stream
-   * @param bufferSize - Buffer size of every maintained buffer
-   * @param maxBuffers - How many buffers can be allocated
+   * @param bufferSize - Buffer size of every maintained buffer, in bytes (an integer &gt;0)
+   * @param maxBuffers - How many buffers can be allocated (&gt;0)
    * @param outgoingHandler - An async function scheduled to be
    *                                          triggered when a buffer fully filled
    *                                          with stream data
@@ -142,11 +144,12 @@ export class BufferScheduler {
     concurrency: number,
     encoding?: BufferEncoding,
   ) {
-    if (bufferSize <= 0) {
-      throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);
+    // A numeric string is accepted: the size is only used in arithmetic, which converts it.
+    if (!Number.isSafeInteger(Number(bufferSize)) || bufferSize <= 0) {
+      throw new RangeError(`bufferSize must be an integer larger than 0, current is ${bufferSize}`);
     }
 
-    if (maxBuffers <= 0) {
+    if (!(maxBuffers > 0)) {
       throw new RangeError(`maxBuffers must be larger than 0, current is ${maxBuffers}`);
     }
 
@@ -166,10 +169,27 @@ export class BufferScheduler {
    * Start the scheduler, will return error when stream of any of the outgoingHandlers
    * returns error.
    *
+   * @param options - `abortSignal`: when it's aborted, `do()` rejects with an `AbortError` and
+   *                  pauses the stream. No more data is handed to the outgoing handler after
+   *                  `do()` rejects. Handlers already running aren't stopped: pass the same
+   *                  signal to the requests they send.
    */
-  public async do(): Promise<void> {
+  public async do(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const { abortSignal } = options;
+    if (abortSignal?.aborted) {
+      throw new AbortError("The operation was aborted.");
+    }
+    const onAbort = (): void => {
+      this.emitter.emit("error", new AbortError("The operation was aborted."));
+    };
+    abortSignal?.addEventListener("abort", onAbort);
+
     return new Promise<void>((resolve, reject) => {
       this.readable.on("data", (data) => {
+        // Once do() has rejected, leave the stream to the caller, who may drain or reuse it.
+        if (this.isError) {
+          return;
+        }
         try {
           data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
           this.appendUnresolvedData(data);
@@ -192,6 +212,11 @@ export class BufferScheduler {
       });
 
       this.emitter.on("error", (err) => {
+        // Only the first error rejects and pauses: later ones come from handlers that were still
+        // running, and the stream already belongs to the caller again.
+        if (this.isError) {
+          return;
+        }
         this.isError = true;
         this.readable.pause();
         reject(err);
@@ -228,7 +253,7 @@ export class BufferScheduler {
           }
         }
       });
-    });
+    }).finally(() => abortSignal?.removeEventListener("abort", onAbort));
   }
 
   /**

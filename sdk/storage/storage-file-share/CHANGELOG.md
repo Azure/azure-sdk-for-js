@@ -1,5 +1,18 @@
 # Release History
 
+## 12.34.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `ShareFileClient.uploadStream` now throws a `RangeError` before it creates the file when `bufferSize` isn't a number of at least 1 or `maxBuffers` isn't a positive number, for example when an options object is passed in their place, instead of leaving a file of zeros or, for `maxBuffers`, waiting forever once the data filled a buffer. A string `bufferSize`, which made the process exit with an uncaught `TypeError` once the data filled a buffer, now throws the `RangeError` too. [#31760](https://github.com/Azure/azure-sdk-for-js/issues/31760)
+- `ShareFileClient.uploadStream` now rejects with an `AbortError` as soon as its `abortSignal` is aborted, also while it waits for data from the source stream, and starts no more range uploads. [#32028](https://github.com/Azure/azure-sdk-for-js/issues/32028)
+
+### Other Changes
+
 ## 12.34.0-beta.1 (2026-11-11)
 
 ### Features Added

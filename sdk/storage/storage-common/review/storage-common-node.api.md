@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
@@ -49,7 +50,9 @@ export function bufferFromArrayBuffer(ab: ArrayBuffer, byteOffset?: number, leng
 // @public
 export class BufferScheduler {
     constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
-    do(): Promise<void>;
+    do(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
 }
 
 // @public

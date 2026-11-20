@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 
 // BufferScheduler is only available in Node.js runtime.
@@ -23,7 +24,7 @@ export class BufferScheduler {
     throw new Error("BufferScheduler is not supported in non-Node.js environments.");
   }
 
-  async do(): Promise<void> {
+  async do(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
     throw new Error("BufferScheduler is not supported in non-Node.js environments.");
   }
 }

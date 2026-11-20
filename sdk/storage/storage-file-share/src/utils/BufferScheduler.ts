@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { EventEmitter } from "events";
 
 /**
@@ -161,10 +163,26 @@ export class BufferScheduler {
    * Start the scheduler, will return error when stream of any of the outgoingHandlers
    * returns error.
    *
+   * @param options - `abortSignal`: when it's aborted, `do()` rejects with an `AbortError` and
+   *                  pauses the stream. No more data is handed to the outgoing handler after
+   *                  `do()` rejects. Pass the same signal to the requests the handler sends.
    */
-  public async do(): Promise<void> {
+  public async do(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const { abortSignal } = options;
+    if (abortSignal?.aborted) {
+      throw new AbortError("The operation was aborted.");
+    }
+    const onAbort = (): void => {
+      this.emitter.emit("error", new AbortError("The operation was aborted."));
+    };
+    abortSignal?.addEventListener("abort", onAbort);
+
     return new Promise<void>((resolve, reject) => {
       this.readable.on("data", (data) => {
+        // Once do() has rejected, leave the stream to the caller, who may drain or reuse it.
+        if (this.isError) {
+          return;
+        }
         data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
         this.appendUnresolvedData(data);
 
@@ -183,12 +201,23 @@ export class BufferScheduler {
       });
 
       this.emitter.on("error", (err) => {
+        // Only the first error rejects and pauses: later ones come from handlers that were still
+        // running, and the stream already belongs to the caller again.
+        if (this.isError) {
+          return;
+        }
         this.isError = true;
         this.readable.pause();
         reject(err);
       });
 
       this.emitter.on("checkEnd", () => {
+        // Handlers still running when do() rejected emit "checkEnd" when they finish;
+        // queued buffers must not be uploaded then.
+        if (this.isError) {
+          return;
+        }
+
         if (this.outgoing.length > 0) {
           this.triggerOutgoingHandlers();
           return;
@@ -206,7 +235,7 @@ export class BufferScheduler {
           }
         }
       });
-    });
+    }).finally(() => abortSignal?.removeEventListener("abort", onAbort));
   }
 
   /**
