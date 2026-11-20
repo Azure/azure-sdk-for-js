@@ -13,7 +13,7 @@ export interface CreditsOperations {
     billingAccountId: string,
     billingProfileId: string,
     options?: CreditsGetOptionalParams,
-  ) => Promise<CreditSummary | undefined>;
+  ) => Promise<CreditSummary | void>;
 }
 
 function _getCredits(context: ConsumptionManagementContext) {

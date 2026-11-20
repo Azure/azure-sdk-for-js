@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesForBillingPeriodByDepartment.json
+ * x-ms-original-file: 2026-06-01/ChargesForBillingPeriodByDepartment.json
  */
 async function changesForBillingPeriodByDepartmentLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function changesForBillingPeriodByDepartmentLegacy(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesForBillingPeriodByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ChargesForBillingPeriodByEnrollmentAccount.json
  */
 async function changesForBillingPeriodByEnrollmentAccountLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function changesForBillingPeriodByEnrollmentAccountLegacy(): Promise<void>
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingAccount.json
  */
 async function chargesListByBillingAccountModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function chargesListByBillingAccountModern(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingAccountGroupByBillingProfileId.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingAccountGroupByBillingProfileId.json
  */
 async function chargesListByBillingAccountGroupByBillingProfileIdModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function chargesListByBillingAccountGroupByBillingProfileIdModern(): Promi
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingAccountGroupByCustomerId.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingAccountGroupByCustomerId.json
  */
 async function chargesListByBillingAccountGroupByCustomerIdModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function chargesListByBillingAccountGroupByCustomerIdModern(): Promise<voi
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingAccountGroupByInvoiceSectionId.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingAccountGroupByInvoiceSectionId.json
  */
 async function chargesListByBillingAccountGroupByInvoiceSectionIdModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -110,7 +110,7 @@ async function chargesListByBillingAccountGroupByInvoiceSectionIdModern(): Promi
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingProfile.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingProfile.json
  */
 async function chargesListByBillingProfileModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -125,7 +125,7 @@ async function chargesListByBillingProfileModern(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingProfileGroupByInvoiceSectionId.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingProfileGroupByInvoiceSectionId.json
  */
 async function chargesListByBillingProfileGroupByInvoiceSectionIdModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -145,7 +145,7 @@ async function chargesListByBillingProfileGroupByInvoiceSectionIdModern(): Promi
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernBillingProfileInvoiceSection.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernBillingProfileInvoiceSection.json
  */
 async function chargesListByBillingProfileInvoiceSectionModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +161,7 @@ async function chargesListByBillingProfileInvoiceSectionModern(): Promise<void> 
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernCustomer.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernCustomer.json
  */
 async function chargesListByCustomerModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -176,7 +176,7 @@ async function chargesListByCustomerModern(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListByModernInvoiceSectionId.json
+ * x-ms-original-file: 2026-06-01/ChargesListByModernInvoiceSectionId.json
  */
 async function chargesListByInvoiceSectionIdModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -191,7 +191,7 @@ async function chargesListByInvoiceSectionIdModern(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListForDepartmentFilterByStartEndDate.json
+ * x-ms-original-file: 2026-06-01/ChargesListForDepartmentFilterByStartEndDate.json
  */
 async function chargesListByDepartmentLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -207,7 +207,7 @@ async function chargesListByDepartmentLegacy(): Promise<void> {
  * This sample demonstrates how to lists the charges based for the defined scope.
  *
  * @summary lists the charges based for the defined scope.
- * x-ms-original-file: 2024-08-01/ChargesListForEnrollmentAccountFilterByStartEndDate.json
+ * x-ms-original-file: 2026-06-01/ChargesListForEnrollmentAccountFilterByStartEndDate.json
  */
 async function chargesListForEnrollmentAccountLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -23,7 +23,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Consumption/usageDetails{?api%2Dversion,%24expand,%24filter,%24skiptoken,%24top,metric}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
       "%24filter": options?.filter,
       "%24skiptoken": options?.skiptoken,
@@ -71,6 +71,6 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200", "204"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

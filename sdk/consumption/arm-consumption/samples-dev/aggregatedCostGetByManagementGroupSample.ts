@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to provides the aggregate cost of a management group and all child management groups by current billing period.
  *
  * @summary provides the aggregate cost of a management group and all child management groups by current billing period.
- * x-ms-original-file: 2024-08-01/AggregatedCostByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/AggregatedCostByManagementGroup.json
  */
 async function aggregatedCostByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function aggregatedCostByManagementGroup(): Promise<void> {
  * This sample demonstrates how to provides the aggregate cost of a management group and all child management groups by current billing period.
  *
  * @summary provides the aggregate cost of a management group and all child management groups by current billing period.
- * x-ms-original-file: 2024-08-01/AggregatedCostByManagementGroupFilterByDate.json
+ * x-ms-original-file: 2026-06-01/AggregatedCostByManagementGroupFilterByDate.json
  */
 async function aggregatedCostByManagementGroupFilterByDate(): Promise<void> {
   const credential = new DefaultAzureCredential();
