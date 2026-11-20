@@ -1,4 +1,11 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/saaSOperationGroup/index.ts",
+    "../src/api/organizations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

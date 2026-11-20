@@ -48,7 +48,7 @@ export function _latestLinkedSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,6 @@ export async function _latestLinkedSaaSDeserialize(
 
   return latestLinkedSaaSResponseDeserializer(result.body);
 }
-
 /** Returns the latest SaaS linked to the Napster organization of the underlying monitor. */
 export async function latestLinkedSaaS(
   context: Client,
@@ -100,7 +99,7 @@ export function _linkSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,7 +128,6 @@ export async function _linkSaaSDeserialize(
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Links a new SaaS to the Napster organization of the underlying monitor. */
 export function linkSaaS(
   context: Client,
@@ -144,7 +142,7 @@ export function linkSaaS(
     getInitialResponse: () =>
       _linkSaaSSend(context, resourceGroupName, organizationname, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-24-preview",
+    apiVersion: context.apiVersion ?? "2026-08-11",
   }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
@@ -156,7 +154,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Napster.CompanionAPI/organizations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,7 +181,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _organizationResourceListResultDeserializer(result.body);
 }
-
 /** List OrganizationResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -194,11 +191,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-24-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-11" },
   );
 }
 
@@ -212,7 +205,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,7 +232,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _organizationResourceListResultDeserializer(result.body);
 }
-
 /** List OrganizationResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -251,11 +243,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-12-24-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-11" },
   );
 }
 
@@ -271,7 +259,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -293,7 +281,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a OrganizationResource */
 export function $delete(
   context: Client,
@@ -306,7 +293,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, organizationname, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-24-preview",
+    apiVersion: context.apiVersion ?? "2026-08-11",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -323,7 +310,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -352,7 +339,6 @@ export async function _updateDeserialize(
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Update a OrganizationResource */
 export function update(
   context: Client,
@@ -367,7 +353,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, organizationname, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-24-preview",
+    apiVersion: context.apiVersion ?? "2026-08-11",
   }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
@@ -384,7 +370,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,7 +399,6 @@ export async function _createOrUpdateDeserialize(
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Create a OrganizationResource */
 export function createOrUpdate(
   context: Client,
@@ -428,7 +413,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, organizationname, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-12-24-preview",
+    apiVersion: context.apiVersion ?? "2026-08-11",
   }) as PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 }
 
@@ -444,7 +429,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationname: organizationname,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -471,7 +456,6 @@ export async function _getDeserialize(
 
   return organizationResourceDeserializer(result.body);
 }
-
 /** Get a OrganizationResource */
 export async function get(
   context: Client,

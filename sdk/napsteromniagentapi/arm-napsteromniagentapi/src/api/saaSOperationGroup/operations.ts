@@ -27,7 +27,7 @@ export function _activateResourceSend(
     "/subscriptions/{subscriptionId}/providers/Napster.CompanionAPI/activateSaaS{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-12-24-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-11",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +56,6 @@ export async function _activateResourceDeserialize(
 
   return saaSResourceDetailsResponseDeserializer(result.body);
 }
-
 /** Resolve the token to get the SaaS resource ID and activate the SaaS resource */
 export function activateResource(
   context: Client,
@@ -68,6 +67,6 @@ export function activateResource(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _activateResourceSend(context, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-12-24-preview",
+    apiVersion: context.apiVersion ?? "2026-08-11",
   }) as PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
 }
