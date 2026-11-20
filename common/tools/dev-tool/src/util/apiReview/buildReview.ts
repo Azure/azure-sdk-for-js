@@ -597,9 +597,10 @@ function buildExportSections(
     const relativeFile = path.relative(declarationRoot, file.fileName).split(path.sep).join("/");
     return file.statements.flatMap((statement, index) => {
       const augmentation =
-        ts.isModuleDeclaration(statement) &&
-        (ts.isStringLiteral(statement.name) ||
-          Boolean(statement.flags & ts.NodeFlags.GlobalAugmentation));
+        !ts.isExternalModule(file) ||
+        (ts.isModuleDeclaration(statement) &&
+          (ts.isStringLiteral(statement.name) ||
+            Boolean(statement.flags & ts.NodeFlags.GlobalAugmentation)));
       const typeOnlyExport =
         ts.isExportDeclaration(statement) &&
         statement.isTypeOnly &&
@@ -694,6 +695,7 @@ function buildExportSections(
     if (
       !parent ||
       !ts.isSourceFile(parent) ||
+      !ts.isExternalModule(parent) ||
       (ts.isModuleDeclaration(node) &&
         (ts.isStringLiteral(node.name) || Boolean(node.flags & ts.NodeFlags.GlobalAugmentation)))
     ) {
@@ -711,6 +713,20 @@ function buildExportSections(
     }
     if (ts.isImportTypeNode(node) && !node.qualifier) {
       throw new Error(`[${condition}] Unqualified import types are not supported by API review.`);
+    }
+    if (ts.isTypeQueryNode(node) && ts.isIdentifier(node.exprName)) {
+      const symbol = checker.getSymbolAtLocation(node.exprName);
+      const target = symbol && resolveAlias(symbol);
+      if (
+        target &&
+        isModuleObject(target) &&
+        !isExternal(program, target) &&
+        !exposed.has(target)
+      ) {
+        throw new Error(
+          `[${condition}] Type query on an unreviewed local module object is not supported by API review.`,
+        );
+      }
     }
     const forgotten = ts.isIdentifier(node) ? forgottenSymbol(node) : undefined;
     if (forgotten && !forgottenSymbols.has(forgotten)) {
@@ -788,14 +804,22 @@ function buildExportSections(
       };
     });
 
+  const markTypeOnly = (code: Code): Code =>
+    typeof code === "string"
+      ? `// type-only export\n${code}`
+      : { ...code, open: `// type-only export\n${code.open}` };
+
   // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
   const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
     open: `export declare namespace ${name} {`,
     children: exportsOf(moduleSymbol).map((member) => {
       const target = resolveAlias(member);
-      return isModuleObject(target)
+      const printed = isModuleObject(target)
         ? printModuleObject(member.name, target)
         : printDeclarations(target, member.name, printer, referenceNames).join("\n\n");
+      return isTypeOnlyExport(member) && target.flags & ts.SymbolFlags.Value
+        ? markTypeOnly(printed)
+        : printed;
     }),
     close: "}",
   });
@@ -864,10 +888,7 @@ function buildExportSections(
         ? printModuleObject(exportedSymbol.name, symbol)
         : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames).join("\n\n");
       if (typeOnly && symbol.flags & ts.SymbolFlags.Value) {
-        printed =
-          typeof printed === "string"
-            ? `// type-only export\n${printed}`
-            : { ...printed, open: `// type-only export\n${printed.open}` };
+        printed = markTypeOnly(printed);
       }
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
         differsFromRoot.push({ name: exportedSymbol.name, code: printed });

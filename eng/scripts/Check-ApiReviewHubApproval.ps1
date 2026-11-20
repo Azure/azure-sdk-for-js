@@ -79,6 +79,22 @@ $result = $response.result
 $hub = $result.reviewHub
 Write-Host "API Review Hub result: $($hub | ConvertTo-Json -Compress -Depth 20)"
 
+if ($result.PSObject.Properties["isApproved"] -and $result.isApproved -is [bool] -and $result.isApproved -and
+    $result.PSObject.Properties["finalSource"] -and $result.finalSource -eq "APIView" -and
+    $hub.PSObject.Properties["statusCode"] -and
+    ($hub.statusCode -is [int] -or $hub.statusCode -is [long]) -and $hub.statusCode -ge 200 -and $hub.statusCode -lt 300 -and
+    $hub.PSObject.Properties["reason"] -and $hub.reason -eq "repositoryNotSupported" -and
+    $result.PSObject.Properties["apiView"] -and $null -ne $result.apiView) {
+  $apiView = $result.apiView
+  if ($apiView.PSObject.Properties["statusCode"] -and
+      ($apiView.statusCode -is [int] -or $apiView.statusCode -is [long]) -and $apiView.statusCode -ge 200 -and $apiView.statusCode -lt 300 -and
+      $apiView.PSObject.Properties["isApproved"] -and $apiView.isApproved -is [bool] -and $apiView.isApproved -and
+      $apiView.PSObject.Properties["packageNameApproved"] -and $apiView.packageNameApproved -is [bool] -and $apiView.packageNameApproved) {
+    Write-Warning "API Review Hub does not support this repository; accepting APIView approval during migration. APIView does not verify the API hash."
+    return
+  }
+}
+
 if (-not $result.PSObject.Properties["isApproved"] -or
     $result.isApproved -isnot [bool] -or -not $result.isApproved -or
     -not $result.PSObject.Properties["finalSource"] -or

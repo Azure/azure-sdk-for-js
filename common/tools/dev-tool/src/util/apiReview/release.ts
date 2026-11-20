@@ -149,8 +149,20 @@ export async function generateReleaseApiReview(
         throw new Error(`Package archive ${field} does not match packed source dependencies.`);
       }
     }
-    for (const field of ["exports", "type", "main", "module", "browser"]) {
-      if (!isDeepStrictEqual(sourceManifest[field], candidateManifest[field])) {
+    for (const field of [
+      "exports",
+      "imports",
+      "type",
+      "main",
+      "module",
+      "browser",
+      "react-native",
+    ]) {
+      const matches =
+        field === "imports"
+          ? JSON.stringify(sourceManifest[field]) === JSON.stringify(candidateManifest[field])
+          : isDeepStrictEqual(sourceManifest[field], candidateManifest[field]);
+      if (!matches) {
         throw new Error(`Package archive ${field} does not match source.`);
       }
     }

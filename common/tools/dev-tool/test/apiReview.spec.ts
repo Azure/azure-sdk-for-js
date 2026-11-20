@@ -86,6 +86,14 @@ describe("generateApiReview", () => {
     expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
   });
 
+  it("does not report global script declarations as forgotten exports", async () => {
+    const root = fixture({
+      "dist/esm/index.d.ts": 'import "./globals.js"; export {};',
+      "dist/esm/globals.d.ts": "interface CustomGlobal { value: string; }",
+    });
+    expect((await generateApiReview(root)).apiMd).not.toContain("arh-forgotten-export");
+  });
+
   beforeAll(() => {
     singleExportRoot = fixture({ "dist/esm/index.d.ts": "export declare const value: string;\n" });
   });
@@ -736,6 +744,39 @@ export interface Pipeline {
   });
 
   describe("module objects", () => {
+    it("distinguishes type-only members of exported module objects", async () => {
+      const review = (typeOnly: boolean): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+        generateApiReview(
+          fixture({
+            "dist/esm/index.d.ts": 'export * as ns from "./bar.js";',
+            "dist/esm/bar.d.ts": `export ${typeOnly ? "type " : ""}{ Foo } from "./foo.js";`,
+            "dist/esm/foo.d.ts": "export declare class Foo {}",
+          }),
+        );
+      const value = await review(false);
+      const type = await review(true);
+      expect(type.apiMd).toContain("// type-only export");
+      expect(type.metadata.apiHash).not.toBe(value.metadata.apiHash);
+    });
+
+    it("rejects a type query on an unreviewed local module object", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts":
+          'import * as internal from "./internal.js"; export type API = typeof internal;',
+        "dist/esm/internal.d.ts": "export declare const value: string;",
+      });
+      await expect(generateApiReview(root)).rejects.toThrow("unreviewed local module object");
+    });
+
+    it("allows a type query on a local module object already exported for review", async () => {
+      const root = fixture({
+        "dist/esm/index.d.ts":
+          'import * as internal from "./internal.js"; export { internal }; export type API = typeof internal;',
+        "dist/esm/internal.d.ts": "export declare const value: string;",
+      });
+      expect((await generateApiReview(root)).apiMd).toContain("value: string;");
+    });
+
     it("prints export * as a namespace block of the module's exports", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * as fn from "./fn.js";',
@@ -1853,6 +1894,20 @@ export declare function isRestError(error: unknown): error is RestError;`,
   });
 
   describe("augmentations and legacy exports", () => {
+    it("includes package-owned global script declarations in the hash", async () => {
+      const review = (type: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+        generateApiReview(
+          fixture({
+            "dist/esm/index.d.ts": 'import "./globals.js"; export {};',
+            "dist/esm/globals.d.ts": `interface Window { added: ${type}; }`,
+          }),
+        );
+      const before = await review("string");
+      const after = await review("number");
+      expect(before.apiMd).toContain("added: string;");
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
+    });
+
     it("includes package-owned module and global augmentations in the review and hash", async () => {
       const augmentation = (memberType: string): string =>
         fixture({
@@ -2393,6 +2448,39 @@ describe("release API review", () => {
     );
   });
 
+  it.each(["react-native", "imports"])(
+    "rejects changed %s metadata in the archive",
+    async (field) => {
+      const { root, archive, infoFile } = await releaseFixture("string");
+      const manifestPath = path.join(root, "candidate", "package", "package.json");
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+      manifest[field] = field === "imports" ? { "#internal": "./other.js" } : "./other.js";
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, [
+        "package",
+      ]);
+      await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+        `${field} does not match`,
+      );
+    },
+  );
+
+  it("rejects reordered package import conditions", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const sourcePath = path.join(root, "package.json");
+    const candidatePath = path.join(root, "candidate", "package", "package.json");
+    const source = JSON.parse(readFileSync(sourcePath, "utf8"));
+    const candidate = JSON.parse(readFileSync(candidatePath, "utf8"));
+    source.imports = { "#internal": { node: "./node.js", default: "./default.js" } };
+    candidate.imports = { "#internal": { default: "./default.js", node: "./node.js" } };
+    writeFileSync(sourcePath, JSON.stringify(source));
+    writeFileSync(candidatePath, JSON.stringify(candidate));
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "imports does not match",
+    );
+  });
+
   it("rejects a missing runtime entry point", async () => {
     const { root, archive, infoFile } = await releaseFixture("string");
     for (const manifestPath of [
@@ -2455,6 +2543,45 @@ describe("release API review", () => {
     );
     expect(JSON.parse(readFileSync(infoFile, "utf8")).ApiHash).toBeUndefined();
   });
+
+  it.each([
+    {
+      name: "global script",
+      index: 'import "./internal.js"; export {};',
+      source: "interface Window { added: string; }",
+      candidate: "interface Window { added: number; }",
+      extra: undefined,
+    },
+    {
+      name: "namespace type-only export",
+      index: 'export * as ns from "./internal.js";',
+      source: 'export { Foo } from "./foo.js";',
+      candidate: 'export type { Foo } from "./foo.js";',
+      extra: "export declare class Foo {}",
+    },
+  ])(
+    "rejects a packed candidate with changed $name",
+    async ({ index, source, candidate, extra }) => {
+      const { root, archive, infoFile } = await releaseFixture("string");
+      for (const [dir, declaration] of [
+        [path.join(root, "dist", "esm"), source],
+        [path.join(root, "candidate", "package", "dist", "esm"), candidate],
+      ]) {
+        writeFileSync(path.join(dir, "index.d.ts"), index);
+        writeFileSync(path.join(dir, "internal.d.ts"), declaration);
+        if (extra) {
+          writeFileSync(path.join(dir, "foo.d.ts"), extra);
+        }
+      }
+      await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, [
+        "package",
+      ]);
+      await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+        "package API hash does not match",
+      );
+      expect(JSON.parse(readFileSync(infoFile, "utf8")).ApiHash).toBeUndefined();
+    },
+  );
 
   it("rejects an unreleased package before checking approval", async () => {
     const { root, archive, infoFile } = await releaseFixture("string");

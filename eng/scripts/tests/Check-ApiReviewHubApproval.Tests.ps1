@@ -50,6 +50,27 @@ Describe "Check-ApiReviewHubApproval.ps1" {
     { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Throw "*did not approve*"
   }
 
+  It "accepts APIView approval when the Hub explicitly does not support the repository" {
+    $global:AzSdkOutput = '{"result":{"isApproved":true,"finalSource":"APIView","reviewHub":{"statusCode":200,"isApproved":false,"isApiApproved":false,"isPackageNameApproved":false,"reason":"repositoryNotSupported"},"apiView":{"statusCode":200,"isApproved":true,"packageNameApproved":true}}}'
+    { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Not -Throw
+  }
+
+  It "rejects unsupported-repository fallback without APIView package-name approval" {
+    $global:AzSdkOutput = '{"result":{"isApproved":true,"finalSource":"APIView","reviewHub":{"statusCode":200,"reason":"repositoryNotSupported"},"apiView":{"statusCode":200,"isApproved":true,"packageNameApproved":false}}}'
+    { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Throw "*did not approve*"
+  }
+
+  It "rejects unsupported-repository fallback when APIView is unavailable or unapproved" -TestCases @(
+    @{ ApiView = '{"statusCode":503,"isApproved":true,"packageNameApproved":true}' },
+    @{ ApiView = '{"statusCode":200,"isApproved":false,"packageNameApproved":true}' },
+    @{ ApiView = '{"statusCode":200,"isApproved":"true","packageNameApproved":true}' },
+    @{ ApiView = '{"statusCode":200,"isApproved":true}' }
+  ) {
+    param ($ApiView)
+    $global:AzSdkOutput = '{"result":{"isApproved":true,"finalSource":"APIView","reviewHub":{"statusCode":200,"reason":"repositoryNotSupported"},"apiView":' + $ApiView + '}}'
+    { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Throw "*did not approve*"
+  }
+
   It "accepts Hub policy that does not require an API review when the package name is approved" {
     $global:AzSdkOutput = '{"result":{"isApproved":true,"finalSource":"ApiReviewHub","reviewHub":{"statusCode":200,"isApproved":true,"isApiApproved":true,"isPackageNameApproved":true,"reason":"reviewNotRequired"}}}'
     { & $scriptPath -PackageInfoFile $packageInfoPath } | Should -Not -Throw
