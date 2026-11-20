@@ -4740,6 +4740,7 @@ export class ShareFileClient extends StorageClient {
         async (start: number): Promise<NodeJSReadableStream> => {
           const updatedDownloadOptions: FileDownloadOptionalParamsInternal = {
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             range: rangeToString({
               count: offset + contentLength - start,
               offset: start,
@@ -4773,6 +4774,7 @@ export class ShareFileClient extends StorageClient {
         offset,
         contentLength,
         {
+          abortSignal: updatedOptions.abortSignal,
           maxRetryRequests: updatedOptions.maxRetryRequests,
           onProgress: updatedOptions.onProgress,
         },

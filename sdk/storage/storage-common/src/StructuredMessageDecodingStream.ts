@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
+import { getErrorMessage } from "@azure/core-util";
 import { Readable } from "node:stream";
+import { logger } from "./log.js";
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
 /**
@@ -74,6 +76,9 @@ class StructuredMessageDecodingStream extends Readable {
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);
     this.source.removeListener("aborted", this.sourceAbortedHandler);
+    // The source can still fail after this stream stops reading it, for example while it's being
+    // destroyed, and Node.js throws an "error" event that has no listener as an uncaught exception.
+    this.source.on("error", logSourceError);
   }
   private sourceDataHandler = (data: Buffer) => {
     try {
@@ -104,4 +109,10 @@ class StructuredMessageDecodingStream extends Readable {
 
     callback(error === null ? undefined : error);
   }
+}
+
+function logSourceError(error: unknown): void {
+  logger.info(
+    `StructuredMessageDecodingStream: ignored an error from a source it no longer reads: ${getErrorMessage(error)}`,
+  );
 }

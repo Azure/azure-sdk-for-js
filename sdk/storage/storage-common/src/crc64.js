@@ -120,19 +120,10 @@ if (ENVIRONMENT_IS_NODE) {
 
   // MODULARIZE will export the module in the proper place outside, we don't need to export here
 
-  process['on']('uncaughtException', function(ex) {
-    // suppress ExitStatus exceptions from showing an error
-    if (!(ex instanceof ExitStatus)) {
-      throw ex;
-    }
-  });
-
-  // Without this older versions of node (< v15) will log unhandled rejections
-  // but return 0, which is not normally the desired behaviour.  This is
-  // not be needed with node v15 and about because it is now the default
-  // behaviour:
-  // See https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode
-  process['on']('unhandledRejection', function(reason) { throw reason; });
+  // Emscripten's process-wide 'uncaughtException' and 'unhandledRejection' handlers
+  // (NODEJS_CATCH_EXIT, NODEJS_CATCH_REJECTION) are left out: they re-throw application errors
+  // other than Emscripten's own ExitStatus, which takes error handling away from the applications
+  // that use this library.
 
   quit_ = (status, toThrow) => {
     if (keepRuntimeAlive()) {
