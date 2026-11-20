@@ -64,9 +64,9 @@ The `dev-tool about` command will print some information about how to use the co
 
 For repositories supported by API Review Hub, the release pipeline requires approval for both the package name and the verified API hash. When the Hub explicitly reports that the repository is unsupported, the pipeline accepts APIView approval during migration; APIView does not verify the hash. Repository registration, service-connection authorization, and an end-to-end release test must be completed before production use; see the [API Review Hub onboarding guide](https://github.com/Azure/azure-sdk-tools/wiki/API-Review-Hub-Onboarding).
 
-Hub reviews use `languageToolsRef` (default `main`), while release verification uses the release checkout's generator. Different revisions can produce different hashes for the same API. When requesting a review with the `azsdk` CLI, set `AZSDK_API_REVIEW_LANGUAGE_TOOLS_REF` to a `refs/tags/...` tag for the release checkout, and do not move the tag. Automatic reuse requires the Hub to expose the approved generator revision.
+The hash covers the generated review, which may omit unexported declarations, augmentations, and other declaration forms. Matching hashes do not guarantee complete API parity.
 
-API review generation rejects unqualified `import()` types and type queries on unreviewed local module objects until their module exports can be included safely in the review hash.
+Hub reviews use `languageToolsRef` (default `main`), while release verification uses the release checkout's generator. Different revisions can produce different hashes for the same API. When requesting a review with the `azsdk` CLI, set `AZSDK_API_REVIEW_LANGUAGE_TOOLS_REF` to a `refs/tags/...` tag for the release checkout, and do not move the tag. Automatic reuse requires the Hub to expose the approved generator revision.
 
 ## Extending the Tool
 

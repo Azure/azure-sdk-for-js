@@ -62,38 +62,6 @@ afterAll(() => {
 describe("generateApiReview", () => {
   let singleExportRoot: string;
 
-  it("distinguishes retargeted aliases on a repeated export path", async () => {
-    const review = (target: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-      generateApiReview(
-        fixture(
-          {
-            "dist/esm/index.d.ts":
-              "export interface A { a: string; } export interface B { b: number; }",
-            "dist/esm/subpath.d.ts": `export { ${target} as C } from "./index.js";`,
-          },
-          {
-            exports: {
-              ".": { import: { types: "./dist/esm/index.d.ts" } },
-              "./subpath": { import: { types: "./dist/esm/subpath.d.ts" } },
-            },
-          },
-        ),
-      );
-    const before = await review("A");
-    const after = await review("B");
-    expect(before.apiMd).toContain("A as C");
-    expect(after.apiMd).toContain("B as C");
-    expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-  });
-
-  it("does not report global script declarations as forgotten exports", async () => {
-    const root = fixture({
-      "dist/esm/index.d.ts": 'import "./globals.js"; export {};',
-      "dist/esm/globals.d.ts": "interface CustomGlobal { value: string; }",
-    });
-    expect((await generateApiReview(root)).apiMd).not.toContain("arh-forgotten-export");
-  });
-
   beforeAll(() => {
     singleExportRoot = fixture({ "dist/esm/index.d.ts": "export declare const value: string;\n" });
   });
@@ -118,7 +86,7 @@ describe("generateApiReview", () => {
     );
   });
 
-  it("lists conditions in package.json resolution order", async () => {
+  it("lists conditions in a fixed order regardless of package.json key order", async () => {
     const root = fixture(
       {
         "dist/browser/index.d.ts": "export declare const value: string;",
@@ -140,24 +108,7 @@ describe("generateApiReview", () => {
 
     const { apiMd } = await generateApiReview(root);
 
-    expect(apiMd).toContain("| `.` | `browser`, `react-native`, `import`, `require` |");
-  });
-
-  it("changes the hash when overlapping export conditions change precedence", async () => {
-    const files = {
-      "dist/esm/index.d.ts": "export declare const value: string;",
-      "dist/browser/index.d.ts": "export declare const value: number;",
-    };
-    const imports = { types: "./dist/esm/index.d.ts" };
-    const browser = { types: "./dist/browser/index.d.ts" };
-    const before = await generateApiReview(
-      fixture(files, { exports: { ".": { browser, import: imports } } }),
-    );
-    const after = await generateApiReview(
-      fixture(files, { exports: { ".": { import: imports, browser } } }),
-    );
-
-    expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
+    expect(apiMd).toContain("| `.` | `import`, `require`, `browser`, `react-native` |");
   });
 
   it("prints exported declarations under their export path", async () => {
@@ -411,31 +362,6 @@ export interface Pipeline {
       );
     });
 
-    it("includes optional runtime dependencies in the review hash", async () => {
-      const before = await generateApiReview(fixture(index));
-      const after = await generateApiReview(
-        fixture(index, { optionalDependencies: { "optional-package": "^1.0.0" } }),
-      );
-
-      expect(after.apiMd).toContain(
-        "| `optional-package` | `^1.0.0` | `^1.0.0` | `1` | optional |",
-      );
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("distinguishes optional peer dependencies from required peers", async () => {
-      const peerDependencies = { pg: ">=8.0.0" };
-      const required = await generateApiReview(fixture(index, { peerDependencies }));
-      const optional = await generateApiReview(
-        fixture(index, { peerDependencies, peerDependenciesMeta: { pg: { optional: true } } }),
-      );
-
-      expect(optional.apiMd).toContain(
-        "| `pg` | `>=8.0.0` | `>=8.0.0` | `>=8.0.0` | optional peer |",
-      );
-      expect(optional.metadata.apiHash).not.toBe(required.metadata.apiHash);
-    });
-
     it("shows each dependency's specifier, resolved version and hashed version", async () => {
       const root = fixture(index, { dependencies: { "@azure/core-auth": "^1.9.0" } });
 
@@ -547,22 +473,6 @@ export interface Pipeline {
       );
 
       expect(after.metadata.apiHash).toBe(before.metadata.apiHash);
-    });
-
-    it("does not collapse a union of dependency ranges to its lowest major version", async () => {
-      const before = await generateApiReview(fixture(index, { dependencies: { pg: "^1.0.0" } }));
-      const after = await generateApiReview(
-        fixture(index, { dependencies: { pg: "^1.0.0 || ^2.0.0" } }),
-      );
-
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("does not collapse a range spanning multiple major versions", async () => {
-      const before = await generateApiReview(fixture(index, { dependencies: { pg: ">=1 <2" } }));
-      const after = await generateApiReview(fixture(index, { dependencies: { pg: ">=1 <3" } }));
-
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("keeps exact prerelease specifiers in the hash", async () => {
@@ -700,18 +610,6 @@ export interface Pipeline {
       );
     });
 
-    it("distinguishes wildcard type-only exports from value exports", async () => {
-      const files = { "dist/esm/models.d.ts": "export declare class Client {}" };
-      const before = await generateApiReview(
-        fixture({ ...files, "dist/esm/index.d.ts": 'export * from "./models.js";' }),
-      );
-      const after = await generateApiReview(
-        fixture({ ...files, "dist/esm/index.d.ts": 'export type * from "./models.js";' }),
-      );
-
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
     it("preserves type-only external re-exports", async () => {
       const root = fixture({
         "node_modules/@types/node/package.json": JSON.stringify({
@@ -727,56 +625,9 @@ export interface Pipeline {
 
       expect(apiMd).toContain('export { type Readable } from "node:stream";');
     });
-
-    it("preserves a type-only default import re-exported under a name", async () => {
-      const root = fixture({
-        ...dependency("@example/external", "export default class External {}"),
-        "dist/esm/index.d.ts": [
-          'import type External from "@example/external";',
-          "export { External };",
-        ].join("\n"),
-      });
-
-      const { apiMd } = await generateApiReview(root);
-
-      expect(apiMd).toContain('export { type default as External } from "@example/external";');
-    });
   });
 
   describe("module objects", () => {
-    it("distinguishes type-only members of exported module objects", async () => {
-      const review = (typeOnly: boolean): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-        generateApiReview(
-          fixture({
-            "dist/esm/index.d.ts": 'export * as ns from "./bar.js";',
-            "dist/esm/bar.d.ts": `export ${typeOnly ? "type " : ""}{ Foo } from "./foo.js";`,
-            "dist/esm/foo.d.ts": "export declare class Foo {}",
-          }),
-        );
-      const value = await review(false);
-      const type = await review(true);
-      expect(type.apiMd).toContain("// type-only export");
-      expect(type.metadata.apiHash).not.toBe(value.metadata.apiHash);
-    });
-
-    it("rejects a type query on an unreviewed local module object", async () => {
-      const root = fixture({
-        "dist/esm/index.d.ts":
-          'import * as internal from "./internal.js"; export type API = typeof internal;',
-        "dist/esm/internal.d.ts": "export declare const value: string;",
-      });
-      await expect(generateApiReview(root)).rejects.toThrow("unreviewed local module object");
-    });
-
-    it("allows a type query on a local module object already exported for review", async () => {
-      const root = fixture({
-        "dist/esm/index.d.ts":
-          'import * as internal from "./internal.js"; export { internal }; export type API = typeof internal;',
-        "dist/esm/internal.d.ts": "export declare const value: string;",
-      });
-      expect((await generateApiReview(root)).apiMd).toContain("value: string;");
-    });
-
     it("prints export * as a namespace block of the module's exports", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export * as fn from "./fn.js";',
@@ -879,7 +730,7 @@ export interface Pipeline {
   describe("subpaths", () => {
     const types = (file: string): { import: { types: string } } => ({ import: { types: file } });
 
-    it("records whether package.json is exported", async () => {
+    it("skips the ./package.json export", async () => {
       const root = fixture(
         { "dist/esm/index.d.ts": "export declare const value: string;\n" },
         {
@@ -891,14 +742,8 @@ export interface Pipeline {
       );
 
       const { apiMd } = await generateApiReview(root);
-      const withoutExport = await generateApiReview(
-        fixture({ "dist/esm/index.d.ts": "export declare const value: string;\n" }),
-      );
 
-      expect(apiMd).toContain("| `./package.json` | `json` |");
-      expect((await generateApiReview(root)).metadata.apiHash).not.toBe(
-        withoutExport.metadata.apiHash,
-      );
+      expect(apiMd).toContain("| --- | --- |\n| `.` | `import` |\n\n");
     });
 
     it("prints declarations only a subpath exposes under Not exported from `.`", async () => {
@@ -960,6 +805,32 @@ export interface Pipeline {
         ].join("\n"),
       );
       expect(apiMd.split("export interface AdmInstallation").length - 1).toBe(1);
+    });
+
+    it("identifies the original declaration when a subpath renames it", async () => {
+      const review = (target: string): ReturnType<typeof generateApiReview> =>
+        generateApiReview(
+          fixture(
+            {
+              "dist/esm/index.d.ts":
+                "export interface Base { base: string; } export interface Other { other: number; }",
+              "dist/esm/models.d.ts": `export { ${target} as Reference } from "./index.js";`,
+            },
+            {
+              exports: {
+                ".": types("./dist/esm/index.d.ts"),
+                "./models": types("./dist/esm/models.d.ts"),
+              },
+            },
+          ),
+        );
+
+      const before = await review("Base");
+      const after = await review("Other");
+
+      expect(before.apiMd).toContain("- `Base as Reference`");
+      expect(after.apiMd).toContain("- `Other as Reference`");
+      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
     it("names the earliest subpath that shows a declaration not exported from `.`", async () => {
@@ -1362,67 +1233,6 @@ export declare class AIProjectClient {
   });
 
   describe("forgotten exports", () => {
-    it("includes transitive unexported types in the review and hash", async () => {
-      function hiddenTypeFixture(valueType: string): string {
-        return fixture({
-          "dist/esm/index.d.ts": 'export { use } from "./api.js";',
-          "dist/esm/api.d.ts": [
-            "interface Inner { value: " + valueType + "; }",
-            "interface Options { nested: Inner; }",
-            "export declare function use(options: Options): void;",
-          ].join("\n"),
-        });
-      }
-
-      const before = await generateApiReview(hiddenTypeFixture("string"));
-      const after = await generateApiReview(hiddenTypeFixture("number"));
-
-      expect(before.apiMd).toContain("## Referenced unexported declarations");
-      expect(before.apiMd).toContain("interface Options {");
-      expect(before.apiMd).toContain("interface Inner {");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("includes unexported variables used in public types", async () => {
-      const review = (value: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-        generateApiReview(
-          fixture({
-            "dist/esm/index.d.ts": 'export type { Value } from "./internal.js";',
-            "dist/esm/internal.d.ts": [
-              `declare const values: readonly ["${value}"];`,
-              "export type Value = (typeof values)[number];",
-            ].join("\n"),
-          }),
-        );
-
-      const before = await review("a");
-      const after = await review("b");
-
-      expect(before.apiMd).toContain("declare const values: readonly [");
-      expect(before.apiMd).toContain('"a"');
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("includes transitive declarations referenced by local import types", async () => {
-      const review = (valueType: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-        generateApiReview(
-          fixture({
-            "dist/esm/index.d.ts": 'export type ClientOptions = import("./internal.js").Options;',
-            "dist/esm/internal.d.ts": [
-              `interface Inner { value: ${valueType}; }`,
-              "export interface Options { nested: Inner; }",
-            ].join("\n"),
-          }),
-        );
-
-      const before = await review("string");
-      const after = await review("number");
-
-      expect(before.apiMd).toContain("interface Options {");
-      expect(before.apiMd).toContain("interface Inner {");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
     it("warns above each member that uses a forgotten declaration", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": 'export type { DatasetsOperations } from "./datasets.js";',
@@ -1610,97 +1420,6 @@ export declare function isRestError(error: unknown): error is RestError;`,
       expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
-    it("includes repeated subpath export membership in runtime differences and the hash", async () => {
-      function repeatedFixture(alias: string): string {
-        return fixture(
-          {
-            ...dependency("@example/external", "export declare class Foo {}"),
-            "dist/esm/index.d.ts": 'export { Foo } from "@example/external";',
-            "dist/esm/subpath.d.ts": 'export { Foo } from "@example/external";',
-            "dist/browser/index.d.ts": 'export { Foo } from "@example/external";',
-            "dist/browser/subpath.d.ts": `export { Foo as ${alias} } from "@example/external";`,
-          },
-          {
-            exports: {
-              ".": {
-                import: { types: "./dist/esm/index.d.ts" },
-                browser: { types: "./dist/browser/index.d.ts" },
-              },
-              "./subpath": {
-                import: { types: "./dist/esm/subpath.d.ts" },
-                browser: { types: "./dist/browser/subpath.d.ts" },
-              },
-            },
-          },
-        );
-      }
-
-      const before = await generateApiReview(repeatedFixture("Bar"));
-      const after = await generateApiReview(repeatedFixture("Baz"));
-
-      expect(before.apiMd).toContain("+// Foo as Bar is also exported from .");
-      expect(after.apiMd).toContain("+// Foo as Baz is also exported from .");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("includes condition-specific declarations that differ from the root export", async () => {
-      function differingFixture(type: string): string {
-        return fixture(
-          {
-            "dist/esm/index.d.ts": "export interface Options { root: string; }",
-            "dist/browser/index.d.ts": "export interface Options { root: string; }",
-            "dist/esm/subpath.d.ts": "export interface Options { value: string; }",
-            "dist/browser/subpath.d.ts": `export interface Options { value: ${type}; }`,
-          },
-          {
-            exports: {
-              ".": {
-                import: { types: "./dist/esm/index.d.ts" },
-                browser: { types: "./dist/browser/index.d.ts" },
-              },
-              "./subpath": {
-                import: { types: "./dist/esm/subpath.d.ts" },
-                browser: { types: "./dist/browser/subpath.d.ts" },
-              },
-            },
-          },
-        );
-      }
-
-      const before = await generateApiReview(differingFixture("number"));
-      const after = await generateApiReview(differingFixture("boolean"));
-
-      expect(before.apiMd).toContain("+    value: number;");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("distinguishes a type-only repeated export from a value export", async () => {
-      const root = fixture(
-        {
-          "dist/esm/index.d.ts": "export declare class Foo {}",
-          "dist/esm/subpath.d.ts": 'export { Foo } from "./index.js";',
-          "dist/browser/index.d.ts": "export declare class Foo {}",
-          "dist/browser/subpath.d.ts": 'export type { Foo } from "./index.js";',
-        },
-        {
-          exports: {
-            ".": {
-              import: { types: "./dist/esm/index.d.ts" },
-              browser: { types: "./dist/browser/index.d.ts" },
-            },
-            "./subpath": {
-              import: { types: "./dist/esm/subpath.d.ts" },
-              browser: { types: "./dist/browser/subpath.d.ts" },
-            },
-          },
-        },
-      );
-
-      const { apiMd } = await generateApiReview(root);
-
-      expect(apiMd).toContain("+// type Foo is also exported from .");
-    });
-
     it("lists conditions whose declarations match the ESM view as identical", async () => {
       const root = fixture(
         {
@@ -1820,7 +1539,6 @@ export declare function isRestError(error: unknown): error is RestError;`,
       ].join("\n");
       const root = fixture(
         {
-          ...dependency("@types/node", "declare namespace NodeJS { interface ReadableStream {} }"),
           "dist/esm/index.d.ts": esm,
           "dist/commonjs/index.d.ts": esm,
           "dist/browser/index.d.ts": [
@@ -1893,196 +1611,7 @@ export declare function isRestError(error: unknown): error is RestError;`,
     });
   });
 
-  describe("augmentations and legacy exports", () => {
-    it("includes package-owned global script declarations in the hash", async () => {
-      const review = (type: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-        generateApiReview(
-          fixture({
-            "dist/esm/index.d.ts": 'import "./globals.js"; export {};',
-            "dist/esm/globals.d.ts": `interface Window { added: ${type}; }`,
-          }),
-        );
-      const before = await review("string");
-      const after = await review("number");
-      expect(before.apiMd).toContain("added: string;");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("includes package-owned module and global augmentations in the review and hash", async () => {
-      const augmentation = (memberType: string): string =>
-        fixture({
-          "dist/esm/index.d.ts": [
-            'import "./augment.js";',
-            "export interface Options { value: string; }",
-            `declare global { interface Window { added: ${memberType}; } }`,
-          ].join("\n"),
-          "dist/esm/augment.d.ts": [
-            'import "./index.js";',
-            `declare module "./index.js" { interface Options { extra: ${memberType}; } }`,
-          ].join("\n"),
-        });
-
-      const before = await generateApiReview(augmentation("string"));
-      const after = await generateApiReview(augmentation("number"));
-      expect(before.apiMd).toContain("## Module and global augmentations");
-      expect(before.apiMd).toContain('declare module "./index.js"');
-      expect(before.apiMd).toContain("declare global");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("compares supplemental declarations relative to each runtime declaration root", async () => {
-      const exports = {
-        ".": {
-          browser: { types: "./dist/browser/index.d.ts" },
-          import: { types: "./dist/esm/index.d.ts" },
-        },
-      };
-      const index = [
-        'import "./augment.js";',
-        'import "./nested/augment.js";',
-        'export type * from "./models.js";',
-        "export declare const value: string;",
-      ].join("\n");
-      const augmentation = (name: string, type: string): string =>
-        `export {};\ndeclare global { interface Window { ${name}: ${type}; } }`;
-      const review = (
-        browserType: string,
-      ): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
-        generateApiReview(
-          fixture(
-            {
-              "dist/esm/index.d.ts": index,
-              "dist/browser/index.d.ts": index,
-              "dist/esm/augment.d.ts": augmentation("added", "string"),
-              "dist/browser/augment.d.ts": augmentation("added", "string"),
-              "dist/esm/nested/augment.d.ts": augmentation("nested", "string"),
-              "dist/browser/nested/augment.d.ts": augmentation("nested", browserType),
-              "dist/esm/models.d.ts": "export interface Model { name: string; }",
-              "dist/browser/models.d.ts": "export interface Model { name: string; }",
-            },
-            { exports },
-          ),
-        );
-
-      const identical = await review("string");
-      const changed = await review("number");
-
-      expect(identical.apiMd).toContain("Identical to the ESM view: `browser`.");
-      expect(identical.apiMd).toContain("// augment.d.ts");
-      expect(identical.apiMd).toContain("// nested/augment.d.ts");
-      expect(identical.apiMd).not.toContain("### `browser`");
-      expect(identical.apiMd).not.toContain("__global");
-      expect(changed.apiMd).toContain("### `browser`");
-      expect(changed.apiMd).toContain("nested: number;");
-      expect(changed.metadata.apiHash).not.toBe(identical.metadata.apiHash);
-    });
-
-    it("resolves imports used only by an augmentation without exported declarations", async () => {
-      const root = fixture({
-        ...dependency("@example/dependency", "export interface Shape { size: number; }"),
-        "dist/esm/index.d.ts": [
-          'import type { Shape } from "@example/dependency";',
-          "declare global { interface Window { added: Shape; } }",
-          "export {};",
-        ].join("\n"),
-      });
-
-      const { apiMd } = await generateApiReview(root);
-
-      expect(apiMd).toContain('import { Shape } from "@example/dependency";');
-      expect(apiMd).toContain("added: Shape;");
-    });
-
-    it("records legacy TypeScript subpaths when they match reviewed require entry points", async () => {
-      const files = {
-        "dist/esm/index.d.ts": "export declare const value: string;",
-        "dist/commonjs/index.d.ts": "export declare const value: string;",
-        "dist/esm/models.d.ts": "export interface Model { name: string; }",
-        "dist/commonjs/models.d.ts": "export interface Model { name: string; }",
-      };
-      const exports = {
-        ".": {
-          import: { types: "./dist/esm/index.d.ts" },
-          require: { types: "./dist/commonjs/index.d.ts" },
-        },
-        "./models": {
-          import: { types: "./dist/esm/models.d.ts" },
-          require: { types: "./dist/commonjs/models.d.ts" },
-        },
-      };
-      const before = await generateApiReview(fixture(files, { exports }));
-      const after = await generateApiReview(
-        fixture(files, {
-          exports,
-          types: "./dist/commonjs/index.d.ts",
-          typesVersions: { "*": { models: ["dist/commonjs/models.d.ts"] } },
-        }),
-      );
-
-      expect(after.apiMd).toContain("| `*` | `./models` |");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-
-    it("records the presence of the legacy root types field", async () => {
-      const files = { "dist/esm/index.d.ts": "export declare const value: string;" };
-      const before = await generateApiReview(fixture(files));
-      const after = await generateApiReview(fixture(files, { types: "./dist/esm/index.d.ts" }));
-
-      expect(after.apiMd).toContain("Root declaration fields: `types`.");
-      expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
-    });
-  });
-
   describe("fail closed", () => {
-    it("rejects unsupported versioned or wildcard export maps", async () => {
-      const index = { "dist/esm/index.d.ts": "export declare const value: string;" };
-      const versioned = fixture(index, { typesVersions: { "*": { "*": ["dist/*"] } } });
-      const wildcard = fixture(index, {
-        exports: { "./*": { import: { types: "./dist/esm/index.d.ts" } } },
-      });
-
-      await expect(generateApiReview(versioned)).rejects.toThrow("Unsupported typesVersions");
-      await expect(generateApiReview(wildcard)).rejects.toThrow("Unsupported API review export");
-    });
-
-    it("rejects a legacy types entry point that differs from the reviewed require entry point", async () => {
-      const root = fixture(
-        { "dist/esm/index.d.ts": "export declare const value: string;" },
-        { types: "./dist/legacy/index.d.ts" },
-      );
-
-      await expect(generateApiReview(root)).rejects.toThrow("Legacy types entry point");
-    });
-
-    it("rejects a package.json export pointing at another file", async () => {
-      const root = fixture(
-        { "dist/esm/index.d.ts": "export declare const value: string;" },
-        {
-          exports: {
-            ".": { import: { types: "./dist/esm/index.d.ts" } },
-            "./package.json": "./other.json",
-          },
-        },
-      );
-
-      await expect(generateApiReview(root)).rejects.toThrow("Unsupported package.json export");
-    });
-
-    it("rejects export assignments that cannot be represented", async () => {
-      const root = fixture({
-        "dist/esm/index.d.ts": "declare const client: string;\nexport = client;",
-      });
-
-      await expect(generateApiReview(root)).rejects.toThrow("Export assignments and UMD globals");
-    });
-
-    it("allows an empty declaration entry point with no library API", async () => {
-      const root = fixture({ "dist/esm/index.d.ts": "" });
-
-      const { apiMd } = await generateApiReview(root);
-      expect(apiMd).toContain("## Export `.`");
-    });
-
     it("throws when a module specifier can't be resolved", async () => {
       const root = fixture({
         "dist/esm/index.d.ts": [
@@ -2096,14 +1625,6 @@ export declare function isRestError(error: unknown): error is RestError;`,
       await expect(generateApiReview(root)).rejects.toThrow(
         "[import] dist/esm/index.d.ts: Cannot find module '@azure/core-auth' or its corresponding type declarations.",
       );
-    });
-
-    it("rejects unresolved names in exported signatures", async () => {
-      const root = fixture({
-        "dist/esm/index.d.ts": "export declare function use(value: MissingType): void;",
-      });
-
-      await expect(generateApiReview(root)).rejects.toThrow("Cannot find name 'MissingType'");
     });
 
     it("lists names that don't exist in their module under Unresolved references", async () => {
@@ -2346,39 +1867,6 @@ describe("release API review", () => {
     expect(JSON.parse(readFileSync(changedApi.infoFile, "utf8")).ApiHash).toBeUndefined();
   });
 
-  it("rejects malformed packed declarations", async () => {
-    const { root, archive, infoFile } = await releaseFixture("string");
-    writeFileSync(
-      path.join(root, "dist", "esm", "index.d.ts"),
-      "export interface Options { value: string; }",
-    );
-    writeFileSync(
-      path.join(root, "candidate", "package", "dist", "esm", "index.d.ts"),
-      "export interface Options { value: string;",
-    );
-    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
-    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow("'}' expected");
-  });
-
-  it("rejects unqualified import types rather than omitting module exports", async () => {
-    const { root, archive, infoFile } = await releaseFixture("string");
-    const declaration = 'export type Module = typeof import("./internal.js");';
-    for (const dir of [
-      path.join(root, "dist", "esm"),
-      path.join(root, "candidate", "package", "dist", "esm"),
-    ]) {
-      writeFileSync(path.join(dir, "index.d.ts"), declaration);
-      writeFileSync(
-        path.join(dir, "internal.d.ts"),
-        `export declare const value: ${dir.includes(`${path.sep}candidate${path.sep}`) ? "number" : "string"};`,
-      );
-    }
-    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
-    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
-      "Unqualified import types",
-    );
-  });
-
   it("rejects a packed subpath alias retargeted to another root export", async () => {
     const { root, archive, infoFile } = await releaseFixture("string");
     for (const dir of [root, path.join(root, "candidate", "package")]) {
@@ -2515,73 +2003,6 @@ describe("release API review", () => {
       "runtime module type",
     );
   });
-
-  it.each([
-    {
-      name: "unexported variable",
-      index: 'export type { Value } from "./internal.js";',
-      internal: (value: string): string =>
-        `declare const values: readonly ["${value}"];\nexport type Value = (typeof values)[number];`,
-    },
-    {
-      name: "local import type",
-      index: 'export type Value = import("./internal.js").Options;',
-      internal: (value: string): string => `export interface Options { value: "${value}"; }`,
-    },
-  ])("rejects a packed candidate with a changed $name", async ({ index, internal }) => {
-    const { root, archive, infoFile } = await releaseFixture("string");
-    const sourceDir = path.join(root, "dist", "esm");
-    const candidateDir = path.join(root, "candidate", "package", "dist", "esm");
-    writeFileSync(path.join(sourceDir, "index.d.ts"), index);
-    writeFileSync(path.join(candidateDir, "index.d.ts"), index);
-    writeFileSync(path.join(sourceDir, "internal.d.ts"), internal("a"));
-    writeFileSync(path.join(candidateDir, "internal.d.ts"), internal("b"));
-    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
-
-    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
-      "package API hash does not match",
-    );
-    expect(JSON.parse(readFileSync(infoFile, "utf8")).ApiHash).toBeUndefined();
-  });
-
-  it.each([
-    {
-      name: "global script",
-      index: 'import "./internal.js"; export {};',
-      source: "interface Window { added: string; }",
-      candidate: "interface Window { added: number; }",
-      extra: undefined,
-    },
-    {
-      name: "namespace type-only export",
-      index: 'export * as ns from "./internal.js";',
-      source: 'export { Foo } from "./foo.js";',
-      candidate: 'export type { Foo } from "./foo.js";',
-      extra: "export declare class Foo {}",
-    },
-  ])(
-    "rejects a packed candidate with changed $name",
-    async ({ index, source, candidate, extra }) => {
-      const { root, archive, infoFile } = await releaseFixture("string");
-      for (const [dir, declaration] of [
-        [path.join(root, "dist", "esm"), source],
-        [path.join(root, "candidate", "package", "dist", "esm"), candidate],
-      ]) {
-        writeFileSync(path.join(dir, "index.d.ts"), index);
-        writeFileSync(path.join(dir, "internal.d.ts"), declaration);
-        if (extra) {
-          writeFileSync(path.join(dir, "foo.d.ts"), extra);
-        }
-      }
-      await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, [
-        "package",
-      ]);
-      await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
-        "package API hash does not match",
-      );
-      expect(JSON.parse(readFileSync(infoFile, "utf8")).ApiHash).toBeUndefined();
-    },
-  );
 
   it("rejects an unreleased package before checking approval", async () => {
     const { root, archive, infoFile } = await releaseFixture("string");

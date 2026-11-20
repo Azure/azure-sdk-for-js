@@ -75,7 +75,7 @@ export async function generateReleaseApiReview(
     throw new Error("Package info name or version does not match the source package.");
   }
 
-  const review = await generateApiReview(packageRoot, { requireCompleteResolution: true });
+  const review = await generateApiReview(packageRoot, { rejectUnresolvedReferences: true });
   const temporaryDirectory = await mkdtemp(path.join(tmpdir(), "api-review-release-"));
   try {
     const seenPaths = new Set<string>();
@@ -245,7 +245,7 @@ export async function generateReleaseApiReview(
       await symlink(sourceModules, candidateModules, "junction");
     }
     const candidateReview = await generateApiReview(candidateRoot, {
-      requireCompleteResolution: true,
+      rejectUnresolvedReferences: true,
     });
     if (candidateReview.metadata.apiHash !== review.metadata.apiHash) {
       throw new Error("The published package API hash does not match the source review hash.");
