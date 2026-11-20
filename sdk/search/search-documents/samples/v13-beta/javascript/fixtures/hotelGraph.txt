@@ -1,0 +1,8 @@
+The Alpine Hotel is a hotel in Seattle, operated by Summit Hospitality.
+Guests at the Alpine Hotel can use its indoor pool and family rooms.
+
+The Harbor Hotel is a hotel in Portland, operated by Coast Hospitality.
+Guests at the Harbor Hotel have access to a waterfront restaurant.
+
+Summit Hospitality and Coast Hospitality are organizations that operate hotels.
+Seattle and Portland are cities. All names and descriptions in this fixture are synthetic.
