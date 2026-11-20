@@ -66,11 +66,15 @@ export function getDefaultClient(): CosmosClient {
   });
 }
 
-export function getDefaultComputeGatewayClient(): CosmosClient {
+export function getDefaultComputeGatewayClient(options: CosmosClientOptions = {}): CosmosClient {
   return new CosmosClient({
     endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
     key: masterKey,
-    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    ...options,
+    connectionPolicy: {
+      enableBackgroundEndpointRefreshing: false,
+      ...options.connectionPolicy,
+    },
   });
 }
 
