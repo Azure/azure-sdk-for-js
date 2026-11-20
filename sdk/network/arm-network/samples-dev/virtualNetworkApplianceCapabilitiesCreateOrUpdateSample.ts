@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a capability on a virtual network appliance.
  *
  * @summary creates or updates a capability on a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate.json
  */
 async function createVirtualNetworkAppliancePLGatewayFastpathCapability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createVirtualNetworkAppliancePLGatewayFastpathCapability(): Promi
  * This sample demonstrates how to creates or updates a capability on a virtual network appliance.
  *
  * @summary creates or updates a capability on a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_NAT64.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_NAT64.json
  */
 async function createVirtualNetworkApplianceNAT64Capability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function createVirtualNetworkApplianceNAT64Capability(): Promise<void> {
  * This sample demonstrates how to creates or updates a capability on a virtual network appliance.
  *
  * @summary creates or updates a capability on a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_PLGateway.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_PLGateway.json
  */
 async function createVirtualNetworkAppliancePLGatewayCapability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function createVirtualNetworkAppliancePLGatewayCapability(): Promise<void>
  * This sample demonstrates how to creates or updates a capability on a virtual network appliance.
  *
  * @summary creates or updates a capability on a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_PLIPForwarders.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_CreateOrUpdate_PLIPForwarders.json
  */
 async function createVirtualNetworkAppliancePlipForwardersCapability(): Promise<void> {
   const credential = new DefaultAzureCredential();
