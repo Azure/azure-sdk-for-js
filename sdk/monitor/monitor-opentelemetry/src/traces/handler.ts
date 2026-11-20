@@ -7,7 +7,9 @@ import {
   RateLimitedSampler,
 } from "@azure/monitor-opentelemetry-exporter";
 import type { Sampler } from "@opentelemetry/sdk-trace";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace";
+import { BatchSpanProcessor, ParentBasedSampler } from "@opentelemetry/sdk-trace";
+import type { SpanContext } from "@opentelemetry/api";
+import type { LogSampleRateFallback } from "../logs/batchLogRecordProcessor.js";
 import type {
   HttpInstrumentationConfig,
   IgnoreOutgoingRequestFunction,
@@ -42,6 +44,7 @@ export class TraceHandler {
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
   private _sampler: Sampler;
+  public readonly fallbackLogSampleRate: LogSampleRateFallback;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -56,15 +59,29 @@ export class TraceHandler {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
+    // A parent-based sampler applies its ratio only to traces started here.
+    const localRootSpans =
+      config.enableTraceBasedSamplingForLogs &&
+      config.sampler instanceof ParentBasedSampler &&
+      config.samplingRatio < 1
+        ? new WeakSet<SpanContext>()
+        : undefined;
     // Check sampler precedence
     if (this._config.sampler) {
       this._sampler = this._config.sampler;
+      const rate = this._config.samplingRatio * 100;
+      this.fallbackLogSampleRate = localRootSpans
+        ? (spanContext) => (localRootSpans.has(spanContext) ? rate : 100)
+        : rate;
     } else if (this._config.tracesPerSecond && this._config.tracesPerSecond > 0) {
       // If tracesPerSecond is set to a positive number, use RateLimitedSampler
       this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
+      this.fallbackLogSampleRate = 100;
     } else {
       // Otherwise, use PercentageSampler with samplingRatio
-      this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+      const sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+      this._sampler = sampler;
+      this.fallbackLogSampleRate = sampler.sampleRate;
     }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     this._batchSpanProcessor = new BatchSpanProcessor({
@@ -74,7 +91,7 @@ export class TraceHandler {
       scheduledDelayMillis: getPositiveNumberFromEnv("OTEL_BSP_SCHEDULE_DELAY"),
       exportTimeoutMillis: getPositiveNumberFromEnv("OTEL_BSP_EXPORT_TIMEOUT"),
     });
-    this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
+    this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler, localRootSpans);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
   }

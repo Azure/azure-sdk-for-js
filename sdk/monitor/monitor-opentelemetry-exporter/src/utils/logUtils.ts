@@ -50,10 +50,14 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  AzureMonitorSampleRate,
   DEFAULT_BREEZE_DATA_VERSION,
   DEFAULT_LOG_MESSAGE,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
+
+// The distro puts its sampling decision on the record, outside the user's attribute quota.
+const logSampleRateKey = Symbol.for(AzureMonitorSampleRate);
 
 /**
  * Log to Azure envelope parsing.
@@ -65,7 +69,8 @@ export function logToEnvelope(
   increaseGenAiMessageLimit = false,
 ): Envelope | undefined {
   const time = hrTimeToDate(log.hrTime);
-  const sampleRate = 100;
+  const sampleRate =
+    logSampleRateKey in log ? log[logSampleRateKey] : log.attributes[AzureMonitorSampleRate];
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
   // eslint-disable-next-line prefer-const
@@ -155,7 +160,8 @@ export function logToEnvelope(
 
   return {
     name,
-    sampleRate,
+    sampleRate:
+      typeof sampleRate === "number" && sampleRate > 0 && sampleRate <= 100 ? sampleRate : 100,
     time,
     instrumentationKey,
     tags,

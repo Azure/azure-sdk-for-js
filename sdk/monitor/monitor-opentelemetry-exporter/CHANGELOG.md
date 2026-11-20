@@ -9,6 +9,7 @@
 
 ### Bugs Fixed
 
+- Fixed `ItemCount` on log envelopes to reflect the sampling percentage supplied by the trace-based log processor. [#40803](https://github.com/Azure/azure-sdk-for-js/issues/40803)
 - Isolated the Microsoft Entra audience for multi-endpoint exports from the host connection string. Set `APPLICATIONINSIGHTS_MULTI_ENDPOINT_AAD_AUDIENCE` to override the public cloud default for routed telemetry. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
 - Bounded routed requests and shutdown so a stalled destination cannot indefinitely block queued overflow destinations. Timed-out telemetry remains eligible for offline retry when storage is available. [#40831](https://github.com/Azure/azure-sdk-for-js/pull/40831)
 - Closed exporter-owned connections after each temporary overflow routing request, while preserving connection reuse for cached routes and caller-owned transports. [#40586](https://github.com/Azure/azure-sdk-for-js/pull/40586)
