@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update firmware.
  *
  * @summary the operation to update firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Update_MaximumSet_Gen.json
  */
 async function firmwaresUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function firmwaresUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise<
  * This sample demonstrates how to the operation to update firmware.
  *
  * @summary the operation to update firmware.
- * x-ms-original-file: 2025-08-02/Firmwares_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_Update_MinimumSet_Gen.json
  */
 async function firmwaresUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
