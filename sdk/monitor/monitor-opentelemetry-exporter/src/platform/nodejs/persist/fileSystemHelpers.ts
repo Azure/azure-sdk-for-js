@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import type { MakeDirectoryOptions } from "node:fs";
+import { constants } from "node:fs";
 import { join } from "node:path";
-import { lstat, mkdir, readdir, stat } from "node:fs/promises";
+import { lstat, mkdir, open, readdir, stat } from "node:fs/promises";
+import { FileAccessControl } from "./fileAccessControl.js";
 
 /**
  * Computes the size (in bytes) of all files in a directory at the root level. Asynchronously.
@@ -32,42 +33,40 @@ export const getShallowDirectorySize = async (directory: string): Promise<number
 };
 
 /**
- * Validate directory exists.
+ * Protect one exporter-owned directory before using it for offline storage.
  * @internal
  */
-export const confirmDirExists = async (directory: string): Promise<void> => {
-  try {
-    const stats = await lstat(directory);
+export const confirmDirExists = async (directory: string, create = true): Promise<void> => {
+  if (create) {
+    await mkdir(directory, { recursive: true, mode: 0o700 });
+  }
+
+  if (process.platform === "win32") {
+    const stats = await lstat(directory, { bigint: true });
     if (!stats.isDirectory()) {
       throw new Error("Path existed but was not a directory");
     }
+    await FileAccessControl.applyACLRules(directory, stats);
+    return;
+  }
 
-    const ownerUid = stats.uid;
-    const currentUid = typeof process.getuid === "function" ? process.getuid() : undefined;
-    if (
-      ownerUid !== undefined &&
-      currentUid !== undefined &&
-      ownerUid !== currentUid &&
-      ownerUid !== 0
-    ) {
+  // Check ownership and change permissions on the same directory, without following a symlink.
+  const handle = await open(
+    directory,
+    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW,
+  );
+  try {
+    const { uid, mode } = await handle.stat();
+    const currentUid = process.getuid?.();
+    if (currentUid === undefined || (uid !== currentUid && uid !== 0)) {
       throw new Error(
-        `Directory ${directory} is owned by uid ${ownerUid}, not the current user (${currentUid}) or admin (uid 0).`,
+        `Directory ${directory} is owned by uid ${uid}, not the current user (${currentUid}) or admin (uid 0).`,
       );
     }
-  } catch (err: any) {
-    if (err && err.code === "ENOENT") {
-      try {
-        const options: MakeDirectoryOptions = { recursive: true };
-        await mkdir(directory, options);
-      } catch (mkdirErr: any) {
-        if (mkdirErr && mkdirErr.code !== "EEXIST") {
-          // Handle race condition by ignoring EEXIST
-          throw mkdirErr;
-        }
-      }
-    } else {
-      // Propagate non-ENOENT errors (e.g., ownership mismatch, permission issues)
-      throw err;
+    if ((mode & 0o7777) !== 0o700) {
+      await handle.chmod(0o700);
     }
+  } finally {
+    await handle.close();
   }
 };

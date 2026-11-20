@@ -180,6 +180,7 @@ export class FileSystemPersist implements PersistentStorage {
    */
   private async _getFirstFileOnDisk(): Promise<Buffer | null> {
     try {
+      if (!(await this._prepareDirectory(false))) return null;
       const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
         const origFiles = await readdir(this._tempDirectory);
@@ -211,12 +212,27 @@ export class FileSystemPersist implements PersistentStorage {
     }
   }
 
-  /**
-   * Stores telemetry data to disk.
-   * @param payload - The telemetry data to store.
-   * @param envelopeLength -The length of the telemetry envelope.
-   * @returns A promise that resolves to true if the data was stored successfully, false otherwise.
-   */
+  private async _prepareDirectory(create: boolean, envelopes?: Envelope[]): Promise<boolean> {
+    try {
+      // Protect both exporter-owned levels, never the caller's storageDirectory or the OS temp root.
+      await confirmDirExists(dirname(this._tempDirectory), create);
+      await confirmDirExists(this._tempDirectory, create);
+      return this._enabled;
+    } catch (error: any) {
+      if (!create && error?.code === "ENOENT") return false;
+      this._enabled = false;
+      this.shutdown();
+      if (envelopes && (error?.code === "EACCES" || error?.code === "EPERM")) {
+        this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_READONLY,
+        );
+      }
+      diag.warn("Disabling offline storage because its directory could not be protected.", error);
+      return false;
+    }
+  }
+
   private async _storeToDisk(
     payload: string,
     envelopes: Envelope[],
@@ -256,27 +272,7 @@ export class FileSystemPersist implements PersistentStorage {
     restoring = false,
     originalValue?: unknown[],
   ): Promise<boolean> {
-    try {
-      if (this._storagePartition) {
-        await confirmDirExists(this._storagePartition.root);
-      }
-      await confirmDirExists(this._tempDirectory);
-    } catch (error: any) {
-      // Check if error is due to permission/readonly issues
-      if (error?.code === "EACCES" || error?.code === "EPERM") {
-        this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
-          envelopes,
-          DropCode.CLIENT_READONLY,
-        );
-        diag.warn(
-          `Permission denied while checking/creating directory: ${this._tempDirectory}`,
-          error?.message,
-        );
-      } else {
-        diag.warn(`Error while checking/creating directory: `, error && error.message);
-      }
-      return false;
-    }
+    if (!(await this._prepareDirectory(true, envelopes))) return false;
 
     try {
       const root = this._storagePartition?.root;
@@ -396,6 +392,7 @@ export class FileSystemPersist implements PersistentStorage {
 
   private async _fileCleanupTask(): Promise<boolean> {
     try {
+      if (!(await this._prepareDirectory(false))) return false;
       const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
         const origFiles = await readdir(this._tempDirectory);
