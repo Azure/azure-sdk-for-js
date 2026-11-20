@@ -1,4 +1,21 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/childResources/index.ts",
+    "../src/api/emergingIssues/index.ts",
+    "../src/api/securityAdvisoryImpactedResources/index.ts",
+    "../src/api/events/index.ts",
+    "../src/api/event/index.ts",
+    "../src/api/metadata/index.ts",
+    "../src/api/impactedResources/index.ts",
+    "../src/api/childAvailabilityStatuses/index.ts",
+    "../src/api/availabilityStatuses/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

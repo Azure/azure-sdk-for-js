@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to service health event in the subscription by event tracking id
  *
  * @summary service health event in the subscription by event tracking id
- * x-ms-original-file: 2025-05-01/Event_GetBySubscriptionIdAndTrackingId.json
+ * x-ms-original-file: 2026-07-01/Event_GetBySubscriptionIdAndTrackingId.json
  */
-async function securityAdvisoriesEventBySubscriptionIdAndTrackingId(): Promise<void> {
+async function getRetirementEventBySubscriptionIdAndTrackingId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subscriptionId";
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function securityAdvisoriesEventBySubscriptionIdAndTrackingId(): Promise<v
 }
 
 async function main(): Promise<void> {
-  await securityAdvisoriesEventBySubscriptionIdAndTrackingId();
+  await getRetirementEventBySubscriptionIdAndTrackingId();
 }
 
 main().catch(console.error);

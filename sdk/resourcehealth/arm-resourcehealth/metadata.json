@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ResourceHealth": "2025-05-01"
+    "Microsoft.ResourceHealth": "2026-07-01"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ResourceHealth",
     "CrossLanguageDefinitionId": {
@@ -32,6 +32,7 @@
       "@azure/arm-resourcehealth!MetadataEntityListResult:interface": "Microsoft.ResourceHealth.MetadataEntityListResult",
       "@azure/arm-resourcehealth!event:interface": "Microsoft.ResourceHealth.Event",
       "@azure/arm-resourcehealth!EventProperties:interface": "Microsoft.ResourceHealth.EventProperties",
+      "@azure/arm-resourcehealth!ApiOperationLink:interface": "Microsoft.ResourceHealth.ApiOperationLink",
       "@azure/arm-resourcehealth!EventPropertiesArticle:interface": "Microsoft.ResourceHealth.EventPropertiesArticle",
       "@azure/arm-resourcehealth!link:interface": "Microsoft.ResourceHealth.Link",
       "@azure/arm-resourcehealth!LinkDisplayText:interface": "Microsoft.ResourceHealth.LinkDisplayText",

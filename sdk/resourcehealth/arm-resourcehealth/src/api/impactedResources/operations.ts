@@ -37,7 +37,7 @@ export function _listBySubscriptionIdAndEventIdSend(
     {
       subscriptionId: context.subscriptionId,
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -56,7 +56,9 @@ export async function _listBySubscriptionIdAndEventIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -75,7 +77,7 @@ export function listBySubscriptionIdAndEventId(
     () => _listBySubscriptionIdAndEventIdSend(context, eventTrackingId, options),
     _listBySubscriptionIdAndEventIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -91,7 +93,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       eventTrackingId: eventTrackingId,
       impactedResourceName: impactedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +111,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -137,7 +141,7 @@ export function _listByTenantIdAndEventIdSend(
     "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/impactedResources{?api%2Dversion,%24filter}",
     {
       eventTrackingId: eventTrackingId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24filter": options?.filter,
     },
     {
@@ -156,7 +160,9 @@ export async function _listByTenantIdAndEventIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -175,7 +181,7 @@ export function listByTenantIdAndEventId(
     () => _listByTenantIdAndEventIdSend(context, eventTrackingId, options),
     _listByTenantIdAndEventIdDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -190,7 +196,7 @@ export function _getByTenantIdSend(
     {
       eventTrackingId: eventTrackingId,
       impactedResourceName: impactedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +214,9 @@ export async function _getByTenantIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
