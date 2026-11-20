@@ -14,6 +14,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDedicatedHub,
 } from "./api/dedicatedHub/operations.js";
 import {
+  _syncDeserialize,
   _handleApprovalDeletionDeserialize,
   _handleApprovalCreationDeserialize,
   _$deleteDeserialize as _$deleteDeserializeCommunityEndpoints,
@@ -151,6 +152,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeDedicatedHub,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints/{communityEndpointName}/sync":
+    { deserializer: _syncDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints/{communityEndpointName}/handleApprovalDeletion":
     { deserializer: _handleApprovalDeletionDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints/{communityEndpointName}/handleApprovalCreation":

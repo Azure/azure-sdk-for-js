@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/enclave/arm-enclave)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-enclave)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-enclave)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-enclave?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/enclave/arm-enclave/samples)
 
 ## Getting started

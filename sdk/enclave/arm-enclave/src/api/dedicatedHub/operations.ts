@@ -40,7 +40,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +79,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, communityName, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -95,7 +99,7 @@ export function _listByCommunityResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +139,11 @@ export function listByCommunityResource(
     () => _listByCommunityResourceSend(context, resourceGroupName, communityName, options),
     _listByCommunityResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -153,7 +161,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       dedicatedHubName: dedicatedHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -190,7 +198,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, communityName, dedicatedHubName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -209,7 +217,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       dedicatedHubName: dedicatedHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,7 +262,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, communityName, dedicatedHubName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<DedicatedHubResource>, DedicatedHubResource>;
 }
 
@@ -273,7 +281,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       dedicatedHubName: dedicatedHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -325,7 +333,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<DedicatedHubResource>, DedicatedHubResource>;
 }
 
@@ -343,7 +351,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       dedicatedHubName: dedicatedHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
