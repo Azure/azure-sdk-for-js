@@ -105,9 +105,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -183,58 +182,46 @@
-     FIXED = 1
- }
+@@ -189,58 +188,46 @@
+ // @public
+ export const storageServiceErrorPolicyName = "storageServiceErrorPolicy";
  
  // @public
 -export class StorageSharedKeyCredential extends Credential {
@@ -175,7 +175,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -247,10 +234,13 @@
+@@ -253,10 +240,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

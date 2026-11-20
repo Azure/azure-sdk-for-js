@@ -46,6 +46,7 @@ import {
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRequestFailureDetailsParserPolicy,
+  storageServiceErrorPolicy,
 } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
@@ -294,6 +295,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
+    corePipeline.addPolicy(storageServiceErrorPolicy(), { afterPhase: "Deserialize" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {

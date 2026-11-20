@@ -1,5 +1,19 @@
 # Release History
 
+## 12.6.0-beta.2 (Unreleased)
+
+### Features Added
+
+- Added `storageServiceErrorPolicy`, a pipeline policy that turns a failed request's storage error response into a `RestError` with the error message, error code and error details that the service returned, for use by other Azure Storage client libraries.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- `storageRequestFailureDetailsParserPolicy` now also puts its explanation of a service version the storage account doesn't support in the error's `details.message`, not only in its `message`. [#40864](https://github.com/Azure/azure-sdk-for-js/pull/40864)
+
 ## 12.6.0-beta.1 (2026-11-11)
 
 ### Features Added

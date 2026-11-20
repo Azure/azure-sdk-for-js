@@ -1,5 +1,17 @@
 # Release History
 
+## 12.32.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed errors of requests to the Blob endpoint having the message `Unexpected status code: <status>` instead of the error message the service returned, a regression in 12.32.0-beta.1. This covers the methods that call `@azure/storage-blob`, such as `DataLakeFileClient.read()` and `DataLakeFileSystemClient.create()`, and the methods that call the Blob endpoint directly: `DataLakeFileSystemClient.listDeletedPaths()`, `DataLakeFileSystemClient.undeletePath()` and `DataLakeFileClient.setExpiry()`. `details` of these errors includes the fields the service returns, such as `code`, `message` and `authenticationErrorDetail`. Errors of requests whose response has no body, such as `DataLakeFileClient.getProperties()`, still have the message `Unexpected status code: <status>`, because the service returns no error message for them. [#40864](https://github.com/Azure/azure-sdk-for-js/pull/40864)
+
+### Other Changes
+
 ## 12.32.0-beta.1 (2026-11-11)
 
 ### Features Added
