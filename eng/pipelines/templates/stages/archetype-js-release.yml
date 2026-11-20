@@ -47,6 +47,7 @@ stages:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
               - template: /eng/pipelines/templates/variables/image.yml
+              - template: /eng/common/pipelines/templates/variables/api-review-break-glass.yml
               # Post-merge CI is an auto-release, so the AutoReleasePrepare stage exists. Pass its SDK PR on
               # so completion updates the release plan linked to it. Manual releases have no SDK PR.
               - ${{ if in(variables['Build.Reason'], 'Manual', '') }}:
@@ -80,9 +81,109 @@ stages:
                   ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
                 )
             jobs:
+              - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
+                  - job: CheckPackageApproval
+                    displayName: Verify package API review approval
+                    pool:
+                      name: $(LINUXPOOL)
+                      image: $(LINUXVMIMAGE)
+                      os: linux
+                    steps:
+                      - checkout: self
+                      - download: current
+                        artifact: ${{ parameters.ArtifactName }}
+                      - template: /eng/pipelines/templates/steps/common.yml
+                      - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                        parameters:
+                          PackageName: '@azure/template'
+                          ServiceDirectory: template
+                          TestPipeline: ${{ parameters.TestPipeline }}
+                      - template: /eng/pipelines/templates/steps/install-pnpm.yml
+                      - pwsh: |
+                          $ErrorActionPreference = 'Stop'
+                          $packageInfoPath = "$(Pipeline.Workspace)/${{ parameters.ArtifactName }}/PackageInfo/${{ artifact.name }}.json"
+                          $packageInfo = Get-Content $packageInfoPath -Raw | ConvertFrom-Json
+                          if ($packageInfo.Name -isnot [string] -or [string]::IsNullOrWhiteSpace($packageInfo.Name)) {
+                            throw "Package info does not contain a package name."
+                          }
+
+                          $archiveDirectory = "$(Pipeline.Workspace)/${{ parameters.ArtifactName }}/${{ artifact.name }}"
+                          $archives = @(Get-ChildItem -LiteralPath $archiveDirectory -Filter '*.tgz' -File -Recurse)
+                          if ($archives.Count -ne 1) {
+                            throw "Expected exactly one package archive in $archiveDirectory; found $($archives.Count)."
+                          }
+
+                          $outputDirectory = "$(Agent.TempDirectory)/api-review-${{ artifact.safename }}"
+                          New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
+                          $verifiedInfo = Join-Path $outputDirectory 'package-info.json'
+                          Copy-Item $packageInfoPath $verifiedInfo
+                          $packageRoot = Join-Path "$(Build.SourcesDirectory)" $packageInfo.DirectoryPath
+                          $packageFilter = "$($packageInfo.Name)..."
+
+                          pnpm install --frozen-lockfile --fail-if-no-match --filter $packageFilter --filter '@azure/dev-tool...'
+                          if ($LASTEXITCODE -ne 0) { throw "Installing review dependencies failed." }
+                          pnpm turbo build "--filter=$packageFilter" '--filter=@azure/dev-tool...' --token 1
+                          if ($LASTEXITCODE -ne 0) { throw "Building the reviewed package failed." }
+                          node common/tools/dev-tool/launch.ts run generate-api-review `
+                            --package-root $packageRoot `
+                            --package-archive $($archives[0].FullName) `
+                            --package-info-file $verifiedInfo `
+                            --output-dir $outputDirectory
+                          if ($LASTEXITCODE -ne 0) { throw "Verifying the package archive API failed." }
+                        displayName: Verify source and release archive API hashes
+                        workingDirectory: $(Build.SourcesDirectory)
+                      - template: /eng/common/pipelines/templates/steps/install-azsdk-cli.yml
+                        parameters:
+                          Condition: >-
+                            and(
+                              succeeded(),
+                              not(
+                                and(
+                                  eq(variables['Skip.CheckPackageApproval'], 'true'),
+                                  eq(variables['IsRequesterAuthorizedToSkipApiReview'], 'true')
+                                )
+                              )
+                            )
+                      - template: /eng/common/pipelines/templates/steps/get-package-approval-status.yml
+                        parameters:
+                          PackageInfoFiles:
+                            - $(Agent.TempDirectory)/api-review-${{ artifact.safename }}/package-info.json
+                          RepoOwner: Azure
+                      - task: AzureCLI@2
+                        displayName: Require API Review Hub approval
+                        condition: >-
+                          and(
+                            succeeded(),
+                            not(
+                              and(
+                                eq(variables['Skip.CheckPackageApproval'], 'true'),
+                                eq(variables['IsRequesterAuthorizedToSkipApiReview'], 'true')
+                              )
+                            )
+                          )
+                        inputs:
+                          azureSubscription: "ADO to ARH Service Connection"
+                          scriptType: pscore
+                          scriptLocation: scriptPath
+                          scriptPath: $(Build.SourcesDirectory)/eng/scripts/Check-ApiReviewHubApproval.ps1
+                          arguments: >
+                            -PackageInfoFile '$(Agent.TempDirectory)/api-review-${{ artifact.safename }}/package-info.json'
+                            -RepoOwner 'Azure'
+                            -AzSdkExePath '$(AZSDK)'
+                          workingDirectory: $(Pipeline.Workspace)
+                      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+                        parameters:
+                          ArtifactPath: $(Agent.TempDirectory)/api-review-${{ artifact.safename }}
+                          ArtifactName: api-review-${{ artifact.safename }}
+                          SbomEnabled: false
+
               - job: TagRepository
                 displayName: Create release tag
-                condition: ne(variables['Skip.TagRepository'], 'true')
+                ${{ if ne(artifact.skipPublishPackage, 'true') }}:
+                  dependsOn: CheckPackageApproval
+                  condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
+                ${{ else }}:
+                  condition: ne(variables['Skip.TagRepository'], 'true')
                 pool:
                   name: $(LINUXPOOL)
                   image: $(LINUXVMIMAGE)
@@ -135,6 +236,43 @@ stages:
                         Environment: 'none'
                       ${{ else }}:
                         Environment: 'package-publish'
+
+                  - job: MarkPackageReleased
+                    displayName: Record public package release
+                    dependsOn:
+                      - CheckPackageApproval
+                      - PublishPackage_${{ replace(artifact.name, '-', '_') }}
+                    condition: >-
+                      and(
+                        succeeded(),
+                        eq(dependencies.PublishPackage_${{ replace(artifact.name, '-', '_') }}.result, 'Succeeded'),
+                        ne(variables['SkipPublishing'], 'true')
+                      )
+                    pool:
+                      name: $(LINUXPOOL)
+                      image: $(LINUXVMIMAGE)
+                      os: linux
+                    steps:
+                      - checkout: self
+                      - download: current
+                        artifact: api-review-${{ artifact.safename }}
+                      - template: /eng/common/pipelines/templates/steps/install-azsdk-cli.yml
+                        parameters:
+                          Condition: >-
+                            and(
+                              succeeded(),
+                              not(
+                                and(
+                                  eq(variables['Skip.MarkPackageReleased'], 'true'),
+                                  eq(variables['IsRequesterAuthorizedToSkipApiReview'], 'true')
+                                )
+                              )
+                            )
+                      - template: /eng/common/pipelines/templates/steps/mark-package-released.yml
+                        parameters:
+                          PackageInfoFiles:
+                            - $(Pipeline.Workspace)/api-review-${{ artifact.safename }}/package-info.json
+                          RepoOwner: Azure
 
                   - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
                     parameters:
@@ -238,16 +376,6 @@ stages:
                       - checkout: self
                       - download: current
                       - template: /eng/pipelines/templates/steps/common.yml
-
-                      # Mark package as shipped in APIView
-                      - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-                        parameters:
-                          ArtifactPath: $(Pipeline.Workspace)/packages
-                          Artifacts: ${{ parameters.Artifacts }}
-                          ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
-                          MarkPackageAsShipped: true
-                          ArtifactName: ${{ parameters.ArtifactName }}
-                          PackageName: ${{ artifact.name }}
 
                       # Log whether this is an auto-release or a manual release, and the auto-release SDK PR.
                       - pwsh: |

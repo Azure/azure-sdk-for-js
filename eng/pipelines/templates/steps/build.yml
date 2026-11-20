@@ -164,7 +164,7 @@ steps:
       ArtifactName: "packages-dev-publish"
       CustomCondition: eq(variables['SetDevVersion'], 'true')
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+  - template: /eng/common/pipelines/templates/steps/create-apiview-revision.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
 

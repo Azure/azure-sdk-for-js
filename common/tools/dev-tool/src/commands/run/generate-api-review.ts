@@ -6,6 +6,7 @@ import path from "node:path";
 import { stringify } from "yaml";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { generateApiReview } from "../../util/apiReview.ts";
+import { generateReleaseApiReview } from "../../util/apiReview/release.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 
@@ -23,6 +24,14 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       description: "Directory to write api.md and api.metadata.yml (defaults to the package root).",
     },
+    "package-archive": {
+      kind: "string",
+      description: "Packed release candidate to compare with the source review.",
+    },
+    "package-info-file": {
+      kind: "string",
+      description: "Release package-info JSON to update with the verified API hash.",
+    },
   },
 );
 
@@ -30,7 +39,15 @@ export default leafCommand(commandInfo, async (options) => {
   try {
     const packageRoot = path.resolve(options["package-root"] ?? (await resolveProject()).path);
     const outputDir = path.resolve(options["output-dir"] ?? packageRoot);
-    const { apiMd, metadata } = await generateApiReview(packageRoot);
+    const archive = options["package-archive"];
+    const infoFile = options["package-info-file"];
+    if (Boolean(archive) !== Boolean(infoFile)) {
+      throw new Error("--package-archive and --package-info-file must be supplied together.");
+    }
+    const { apiMd, metadata } =
+      archive && infoFile
+        ? await generateReleaseApiReview(packageRoot, path.resolve(archive), path.resolve(infoFile))
+        : await generateApiReview(packageRoot);
     await mkdir(outputDir, { recursive: true });
     await writeFile(path.join(outputDir, "api.md"), apiMd);
     await writeFile(path.join(outputDir, "api.metadata.yml"), stringify(metadata));

@@ -31,6 +31,7 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
+      - template: /eng/common/pipelines/templates/variables/api-review-break-glass.yml
 
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
       timeoutInMinutes: 240
