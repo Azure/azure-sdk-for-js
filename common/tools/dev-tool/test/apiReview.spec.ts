@@ -62,6 +62,30 @@ afterAll(() => {
 describe("generateApiReview", () => {
   let singleExportRoot: string;
 
+  it("distinguishes retargeted aliases on a repeated export path", async () => {
+    const review = (target: string): Promise<Awaited<ReturnType<typeof generateApiReview>>> =>
+      generateApiReview(
+        fixture(
+          {
+            "dist/esm/index.d.ts":
+              "export interface A { a: string; } export interface B { b: number; }",
+            "dist/esm/subpath.d.ts": `export { ${target} as C } from "./index.js";`,
+          },
+          {
+            exports: {
+              ".": { import: { types: "./dist/esm/index.d.ts" } },
+              "./subpath": { import: { types: "./dist/esm/subpath.d.ts" } },
+            },
+          },
+        ),
+      );
+    const before = await review("A");
+    const after = await review("B");
+    expect(before.apiMd).toContain("A as C");
+    expect(after.apiMd).toContain("B as C");
+    expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
+  });
+
   beforeAll(() => {
     singleExportRoot = fixture({ "dist/esm/index.d.ts": "export declare const value: string;\n" });
   });
@@ -1573,8 +1597,8 @@ export declare function isRestError(error: unknown): error is RestError;`,
       const before = await generateApiReview(repeatedFixture("Bar"));
       const after = await generateApiReview(repeatedFixture("Baz"));
 
-      expect(before.apiMd).toContain("+// Bar is also exported from .");
-      expect(after.apiMd).toContain("+// Baz is also exported from .");
+      expect(before.apiMd).toContain("+// Foo as Bar is also exported from .");
+      expect(after.apiMd).toContain("+// Foo as Baz is also exported from .");
       expect(after.metadata.apiHash).not.toBe(before.metadata.apiHash);
     });
 
@@ -2265,6 +2289,143 @@ describe("release API review", () => {
       ),
     ).rejects.toThrow("archive name or version does not match");
     expect(JSON.parse(readFileSync(changedApi.infoFile, "utf8")).ApiHash).toBeUndefined();
+  });
+
+  it("rejects malformed packed declarations", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    writeFileSync(
+      path.join(root, "dist", "esm", "index.d.ts"),
+      "export interface Options { value: string; }",
+    );
+    writeFileSync(
+      path.join(root, "candidate", "package", "dist", "esm", "index.d.ts"),
+      "export interface Options { value: string;",
+    );
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow("'}' expected");
+  });
+
+  it("rejects unqualified import types rather than omitting module exports", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const declaration = 'export type Module = typeof import("./internal.js");';
+    for (const dir of [
+      path.join(root, "dist", "esm"),
+      path.join(root, "candidate", "package", "dist", "esm"),
+    ]) {
+      writeFileSync(path.join(dir, "index.d.ts"), declaration);
+      writeFileSync(
+        path.join(dir, "internal.d.ts"),
+        `export declare const value: ${dir.includes(`${path.sep}candidate${path.sep}`) ? "number" : "string"};`,
+      );
+    }
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "Unqualified import types",
+    );
+  });
+
+  it("rejects a packed subpath alias retargeted to another root export", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    for (const dir of [root, path.join(root, "candidate", "package")]) {
+      const manifestPath = path.join(dir, "package.json");
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+      manifest.exports["./sub"] = { import: { types: "./dist/esm/sub.d.ts" } };
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      writeFileSync(
+        path.join(dir, "dist", "esm", "index.d.ts"),
+        "export interface A { a: string; } export interface B { b: number; }",
+      );
+      writeFileSync(
+        path.join(dir, "dist", "esm", "sub.d.ts"),
+        `export { ${dir === root ? "A" : "B"} as C } from "./index.js";`,
+      );
+    }
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "package API hash does not match",
+    );
+  });
+
+  it("rejects nested node_modules in an archive", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const nested = path.join(
+      root,
+      "candidate",
+      "package",
+      "dist",
+      "esm",
+      "node_modules",
+      "dependency",
+    );
+    mkdirSync(nested, { recursive: true });
+    writeFileSync(path.join(nested, "index.d.ts"), "export interface Value {}");
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "containing node_modules",
+    );
+  });
+
+  it("rejects a packed dependency range that differs within the same major version", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const manifestPath = path.join(root, "candidate", "package", "package.json");
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+    manifest.dependencies["@example/dependency"] = "^2.0.0";
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "dependencies does not match",
+    );
+  });
+
+  it.each(["type", "exports"])("rejects changed runtime %s metadata", async (field) => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    const manifestPath = path.join(root, "candidate", "package", "package.json");
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+    if (field === "type") {
+      manifest.type = "commonjs";
+    } else {
+      manifest.exports["."].import.default = "./dist/esm/other.js";
+    }
+    writeFileSync(manifestPath, JSON.stringify(manifest));
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      `${field} does not match`,
+    );
+  });
+
+  it("rejects a missing runtime entry point", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    for (const manifestPath of [
+      path.join(root, "package.json"),
+      path.join(root, "candidate", "package", "package.json"),
+    ]) {
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+      manifest.exports["."].import.default = "./dist/esm/index.js";
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+    }
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "runtime entry point is missing",
+    );
+  });
+
+  it("rejects a changed nested runtime module type", async () => {
+    const { root, archive, infoFile } = await releaseFixture("string");
+    for (const dir of [root, path.join(root, "candidate", "package")]) {
+      const manifestPath = path.join(dir, "package.json");
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+      manifest.exports["."].import.default = "./dist/esm/index.js";
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      writeFileSync(path.join(dir, "dist", "esm", "index.js"), "");
+    }
+    writeFileSync(
+      path.join(root, "candidate", "package", "dist", "esm", "package.json"),
+      JSON.stringify({ type: "commonjs" }),
+    );
+    await createTar({ cwd: path.join(root, "candidate"), file: archive, gzip: true }, ["package"]);
+    await expect(generateReleaseApiReview(root, archive, infoFile)).rejects.toThrow(
+      "runtime module type",
+    );
   });
 
   it.each([

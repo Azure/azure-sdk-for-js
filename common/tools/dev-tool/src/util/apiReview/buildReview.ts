@@ -48,7 +48,7 @@ const dependencyFields: [field: string, type: DependencyType][] = [
 /**
  * Resolves `catalog:` and `workspace:^` specifiers to what `pnpm pack` publishes.
  */
-async function resolveSpecifier(
+export async function resolveSpecifier(
   packageRoot: string,
   name: string,
   specifier: string,
@@ -496,6 +496,13 @@ function checkResolution(
     );
 
   for (const file of packageFiles) {
+    const syntaxError = program.getSyntacticDiagnostics(file)[0];
+    if (syntaxError) {
+      const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+      throw new Error(
+        `[${condition}] ${relativeFile}: ${ts.flattenDiagnosticMessageText(syntaxError.messageText, " ")}`,
+      );
+    }
     if (!file.isDeclarationFile) {
       throw new Error(
         `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: Implementation file is part of the review program`,
@@ -602,7 +609,7 @@ function buildExportSections(
         : [];
     });
   });
-  const shownUnder = new Map<ts.Symbol, string>();
+  const shownUnder = new Map<ts.Symbol, { path: string; name: string }>();
   const rootNames = new Set<string>();
   const references = new Map<string, Map<string, string>>();
 
@@ -701,6 +708,9 @@ function buildExportSections(
   const collectReferences = (node: ts.Node): void => {
     if (isPrivateMember(node)) {
       return;
+    }
+    if (ts.isImportTypeNode(node) && !node.qualifier) {
+      throw new Error(`[${condition}] Unqualified import types are not supported by API review.`);
     }
     const forgotten = ts.isIdentifier(node) ? forgottenSymbol(node) : undefined;
     if (forgotten && !forgottenSymbols.has(forgotten)) {
@@ -822,17 +832,21 @@ function buildExportSections(
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const earlierPath = shownUnder.get(symbol);
-      if (earlierPath !== undefined) {
+      const earlier = shownUnder.get(symbol);
+      if (earlier !== undefined) {
         const typeOnly =
           isTypeOnlyExport(exportedSymbol) && Boolean(symbol.flags & ts.SymbolFlags.Value);
+        const name =
+          earlier.name === exportedSymbol.name
+            ? exportedSymbol.name
+            : `${earlier.name} as ${exportedSymbol.name}`;
         alsoExported.push({
-          path: earlierPath,
-          name: typeOnly ? `type ${exportedSymbol.name}` : exportedSymbol.name,
+          path: earlier.path,
+          name: typeOnly ? `type ${name}` : name,
         });
         continue;
       }
-      shownUnder.set(symbol, exportPath);
+      shownUnder.set(symbol, { path: exportPath, name: exportedSymbol.name });
       const typeOnly = isTypeOnlyExport(exportedSymbol);
       const reExport = externalImport(program, exportedSymbol);
       if (reExport) {

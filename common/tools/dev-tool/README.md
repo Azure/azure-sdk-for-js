@@ -66,6 +66,8 @@ The release pipeline requires API Review Hub approval for both the package name 
 
 Hub reviews use `languageToolsRef` (default `main`), while release verification uses the release checkout's generator. Different revisions can produce different hashes for the same API. When requesting a review with the `azsdk` CLI, set `AZSDK_API_REVIEW_LANGUAGE_TOOLS_REF` to a `refs/tags/...` tag for the release checkout, and do not move the tag. Automatic reuse requires the Hub to expose the approved generator revision.
 
+API review generation rejects unqualified `import()` types until their module exports can be included safely in the review hash.
+
 ## Extending the Tool
 
 The source hierarchy matches the command hierarchy. Every sub-command has its own folder and `index.ts` file in `src/commands`, where `src/commands/index.ts` defines the behavior of the root `dev-tool` command, and each subfolder's `index.ts` file describes a nested sub-command. Every leaf node in the command tree ("leaf command") has its own TypeScript file. For example, `src/commands/about.ts` defines the behavior of the `dev-tool about` command, and `src/commands/package/resolve.ts` defines the behavior of the `dev-tool package resolve` command.

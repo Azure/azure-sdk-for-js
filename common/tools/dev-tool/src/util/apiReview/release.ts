@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { copyFile, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { isDeepStrictEqual } from "node:util";
 import { extract } from "tar";
 import { generateApiReview } from "../apiReview.ts";
 import { resolveRoot } from "../resolveProject.ts";
+import { resolveSpecifier } from "./buildReview.ts";
 
-async function readManifest(packageRoot: string): Promise<{ name: string; version: string }> {
+async function readManifest(
+  packageRoot: string,
+): Promise<Record<string, unknown> & { name: string; version: string }> {
   const manifest: unknown = JSON.parse(
     await readFile(path.join(packageRoot, "package.json"), "utf8"),
   );
@@ -25,7 +29,7 @@ async function readManifest(packageRoot: string): Promise<{ name: string; versio
   ) {
     throw new Error(`Package manifest in ${packageRoot} must contain a name and version.`);
   }
-  return { name: manifest.name, version: manifest.version };
+  return { ...manifest, name: manifest.name, version: manifest.version };
 }
 
 /**
@@ -86,6 +90,12 @@ export async function generateReleaseApiReview(
         }
         const normalized = entryPath.replaceAll("\\", "/").replace(/\/+$/, "");
         const parts = normalized.split("/");
+        if (parts.includes("node_modules")) {
+          archiveError = new Error(
+            "Package archives containing node_modules are not supported for API review.",
+          );
+          return false;
+        }
         if (
           parts[0] !== "package" ||
           parts.some((part) => !part || part === "." || part === "..") ||
@@ -113,6 +123,105 @@ export async function generateReleaseApiReview(
     const candidateManifest = await readManifest(candidateRoot);
     if (candidateManifest.name !== info.Name || candidateManifest.version !== info.Version) {
       throw new Error("Package archive name or version does not match package info.");
+    }
+
+    for (const field of ["dependencies", "optionalDependencies", "peerDependencies"]) {
+      const source = sourceManifest[field] ?? {};
+      const candidate = candidateManifest[field] ?? {};
+      if (
+        typeof source !== "object" ||
+        source === null ||
+        Array.isArray(source) ||
+        typeof candidate !== "object" ||
+        candidate === null ||
+        Array.isArray(candidate)
+      ) {
+        throw new Error(`Invalid ${field} in package manifest.`);
+      }
+      const expected: Record<string, string> = {};
+      for (const [name, specifier] of Object.entries(source)) {
+        if (typeof specifier !== "string") {
+          throw new Error(`Invalid ${field} specifier for ${name}.`);
+        }
+        expected[name] = await resolveSpecifier(packageRoot, name, specifier);
+      }
+      if (!isDeepStrictEqual(expected, candidate)) {
+        throw new Error(`Package archive ${field} does not match packed source dependencies.`);
+      }
+    }
+    for (const field of ["exports", "type", "main", "module", "browser"]) {
+      if (!isDeepStrictEqual(sourceManifest[field], candidateManifest[field])) {
+        throw new Error(`Package archive ${field} does not match source.`);
+      }
+    }
+    const checkRuntimeTarget = (target: unknown): void => {
+      if (typeof target !== "string" || !target.startsWith("./")) {
+        throw new Error("Unsupported runtime entry point in package manifest.");
+      }
+      const file = path.resolve(candidateRoot, target);
+      const relative = path.relative(candidateRoot, file);
+      if (
+        relative === ".." ||
+        relative.startsWith(`..${path.sep}`) ||
+        path.isAbsolute(relative) ||
+        !existsSync(file) ||
+        !statSync(file).isFile()
+      ) {
+        throw new Error(
+          `Package archive runtime entry point is missing or outside the package: ${target}`,
+        );
+      }
+      const nearestPackageType = (root: string): unknown => {
+        const rootPath = path.resolve(root);
+        let directory = path.dirname(path.join(rootPath, relative));
+        while (directory !== rootPath) {
+          const manifest = path.join(directory, "package.json");
+          if (existsSync(manifest)) {
+            return JSON.parse(readFileSync(manifest, "utf8")).type;
+          }
+          directory = path.dirname(directory);
+        }
+        return root === candidateRoot ? candidateManifest.type : sourceManifest.type;
+      };
+      if (!isDeepStrictEqual(nearestPackageType(packageRoot), nearestPackageType(candidateRoot))) {
+        throw new Error(`Package archive runtime module type does not match source: ${target}`);
+      }
+    };
+    for (const field of ["main", "module"]) {
+      if (candidateManifest[field] !== undefined) {
+        const target = candidateManifest[field];
+        checkRuntimeTarget(
+          typeof target === "string" && !target.startsWith("./") ? `./${target}` : target,
+        );
+      }
+    }
+    if (typeof candidateManifest.browser === "string") {
+      checkRuntimeTarget(
+        candidateManifest.browser.startsWith("./")
+          ? candidateManifest.browser
+          : `./${candidateManifest.browser}`,
+      );
+    } else if (
+      typeof candidateManifest.browser === "object" &&
+      candidateManifest.browser !== null
+    ) {
+      for (const target of Object.values(candidateManifest.browser)) {
+        if (typeof target === "string" && target.startsWith("./")) {
+          checkRuntimeTarget(target);
+        }
+      }
+    }
+    const exports = candidateManifest.exports;
+    if (typeof exports === "object" && exports !== null) {
+      for (const entry of Object.values(exports)) {
+        if (typeof entry === "object" && entry !== null) {
+          for (const condition of Object.values(entry)) {
+            if (typeof condition === "object" && condition !== null && "default" in condition) {
+              checkRuntimeTarget(condition.default);
+            }
+          }
+        }
+      }
     }
 
     const candidateModules = path.join(candidateRoot, "node_modules");
