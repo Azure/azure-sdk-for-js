@@ -22,9 +22,9 @@ import type {
 } from "../../api/serverlessEndpoints/options.js";
 import type {
   EndpointAuthKeys,
-  PartialMinimalTrackedResourceWithSkuAndIdentity,
   RegenerateEndpointKeysRequest,
   ServerlessEndpoint,
+  PartialMinimalTrackedResourceWithSkuAndIdentity,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";

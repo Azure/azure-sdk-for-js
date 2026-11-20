@@ -33,7 +33,7 @@ export function _getBlobReferenceSASSend(
       registryName: registryName,
       name: name,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

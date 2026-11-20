@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Azure Machine Learning Workspace notebook access token
  *
  * @summary get Azure Machine Learning Workspace notebook access token
- * x-ms-original-file: 2026-03-15-preview/Workspace/listNotebookAccessToken.json
+ * x-ms-original-file: 2026-09-01/Workspace/listNotebookAccessToken.json
  */
 async function listWorkspaceKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

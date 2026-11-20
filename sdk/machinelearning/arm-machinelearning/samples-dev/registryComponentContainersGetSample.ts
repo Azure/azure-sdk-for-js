@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get container.
  *
  * @summary get container.
- * x-ms-original-file: 2026-03-15-preview/Registry/ComponentContainer/get.json
+ * x-ms-original-file: 2026-09-01/Registry/ComponentContainer/get.json
  */
 async function getRegistryComponentContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

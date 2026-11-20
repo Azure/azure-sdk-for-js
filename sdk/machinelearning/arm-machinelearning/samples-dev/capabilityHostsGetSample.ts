@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get capabilityHost.
  *
  * @summary get capabilityHost.
- * x-ms-original-file: 2026-03-15-preview/CapabilityHost/get.json
+ * x-ms-original-file: 2026-09-01/CapabilityHost/get.json
  */
 async function getCapabilityHost(): Promise<void> {
   const credential = new DefaultAzureCredential();
