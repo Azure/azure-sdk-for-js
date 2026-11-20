@@ -51,6 +51,27 @@ describe("message", function () {
     const decode = (message: RheaMessage): RheaMessage =>
       rheaMessageUtil.decode(rheaMessageUtil.encode(message)) as unknown as RheaMessage;
 
+    it("keeps internal type metadata out of application property equality and copies", function () {
+      const decoded = decode({
+        body: "body",
+        application_properties: { test: "super" },
+      });
+      const received = AmqpAnnotatedMessage.fromRheaMessage(decoded);
+
+      for (const applicationProperties of [
+        decoded.application_properties,
+        received.applicationProperties,
+      ]) {
+        assert.deepEqual(applicationProperties, { test: "super" });
+        assert.deepEqual({ ...applicationProperties }, { test: "super" });
+        assert.isEmpty(Object.getOwnPropertySymbols({ ...applicationProperties }));
+        assert.isEmpty(Object.getOwnPropertySymbols(Object.assign({}, applicationProperties)));
+      }
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes, {
+        test: { type: "string", value: "super" },
+      });
+    });
+
     it("preserves explicitly typed values across the Rhea codec", function () {
       const rheaMessage = AmqpAnnotatedMessage.toRheaMessage({
         applicationProperties: properties,

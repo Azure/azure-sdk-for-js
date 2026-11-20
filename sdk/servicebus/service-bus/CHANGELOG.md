@@ -11,6 +11,8 @@
 
 ### Bugs Fixed
 
+- Preserve AMQP application property types when forwarding received property maps or cloned messages with tracing enabled, without exposing internal metadata in property equality. [#40833](https://github.com/Azure/azure-sdk-for-js/issues/40833)
+
 ### Other Changes
 
 ## 7.10.0 (2026-10-06)

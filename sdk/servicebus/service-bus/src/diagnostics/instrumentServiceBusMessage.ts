@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
-import { _defineApplicationPropertiesWithAmqpTypes } from "@azure/core-amqp";
+import {
+  _defineApplicationPropertiesWithAmqpTypes,
+  _getApplicationPropertiesWithAmqpTypes,
+} from "@azure/core-amqp";
 import type { ConnectionContext } from "../connectionContext.js";
 import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import type { ServiceBusReceiver } from "../receivers/receiver.js";
@@ -83,7 +86,9 @@ export function instrumentMessage<T extends InstrumentableMessage>(
     )["traceparent"];
 
     if (traceParent) {
-      const applicationPropertiesWithAmqpTypes = message.applicationPropertiesWithAmqpTypes;
+      const applicationPropertiesWithAmqpTypes =
+        message.applicationPropertiesWithAmqpTypes ??
+        _getApplicationPropertiesWithAmqpTypes(message.applicationProperties);
       // create a copy so the original isn't modified
       message = {
         ...message,

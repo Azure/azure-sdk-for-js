@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Keep internal AMQP application property type metadata non-enumerable so it does not affect property equality or ordinary object copies. [#40833](https://github.com/Azure/azure-sdk-for-js/issues/40833)
+
 ### Other Changes
 
 ## 4.5.1 (2026-09-03)
