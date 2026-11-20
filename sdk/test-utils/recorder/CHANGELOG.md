@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `ignoredQueryParameters` to `CustomMatcherOptions`, and ignore the `api-version` query parameter by default during playback matching, so that recordings only need to be re-recorded when there are actual API changes rather than api-version upgrades. [#40801](https://github.com/Azure/azure-sdk-for-js/issues/40801)
+
 ### Breaking Changes
 
 ### Bugs Fixed

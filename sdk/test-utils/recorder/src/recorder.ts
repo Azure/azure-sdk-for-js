@@ -37,6 +37,12 @@ import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "#platform/env";
 
 /**
+ * Query parameters ignored by default during playback matching, so that
+ * recordings do not need to be re-recorded when only the api-version changes.
+ */
+const DEFAULT_IGNORED_QUERY_PARAMETERS = ["api-version"];
+
+/**
  * Caculates session file path and JSON assets path from test context
  *
  * @internal
@@ -368,6 +374,15 @@ export class Recorder {
           removalList.concat(options.removeCentralSanitizers ?? []),
         );
 
+        // Ignore api-version during playback matching by default, so that recordings
+        // only need to be re-recorded when there are actual API changes.
+        // Skip if a matcher has already been set (e.g. by the test before start(),
+        // or by preStart in the browser) to avoid overriding it.
+        if (isPlaybackMode() && !this.matcherSet) {
+          logger.verbose("[Recorder#start] Setting default matcher to ignore api-version");
+          await this.setMatcher("CustomDefaultMatcher");
+        }
+
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
@@ -435,6 +450,9 @@ export class Recorder {
   async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
   /**
    * Sets the matcher for the current recording to the matcher specified.
+   *
+   * The "api-version" query parameter is always ignored during matching (except for HeaderlessMatcher,
+   * which does not accept options), so that recordings do not need to be re-recorded when only the api-version changes.
    */
   async setMatcher(matcher: Matcher, options: CustomMatcherOptions = {}): Promise<void> {
     if (isPlaybackMode()) {
@@ -457,9 +475,14 @@ export class Recorder {
           )
         : options.excludedHeaders;
 
+      const ignoredQueryParameters = Array.from(
+        new Set([...(options.ignoredQueryParameters ?? []), ...DEFAULT_IGNORED_QUERY_PARAMETERS]),
+      );
+
       const updatedOptions = {
         ...options,
         excludedHeaders,
+        ignoredQueryParameters,
       };
       if (matcher === "BodilessMatcher") {
         updatedOptions.compareBodies = false;
