@@ -36,9 +36,6 @@ export function layoutReview(review: Review): Block[] {
     ...layoutDependencies(review),
     ...layoutUnresolvedReferences(review),
     ...layoutReferences(review),
-    ...layoutForgottenDeclarations(review),
-    ...layoutSupplementalDeclarations("Module and global augmentations", review.augmentations),
-    ...layoutSupplementalDeclarations("Type-only wildcard exports", review.typeOnlyExports),
     ...review.exportSections.flatMap((section, _, [root]) =>
       layoutExportSection(section, root.path),
     ),
@@ -57,49 +54,7 @@ function layoutEntryPoints(review: Review): Block[] {
         joinInline(entry.conditions.map(inlineCode), ", "),
       ]),
     },
-    ...(review.legacyTypeFields.length || review.versionedEntryPoints.length
-      ? [
-          heading(3, plain("Legacy TypeScript entry points")),
-          ...(review.legacyTypeFields.length
-            ? [
-                paragraph(
-                  plain("Root declaration fields: "),
-                  ...joinInline(review.legacyTypeFields.map(inlineCode), ", "),
-                  plain("."),
-                ),
-              ]
-            : []),
-          ...(review.versionedEntryPoints.length
-            ? [
-                {
-                  kind: "table" as const,
-                  headers: ["TypeScript versions", "Export path"],
-                  rows: review.versionedEntryPoints.map((entry) => [
-                    [inlineCode(entry.versions)],
-                    [inlineCode(entry.path)],
-                  ]),
-                },
-              ]
-            : []),
-        ]
-      : []),
   ];
-}
-
-function layoutSupplementalDeclarations(
-  title: string,
-  declarations: Review["augmentations"],
-): Block[] {
-  return declarations.length
-    ? [
-        heading(2, plain(title)),
-        {
-          kind: "code",
-          language: "ts",
-          chunks: declarations.map((declaration) => declaration.code),
-        },
-      ]
-    : [];
 }
 
 function layoutDependencies(review: Review): Block[] {
@@ -158,21 +113,6 @@ function layoutReferences(review: Review): Block[] {
   ];
 }
 
-function layoutForgottenDeclarations(review: Review): Block[] {
-  if (!review.forgottenDeclarations.length) {
-    return [];
-  }
-  return [
-    heading(2, plain("Referenced unexported declarations")),
-    paragraph(plain("These declarations are not exported but are used in public signatures.")),
-    {
-      kind: "code",
-      language: "ts",
-      chunks: review.forgottenDeclarations.map((declaration) => declaration.code),
-    },
-  ];
-}
-
 function layoutExportSection(section: ExportSection, rootPath: string): Block[] {
   const blocks = [heading(2, plain("Export "), inlineCode(section.path))];
   if (section.declarations.length || section.reExports.length) {
@@ -199,11 +139,7 @@ function layoutExportSection(section: ExportSection, rootPath: string): Block[] 
         inlineCode(rootPath),
         plain(" export, but a different declaration."),
       ),
-      {
-        kind: "code",
-        language: "ts",
-        chunks: section.differsFromRoot.map((declaration) => declaration.code),
-      },
+      { kind: "code", language: "ts", chunks: section.differsFromRoot },
     );
   }
   for (const earlier of section.alsoExportedFrom) {
@@ -227,14 +163,7 @@ function layoutRuntimeDifferences(review: Review): Block[] {
       ),
     );
   }
-  for (const {
-    condition,
-    references,
-    forgottenDeclarations,
-    augmentations,
-    typeOnlyExports,
-    exports,
-  } of review.conditionDiffs) {
+  for (const { condition, references, exports } of review.conditionDiffs) {
     blocks.push(heading(3, inlineCode(condition)));
     if (references.length) {
       blocks.push(heading(4, plain("References")), {
@@ -246,24 +175,6 @@ function layoutRuntimeDifferences(review: Review): Block[] {
               .map((text) => ({ change, text })),
           ),
         ],
-      });
-    }
-    if (forgottenDeclarations.length) {
-      blocks.push(heading(4, plain("Referenced unexported declarations")), {
-        kind: "diff",
-        items: forgottenDeclarations,
-      });
-    }
-    if (augmentations.length) {
-      blocks.push(heading(4, plain("Module and global augmentations")), {
-        kind: "diff",
-        items: augmentations,
-      });
-    }
-    if (typeOnlyExports.length) {
-      blocks.push(heading(4, plain("Type-only wildcard exports")), {
-        kind: "diff",
-        items: typeOnlyExports,
       });
     }
     for (const changed of exports) {
