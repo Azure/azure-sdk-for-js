@@ -45,6 +45,9 @@ import {
 } from "../utils/recordedClient.js";
 import type { FileSource } from "../../src/models/models.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
 
 describe("CallRecording Unit Tests", () => {
   let callRecording: CallRecording;
@@ -203,6 +206,53 @@ describe("CallRecording Unit Tests", () => {
 
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(request.method, "POST");
+  });
+
+  it("re-signs retried delete requests against the endpoint URL", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+    try {
+      const key = generateToken();
+      const recordingUrl = "https://contoso.asm.skype.com/v1/objects/recording-id";
+      const attempts: { url: string; date: string; authorization: string }[] = [];
+      const httpClient: HttpClient = {
+        async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+          attempts.push({
+            url: request.url,
+            date: request.headers.get("x-ms-date")!,
+            authorization: request.headers.get("Authorization")!,
+          });
+          vi.setSystemTime(Date.now() + 10 * 60 * 1000);
+          return {
+            status: attempts.length === 1 ? 429 : 200,
+            headers: createHttpHeaders(attempts.length === 1 ? { "retry-after-ms": "0" } : {}),
+            request,
+          };
+        },
+      };
+      const recording = new CallRecording(baseUri, { key }, { httpClient });
+
+      await recording.delete(recordingUrl);
+
+      assert.lengthOf(attempts, 2);
+      assert.notEqual(attempts[0].date, attempts[1].date);
+      const signedHost = new URL(baseUri).host;
+      for (const attempt of attempts) {
+        assert.equal(attempt.url, recordingUrl);
+        const contentHash = await computeSha256Hash("", "base64");
+        const signature = await computeSha256Hmac(
+          key,
+          `DELETE\n/v1/objects/recording-id\n${attempt.date};${signedHost};${contentHash}`,
+          "base64",
+        );
+        assert.equal(
+          attempt.authorization,
+          `HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=${signature}`,
+        );
+      }
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
 

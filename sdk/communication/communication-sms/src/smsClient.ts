@@ -264,7 +264,7 @@ export class SmsClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     this.api = new SmsApiClient(url, internalPipelineOptions);
-    this.api.pipeline.addPolicy(authPolicy);
+    this.api.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.optOuts = new OptOutsClientImpl(this.api);
   }
 

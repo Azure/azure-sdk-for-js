@@ -78,7 +78,7 @@ export class TollFreeVerificationClient {
 
     this.client = new TollFreeVerificationGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
   }
 
   public getCampaignBrief(

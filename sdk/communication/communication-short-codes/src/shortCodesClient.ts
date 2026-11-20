@@ -83,7 +83,7 @@ export class ShortCodesClient {
 
     this.client = new ShortCodesGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     // This policy is temporary workarounds to address compatibility issues with Azure Core V2.
     const shortCodesPagingPolicy = createShortCodesPagingPolicy(url);
     this.client.pipeline.addPolicy(shortCodesPagingPolicy);
