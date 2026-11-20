@@ -10,8 +10,8 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike,
   WebResourceLike,
-} from "@azure/core-http-compat";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+} from "../../src/compatibility/index.js";
+import { toHttpHeadersLike } from "../../src/compatibility/index.js";
 import { storageSharedKeyCredentialPolicy } from "../../src/policies/StorageSharedKeyCredentialPolicyV2.js";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential.js";
 

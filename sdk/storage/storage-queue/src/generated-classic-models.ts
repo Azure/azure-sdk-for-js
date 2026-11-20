@@ -5,7 +5,7 @@
 // AutoRest-generated code. These types are referenced by handwritten SDK code
 // and must be kept in sync with the service API.
 
-import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 /** Storage Service Properties. */
 export interface QueueServiceProperties {

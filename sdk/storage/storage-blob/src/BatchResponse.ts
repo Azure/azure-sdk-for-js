@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { BatchSubRequest } from "./BlobBatch.js";
-import type { HttpHeadersLike } from "@azure/core-http-compat";
+import type { HttpHeadersLike } from "@azure/storage-common/compatibility";
 
 /**
  * The response data associated with a single request within a batch operation.

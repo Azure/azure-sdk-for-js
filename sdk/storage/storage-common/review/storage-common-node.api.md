@@ -4,19 +4,26 @@
 
 ```ts
 
-import type { CompatResponse } from '@azure/core-http-compat';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { FullOperationResponse } from '@azure/core-client';
 import type { HttpClient } from '@azure/core-rest-pipeline';
-import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
 import type { NodeBuffer } from '@azure/core-rest-pipeline';
 import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import type { PipelineRequest } from '@azure/core-rest-pipeline';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { Readable } from 'node:stream';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
-import type { RequestPolicy } from '@azure/core-http-compat';
-import type { RequestPolicyFactory } from '@azure/core-http-compat';
-import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
 import type { RestError } from '@azure/core-rest-pipeline';
-import type { WebResourceLike } from '@azure/core-http-compat';
+
+// @public
+export interface Agent {
+    destroy(): void;
+    maxFreeSockets: number;
+    maxSockets: number;
+    requests: unknown;
+    sockets: unknown;
+}
 
 // @public
 export function allocBuffer(size: number): NodeBuffer;
@@ -56,6 +63,12 @@ export class BufferScheduler {
 export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
 
 // @public
+export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+}
+
+// @public
 export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
 
 // @public
@@ -79,6 +92,40 @@ export function getBufferLength(buffer: NodeBuffer): number;
 export function getCachedDefaultHttpClient(): HttpClient;
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
+
+// @public
+export enum HttpPipelineLogLevel {
+    // (undocumented)
+    ERROR = 1,
+    // (undocumented)
+    INFO = 3,
+    // (undocumented)
+    OFF = 0,
+    // (undocumented)
+    WARNING = 2
+}
+
+// @public
 export function isBuffer(value: unknown): value is NodeBuffer;
 
 // @public
@@ -92,7 +139,32 @@ export interface NodeJSReadableStream extends NodeJS.ReadableStream {
 // @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
 export { Readable }
+
+// @public
+export interface RequestPolicy {
+    // (undocumented)
+    sendRequest(httpRequest: WebResourceLike): Promise<CompatResponse>;
+}
+
+// @public
+export interface RequestPolicyFactory {
+    // (undocumented)
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): RequestPolicy;
+}
+
+// @public
+export interface RequestPolicyOptionsLike {
+    // (undocumented)
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    // (undocumented)
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
 
 // @public
 export class StorageBrowserPolicy extends BaseRequestPolicy {
@@ -234,6 +306,11 @@ export interface StructuredMessageEncodingStreamOptions {
 }
 
 // @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
 export interface UserDelegationKey {
     signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
@@ -251,6 +328,35 @@ export class UserDelegationKeyCredential {
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
     readonly userDelegationKey: UserDelegationKey;
+}
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    agent?: Agent;
+    body?: any;
+    clone(): WebResourceLike;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    prepare(options: unknown): WebResourceLike;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    requestOverrides?: Record<string, unknown>;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    validateRequestProperties(): void;
+    withCredentials: boolean;
 }
 
 // (No @packageDocumentation comment for this package)

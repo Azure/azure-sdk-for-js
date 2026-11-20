@@ -3,8 +3,8 @@
 
 import { describe, it, assert } from "vitest";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import type { WebResourceLike } from "@azure/core-http-compat";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import type { WebResourceLike } from "@azure/storage-common/compatibility";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { SessionOptions } from "../../src/index.js";
 import { DataLakeFileClient } from "../../src/index.js";

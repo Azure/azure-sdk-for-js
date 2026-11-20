@@ -30,7 +30,7 @@ interface HttpAuthorization {
   value: string;
 }
 
-import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "../compatibility/index.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

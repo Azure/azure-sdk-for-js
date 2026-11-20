@@ -3,7 +3,7 @@
 
 import type { QueueOperations, ServiceOperations } from "./generated/index.js";
 import { QueuesClient } from "./generated/index.js";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 import type { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "./Pipeline.js";
 import type { StoragePipelineOptions } from "./Pipeline.js";

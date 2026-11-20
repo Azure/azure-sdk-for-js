@@ -6,7 +6,7 @@ import * as http from "node:http";
 import type { AddressInfo } from "node:net";
 import { Readable } from "node:stream";
 import { finished } from "node:stream/promises";
-import type { WebResourceLike } from "@azure/core-http-compat";
+import type { WebResourceLike } from "@azure/storage-common/compatibility";
 import type {
   HttpMethods,
   PipelinePolicy,

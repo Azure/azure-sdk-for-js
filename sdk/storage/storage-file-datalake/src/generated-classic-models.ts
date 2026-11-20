@@ -7,7 +7,7 @@
  */
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 export interface FileSystemList {
   filesystems?: FileSystem[];

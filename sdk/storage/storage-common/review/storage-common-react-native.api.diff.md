@@ -7,21 +7,23 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -7,20 +7,19 @@
- import type { CompatResponse } from '@azure/core-http-compat';
+@@ -8,12 +8,11 @@
+ import type { FullOperationResponse } from '@azure/core-client';
  import type { HttpClient } from '@azure/core-rest-pipeline';
- import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+ import type { HttpMethods } from '@azure/core-rest-pipeline';
  import type { NodeBuffer } from '@azure/core-rest-pipeline';
 +import type { NodeReadableStream } from '@azure/core-rest-pipeline';
  import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 -import type { PipelineRequest } from '@azure/core-rest-pipeline';
+ import type { ProxySettings } from '@azure/core-rest-pipeline';
 -import { Readable } from 'node:stream';
  import type { RequestBodyType } from '@azure/core-rest-pipeline';
- import type { RequestPolicy } from '@azure/core-http-compat';
- import type { RequestPolicyFactory } from '@azure/core-http-compat';
- import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
  import type { RestError } from '@azure/core-rest-pipeline';
- import type { WebResourceLike } from '@azure/core-http-compat';
+ 
+ // @public
+@@ -25,9 +24,9 @@
+     sockets: unknown;
+ }
  
  // @public
 -export function allocBuffer(size: number): NodeBuffer;
@@ -30,7 +32,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class AnonymousCredential extends Credential {
      create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): AnonymousCredentialPolicy;
-@@ -43,20 +42,18 @@
+@@ -50,20 +49,18 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -51,11 +53,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 -export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
 -
 -// @public
- export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
- 
- // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -72,28 +69,29 @@
+ export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+     headers: HttpHeadersLike;
+     request: WebResourceLike;
+ }
+@@ -85,9 +82,9 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -65,6 +67,10 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export function getCachedDefaultHttpClient(): HttpClient;
+ 
+@@ -125,27 +122,28 @@
+     WARNING = 2
+ }
  
  // @public
 -export function isBuffer(value: unknown): value is NodeBuffer;
@@ -86,14 +92,19 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
 +export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
  
+ // @public
+ export type RawHttpHeaders = {
+     [headerName: string]: string;
+ };
+ 
 -export { Readable }
 +// @public (undocumented)
 +export type Readable = never;
  
  // @public
- export class StorageBrowserPolicy extends BaseRequestPolicy {
-     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -184,42 +182,35 @@
+ export interface RequestPolicy {
+     // (undocumented)
+@@ -256,42 +254,35 @@
  }
  
  // @public
@@ -147,7 +158,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -228,13 +219,8 @@
+@@ -300,13 +291,8 @@
      encodedContentLength: number;
  }>;
  
@@ -157,11 +168,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
- export interface UserDelegationKey {
-     signedDelegatedUserTenantId?: string;
-     signedExpiresOn: Date;
-     signedObjectId: string;
-@@ -247,10 +233,13 @@
+ export type TransferProgressEvent = {
+     loadedBytes: number;
+ };
+ 
+@@ -324,10 +310,13 @@
  
  // @public
  export class UserDelegationKeyCredential {
@@ -175,6 +186,6 @@ For the complete API surface, see the corresponding -node.api.md file.
      readonly userDelegationKey: UserDelegationKey;
  }
  
- // (No @packageDocumentation comment for this package)
+ // @public
 
 ```

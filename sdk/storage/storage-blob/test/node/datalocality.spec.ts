@@ -4,7 +4,7 @@
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { Readable } from "node:stream";
 import { AbortError } from "@azure/abort-controller";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse } from "@azure-rest/core-client";

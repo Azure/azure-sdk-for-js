@@ -6,7 +6,7 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
 
 /**
