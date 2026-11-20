@@ -1,4 +1,26 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
-  "include": ["../src/index.ts"]
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/paloAltoNetworksCloudngfwOperations/index.ts",
+    "../src/api/prefixListLocalRulestack/index.ts",
+    "../src/api/localRules/index.ts",
+    "../src/api/fqdnListLocalRulestack/index.ts",
+    "../src/api/certificateObjectLocalRulestack/index.ts",
+    "../src/api/firewallStatus/index.ts",
+    "../src/api/metricsObjectFirewall/index.ts",
+    "../src/api/localRulestacks/index.ts",
+    "../src/api/firewalls/index.ts",
+    "../src/api/preRules/index.ts",
+    "../src/api/prefixListGlobalRulestack/index.ts",
+    "../src/api/postRules/index.ts",
+    "../src/api/fqdnListGlobalRulestack/index.ts",
+    "../src/api/certificateObjectGlobalRulestack/index.ts",
+    "../src/api/globalRulestack/index.ts",
+    "../src/api/logIngestionSettingsResources/index.ts",
+    "../src/api/customCaptureConfigurationsFirewallResources/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
 }

@@ -23,20 +23,23 @@ import type {
 
 /** Interface representing a PaloAltoNetworksCloudngfwOperations operations. */
 export interface PaloAltoNetworksCloudngfwOperationsOperations {
+  /** A long-running provider action. */
   listSupportInfo: (
     options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams,
   ) => Promise<SupportInfoModel>;
+  /** A long-running provider action. */
   listProductSerialNumberStatus: (
     options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams,
-  ) => Promise<ProductSerialNumberStatus | undefined>;
+  ) => Promise<ProductSerialNumberStatus | void>;
+  /** A long-running provider action. */
   listCloudManagerTenants: (
     options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams,
   ) => Promise<CloudManagerTenantList>;
+  /** A long-running provider action. */
   createProductSerialNumber: (
     options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams,
   ) => Promise<ProductSerialNumberRequestStatus>;
 }
-
 function _getPaloAltoNetworksCloudngfwOperations(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listSupportInfo: (options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams) =>
@@ -52,7 +55,6 @@ function _getPaloAltoNetworksCloudngfwOperations(context: PaloAltoNetworksCloudn
     ) => createProductSerialNumber(context, options),
   };
 }
-
 export function _getPaloAltoNetworksCloudngfwOperationsOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): PaloAltoNetworksCloudngfwOperationsOperations {

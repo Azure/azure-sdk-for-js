@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get counters
  *
  * @summary get counters
- * x-ms-original-file: 2026-05-11-preview/PostRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_getCounters_MaximumSet_Gen.json
  */
 async function postRulesGetCountersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function postRulesGetCountersMaximumSetGen() {
  * This sample demonstrates how to get counters
  *
  * @summary get counters
- * x-ms-original-file: 2026-05-11-preview/PostRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PostRules_getCounters_MinimumSet_Gen.json
  */
 async function postRulesGetCountersMinimumSetGen() {
   const credential = new DefaultAzureCredential();

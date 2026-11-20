@@ -11,6 +11,7 @@ export type { FqdnListLocalRulestackOperations } from "./fqdnListLocalRulestack/
 export type { GlobalRulestackOperations } from "./globalRulestack/index.js";
 export type { LocalRulesOperations } from "./localRules/index.js";
 export type { LocalRulestacksOperations } from "./localRulestacks/index.js";
+export type { LogIngestionSettingsResourcesOperations } from "./logIngestionSettingsResources/index.js";
 export type { MetricsObjectFirewallOperations } from "./metricsObjectFirewall/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { PaloAltoNetworksCloudngfwOperationsOperations } from "./paloAltoNetworksCloudngfwOperations/index.js";

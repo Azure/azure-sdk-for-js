@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a MetricsObjectFirewallResource
  *
  * @summary get a MetricsObjectFirewallResource
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_Get_MaximumSet_Gen.json
  */
 async function metricsObjectFirewallGetMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function metricsObjectFirewallGetMaximumSetGen() {
  * This sample demonstrates how to get a MetricsObjectFirewallResource
  *
  * @summary get a MetricsObjectFirewallResource
- * x-ms-original-file: 2026-05-11-preview/MetricsObjectFirewall_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/MetricsObjectFirewall_Get_MinimumSet_Gen.json
  */
 async function metricsObjectFirewallGetMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -81,7 +81,6 @@ export interface PrefixListLocalRulestackOperations {
     options?: PrefixListLocalRulestackGetOptionalParams,
   ) => Promise<PrefixListResource>;
 }
-
 function _getPrefixListLocalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listByLocalRulestacks: (
@@ -162,7 +161,6 @@ function _getPrefixListLocalRulestack(context: PaloAltoNetworksCloudngfwContext)
     ) => get(context, resourceGroupName, localRulestackName, name, options),
   };
 }
-
 export function _getPrefixListLocalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): PrefixListLocalRulestackOperations {

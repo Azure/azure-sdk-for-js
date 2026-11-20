@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list of countries for Rulestack
  *
  * @summary list of countries for Rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listCountries_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listCountries_MaximumSet_Gen.json
  */
 async function localRulestacksListCountriesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function localRulestacksListCountriesMaximumSetGen() {
  * This sample demonstrates how to list of countries for Rulestack
  *
  * @summary list of countries for Rulestack
- * x-ms-original-file: 2026-05-11-preview/LocalRulestacks_listCountries_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/LocalRulestacks_listCountries_MinimumSet_Gen.json
  */
 async function localRulestacksListCountriesMinimumSetGen() {
   const credential = new DefaultAzureCredential();

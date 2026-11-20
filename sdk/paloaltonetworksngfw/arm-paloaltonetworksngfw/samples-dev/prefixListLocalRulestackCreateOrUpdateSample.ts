@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a PrefixListResource
  *
  * @summary create a PrefixListResource
- * x-ms-original-file: 2026-05-11-preview/PrefixListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PrefixListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function prefixListLocalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function prefixListLocalRulestackCreateOrUpdateMaximumSetGen(): Promise<vo
  * This sample demonstrates how to create a PrefixListResource
  *
  * @summary create a PrefixListResource
- * x-ms-original-file: 2026-05-11-preview/PrefixListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/PrefixListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function prefixListLocalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -258,6 +258,20 @@
         "default": "./dist/commonjs/api/globalRulestack/index.js"
       }
     },
+    "./api/logIngestionSettingsResources": {
+      "browser": {
+        "types": "./dist/browser/api/logIngestionSettingsResources/index.d.ts",
+        "default": "./dist/browser/api/logIngestionSettingsResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/logIngestionSettingsResources/index.d.ts",
+        "default": "./dist/esm/api/logIngestionSettingsResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/logIngestionSettingsResources/index.d.ts",
+        "default": "./dist/commonjs/api/logIngestionSettingsResources/index.js"
+      }
+    },
     "./api/customCaptureConfigurationsFirewallResources": {
       "browser": {
         "types": "./dist/browser/api/customCaptureConfigurationsFirewallResources/index.d.ts",

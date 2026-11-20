@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Custom Capture Configurations under a firewall. The resource is a singleton (name is fixed to 'default'), so the response contains at most one entry.
  *
  * @summary list Custom Capture Configurations under a firewall. The resource is a singleton (name is fixed to 'default'), so the response contains at most one entry.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_ListByFirewall_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_ListByFirewall_MaximumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesListByFirewallMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function customCaptureConfigurationsFirewallResourcesListByFirewallMaximum
  * This sample demonstrates how to list Custom Capture Configurations under a firewall. The resource is a singleton (name is fixed to 'default'), so the response contains at most one entry.
  *
  * @summary list Custom Capture Configurations under a firewall. The resource is a singleton (name is fixed to 'default'), so the response contains at most one entry.
- * x-ms-original-file: 2026-05-11-preview/CustomCaptureConfigurationsFirewallResources_ListByFirewall_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-07-29-preview/CustomCaptureConfigurationsFirewallResources_ListByFirewall_MinimumSet_Gen.json
  */
 async function customCaptureConfigurationsFirewallResourcesListByFirewallMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
