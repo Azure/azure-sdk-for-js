@@ -92,6 +92,7 @@ export interface AccessPointResourcesOperations {
     options?: AccessPointResourcesGetOptionalParams,
   ) => Promise<AccessPointResource>;
 }
+
 function _getAccessPointResources(context: ConfluentManagementContext) {
   return {
     list: (
@@ -237,6 +238,7 @@ function _getAccessPointResources(context: ConfluentManagementContext) {
       ),
   };
 }
+
 export function _getAccessPointResourcesOperations(
   context: ConfluentManagementContext,
 ): AccessPointResourcesOperations {

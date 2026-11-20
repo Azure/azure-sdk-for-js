@@ -71,6 +71,7 @@ export interface TopicsOperations {
     options?: TopicsGetOptionalParams,
   ) => Promise<TopicRecord>;
 }
+
 function _getTopics(context: ConfluentManagementContext) {
   return {
     list: (
@@ -171,6 +172,7 @@ function _getTopics(context: ConfluentManagementContext) {
       ),
   };
 }
+
 export function _getTopicsOperations(context: ConfluentManagementContext): TopicsOperations {
   return {
     ..._getTopics(context),

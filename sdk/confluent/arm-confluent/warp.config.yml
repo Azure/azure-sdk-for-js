@@ -15,7 +15,10 @@ exports:
   "./api/organizationOperations": "./src/api/organizationOperations/index.ts"
   "./api/accessPointResources": "./src/api/accessPointResources/index.ts"
   "./api/networkGatewayResources": "./src/api/networkGatewayResources/index.ts"
+  "./api/monitorTagRules": "./src/api/monitorTagRules/index.ts"
+  "./api/monitorResources": "./src/api/monitorResources/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/liftrBase": "./src/models/liftrBase/index.ts"
 
 targets:
   - name: browser

@@ -43,6 +43,7 @@ export interface EnvironmentOperations {
     options?: EnvironmentCreateOrUpdateOptionalParams,
   ) => Promise<SCEnvironmentRecord>;
 }
+
 function _getEnvironment(context: ConfluentManagementContext) {
   return {
     delete: (
@@ -77,6 +78,7 @@ function _getEnvironment(context: ConfluentManagementContext) {
     ) => createOrUpdate(context, resourceGroupName, organizationName, environmentId, options),
   };
 }
+
 export function _getEnvironmentOperations(
   context: ConfluentManagementContext,
 ): EnvironmentOperations {

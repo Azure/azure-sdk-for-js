@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or replace a confluent network gateway
  *
  * @summary create or replace a confluent network gateway
- * x-ms-original-file: 2026-06-02-preview/NetworkGatewayResources_CreateOrReplace_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/NetworkGatewayResources_CreateOrReplace_MaximumSet_Gen.json
  */
 async function networkGatewayResourcesCreateOrReplaceMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -4,8 +4,8 @@
 import type { ConfluentManagementContext as Client } from "../index.js";
 import type { TopicRecord, _ListTopicsSuccessResponse } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
+  errorResponseDeserializer,
   topicRecordSerializer,
   topicRecordDeserializer,
   _listTopicsSuccessResponseDeserializer,
@@ -40,7 +40,7 @@ export function _listSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
       pageSize: options?.pageSize,
       pageToken: options?.pageToken,
     },
@@ -69,6 +69,7 @@ export async function _listDeserialize(
 
   return _listTopicsSuccessResponseDeserializer(result.body);
 }
+
 /** Lists of all the topics in a clusters */
 export function list(
   context: Client,
@@ -87,7 +88,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }
@@ -110,7 +111,7 @@ export function _$deleteSend(
       environmentId: environmentId,
       clusterId: clusterId,
       topicName: topicName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,6 +133,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete confluent topic by name */
 export function $delete(
   context: Client,
@@ -156,7 +158,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -178,7 +180,7 @@ export function _createSend(
       environmentId: environmentId,
       clusterId: clusterId,
       topicName: topicName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,6 +207,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return topicRecordDeserializer(result.body);
 }
+
 /** Create confluent topics by Name */
 export async function create(
   context: Client,
@@ -245,7 +248,7 @@ export function _getSend(
       environmentId: environmentId,
       clusterId: clusterId,
       topicName: topicName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,6 +273,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
 
   return topicRecordDeserializer(result.body);
 }
+
 /** Get confluent topic by Name */
 export async function get(
   context: Client,

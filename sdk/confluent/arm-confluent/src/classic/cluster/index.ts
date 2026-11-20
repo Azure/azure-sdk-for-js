@@ -47,6 +47,7 @@ export interface ClusterOperations {
     options?: ClusterCreateOrUpdateOptionalParams,
   ) => Promise<SCClusterRecord>;
 }
+
 function _getCluster(context: ConfluentManagementContext) {
   return {
     delete: (
@@ -107,6 +108,7 @@ function _getCluster(context: ConfluentManagementContext) {
       ),
   };
 }
+
 export function _getClusterOperations(context: ConfluentManagementContext): ClusterOperations {
   return {
     ..._getCluster(context),

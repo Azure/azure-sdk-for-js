@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to resolve the token to get the SaaS resource ID and activate the SaaS resource
  *
  * @summary resolve the token to get the SaaS resource ID and activate the SaaS resource
- * x-ms-original-file: 2026-06-02-preview/Organization_ActivateResource_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Organization_ActivateResource_MaximumSet_Gen.json
  */
 async function organizationActivateResourceMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function organizationActivateResourceMaximumSetGeneratedByMaximumSetRule()
  * This sample demonstrates how to resolve the token to get the SaaS resource ID and activate the SaaS resource
  *
  * @summary resolve the token to get the SaaS resource ID and activate the SaaS resource
- * x-ms-original-file: 2026-06-02-preview/Organization_ActivateResource_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Organization_ActivateResource_MinimumSet_Gen.json
  */
 async function organizationActivateResourceMinimumSetGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

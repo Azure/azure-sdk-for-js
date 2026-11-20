@@ -4,8 +4,8 @@
 import type { ConfluentManagementContext as Client } from "../index.js";
 import type { SCEnvironmentRecord } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
+  errorResponseDeserializer,
   scEnvironmentRecordSerializer,
   scEnvironmentRecordDeserializer,
 } from "../../models/models.js";
@@ -33,7 +33,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,6 +55,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete confluent environment by id */
 export function $delete(
   context: Client,
@@ -69,7 +70,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, organizationName, environmentId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -87,7 +88,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       environmentId: environmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +117,7 @@ export async function _createOrUpdateDeserialize(
 
   return scEnvironmentRecordDeserializer(result.body);
 }
+
 /** Create confluent environment */
 export async function createOrUpdate(
   context: Client,

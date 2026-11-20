@@ -431,6 +431,8 @@ export class ConfluentManagementClient {
     readonly connector: ConnectorOperations;
     readonly environment: EnvironmentOperations;
     readonly marketplaceAgreements: MarketplaceAgreementsOperations;
+    readonly monitorResources: MonitorResourcesOperations;
+    readonly monitorTagRules: MonitorTagRulesOperations;
     readonly networkGatewayResources: NetworkGatewayResourcesOperations;
     readonly organization: OrganizationOperations;
     readonly organizationOperations: OrganizationOperationsOperations;
@@ -600,6 +602,13 @@ export interface ErrorResponseBody {
 }
 
 // @public
+export interface FilteringTag {
+    action: TagAction;
+    name: string;
+    value?: string;
+}
+
+// @public
 export interface InvitationRecord {
     acceptedAt?: string;
     authType?: string;
@@ -755,6 +764,12 @@ export enum KnownDataFormatType {
 }
 
 // @public
+export enum KnownMonitoringStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownPackage {
     Advanced = "ADVANCED",
     Essentials = "ESSENTIALS"
@@ -797,12 +812,19 @@ export enum KnownSaaSOfferStatus {
 }
 
 // @public
+export enum KnownTagAction {
+    Exclude = "Exclude",
+    Include = "Include"
+}
+
+// @public
 export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20250717Preview = "2025-07-17-preview",
     V20250818Preview = "2025-08-18-preview",
     V20260501Preview = "2026-05-01-preview",
-    V20260602Preview = "2026-06-02-preview"
+    V20260602Preview = "2026-06-02-preview",
+    V20261021Preview = "2026-10-21-preview"
 }
 
 // @public
@@ -827,6 +849,14 @@ export interface ListRegionsSuccessResponse {
 }
 
 // @public
+export interface LogRules {
+    filteringTags?: FilteringTag[];
+    sendAadLogs?: boolean;
+    sendActivityLogs?: boolean;
+    sendSubscriptionLogs?: boolean;
+}
+
+// @public
 export interface MarketplaceAgreementsCreateOptionalParams extends OperationOptions {
     body?: ConfluentAgreementResource;
 }
@@ -848,6 +878,112 @@ export interface MetadataEntity {
     resourceName?: string;
     self?: string;
     updatedAt?: string;
+}
+
+// @public
+export type MonitoringStatus = string;
+
+// @public
+export interface MonitorProperties {
+    clusterId: string;
+    clusterName?: string;
+    dictionary?: KeyValuePair[];
+    environmentId: string;
+    environmentName?: string;
+    readonly monitoringStatus?: MonitoringStatus;
+    organizationId?: string;
+    readonly provisioningState?: ProvisionState;
+    topicId?: string;
+    topicName: string;
+}
+
+// @public
+export interface MonitorResource extends TrackedResource {
+    properties: MonitorProperties;
+}
+
+// @public
+export interface MonitorResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitorResourcesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitorResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorResourcesListByOrganizationOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorResourcesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, organizationName: string, monitorName: string, resource: MonitorResource, options?: MonitorResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitorResource>, MonitorResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, organizationName: string, monitorName: string, resource: MonitorResource, options?: MonitorResourcesCreateOrUpdateOptionalParams) => Promise<MonitorResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, monitorName: string, options?: MonitorResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, monitorName: string, options?: MonitorResourcesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, organizationName: string, monitorName: string, properties: MonitorResourceUpdateParameters, options?: MonitorResourcesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitorResource>, MonitorResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, organizationName: string, monitorName: string, properties: MonitorResourceUpdateParameters, options?: MonitorResourcesUpdateOptionalParams) => Promise<MonitorResource>;
+    createOrUpdate: (resourceGroupName: string, organizationName: string, monitorName: string, resource: MonitorResource, options?: MonitorResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<MonitorResource>, MonitorResource>;
+    delete: (resourceGroupName: string, organizationName: string, monitorName: string, options?: MonitorResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, monitorName: string, options?: MonitorResourcesGetOptionalParams) => Promise<MonitorResource>;
+    listByOrganization: (resourceGroupName: string, organizationName: string, options?: MonitorResourcesListByOrganizationOptionalParams) => PagedAsyncIterableIterator<MonitorResource>;
+    update: (resourceGroupName: string, organizationName: string, monitorName: string, properties: MonitorResourceUpdateParameters, options?: MonitorResourcesUpdateOptionalParams) => PollerLike<OperationState<MonitorResource>, MonitorResource>;
+}
+
+// @public
+export interface MonitorResourcesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitorResourceUpdateParameters {
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface MonitorTagRule extends ProxyResource {
+    properties?: MonitorTagRuleProperties;
+}
+
+// @public
+export interface MonitorTagRuleProperties {
+    logRules?: LogRules;
+    readonly provisioningState?: ProvisionState;
+}
+
+// @public
+export interface MonitorTagRulesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorTagRulesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorTagRulesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorTagRulesListByMonitorOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MonitorTagRulesOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, monitorName: string, ruleSetName: string, resource: MonitorTagRule, options?: MonitorTagRulesCreateOrUpdateOptionalParams) => Promise<MonitorTagRule>;
+    delete: (resourceGroupName: string, organizationName: string, monitorName: string, ruleSetName: string, options?: MonitorTagRulesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, organizationName: string, monitorName: string, ruleSetName: string, options?: MonitorTagRulesGetOptionalParams) => Promise<MonitorTagRule>;
+    listByMonitor: (resourceGroupName: string, organizationName: string, monitorName: string, options?: MonitorTagRulesListByMonitorOptionalParams) => PagedAsyncIterableIterator<MonitorTagRule>;
 }
 
 // @public
@@ -1332,6 +1468,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TagAction = string;
 
 // @public
 export interface TopicMetadataEntity {

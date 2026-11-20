@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete confluent network gateway by id
  *
  * @summary delete confluent network gateway by id
- * x-ms-original-file: 2026-06-02-preview/NetworkGatewayResources_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/NetworkGatewayResources_Delete_MaximumSet_Gen.json
  */
 async function networkGatewayResourcesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

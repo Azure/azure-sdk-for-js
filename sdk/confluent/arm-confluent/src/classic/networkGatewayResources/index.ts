@@ -89,6 +89,7 @@ export interface NetworkGatewayResourcesOperations {
     options?: NetworkGatewayResourcesGetOptionalParams,
   ) => Promise<NetworkGatewayResource>;
 }
+
 function _getNetworkGatewayResources(context: ConfluentManagementContext) {
   return {
     list: (
@@ -211,6 +212,7 @@ function _getNetworkGatewayResources(context: ConfluentManagementContext) {
       get(context, resourceGroupName, organizationName, environmentId, networkGatewayId, options),
   };
 }
+
 export function _getNetworkGatewayResourcesOperations(
   context: ConfluentManagementContext,
 ): NetworkGatewayResourcesOperations {

@@ -1,5 +1,270 @@
 # Release History
 
+## 4.0.0-beta.3 (2026-11-19)
+Compared with version 3.1.0
+
+### Features Added
+  - Added operation group AccessPointResourcesOperations
+  - Added operation group ClusterOperations
+  - Added operation group ConnectorOperations
+  - Added operation group EnvironmentOperations
+  - Added operation group MonitorResourcesOperations
+  - Added operation group MonitorTagRulesOperations
+  - Added operation group NetworkGatewayResourcesOperations
+  - Added operation group TopicsOperations
+  - Added operation OrganizationOperations.activateResource
+  - Added operation OrganizationOperations.beginActivateResource
+  - Added operation OrganizationOperations.beginActivateResourceAndWait
+  - Added operation OrganizationOperations.beginLinkSaaS
+  - Added operation OrganizationOperations.beginLinkSaaSAndWait
+  - Added operation OrganizationOperations.create
+  - Added operation OrganizationOperations.delete
+  - Added operation OrganizationOperations.latestLinkedSaaS
+  - Added operation OrganizationOperations.linkSaaS
+  - Added Interface AccessPointProperties
+  - Added Interface AccessPointResource
+  - Added Interface AccessPointResourcesCreateOrReplaceOptionalParams
+  - Added Interface AccessPointResourcesDeleteOptionalParams
+  - Added Interface AccessPointResourcesGetOptionalParams
+  - Added Interface AccessPointResourcesListOptionalParams
+  - Added Interface ActivateSaaSParameterRequest
+  - Added Interface APIKeyProperties
+  - Added Interface AzureBlobStorageSinkConnectorServiceInfo
+  - Added Interface AzureBlobStorageSourceConnectorServiceInfo
+  - Added Interface AzureCosmosDBSinkConnectorServiceInfo
+  - Added Interface AzureCosmosDBSourceConnectorServiceInfo
+  - Added Interface AzureSynapseAnalyticsSinkConnectorServiceInfo
+  - Added Interface ClusterCreateOrUpdateOptionalParams
+  - Added Interface ClusterDeleteOptionalParams
+  - Added Interface ClusterProperties
+  - Added Interface ConfluentAgreementProperties
+  - Added Interface ConnectorCreateOrUpdateOptionalParams
+  - Added Interface ConnectorDeleteOptionalParams
+  - Added Interface ConnectorGetOptionalParams
+  - Added Interface ConnectorInfoBase
+  - Added Interface ConnectorListOptionalParams
+  - Added Interface ConnectorResource
+  - Added Interface ConnectorResourceProperties
+  - Added Interface ConnectorServiceTypeInfoBase
+  - Added Interface EnvironmentCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentDeleteOptionalParams
+  - Added Interface EnvironmentProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FilteringTag
+  - Added Interface KafkaAzureBlobStorageSinkConnectorInfo
+  - Added Interface KafkaAzureBlobStorageSourceConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSinkConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSourceConnectorInfo
+  - Added Interface KafkaAzureSynapseAnalyticsSinkConnectorInfo
+  - Added Interface KeyValuePair
+  - Added Interface LatestLinkedSaaSResponse
+  - Added Interface LogRules
+  - Added Interface MonitorProperties
+  - Added Interface MonitorResource
+  - Added Interface MonitorResourcesCreateOrUpdateOptionalParams
+  - Added Interface MonitorResourcesDeleteOptionalParams
+  - Added Interface MonitorResourcesGetOptionalParams
+  - Added Interface MonitorResourcesListByOrganizationOptionalParams
+  - Added Interface MonitorResourcesUpdateOptionalParams
+  - Added Interface MonitorResourceUpdateParameters
+  - Added Interface MonitorTagRule
+  - Added Interface MonitorTagRuleProperties
+  - Added Interface MonitorTagRulesCreateOrUpdateOptionalParams
+  - Added Interface MonitorTagRulesDeleteOptionalParams
+  - Added Interface MonitorTagRulesGetOptionalParams
+  - Added Interface MonitorTagRulesListByMonitorOptionalParams
+  - Added Interface NetworkGatewayProperties
+  - Added Interface NetworkGatewayResource
+  - Added Interface NetworkGatewayResourcesCreateOrReplaceOptionalParams
+  - Added Interface NetworkGatewayResourcesDeleteOptionalParams
+  - Added Interface NetworkGatewayResourcesGetOptionalParams
+  - Added Interface NetworkGatewayResourcesListOptionalParams
+  - Added Interface OrganizationActivateResourceOptionalParams
+  - Added Interface OrganizationLatestLinkedSaaSOptionalParams
+  - Added Interface OrganizationLinkSaaSOptionalParams
+  - Added Interface OrganizationResourceProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PartnerInfoBase
+  - Added Interface ProxyResource
+  - Added Interface RegionProperties
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SaaSData
+  - Added Interface SaaSResourceDetailsResponse
+  - Added Interface SchemaRegistryClusterProperties
+  - Added Interface SimplePollerLike
+  - Added Interface StreamGovernanceConfig
+  - Added Interface TopicMetadataEntity
+  - Added Interface TopicProperties
+  - Added Interface TopicRecord
+  - Added Interface TopicsCreateOptionalParams
+  - Added Interface TopicsDeleteOptionalParams
+  - Added Interface TopicsGetOptionalParams
+  - Added Interface TopicsInputConfig
+  - Added Interface TopicsListOptionalParams
+  - Added Interface TopicsRelatedLink
+  - Added Interface TrackedResource
+  - Added Interface VnetInjectionDetails
+  - Interface AccessCreateRoleBindingOptionalParams has a new optional parameter abortSignal
+  - Interface AccessCreateRoleBindingOptionalParams has a new optional parameter requestOptions
+  - Interface AccessCreateRoleBindingOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessCreateRoleBindingOptionalParams has a new optional parameter onResponse
+  - Interface AccessDeleteRoleBindingOptionalParams has a new optional parameter abortSignal
+  - Interface AccessDeleteRoleBindingOptionalParams has a new optional parameter requestOptions
+  - Interface AccessDeleteRoleBindingOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessDeleteRoleBindingOptionalParams has a new optional parameter onResponse
+  - Interface AccessInviteUserOptionalParams has a new optional parameter abortSignal
+  - Interface AccessInviteUserOptionalParams has a new optional parameter requestOptions
+  - Interface AccessInviteUserOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessInviteUserOptionalParams has a new optional parameter onResponse
+  - Interface AccessListClustersOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListClustersOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListClustersOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListClustersOptionalParams has a new optional parameter onResponse
+  - Interface AccessListEnvironmentsOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListEnvironmentsOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListEnvironmentsOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListEnvironmentsOptionalParams has a new optional parameter onResponse
+  - Interface AccessListInvitationsOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListInvitationsOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListInvitationsOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListInvitationsOptionalParams has a new optional parameter onResponse
+  - Interface AccessListRoleBindingNameListOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListRoleBindingNameListOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListRoleBindingNameListOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListRoleBindingNameListOptionalParams has a new optional parameter onResponse
+  - Interface AccessListRoleBindingsOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListRoleBindingsOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListRoleBindingsOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListRoleBindingsOptionalParams has a new optional parameter onResponse
+  - Interface AccessListServiceAccountsOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListServiceAccountsOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListServiceAccountsOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListServiceAccountsOptionalParams has a new optional parameter onResponse
+  - Interface AccessListUsersOptionalParams has a new optional parameter abortSignal
+  - Interface AccessListUsersOptionalParams has a new optional parameter requestOptions
+  - Interface AccessListUsersOptionalParams has a new optional parameter tracingOptions
+  - Interface AccessListUsersOptionalParams has a new optional parameter onResponse
+  - Interface MarketplaceAgreementsCreateOptionalParams has a new optional parameter abortSignal
+  - Interface MarketplaceAgreementsCreateOptionalParams has a new optional parameter requestOptions
+  - Interface MarketplaceAgreementsCreateOptionalParams has a new optional parameter tracingOptions
+  - Interface MarketplaceAgreementsCreateOptionalParams has a new optional parameter onResponse
+  - Interface MarketplaceAgreementsListOptionalParams has a new optional parameter abortSignal
+  - Interface MarketplaceAgreementsListOptionalParams has a new optional parameter requestOptions
+  - Interface MarketplaceAgreementsListOptionalParams has a new optional parameter tracingOptions
+  - Interface MarketplaceAgreementsListOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationCreateAPIKeyOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationCreateAPIKeyOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationCreateAPIKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationCreateAPIKeyOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationDeleteClusterAPIKeyOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationDeleteClusterAPIKeyOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationDeleteClusterAPIKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationDeleteClusterAPIKeyOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationGetClusterAPIKeyOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationGetClusterAPIKeyOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationGetClusterAPIKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationGetClusterAPIKeyOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationGetClusterByIdOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationGetClusterByIdOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationGetClusterByIdOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationGetClusterByIdOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationGetEnvironmentByIdOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationGetEnvironmentByIdOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationGetEnvironmentByIdOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationGetEnvironmentByIdOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationGetOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationGetOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationGetOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationGetOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationGetSchemaRegistryClusterByIdOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationGetSchemaRegistryClusterByIdOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationGetSchemaRegistryClusterByIdOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationGetSchemaRegistryClusterByIdOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListClustersOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListClustersOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListClustersOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListClustersOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListEnvironmentsOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListEnvironmentsOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListEnvironmentsOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListEnvironmentsOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListRegionsOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListRegionsOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListRegionsOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListRegionsOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationListSchemaRegistryClustersOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationListSchemaRegistryClustersOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationListSchemaRegistryClustersOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationListSchemaRegistryClustersOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationOperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationOperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationOperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationOperationsListOptionalParams has a new optional parameter onResponse
+  - Interface OrganizationUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface OrganizationUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface OrganizationUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface OrganizationUpdateOptionalParams has a new optional parameter onResponse
+  - Interface SCClusterRecord has a new optional parameter systemData
+  - Interface SCClusterRecord has a new optional parameter type
+  - Interface SCClusterSpecEntity has a new optional parameter package
+  - Interface SCEnvironmentRecord has a new optional parameter streamGovernanceConfig
+  - Interface SCEnvironmentRecord has a new optional parameter systemData
+  - Interface SCEnvironmentRecord has a new optional parameter type
+  - Interface ValidationsValidateOrganizationOptionalParams has a new optional parameter abortSignal
+  - Interface ValidationsValidateOrganizationOptionalParams has a new optional parameter requestOptions
+  - Interface ValidationsValidateOrganizationOptionalParams has a new optional parameter tracingOptions
+  - Interface ValidationsValidateOrganizationOptionalParams has a new optional parameter onResponse
+  - Interface ValidationsValidateOrganizationV2OptionalParams has a new optional parameter abortSignal
+  - Interface ValidationsValidateOrganizationV2OptionalParams has a new optional parameter requestOptions
+  - Interface ValidationsValidateOrganizationV2OptionalParams has a new optional parameter tracingOptions
+  - Interface ValidationsValidateOrganizationV2OptionalParams has a new optional parameter onResponse
+  - Added Type Alias AuthType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectorClass
+  - Added Type Alias ConnectorServiceType
+  - Added Type Alias ConnectorServiceTypeInfoBaseUnion
+  - Added Type Alias ConnectorStatus
+  - Added Type Alias ConnectorType
+  - Added Type Alias DataFormatType
+  - Added Type Alias MonitoringStatus
+  - Added Type Alias Package
+  - Added Type Alias PartnerConnectorType
+  - Added Type Alias PartnerInfoBaseUnion
+  - Added Type Alias TagAction
+  - Added Enum AzureClouds
+  - Added Enum KnownAuthType
+  - Added Enum KnownConnectorClass
+  - Added Enum KnownConnectorServiceType
+  - Added Enum KnownConnectorStatus
+  - Added Enum KnownConnectorType
+  - Added Enum KnownDataFormatType
+  - Added Enum KnownMonitoringStatus
+  - Added Enum KnownPackage
+  - Added Enum KnownPartnerConnectorType
+  - Added Enum KnownTagAction
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Type of property organizationOperations of class ConfluentManagementClient has changed
+  - Removed Interface ConfluentAgreementResourceListResponse
+  - Removed Interface GetEnvironmentsResponse
+  - Removed Interface ListClustersSuccessResponse
+  - Removed Interface ListSchemaRegistryClustersResponse
+  - Removed Interface SCConfluentListMetadata
+  - Parameter location of interface OrganizationResource is now required
+
 ## 4.0.0-beta.2 (2026-07-16)
 Compared with version 3.1.0
 

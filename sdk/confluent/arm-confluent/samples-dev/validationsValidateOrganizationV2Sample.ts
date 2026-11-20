@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to organization Validate proxy resource
  *
  * @summary organization Validate proxy resource
- * x-ms-original-file: 2026-06-02-preview/Validations_ValidateOrganizationV2_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Validations_ValidateOrganizationV2_MaximumSet_Gen.json
  */
 async function organizationValidateProxyResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

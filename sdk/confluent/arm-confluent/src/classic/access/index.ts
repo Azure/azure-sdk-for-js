@@ -114,6 +114,7 @@ export interface AccessOperations {
     options?: AccessDeleteRoleBindingOptionalParams,
   ) => Promise<void>;
 }
+
 function _getAccess(context: ConfluentManagementContext) {
   return {
     listRoleBindingNameList: (
@@ -178,6 +179,7 @@ function _getAccess(context: ConfluentManagementContext) {
     ) => deleteRoleBinding(context, resourceGroupName, organizationName, roleBindingId, options),
   };
 }
+
 export function _getAccessOperations(context: ConfluentManagementContext): AccessOperations {
   return {
     ..._getAccess(context),

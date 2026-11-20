@@ -60,7 +60,7 @@ export function _listRoleBindingNameListSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,6 +89,7 @@ export async function _listRoleBindingNameListDeserialize(
 
   return accessRoleBindingNameListSuccessResponseDeserializer(result.body);
 }
+
 /** Organization role bindings */
 export async function listRoleBindingNameList(
   context: Client,
@@ -120,7 +121,7 @@ export function _createRoleBindingSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,6 +150,7 @@ export async function _createRoleBindingDeserialize(
 
   return roleBindingRecordDeserializer(result.body);
 }
+
 /** Organization role bindings */
 export async function createRoleBinding(
   context: Client,
@@ -180,7 +182,7 @@ export function _listRoleBindingsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,6 +211,7 @@ export async function _listRoleBindingsDeserialize(
 
   return accessListRoleBindingsSuccessResponseDeserializer(result.body);
 }
+
 /** Organization role bindings */
 export async function listRoleBindings(
   context: Client,
@@ -240,7 +243,7 @@ export function _listClustersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -269,6 +272,7 @@ export async function _listClustersDeserialize(
 
   return accessListClusterSuccessResponseDeserializer(result.body);
 }
+
 /** Cluster details */
 export async function listClusters(
   context: Client,
@@ -300,7 +304,7 @@ export function _listEnvironmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -329,6 +333,7 @@ export async function _listEnvironmentsDeserialize(
 
   return accessListEnvironmentsSuccessResponseDeserializer(result.body);
 }
+
 /** Environment list of an organization */
 export async function listEnvironments(
   context: Client,
@@ -360,7 +365,7 @@ export function _inviteUserSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -389,6 +394,7 @@ export async function _inviteUserDeserialize(
 
   return invitationRecordDeserializer(result.body);
 }
+
 /** Invite user to the organization */
 export async function inviteUser(
   context: Client,
@@ -414,7 +420,7 @@ export function _listInvitationsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -443,6 +449,7 @@ export async function _listInvitationsDeserialize(
 
   return accessListInvitationsSuccessResponseDeserializer(result.body);
 }
+
 /** Organization accounts invitation details */
 export async function listInvitations(
   context: Client,
@@ -474,7 +481,7 @@ export function _listServiceAccountsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -503,6 +510,7 @@ export async function _listServiceAccountsDeserialize(
 
   return accessListServiceAccountsSuccessResponseDeserializer(result.body);
 }
+
 /** Organization service accounts details */
 export async function listServiceAccounts(
   context: Client,
@@ -534,7 +542,7 @@ export function _listUsersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -563,6 +571,7 @@ export async function _listUsersDeserialize(
 
   return accessListUsersSuccessResponseDeserializer(result.body);
 }
+
 /** Organization users details */
 export async function listUsers(
   context: Client,
@@ -589,7 +598,7 @@ export function _deleteRoleBindingSend(
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
       roleBindingId: roleBindingId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,6 +620,7 @@ export async function _deleteRoleBindingDeserialize(result: PathUncheckedRespons
 
   return;
 }
+
 /** Organization role bindings */
 export async function deleteRoleBinding(
   context: Client,

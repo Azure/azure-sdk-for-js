@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-confluent",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "description": "A generated SDK for ConfluentManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -46,11 +46,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -88,7 +88,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-confluent",
@@ -282,6 +283,34 @@
         "default": "./dist/commonjs/api/networkGatewayResources/index.js"
       }
     },
+    "./api/monitorTagRules": {
+      "browser": {
+        "types": "./dist/browser/api/monitorTagRules/index.d.ts",
+        "default": "./dist/browser/api/monitorTagRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/monitorTagRules/index.d.ts",
+        "default": "./dist/esm/api/monitorTagRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/monitorTagRules/index.d.ts",
+        "default": "./dist/commonjs/api/monitorTagRules/index.js"
+      }
+    },
+    "./api/monitorResources": {
+      "browser": {
+        "types": "./dist/browser/api/monitorResources/index.d.ts",
+        "default": "./dist/browser/api/monitorResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/monitorResources/index.d.ts",
+        "default": "./dist/esm/api/monitorResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/monitorResources/index.d.ts",
+        "default": "./dist/commonjs/api/monitorResources/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
@@ -294,6 +323,20 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/liftrBase": {
+      "browser": {
+        "types": "./dist/browser/models/liftrBase/index.d.ts",
+        "default": "./dist/browser/models/liftrBase/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/liftrBase/index.d.ts",
+        "default": "./dist/esm/models/liftrBase/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/liftrBase/index.d.ts",
+        "default": "./dist/commonjs/models/liftrBase/index.js"
       }
     }
   },

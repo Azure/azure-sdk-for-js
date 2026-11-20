@@ -4,8 +4,8 @@
 import type { ConfluentManagementContext as Client } from "../index.js";
 import type { ConnectorResource, _ListConnectorsSuccessResponse } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
+  errorResponseDeserializer,
   connectorResourceSerializer,
   connectorResourceDeserializer,
   _listConnectorsSuccessResponseDeserializer,
@@ -40,7 +40,7 @@ export function _listSend(
       organizationName: organizationName,
       environmentId: environmentId,
       clusterId: clusterId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
       pageSize: options?.pageSize,
       pageToken: options?.pageToken,
     },
@@ -69,6 +69,7 @@ export async function _listDeserialize(
 
   return _listConnectorsSuccessResponseDeserializer(result.body);
 }
+
 /** Lists all the connectors in a cluster */
 export function list(
   context: Client,
@@ -87,7 +88,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }
@@ -110,7 +111,7 @@ export function _$deleteSend(
       environmentId: environmentId,
       clusterId: clusterId,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,6 +133,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete confluent connector by name */
 export function $delete(
   context: Client,
@@ -156,7 +158,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-02-preview",
+    apiVersion: context.apiVersion ?? "2026-10-21-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -178,7 +180,7 @@ export function _createOrUpdateSend(
       environmentId: environmentId,
       clusterId: clusterId,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,6 +209,7 @@ export async function _createOrUpdateDeserialize(
 
   return connectorResourceDeserializer(result.body);
 }
+
 /** Create confluent connector by Name */
 export async function createOrUpdate(
   context: Client,
@@ -247,7 +250,7 @@ export function _getSend(
       environmentId: environmentId,
       clusterId: clusterId,
       connectorName: connectorName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -272,6 +275,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 
   return connectorResourceDeserializer(result.body);
 }
+
 /** Get confluent connector by Name */
 export async function get(
   context: Client,
