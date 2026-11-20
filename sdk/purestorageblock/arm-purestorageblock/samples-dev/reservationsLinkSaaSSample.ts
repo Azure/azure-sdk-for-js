@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to a long-running resource action.
  *
  * @summary a long-running resource action.
- * x-ms-original-file: 2026-05-01-preview/Reservations_LinkSaaS_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_LinkSaaS_MaximumSet_Gen.json
  */
 async function reservationsLinkSaaS(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get current status and space information of the volume group
  *
  * @summary get current status and space information of the volume group
- * x-ms-original-file: 2026-05-01-preview/VolumeGroups_GetStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroups_GetStatus_MaximumSet_Gen.json
  */
 async function volumeGroupsGetStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

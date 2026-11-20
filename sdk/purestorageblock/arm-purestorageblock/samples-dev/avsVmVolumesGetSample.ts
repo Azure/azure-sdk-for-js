@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a volume in an AVS VM
  *
  * @summary get a volume in an AVS VM
- * x-ms-original-file: 2026-05-01-preview/AvsVmVolumes_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsVmVolumes_Get_MaximumSet_Gen.json
  */
 async function avsVmVolumesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

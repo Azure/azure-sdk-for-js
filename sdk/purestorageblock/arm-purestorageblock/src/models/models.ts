@@ -7,6 +7,11 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { UserDetails, ProvisioningState } from "./liftrBase/models.js";
+import { userDetailsSerializer } from "./liftrBase/models.js";
+import type { Reservation } from "./liftrBase/storage/models.js";
+import { reservationArrayDeserializer } from "./liftrBase/storage/models.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -173,296 +178,6 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
     info: item["info"],
   };
 }
-
-/** Pure Storage cloud service resource type, also called reservation */
-export interface Reservation extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ReservationPropertiesBaseResourceProperties;
-}
-
-export function reservationSerializer(item: Reservation): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : reservationPropertiesBaseResourcePropertiesSerializer(item["properties"]),
-  };
-}
-
-export function reservationDeserializer(item: any): Reservation {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : reservationPropertiesBaseResourcePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties of a Reservation resource. */
-export interface ReservationPropertiesBaseResourceProperties {
-  /** Pure Storage's internal ID for the reservation */
-  readonly reservationInternalId?: string;
-  /** Marketplace details */
-  marketplace: MarketplaceDetails;
-  /** User details */
-  user?: UserDetails;
-  /** Provisioning state of the resource */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function reservationPropertiesBaseResourcePropertiesSerializer(
-  item: ReservationPropertiesBaseResourceProperties,
-): any {
-  return {
-    marketplace: marketplaceDetailsSerializer(item["marketplace"]),
-    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
-  };
-}
-
-export function reservationPropertiesBaseResourcePropertiesDeserializer(
-  item: any,
-): ReservationPropertiesBaseResourceProperties {
-  return {
-    reservationInternalId: item["reservationInternalId"],
-    marketplace: marketplaceDetailsDeserializer(item["marketplace"]),
-    user: !item["user"] ? item["user"] : userDetailsDeserializer(item["user"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-/** Marketplace details */
-export interface MarketplaceDetails {
-  /** Marketplace subscription ID */
-  readonly subscriptionId?: string;
-  /** Marketplace subscription status */
-  subscriptionStatus?: MarketplaceSubscriptionStatus;
-  /** Offer details of the marketplace subscription */
-  offerDetails?: OfferDetails;
-  /** ARM ID of the Marketplace SaaS resource. Only used in Create operations. */
-  saaSResourceId?: string;
-}
-
-export function marketplaceDetailsSerializer(item: MarketplaceDetails): any {
-  return {
-    subscriptionStatus: item["subscriptionStatus"],
-    offerDetails: !item["offerDetails"]
-      ? item["offerDetails"]
-      : offerDetailsSerializer(item["offerDetails"]),
-    saaSResourceId: item["saaSResourceId"],
-  };
-}
-
-export function marketplaceDetailsDeserializer(item: any): MarketplaceDetails {
-  return {
-    subscriptionId: item["subscriptionId"],
-    subscriptionStatus: item["subscriptionStatus"],
-    offerDetails: !item["offerDetails"]
-      ? item["offerDetails"]
-      : offerDetailsDeserializer(item["offerDetails"]),
-    saaSResourceId: item["saaSResourceId"],
-  };
-}
-
-/** Marketplace subscription status */
-export enum KnownMarketplaceSubscriptionStatus {
-  /** Marketplace subscription purchased but not yet activated */
-  PendingFulfillmentStart = "PendingFulfillmentStart",
-  /** Marketplace subscription activated */
-  Subscribed = "Subscribed",
-  /** Marketplace subscription suspended due to missing customer payment */
-  Suspended = "Suspended",
-  /** Marketplace subscription cancelled */
-  Unsubscribed = "Unsubscribed",
-}
-
-/**
- * Marketplace subscription status \
- * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PendingFulfillmentStart**: Marketplace subscription purchased but not yet activated \
- * **Subscribed**: Marketplace subscription activated \
- * **Suspended**: Marketplace subscription suspended due to missing customer payment \
- * **Unsubscribed**: Marketplace subscription cancelled
- */
-export type MarketplaceSubscriptionStatus = string;
-
-/** Offer details for the marketplace that is selected by the user */
-export interface OfferDetails {
-  /** Publisher ID for the marketplace offer */
-  publisherId: string;
-  /** Offer ID for the marketplace offer */
-  offerId: string;
-  /** Plan ID for the marketplace offer */
-  planId: string;
-  /** Plan Name for the marketplace offer */
-  planName?: string;
-  /** Term Unit for the marketplace offer */
-  termUnit?: string;
-  /** Term ID for the marketplace offer */
-  termId?: string;
-}
-
-export function offerDetailsSerializer(item: OfferDetails): any {
-  return {
-    publisherId: item["publisherId"],
-    offerId: item["offerId"],
-    planId: item["planId"],
-    planName: item["planName"],
-    termUnit: item["termUnit"],
-    termId: item["termId"],
-  };
-}
-
-export function offerDetailsDeserializer(item: any): OfferDetails {
-  return {
-    publisherId: item["publisherId"],
-    offerId: item["offerId"],
-    planId: item["planId"],
-    planName: item["planName"],
-    termUnit: item["termUnit"],
-    termId: item["termId"],
-  };
-}
-
-/** User details */
-export interface UserDetails {
-  /** First name */
-  firstName: string;
-  /** Last name */
-  lastName: string;
-  /** Email address */
-  emailAddress: string;
-  /** Principal name */
-  upn?: string;
-  /** Phone number */
-  phoneNumber?: string;
-  /** Company details */
-  companyDetails?: CompanyDetails;
-}
-
-export function userDetailsSerializer(item: UserDetails): any {
-  return {
-    firstName: item["firstName"],
-    lastName: item["lastName"],
-    emailAddress: item["emailAddress"],
-    upn: item["upn"],
-    phoneNumber: item["phoneNumber"],
-    companyDetails: !item["companyDetails"]
-      ? item["companyDetails"]
-      : companyDetailsSerializer(item["companyDetails"]),
-  };
-}
-
-export function userDetailsDeserializer(item: any): UserDetails {
-  return {
-    firstName: item["firstName"],
-    lastName: item["lastName"],
-    emailAddress: item["emailAddress"],
-    upn: item["upn"],
-    phoneNumber: item["phoneNumber"],
-    companyDetails: !item["companyDetails"]
-      ? item["companyDetails"]
-      : companyDetailsDeserializer(item["companyDetails"]),
-  };
-}
-
-/** Company details */
-export interface CompanyDetails {
-  /** Company name */
-  companyName: string;
-  /** Company address */
-  address?: Address;
-}
-
-export function companyDetailsSerializer(item: CompanyDetails): any {
-  return {
-    companyName: item["companyName"],
-    address: !item["address"] ? item["address"] : addressSerializer(item["address"]),
-  };
-}
-
-export function companyDetailsDeserializer(item: any): CompanyDetails {
-  return {
-    companyName: item["companyName"],
-    address: !item["address"] ? item["address"] : addressDeserializer(item["address"]),
-  };
-}
-
-/** Address details */
-export interface Address {
-  /** Address line 1 */
-  addressLine1: string;
-  /** Address line 2 */
-  addressLine2?: string;
-  /** Name of the city */
-  city: string;
-  /** State (if any) */
-  state: string;
-  /** Name of the country */
-  country: string;
-  /** Postal code */
-  postalCode: string;
-}
-
-export function addressSerializer(item: Address): any {
-  return {
-    addressLine1: item["addressLine1"],
-    addressLine2: item["addressLine2"],
-    city: item["city"],
-    state: item["state"],
-    country: item["country"],
-    postalCode: item["postalCode"],
-  };
-}
-
-export function addressDeserializer(item: any): Address {
-  return {
-    addressLine1: item["addressLine1"],
-    addressLine2: item["addressLine2"],
-    city: item["city"],
-    state: item["state"],
-    country: item["country"],
-    postalCode: item["postalCode"],
-  };
-}
-
-/** The status of the current operation. */
-export enum KnownProvisioningState {
-  /** Resource has been created. */
-  Succeeded = "Succeeded",
-  /** Resource creation failed. */
-  Failed = "Failed",
-  /** Resource creation was canceled. */
-  Canceled = "Canceled",
-  /** Deletion in progress */
-  Deleting = "Deleting",
-  /** Change accepted for processing */
-  Accepted = "Accepted",
-}
-
-/**
- * The status of the current operation. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Resource has been created. \
- * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled. \
- * **Deleting**: Deletion in progress \
- * **Accepted**: Change accepted for processing
- */
-export type ProvisioningState = string;
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -632,18 +347,6 @@ export function _reservationListResultDeserializer(item: any): _ReservationListR
     value: reservationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function reservationArraySerializer(result: Array<Reservation>): any[] {
-  return result.map((item) => {
-    return reservationSerializer(item);
-  });
-}
-
-export function reservationArrayDeserializer(result: Array<Reservation>): any[] {
-  return result.map((item) => {
-    return reservationDeserializer(item);
-  });
 }
 
 /** Limits constraining certain resource properties */
@@ -2969,16 +2672,8 @@ export function volumeGroupSnapshotPostListResultDeserializer(
 
 /** Supported versions for PureStorage.Block. */
 export enum KnownVersions {
-  /** Version 1 preview. */
-  V20241001Preview = "2024-10-01-preview",
-  /** Version 2 preview. */
-  V20241101Preview = "2024-11-01-preview",
   /** Version 1 stable */
   V20241101 = "2024-11-01",
-  /** Version 3 preview with Azure native VM support. */
-  V20260101Preview = "2026-01-01-preview",
-  /** Version 4 preview with ActivateSaas support. */
-  V20260301Preview = "2026-03-01-preview",
-  /** Version 5 preview with Volume Group Snapshot support. */
-  V20260501Preview = "2026-05-01-preview",
+  /** Version 6 stable. */
+  V20261001 = "2026-10-01",
 }

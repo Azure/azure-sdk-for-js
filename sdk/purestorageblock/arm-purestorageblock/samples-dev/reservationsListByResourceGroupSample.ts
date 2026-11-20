@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list reservations by resource group
  *
  * @summary list reservations by resource group
- * x-ms-original-file: 2026-05-01-preview/Reservations_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function reservationsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

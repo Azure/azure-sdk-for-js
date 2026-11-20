@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a storage pool
  *
  * @summary get a storage pool
- * x-ms-original-file: 2026-05-01-preview/StoragePools_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_Get_MaximumSet_Gen.json
  */
 async function storagePoolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

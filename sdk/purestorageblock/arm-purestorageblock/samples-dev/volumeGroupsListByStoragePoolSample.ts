@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list volume groups by storage pool
  *
  * @summary list volume groups by storage pool
- * x-ms-original-file: 2026-05-01-preview/VolumeGroups_ListByStoragePool_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroups_ListByStoragePool_MaximumSet_Gen.json
  */
 async function volumeGroupsListByStoragePool(): Promise<void> {
   const credential = new DefaultAzureCredential();

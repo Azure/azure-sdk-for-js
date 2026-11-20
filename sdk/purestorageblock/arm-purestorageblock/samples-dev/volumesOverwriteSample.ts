@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to overwrites the content of a volume from another volume or a snapshot
  *
  * @summary overwrites the content of a volume from another volume or a snapshot
- * x-ms-original-file: 2026-05-01-preview/Volumes_Overwrite_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Volumes_Overwrite_MaximumSet_Gen.json
  */
 async function volumesOverwrite(): Promise<void> {
   const credential = new DefaultAzureCredential();

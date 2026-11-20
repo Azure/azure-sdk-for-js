@@ -33,7 +33,7 @@ export function _listByStoragePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,7 @@ export async function _listByStoragePoolDeserialize(
 
   return _avsStorageContainerListResultDeserializer(result.body);
 }
+
 /** List AVS storage containers by storage pool */
 export function listByStoragePool(
   context: Client,
@@ -72,11 +73,7 @@ export function listByStoragePool(
     () => _listByStoragePoolSend(context, resourceGroupName, storagePoolName, options),
     _listByStoragePoolDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -94,7 +91,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       storageContainerName: storageContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,6 +113,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete an AVS storage container */
 export function $delete(
   context: Client,
@@ -130,7 +128,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storagePoolName, storageContainerName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -148,7 +146,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       storageContainerName: storageContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,6 +171,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Av
 
   return avsStorageContainerDeserializer(result.body);
 }
+
 /** Get an AVS storage container */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list storage pools by resource group
  *
  * @summary list storage pools by resource group
- * x-ms-original-file: 2026-05-01-preview/StoragePools_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function storagePoolsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

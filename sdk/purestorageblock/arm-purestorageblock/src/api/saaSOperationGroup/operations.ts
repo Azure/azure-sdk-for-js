@@ -24,7 +24,7 @@ export function _activateResourceSend(
     "/subscriptions/{subscriptionId}/providers/PureStorage.Block/activateSaaS{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,6 +53,7 @@ export async function _activateResourceDeserialize(
 
   return saaSResourceDetailsResponseDeserializer(result.body);
 }
+
 /** Activate the SaaS resource */
 export function activateResource(
   context: Client,
@@ -64,6 +65,6 @@ export function activateResource(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _activateResourceSend(context, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<SaaSResourceDetailsResponse>, SaaSResourceDetailsResponse>;
 }

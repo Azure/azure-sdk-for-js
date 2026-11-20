@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to limits constraining certain resource properties.
  *
  * @summary limits constraining certain resource properties.
- * x-ms-original-file: 2026-05-01-preview/Reservations_GetResourceLimits_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_GetResourceLimits_MaximumSet_Gen.json
  */
 async function reservationsGetResourceLimits(): Promise<void> {
   const credential = new DefaultAzureCredential();

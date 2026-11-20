@@ -479,12 +479,8 @@ export enum KnownUsageSeverity {
 
 // @public
 export enum KnownVersions {
-    V20241001Preview = "2024-10-01-preview",
     V20241101 = "2024-11-01",
-    V20241101Preview = "2024-11-01-preview",
-    V20260101Preview = "2026-01-01-preview",
-    V20260301Preview = "2026-03-01-preview",
-    V20260501Preview = "2026-05-01-preview"
+    V20261001 = "2026-10-01"
 }
 
 // @public

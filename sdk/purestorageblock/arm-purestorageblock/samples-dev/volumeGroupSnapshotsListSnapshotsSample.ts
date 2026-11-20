@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all snapshots for a given volume group using POST with the same request and response contract
  *
  * @summary list all snapshots for a given volume group using POST with the same request and response contract
- * x-ms-original-file: 2026-05-01-preview/VolumeGroupSnapshots_ListSnapshots_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroupSnapshots_ListSnapshots_MaximumSet_Gen.json
  */
 async function volumeGroupSnapshotsListSnapshots(): Promise<void> {
   const credential = new DefaultAzureCredential();
