@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a workspace with the specified parameters.
  *
  * @summary creates or updates a workspace with the specified parameters.
- * x-ms-original-file: 2026-03-15-preview/Workspace/create.json
+ * x-ms-original-file: 2026-07-01/Workspace/create.json
  */
 async function createWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

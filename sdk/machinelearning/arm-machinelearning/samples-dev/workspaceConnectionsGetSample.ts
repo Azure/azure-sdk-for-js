@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists machine learning workspaces connections by name.
  *
  * @summary lists machine learning workspaces connections by name.
- * x-ms-original-file: 2026-03-15-preview/WorkspaceConnection/get.json
+ * x-ms-original-file: 2026-07-01/WorkspaceConnection/get.json
  */
 async function getWorkspaceConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

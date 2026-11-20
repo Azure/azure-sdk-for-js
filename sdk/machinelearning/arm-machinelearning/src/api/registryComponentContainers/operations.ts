@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24skip": options?.skip,
     },
     {
@@ -79,11 +79,7 @@ export function list(
     () => _listSend(context, resourceGroupName, registryName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -101,7 +97,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       componentName: componentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +134,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, componentName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -157,7 +153,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       componentName: componentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +198,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, registryName, componentName, body, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<ComponentContainer>, ComponentContainer>;
 }
 
@@ -220,7 +216,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       componentName: componentName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
