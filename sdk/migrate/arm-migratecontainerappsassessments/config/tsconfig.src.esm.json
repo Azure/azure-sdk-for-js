@@ -1,0 +1,17 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/containerAppsCostDetailOperations/index.ts",
+    "../src/api/containerAppsManagedEnvironmentOperations/index.ts",
+    "../src/api/containerAppsSummaryOperations/index.ts",
+    "../src/api/containerAppsOptionsOperations/index.ts",
+    "../src/api/assessedWebApplicationOperations/index.ts",
+    "../src/api/containerAppsAssessmentOperations/index.ts",
+    "../src/models/index.ts"
+  ]
+}
