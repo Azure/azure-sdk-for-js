@@ -8,23 +8,24 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post request to resolve configuration
  *
  * @summary post request to resolve configuration
- * x-ms-original-file: 2025-06-01/Targets_ResolveConfiguration_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Targets_ResolveConfiguration_MaximumSet_Gen.json
  */
-async function targetsResolveConfigurationMaximumSet(): Promise<void> {
+async function targetsResolveConfigurationMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.targets.resolveConfiguration("rgconfigurationmanager", "testname", {
     solutionTemplateVersionId:
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/{resourceType}/{resourceName}",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/SolutionTemplates/st/versions/1.0.0",
     solutionInstanceName: "testname",
     solutionDependencies: [
       {
-        solutionVersionId: "cydzqntmjlqtksbavjwteru",
-        solutionTemplateId: "liqauthxnscodbiwktwfwrrsg",
-        solutionTemplateVersion: "gordjasyxxrj",
+        solutionVersionId: "bqeggxlmrbyitmhbfcsumackq",
+        solutionTemplateId:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/SolutionTemplates/st",
+        solutionTemplateVersion: "bwji",
         solutionInstanceName: "testname",
-        targetId: "steadvphxtyhjokqicrtg",
+        targetId: "vpzvkhtgzwtrnbktyvsltfcel",
         dependencies: [],
       },
     ],
@@ -33,7 +34,7 @@ async function targetsResolveConfigurationMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await targetsResolveConfigurationMaximumSet();
+  await targetsResolveConfigurationMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

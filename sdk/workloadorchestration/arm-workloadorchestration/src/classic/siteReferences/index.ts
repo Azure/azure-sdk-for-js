@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listByContext,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/siteReferences/operations.js";
-import {
+import type {
   SiteReferencesListByContextOptionalParams,
   SiteReferencesDeleteOptionalParams,
   SiteReferencesUpdateOptionalParams,
   SiteReferencesCreateOrUpdateOptionalParams,
   SiteReferencesGetOptionalParams,
 } from "../../api/siteReferences/options.js";
-import { SiteReference } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SiteReference } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SiteReferences operations. */
 export interface SiteReferencesOperations {
@@ -29,11 +29,6 @@ export interface SiteReferencesOperations {
     options?: SiteReferencesListByContextOptionalParams,
   ) => PagedAsyncIterableIterator<SiteReference>;
   /** Get Site Reference Resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     contextName: string,

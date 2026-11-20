@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/diagnostics/operations.js";
-import {
+import type {
   DiagnosticsListBySubscriptionOptionalParams,
   DiagnosticsListByResourceGroupOptionalParams,
   DiagnosticsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import {
   DiagnosticsCreateOrUpdateOptionalParams,
   DiagnosticsGetOptionalParams,
 } from "../../api/diagnostics/options.js";
-import { Diagnostic, DiagnosticUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Diagnostic, DiagnosticUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Diagnostics operations. */
 export interface DiagnosticsOperations {
@@ -34,11 +34,6 @@ export interface DiagnosticsOperations {
     options?: DiagnosticsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Diagnostic>;
   /** Deletes specified Diagnostic resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     diagnosticName: string,

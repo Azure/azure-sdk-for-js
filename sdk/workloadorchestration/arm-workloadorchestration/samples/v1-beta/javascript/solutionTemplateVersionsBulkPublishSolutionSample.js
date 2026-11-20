@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request for bulk publish
  *
  * @summary post request for bulk publish
- * x-ms-original-file: 2025-06-01/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
  */
-async function solutionTemplateVersionsBulkPublishSolutionMaximumSet() {
+async function solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   await client.solutionTemplateVersions.bulkPublishSolution(
     "rgconfigurationmanager",
@@ -23,29 +23,46 @@ async function solutionTemplateVersionsBulkPublishSolutionMaximumSet() {
         {
           targetId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target",
-          solutionInstanceName: "test-instance",
+          solutionDependencies: [
+            {
+              solutionVersionId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target/Solutions/solution/Versions/solution-1.0.0.1",
+              solutionTemplateId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/SolutionTemplates/st",
+              solutionTemplateVersion: "bwji",
+              solutionInstanceName: "testname",
+              targetId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target",
+              dependencies: [],
+            },
+          ],
+          solutionInstanceName: "testname",
+          solutionVersionId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target/Solutions/solution/Versions/solution-1.0.0.1",
+          solutionConfiguration: "mxnhusmdpoxqmbujrudeildj",
         },
       ],
-      solutionInstanceName: "test-instance",
+      solutionInstanceName: "testname",
       solutionDependencies: [
         {
           solutionVersionId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target/Solutions/solution/Versions/solution-1.0.0.1",
           solutionTemplateId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/SolutionTemplates/st",
-          solutionTemplateVersion: "1.0.0",
-          solutionInstanceName: "test-instance",
+          solutionTemplateVersion: "bwji",
+          solutionInstanceName: "testname",
           targetId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target",
           dependencies: [],
         },
       ],
+      solutionConfiguration: "tkkfcy",
     },
   );
 }
 
 async function main() {
-  await solutionTemplateVersionsBulkPublishSolutionMaximumSet();
+  await solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

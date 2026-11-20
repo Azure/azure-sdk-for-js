@@ -1,14 +1,174 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2026-09-15)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group ConfigTemplateMetadatasOperations
+  - Added operation group ConfigTemplateSchemasOperations
+  - Added operation group HierarchyConfigurationMetadatasOperations
+  - Added operation group HierarchyConfigurationMetadataVersionsOperations
+  - Added operation group SolutionDeploymentsOperations
+  - Added operation group SolutionMetadatasOperations
+  - Added operation group SolutionMetadataVersionsOperations
+  - Added operation group SolutionSchemasOperations
+  - Added operation ConfigTemplatesOperations.linkToHierarchies
+  - Added operation ConfigTemplatesOperations.unLinkFromHierarchies
+  - Added operation ConfigTemplateVersionsOperations.createOrUpdate
+  - Added operation ConfigTemplateVersionsOperations.delete
+  - Added operation ConfigTemplateVersionsOperations.update
+  - Added operation SchemaReferencesOperations.createOrUpdate
+  - Added operation SchemaReferencesOperations.delete
+  - Added operation SchemaReferencesOperations.update
+  - Added operation SolutionTemplateVersionsOperations.bulkReviewSolution
+  - Added operation SolutionTemplateVersionsOperations.createOrUpdate
+  - Added operation SolutionTemplateVersionsOperations.delete
+  - Added operation SolutionTemplateVersionsOperations.update
+  - Added operation TargetsOperations.unstageSolutionVersion
+  - Class WorkloadOrchestrationManagementClient has a new constructor "constructor(credential: TokenCredential, options?: WorkloadOrchestrationManagementClientOptionalParams);"
+  - Added Interface AdditionalData
+  - Added Interface BulkReviewSolutionParameter
+  - Added Interface BulkReviewTargetDetails
+  - Added Interface ConfigTemplateMetadata
+  - Added Interface ConfigTemplateMetadataProperties
+  - Added Interface ConfigTemplateMetadatasCreateOrUpdateOptionalParams
+  - Added Interface ConfigTemplateMetadatasDeleteOptionalParams
+  - Added Interface ConfigTemplateMetadatasGetOptionalParams
+  - Added Interface ConfigTemplateMetadatasListByConfigTemplateOptionalParams
+  - Added Interface ConfigTemplateMetadatasUpdateOptionalParams
+  - Added Interface ConfigTemplateMetadataUpdate
+  - Added Interface ConfigTemplateMetadataUpdateProperties
+  - Added Interface ConfigTemplateSchema
+  - Added Interface ConfigTemplateSchemaProperties
+  - Added Interface ConfigTemplateSchemasGetOptionalParams
+  - Added Interface ConfigTemplateSchemasListByConfigTemplateVersionOptionalParams
+  - Added Interface ConfigTemplatesLinkToHierarchiesOptionalParams
+  - Added Interface ConfigTemplatesUnLinkFromHierarchiesOptionalParams
+  - Added Interface ConfigTemplateVersionsCreateOrUpdateOptionalParams
+  - Added Interface ConfigTemplateVersionsDeleteOptionalParams
+  - Added Interface ConfigTemplateVersionsUpdateOptionalParams
+  - Added Interface HierarchyConfigurationMetadata
+  - Added Interface HierarchyConfigurationMetadataProperties
+  - Added Interface HierarchyConfigurationMetadatasGetOptionalParams
+  - Added Interface HierarchyConfigurationMetadatasListByParentOptionalParams
+  - Added Interface HierarchyConfigurationMetadataVersion
+  - Added Interface HierarchyConfigurationMetadataVersionProperties
+  - Added Interface HierarchyConfigurationMetadataVersionsGetOptionalParams
+  - Added Interface HierarchyConfigurationMetadataVersionsListByParentOptionalParams
+  - Added Interface HierarchyMetadata
+  - Added Interface HierarchySelector
+  - Added Interface PublishJobParameter
+  - Added Interface PublishJobStepStatistics
+  - Added Interface SchemaReferencesCreateOrUpdateOptionalParams
+  - Added Interface SchemaReferencesDeleteOptionalParams
+  - Added Interface SchemaReferencesUpdateOptionalParams
+  - Added Interface SolutionDeployment
+  - Added Interface SolutionDeploymentProperties
+  - Added Interface SolutionDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface SolutionDeploymentsDeleteOptionalParams
+  - Added Interface SolutionDeploymentsGetOptionalParams
+  - Added Interface SolutionDeploymentsListByResourceGroupOptionalParams
+  - Added Interface SolutionDeploymentsListBySubscriptionOptionalParams
+  - Added Interface SolutionDeploymentsUpdateOptionalParams
+  - Added Interface SolutionDeploymentUpdate
+  - Added Interface SolutionDeploymentUpdateProperties
+  - Added Interface SolutionMetadata
+  - Added Interface SolutionMetadataProperties
+  - Added Interface SolutionMetadatasGetOptionalParams
+  - Added Interface SolutionMetadatasListByParentOptionalParams
+  - Added Interface SolutionMetadataVersion
+  - Added Interface SolutionMetadataVersionProperties
+  - Added Interface SolutionMetadataVersionsGetOptionalParams
+  - Added Interface SolutionMetadataVersionsListByParentOptionalParams
+  - Added Interface SolutionSchema
+  - Added Interface SolutionSchemaProperties
+  - Added Interface SolutionSchemasGetOptionalParams
+  - Added Interface SolutionSchemasListBySolutionTemplateVersionOptionalParams
+  - Added Interface SolutionTemplateMetadata
+  - Added Interface SolutionTemplateMetadataUpdate
+  - Added Interface SolutionTemplateVersionsBulkReviewSolutionOptionalParams
+  - Added Interface SolutionTemplateVersionsCreateOrUpdateOptionalParams
+  - Added Interface SolutionTemplateVersionsDeleteOptionalParams
+  - Added Interface SolutionTemplateVersionsUpdateOptionalParams
+  - Added Interface StageMap
+  - Added Interface TargetMetadata
+  - Added Interface TargetsUnstageSolutionVersionOptionalParams
+  - Added Interface UninstallJobParameter
+  - Added Interface UninstallJobStepStatistics
+  - Interface BulkPublishSolutionParameter has a new optional parameter solutionConfiguration
+  - Interface BulkPublishTargetDetails has a new optional parameter solutionConfiguration
+  - Interface BulkPublishTargetDetails has a new optional parameter solutionDependencies
+  - Interface BulkPublishTargetDetails has a new optional parameter solutionVersionId
+  - Interface ConfigTemplateProperties has a new optional parameter uniqueIdentifier
+  - Interface ContextProperties has a new optional parameter uniqueIdentifier
+  - Interface DiagnosticUpdateProperties has a new optional parameter provisioningState
+  - Interface DynamicSchemaProperties has a new optional parameter displayName
+  - Interface JobProperties has a new optional parameter additionalData
+  - Interface SchemaUpdateProperties has a new optional parameter currentVersion
+  - Interface SchemaUpdateProperties has a new optional parameter provisioningState
+  - Interface SolutionProperties has a new optional parameter displayName
+  - Interface SolutionTemplateProperties has a new optional parameter uniqueIdentifier
+  - Interface SolutionTemplateVersionProperties has a new optional parameter internalState
+  - Interface SolutionUpdateProperties has a new optional parameter availableSolutionTemplateVersions
+  - Interface SolutionUpdateProperties has a new optional parameter displayName
+  - Interface SolutionUpdateProperties has a new optional parameter provisioningState
+  - Interface SolutionUpdateProperties has a new optional parameter solutionTemplateId
+  - Interface SolutionVersionProperties has a new optional parameter currentStage
+  - Interface SolutionVersionProperties has a new optional parameter latestActionTriggeredBy
+  - Interface SolutionVersionProperties has a new optional parameter stages
+  - Added Type Alias CMStages
+  - Added Type Alias ConfigTemplateConfigurationState
+  - Added Type Alias ConfigurationState
+  - Added Type Alias InternalState
+  - Added Type Alias StateCategory
+  - Added Enum KnownCMStages
+  - Added Enum KnownConfigTemplateConfigurationState
+  - Added Enum KnownConfigurationState
+  - Added Enum KnownInternalState
+  - Added Enum KnownStateCategory
+  - Enum KnownJobType has a new value Publish
+  - Enum KnownJobType has a new value Uninstall
+  - Enum KnownState has a new value NotApplicable
+  - Enum KnownVersions has a new value V20250801
+  - Enum KnownVersions has a new value V20250815Preview
+  - Enum KnownVersions has a new value V20260301
+  - Enum KnownVersions has a new value V20260501Preview
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation ConfigTemplatesOperations.createVersion has a new signature
+  - Operation ConfigTemplateVersionsOperations.get has a new signature
+  - Operation ConfigTemplateVersionsOperations.listByConfigTemplate has a new signature
+  - Operation DynamicSchemaVersionsOperations.createOrUpdate has a new signature
+  - Operation DynamicSchemaVersionsOperations.get has a new signature
+  - Operation DynamicSchemaVersionsOperations.listByDynamicSchema has a new signature
+  - Operation DynamicSchemaVersionsOperations.update has a new signature
+  - Operation SchemasOperations.createVersion has a new signature
+  - Operation SchemaVersionsOperations.createOrUpdate has a new signature
+  - Operation SchemaVersionsOperations.get has a new signature
+  - Operation SchemaVersionsOperations.listBySchema has a new signature
+  - Operation SchemaVersionsOperations.update has a new signature
+  - Operation SolutionTemplatesOperations.createVersion has a new signature
+  - Operation SolutionTemplateVersionsOperations.get has a new signature
+  - Operation SolutionTemplateVersionsOperations.listBySolutionTemplate has a new signature
+  - Operation SolutionVersionsOperations.createOrUpdate has a new signature
+  - Operation SolutionVersionsOperations.get has a new signature
+  - Operation SolutionVersionsOperations.listBySolution has a new signature
+  - Operation SolutionVersionsOperations.update has a new signature
+  - Operation TargetsOperations.createOrUpdate has a new signature
+  - Operation TargetsOperations.get has a new signature
+  - Operation TargetsOperations.listByResourceGroup has a new signature
+  - Operation TargetsOperations.listBySubscription has a new signature
+  - Operation TargetsOperations.publishSolutionVersion has a new signature
+  - Operation TargetsOperations.reviewSolutionVersion has a new signature
+  - Operation TargetsOperations.update has a new signature
+  - Operation TargetsOperations.updateExternalValidationStatus has a new signature
+  - Type of parameter configurations of interface ConfigTemplateVersionProperties is changed from string to string | Record<string, any>
+  - Type of parameter value of interface SchemaVersionProperties is changed from string to string | Record<string, any>
+  - Type of parameter configurations of interface SolutionTemplateVersionProperties is changed from string to string | Record<string, any>
+  - Type of parameter configuration of interface SolutionVersionProperties is changed from string to string | Record<string, any>
+  - Type of parameter targetLevelConfiguration of interface SolutionVersionProperties is changed from string to string | Record<string, any>
+  - Parameter configurations of interface SolutionTemplateVersionProperties is now optional
+  - Parameter targetSpecification of interface TargetProperties is now optional
 
 ## 1.0.0-beta.1 (2025-09-02)
 

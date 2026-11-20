@@ -8,23 +8,23 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates new or updates existing Diagnostic resource.
  *
  * @summary creates new or updates existing Diagnostic resource.
- * x-ms-original-file: 2025-06-01/Diagnostics_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Diagnostics_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function diagnosticsCreateOrUpdateMaximumSet(): Promise<void> {
+async function diagnosticsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.createOrUpdate("rgconfigurationmanager", "testname", {
     properties: {},
-    extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },
-    tags: { key4304: "mdrwpsdrcicagvximokxrrp" },
-    location: "ouwfvnokjvivmjzqpupwrbsmls",
+    extendedLocation: { name: "ggfwkwklvvkrmlysvvhcj", type: "EdgeZone" },
+    tags: {},
+    location: "xxriixfihzwn",
   });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await diagnosticsCreateOrUpdateMaximumSet();
+  await diagnosticsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
