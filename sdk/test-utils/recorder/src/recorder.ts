@@ -303,38 +303,45 @@ export class Recorder {
         // occur with SDKs that have not migrated to asset sync yet.
         // TODO: remove once everyone has migrated to asset sync
         if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
-          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
-          if (
-            errorMessage.includes("The provided assets") &&
-            errorMessage.includes("does not exist")
-          ) {
-            logger.info(
-              "[Recorder#start] start request failed, trying again without assets.json specified",
-            );
+          const errorHeader = rsp.headers.get("x-request-known-exception-error");
+          if (errorHeader) {
+            const errorMessage = decodeBase64(errorHeader);
+            if (
+              errorMessage.includes("The provided assets") &&
+              errorMessage.includes("does not exist")
+            ) {
+              logger.info(
+                "[Recorder#start] start request failed, trying again without assets.json specified",
+              );
 
-            const retryRequest = createRecordingRequest(
-              startUri,
-              this.sessionFile,
-              this.recordingId,
-              "POST",
-              undefined,
-            );
+              const retryRequest = createRecordingRequest(
+                startUri,
+                this.sessionFile,
+                this.recordingId,
+                "POST",
+                undefined,
+              );
 
-            rsp = await this.httpClient.sendRequest({
-              ...retryRequest,
-              allowInsecureConnection: true,
-            });
+              rsp = await this.httpClient.sendRequest({
+                ...retryRequest,
+                allowInsecureConnection: true,
+              });
+            }
           }
         }
 
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
-          const mismatchHeader = rsp.headers.get("x-request-mismatch-error");
-          if (mismatchHeader) {
-            throw new RecorderError(decodeBase64(mismatchHeader));
-          } else {
-            throw new RecorderError("Start request failed.");
-          }
+          const errorHeader =
+            rsp.headers.get("x-request-mismatch-error") ||
+            (rsp.headers.get("x-request-known-exception") === "true"
+              ? rsp.headers.get("x-request-known-exception-error")
+              : undefined);
+          const details = errorHeader ? decodeBase64(errorHeader) : rsp.bodyAsText;
+          throw new RecorderError(
+            `Start request failed with status ${rsp.status}.${details ? ` ${details}` : ""}`,
+            rsp.status,
+          );
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {
