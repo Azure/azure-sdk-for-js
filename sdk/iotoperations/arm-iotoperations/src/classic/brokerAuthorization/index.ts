@@ -53,6 +53,7 @@ export interface BrokerAuthorizationOperations {
     options?: BrokerAuthorizationGetOptionalParams,
   ) => Promise<BrokerAuthorizationResource>;
 }
+
 function _getBrokerAuthorization(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -94,6 +95,7 @@ function _getBrokerAuthorization(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, brokerName, authorizationName, options),
   };
 }
+
 export function _getBrokerAuthorizationOperations(
   context: IoTOperationsContext,
 ): BrokerAuthorizationOperations {

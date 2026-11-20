@@ -49,6 +49,7 @@ export interface DataflowProfileOperations {
     options?: DataflowProfileGetOptionalParams,
   ) => Promise<DataflowProfileResource>;
 }
+
 function _getDataflowProfile(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -85,6 +86,7 @@ function _getDataflowProfile(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, dataflowProfileName, options),
   };
 }
+
 export function _getDataflowProfileOperations(
   context: IoTOperationsContext,
 ): DataflowProfileOperations {

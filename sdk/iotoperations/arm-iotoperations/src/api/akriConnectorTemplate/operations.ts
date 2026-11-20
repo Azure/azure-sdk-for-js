@@ -38,7 +38,7 @@ export function _listByInstanceResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +65,7 @@ export async function _listByInstanceResourceDeserialize(
 
   return _akriConnectorTemplateResourceListResultDeserializer(result.body);
 }
+
 /** List AkriConnectorTemplateResource resources by InstanceResource */
 export function listByInstanceResource(
   context: Client,
@@ -77,7 +78,7 @@ export function listByInstanceResource(
     () => _listByInstanceResourceSend(context, resourceGroupName, instanceName, options),
     _listByInstanceResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -95,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -117,6 +118,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a AkriConnectorTemplateResource */
 export function $delete(
   context: Client,
@@ -131,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, instanceName, akriConnectorTemplateName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,6 +181,7 @@ export async function _createOrUpdateDeserialize(
 
   return akriConnectorTemplateResourceDeserializer(result.body);
 }
+
 /** Create a AkriConnectorTemplateResource */
 export function createOrUpdate(
   context: Client,
@@ -201,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<AkriConnectorTemplateResource>, AkriConnectorTemplateResource>;
 }
 
@@ -219,7 +222,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       instanceName: instanceName,
       akriConnectorTemplateName: akriConnectorTemplateName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -246,6 +249,7 @@ export async function _getDeserialize(
 
   return akriConnectorTemplateResourceDeserializer(result.body);
 }
+
 /** Get a AkriConnectorTemplateResource */
 export async function get(
   context: Client,

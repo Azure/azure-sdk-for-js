@@ -53,6 +53,7 @@ export interface DataflowGraphOperations {
     options?: DataflowGraphGetOptionalParams,
   ) => Promise<DataflowGraphResource>;
 }
+
 function _getDataflowGraph(context: IoTOperationsContext) {
   return {
     listByDataflowProfile: (
@@ -111,6 +112,7 @@ function _getDataflowGraph(context: IoTOperationsContext) {
       ),
   };
 }
+
 export function _getDataflowGraphOperations(
   context: IoTOperationsContext,
 ): DataflowGraphOperations {
