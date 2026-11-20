@@ -4,6 +4,7 @@
 // @ts-check
 
 import process from "node:process";
+import path from "node:path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import semver from "semver";
@@ -11,6 +12,7 @@ import { getConfig } from "@pnpm/config";
 import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 
 import { getPackageJsons, writePackageJson } from "@azure-tools/eng-package-utils";
+import { updateBuiltPackageVersion } from "./BuiltVersionUtils.js";
 
 /**
  * @typedef {Awaited<ReturnType<typeof getPackageJsons>>} RepoPackages
@@ -45,9 +47,17 @@ const argv = yargs(hideBin(process.argv))
  * @param {string} pkg
  */
 async function commitChanges(repoPackages, pkg) {
+  const oldVersion = repoPackages[pkg].json.version;
+  const newVersion = repoPackages[pkg].newVer;
   // Commit the new version to the JSON document
-  if (repoPackages[pkg].newVer) {
-    repoPackages[pkg].json.version = repoPackages[pkg].newVer;
+  if (newVersion) {
+    if (!oldVersion) throw new Error(`Package ${pkg} does not have a version`);
+    repoPackages[pkg].json.version = newVersion;
+    await updateBuiltPackageVersion(
+      path.dirname(repoPackages[pkg].src),
+      { ...repoPackages[pkg].json, version: newVersion },
+      oldVersion,
+    );
   }
   try {
     // Write out the JSON document to disk

@@ -195,7 +195,7 @@ function NormalizePackageContent($dirName, $version) {
   foreach ($md in $(Get-ChildItem $dirName -r -i *.md)) {
     ReplaceText "https://github.com/Azure/azure-sdk-for-js/tree/[^/]*" "" $md.Fullname
   }
-  foreach ($file in $(Get-ChildItem $dirName -r -i *.js, *.ts, *.json)) {
+  foreach ($file in $(Get-ChildItem $dirName -r -i *.js, *.ts, *.json, *.js.map, *.ts.map)) {
     ReplaceText $version "VERSION_REMOVED" $file.Fullname
   }
 }
