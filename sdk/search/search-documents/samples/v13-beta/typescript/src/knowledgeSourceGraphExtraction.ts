@@ -327,6 +327,7 @@ export async function main(): Promise<void> {
       const graphActivities = response.activity?.filter(
         (activity) =>
           activity.type === "graphSearch" &&
+          Number.isInteger(activity.id) &&
           "graphSearchArguments" in activity &&
           typeof activity.graphSearchArguments?.gql === "string" &&
           activity.graphSearchArguments.gql.trim().length > 0,

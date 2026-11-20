@@ -595,7 +595,8 @@ async function executeDp11Sample(
               : []),
             {
               type: "graphSearch",
-              activitySource: mismatch ? 99 : 1,
+              activitySource:
+                failureAt === "missingGraphActivityIds" ? undefined : mismatch ? 99 : 1,
               sourceData:
                 failureAt === "missingHydration"
                   ? { hotel: "Alpine Hotel" }
@@ -607,7 +608,7 @@ async function executeDp11Sample(
               ? []
               : [
                   {
-                    id: 1,
+                    id: failureAt === "missingGraphActivityIds" ? undefined : 1,
                     type: "graphSearch",
                     graphSearchArguments: {
                       gql: missingQuery
@@ -1085,6 +1086,7 @@ for (const directory of directories) {
       "missingRelationships",
       "missingHydration",
       "mismatchedGraphActivity",
+      "missingGraphActivityIds",
       "missingGraphQuery",
       "mismatchedHydrationActivity",
       "missingHydrationQuery",
