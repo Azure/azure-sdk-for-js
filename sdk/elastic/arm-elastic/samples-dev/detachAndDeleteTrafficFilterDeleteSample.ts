@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to detach and delete an existing traffic filter from your Elastic monitor resource, removing its network traffic control capabilities.
  *
  * @summary detach and delete an existing traffic filter from your Elastic monitor resource, removing its network traffic control capabilities.
- * x-ms-original-file: 2025-06-01/DetachAndDeleteTrafficFilter_Delete.json
+ * x-ms-original-file: 2026-03-15-preview/DetachAndDeleteTrafficFilter_Delete.json
  */
 async function detachAndDeleteTrafficFilterDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

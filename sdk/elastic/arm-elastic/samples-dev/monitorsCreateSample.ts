@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new Elastic monitor resource in your Azure subscription, enabling observability and monitoring of your Azure resources through Elastic.
  *
  * @summary create a new Elastic monitor resource in your Azure subscription, enabling observability and monitoring of your Azure resources through Elastic.
- * x-ms-original-file: 2025-06-01/Monitors_Create.json
+ * x-ms-original-file: 2026-03-15-preview/Monitors_Create.json
  */
 async function monitorsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

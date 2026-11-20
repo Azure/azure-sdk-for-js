@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create and associate a PL filter with your Elastic monitor resource to control and manage network traffic.
  *
  * @summary create and associate a PL filter with your Elastic monitor resource to control and manage network traffic.
- * x-ms-original-file: 2025-06-01/PrivateLinkTrafficFilters_Create.json
+ * x-ms-original-file: 2026-03-15-preview/PrivateLinkTrafficFilters_Create.json
  */
 async function createAndAssociatePLFilterCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

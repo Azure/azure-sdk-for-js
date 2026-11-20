@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an existing traffic filter associated with your Elastic monitor resource, removing its network traffic control capabilities.
  *
  * @summary delete an existing traffic filter associated with your Elastic monitor resource, removing its network traffic control capabilities.
- * x-ms-original-file: 2025-06-01/TrafficFilters_Delete.json
+ * x-ms-original-file: 2026-03-15-preview/TrafficFilters_Delete.json
  */
 async function trafficFiltersDelete() {
   const credential = new DefaultAzureCredential();

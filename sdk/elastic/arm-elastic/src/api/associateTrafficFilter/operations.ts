@@ -22,7 +22,7 @@ export function _associateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
       rulesetId: options?.rulesetId,
     },
     {
@@ -58,6 +58,6 @@ export function associate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _associateSend(context, resourceGroupName, monitorName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-06-01",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }

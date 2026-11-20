@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of OpenAI integration for a given Elastic monitor resource, ensuring optimal observability and performance.
  *
  * @summary get the status of OpenAI integration for a given Elastic monitor resource, ensuring optimal observability and performance.
- * x-ms-original-file: 2025-06-01/OpenAI_GetStatus.json
+ * x-ms-original-file: 2026-03-15-preview/OpenAI_GetStatus.json
  */
 async function openAIGetStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
  *
  * @summary delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.
- * x-ms-original-file: 2025-06-01/TagRules_Delete.json
+ * x-ms-original-file: 2026-03-15-preview/TagRules_Delete.json
  */
 async function tagRulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

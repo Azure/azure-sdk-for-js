@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all upgradable versions for your Elastic monitor resource, helping you plan and execute upgrades.
  *
  * @summary list all upgradable versions for your Elastic monitor resource, helping you plan and execute upgrades.
- * x-ms-original-file: 2025-06-01/UpgradableVersions_Details.json
+ * x-ms-original-file: 2026-03-15-preview/UpgradableVersions_Details.json
  */
 async function upgradableVersionsDetails() {
   const credential = new DefaultAzureCredential();

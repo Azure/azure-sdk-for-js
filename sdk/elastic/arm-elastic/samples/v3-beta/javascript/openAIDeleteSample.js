@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an OpenAI integration rule for a given Elastic monitor resource, removing AI-driven observability and monitoring capabilities.
  *
  * @summary delete an OpenAI integration rule for a given Elastic monitor resource, removing AI-driven observability and monitoring capabilities.
- * x-ms-original-file: 2025-06-01/OpenAI_Delete.json
+ * x-ms-original-file: 2026-03-15-preview/OpenAI_Delete.json
  */
 async function openAIDelete() {
   const credential = new DefaultAzureCredential();
