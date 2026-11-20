@@ -51,7 +51,6 @@ export interface RulesOperations {
     options?: RulesGetOptionalParams,
   ) => Promise<Rule>;
 }
-
 function _getRules(context: ServiceBusManagementContext) {
   return {
     listBySubscriptions: (
@@ -124,7 +123,6 @@ function _getRules(context: ServiceBusManagementContext) {
       ),
   };
 }
-
 export function _getRulesOperations(context: ServiceBusManagementContext): RulesOperations {
   return {
     ..._getRules(context),

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the authorization rules for a namespace.
  *
  * @summary gets the authorization rules for a namespace.
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasAuthorizationRuleListAll.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBAliasAuthorizationRuleListAll.json
  */
 async function nameSpaceAuthorizationRuleListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();
