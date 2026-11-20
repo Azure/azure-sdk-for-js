@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export type { AiGatewaysOperations } from "./aiGateways/index.js";
 export type { AppServiceEnvironmentsOperations } from "./appServiceEnvironments/index.js";
 export type { AppServicePlansOperations } from "./appServicePlans/index.js";
 export type { CertificatesOperations } from "./certificates/index.js";
@@ -9,11 +10,18 @@ export type { DiagnosticsOperations } from "./diagnostics/index.js";
 export type { GetUsagesInLocationOperations } from "./getUsagesInLocation/index.js";
 export type { GlobalOperations } from "./global/index.js";
 export type { KubeEnvironmentsOperations } from "./kubeEnvironments/index.js";
+export type { LastKnownGoodResourcesOperations } from "./lastKnownGoodResources/index.js";
+export type { ManagedTrafficConfigResourcesOperations } from "./managedTrafficConfigResources/index.js";
 export type { ProviderOperations } from "./provider/index.js";
 export type { RecommendationsOperations } from "./recommendations/index.js";
 export type { ResourceHealthMetadataOperations } from "./resourceHealthMetadata/index.js";
+export type { ServerFarmSiloResourcesOperations } from "./serverFarmSiloResources/index.js";
 export type { SiteCertificatesOperations } from "./siteCertificates/index.js";
+export type { SitesOperations } from "./sites/index.js";
+export type { SiteSiloResourcesOperations } from "./siteSiloResources/index.js";
+export type { SiteSiloVirtualNetworkConnectionsOperations } from "./siteSiloVirtualNetworkConnections/index.js";
 export type { StaticSitesOperations } from "./staticSites/index.js";
+export type { StaticSitesAsyncOperationsOperations } from "./staticSitesAsyncOperations/index.js";
 export type { WebAppsOperations } from "./webApps/index.js";
 export type { WorkflowRunActionRepetitionsOperations } from "./workflowRunActionRepetitions/index.js";
 export type { WorkflowRunActionRepetitionsRequestHistoriesOperations } from "./workflowRunActionRepetitionsRequestHistories/index.js";

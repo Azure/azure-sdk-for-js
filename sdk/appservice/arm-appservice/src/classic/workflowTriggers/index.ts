@@ -119,7 +119,7 @@ function _getWorkflowTriggers(context: WebSiteManagementContext) {
       triggerName: string,
       options?: WorkflowTriggersRunOptionalParams,
     ) => {
-      return run(context, resourceGroupName, name, workflowName, triggerName, options);
+      return await run(context, resourceGroupName, name, workflowName, triggerName, options);
     },
     listCallbackUrl: (
       resourceGroupName: string,

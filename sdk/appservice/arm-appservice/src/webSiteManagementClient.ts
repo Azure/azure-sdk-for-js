@@ -48,6 +48,8 @@ import type {
   ValidateOptionalParams,
   ValidateMoveOptionalParams,
 } from "./api/options.js";
+import type { AiGatewaysOperations } from "./classic/aiGateways/index.js";
+import { _getAiGatewaysOperations } from "./classic/aiGateways/index.js";
 import type { AppServiceEnvironmentsOperations } from "./classic/appServiceEnvironments/index.js";
 import { _getAppServiceEnvironmentsOperations } from "./classic/appServiceEnvironments/index.js";
 import type { AppServicePlansOperations } from "./classic/appServicePlans/index.js";
@@ -64,16 +66,30 @@ import type { GlobalOperations } from "./classic/global/index.js";
 import { _getGlobalOperations } from "./classic/global/index.js";
 import type { KubeEnvironmentsOperations } from "./classic/kubeEnvironments/index.js";
 import { _getKubeEnvironmentsOperations } from "./classic/kubeEnvironments/index.js";
+import type { LastKnownGoodResourcesOperations } from "./classic/lastKnownGoodResources/index.js";
+import { _getLastKnownGoodResourcesOperations } from "./classic/lastKnownGoodResources/index.js";
+import type { ManagedTrafficConfigResourcesOperations } from "./classic/managedTrafficConfigResources/index.js";
+import { _getManagedTrafficConfigResourcesOperations } from "./classic/managedTrafficConfigResources/index.js";
 import type { ProviderOperations } from "./classic/provider/index.js";
 import { _getProviderOperations } from "./classic/provider/index.js";
 import type { RecommendationsOperations } from "./classic/recommendations/index.js";
 import { _getRecommendationsOperations } from "./classic/recommendations/index.js";
 import type { ResourceHealthMetadataOperations } from "./classic/resourceHealthMetadata/index.js";
 import { _getResourceHealthMetadataOperations } from "./classic/resourceHealthMetadata/index.js";
+import type { ServerFarmSiloResourcesOperations } from "./classic/serverFarmSiloResources/index.js";
+import { _getServerFarmSiloResourcesOperations } from "./classic/serverFarmSiloResources/index.js";
 import type { SiteCertificatesOperations } from "./classic/siteCertificates/index.js";
 import { _getSiteCertificatesOperations } from "./classic/siteCertificates/index.js";
+import type { SiteSiloResourcesOperations } from "./classic/siteSiloResources/index.js";
+import { _getSiteSiloResourcesOperations } from "./classic/siteSiloResources/index.js";
+import type { SiteSiloVirtualNetworkConnectionsOperations } from "./classic/siteSiloVirtualNetworkConnections/index.js";
+import { _getSiteSiloVirtualNetworkConnectionsOperations } from "./classic/siteSiloVirtualNetworkConnections/index.js";
+import type { SitesOperations } from "./classic/sites/index.js";
+import { _getSitesOperations } from "./classic/sites/index.js";
 import type { StaticSitesOperations } from "./classic/staticSites/index.js";
 import { _getStaticSitesOperations } from "./classic/staticSites/index.js";
+import type { StaticSitesAsyncOperationsOperations } from "./classic/staticSitesAsyncOperations/index.js";
+import { _getStaticSitesAsyncOperationsOperations } from "./classic/staticSitesAsyncOperations/index.js";
 import type { WebAppsOperations } from "./classic/webApps/index.js";
 import { _getWebAppsOperations } from "./classic/webApps/index.js";
 import type { WorkflowRunActionRepetitionsOperations } from "./classic/workflowRunActionRepetitions/index.js";
@@ -146,14 +162,7 @@ export class WebSiteManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createWebSiteManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createWebSiteManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.getUsagesInLocation = _getGetUsagesInLocationOperations(this._client);
     this.workflowRunActionRepetitionsRequestHistories =
@@ -163,6 +172,13 @@ export class WebSiteManagementClient {
     this.resourceHealthMetadata = _getResourceHealthMetadataOperations(this._client);
     this.deletedWebApps = _getDeletedWebAppsOperations(this._client);
     this.provider = _getProviderOperations(this._client);
+    this.lastKnownGoodResources = _getLastKnownGoodResourcesOperations(this._client);
+    this.managedTrafficConfigResources = _getManagedTrafficConfigResourcesOperations(this._client);
+    this.serverFarmSiloResources = _getServerFarmSiloResourcesOperations(this._client);
+    this.siteSiloVirtualNetworkConnections = _getSiteSiloVirtualNetworkConnectionsOperations(
+      this._client,
+    );
+    this.siteSiloResources = _getSiteSiloResourcesOperations(this._client);
     this.workflowVersions = _getWorkflowVersionsOperations(this._client);
     this.workflowTriggerHistories = _getWorkflowTriggerHistoriesOperations(this._client);
     this.workflowTriggers = _getWorkflowTriggersOperations(this._client);
@@ -171,6 +187,9 @@ export class WebSiteManagementClient {
     );
     this.workflowRunActions = _getWorkflowRunActionsOperations(this._client);
     this.workflowRuns = _getWorkflowRunsOperations(this._client);
+    this.aiGateways = _getAiGatewaysOperations(this._client);
+    this.staticSitesAsyncOperations = _getStaticSitesAsyncOperationsOperations(this._client);
+    this.sites = _getSitesOperations(this._client);
     this.kubeEnvironments = _getKubeEnvironmentsOperations(this._client);
     this.diagnostics = _getDiagnosticsOperations(this._client);
     this.global = _getGlobalOperations(this._client);
@@ -345,6 +364,16 @@ export class WebSiteManagementClient {
   public readonly deletedWebApps: DeletedWebAppsOperations;
   /** The operation groups for provider */
   public readonly provider: ProviderOperations;
+  /** The operation groups for lastKnownGoodResources */
+  public readonly lastKnownGoodResources: LastKnownGoodResourcesOperations;
+  /** The operation groups for managedTrafficConfigResources */
+  public readonly managedTrafficConfigResources: ManagedTrafficConfigResourcesOperations;
+  /** The operation groups for serverFarmSiloResources */
+  public readonly serverFarmSiloResources: ServerFarmSiloResourcesOperations;
+  /** The operation groups for siteSiloVirtualNetworkConnections */
+  public readonly siteSiloVirtualNetworkConnections: SiteSiloVirtualNetworkConnectionsOperations;
+  /** The operation groups for siteSiloResources */
+  public readonly siteSiloResources: SiteSiloResourcesOperations;
   /** The operation groups for workflowVersions */
   public readonly workflowVersions: WorkflowVersionsOperations;
   /** The operation groups for workflowTriggerHistories */
@@ -357,6 +386,12 @@ export class WebSiteManagementClient {
   public readonly workflowRunActions: WorkflowRunActionsOperations;
   /** The operation groups for workflowRuns */
   public readonly workflowRuns: WorkflowRunsOperations;
+  /** The operation groups for aiGateways */
+  public readonly aiGateways: AiGatewaysOperations;
+  /** The operation groups for staticSitesAsyncOperations */
+  public readonly staticSitesAsyncOperations: StaticSitesAsyncOperationsOperations;
+  /** The operation groups for sites */
+  public readonly sites: SitesOperations;
   /** The operation groups for kubeEnvironments */
   public readonly kubeEnvironments: KubeEnvironmentsOperations;
   /** The operation groups for diagnostics */

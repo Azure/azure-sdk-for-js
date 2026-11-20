@@ -610,7 +610,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       privateEndpointConnectionName: string,
       options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
     ) => {
-      return deletePrivateEndpointConnection(
+      return await deletePrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -658,7 +658,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
       options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
     ) => {
-      return approveOrRejectPrivateEndpointConnection(
+      return await approveOrRejectPrivateEndpointConnection(
         context,
         resourceGroupName,
         name,
@@ -748,7 +748,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       multiRolePoolEnvelope: WorkerPoolResource,
       options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
     ) => {
-      return createOrUpdateMultiRolePool(
+      return await createOrUpdateMultiRolePool(
         context,
         resourceGroupName,
         name,
@@ -885,7 +885,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsUpgradeOptionalParams,
     ) => {
-      return upgrade(context, resourceGroupName, name, options);
+      return await upgrade(context, resourceGroupName, name, options);
     },
     testUpgradeAvailableNotification: (
       resourceGroupName: string,
@@ -951,7 +951,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsDeleteOptionalParams,
     ) => {
-      return $delete(context, resourceGroupName, name, options);
+      return await $delete(context, resourceGroupName, name, options);
     },
     update: (
       resourceGroupName: string,
@@ -987,7 +987,13 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
       options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
     ) => {
-      return createOrUpdate(context, resourceGroupName, name, hostingEnvironmentEnvelope, options);
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        name,
+        hostingEnvironmentEnvelope,
+        options,
+      );
     },
     get: (
       resourceGroupName: string,
@@ -1087,7 +1093,7 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       workerPoolEnvelope: WorkerPoolResource,
       options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
     ) => {
-      return createOrUpdateWorkerPool(
+      return await createOrUpdateWorkerPool(
         context,
         resourceGroupName,
         name,

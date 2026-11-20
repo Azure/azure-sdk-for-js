@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -2985,9 +2985,10 @@
+@@ -3087,9 +3087,10 @@
      value?: string;
  }
  
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyValuePairStringObject {
      // (undocumented)
-@@ -4622,9 +4623,9 @@
+@@ -4913,9 +4914,9 @@
  export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
  
  // @public
