@@ -319,21 +319,38 @@ async function main() {
         },
       ],
     });
-    const graphActivities = result.activity?.filter((activity) => activity.type === "graphSearch");
-    assert(
-      graphActivities?.length,
-      "The fixture query must exercise graph retrieval, not just text search.",
-    );
-    assert(!result.activity?.some((activity) => activity.error), "Graph retrieval must succeed.");
-    for (const activity of graphActivities) {
-      if ("graphSearchArguments" in activity) {
-        console.log("Graph query:", activity.graphSearchArguments);
+    function verifyGraphRetrieval(response) {
+      assert(
+        !response.activity?.some((activity) => activity.error),
+        "Graph retrieval must succeed.",
+      );
+      const graphActivities = response.activity?.filter(
+        (activity) =>
+          activity.type === "graphSearch" &&
+          "graphSearchArguments" in activity &&
+          typeof activity.graphSearchArguments?.gql === "string" &&
+          activity.graphSearchArguments.gql.trim().length > 0,
+      );
+      assert(
+        graphActivities?.length,
+        "The fixture query must return a successful graph activity with generated GQL.",
+      );
+      const activityIds = new Set(graphActivities.map((activity) => activity.id));
+      assert(
+        response.references?.some(
+          (reference) =>
+            reference.type === "graphSearch" && activityIds.has(reference.activitySource),
+        ),
+        "Graph references must link to the successful activity containing generated GQL.",
+      );
+      for (const activity of graphActivities) {
+        if ("graphSearchArguments" in activity) {
+          console.log("Graph query:", activity.graphSearchArguments);
+        }
       }
+      return activityIds;
     }
-    assert(
-      result.references?.some((reference) => reference.type === "graphSearch"),
-      "Graph retrieval must return graph references, not just text-search references.",
-    );
+    verifyGraphRetrieval(result);
     console.log("References:", result.references);
     const schema = await protocol.getIndex(resources.index);
     const keyField = schema.fields.find((field) => field.key)?.name;
@@ -372,14 +389,12 @@ async function main() {
         },
       ],
     });
-    assert(
-      !hydrated.activity?.some((activity) => activity.error),
-      "Hydration must not hide errors.",
-    );
+    const hydratedActivityIds = verifyGraphRetrieval(hydrated);
     assert(
       hydrated.references?.some(
         (reference) =>
           reference.type === "graphSearch" &&
+          hydratedActivityIds.has(reference.activitySource) &&
           "sourceData" in reference &&
           typeof reference.sourceData?.[textField] === "string" &&
           reference.sourceData[textField].trim(),

@@ -502,6 +502,7 @@ async function executeDp11Sample(
   directory: string,
   failureAt?: string,
   environment: Record<string, string> = {},
+  responseOptions: { omitReasoningUsage?: boolean } = {},
 ): Promise<{
   sources: sdk.KnowledgeSourceInput[];
   indexes: sdk.SearchIndexInput[];
@@ -580,11 +581,21 @@ async function executeDp11Sample(
         };
       }
       if (sample === "knowledgeSourceGraphExtraction") {
+        const hydration = JSON.stringify(request).includes('"kind":"hydrate"');
+        const mismatch =
+          failureAt === "mismatchedGraphActivity" ||
+          (hydration && failureAt === "mismatchedHydrationActivity");
+        const missingQuery =
+          failureAt === "missingGraphQuery" || (hydration && failureAt === "missingHydrationQuery");
         return {
           response: [{ content: [] }],
           references: [
+            ...(hydration && mismatch
+              ? [{ type: "graphSearch", activitySource: 1, sourceData: { hotel: "Alpine Hotel" } }]
+              : []),
             {
               type: "graphSearch",
+              activitySource: mismatch ? 99 : 1,
               sourceData:
                 failureAt === "missingHydration"
                   ? { hotel: "Alpine Hotel" }
@@ -596,9 +607,12 @@ async function executeDp11Sample(
               ? []
               : [
                   {
+                    id: 1,
                     type: "graphSearch",
                     graphSearchArguments: {
-                      gql: "MATCH (h:Hotel)-[r:operatedBy]->(o:Organization) RETURN h, o LIMIT 5",
+                      gql: missingQuery
+                        ? " "
+                        : "MATCH (h:Hotel)-[r:operatedBy]->(o:Organization) RETURN h, o LIMIT 5",
                     },
                   },
                 ],
@@ -622,6 +636,25 @@ async function executeDp11Sample(
                     queryHintProcessing: { generatedFilter: `country eq '${country}'` },
                   },
                 ],
+        };
+      }
+      if (sample === "knowledgeBaseModelProviders") {
+        return {
+          response: [
+            {
+              content: [
+                { type: "text", text: "The Alpine hotel has an indoor pool and family rooms." },
+              ],
+            },
+          ],
+          references: [{ type: "searchIndex", docKey: "alpine", activitySource: 1 }],
+          activity: [
+            {
+              id: 1,
+              type: "agenticReasoning",
+              ...(responseOptions.omitReasoningUsage ? {} : { reasoningTokens: 3 }),
+            },
+          ],
         };
       }
       return {
@@ -1051,6 +1084,10 @@ for (const directory of directories) {
       "failedIngestion",
       "missingRelationships",
       "missingHydration",
+      "mismatchedGraphActivity",
+      "missingGraphQuery",
+      "mismatchedHydrationActivity",
+      "missingHydrationQuery",
       "createKnowledgeBase",
       "retrieve",
       "textFallback",
@@ -1126,6 +1163,15 @@ for (const directory of directories) {
         run.bases[0],
         "models[0].azureOpenAIParameters.modelName",
         "gpt-6-sol",
+      );
+    });
+    it("accepts compatible GPT-6 retrieval without optional reasoning-token telemetry", async () => {
+      await executeDp11Sample(
+        "knowledgeBaseModelProviders",
+        directory,
+        undefined,
+        {},
+        { omitReasoningUsage: true },
       );
     });
     it.each([
