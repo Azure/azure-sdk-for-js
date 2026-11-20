@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { Readable } from "node:stream";
+import { buffer } from "node:stream/consumers";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 
 /**
@@ -13,11 +14,7 @@ export async function readStreamedBody(response: PipelineResponse): Promise<stri
   if (!response.readableStreamBody) {
     return undefined;
   }
-  const chunks: Buffer[] = [];
-  for await (const chunk of response.readableStreamBody) {
-    chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
-  }
-  const body = Buffer.concat(chunks);
+  const body = await buffer(response.readableStreamBody);
   response.readableStreamBody = Readable.from([body], { objectMode: false });
   return body.toString("utf8");
 }
