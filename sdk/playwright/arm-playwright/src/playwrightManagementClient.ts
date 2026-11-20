@@ -30,14 +30,7 @@ export class PlaywrightManagementClient {
     subscriptionId: string,
     options: PlaywrightManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPlaywrightManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPlaywrightManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.playwrightWorkspaceQuotas = _getPlaywrightWorkspaceQuotasOperations(this._client);
     this.playwrightQuotas = _getPlaywrightQuotasOperations(this._client);
