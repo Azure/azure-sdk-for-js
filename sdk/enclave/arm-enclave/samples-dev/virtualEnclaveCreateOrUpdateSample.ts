@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EnclaveResource
  *
  * @summary create a EnclaveResource
- * x-ms-original-file: 2026-04-01/VirtualEnclave_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01-preview/VirtualEnclave_CreateOrUpdate.json
  */
 async function virtualEnclaveCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,12 +23,6 @@ async function virtualEnclaveCreateOrUpdate(): Promise<void> {
       },
     },
     properties: {
-      enclaveVirtualNetwork: {
-        networkSize: "small",
-        customCidrRange: "10.0.0.0/24",
-        subnetConfigurations: [{ subnetName: "test", networkPrefixSize: 26 }],
-        allowSubnetCommunication: true,
-      },
       communityResourceId:
         "/subscriptions/c64f6eca-bdc5-4bc2-88d6-f8f1dc23f86c/resourceGroups/TestMyRg/providers/microsoft.mission/communities/TestMyCommunity",
       enclaveDefaultSettings: { diagnosticDestination: "Both" },
@@ -105,6 +99,9 @@ async function virtualEnclaveCreateOrUpdate(): Promise<void> {
           diagnosticSettingsName: "customName",
         },
       },
+      subnetConfigurations: [{ subnetName: "test", networkPrefixSize: 26 }],
+      allowSubnetCommunication: true,
+      addressSpaces: [{ prefixLength: 23, addressSpace: "10.1.0.0/23" }],
     },
     tags: { Tag1: "Value1" },
     location: "westcentralus",

@@ -22,9 +22,21 @@ export type ActionPerformed = string;
 export type ActionType = string;
 
 // @public
-export interface ApprovalActionRequest {
-    approvalStatus: string;
+export interface AddressSpaceEntry {
+    addressSpace?: string;
+    prefixLength?: number;
 }
+
+// @public
+export type AddressSpaceOwnership = string;
+
+// @public
+export interface ApprovalActionRequest {
+    approvalStatus: ApprovalActionRequestApprovalStatus;
+}
+
+// @public
+export type ApprovalActionRequestApprovalStatus = string;
 
 // @public
 export interface ApprovalActionResponse {
@@ -34,9 +46,15 @@ export interface ApprovalActionResponse {
 // @public
 export interface ApprovalCallbackRequest {
     approvalCallbackPayload?: string;
-    approvalStatus: string;
-    resourceRequestAction: string;
+    approvalStatus: ApprovalCallbackRequestApprovalStatus;
+    resourceRequestAction: ApprovalCallbackRequestResourceRequestAction;
 }
+
+// @public
+export type ApprovalCallbackRequestApprovalStatus = string;
+
+// @public
+export type ApprovalCallbackRequestResourceRequestAction = string;
 
 // @public
 export interface ApprovalCreateOrUpdateOptionalParams extends OperationOptions {
@@ -50,8 +68,11 @@ export interface ApprovalDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface ApprovalDeletionCallbackRequest {
-    resourceRequestAction: string;
+    resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction;
 }
+
+// @public
+export type ApprovalDeletionCallbackRequestResourceRequestAction = string;
 
 // @public
 export interface ApprovalGetOptionalParams extends OperationOptions {
@@ -174,8 +195,9 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CheckAddressSpaceAvailabilityRequest {
+    addressSpace?: string;
     communityResourceId: string;
-    enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
+    prefixLength?: number;
 }
 
 // @public
@@ -201,6 +223,7 @@ export interface CommunityDeleteOptionalParams extends OperationOptions {
 export interface CommunityEndpointDestinationRule {
     destination?: string;
     destinationType?: DestinationType;
+    direction?: RuleDirection;
     endpointRuleName?: string;
     ports?: string;
     protocols?: CommunityEndpointProtocol[];
@@ -216,6 +239,7 @@ export interface CommunityEndpointPatchModel {
 // @public
 export interface CommunityEndpointPatchProperties {
     ruleCollection: CommunityEndpointDestinationRule[];
+    syncTo?: string[];
     updateMode?: UpdateMode;
 }
 
@@ -224,6 +248,11 @@ export interface CommunityEndpointProperties {
     readonly provisioningState?: ProvisioningState;
     readonly resourceCollection?: string[];
     ruleCollection: CommunityEndpointDestinationRule[];
+    readonly syncDestinationStatuses?: SyncDestinationStatus[];
+    readonly syncFrom?: string;
+    readonly syncPerformedBy?: SyncPerformedBy;
+    readonly syncStatus?: SyncStatus;
+    syncTo?: string[];
     updateMode?: UpdateMode;
 }
 
@@ -276,7 +305,13 @@ export interface CommunityEndpointsOperations {
     handleApprovalDeletion: (resourceGroupName: string, communityName: string, communityEndpointName: string, body: ApprovalDeletionCallbackRequest, options?: CommunityEndpointsHandleApprovalDeletionOptionalParams) => PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
     listByCommunityResource: (resourceGroupName: string, communityName: string, options?: CommunityEndpointsListByCommunityResourceOptionalParams) => PagedAsyncIterableIterator<CommunityEndpointResource>;
     listBySubscription: (communityName: string, options?: CommunityEndpointsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CommunityEndpointResource>;
+    sync: (resourceGroupName: string, communityName: string, communityEndpointName: string, options?: CommunityEndpointsSyncOptionalParams) => PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
     update: (resourceGroupName: string, communityName: string, communityEndpointName: string, properties: CommunityEndpointPatchModel, options?: CommunityEndpointsUpdateOptionalParams) => PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
+}
+
+// @public
+export interface CommunityEndpointsSyncOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -324,7 +359,8 @@ export interface CommunityPatchProperties {
     granularApprovalSettings?: ApprovalSettingsPatchProperties;
     maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
     monitoringSettings?: MonitoringSettingsPatchModel;
-    policyOverride?: string;
+    policyOverride?: CommunityPropertiesPolicyOverride;
+    subnetJoinPolicyMode?: SubnetJoinPolicyMode;
 }
 
 // @public
@@ -341,10 +377,14 @@ export interface CommunityProperties {
     readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
     readonly managedResourceGroupName?: string;
     monitoringSettings?: MonitoringSettingsModel;
-    policyOverride?: string;
+    policyOverride?: CommunityPropertiesPolicyOverride;
     readonly provisioningState?: ProvisioningState;
     readonly resourceCollection?: string[];
+    subnetJoinPolicyMode?: SubnetJoinPolicyMode;
 }
+
+// @public
+export type CommunityPropertiesPolicyOverride = string;
 
 // @public
 export interface CommunityResource extends TrackedResource {
@@ -355,6 +395,13 @@ export interface CommunityResource extends TrackedResource {
 // @public
 export interface CommunityUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputedAddressSpaceEntry {
+    addressSpace?: string;
+    ownership?: AddressSpaceOwnership;
+    prefixLength?: number;
 }
 
 // @public
@@ -435,12 +482,6 @@ export type DestinationType = string;
 
 // @public
 export type DiagnosticDestination = string;
-
-// @public
-export interface EnclaveAddressSpacesModel {
-    enclaveAddressSpace?: string;
-    managedAddressSpace?: string;
-}
 
 // @public
 export interface EnclaveConnectionCreateOrUpdateOptionalParams extends OperationOptions {
@@ -627,15 +668,6 @@ export interface EnclaveResource extends TrackedResource {
 }
 
 // @public
-export interface EnclaveVirtualNetworkModel {
-    allowSubnetCommunication?: boolean;
-    customCidrRange?: string;
-    networkName?: string;
-    networkSize?: string;
-    subnetConfigurations?: SubnetConfiguration[];
-}
-
-// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -664,13 +696,22 @@ export type FirewallSKU = string;
 
 // @public
 export interface GovernedServiceItem {
-    enforcement?: string;
+    enforcement?: GovernedServiceItemEnforcement;
     readonly initiatives?: string[];
-    option?: string;
-    policyAction?: string;
+    option?: GovernedServiceItemOption;
+    policyAction?: GovernedServiceItemPolicyAction;
     serviceId: ServiceIdentifier;
     readonly serviceName?: string;
 }
+
+// @public
+export type GovernedServiceItemEnforcement = string;
+
+// @public
+export type GovernedServiceItemOption = string;
+
+// @public
+export type GovernedServiceItemPolicyAction = string;
 
 export { isRestError }
 
@@ -683,6 +724,39 @@ export enum KnownActionPerformed {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAddressSpaceOwnership {
+    CustomerManaged = "CustomerManaged",
+    ProductManaged = "ProductManaged"
+}
+
+// @public
+export enum KnownApprovalActionRequestApprovalStatus {
+    Approved = "Approved",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownApprovalCallbackRequestApprovalStatus {
+    Approved = "Approved",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownApprovalCallbackRequestResourceRequestAction {
+    Create = "Create",
+    Delete = "Delete",
+    Reset = "Reset",
+    Update = "Update"
+}
+
+// @public
+export enum KnownApprovalDeletionCallbackRequestResourceRequestAction {
+    Create = "Create",
+    Delete = "Delete",
+    Update = "Update"
 }
 
 // @public
@@ -713,6 +787,12 @@ export enum KnownCommunityEndpointProtocol {
 }
 
 // @public
+export enum KnownCommunityPropertiesPolicyOverride {
+    Enclave = "Enclave",
+    None = "None"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -739,7 +819,8 @@ export enum KnownDestinationType {
 export enum KnownDiagnosticDestination {
     Both = "Both",
     CommunityOnly = "CommunityOnly",
-    EnclaveOnly = "EnclaveOnly"
+    EnclaveOnly = "EnclaveOnly",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -747,10 +828,12 @@ export enum KnownEnclaveConnectionState {
     Active = "Active",
     Approved = "Approved",
     Connected = "Connected",
+    Degraded = "Degraded",
     Disconnected = "Disconnected",
     Failed = "Failed",
     PendingApproval = "PendingApproval",
-    PendingUpdate = "PendingUpdate"
+    PendingUpdate = "PendingUpdate",
+    Reconciling = "Reconciling"
 }
 
 // @public
@@ -768,6 +851,43 @@ export enum KnownFirewallSKU {
     Basic = "Basic",
     Premium = "Premium",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownGovernedServiceItemEnforcement {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownGovernedServiceItemOption {
+    Allow = "Allow",
+    Deny = "Deny",
+    ExceptionOnly = "ExceptionOnly",
+    NotApplicable = "NotApplicable"
+}
+
+// @public
+export enum KnownGovernedServiceItemPolicyAction {
+    AuditOnly = "AuditOnly",
+    Enforce = "Enforce",
+    None = "None"
+}
+
+// @public
+export enum KnownMaintenanceModeConfigurationModelJustification {
+    Governance = "Governance",
+    Networking = "Networking",
+    Off = "Off"
+}
+
+// @public
+export enum KnownMaintenanceModeConfigurationModelMode {
+    Advanced = "Advanced",
+    CanNotDelete = "CanNotDelete",
+    General = "General",
+    Off = "Off",
+    On = "On"
 }
 
 // @public
@@ -790,6 +910,13 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrincipalType {
+    Group = "Group",
+    ServicePrincipal = "ServicePrincipal",
+    User = "User"
 }
 
 // @public
@@ -818,6 +945,12 @@ export enum KnownResourceVisibilityMode {
 }
 
 // @public
+export enum KnownRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
 export enum KnownSecurityProvider {
     AzureFirewall = "AzureFirewall",
     None = "None"
@@ -828,6 +961,7 @@ export enum KnownServiceIdentifier {
     AKS = "AKS",
     AppService = "AppService",
     AzureFirewalls = "AzureFirewalls",
+    AzureLocal = "AzureLocal",
     ContainerRegistry = "ContainerRegistry",
     CosmosDB = "CosmosDB",
     DataConnectors = "DataConnectors",
@@ -840,6 +974,28 @@ export enum KnownServiceIdentifier {
     PrivateDNSZones = "PrivateDNSZones",
     ServiceBus = "ServiceBus",
     Storage = "Storage"
+}
+
+// @public
+export enum KnownSubnetJoinPolicyMode {
+    Audit = "Audit",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownSubnetPurpose {
+    AKS = "AKS",
+    AKSApiServer = "AKSApiServer",
+    General = "General"
+}
+
+// @public
+export enum KnownSyncStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotConfigured = "NotConfigured",
+    PartiallySucceeded = "PartiallySucceeded",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -866,20 +1022,32 @@ export enum KnownUpdateMode {
 
 // @public
 export enum KnownVersions {
-    V20260401 = "2026-04-01"
+    V20240601Preview = "2024-06-01-preview",
+    V20241201Preview = "2024-12-01-preview",
+    V20250501Preview = "2025-05-01-preview",
+    V20251101Preview = "2025-11-01-preview",
+    V20260301Preview = "2026-03-01-preview",
+    V20260401 = "2026-04-01",
+    V20261001Preview = "2026-10-01-preview"
 }
 
 // @public
 export interface MaintenanceModeConfigurationModel {
-    justification?: string;
-    mode: string;
+    justification?: MaintenanceModeConfigurationModelJustification;
+    mode: MaintenanceModeConfigurationModelMode;
     principals?: Principal[];
 }
 
 // @public
+export type MaintenanceModeConfigurationModelJustification = string;
+
+// @public
+export type MaintenanceModeConfigurationModelMode = string;
+
+// @public
 export interface MaintenanceModeConfigurationPatchModel {
-    justification?: string;
-    mode: string;
+    justification?: MaintenanceModeConfigurationModelJustification;
+    mode: MaintenanceModeConfigurationModelMode;
     principals?: Principal[];
 }
 
@@ -1005,8 +1173,11 @@ export interface PageSettings {
 // @public
 export interface Principal {
     id: string;
-    type: string;
+    type: PrincipalType;
 }
+
+// @public
+export type PrincipalType = string;
 
 // @public
 export type ProvisioningState = string;
@@ -1061,6 +1232,9 @@ export interface RoleAssignmentItem {
 }
 
 // @public
+export type RuleDirection = string;
+
+// @public
 export type SecurityProvider = string;
 
 // @public
@@ -1073,8 +1247,35 @@ export interface SubnetConfiguration {
     readonly networkSecurityGroupResourceId?: string;
     subnetDelegation?: string;
     subnetName: string;
+    subnetPurpose?: SubnetPurpose;
     readonly subnetResourceId?: string;
 }
+
+// @public
+export type SubnetJoinPolicyMode = string;
+
+// @public
+export type SubnetPurpose = string;
+
+// @public
+export interface SyncDestinationStatus {
+    readonly destinationId: string;
+    readonly errorMessage?: string;
+    readonly lastSyncTime?: Date;
+    readonly status: SyncStatus;
+}
+
+// @public
+export interface SyncPerformedBy {
+    readonly correlationId: string;
+    readonly performedAt: Date;
+    readonly principalId: string;
+    readonly principalType: string;
+    readonly tenantId: string;
+}
+
+// @public
+export type SyncStatus = string;
 
 // @public
 export interface SystemData {
@@ -1252,38 +1453,42 @@ export interface VirtualEnclavePatchModel {
 
 // @public
 export interface VirtualEnclavePatchProperties {
+    addressSpaces?: AddressSpaceEntry[];
     approvalSettings?: VirtualEnclaveApprovalSettingsPatchProperties;
     bastionEnabled?: boolean;
     dedicatedHubResourceId?: string;
     enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel;
     enclaveRoleAssignments?: RoleAssignmentItem[];
-    enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
     governedServiceList?: GovernedServiceItem[];
     maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
     monitoringSettings?: MonitoringSettingsPatchModel;
     rbacInheritance?: RbacInheritanceMode;
+    subnetConfigurations?: SubnetConfiguration[];
     workloadResourceVisibility?: ResourceVisibilityMode;
     workloadRoleAssignments?: RoleAssignmentItem[];
 }
 
 // @public
 export interface VirtualEnclaveProperties {
+    addressSpaces?: AddressSpaceEntry[];
+    allowSubnetCommunication?: boolean;
     approvalSettings?: VirtualEnclaveApprovalSettings;
     bastionEnabled?: boolean;
     communityResourceId: string;
+    readonly computedAddressSpaces?: ComputedAddressSpaceEntry[];
     dedicatedHubResourceId?: string;
-    readonly enclaveAddressSpaces?: EnclaveAddressSpacesModel;
     enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
     enclaveRoleAssignments?: RoleAssignmentItem[];
-    enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
     governedServiceList?: GovernedServiceItem[];
     maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
     readonly managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
     readonly managedResourceGroupName?: string;
     monitoringSettings?: MonitoringSettingsModel;
+    readonly networkName?: string;
     readonly provisioningState?: ProvisioningState;
     rbacInheritance?: RbacInheritanceMode;
     readonly resourceCollection?: string[];
+    subnetConfigurations?: SubnetConfiguration[];
     workloadResourceVisibility?: ResourceVisibilityMode;
     workloadRoleAssignments?: RoleAssignmentItem[];
 }

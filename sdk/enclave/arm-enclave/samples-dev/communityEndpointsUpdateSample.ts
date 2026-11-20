@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a CommunityEndpointResource
  *
  * @summary update a CommunityEndpointResource
- * x-ms-original-file: 2026-04-01/CommunityEndpoints_Update.json
+ * x-ms-original-file: 2026-10-01-preview/CommunityEndpoints_Update.json
  */
 async function communityEndpointsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,6 +29,7 @@ async function communityEndpointsUpdate(): Promise<void> {
             protocols: ["TCP"],
             transitHubResourceId:
               "/subscriptions/c64f6eca-bdc5-4bc2-88d6-f8f1dc23f86c/resourceGroups/testrg/providers/Microsoft.Mission/communities/TestMyCommunity/transitHubs/TestThName",
+            direction: "Outbound",
           },
         ],
         updateMode: "Automatic",

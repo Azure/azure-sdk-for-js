@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks that the IP Address Space to be allocated for this Community is available.
  *
  * @summary checks that the IP Address Space to be allocated for this Community is available.
- * x-ms-original-file: 2026-04-01/Community_PostCheckAddressSpaceAvailability.json
+ * x-ms-original-file: 2026-10-01-preview/Community_PostCheckAddressSpaceAvailability.json
  */
 async function communityCheckAddressSpaceAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -20,12 +20,7 @@ async function communityCheckAddressSpaceAvailability(): Promise<void> {
     {
       communityResourceId:
         "/subscriptions/c64f6eca-bdc5-4bc2-88d6-f8f1dc23f86c/resourceGroups/TestMyRg/providers/Microsoft.Mission/communities/TestMyCommunity",
-      enclaveVirtualNetwork: {
-        networkSize: "small",
-        customCidrRange: "10.0.0.0/24",
-        subnetConfigurations: [{ subnetName: "test", networkPrefixSize: 26 }],
-        allowSubnetCommunication: true,
-      },
+      prefixLength: 23,
     },
   );
   console.log(result);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a CommunityEndpointResource
  *
  * @summary create a CommunityEndpointResource
- * x-ms-original-file: 2026-04-01/CommunityEndpoints_CreateOrUpdate.json
+ * x-ms-original-file: 2026-10-01-preview/CommunityEndpoints_CreateOrUpdate.json
  */
 async function communityEndpointsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,6 +28,7 @@ async function communityEndpointsCreateOrUpdate(): Promise<void> {
             protocols: ["TCP"],
             transitHubResourceId:
               "/subscriptions/c64f6eca-bdc5-4bc2-88d6-f8f1dc23f86c/resourceGroups/testrg/providers/Microsoft.Mission/communities/TestMyCommunity/transitHubs/TestThName",
+            direction: "Outbound",
           },
         ],
         updateMode: "Automatic",
