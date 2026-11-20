@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a AiGatewayResource
  *
  * @summary delete a AiGatewayResource
- * x-ms-original-file: 2026-09-01-preview/AiGatewayDelete.json
+ * x-ms-original-file: 2026-11-01/AiGatewayDelete.json
  */
 async function deleteAnAIGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

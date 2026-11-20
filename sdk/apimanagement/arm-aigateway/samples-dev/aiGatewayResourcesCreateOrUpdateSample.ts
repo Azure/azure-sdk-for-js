@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a AiGatewayResource
  *
  * @summary create a AiGatewayResource
- * x-ms-original-file: 2026-09-01-preview/AiGatewayCreate.json
+ * x-ms-original-file: 2026-11-01/AiGatewayCreate.json
  */
 async function createAnAIGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,9 +17,10 @@ async function createAnAIGateway(): Promise<void> {
   const result = await client.aiGatewayResources.createOrUpdate("example-rg", "example-gateway", {
     location: "westus2",
     tags: { environment: "development" },
-    sku: { name: "AIGateway" },
+    sku: { name: "Standard" },
     identity: { type: "SystemAssigned" },
     properties: {
+      publicNetworkAccess: "Enabled",
       backend: {
         subnet: {
           id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example-rg/providers/Microsoft.Network/virtualNetworks/example-vnet/subnets/example-subnet",

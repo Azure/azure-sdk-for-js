@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-aigateway",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for ApiManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -42,6 +42,118 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/aiGatewayWorkspaceModelOperations": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayWorkspaceModelOperations/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayWorkspaceModelOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayWorkspaceModelOperations/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayWorkspaceModelOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayWorkspaceModelOperations/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayWorkspaceModelOperations/index.js"
+      }
+    },
+    "./api/aiGatewayApiKeyResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayApiKeyResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayApiKeyResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayApiKeyResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayApiKeyResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayApiKeyResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayApiKeyResources/index.js"
+      }
+    },
+    "./api/aiGatewayToolServerResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayToolServerResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayToolServerResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayToolServerResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayToolServerResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayToolServerResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayToolServerResources/index.js"
+      }
+    },
+    "./api/aiGatewayModelResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayModelResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayModelResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayModelResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayModelResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayModelResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayModelResources/index.js"
+      }
+    },
+    "./api/aiGatewayModelProviderResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayModelProviderResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayModelProviderResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayModelProviderResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayModelProviderResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayModelProviderResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayModelProviderResources/index.js"
+      }
+    },
+    "./api/aiGatewayWorkspaceResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayWorkspaceResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayWorkspaceResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayWorkspaceResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayWorkspaceResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayWorkspaceResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayWorkspaceResources/index.js"
+      }
+    },
+    "./api/aiGatewayPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayPrivateLinkResources/index.js"
+      }
+    },
+    "./api/aiGatewayPrivateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayPrivateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayPrivateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayPrivateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayPrivateEndpointConnections/index.js"
+      }
+    },
     "./api/aiGatewayResources": {
       "browser": {
         "types": "./dist/browser/api/aiGatewayResources/index.d.ts",
@@ -54,6 +166,48 @@
       "require": {
         "types": "./dist/commonjs/api/aiGatewayResources/index.d.ts",
         "default": "./dist/commonjs/api/aiGatewayResources/index.js"
+      }
+    },
+    "./api/aiGatewayAliasResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayAliasResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayAliasResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayAliasResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayAliasResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayAliasResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayAliasResources/index.js"
+      }
+    },
+    "./api/aiGatewayTelemetryExporterResources": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayTelemetryExporterResources/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayTelemetryExporterResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayTelemetryExporterResources/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayTelemetryExporterResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayTelemetryExporterResources/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayTelemetryExporterResources/index.js"
+      }
+    },
+    "./api/aiGatewayNameAvailabilityOperations": {
+      "browser": {
+        "types": "./dist/browser/api/aiGatewayNameAvailabilityOperations/index.d.ts",
+        "default": "./dist/browser/api/aiGatewayNameAvailabilityOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGatewayNameAvailabilityOperations/index.d.ts",
+        "default": "./dist/esm/api/aiGatewayNameAvailabilityOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGatewayNameAvailabilityOperations/index.d.ts",
+        "default": "./dist/commonjs/api/aiGatewayNameAvailabilityOperations/index.js"
       }
     },
     "./api/operations": {
@@ -165,6 +319,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-aigateway?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-aigateway"
   }
 }

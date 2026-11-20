@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AiGatewayResource resources by subscription ID
  *
  * @summary list AiGatewayResource resources by subscription ID
- * x-ms-original-file: 2026-09-01-preview/AiGatewayListBySubscription.json
+ * x-ms-original-file: 2026-11-01/AiGatewayListBySubscription.json
  */
 async function listAIGatewaysBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
