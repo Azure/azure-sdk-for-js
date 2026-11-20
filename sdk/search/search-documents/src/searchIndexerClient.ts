@@ -32,7 +32,9 @@ import type {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
+  ResetDocumentsOptions,
   ResetIndexerOptions,
+  ResetSkillsOptions,
   ResyncIndexerOptions,
   RunIndexerOptions,
   SearchIndexer,
@@ -436,8 +438,8 @@ export class SearchIndexerClient {
         const { onlyIfUnchanged, ...restOptions } = updatedOptions;
         const etag = onlyIfUnchanged ? indexer.etag : undefined;
         const result = await this.client.createOrUpdateIndexer(
-          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
           indexer.name,
+          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
           {
             ...restOptions,
             ifMatch: etag,
@@ -463,8 +465,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
         const result = await this.client.createOrUpdateDataSourceConnection(
-          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
           dataSourceConnection.name,
+          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -490,8 +492,8 @@ export class SearchIndexerClient {
       async (updatedOptions) => {
         const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
         const result = await this.client.createOrUpdateSkillset(
-          utils.publicSkillsetToGeneratedSkillset(skillset),
           skillset.name,
+          utils.publicSkillsetToGeneratedSkillset(skillset),
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -636,6 +638,53 @@ export class SearchIndexerClient {
       options,
       async (updatedOptions) => {
         await this.client.runIndexer(indexerName, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Reset an existing skillset in a search service to selectively re-execute specified skills.
+   * @param skillsetName - The name of the skillset to reset.
+   * @param skillNames - The names of skills to be reset.
+   * @param options - Additional optional arguments.
+   */
+  public async resetSkills(
+    skillsetName: string,
+    skillNames: string[],
+    options: ResetSkillsOptions = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "SearchIndexerClient-resetSkills",
+      options,
+      async (updatedOptions) => {
+        await this.client.resetSkills(skillsetName, { skillNames }, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
+   * @param indexerName - The name of the indexer to reset documents for.
+   * @param options - Additional optional arguments, including the document keys or datasource document
+   *   identifiers to be reset, and whether to overwrite the existing pending reset state.
+   */
+  public async resetDocuments(
+    indexerName: string,
+    options: ResetDocumentsOptions = {},
+  ): Promise<void> {
+    const { overwrite, documentKeys, dataSourceDocumentIds, ...restOptions } = options;
+    return tracingClient.withSpan(
+      "SearchIndexerClient-resetDocuments",
+      restOptions,
+      async (updatedOptions) => {
+        await this.client.resetDocuments(indexerName, {
+          ...updatedOptions,
+          overwrite,
+          keysOrIds:
+            documentKeys || dataSourceDocumentIds
+              ? { documentKeys, datasourceDocumentIds: dataSourceDocumentIds }
+              : undefined,
+        });
       },
     );
   }

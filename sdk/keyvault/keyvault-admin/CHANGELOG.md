@@ -1,14 +1,21 @@
 # Release History
 
-## 4.7.3-beta.2 (Unreleased)
+## 4.8.0 (2026-11-18)
 
 ### Features Added
 
+- Added support for service version `2026-04-01`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.7.3-beta.1) Added `KeyVaultEkmClient` for managing Managed HSM External Key Manager (EKM) connections, exposing `getEkmConnection`, `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.7.3-beta.1) Added the `EkmConnection`, `EkmProxyClientCertificateInfo`, and `EkmProxyInfo` models supporting the EKM client. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+
 ### Breaking Changes
 
-### Bugs Fixed
+- These changes do not impact the API of stable versions such as 4.7.2. Only code written against a beta version such as 4.7.3-beta.1 may be affected. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 
 ### Other Changes
+
+- Key Vault API version `2026-04-01` is now the default. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 
 ## 4.7.3-beta.1 (2026-07-07)
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified Arc deployment associated with the Cognitive Services account.
  *
  * @summary gets the specified Arc deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-09-15-preview/GetArcDeployment.json
+ * x-ms-original-file: 2026-11-15-preview/GetArcDeployment.json
  */
 async function getArcDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,7 +17,7 @@ async function getArcDeployment(): Promise<void> {
   const result = await client.arcDeployments.get(
     "resourceGroupName",
     "accountName",
-    "qwen-template-arc",
+    "phi-3-gpu-arc",
   );
   console.log(result);
 }

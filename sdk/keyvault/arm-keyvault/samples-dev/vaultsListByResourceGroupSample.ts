@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the List operation gets information about the vaults associated with the subscription and within the specified resource group.
  *
  * @summary the List operation gets information about the vaults associated with the subscription and within the specified resource group.
- * x-ms-original-file: 2026-05-15/listVaultByResourceGroup.json
+ * x-ms-original-file: 2026-10-01-preview/listVaultByResourceGroup.json
  */
 async function listVaultsInTheSpecifiedResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

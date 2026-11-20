@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.0 (2026-11-17)
+
+### Features Added
+  - Enum KnownPromoteOption has a new value Planned
+  - Enum KnownVersions has a new value V20260901
+
 ## 1.3.0-beta.1 (2026-07-28)
 Compared with version 1.2.0
 

@@ -16,7 +16,139 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AciWorkload extends WorkloadBase {
+    agentIdentity?: AgentIdentity;
+    resourceId: string;
+    type: "ACI";
+    workloadId: string;
+}
+
+// @public
 export type ActionType = string;
+
+// @public
+export interface AgentFabric extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: AgentFabricProperties;
+}
+
+// @public
+export interface AgentFabricProperties {
+    contentInspectionProfile?: ContentInspectionProfile;
+    defaultPolicyGroups?: string[];
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    trustDomain?: string;
+}
+
+// @public
+export interface AgentFabricSandboxEndpoint {
+    name: string;
+    protocol: string;
+    servicePort: number;
+    targetPort: number;
+}
+
+// @public
+export interface AgentFabricSandboxImage {
+    digest?: string;
+    pullPolicy?: ImagePullPolicy;
+    uri: string;
+}
+
+// @public
+export interface AgentFabricSandboxResources {
+    cpu: string;
+    disk?: string;
+    memory: string;
+}
+
+// @public
+export interface AgentFabricSandboxWorkload extends WorkloadBase {
+    agentIdentity?: AgentIdentity;
+    domain: string;
+    endpoints?: AgentFabricSandboxEndpoint[];
+    image: AgentFabricSandboxImage;
+    resources: AgentFabricSandboxResources;
+    type: "AgentFabricSandbox";
+    readonly workloadId?: string;
+}
+
+// @public
+export interface AgentFabricsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AgentFabricsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AgentFabricsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentFabricsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentFabricsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentFabricsOperations {
+    createOrUpdate: (resourceGroupName: string, agentFabricName: string, resource: AgentFabric, options?: AgentFabricsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AgentFabric>, AgentFabric>;
+    delete: (resourceGroupName: string, agentFabricName: string, options?: AgentFabricsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, agentFabricName: string, options?: AgentFabricsGetOptionalParams) => Promise<AgentFabric>;
+    listByResourceGroup: (resourceGroupName: string, options?: AgentFabricsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AgentFabric>;
+    listBySubscription: (options?: AgentFabricsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AgentFabric>;
+    update: (resourceGroupName: string, agentFabricName: string, properties: AgentFabricTagsUpdate, options?: AgentFabricsUpdateOptionalParams) => PollerLike<OperationState<AgentFabric>, AgentFabric>;
+}
+
+// @public
+export interface AgentFabricsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AgentFabricTagsUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface AgentIdentity {
+    agentId: string;
+    blueprintId?: string;
+    tenantId: string;
+}
+
+// @public
+export interface AksWorkload extends WorkloadBase {
+    clusterAssociationId: string;
+    clusterResourceId: string;
+    endpoints?: AksWorkloadPortMapping[];
+    type: "AKS";
+    workload: AksWorkloadReference;
+    readonly workloadId?: string;
+}
+
+// @public
+export interface AksWorkloadPortMapping {
+    name: string;
+    protocol: string;
+    servicePort: number;
+    targetPort: number;
+}
+
+// @public
+export interface AksWorkloadReference {
+    apiVersion: string;
+    kind: string;
+    name: string;
+    namespace: string;
+}
 
 // @public
 export enum AzureClouds {
@@ -26,7 +158,123 @@ export enum AzureClouds {
 }
 
 // @public
+export interface AzureManagedCaCertificate extends TlsInspectionCertificateBase {
+    mode: "AzureManagedCA";
+}
+
+// @public
 export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface ClusterAssociation extends TrackedResource {
+    properties?: ClusterAssociationProperties;
+}
+
+// @public
+export type ClusterAssociationIfNoneMatch = string;
+
+// @public
+export interface ClusterAssociationProperties {
+    clusterResourceId: string;
+    readonly provisioningState?: ProvisioningState;
+    sku?: ClusterAssociationSkuName;
+    readonly status?: ClusterAssociationStatus;
+    workloadClusterGatewayIp?: string;
+}
+
+// @public
+export interface ClusterAssociationsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifNoneMatch?: ClusterAssociationIfNoneMatch;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterAssociationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterAssociationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export type ClusterAssociationSkuName = string;
+
+// @public
+export interface ClusterAssociationsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClusterAssociationsOperations {
+    createOrUpdate: (resourceGroupName: string, agentFabricName: string, clusterAssociationName: string, resource: ClusterAssociation, options?: ClusterAssociationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ClusterAssociation>, ClusterAssociation>;
+    delete: (resourceGroupName: string, agentFabricName: string, clusterAssociationName: string, options?: ClusterAssociationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, agentFabricName: string, clusterAssociationName: string, options?: ClusterAssociationsGetOptionalParams) => Promise<ClusterAssociation>;
+    listByParent: (resourceGroupName: string, agentFabricName: string, options?: ClusterAssociationsListByParentOptionalParams) => PagedAsyncIterableIterator<ClusterAssociation>;
+    update: (resourceGroupName: string, agentFabricName: string, clusterAssociationName: string, properties: ClusterAssociationUpdate, options?: ClusterAssociationsUpdateOptionalParams) => PollerLike<OperationState<ClusterAssociation>, ClusterAssociation>;
+}
+
+// @public
+export interface ClusterAssociationStatus {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export interface ClusterAssociationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClusterAssociationUpdate {
+    properties: ClusterAssociationUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ClusterAssociationUpdateProperties {
+    clusterResourceId?: string;
+    sku?: ClusterAssociationSkuName;
+    workloadClusterGatewayIp?: string;
+}
+
+// @public
+export interface ContentInspectionPolicy extends NetworkSecurityPolicyBase {
+    promptInjectionProtection?: PromptInjectionProtection;
+    source: ContentInspectionPolicySourceUnion;
+    type: "ContentInspection";
+}
+
+// @public
+export interface ContentInspectionPolicyAddressPrefixesSource extends ContentInspectionPolicySource {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface ContentInspectionPolicySource {
+    type: ContentInspectionPolicySourceType;
+}
+
+// @public
+export type ContentInspectionPolicySourceType = string;
+
+// @public
+export type ContentInspectionPolicySourceUnion = ContentInspectionPolicyWorkloadIdPatternsSource | ContentInspectionPolicyAddressPrefixesSource | ContentInspectionPolicySource;
+
+// @public
+export interface ContentInspectionPolicyWorkloadIdPatternsSource extends ContentInspectionPolicySource {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface ContentInspectionProfile {
+    apiKey?: string;
+    endpoint?: string;
+}
+
+// @public
+export type ContentInspectionSensitivity = string;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -35,6 +283,43 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface EgressTrustBundle extends ProxyResource {
+    properties?: EgressTrustBundleProperties;
+}
+
+// @public
+export interface EgressTrustBundleCertificate {
+    readonly certificateId: string;
+    readonly notAfter: Date;
+    readonly notBefore: Date;
+    readonly pem: string;
+    readonly thumbprintSha256: string;
+}
+
+// @public
+export interface EgressTrustBundleProperties {
+    readonly bundleVersion: string;
+    readonly cacheExpiresAt: Date;
+    readonly cacheValiditySeconds: number;
+    readonly certificates: EgressTrustBundleCertificate[];
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface EgressTrustBundlesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EgressTrustBundlesListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EgressTrustBundlesOperations {
+    get: (resourceGroupName: string, agentFabricName: string, options?: EgressTrustBundlesGetOptionalParams) => Promise<EgressTrustBundle>;
+    listByParent: (resourceGroupName: string, agentFabricName: string, options?: EgressTrustBundlesListByParentOptionalParams) => PagedAsyncIterableIterator<EgressTrustBundle>;
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -56,11 +341,92 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+// @public
+export interface FqdnFilteringAddressPrefixesSource extends FqdnFilteringSource {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface FqdnFilteringDestination {
+    type: FqdnFilteringDestinationType;
+}
+
+// @public
+export type FqdnFilteringDestinationType = string;
+
+// @public
+export type FqdnFilteringDestinationUnion = FqdnFilteringFqdnsDestination | FqdnFilteringDestination;
+
+// @public
+export interface FqdnFilteringFqdnsDestination extends FqdnFilteringDestination {
+    fqdns: string[];
+    type: "Fqdns";
+}
+
+// @public
+export interface FqdnFilteringPolicy extends NetworkSecurityPolicyBase {
+    destination?: FqdnFilteringDestinationUnion;
+    direction?: PolicyDirection;
+    name?: string;
+    ports?: number[];
+    priority?: number;
+    source: FqdnFilteringSourceUnion;
+    type: "FqdnFiltering";
+}
+
+// @public
+export interface FqdnFilteringSource {
+    type: FqdnFilteringSourceType;
+}
+
+// @public
+export type FqdnFilteringSourceType = string;
+
+// @public
+export type FqdnFilteringSourceUnion = FqdnFilteringWorkloadIdPatternsSource | FqdnFilteringAddressPrefixesSource | FqdnFilteringSource;
+
+// @public
+export interface FqdnFilteringWorkloadIdPatternsSource extends FqdnFilteringSource {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export type HttpMethod = string;
+
+// @public
+export type ImagePullPolicy = string;
+
 export { isRestError }
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownClusterAssociationIfNoneMatch {
+    Wildcard = "*"
+}
+
+// @public
+export enum KnownClusterAssociationSkuName {
+    Premium = "Premium",
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownContentInspectionPolicySourceType {
+    AddressPrefixes = "AddressPrefixes",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownContentInspectionSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
 }
 
 // @public
@@ -72,11 +438,87 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownFqdnFilteringDestinationType {
+    Fqdns = "Fqdns"
+}
+
+// @public
+export enum KnownFqdnFilteringSourceType {
+    AddressPrefixes = "AddressPrefixes",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownHttpMethod {
+    Delete = "DELETE",
+    Get = "GET",
+    Head = "HEAD",
+    Options = "OPTIONS",
+    Patch = "PATCH",
+    Post = "POST",
+    Put = "PUT"
+}
+
+// @public
+export enum KnownImagePullPolicy {
+    Always = "Always",
+    IfNotPresent = "IfNotPresent"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMcpMatchCase {
+    CaseInsensitive = "CaseInsensitive",
+    CaseSensitive = "CaseSensitive"
+}
+
+// @public
+export enum KnownMcpMatchType {
+    Contains = "Contains",
+    ExactMatch = "ExactMatch",
+    NotContains = "NotContains",
+    NotExactMatch = "NotExactMatch"
+}
+
+// @public
+export enum KnownMcpPolicyDestinationType {
+    AddressPrefixes = "AddressPrefixes",
+    Fqdns = "Fqdns",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownMcpPolicySourceType {
+    AddressPrefixes = "AddressPrefixes",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownMcpPromptMethod {
+    Get = "Get",
+    List = "List"
+}
+
+// @public
+export enum KnownMcpToolMethod {
+    Call = "Call",
+    List = "List"
+}
+
+// @public
+export enum KnownNetworkSecurityPolicyType {
+    ContentInspection = "ContentInspection",
+    FqdnFiltering = "FqdnFiltering",
+    Mcp = "Mcp",
+    TlsInspection = "TlsInspection",
+    UrlFiltering = "UrlFiltering"
 }
 
 // @public
@@ -125,6 +567,38 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPolicyAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownPolicyDirection {
+    Both = "Both",
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownPromptInjectionOnDetection {
+    Alert = "Alert",
+    BlockAndAlert = "BlockAndAlert",
+    Sanitize = "Sanitize"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownProvisioningStateNeuroShield {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -142,16 +616,248 @@ export enum KnownResourceProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20261001Preview = "2026-10-01-preview"
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownTlsInspectionAction {
+    Bypass = "Bypass",
+    Inspect = "Inspect"
+}
+
+// @public
+export enum KnownTlsInspectionCertificateMode {
+    AzureManagedCA = "AzureManagedCA"
+}
+
+// @public
+export enum KnownTlsInspectionPolicySourceType {
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownTlsInspectionRuleDestinationType {
+    Fqdns = "Fqdns"
+}
+
+// @public
+export enum KnownUrlFilteringDestinationType {
+    AddressPrefixes = "AddressPrefixes",
+    Fqdns = "Fqdns",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownUrlFilteringSourceType {
+    AddressPrefixes = "AddressPrefixes",
+    WorkloadIdPatterns = "WorkloadIdPatterns"
+}
+
+// @public
+export enum KnownWorkloadType {
+    ACI = "ACI",
+    AgentFabricSandbox = "AgentFabricSandbox",
+    AKS = "AKS"
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
 
+// @public
+export interface McpArgumentMatching {
+    matchCase?: McpMatchCase;
+    matchType: McpMatchType;
+    path?: string;
+    values: string[];
+}
+
+// @public
+export type McpMatchCase = string;
+
+// @public
+export type McpMatchType = string;
+
+// @public
+export interface McpPolicy extends NetworkSecurityPolicyBase {
+    defaultAction: PolicyAction;
+    destination: McpPolicyDestinationUnion;
+    rules: McpRule[];
+    source: McpPolicySourceUnion;
+    type: "Mcp";
+}
+
+// @public
+export interface McpPolicyAddressPrefixesDestination extends McpPolicyDestination {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface McpPolicyAddressPrefixesSource extends McpPolicySource {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface McpPolicyDestination {
+    type: McpPolicyDestinationType;
+}
+
+// @public
+export type McpPolicyDestinationType = string;
+
+// @public
+export type McpPolicyDestinationUnion = McpPolicyWorkloadIdPatternsDestination | McpPolicyAddressPrefixesDestination | McpPolicyFqdnsDestination | McpPolicyDestination;
+
+// @public
+export interface McpPolicyFqdnsDestination extends McpPolicyDestination {
+    fqdns: string[];
+    type: "Fqdns";
+}
+
+// @public
+export interface McpPolicySource {
+    type: McpPolicySourceType;
+}
+
+// @public
+export type McpPolicySourceType = string;
+
+// @public
+export type McpPolicySourceUnion = McpPolicyWorkloadIdPatternsSource | McpPolicyAddressPrefixesSource | McpPolicySource;
+
+// @public
+export interface McpPolicyWorkloadIdPatternsDestination extends McpPolicyDestination {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface McpPolicyWorkloadIdPatternsSource extends McpPolicySource {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface McpPromptMatching {
+    arguments?: McpArgumentMatching;
+    descriptions?: McpStringMatching;
+    methods?: McpPromptMethod[];
+    names?: McpStringMatching;
+    responseContents?: McpStringMatching;
+    titles?: McpStringMatching;
+}
+
+// @public
+export type McpPromptMethod = string;
+
+// @public
+export interface McpRule {
+    action?: PolicyAction;
+    matchingConditions?: McpRuleMatchingConditions;
+    name?: string;
+    priority?: number;
+    tools?: string[];
+}
+
+// @public
+export interface McpRuleDestinationMatching {
+    promptMatching?: McpPromptMatching;
+    protocolVersions?: McpStringMatching;
+    serverFqdns?: string[];
+    toolMatching?: McpToolMatching;
+}
+
+// @public
+export interface McpRuleMatchingConditions {
+    destinations: McpRuleDestinationMatching;
+}
+
+// @public
+export interface McpStringMatching {
+    matchCase?: McpMatchCase;
+    matchType: McpMatchType;
+    values: string[];
+}
+
+// @public
+export interface McpToolMatching {
+    callArguments?: McpArgumentMatching;
+    descriptions?: McpStringMatching;
+    methods?: McpToolMethod[];
+    names?: McpStringMatching;
+    responseContents?: McpStringMatching;
+    titles?: McpStringMatching;
+}
+
+// @public
+export type McpToolMethod = string;
+
+// @public
+export interface Member extends TrackedResource {
+    properties?: MemberProperties;
+}
+
+// @public
+export interface MemberProperties {
+    fqdn?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly spiffeId?: string;
+    workload?: WorkloadBaseUnion;
+}
+
+// @public
+export interface MembersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MembersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MembersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MembersListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MembersOperations {
+    createOrUpdate: (resourceGroupName: string, agentFabricName: string, memberName: string, resource: Member, options?: MembersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Member>, Member>;
+    delete: (resourceGroupName: string, agentFabricName: string, memberName: string, options?: MembersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, agentFabricName: string, memberName: string, options?: MembersGetOptionalParams) => Promise<Member>;
+    listByParent: (resourceGroupName: string, agentFabricName: string, options?: MembersListByParentOptionalParams) => PagedAsyncIterableIterator<Member>;
+    update: (resourceGroupName: string, agentFabricName: string, memberName: string, properties: MemberTagsUpdate, options?: MembersUpdateOptionalParams) => PollerLike<OperationState<Member>, Member>;
+}
+
+// @public
+export interface MembersUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MemberTagsUpdate {
+    properties?: MemberUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface MemberUpdateProperties {
+    fqdn?: string;
+}
+
 // @public (undocumented)
 export class NetworkSecurityManagementClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: NetworkSecurityManagementClientOptionalParams);
+    readonly agentFabrics: AgentFabricsOperations;
+    readonly clusterAssociations: ClusterAssociationsOperations;
+    readonly egressTrustBundles: EgressTrustBundlesOperations;
+    readonly members: MembersOperations;
     readonly neuroShieldFindings: NeuroShieldFindingsOperations;
     readonly neuroShieldMitigations: NeuroShieldMitigationsOperations;
     readonly neuroShieldOperationStatuses: NeuroShieldOperationStatusesOperations;
@@ -159,14 +865,26 @@ export class NetworkSecurityManagementClient {
     readonly neuroShields: NeuroShieldsOperations;
     readonly neuroShieldSummaries: NeuroShieldSummariesOperations;
     readonly operations: OperationsOperations;
+    readonly operationStatus: OperationStatusOperations;
     readonly pipeline: Pipeline;
+    readonly policyGroups: PolicyGroupsOperations;
 }
 
 // @public
 export interface NetworkSecurityManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export interface NetworkSecurityPolicyBase {
+    type: NetworkSecurityPolicyType;
+}
+
+// @public
+export type NetworkSecurityPolicyBaseUnion = FqdnFilteringPolicy | UrlFilteringPolicy | McpPolicy | TlsInspectionPolicy | ContentInspectionPolicy | NetworkSecurityPolicyBase;
+
+// @public
+export type NetworkSecurityPolicyType = string;
 
 // @public
 export interface NeuroShieldAgentHealth {
@@ -513,6 +1231,15 @@ export interface OperationsOperations {
 }
 
 // @public
+export interface OperationStatusGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OperationStatusOperations {
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
+}
+
+// @public
 export interface OperationStatusResult {
     endTime?: Date;
     error?: ErrorDetail;
@@ -539,6 +1266,82 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type PolicyAction = string;
+
+// @public
+export type PolicyDirection = string;
+
+// @public
+export interface PolicyGroup extends TrackedResource {
+    properties?: PolicyGroupProperties;
+}
+
+// @public
+export interface PolicyGroupProperties {
+    description?: string;
+    displayName?: string;
+    networkSecurityPolicies?: NetworkSecurityPolicyBaseUnion[];
+    priority?: number;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PolicyGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PolicyGroupsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PolicyGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PolicyGroupsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PolicyGroupsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PolicyGroupsOperations {
+    createOrUpdate: (resourceGroupName: string, policyGroupName: string, resource: PolicyGroup, options?: PolicyGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PolicyGroup>, PolicyGroup>;
+    delete: (resourceGroupName: string, policyGroupName: string, options?: PolicyGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, policyGroupName: string, options?: PolicyGroupsGetOptionalParams) => Promise<PolicyGroup>;
+    listByResourceGroup: (resourceGroupName: string, options?: PolicyGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PolicyGroup>;
+    listBySubscription: (options?: PolicyGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PolicyGroup>;
+    update: (resourceGroupName: string, policyGroupName: string, properties: PolicyGroupTagsUpdate, options?: PolicyGroupsUpdateOptionalParams) => PollerLike<OperationState<PolicyGroup>, PolicyGroup>;
+}
+
+// @public
+export interface PolicyGroupsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PolicyGroupTagsUpdate {
+    tags?: Record<string, string>;
+}
+
+// @public
+export type PromptInjectionOnDetection = string;
+
+// @public
+export interface PromptInjectionProtection {
+    onDetection: PromptInjectionOnDetection;
+    promptLocations?: string[];
+    responseLocations?: string[];
+    sensitivity?: ContentInspectionSensitivity;
+}
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export type ProvisioningStateNeuroShield = string;
@@ -571,6 +1374,16 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -581,10 +1394,158 @@ export interface SystemData {
 }
 
 // @public
+export type TlsInspectionAction = string;
+
+// @public
+export interface TlsInspectionCertificateBase {
+    mode: TlsInspectionCertificateMode;
+}
+
+// @public
+export type TlsInspectionCertificateBaseUnion = AzureManagedCaCertificate | TlsInspectionCertificateBase;
+
+// @public
+export type TlsInspectionCertificateMode = string;
+
+// @public
+export interface TlsInspectionPolicy extends NetworkSecurityPolicyBase {
+    certificate: TlsInspectionCertificateBaseUnion;
+    defaultAction?: TlsInspectionAction;
+    rules?: TlsInspectionRule[];
+    source: TlsInspectionPolicySourceUnion;
+    type: "TlsInspection";
+}
+
+// @public
+export interface TlsInspectionPolicySource {
+    type: TlsInspectionPolicySourceType;
+}
+
+// @public
+export type TlsInspectionPolicySourceType = string;
+
+// @public
+export type TlsInspectionPolicySourceUnion = TlsInspectionPolicyWorkloadIdPatternsSource | TlsInspectionPolicySource;
+
+// @public
+export interface TlsInspectionPolicyWorkloadIdPatternsSource extends TlsInspectionPolicySource {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface TlsInspectionRule {
+    action?: TlsInspectionAction;
+    destinations: TlsInspectionRuleDestinationUnion[];
+    name: string;
+    priority: number;
+}
+
+// @public
+export interface TlsInspectionRuleDestination {
+    type: TlsInspectionRuleDestinationType;
+}
+
+// @public
+export type TlsInspectionRuleDestinationType = string;
+
+// @public
+export type TlsInspectionRuleDestinationUnion = TlsInspectionRuleFqdnsDestination | TlsInspectionRuleDestination;
+
+// @public
+export interface TlsInspectionRuleFqdnsDestination extends TlsInspectionRuleDestination {
+    fqdns: string[];
+    type: "Fqdns";
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export interface UrlFilteringAddressPrefixesDestination extends UrlFilteringDestination {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface UrlFilteringAddressPrefixesSource extends UrlFilteringSource {
+    prefixes: string[];
+    type: "AddressPrefixes";
+}
+
+// @public
+export interface UrlFilteringDestination {
+    type: UrlFilteringDestinationType;
+}
+
+// @public
+export type UrlFilteringDestinationType = string;
+
+// @public
+export type UrlFilteringDestinationUnion = UrlFilteringWorkloadIdPatternsDestination | UrlFilteringAddressPrefixesDestination | UrlFilteringFqdnsDestination | UrlFilteringDestination;
+
+// @public
+export interface UrlFilteringFqdnsDestination extends UrlFilteringDestination {
+    fqdns: string[];
+    type: "Fqdns";
+}
+
+// @public
+export interface UrlFilteringPolicy extends NetworkSecurityPolicyBase {
+    defaultAction: PolicyAction;
+    destination?: UrlFilteringDestinationUnion;
+    rules: UrlFilteringRule[];
+    source: UrlFilteringSourceUnion;
+    type: "UrlFiltering";
+}
+
+// @public
+export interface UrlFilteringRule {
+    action?: PolicyAction;
+    hostname?: string;
+    method?: HttpMethod;
+    name: string;
+    paths?: string[];
+    priority: number;
+}
+
+// @public
+export interface UrlFilteringSource {
+    type: UrlFilteringSourceType;
+}
+
+// @public
+export type UrlFilteringSourceType = string;
+
+// @public
+export type UrlFilteringSourceUnion = UrlFilteringWorkloadIdPatternsSource | UrlFilteringAddressPrefixesSource | UrlFilteringSource;
+
+// @public
+export interface UrlFilteringWorkloadIdPatternsDestination extends UrlFilteringDestination {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface UrlFilteringWorkloadIdPatternsSource extends UrlFilteringSource {
+    patterns: string[];
+    type: "WorkloadIdPatterns";
+}
+
+// @public
+export interface WorkloadBase {
+    memberGuid?: string;
+    type: WorkloadType;
+}
+
+// @public
+export type WorkloadBaseUnion = AciWorkload | AksWorkload | AgentFabricSandboxWorkload | WorkloadBase;
+
+// @public
+export type WorkloadType = string;
 
 // (No @packageDocumentation comment for this package)
 

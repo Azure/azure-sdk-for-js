@@ -168,6 +168,43 @@ export function applyPreviewHeaderPolicy(text, customText, literal) {
   return edit(text, edits);
 }
 
+/** Adopt a reviewed required-to-conditional opt-in without changing other headers. */
+export function adoptConditionalPreviewHeader(text, incomingText) {
+  const source = parse(text);
+  const node = functionOf(source);
+  const incoming = functionOf(parse(incomingText));
+  const policy = node && constantPreviewHeader(node);
+  const spreads = incoming && requestHeaders(incoming)?.properties.filter(isOptionalPreviewSpread);
+  if (!policy || spreads?.length !== 1) return text;
+  const property = requestHeaders(node).properties.find(
+    (item) => nameOf(item.name) === previewHeader,
+  );
+  const updated = edit(text, [
+    {
+      start: property.getStart(source),
+      end: property.end,
+      text: spreads[0].getText(),
+    },
+  ]);
+  if (!policy.local) return updated;
+  const result = parse(updated);
+  const fn = functionOf(result);
+  let reads = 0;
+  function visit(current) {
+    if (
+      ts.isIdentifier(current) &&
+      current.text === policy.local &&
+      current.parent?.name !== current
+    )
+      reads++;
+    ts.forEachChild(current, visit);
+  }
+  visit(fn.body);
+  if (reads) return updated;
+  const statement = fn.body.statements[policy.index];
+  return edit(updated, [{ start: statement.getStart(result), end: statement.end, text: "" }]);
+}
+
 /** Whether a declaration sends or forwards the preview opt-in header. */
 export function sendsPreviewHeader(text) {
   if (!text) return false;

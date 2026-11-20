@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the non-security related metadata of an IoT hub.
  *
  * @summary get the non-security related metadata of an IoT hub.
- * x-ms-original-file: 2026-10-01-preview/Get_IotHub_With_DeviceRegistry.json
+ * x-ms-original-file: 2026-11-01/Get_IotHub_With_DeviceRegistry.json
  */
 async function getIotHubWithDeviceRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getIotHubWithDeviceRegistry(): Promise<void> {
  * This sample demonstrates how to get the non-security related metadata of an IoT hub.
  *
  * @summary get the non-security related metadata of an IoT hub.
- * x-ms-original-file: 2026-10-01-preview/Get_IotHub_With_DeviceRegistry_Linking_Error.json
+ * x-ms-original-file: 2026-11-01/Get_IotHub_With_DeviceRegistry_Linking_Error.json
  */
 async function getIotHubWithDeviceRegistryLinkingError(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getIotHubWithDeviceRegistryLinkingError(): Promise<void> {
  * This sample demonstrates how to get the non-security related metadata of an IoT hub.
  *
  * @summary get the non-security related metadata of an IoT hub.
- * x-ms-original-file: 2026-10-01-preview/iothub_get.json
+ * x-ms-original-file: 2026-11-01/iothub_get.json
  */
 async function iotHubResourceGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

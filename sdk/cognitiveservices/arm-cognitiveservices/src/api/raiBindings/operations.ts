@@ -33,7 +33,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
       "%24top": options?.top,
     },
     {
@@ -77,7 +77,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
     },
   );
 }
@@ -96,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBindingName: raiBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +158,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBindingName: raiBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -227,7 +227,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       raiBindingName: raiBindingName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

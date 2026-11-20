@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
-import type { SeverityNumber } from "@opentelemetry/api-logs";
+import type { SeverityNumber } from "@opentelemetry/api";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
-import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { SpanProcessor } from "@opentelemetry/sdk-trace";
 
 /**
  * Azure Monitor OpenTelemetry Options
@@ -91,6 +91,8 @@ export interface StatsbeatFeatures {
   customerSdkStats?: boolean;
   multiIkey?: boolean;
   aksResourceDetectorPopulation?: boolean;
+  genAiInputOutputLimitIncrease?: boolean;
+  multiEndpointRouting?: boolean;
 }
 
 /**
@@ -107,6 +109,8 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["customerSdkStats", 64],
   ["multiIkey", 128],
   ["aksResourceDetectorPopulation", 256],
+  ["genAiInputOutputLimitIncrease", 16384],
+  ["multiEndpointRouting", 32768],
 ]);
 
 /**
@@ -173,7 +177,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.21.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "2.0.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -226,6 +230,9 @@ export enum StatsbeatFeature {
   CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
   AKS_RESOURCE_DETECTOR_POPULATION = 256,
+  // Bits 9-13 are reserved for other SDK features in the microsoft distro.
+  GEN_AI_INPUT_OUTPUT_LIMIT_INCREASE = 16384,
+  MULTI_ENDPOINT_ROUTING = 32768,
 }
 
 export enum StatsbeatInstrumentation {

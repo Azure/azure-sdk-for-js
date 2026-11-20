@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes one reusable Rego artifact.
  *
  * @summary deletes one reusable Rego artifact.
- * x-ms-original-file: 2026-09-15-preview/DeleteRaiRego.json
+ * x-ms-original-file: 2026-11-15-preview/DeleteRaiRego.json
  */
 async function deleteAReusableRegoArtifact() {
   const credential = new DefaultAzureCredential();

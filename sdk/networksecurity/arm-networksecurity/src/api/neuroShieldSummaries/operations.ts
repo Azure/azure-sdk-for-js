@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkSecurityManagementContext as Client } from "../index.js";
-import type { _NeuroShieldSummaryListResult, NeuroShieldSummary } from "../../models/models.js";
+import type { _NeuroShieldSummaryListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   _neuroShieldSummaryListResultDeserializer,
-  neuroShieldSummaryDeserializer,
 } from "../../models/models.js";
+import type { NeuroShieldSummary } from "../../models/neuroShield/management/models.js";
+import { neuroShieldSummaryDeserializer } from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -30,7 +31,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +80,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
     },
     {
@@ -120,10 +121,6 @@ export function list(
     () => _listSend(context, resourceGroupName, neuroShieldName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }

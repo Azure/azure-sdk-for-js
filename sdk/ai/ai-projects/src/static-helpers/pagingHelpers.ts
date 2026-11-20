@@ -235,10 +235,12 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
  */
 function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: string[]): void {
   if (!expectedStatuses.includes(response.status)) {
-    throw createRestError(
+    const error = createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,
       response,
     );
+    error.details = response.body;
+    throw error;
   }
 }
 

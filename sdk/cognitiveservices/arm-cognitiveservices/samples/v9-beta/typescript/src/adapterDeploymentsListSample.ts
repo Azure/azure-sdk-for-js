@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists adapter deployments associated with the Cognitive Services account.
  *
  * @summary lists adapter deployments associated with the Cognitive Services account.
- * x-ms-original-file: 2026-09-15-preview/ListAdapterDeployments.json
+ * x-ms-original-file: 2026-11-15-preview/ListAdapterDeployments.json
  */
 async function listAdapterDeployments(): Promise<void> {
   const credential = new DefaultAzureCredential();

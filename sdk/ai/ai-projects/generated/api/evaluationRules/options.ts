@@ -6,7 +6,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface EvaluationRulesListOptionalParams extends OperationOptions {
-  /** Filter by the type of evaluation rule. */
+  /** Filter by action type. When omitted, rules of all action types are returned. */
   actionType?: EvaluationRuleActionType;
   /** Filter by the agent name. */
   agentName?: string;

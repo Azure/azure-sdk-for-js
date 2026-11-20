@@ -6,16 +6,20 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AdditionalPolicyConfig } from '@azure-rest/core-client';
+import type { Agent } from '@azure/core-rest-pipeline';
 import type { CancelOnProgress } from '@azure/core-lro';
-import type { CompatResponse } from '@azure/core-http-compat';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PipelineOptions } from '@azure/core-rest-pipeline';
+import type { PipelineResponse } from '@azure/core-rest-pipeline';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AddConfigurationSettingOptions extends OperationOptions {
@@ -63,6 +67,16 @@ export interface AppConfigurationClientOptions extends PipelineOptions {
 // @public
 export interface CheckConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
     pageEtags?: string[];
+}
+
+// @public
+export interface CompatResponse extends Omit<PipelineResponse, "request" | "headers"> {
+    headers: HttpHeadersLike;
+    parsedBody?: any;
+    parsedHeaders?: {
+        [key: string]: unknown;
+    };
+    request: WebResourceLike;
 }
 
 // @public
@@ -184,6 +198,28 @@ export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFi
 
 // @public
 export interface GetSnapshotResponse extends SnapshotResponse {
+}
+
+// @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
 // @public
@@ -334,6 +370,11 @@ export function parseSecretReference(setting: ConfigurationSetting): Configurati
 // @public
 export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
 
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
 export { RestError }
 
 // @public
@@ -430,6 +471,35 @@ export interface UpdateSnapshotOptions extends OperationOptions {
 
 // @public
 export interface UpdateSnapshotResponse extends SnapshotResponse {
+}
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    agent?: Agent;
+    body?: any;
+    clone(): WebResourceLike;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    prepare(options: unknown): WebResourceLike;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    requestOverrides?: Record<string, unknown>;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    validateRequestProperties(): void;
+    withCredentials: boolean;
 }
 
 // (No @packageDocumentation comment for this package)

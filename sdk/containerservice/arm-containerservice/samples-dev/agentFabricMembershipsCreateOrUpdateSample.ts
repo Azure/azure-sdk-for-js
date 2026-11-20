@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the AgentFabric membership of a managed cluster.
  *
  * @summary creates or updates the AgentFabric membership of a managed cluster.
- * x-ms-original-file: 2026-08-02-preview/AgentFabricMemberships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-02-preview/AgentFabricMemberships_CreateOrUpdate.json
  */
 async function createOrUpdateAgentFabricMembership(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function createOrUpdateAgentFabricMembership(): Promise<void> {
     {
       managedBy:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.NetworkSecurity/agentFabrics/fabric1",
-      properties: { sku: "Standard" },
+      sku: { name: "Standard" },
     },
   );
   console.log(result);

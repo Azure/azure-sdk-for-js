@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists RAI bindings on an account.
  *
  * @summary lists RAI bindings on an account.
- * x-ms-original-file: 2026-09-15-preview/ListRaiBindings.json
+ * x-ms-original-file: 2026-11-15-preview/ListRaiBindings.json
  */
 async function listRAIBindings(): Promise<void> {
   const credential = new DefaultAzureCredential();

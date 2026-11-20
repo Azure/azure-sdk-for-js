@@ -2607,13 +2607,6 @@ export function agentPoolDeleteMachinesParameterSerializer(
   };
 }
 
-/** Empty request body for listing FlexNode bootstrap data. */
-export interface ListBootstrapDataRequest {}
-
-export function listBootstrapDataRequestSerializer(_item: ListBootstrapDataRequest): any {
-  return {};
-}
-
 /** Bootstrap configuration for a FlexNode pool. */
 export interface PoolBootstrapData {
   /** Azure environment and cluster identity information. */
@@ -10969,6 +10962,8 @@ export type ConnectionStatus = string;
 export interface PrivateEndpointConnectionListResult {
   /** The collection value. */
   value?: PrivateEndpointConnection[];
+  /** The link to the next page, if any. Omitted when all results are returned in a single response. */
+  nextLink?: string;
 }
 
 export function privateEndpointConnectionListResultDeserializer(
@@ -10978,6 +10973,7 @@ export function privateEndpointConnectionListResultDeserializer(
     value: !item["value"]
       ? item["value"]
       : privateEndpointConnectionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -12316,6 +12312,8 @@ export function meshMembershipArrayDeserializer(result: Array<MeshMembership>): 
 export interface AgentFabricMembership extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: AgentFabricMembershipProperties;
+  /** The SKU of the AgentFabric membership. Determines which AgentFabric components are deployed to the cluster. */
+  sku: AgentFabricMembershipSku;
   /** Resource ID of the AgentFabric that this cluster is a member of. The AgentFabric must be in the same tenant and subscription as the managed cluster. As the ARM envelope property, it also stops a complete mode deployment from deleting the membership and silently detaching the cluster. */
   managedBy: string;
 }
@@ -12325,6 +12323,7 @@ export function agentFabricMembershipSerializer(item: AgentFabricMembership): an
     properties: !item["properties"]
       ? item["properties"]
       : agentFabricMembershipPropertiesSerializer(item["properties"]),
+    sku: agentFabricMembershipSkuSerializer(item["sku"]),
     managedBy: item["managedBy"],
   };
 }
@@ -12340,6 +12339,7 @@ export function agentFabricMembershipDeserializer(item: any): AgentFabricMembers
     properties: !item["properties"]
       ? item["properties"]
       : agentFabricMembershipPropertiesDeserializer(item["properties"]),
+    sku: agentFabricMembershipSkuDeserializer(item["sku"]),
     managedBy: item["managedBy"],
   };
 }
@@ -12348,14 +12348,12 @@ export function agentFabricMembershipDeserializer(item: any): AgentFabricMembers
 export interface AgentFabricMembershipProperties {
   /** The current provisioning state of the AgentFabric membership. */
   readonly provisioningState?: AgentFabricMembershipProvisioningState;
-  /** The SKU of the AgentFabric membership. Determines which AgentFabric components are deployed to the cluster. */
-  sku: AgentFabricMembershipSkuName;
 }
 
 export function agentFabricMembershipPropertiesSerializer(
-  item: AgentFabricMembershipProperties,
+  _item: AgentFabricMembershipProperties,
 ): any {
-  return { sku: item["sku"] };
+  return {};
 }
 
 export function agentFabricMembershipPropertiesDeserializer(
@@ -12363,7 +12361,6 @@ export function agentFabricMembershipPropertiesDeserializer(
 ): AgentFabricMembershipProperties {
   return {
     provisioningState: item["provisioningState"],
-    sku: item["sku"],
   };
 }
 
@@ -12396,6 +12393,22 @@ export enum KnownAgentFabricMembershipProvisioningState {
  * **Updating**: The AgentFabric membership is being updated.
  */
 export type AgentFabricMembershipProvisioningState = string;
+
+/** The SKU of the AgentFabric membership. */
+export interface AgentFabricMembershipSku {
+  /** The SKU name that determines which AgentFabric components are deployed to the cluster. */
+  name: AgentFabricMembershipSkuName;
+}
+
+export function agentFabricMembershipSkuSerializer(item: AgentFabricMembershipSku): any {
+  return { name: item["name"] };
+}
+
+export function agentFabricMembershipSkuDeserializer(item: any): AgentFabricMembershipSku {
+  return {
+    name: item["name"],
+  };
+}
 
 /** The SKU of the AgentFabric membership. The SKU determines which AgentFabric components are deployed to the cluster. */
 export enum KnownAgentFabricMembershipSkuName {
@@ -13685,6 +13698,8 @@ export function operationStatusResultDeserializer(item: any): OperationStatusRes
 export interface PrivateLinkResourcesListResult {
   /** The collection value. */
   value?: PrivateLinkResource[];
+  /** The link to the next page, if any. Omitted when all results are returned in a single response. */
+  nextLink?: string;
 }
 
 export function privateLinkResourcesListResultDeserializer(
@@ -13692,6 +13707,7 @@ export function privateLinkResourcesListResultDeserializer(
 ): PrivateLinkResourcesListResult {
   return {
     value: !item["value"] ? item["value"] : privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
   };
 }
 
@@ -14205,8 +14221,10 @@ export enum KnownVersions {
   V20260701 = "2026-07-01",
   /** The 2026-08-01 API version. */
   V20260801 = "2026-08-01",
-  /** The 2026-08-02-preview API version. */
-  V20260802Preview = "2026-08-02-preview",
+  /** The 2026-09-01 API version. */
+  V20260901 = "2026-09-01",
+  /** The 2026-09-02-preview API version. */
+  V20260902Preview = "2026-09-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
