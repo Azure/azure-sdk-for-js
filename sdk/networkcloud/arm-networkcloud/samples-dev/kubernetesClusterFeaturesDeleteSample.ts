@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided Kubernetes cluster feature.
  *
  * @summary delete the provided Kubernetes cluster feature.
- * x-ms-original-file: 2026-07-01/KubernetesClusterFeatures_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusterFeatures_Delete.json
  */
 async function deleteKubernetesClusterFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();

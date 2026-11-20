@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags associated with the provided trunked network.
  *
  * @summary update tags associated with the provided trunked network.
- * x-ms-original-file: 2026-07-01/TrunkedNetworks_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/TrunkedNetworks_Patch.json
  */
 async function patchTrunkedNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

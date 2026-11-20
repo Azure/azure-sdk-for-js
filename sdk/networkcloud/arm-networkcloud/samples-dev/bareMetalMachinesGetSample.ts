@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided bare metal machine.
  *
  * @summary get properties of the provided bare metal machine.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Get.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Get.json
  */
 async function getBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

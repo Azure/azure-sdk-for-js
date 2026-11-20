@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enable remote vendor management of the provided storage appliance.
  *
  * @summary enable remote vendor management of the provided storage appliance.
- * x-ms-original-file: 2026-07-01/StorageAppliances_EnableRemoteVendorManagement.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_EnableRemoteVendorManagement.json
  */
 async function turnOnRemoteVendorManagementForStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

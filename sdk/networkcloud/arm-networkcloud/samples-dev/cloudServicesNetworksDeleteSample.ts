@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the provided cloud services network.
  *
  * @summary delete the provided cloud services network.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_Delete.json
  */
 async function deleteCloudServicesNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

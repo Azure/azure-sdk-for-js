@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reimage the provided virtual machine.
  *
  * @summary reimage the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Reimage.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Reimage.json
  */
 async function reimageVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

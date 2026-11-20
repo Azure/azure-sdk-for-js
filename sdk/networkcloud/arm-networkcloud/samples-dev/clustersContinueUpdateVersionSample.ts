@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
  *
  * @summary trigger the continuation of an update for a cluster with a matching update strategy that has paused after completing a segment of the update.
- * x-ms-original-file: 2026-07-01/Clusters_ContinueUpdateVersion.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_ContinueUpdateVersion.json
  */
 async function continueUpdateClusterVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new cluster manager or update properties of the cluster manager if it exists.
  *
  * @summary create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: 2026-07-01/ClusterManagers_Create.json
+ * x-ms-original-file: 2026-08-01-preview/ClusterManagers_Create.json
  */
 async function createOrUpdateClusterManager(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,6 +26,7 @@ async function createOrUpdateClusterManager(): Promise<void> {
       fabricControllerId:
         "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
       managedResourceGroupConfiguration: { location: "East US", name: "my-managed-rg" },
+      rolloutRing: 1,
       tags: { key1: "myvalue1", key2: "myvalue2" },
     },
   );
@@ -36,7 +37,7 @@ async function createOrUpdateClusterManager(): Promise<void> {
  * This sample demonstrates how to create a new cluster manager or update properties of the cluster manager if it exists.
  *
  * @summary create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: 2026-07-01/ClusterManagers_Create_Uami.json
+ * x-ms-original-file: 2026-08-01-preview/ClusterManagers_Create_Uami.json
  */
 async function createOrUpdateClusterManagerWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,6 +61,7 @@ async function createOrUpdateClusterManagerWithUserAssignedIdentity(): Promise<v
       fabricControllerId:
         "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/fabricControllerName",
       managedResourceGroupConfiguration: { location: "East US", name: "my-managed-rg" },
+      rolloutRing: 2,
       tags: { key1: "myvalue1", key2: "myvalue2" },
     },
   );

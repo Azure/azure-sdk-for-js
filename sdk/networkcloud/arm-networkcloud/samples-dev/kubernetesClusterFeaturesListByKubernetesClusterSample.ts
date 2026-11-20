@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of features for the provided Kubernetes cluster.
  *
  * @summary get a list of features for the provided Kubernetes cluster.
- * x-ms-original-file: 2026-07-01/KubernetesClusterFeatures_ListByKubernetesCluster.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusterFeatures_ListByKubernetesCluster.json
  */
 async function listFeaturesForTheKubernetesCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

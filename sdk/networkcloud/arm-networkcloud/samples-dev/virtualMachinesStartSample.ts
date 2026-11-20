@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to start the provided virtual machine.
  *
  * @summary start the provided virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Start.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Start.json
  */
 async function startVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

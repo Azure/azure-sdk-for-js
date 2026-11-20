@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to power off the provided bare metal machine.
  *
  * @summary power off the provided bare metal machine.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_PowerOff.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_PowerOff.json
  */
 async function powerOffBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reimage the provided bare metal machine.
  *
  * @summary reimage the provided bare metal machine.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Reimage.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Reimage.json
  */
 async function reimageBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

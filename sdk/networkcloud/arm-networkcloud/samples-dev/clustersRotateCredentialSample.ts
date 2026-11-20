@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to rotate the specified cluster credential.
  *
  * @summary rotate the specified cluster credential.
- * x-ms-original-file: 2026-07-01/Clusters_RotateCredential.json
+ * x-ms-original-file: 2026-08-01-preview/Clusters_RotateCredential.json
  */
 async function rotateOneOrMoreManagedCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();

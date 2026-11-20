@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of the provided rack SKU.
  *
  * @summary get the properties of the provided rack SKU.
- * x-ms-original-file: 2026-07-01/RackSkus_Get.json
+ * x-ms-original-file: 2026-08-01-preview/RackSkus_Get.json
  */
 async function getRackSKUResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

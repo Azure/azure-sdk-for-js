@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch properties of the provided Kubernetes cluster feature.
  *
  * @summary patch properties of the provided Kubernetes cluster feature.
- * x-ms-original-file: 2026-07-01/KubernetesClusterFeatures_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesClusterFeatures_Patch.json
  */
 async function patchKubernetesClusterFeature(): Promise<void> {
   const credential = new DefaultAzureCredential();

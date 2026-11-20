@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to uncordon the provided bare metal machine's Kubernetes node.
  *
  * @summary uncordon the provided bare metal machine's Kubernetes node.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Uncordon.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Uncordon.json
  */
 async function uncordonBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

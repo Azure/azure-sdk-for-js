@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch properties of baseboard management controller key set for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary patch properties of baseboard management controller key set for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/BmcKeySets_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/BmcKeySets_Patch.json
  */
 async function patchBaseboardManagementControllerKeySetOfCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

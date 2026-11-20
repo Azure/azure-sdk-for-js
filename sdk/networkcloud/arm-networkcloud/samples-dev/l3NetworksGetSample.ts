@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of the provided layer 3 (L3) network.
  *
  * @summary get properties of the provided layer 3 (L3) network.
- * x-ms-original-file: 2026-07-01/L3Networks_Get.json
+ * x-ms-original-file: 2026-08-01-preview/L3Networks_Get.json
  */
 async function getL3Network(): Promise<void> {
   const credential = new DefaultAzureCredential();
