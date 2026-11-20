@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the properties of an existing Batch account.
  *
  * @summary updates the properties of an existing Batch account.
- * x-ms-original-file: 2025-06-01/BatchAccountUpdate.json
+ * x-ms-original-file: 2026-10-01/BatchAccountUpdate.json
  */
 async function batchAccountUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

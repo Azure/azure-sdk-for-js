@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified application.
  *
  * @summary gets information about the specified application.
- * x-ms-original-file: 2025-06-01/ApplicationGet.json
+ * x-ms-original-file: 2026-10-01/ApplicationGet.json
  */
 async function applicationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

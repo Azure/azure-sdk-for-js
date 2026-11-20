@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of Batch supported Virtual Machine VM sizes available at the given location.
  *
  * @summary gets the list of Batch supported Virtual Machine VM sizes available at the given location.
- * x-ms-original-file: 2025-06-01/LocationListVirtualMachineSkus.json
+ * x-ms-original-file: 2026-10-01/LocationListVirtualMachineSkus.json
  */
 async function locationListVirtualMachineSkus(): Promise<void> {
   const credential = new DefaultAzureCredential();

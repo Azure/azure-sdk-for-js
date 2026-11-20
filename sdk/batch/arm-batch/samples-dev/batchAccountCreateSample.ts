@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: 2025-06-01/BatchAccountCreate_BYOS.json
+ * x-ms-original-file: 2026-10-01/BatchAccountCreate_BYOS.json
  */
 async function batchAccountCreateByos(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function batchAccountCreateByos(): Promise<void> {
  * This sample demonstrates how to creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: 2025-06-01/BatchAccountCreate_Default.json
+ * x-ms-original-file: 2026-10-01/BatchAccountCreate_Default.json
  */
 async function batchAccountCreateDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function batchAccountCreateDefault(): Promise<void> {
  * This sample demonstrates how to creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: 2025-06-01/BatchAccountCreate_SystemAssignedIdentity.json
+ * x-ms-original-file: 2026-10-01/BatchAccountCreate_SystemAssignedIdentity.json
  */
 async function batchAccountCreateSystemAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function batchAccountCreateSystemAssignedIdentity(): Promise<void> {
  * This sample demonstrates how to creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: 2025-06-01/BatchAccountCreate_UserAssignedIdentity.json
+ * x-ms-original-file: 2026-10-01/BatchAccountCreate_UserAssignedIdentity.json
  */
 async function batchAccountCreateUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -101,7 +101,7 @@ async function batchAccountCreateUserAssignedIdentity(): Promise<void> {
  * This sample demonstrates how to creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: 2025-06-01/PrivateBatchAccountCreate.json
+ * x-ms-original-file: 2026-10-01/PrivateBatchAccountCreate.json
  */
 async function privateBatchAccountCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

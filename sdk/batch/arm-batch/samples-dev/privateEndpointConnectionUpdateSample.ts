@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the properties of an existing private endpoint connection.
  *
  * @summary updates the properties of an existing private endpoint connection.
- * x-ms-original-file: 2025-06-01/PrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: 2026-10-01/PrivateEndpointConnectionUpdate.json
  */
 async function updatePrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

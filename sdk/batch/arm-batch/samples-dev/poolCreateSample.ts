@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_AcceleratedNetworking.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_AcceleratedNetworking.json
  */
 async function createPoolAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function createPoolAcceleratedNetworking(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_ConfidentialDiskEncryptionSet_ForUserSubscriptionAccounts.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_ConfidentialDiskEncryptionSet_ForUserSubscriptionAccounts.json
  */
 async function createPoolConfidentialDiskEncryptionSetForUserSubscriptionAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -111,7 +111,7 @@ async function createPoolConfidentialDiskEncryptionSetForUserSubscriptionAccount
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_CustomerManagedKey_ForBatchManagedAccounts.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_CustomerManagedKey_ForBatchManagedAccounts.json
  */
 async function createPoolCustomerManagedKeyForBatchManagedAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -161,7 +161,7 @@ async function createPoolCustomerManagedKeyForBatchManagedAccounts(): Promise<vo
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_DiskEncryptionSet_ForUserSubscriptionAccounts.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_DiskEncryptionSet_ForUserSubscriptionAccounts.json
  */
 async function createPoolDiskEncryptionSetForUserSubscriptionAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -204,7 +204,7 @@ async function createPoolDiskEncryptionSetForUserSubscriptionAccounts(): Promise
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_DualStackNetworking.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_DualStackNetworking.json
  */
 async function createPoolDualStackNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -249,7 +249,7 @@ async function createPoolDualStackNetworking(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_MinimalVirtualMachineConfiguration.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_MinimalVirtualMachineConfiguration.json
  */
 async function createPoolMinimalVirtualMachineConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -284,7 +284,7 @@ async function createPoolMinimalVirtualMachineConfiguration(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_NoPublicIPAddresses.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_NoPublicIPAddresses.json
  */
 async function createPoolNoPublicIP(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -318,7 +318,7 @@ async function createPoolNoPublicIP(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_PublicIPs.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_PublicIPs.json
  */
 async function createPoolPublicIPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -357,7 +357,7 @@ async function createPoolPublicIPs(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_SecurityProfile.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_SecurityProfile.json
  */
 async function createPoolSecurityProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -395,7 +395,7 @@ async function createPoolSecurityProfile(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_SharedImageGallery.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_SharedImageGallery.json
  */
 async function createPoolCustomImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -424,7 +424,7 @@ async function createPoolCustomImage(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_Tags.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_Tags.json
  */
 async function createPoolTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -457,7 +457,7 @@ async function createPoolTags(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_UpgradePolicy.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_UpgradePolicy.json
  */
 async function createPoolUpgradePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -510,7 +510,7 @@ async function createPoolUpgradePolicy(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_UserAssignedIdentities.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_UserAssignedIdentities.json
  */
 async function createPoolUserAssignedIdentities(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -554,7 +554,7 @@ async function createPoolUserAssignedIdentities(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_VirtualMachineConfiguration.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_VirtualMachineConfiguration.json
  */
 async function createPoolFullVirtualMachineConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -635,7 +635,7 @@ async function createPoolFullVirtualMachineConfiguration(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_VirtualMachineConfiguration_Extensions.json
  */
 async function createPoolVirtualMachineConfigurationExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -683,7 +683,7 @@ async function createPoolVirtualMachineConfigurationExtensions(): Promise<void> 
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_VirtualMachineConfiguration_ManagedOSDisk.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_VirtualMachineConfiguration_ManagedOSDisk.json
  */
 async function createPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -721,7 +721,7 @@ async function createPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
  * This sample demonstrates how to creates a new pool inside the specified account.
  *
  * @summary creates a new pool inside the specified account.
- * x-ms-original-file: 2025-06-01/PoolCreate_VirtualMachineConfiguration_ServiceArtifactReference.json
+ * x-ms-original-file: 2026-10-01/PoolCreate_VirtualMachineConfiguration_ServiceArtifactReference.json
  */
 async function createPoolVirtualMachineConfigurationServiceArtifactReference(): Promise<void> {
   const credential = new DefaultAzureCredential();

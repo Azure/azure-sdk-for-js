@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
  *
  * @summary activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
- * x-ms-original-file: 2025-06-01/ApplicationPackageActivate.json
+ * x-ms-original-file: 2026-10-01/ApplicationPackageActivate.json
  */
 async function applicationPackageActivate(): Promise<void> {
   const credential = new DefaultAzureCredential();

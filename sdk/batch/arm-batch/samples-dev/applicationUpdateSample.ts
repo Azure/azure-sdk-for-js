@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates settings for the specified application.
  *
  * @summary updates settings for the specified application.
- * x-ms-original-file: 2025-06-01/ApplicationUpdate.json
+ * x-ms-original-file: 2026-10-01/ApplicationUpdate.json
  */
 async function applicationUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

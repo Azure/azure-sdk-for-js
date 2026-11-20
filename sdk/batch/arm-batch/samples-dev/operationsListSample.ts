@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists available operations for the Microsoft.Batch provider
  *
  * @summary lists available operations for the Microsoft.Batch provider
- * x-ms-original-file: 2025-06-01/OperationsList.json
+ * x-ms-original-file: 2026-10-01/OperationsList.json
  */
 async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

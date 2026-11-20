@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reconciles the specified NSP configuration.
  *
  * @summary reconciles the specified NSP configuration.
- * x-ms-original-file: 2025-06-01/NspConfigurationReconcile.json
+ * x-ms-original-file: 2026-10-01/NspConfigurationReconcile.json
  */
 async function reconcileNspConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

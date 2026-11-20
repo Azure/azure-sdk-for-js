@@ -20,7 +20,7 @@ import type {
   PoolCreateOptionalParams,
   PoolGetOptionalParams,
 } from "../../api/pool/options.js";
-import type { Pool } from "../../models/models.js";
+import type { Pool, PoolPatch } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -49,11 +49,6 @@ export interface PoolOperations {
     options?: PoolListByBatchAccountOptionalParams,
   ) => PagedAsyncIterableIterator<Pool>;
   /** Deletes the specified pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -79,7 +74,7 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    parameters: Pool,
+    parameters: PoolPatch,
     options?: PoolUpdateOptionalParams,
   ) => Promise<Pool>;
   /** Creates a new pool inside the specified account. */
@@ -146,7 +141,7 @@ function _getPool(context: BatchManagementContext) {
       resourceGroupName: string,
       accountName: string,
       poolName: string,
-      parameters: Pool,
+      parameters: PoolPatch,
       options?: PoolUpdateOptionalParams,
     ) => update(context, resourceGroupName, accountName, poolName, parameters, options),
     create: (

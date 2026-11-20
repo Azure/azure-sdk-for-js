@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the properties of an existing pool.
  *
  * @summary updates the properties of an existing pool.
- * x-ms-original-file: 2025-06-01/PoolUpdate_EnableAutoScale.json
+ * x-ms-original-file: 2026-10-01/PoolUpdate_EnableAutoScale.json
  */
 async function updatePoolEnableAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function updatePoolEnableAutoscale(): Promise<void> {
     "default-azurebatch-japaneast",
     "sampleacct",
     "testpool",
-    { scaleSettings: { autoScale: { formula: "$TargetDedicatedNodes=34" } } },
+    { properties: { scaleSettings: { autoScale: { formula: "$TargetDedicatedNodes=34" } } } },
   );
   console.log(result);
 }
@@ -27,7 +27,7 @@ async function updatePoolEnableAutoscale(): Promise<void> {
  * This sample demonstrates how to updates the properties of an existing pool.
  *
  * @summary updates the properties of an existing pool.
- * x-ms-original-file: 2025-06-01/PoolUpdate_OtherProperties.json
+ * x-ms-original-file: 2026-10-01/PoolUpdate_OtherProperties.json
  */
 async function updatePoolOtherProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,16 +38,18 @@ async function updatePoolOtherProperties(): Promise<void> {
     "sampleacct",
     "testpool",
     {
-      applicationPackages: [
-        {
-          id: "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
-        },
-        {
-          id: "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_5678",
-          version: "1.0",
-        },
-      ],
-      metadata: [{ name: "key1", value: "value1" }],
+      properties: {
+        applicationPackages: [
+          {
+            id: "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
+          },
+          {
+            id: "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_5678",
+            version: "1.0",
+          },
+        ],
+        metadata: [{ name: "key1", value: "value1" }],
+      },
     },
   );
   console.log(result);
@@ -57,7 +59,7 @@ async function updatePoolOtherProperties(): Promise<void> {
  * This sample demonstrates how to updates the properties of an existing pool.
  *
  * @summary updates the properties of an existing pool.
- * x-ms-original-file: 2025-06-01/PoolUpdate_RemoveStartTask.json
+ * x-ms-original-file: 2026-10-01/PoolUpdate_RemoveStartTask.json
  */
 async function updatePoolRemoveStartTask(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -67,7 +69,7 @@ async function updatePoolRemoveStartTask(): Promise<void> {
     "default-azurebatch-japaneast",
     "sampleacct",
     "testpool",
-    { startTask: {} },
+    { properties: { startTask: {} } },
   );
   console.log(result);
 }
@@ -76,7 +78,7 @@ async function updatePoolRemoveStartTask(): Promise<void> {
  * This sample demonstrates how to updates the properties of an existing pool.
  *
  * @summary updates the properties of an existing pool.
- * x-ms-original-file: 2025-06-01/PoolUpdate_ResizePool.json
+ * x-ms-original-file: 2026-10-01/PoolUpdate_ResizePool.json
  */
 async function updatePoolResizePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -87,12 +89,14 @@ async function updatePoolResizePool(): Promise<void> {
     "sampleacct",
     "testpool",
     {
-      scaleSettings: {
-        fixedScale: {
-          nodeDeallocationOption: "TaskCompletion",
-          resizeTimeout: "PT8M",
-          targetDedicatedNodes: 5,
-          targetLowPriorityNodes: 0,
+      properties: {
+        scaleSettings: {
+          fixedScale: {
+            nodeDeallocationOption: "TaskCompletion",
+            resizeTimeout: "PT8M",
+            targetDedicatedNodes: 5,
+            targetLowPriorityNodes: 0,
+          },
         },
       },
     },
