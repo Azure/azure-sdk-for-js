@@ -88,6 +88,7 @@ export class PartitionPump {
       partitionId,
       currentEventPosition,
       {
+        tracingOptions: this._processorOptions.tracingOptions,
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,

@@ -533,6 +533,8 @@ Applications can use the clients without configuring telemetry. To export teleme
 
 With OpenTelemetry JS SDK 3.x, import `logs` from `@opentelemetry/api-logs` and call `logs.setGlobalLoggerProvider(loggerProvider)` with your application's configured provider. This lets Event Hubs emit to the same provider as the rest of your application. SDK 2.x applications register their provider through the same API.
 
+Pass `tracingOptions` to `createBatch` or `subscribe` to parent sender attachment or receive spans to an explicit caller context. On failure, AMQP spans and buffered preparation spans record an `error.type` category. The application receives the original exception.
+
 All three signals use the instrumentation scope `@azure/event-hubs`. A buffered producer records sends when it publishes a batch. An empty receive counts as a completed operation. Event counts exclude failed operations.
 
 ### Logging

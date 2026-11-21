@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { TracingSpan } from "@azure/core-tracing";
+import { ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
 import { createNoopMeter, metrics } from "@opentelemetry/api";
 import { logs, SeverityNumber } from "@opentelemetry/api-logs";
 import type { Attributes, Counter, Histogram, Meter } from "@opentelemetry/api";
@@ -52,8 +54,33 @@ function destinationAttributes(config: Destination): Attributes {
   };
 }
 
+function terminalError(error: unknown): unknown {
+  return error instanceof AggregateError && error.errors.length > 0
+    ? error.errors[error.errors.length - 1]
+    : error;
+}
+
+function setFailureStatus(span: TracingSpan, error: unknown): void {
+  const cause = terminalError(error);
+  // Broker and application messages can contain user data. Export the SDK error category.
+  let type = "Error";
+  if (cause instanceof MessagingError) {
+    type =
+      cause.code && Object.hasOwn(ErrorNameConditionMapper, cause.code)
+        ? cause.code
+        : "MessagingError";
+  } else if (cause instanceof TypeError || cause instanceof RangeError) {
+    type = cause instanceof TypeError ? "TypeError" : "RangeError";
+  } else if (cause instanceof Error && cause.name === "AbortError") {
+    type = "AbortError";
+  }
+  span.setAttribute("error.type", type);
+  span.setStatus({ status: "error" });
+}
+
 function failureOutcome(error: unknown): Outcome {
-  return error instanceof Error && error.name === "AbortError" ? "cancelled" : "error";
+  const cause = terminalError(error);
+  return cause instanceof Error && cause.name === "AbortError" ? "cancelled" : "error";
 }
 
 /** Counts logical operations once across AMQP retries, including empty receives. */
@@ -120,7 +147,7 @@ export function recordOperationFailure(
       spanAttributes: { ...destinationAttributes(config), operation },
     },
   );
-  span.setStatus({ status: "error", error: outcome });
+  setFailureStatus(span, error);
   span.end();
 }
 
@@ -140,14 +167,12 @@ export function recordLifecycle(
   getInstruments()?.lifecycle.add(1, attributes);
   const logger = logs.getLogger(packageJsonInfo.name, packageJsonInfo.version);
   const severityNumber = outcome === "error" ? SeverityNumber.WARN : SeverityNumber.INFO;
-  if (logger.enabled?.({ severityNumber }) !== false) {
-    logger.emit({
-      eventName: "az.eventhubs.amqp.lifecycle",
-      body: `AMQP ${component} ${action}`,
-      severityNumber,
-      attributes,
-    });
-  }
+  logger.emit({
+    eventName: "az.eventhubs.amqp.lifecycle",
+    body: `AMQP ${component} ${action}`,
+    severityNumber,
+    attributes,
+  });
 }
 
 /** Creates a transport span while preserving the original error for the caller. */
@@ -173,7 +198,7 @@ export async function traceAmqp<T>(
     return result;
   } catch (error) {
     outcome = failureOutcome(error);
-    span.setStatus({ status: "error", error: outcome });
+    setFailureStatus(span, error);
     throw error;
   } finally {
     if (component) {

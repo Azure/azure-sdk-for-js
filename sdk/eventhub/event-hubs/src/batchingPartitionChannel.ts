@@ -46,6 +46,7 @@ export class BatchingPartitionChannel {
   private _eventQueue = new AwaitableQueue<EventData | AmqpAnnotatedMessage>();
   private _batchedEvents: Array<EventData | AmqpAnnotatedMessage> = [];
   private _bufferCount: number = 0;
+  private _firstBufferedAt = 0;
   private _readyQueue: Array<{
     resolve: (value: void) => void;
     reject: (reason?: any) => void;
@@ -93,6 +94,7 @@ export class BatchingPartitionChannel {
   async enqueueEvent(event: EventData | AmqpAnnotatedMessage): Promise<void> {
     await this._ready();
     this._eventQueue.push(event);
+    if (this._bufferCount === 0) this._firstBufferedAt = performance.now();
     this._bufferCount++;
 
     if (!this._isRunning) {
@@ -261,7 +263,7 @@ export class BatchingPartitionChannel {
   private async _createBatch(): Promise<EventDataBatch> {
     this._lastBatchCreationTime = Date.now();
     this._batchedEvents = [];
-    const start = this._bufferCount > 0 ? performance.now() : undefined;
+    const start = performance.now();
     try {
       const batch = await this._producer.createBatch({
         partitionId: this._partitionId,
@@ -269,9 +271,10 @@ export class BatchingPartitionChannel {
       this._incrementReadiness();
       return batch;
     } finally {
-      if (start !== undefined) {
+      if (this._bufferCount > 0) {
+        const activeStart = Math.max(start, this._firstBufferedAt);
         this._preparationDurationInMs =
-          (this._preparationDurationInMs ?? 0) + (performance.now() - start);
+          (this._preparationDurationInMs ?? 0) + (performance.now() - activeStart);
       }
     }
   }

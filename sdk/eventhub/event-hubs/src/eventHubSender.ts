@@ -273,10 +273,7 @@ export class EventHubSender {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getMaxMessageSize(
-    options: {
-      retryOptions?: RetryOptions;
-      abortSignal?: AbortSignalLike;
-    } = {},
+    options: OperationOptions & { retryOptions?: RetryOptions } = {},
   ): Promise<number> {
     const sender = await this._getLink(options);
 
@@ -641,8 +638,9 @@ export class EventHubSender {
           "EventHubs.sender.attach",
           this._context.config,
           parent,
-          () =>
+          (attachment) =>
             withAuth(createSender, this._context, this.audience, options.timeoutInMs, this.logger, {
+              tracingOptions: attachment.tracingOptions,
               abortSignal: options.abortSignal,
             }),
           "sender",

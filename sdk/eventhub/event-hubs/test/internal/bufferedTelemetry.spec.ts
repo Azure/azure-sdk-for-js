@@ -179,6 +179,40 @@ describe("buffered send telemetry", () => {
     }
   });
 
+  it("times the part of an in-flight batch creation after the first event arrives", async () => {
+    const values = captureMetrics();
+    const client = createClient({
+      maxEventBufferLengthPerPartition: 1,
+      onSendEventsErrorHandler: vi.fn(),
+    });
+    const creating = getPromiseParts<void>();
+    const resume = getPromiseParts<void>();
+    let now = 0;
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    vi.spyOn(EventHubSender.prototype, "getMaxMessageSize")
+      .mockResolvedValueOnce(2048)
+      .mockImplementationOnce(async () => {
+        creating.resolve();
+        await resume.promise;
+        return 2048;
+      })
+      .mockResolvedValue(2048);
+    vi.spyOn(EventHubSender.prototype, "send").mockResolvedValue(undefined);
+    try {
+      await client.enqueueEvent({ body: "first" });
+      await creating.promise;
+      now = 20_000;
+      await client.enqueueEvent({ body: "second" });
+      now += 500;
+      resume.resolve();
+      await client.flush();
+      expect(values("operation.duration", "success")).toEqual([0, 0.5]);
+    } finally {
+      resume.resolve();
+      await client.close({ flush: false });
+    }
+  });
+
   it("counts a prepared batch abandoned on close without invoking a delivery callback", async () => {
     const values = captureMetrics();
     const callback = vi.fn();

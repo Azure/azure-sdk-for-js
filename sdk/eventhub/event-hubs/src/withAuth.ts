@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { OperationOptions } from "./util/operationOptions.js";
 import { traceAmqp } from "./diagnostics/telemetry.js";
 import type { SasTokenProvider, CbsClient, CbsResponse } from "@azure/core-amqp";
 import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
@@ -28,17 +29,16 @@ export async function withAuth(
   audience: string,
   timeoutInMs: number,
   logger: SimpleLogger,
-  options: {
-    abortSignal?: AbortSignalLike;
-  },
+  options: OperationOptions,
 ): Promise<TimerLoop> {
+  const { abortSignal } = options;
   const info = await getTokenInfo(context.tokenCredential, audience);
   await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
   await callback();
   async function createTask(): Promise<void> {
     try {
       const info2 = await getTokenInfo(context.tokenCredential, audience);
-      await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, options);
+      await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, { abortSignal });
       logger.verbose(
         `next token renewal is in ${info2.timeToLiveInMs} milliseconds @(${new Date(
           Date.now() + info2.timeToLiveInMs,
@@ -59,8 +59,9 @@ export async function withAuth(
 export async function openCbsSession(
   context: ConnectionContext,
   timeoutAfterStartTime: number,
-  { abortSignal }: { abortSignal?: AbortSignalLike } = {},
+  options: OperationOptions = {},
 ): Promise<void> {
+  const { abortSignal } = options;
   const client = context.cbsSession;
   return defaultCancellableLock.acquire(
     client.cbsLock,
@@ -73,7 +74,7 @@ export async function openCbsSession(
       // CBS opens the underlying connection and authorization session on first use.
       return client.isOpen()
         ? init()
-        : traceAmqp("EventHubs.cbs.open", context.config, {}, init, "cbs");
+        : traceAmqp("EventHubs.cbs.open", context.config, options, init, "cbs");
     },
     {
       abortSignal,
@@ -153,18 +154,15 @@ async function setupClaimNegotiation(
   info: TokenInfo,
   timeoutInMs: number,
   logger: SimpleLogger,
-  {
-    abortSignal,
-  }: {
-    abortSignal?: AbortSignalLike;
-  },
+  options: OperationOptions,
 ): Promise<void> {
+  const { abortSignal } = options;
   const startTime = Date.now();
   logger.verbose(
     `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`,
   );
 
-  await openCbsSession(context, timeoutInMs + startTime, { abortSignal });
+  await openCbsSession(context, timeoutInMs + startTime, options);
   logger.verbose(`acquiring cbs lock: '${context.negotiateClaimLock}' for cbs auth`);
   await negotiateClaim(
     info,

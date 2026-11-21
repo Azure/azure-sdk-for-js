@@ -95,7 +95,7 @@ export interface CommonEventProcessorOptions
  * ```
  * @internal
  */
-export interface PartitionReceiverOptions {
+export interface PartitionReceiverOptions extends Pick<SubscribeOptions, "tracingOptions"> {
   /**
    * The owner level associated with an exclusive consumer.
    *

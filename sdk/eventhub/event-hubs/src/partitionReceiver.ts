@@ -181,7 +181,7 @@ export function createReceiver(
           "EventHubs.receiver.attach",
           ctx.config,
           { tracingOptions },
-          () =>
+          (attachment) =>
             withAuth(
               () =>
                 setupLink(
@@ -203,6 +203,7 @@ export function createReceiver(
               timeoutInMs,
               logger,
               {
+                tracingOptions: attachment.tracingOptions,
                 abortSignal,
               },
             ),
@@ -299,7 +300,7 @@ export function createReceiver(
         ctx.config,
         "receive",
         () =>
-          traceAmqp("EventHubs.receive", ctx.config, {}, (parent) =>
+          traceAmqp("EventHubs.receive", ctx.config, options, (parent) =>
             retry(
               Object.defineProperties(
                 {
