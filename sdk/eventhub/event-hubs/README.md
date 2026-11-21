@@ -531,13 +531,7 @@ Applications can use the clients without configuring telemetry. To export teleme
 | Logs | Structured `az.eventhubs.amqp.lifecycle` records for connection opens, disconnects, CBS opens and link attachments. These use the global logger provider and contain the destination, component, action and outcome. |
 | Metrics | `az.eventhubs.operations` counts completed sends and receives, `az.eventhubs.events` counts successfully sent and received events, `az.eventhubs.operation.duration` measures seconds including retries, and `az.eventhubs.amqp.lifecycle` counts lifecycle transitions. |
 
-When using OpenTelemetry JS SDK 3.x, also register your application's logger provider with the compatible logs API used by Event Hubs. Applications using SDK 2.x register their logger provider with this same API.
-
-```ts
-import { logs } from "@opentelemetry/api-logs";
-
-logs.setGlobalLoggerProvider(loggerProvider);
-```
+With OpenTelemetry JS SDK 3.x, import `logs` from `@opentelemetry/api-logs` and call `logs.setGlobalLoggerProvider(loggerProvider)` with your application's configured provider. This lets Event Hubs emit to the same provider as the rest of your application. SDK 2.x applications register their provider through the same API.
 
 All three signals use the instrumentation scope `@azure/event-hubs`. A buffered producer records sends when it publishes a batch. An empty receive counts as a completed operation. Event counts exclude failed operations.
 
