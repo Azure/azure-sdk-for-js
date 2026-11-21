@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Forward nested request options, including custom headers, timeouts, and tracing, in Schema Registry operations. [#40035](https://github.com/Azure/azure-sdk-for-js/issues/40035)
+
 ### Other Changes
 
 - Removed the direct dependency on `@azure/core-client`, preserving the existing client and operation option types. [#40689](https://github.com/Azure/azure-sdk-for-js/pull/40689)
