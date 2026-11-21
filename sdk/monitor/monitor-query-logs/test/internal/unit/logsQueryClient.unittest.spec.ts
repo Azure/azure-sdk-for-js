@@ -130,4 +130,38 @@ describe("LogsQueryClient unit tests", () => {
       testOptions,
     );
   });
+
+  it.each([
+    ["without a leading slash", "subscriptions/subscriptionId/resourceGroups/resourceGroupName"],
+    ["with a leading slash", "/subscriptions/subscriptionId/resourceGroups/resourceGroupName"],
+  ])("builds a resource query URL %s", async (_description, resourceId) => {
+    const client = new LogsQueryClient(
+      {
+        getToken: async () => Promise.resolve({ token: "token", expiresOnTimestamp: 1234567890 }),
+      },
+      {
+        endpoint: "https://customEndpoint1",
+      },
+    );
+    const testPipelinePolicy = {
+      name: "testPipelinePolicy",
+      sendRequest: async (request: any) => {
+        assert.equal(
+          request.url,
+          "https://customendpoint1/subscriptions/subscriptionId/resourceGroups/resourceGroupName/query",
+        );
+        return {
+          request,
+          status: 200,
+          headers: createHttpHeaders(),
+          bodyAsText: `{ "tables": [] }`,
+        };
+      },
+    };
+    client.pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
+
+    await client.queryResource(resourceId, "query", {
+      duration: Durations.fiveMinutes,
+    });
+  });
 });
