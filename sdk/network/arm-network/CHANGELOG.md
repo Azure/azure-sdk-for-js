@@ -1,5 +1,40 @@
 # Release History
 
+## 40.0.0 (2026-10-29)
+
+### Features Added
+  - Added operation group VmssNetworkInterfacesOperations
+  - Added operation group VmssPublicIPAddressesOperations
+  - Added Interface VmssNetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams
+  - Added Interface VmssNetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
+  - Added Interface VmssPublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
+  - Added Interface VmssPublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+  - Interface InterconnectGroup has a new optional parameter provisioningState
+  - Interface InterconnectGroup has a new optional parameter resourceGuid
+  - Interface InterconnectGroup has a new optional parameter scope
+  - Interface InterconnectGroup has a new optional parameter subgroupProfile
+  - Interface InterconnectGroup has a new optional parameter subgroups
+  - Interface Subgroup has a new optional parameter interconnectBlock
+  - Interface Subgroup has a new optional parameter internalSubgroupId
+  - Interface Subgroup has a new optional parameter provisioningState
+  - Interface Subgroup has a new optional parameter virtualMachines
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation NetworkInterfacesOperations.getVirtualMachineScaleSetNetworkInterface
+  - Removed operation NetworkInterfacesOperations.listVirtualMachineScaleSetVMNetworkInterfaces
+  - Removed operation PublicIPAddressesOperations.getVirtualMachineScaleSetPublicIPAddress
+  - Removed operation PublicIPAddressesOperations.listVirtualMachineScaleSetVMPublicIPAddresses
+  - Type of property networkInterfaces of class NetworkManagementClient has changed
+  - Type of property publicIPAddresses of class NetworkManagementClient has changed
+  - Removed Interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams
+  - Removed Interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
+  - Removed Interface ProxyResourceVirtualNetworkApplianceCapabilityProperties
+  - Removed Interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
+  - Removed Interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+  - Interface InterconnectGroup no longer has parameter properties
+  - Interface Subgroup no longer has parameter properties
+
 ## 39.1.0 (2026-10-09)
 
 ### Features Added

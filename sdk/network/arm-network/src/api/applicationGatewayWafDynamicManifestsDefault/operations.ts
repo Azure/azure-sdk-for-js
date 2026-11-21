@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/network/models.js";
-import { applicationGatewayWafDynamicManifestResultDeserializer } from "../../models/network/models.js";
+import type { ApplicationGatewayWafDynamicManifestResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  applicationGatewayWafDynamicManifestResultDeserializer,
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -20,7 +22,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

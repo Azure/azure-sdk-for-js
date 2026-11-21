@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { GetVpnSitesConfigurationRequest } from "../../models/network/models.js";
-import { getVpnSitesConfigurationRequestSerializer } from "../../models/network/models.js";
+import type { GetVpnSitesConfigurationRequest } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  getVpnSitesConfigurationRequestSerializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { VpnSitesConfigurationDownloadOptionalParams } from "./options.js";
@@ -25,7 +27,7 @@ export function _downloadSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualWANName: virtualWANName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -66,6 +68,6 @@ export function download(
     getInitialResponse: () =>
       _downloadSend(context, resourceGroupName, virtualWANName, request, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }

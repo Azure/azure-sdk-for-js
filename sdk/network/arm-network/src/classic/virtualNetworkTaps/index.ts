@@ -18,8 +18,7 @@ import type {
   VirtualNetworkTapsCreateOrUpdateOptionalParams,
   VirtualNetworkTapsGetOptionalParams,
 } from "../../api/virtualNetworkTaps/options.js";
-import type { VirtualNetworkTap } from "../../models/common/models.js";
-import type { TagsObject } from "../../models/network/models.js";
+import type { VirtualNetworkTap, TagsObject } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

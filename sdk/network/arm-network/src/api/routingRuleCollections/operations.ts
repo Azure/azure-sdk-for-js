@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _RoutingRuleCollectionListResult } from "../../models/models.js";
-import { _routingRuleCollectionListResultDeserializer } from "../../models/models.js";
-import type { RoutingRuleCollection } from "../../models/network/models.js";
+import type {
+  RoutingRuleCollection,
+  _RoutingRuleCollectionListResult,
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   routingRuleCollectionSerializer,
   routingRuleCollectionDeserializer,
-} from "../../models/network/models.js";
+  _routingRuleCollectionListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +40,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       configurationName: configurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -81,7 +83,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, configurationName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -101,7 +103,7 @@ export function _$deleteSend(
       networkManagerName: networkManagerName,
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       force: options?.force,
     },
     {
@@ -147,7 +149,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -168,7 +170,7 @@ export function _createOrUpdateSend(
       networkManagerName: networkManagerName,
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,7 +238,7 @@ export function _getSend(
       networkManagerName: networkManagerName,
       configurationName: configurationName,
       ruleCollectionName: ruleCollectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

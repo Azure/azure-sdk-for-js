@@ -7,7 +7,7 @@ import type {
   NetworkInterfaceIPConfigurationsListOptionalParams,
   NetworkInterfaceIPConfigurationsGetOptionalParams,
 } from "../../api/networkInterfaceIPConfigurations/options.js";
-import type { NetworkInterfaceIPConfiguration } from "../../models/common/models.js";
+import type { NetworkInterfaceIPConfiguration } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkInterfaceIPConfigurations operations. */

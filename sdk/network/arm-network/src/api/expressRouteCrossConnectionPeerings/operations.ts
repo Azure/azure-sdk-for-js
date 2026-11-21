@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   ExpressRouteCrossConnectionPeering,
   _ExpressRouteCrossConnectionPeeringList,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   expressRouteCrossConnectionPeeringSerializer,
   expressRouteCrossConnectionPeeringDeserializer,
   _expressRouteCrossConnectionPeeringListDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -41,7 +41,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,7 +96,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCrossConnectionPeering>,
     ExpressRouteCrossConnectionPeering
@@ -117,7 +117,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +177,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
       peeringName: peeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, crossConnectionName, peeringName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -230,7 +230,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       crossConnectionName: crossConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,6 +270,6 @@ export function list(
     () => _listSend(context, resourceGroupName, crossConnectionName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }

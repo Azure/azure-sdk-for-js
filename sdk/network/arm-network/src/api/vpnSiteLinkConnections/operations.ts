@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { VpnSiteLinkConnection } from "../../models/network/models.js";
-import { vpnSiteLinkConnectionDeserializer } from "../../models/network/models.js";
+import type { VpnSiteLinkConnection } from "../../models/models.js";
+import { cloudErrorDeserializer, vpnSiteLinkConnectionDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { VpnSiteLinkConnectionsGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -26,7 +25,7 @@ export function _getSend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

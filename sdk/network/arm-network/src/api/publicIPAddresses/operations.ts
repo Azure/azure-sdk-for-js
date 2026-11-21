@@ -2,33 +2,31 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { PublicIPAddress } from "../../models/common/models.js";
+import type {
+  PublicIPAddress,
+  TagsObject,
+  _PublicIPAddressListResult,
+  PublicIpDdosProtectionStatusResult,
+  ReserveCloudServicePublicIpAddressRequest,
+  DisassociateCloudServicePublicIpRequest,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   publicIPAddressSerializer,
   publicIPAddressDeserializer,
-} from "../../models/common/models.js";
-import type { _PublicIPAddressListResult } from "../../models/models.js";
-import { _publicIPAddressListResultDeserializer } from "../../models/models.js";
-import type {
-  TagsObject,
-  PublicIpDdosProtectionStatusResult,
-  ReserveCloudServicePublicIpAddressRequest,
-  DisassociateCloudServicePublicIpRequest,
-} from "../../models/network/models.js";
-import {
   tagsObjectSerializer,
+  _publicIPAddressListResultDeserializer,
   publicIpDdosProtectionStatusResultDeserializer,
   reserveCloudServicePublicIpAddressRequestSerializer,
   disassociateCloudServicePublicIpRequestSerializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
   PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
@@ -38,14 +36,73 @@ import type {
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesCreateOrUpdateOptionalParams,
   PublicIPAddressesGetOptionalParams,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _listCloudServicePublicIPAddressesSend(
+  context: Client,
+  resourceGroupName: string,
+  cloudServiceName: string,
+  options: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      cloudServiceName: cloudServiceName,
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _listCloudServicePublicIPAddressesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PublicIPAddressListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _publicIPAddressListResultDeserializer(result.body);
+}
+
+/** Gets information about all public IP addresses on a cloud service level. */
+export function listCloudServicePublicIPAddresses(
+  context: Client,
+  resourceGroupName: string,
+  cloudServiceName: string,
+  options: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<PublicIPAddress> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _listCloudServicePublicIPAddressesSend(context, resourceGroupName, cloudServiceName, options),
+    _listCloudServicePublicIPAddressesDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
+  );
+}
 
 export function _listVirtualMachineScaleSetPublicIPAddressesSend(
   context: Client,
@@ -61,7 +118,7 @@ export function _listVirtualMachineScaleSetPublicIPAddressesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineScaleSetName: virtualMachineScaleSetName,
-      "api%2Dversion": "2018-10-01",
+      "api%2Dversion": context.apiVersion ?? "2018-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,68 +166,7 @@ export function listVirtualMachineScaleSetPublicIPAddresses(
       ),
     _listVirtualMachineScaleSetPublicIPAddressesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2018-10-01" },
-  );
-}
-
-export function _listCloudServicePublicIPAddressesSend(
-  context: Client,
-  resourceGroupName: string,
-  cloudServiceName: string,
-  options: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      cloudServiceName: cloudServiceName,
-      "api%2Dversion": "2026-03-01",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listCloudServicePublicIPAddressesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_PublicIPAddressListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _publicIPAddressListResultDeserializer(result.body);
-}
-
-/** Gets information about all public IP addresses on a cloud service level. */
-export function listCloudServicePublicIPAddresses(
-  context: Client,
-  resourceGroupName: string,
-  cloudServiceName: string,
-  options: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<PublicIPAddress> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _listCloudServicePublicIPAddressesSend(context, resourceGroupName, cloudServiceName, options),
-    _listCloudServicePublicIPAddressesDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2018-10-01" },
   );
 }
 
@@ -189,7 +185,7 @@ export function _disassociateCloudServiceReservedPublicIpSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +241,7 @@ export function disassociateCloudServiceReservedPublicIp(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
@@ -265,7 +261,7 @@ export function _reserveCloudServicePublicIpAddressSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -321,7 +317,7 @@ export function reserveCloudServicePublicIpAddress(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2026-03-01",
+      apiVersion: context.apiVersion ?? "2026-03-01",
     },
   ) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
@@ -338,7 +334,7 @@ export function _ddosProtectionStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,7 +378,7 @@ export function ddosProtectionStatus(
     getInitialResponse: () =>
       _ddosProtectionStatusSend(context, resourceGroupName, publicIpAddressName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<PublicIpDdosProtectionStatusResult>,
     PublicIpDdosProtectionStatusResult
@@ -397,7 +393,7 @@ export function _listAllSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +431,7 @@ export function listAll(
     () => _listAllSend(context, options),
     _listAllDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -449,7 +445,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,7 +484,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -504,7 +500,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -540,7 +536,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, publicIpAddressName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -557,7 +553,7 @@ export function _updateTagsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +614,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -662,7 +658,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, publicIpAddressName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<PublicIPAddress>, PublicIPAddress>;
 }
 
@@ -678,7 +674,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -716,161 +712,6 @@ export async function get(
   return _getDeserialize(result);
 }
 
-export function _listVirtualMachineScaleSetVMPublicIPAddressesSend(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  ipConfigurationName: string,
-  options: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      virtualMachineScaleSetName: virtualMachineScaleSetName,
-      virtualmachineIndex: virtualmachineIndex,
-      networkInterfaceName: networkInterfaceName,
-      ipConfigurationName: ipConfigurationName,
-      "api%2Dversion": "2018-10-01",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _listVirtualMachineScaleSetVMPublicIPAddressesDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_PublicIPAddressListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _publicIPAddressListResultDeserializer(result.body);
-}
-
-/** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
-export function listVirtualMachineScaleSetVMPublicIPAddresses(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  ipConfigurationName: string,
-  options: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<PublicIPAddress> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _listVirtualMachineScaleSetVMPublicIPAddressesSend(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        options,
-      ),
-    _listVirtualMachineScaleSetVMPublicIPAddressesDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2018-10-01" },
-  );
-}
-
-export function _getVirtualMachineScaleSetPublicIPAddressSend(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  ipConfigurationName: string,
-  publicIpAddressName: string,
-  options: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}{?api%2Dversion,%24expand}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      virtualMachineScaleSetName: virtualMachineScaleSetName,
-      virtualmachineIndex: virtualmachineIndex,
-      networkInterfaceName: networkInterfaceName,
-      ipConfigurationName: ipConfigurationName,
-      publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2018-10-01",
-      "%24expand": options?.expand,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
-}
-
-export async function _getVirtualMachineScaleSetPublicIPAddressDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PublicIPAddress> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return publicIPAddressDeserializer(result.body);
-}
-
-/** Get the specified public IP address in a virtual machine scale set. */
-export async function getVirtualMachineScaleSetPublicIPAddress(
-  context: Client,
-  resourceGroupName: string,
-  virtualMachineScaleSetName: string,
-  virtualmachineIndex: string,
-  networkInterfaceName: string,
-  ipConfigurationName: string,
-  publicIpAddressName: string,
-  options: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<PublicIPAddress> {
-  const result = await _getVirtualMachineScaleSetPublicIPAddressSend(
-    context,
-    resourceGroupName,
-    virtualMachineScaleSetName,
-    virtualmachineIndex,
-    networkInterfaceName,
-    ipConfigurationName,
-    publicIpAddressName,
-    options,
-  );
-  return _getVirtualMachineScaleSetPublicIPAddressDeserialize(result);
-}
-
 export function _listCloudServiceRoleInstancePublicIPAddressesSend(
   context: Client,
   resourceGroupName: string,
@@ -891,7 +732,7 @@ export function _listCloudServiceRoleInstancePublicIPAddressesSend(
       roleInstanceName: roleInstanceName,
       networkInterfaceName: networkInterfaceName,
       ipConfigurationName: ipConfigurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -945,7 +786,7 @@ export function listCloudServiceRoleInstancePublicIPAddresses(
       ),
     _listCloudServiceRoleInstancePublicIPAddressesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -969,7 +810,7 @@ export function _getCloudServicePublicIPAddressSend(
       networkInterfaceName: networkInterfaceName,
       ipConfigurationName: ipConfigurationName,
       publicIpAddressName: publicIpAddressName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24expand": options?.expand,
     },
     {

@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { LoadBalancer } from "../../models/common/models.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _NetworkInterfaceLoadBalancerListResult } from "../../models/network/models.js";
-import { _networkInterfaceLoadBalancerListResultDeserializer } from "../../models/network/models.js";
+import type { LoadBalancer, _NetworkInterfaceLoadBalancerListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  _networkInterfaceLoadBalancerListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -25,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,6 +66,6 @@ export function list(
     () => _listSend(context, resourceGroupName, networkInterfaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }

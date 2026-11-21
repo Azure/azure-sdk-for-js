@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { _ReachabilityAnalysisIntentListResult } from "../../models/models.js";
-import { _reachabilityAnalysisIntentListResultDeserializer } from "../../models/models.js";
-import type { ReachabilityAnalysisIntent } from "../../models/network/models.js";
+import type {
+  ReachabilityAnalysisIntent,
+  _ReachabilityAnalysisIntentListResult,
+} from "../../models/models.js";
 import {
   commonErrorResponseDeserializer,
   reachabilityAnalysisIntentSerializer,
   reachabilityAnalysisIntentDeserializer,
-} from "../../models/network/models.js";
+  _reachabilityAnalysisIntentListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -36,7 +38,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       skipToken: options?.skipToken,
       skip: options?.skip,
       top: options?.top,
@@ -82,7 +84,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkManagerName, workspaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -102,7 +104,7 @@ export function _$deleteSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisIntentName: reachabilityAnalysisIntentName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +164,7 @@ export function _createSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisIntentName: reachabilityAnalysisIntentName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +232,7 @@ export function _getSend(
       networkManagerName: networkManagerName,
       workspaceName: workspaceName,
       reachabilityAnalysisIntentName: reachabilityAnalysisIntentName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
+import { cloudErrorDeserializer } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { FirewallPolicyDeploymentsDeployOptionalParams } from "./options.js";
@@ -22,7 +22,7 @@ export function _deploySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,6 +57,6 @@ export function deploy(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deploySend(context, resourceGroupName, firewallPolicyName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }

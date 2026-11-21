@@ -4,7 +4,7 @@
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import { list } from "../../api/networkSecurityPerimeterServiceTags/operations.js";
 import type { NetworkSecurityPerimeterServiceTagsListOptionalParams } from "../../api/networkSecurityPerimeterServiceTags/options.js";
-import type { NspServiceTagsResource } from "../../models/network/models.js";
+import type { NspServiceTagsResource } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterServiceTags operations. */

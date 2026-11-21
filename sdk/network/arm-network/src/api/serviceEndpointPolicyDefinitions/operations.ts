@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { ServiceEndpointPolicyDefinition } from "../../models/common/models.js";
+import type {
+  ServiceEndpointPolicyDefinition,
+  _ServiceEndpointPolicyDefinitionListResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   serviceEndpointPolicyDefinitionSerializer,
   serviceEndpointPolicyDefinitionDeserializer,
-} from "../../models/common/models.js";
-import type { _ServiceEndpointPolicyDefinitionListResult } from "../../models/models.js";
-import { _serviceEndpointPolicyDefinitionListResultDeserializer } from "../../models/models.js";
+  _serviceEndpointPolicyDefinitionListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -38,7 +40,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,7 +82,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, serviceEndpointPolicyName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -98,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +143,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +162,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +214,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<ServiceEndpointPolicyDefinition>,
     ServiceEndpointPolicyDefinition
@@ -233,7 +235,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       serviceEndpointPolicyName: serviceEndpointPolicyName,
       serviceEndpointPolicyDefinitionName: serviceEndpointPolicyDefinitionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

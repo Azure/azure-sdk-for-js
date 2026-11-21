@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { IdpsQueryObject, QueryResults } from "../../models/network/models.js";
+import type { IdpsQueryObject, QueryResults } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   idpsQueryObjectSerializer,
   queryResultsDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { FirewallPolicyIdpsSignaturesListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -26,7 +26,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallPolicyName: firewallPolicyName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

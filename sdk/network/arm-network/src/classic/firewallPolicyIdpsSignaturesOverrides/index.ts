@@ -14,7 +14,7 @@ import type {
   FirewallPolicyIdpsSignaturesOverridesPutOptionalParams,
   FirewallPolicyIdpsSignaturesOverridesGetOptionalParams,
 } from "../../api/firewallPolicyIdpsSignaturesOverrides/options.js";
-import type { SignaturesOverrides, SignaturesOverridesList } from "../../models/network/models.js";
+import type { SignaturesOverrides, SignaturesOverridesList } from "../../models/models.js";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesOverrides operations. */
 export interface FirewallPolicyIdpsSignaturesOverridesOperations {

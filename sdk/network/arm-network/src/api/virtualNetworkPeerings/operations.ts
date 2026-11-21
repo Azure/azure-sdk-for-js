@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { VirtualNetworkPeering } from "../../models/common/models.js";
+import type {
+  VirtualNetworkPeering,
+  _VirtualNetworkPeeringListResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   virtualNetworkPeeringSerializer,
   virtualNetworkPeeringDeserializer,
-} from "../../models/common/models.js";
-import type { _VirtualNetworkPeeringListResult } from "../../models/models.js";
-import { _virtualNetworkPeeringListResultDeserializer } from "../../models/models.js";
+  _virtualNetworkPeeringListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualNetworkName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -94,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       virtualNetworkPeeringName: virtualNetworkPeeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +139,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +158,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       virtualNetworkPeeringName: virtualNetworkPeeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       syncRemoteAddressSpace: options?.syncRemoteAddressSpace,
     },
     {
@@ -209,7 +211,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<VirtualNetworkPeering>, VirtualNetworkPeering>;
 }
 
@@ -227,7 +229,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       virtualNetworkPeeringName: virtualNetworkPeeringName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

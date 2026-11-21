@@ -24,14 +24,14 @@ import type {
   LoadBalancersCreateOrUpdateOptionalParams,
   LoadBalancersGetOptionalParams,
 } from "../../api/loadBalancers/options.js";
-import type { LoadBalancer } from "../../models/common/models.js";
 import type {
   TagsObject,
+  LoadBalancer,
   MigratedPools,
   QueryInboundNatRulePortMappingRequest,
   BackendAddressInboundNatRulePortMappings,
   LoadBalancerVipSwapRequest,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

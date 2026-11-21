@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   ExpressRouteAuthorizationKey,
   ExpressRouteLagAuthorization,
   _ExpressRouteLagAuthorizationListResult,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   expressRouteAuthorizationKeyDeserializer,
   expressRouteLagAuthorizationSerializer,
   expressRouteLagAuthorizationDeserializer,
   _expressRouteLagAuthorizationListResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -43,7 +43,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function list(
     () => _listSend(context, resourceGroupName, expressRouteLagName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -159,7 +159,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +196,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, expressRouteLagName, authorizationName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -215,7 +215,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +267,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<ExpressRouteLagAuthorization>, ExpressRouteLagAuthorization>;
 }
 
@@ -285,7 +285,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       expressRouteLagName: expressRouteLagName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

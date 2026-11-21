@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _NspAccessRuleListResult } from "../../models/models.js";
-import { _nspAccessRuleListResultDeserializer } from "../../models/models.js";
-import type { NspAccessRule } from "../../models/network/models.js";
-import { nspAccessRuleSerializer, nspAccessRuleDeserializer } from "../../models/network/models.js";
+import type { NspAccessRule, _NspAccessRuleListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  nspAccessRuleSerializer,
+  nspAccessRuleDeserializer,
+  _nspAccessRuleListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -37,7 +39,7 @@ export function _reconcileSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +105,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -146,7 +148,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkSecurityPerimeterName, profileName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -166,7 +168,7 @@ export function _$deleteSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +228,7 @@ export function _createOrUpdateSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,7 +296,7 @@ export function _getSend(
       networkSecurityPerimeterName: networkSecurityPerimeterName,
       profileName: profileName,
       accessRuleName: accessRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

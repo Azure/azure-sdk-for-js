@@ -14,7 +14,7 @@ import type {
   VirtualNetworkApplianceCapabilitiesCreateOrUpdateOptionalParams,
   VirtualNetworkApplianceCapabilitiesGetOptionalParams,
 } from "../../api/virtualNetworkApplianceCapabilities/options.js";
-import type { VirtualNetworkApplianceCapabilityUnion } from "../../models/network/models.js";
+import type { VirtualNetworkApplianceCapabilityUnion } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";

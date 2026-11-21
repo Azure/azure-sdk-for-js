@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { NetworkInterfaceTapConfiguration } from "../../models/common/models.js";
+import type {
+  NetworkInterfaceTapConfiguration,
+  _NetworkInterfaceTapConfigurationListResult,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   networkInterfaceTapConfigurationSerializer,
   networkInterfaceTapConfigurationDeserializer,
-} from "../../models/common/models.js";
-import type { _NetworkInterfaceTapConfigurationListResult } from "../../models/models.js";
-import { _networkInterfaceTapConfigurationListResultDeserializer } from "../../models/models.js";
+  _networkInterfaceTapConfigurationListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkInterfaceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -94,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkInterfaceName, tapConfigurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<NetworkInterfaceTapConfiguration>,
     NetworkInterfaceTapConfiguration
@@ -223,7 +225,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkInterfaceName: networkInterfaceName,
       tapConfigurationName: tapConfigurationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { _ApplicationGatewayPrivateEndpointConnectionListResult } from "../../models/models.js";
-import { _applicationGatewayPrivateEndpointConnectionListResultDeserializer } from "../../models/models.js";
-import type { ApplicationGatewayPrivateEndpointConnection } from "../../models/network/models.js";
+import type {
+  ApplicationGatewayPrivateEndpointConnection,
+  _ApplicationGatewayPrivateEndpointConnectionListResult,
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   applicationGatewayPrivateEndpointConnectionSerializer,
   applicationGatewayPrivateEndpointConnectionDeserializer,
-} from "../../models/network/models.js";
+  _applicationGatewayPrivateEndpointConnectionListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       applicationGatewayName: applicationGatewayName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, applicationGatewayName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -96,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       applicationGatewayName: applicationGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, applicationGatewayName, connectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +158,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       applicationGatewayName: applicationGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +215,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<ApplicationGatewayPrivateEndpointConnection>,
     ApplicationGatewayPrivateEndpointConnection
@@ -234,7 +236,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       applicationGatewayName: applicationGatewayName,
       connectionName: connectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -90,6 +90,8 @@
     "../src/api/vpnServerConfigurations/index.ts",
     "../src/api/vpnSiteLinks/index.ts",
     "../src/api/vpnSites/index.ts",
+    "../src/api/vmssPublicIPAddresses/index.ts",
+    "../src/api/vmssNetworkInterfaces/index.ts",
     "../src/api/virtualWans/index.ts",
     "../src/api/virtualRouterPeerings/index.ts",
     "../src/api/virtualRouters/index.ts",
@@ -176,8 +178,6 @@
     "../src/api/applicationGateways/index.ts",
     "../src/api/operations/index.ts",
     "../src/models/index.ts",
-    "../src/models/common/index.ts",
-    "../src/models/network/index.ts",
-    "../src/models/network/connectionAnalyzerEndpointTypes/index.ts"
+    "../src/models/connectionAnalyzerEndpointTypes/index.ts"
   ]
 }

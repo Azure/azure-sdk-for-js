@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { VpnSiteLink, _ListVpnSiteLinksResult } from "../../models/network/models.js";
+import type { VpnSiteLink, _ListVpnSiteLinksResult } from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   vpnSiteLinkDeserializer,
   _listVpnSiteLinksResultDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -30,7 +30,7 @@ export function _listByVpnSiteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,7 +70,7 @@ export function listByVpnSite(
     () => _listByVpnSiteSend(context, resourceGroupName, vpnSiteName, options),
     _listByVpnSiteDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -88,7 +88,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vpnSiteName: vpnSiteName,
       vpnSiteLinkName: vpnSiteLinkName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

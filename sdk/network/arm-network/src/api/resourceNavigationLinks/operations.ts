@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type { ResourceNavigationLinksListResult } from "../../models/network/models.js";
-import { resourceNavigationLinksListResultDeserializer } from "../../models/network/models.js";
+import type { ResourceNavigationLinksListResult } from "../../models/models.js";
+import {
+  cloudErrorDeserializer,
+  resourceNavigationLinksListResultDeserializer,
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { ResourceNavigationLinksListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -24,7 +26,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       virtualNetworkName: virtualNetworkName,
       subnetName: subnetName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

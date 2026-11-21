@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import { cloudErrorDeserializer } from "../../models/common/models.js";
 import type {
   ExpressRouteCircuitAuthorization,
   _AuthorizationListResult,
   ExpressRouteAuthorizationKey,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import {
+  cloudErrorDeserializer,
   expressRouteCircuitAuthorizationSerializer,
   expressRouteCircuitAuthorizationDeserializer,
   _authorizationListResultDeserializer,
   expressRouteAuthorizationKeyDeserializer,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -43,7 +43,7 @@ export function _listKeysSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function list(
     () => _listSend(context, resourceGroupName, circuitName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -159,7 +159,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -196,7 +196,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, circuitName, authorizationName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -215,7 +215,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +267,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<
     OperationState<ExpressRouteCircuitAuthorization>,
     ExpressRouteCircuitAuthorization
@@ -288,7 +288,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       circuitName: circuitName,
       authorizationName: authorizationName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

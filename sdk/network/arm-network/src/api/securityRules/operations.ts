@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import type { NetworkManagementContext as Client } from "../index.js";
-import type { SecurityRule } from "../../models/common/models.js";
+import type { SecurityRule, _SecurityRuleListResult } from "../../models/models.js";
 import {
   cloudErrorDeserializer,
   securityRuleSerializer,
   securityRuleDeserializer,
-} from "../../models/common/models.js";
-import type { _SecurityRuleListResult } from "../../models/models.js";
-import { _securityRuleListResultDeserializer } from "../../models/models.js";
+  _securityRuleListResultDeserializer,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -36,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +75,7 @@ export function list(
     () => _listSend(context, resourceGroupName, networkSecurityGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-01" },
   );
 }
 
@@ -94,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -131,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, networkSecurityGroupName, securityRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -150,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: "2026-03-01",
+    apiVersion: context.apiVersion ?? "2026-03-01",
   }) as PollerLike<OperationState<SecurityRule>, SecurityRule>;
 }
 
@@ -220,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       networkSecurityGroupName: networkSecurityGroupName,
       securityRuleName: securityRuleName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

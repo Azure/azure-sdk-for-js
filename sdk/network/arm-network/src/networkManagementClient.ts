@@ -354,6 +354,10 @@ import type { VirtualRoutersOperations } from "./classic/virtualRouters/index.js
 import { _getVirtualRoutersOperations } from "./classic/virtualRouters/index.js";
 import type { VirtualWansOperations } from "./classic/virtualWans/index.js";
 import { _getVirtualWansOperations } from "./classic/virtualWans/index.js";
+import type { VmssNetworkInterfacesOperations } from "./classic/vmssNetworkInterfaces/index.js";
+import { _getVmssNetworkInterfacesOperations } from "./classic/vmssNetworkInterfaces/index.js";
+import type { VmssPublicIPAddressesOperations } from "./classic/vmssPublicIPAddresses/index.js";
+import { _getVmssPublicIPAddressesOperations } from "./classic/vmssPublicIPAddresses/index.js";
 import type { VpnConnectionsOperations } from "./classic/vpnConnections/index.js";
 import { _getVpnConnectionsOperations } from "./classic/vpnConnections/index.js";
 import type { VpnGatewaysOperations } from "./classic/vpnGateways/index.js";
@@ -394,7 +398,7 @@ import type {
   VirtualWanVpnProfileParameters,
   VpnProfileResponse,
   DnsNameAvailabilityResult,
-} from "./models/network/models.js";
+} from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
@@ -552,6 +556,8 @@ export class NetworkManagementClient {
     this.vpnServerConfigurations = _getVpnServerConfigurationsOperations(this._client);
     this.vpnSiteLinks = _getVpnSiteLinksOperations(this._client);
     this.vpnSites = _getVpnSitesOperations(this._client);
+    this.vmssPublicIPAddresses = _getVmssPublicIPAddressesOperations(this._client);
+    this.vmssNetworkInterfaces = _getVmssNetworkInterfacesOperations(this._client);
     this.virtualWans = _getVirtualWansOperations(this._client);
     this.virtualRouterPeerings = _getVirtualRouterPeeringsOperations(this._client);
     this.virtualRouters = _getVirtualRoutersOperations(this._client);
@@ -1165,6 +1171,10 @@ export class NetworkManagementClient {
   public readonly vpnSiteLinks: VpnSiteLinksOperations;
   /** The operation groups for vpnSites */
   public readonly vpnSites: VpnSitesOperations;
+  /** The operation groups for vmssPublicIPAddresses */
+  public readonly vmssPublicIPAddresses: VmssPublicIPAddressesOperations;
+  /** The operation groups for vmssNetworkInterfaces */
+  public readonly vmssNetworkInterfaces: VmssNetworkInterfacesOperations;
   /** The operation groups for virtualWans */
   public readonly virtualWans: VirtualWansOperations;
   /** The operation groups for virtualRouterPeerings */
