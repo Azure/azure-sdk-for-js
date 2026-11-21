@@ -8,10 +8,16 @@ import { fileURLToPath } from "node:url";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore ESM only output
 const currentDir = dirname(fileURLToPath(import.meta.url));
-// Use .ts extension when running directly from source, .js when running from compiled dist
-const ext = currentDir.replace(/\\/g, "/").includes("/src/") ? ".ts" : ".js";
+export function getGlobalPaths(directory: string): { setup: string; teardown: string } {
+  // Only the package's own src/core directory runs TypeScript directly. An installed
+  // package can be nested under a consumer directory named "src", so do not inspect
+  // arbitrary path segments.
+  const ext = directory.replace(/\\/g, "/").endsWith("/src/core") ? ".ts" : ".js";
 
-export const globalPaths = {
-  setup: path.join(currentDir, `./global/playwright-service-global-setup${ext}`),
-  teardown: path.join(currentDir, `./global/playwright-service-global-teardown${ext}`),
-};
+  return {
+    setup: path.join(directory, `./global/playwright-service-global-setup${ext}`),
+    teardown: path.join(directory, `./global/playwright-service-global-teardown${ext}`),
+  };
+}
+
+export const globalPaths = getGlobalPaths(currentDir);
