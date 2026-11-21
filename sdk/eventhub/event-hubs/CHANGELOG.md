@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added OpenTelemetry metrics for sends, receives and AMQP lifecycle transitions, structured lifecycle logs, and receive and AMQP spans.
+
 ### Breaking Changes
 
 ### Bugs Fixed

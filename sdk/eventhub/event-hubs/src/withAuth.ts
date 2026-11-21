@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { traceAmqp } from "./diagnostics/telemetry.js";
 import type { SasTokenProvider, CbsClient, CbsResponse } from "@azure/core-amqp";
 import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
 import type { AbortSignalLike } from "@azure/abort-controller";
@@ -56,17 +57,24 @@ export async function withAuth(
  * @internal
  */
 export async function openCbsSession(
-  client: CbsClient,
+  context: ConnectionContext,
   timeoutAfterStartTime: number,
   { abortSignal }: { abortSignal?: AbortSignalLike } = {},
 ): Promise<void> {
+  const client = context.cbsSession;
   return defaultCancellableLock.acquire(
     client.cbsLock,
-    () =>
-      client.init({
-        abortSignal,
-        timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
-      }),
+    () => {
+      const init = (): Promise<void> =>
+        client.init({
+          abortSignal,
+          timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
+        });
+      // CBS opens the underlying connection and authorization session on first use.
+      return client.isOpen()
+        ? init()
+        : traceAmqp("EventHubs.cbs.open", context.config, {}, init, "cbs");
+    },
     {
       abortSignal,
       timeoutInMs: Math.max(timeoutAfterStartTime - Date.now(), 0),
@@ -156,7 +164,7 @@ async function setupClaimNegotiation(
     `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`,
   );
 
-  await openCbsSession(context.cbsSession, timeoutInMs + startTime, { abortSignal });
+  await openCbsSession(context, timeoutInMs + startTime, { abortSignal });
   logger.verbose(`acquiring cbs lock: '${context.negotiateClaimLock}' for cbs auth`);
   await negotiateClaim(
     info,

@@ -521,6 +521,26 @@ await client.close();
 
 The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
+### OpenTelemetry
+
+Applications can use the clients without configuring telemetry. To export telemetry, initialize your application's OpenTelemetry providers and exporters before starting the clients. For Azure SDK spans, register `AzureSdkInstrumentation` from `@azure/opentelemetry-instrumentation-azure-sdk`. The Event Hubs library uses the `@opentelemetry/api` and `@opentelemetry/api-logs` packages and does not install an OpenTelemetry SDK or configure an exporter.
+
+| Signal | What Event Hubs reports |
+| --- | --- |
+| Traces | Producer sends, subscriber receives and processing, opening the AMQP connection and authorization session (CBS), sender and receiver attachment, send disposition and receive wait |
+| Logs | Structured `az.eventhubs.amqp.lifecycle` records for connection opens, disconnects, CBS opens and link attachments. These use the global logger provider and contain the destination, component, action and outcome. |
+| Metrics | `az.eventhubs.operations` counts completed sends and receives, `az.eventhubs.events` counts successfully sent and received events, `az.eventhubs.operation.duration` measures seconds including retries, and `az.eventhubs.amqp.lifecycle` counts lifecycle transitions. |
+
+When using OpenTelemetry JS SDK 3.x, also register your application's logger provider with the compatible logs API used by Event Hubs. Applications using SDK 2.x register their logger provider with this same API.
+
+```ts
+import { logs } from "@opentelemetry/api-logs";
+
+logs.setGlobalLoggerProvider(loggerProvider);
+```
+
+All three signals use the instrumentation scope `@azure/event-hubs`. A buffered producer records sends when it publishes a batch. An empty receive counts as a completed operation. Event counts exclude failed operations.
+
 ### Logging
 
 You can set the `AZURE_LOG_LEVEL` environment variable to enable logging to `stderr`:

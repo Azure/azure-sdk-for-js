@@ -15390,6 +15390,12 @@ importers:
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
+      '@opentelemetry/api':
+        specifier: 1.9.1
+        version: 1.9.1
+      '@opentelemetry/api-logs':
+        specifier: ^0.221.0
+        version: 0.221.0
       buffer:
         specifier: ^6.0.3
         version: 6.0.3

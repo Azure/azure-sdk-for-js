@@ -264,7 +264,8 @@ describe("EventHub Sender", () => {
         receivedEvents.map((event) => {
           return {
             body: event.body,
-            properties: event.properties,
+            // Compare application properties. The decoder also attaches AMQP type metadata under a symbol.
+            properties: Object.fromEntries(Object.entries(event.properties ?? {})),
           };
         }),
         "Received messages should be equal to our sent messages",

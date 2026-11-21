@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { OperationOptions } from "./util/operationOptions.js";
+import { traceAmqp } from "./diagnostics/telemetry.js";
 import type {
   AmqpError,
   AwaitableSender,
@@ -516,11 +518,17 @@ export class EventHubSender {
 
       try {
         const encodedMessage = transformEventsForSend(events, publishingProps, options);
-        const delivery = await sender.send(encodedMessage, {
-          format: 0x80013700,
-          timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
-          abortSignal,
-        });
+        const delivery = await traceAmqp(
+          "EventHubs.send.disposition",
+          this._context.config,
+          options,
+          () =>
+            sender.send(encodedMessage, {
+              format: 0x80013700,
+              timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
+              abortSignal,
+            }),
+        );
         this.logger.info("sent message with delivery id: %d", delivery.id);
       } catch (err: any) {
         const error = err.innerError || err;
@@ -551,10 +559,7 @@ export class EventHubSender {
   }
 
   private async _getLink(
-    options: {
-      retryOptions?: RetryOptions;
-      abortSignal?: AbortSignalLike;
-    } = {},
+    options: OperationOptions & { retryOptions?: RetryOptions } = {},
   ): Promise<AwaitableSender> {
     if (this.isOpen() && this._sender) {
       return this._sender;
@@ -571,11 +576,14 @@ export class EventHubSender {
         () => {
           const taskStartTime = Date.now();
           const taskTimeoutInMs = timeoutInMs - (taskStartTime - startTime);
-          return this._init({
-            ...senderOptions,
-            abortSignal: options.abortSignal,
-            timeoutInMs: taskTimeoutInMs,
-          });
+          return this._init(
+            {
+              ...senderOptions,
+              abortSignal: options.abortSignal,
+              timeoutInMs: taskTimeoutInMs,
+            },
+            options,
+          );
         },
         { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs },
       );
@@ -611,6 +619,7 @@ export class EventHubSender {
       abortSignal: AbortSignalLike | undefined;
       timeoutInMs: number;
     },
+    parent: OperationOptions,
   ): Promise<AwaitableSender> {
     const createSender = async () => {
       this.logger.verbose("trying to be created...");
@@ -628,13 +637,15 @@ export class EventHubSender {
     try {
       if (!this.isOpen() || !this._sender) {
         await this._context.readyToOpenLink();
-        this.authLoop = await withAuth(
-          createSender,
-          this._context,
-          this.audience,
-          options.timeoutInMs,
-          this.logger,
-          { abortSignal: options.abortSignal },
+        this.authLoop = await traceAmqp(
+          "EventHubs.sender.attach",
+          this._context.config,
+          parent,
+          () =>
+            withAuth(createSender, this._context, this.audience, options.timeoutInMs, this.logger, {
+              abortSignal: options.abortSignal,
+            }),
+          "sender",
         );
         // it is guaranteed to be defined at this point, otherwise, an error would
         // have been thrown.

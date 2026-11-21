@@ -119,6 +119,9 @@ export interface EventDataBatch {
  * @internal
  */
 export class EventDataBatchImpl implements EventDataBatch {
+  /** Active creation and encoding time accumulated by the buffered producer, excluding queue waits. */
+  bufferedPreparationDurationInMs?: number;
+
   /**
    * Describes the amqp connection context for the Client.
    */

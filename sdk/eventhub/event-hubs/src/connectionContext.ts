@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
+import { recordLifecycle } from "./diagnostics/telemetry.js";
 import type { Connection, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ConnectionEvents } from "rhea-promise";
 import type { CreateConnectionContextBaseParameters, SasTokenProvider } from "@azure/core-amqp";
@@ -270,6 +271,7 @@ export namespace ConnectionContext {
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = () => {
+      recordLifecycle(connectionContext.config, "connection", "open", "success");
       connectionContext.wasConnectionCloseCalled = false;
       logger.verbose(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
@@ -282,6 +284,12 @@ export namespace ConnectionContext {
       if (waitForConnectionRefreshPromise) {
         return;
       }
+      recordLifecycle(
+        connectionContext.config,
+        "connection",
+        "disconnect",
+        context.error || context.connection?.error ? "error" : "success",
+      );
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });
