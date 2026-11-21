@@ -70,7 +70,9 @@ describe("Event Hubs OpenTelemetry", () => {
     const instrumenter = new MockInstrumenter();
     useInstrumenter(instrumenter);
     const records: LogRecord[] = [];
-    logs.setGlobalLoggerProvider({ getLogger: () => ({ emit: (record) => records.push(record) }) });
+    logs.setGlobalLoggerProvider({
+      getLogger: () => ({ enabled: () => true, emit: (record) => records.push(record) }),
+    });
     const destination = { host: "example", entityPath: "hub" };
     const failure = new MessagingError("private broker description");
     failure.code = "ServiceUnavailableError";
