@@ -41,6 +41,7 @@ const conditionOrder = ["import", ...runtimeConditions];
 
 const dependencyFields: [field: string, type: DependencyType][] = [
   ["dependencies", "runtime"],
+  ["optionalDependencies", "optional"],
   ["peerDependencies", "peer"],
 ];
 
@@ -60,6 +61,9 @@ async function resolveSpecifier(
     const installed = path.join(packageRoot, "node_modules", name, "package.json");
     return `^${JSON.parse(await readFile(installed, "utf8")).version}`;
   }
+  if (specifier.startsWith("workspace:")) {
+    throw new Error(`Unsupported workspace dependency specifier for ${name}: ${specifier}`);
+  }
   return specifier;
 }
 
@@ -71,23 +75,147 @@ function compatibleVersion(specifier: string): string {
   if (semver.prerelease(specifier)) {
     return specifier;
   }
-  const minimum = semver.validRange(specifier) ? semver.minVersion(specifier) : null;
+  const validRange = semver.validRange(specifier);
+  if (validRange && new semver.Range(specifier).set.length > 1) {
+    return specifier;
+  }
+  const minimum = validRange ? semver.minVersion(specifier) : null;
   if (!minimum) {
     return specifier;
   }
-  return minimum.major === 0 ? `0.${minimum.minor}` : `${minimum.major}`;
+  const bucket =
+    minimum.major === 0
+      ? `>=0.${minimum.minor}.0 <0.${minimum.minor + 1}.0`
+      : `>=${minimum.major}.0.0 <${minimum.major + 1}.0.0`;
+  return semver.subset(specifier, bucket)
+    ? minimum.major === 0
+      ? `0.${minimum.minor}`
+      : `${minimum.major}`
+    : specifier;
 }
 
 export async function buildReview(packageRoot: string): Promise<Review> {
   const packageJson = JSON.parse(await readFile(path.join(packageRoot, "package.json"), "utf8"));
-  const exportEntries = Object.entries<ExportConditions>(packageJson.exports)
+  if (
+    typeof packageJson.exports !== "object" ||
+    packageJson.exports === null ||
+    Array.isArray(packageJson.exports)
+  ) {
+    throw new Error("Package must have an explicit exports map for API review.");
+  }
+  const exportsPackageJson = Object.hasOwn(packageJson.exports, "./package.json");
+  if (exportsPackageJson && packageJson.exports["./package.json"] !== "./package.json") {
+    throw new Error("Unsupported package.json export target.");
+  }
+  const exportEntries = Object.entries<unknown>(packageJson.exports)
     .filter(([exportPath]) => exportPath !== "./package.json")
+    .map(([exportPath, value]): [string, ExportConditions] => {
+      if (
+        (exportPath !== "." && !exportPath.startsWith("./")) ||
+        exportPath.includes("*") ||
+        typeof value !== "object" ||
+        value === null ||
+        Array.isArray(value)
+      ) {
+        throw new Error(`Unsupported API review export: ${exportPath}`);
+      }
+      const conditions: ExportConditions = {};
+      for (const [condition, target] of Object.entries(value)) {
+        if (
+          !conditionOrder.includes(condition) ||
+          typeof target !== "object" ||
+          target === null ||
+          Array.isArray(target) ||
+          !("types" in target) ||
+          typeof target.types !== "string" ||
+          !target.types.startsWith("./") ||
+          !/\.d\.[cm]?ts$/.test(target.types) ||
+          Object.keys(target).some((key) => key !== "types" && key !== "default") ||
+          ("default" in target &&
+            Object.keys(target).indexOf("default") < Object.keys(target).indexOf("types"))
+        ) {
+          throw new Error(`Unsupported ${condition} types target for export ${exportPath}.`);
+        }
+        const relative = path.relative(packageRoot, path.resolve(packageRoot, target.types));
+        if (
+          relative === ".." ||
+          relative.startsWith(`..${path.sep}`) ||
+          path.isAbsolute(relative)
+        ) {
+          throw new Error(`Types target for export ${exportPath} is outside the package.`);
+        }
+        conditions[condition] = { types: target.types };
+      }
+      if (!conditions.import) {
+        throw new Error(`Export ${exportPath} must have an import types target.`);
+      }
+      return [exportPath, conditions];
+    })
     .sort(([a], [b]) => a.localeCompare(b, "en"));
+  if (!exportEntries.length) {
+    throw new Error("Package has no TypeScript exports to review.");
+  }
+
+  const rootConditions = exportEntries.find(([exportPath]) => exportPath === ".")?.[1];
+  const legacyTypeFields: string[] = [];
+  for (const field of ["types", "typings"]) {
+    if (packageJson[field] !== undefined) {
+      const expected = rootConditions && (rootConditions.require ?? rootConditions.import).types;
+      if (
+        typeof packageJson[field] !== "string" ||
+        !expected ||
+        path.resolve(packageRoot, packageJson[field]) !== path.resolve(packageRoot, expected)
+      ) {
+        throw new Error(
+          `Legacy ${field} entry point does not match the reviewed require entry point.`,
+        );
+      }
+      legacyTypeFields.push(field);
+    }
+  }
+  const versionedEntryPoints: Review["versionedEntryPoints"] = [];
+  if (packageJson.typesVersions !== undefined) {
+    const versions: unknown = packageJson.typesVersions;
+    if (typeof versions !== "object" || versions === null || Array.isArray(versions)) {
+      throw new Error("Unsupported typesVersions map.");
+    }
+    if (!Object.keys(versions).length) {
+      versionedEntryPoints.push({ versions: "(no version mappings)", path: "(no mappings)" });
+    }
+    for (const [range, paths] of Object.entries(versions)) {
+      if (typeof paths !== "object" || paths === null || Array.isArray(paths)) {
+        throw new Error(`Unsupported typesVersions map for ${range}.`);
+      }
+      if (!Object.keys(paths).length) {
+        versionedEntryPoints.push({ versions: range, path: "(no mappings)" });
+      }
+      for (const [subpath, targets] of Object.entries(paths).sort(([a], [b]) =>
+        a.localeCompare(b, "en"),
+      )) {
+        const exportPath = `./${subpath}`;
+        const conditions = exportEntries.find(([entry]) => entry === exportPath)?.[1];
+        const expected = conditions && (conditions.require ?? conditions.import).types;
+        if (
+          !subpath ||
+          subpath.includes("*") ||
+          !Array.isArray(targets) ||
+          targets.length !== 1 ||
+          typeof targets[0] !== "string" ||
+          targets[0].includes("*") ||
+          !expected ||
+          path.resolve(packageRoot, targets[0]) !== path.resolve(packageRoot, expected)
+        ) {
+          throw new Error(`Unsupported typesVersions target for ${range}: ${subpath}.`);
+        }
+        versionedEntryPoints.push({ versions: range, path: exportPath });
+      }
+    }
+  }
 
   const exportFiles = (condition: string): { path: string; file: string }[] =>
     exportEntries.map(([exportPath, conditions]) => ({
       path: exportPath,
-      file: path.join(packageRoot, conditions[condition].types),
+      file: path.join(packageRoot, (conditions[condition] ?? conditions.import).types),
     }));
 
   const esm = buildExportSections(packageRoot, "import", exportFiles("import"));
@@ -99,19 +227,28 @@ export async function buildReview(packageRoot: string): Promise<Review> {
     ...buildExportSections(packageRoot, condition, exportFiles(condition)),
   }));
   const { identicalConditions, conditionDiffs } = compareConditions(
-    { references: esm.references, sections: esm.sections },
+    {
+      references: esm.references,
+      forgottenDeclarations: esm.forgottenDeclarations,
+      augmentations: esm.augmentations,
+      typeOnlyExports: esm.typeOnlyExports,
+      sections: esm.sections,
+    },
     views,
   );
 
   return {
     name: packageJson.name,
     version: packageJson.version,
-    entryPoints: exportEntries.map(([exportPath, conditions]) => ({
-      path: exportPath,
-      conditions: Object.keys(conditions).sort(
-        (a, b) => conditionOrder.indexOf(a) - conditionOrder.indexOf(b),
-      ),
-    })),
+    entryPoints: [
+      ...exportEntries.map(([exportPath, conditions]) => ({
+        path: exportPath,
+        conditions: Object.keys(conditions),
+      })),
+      ...(exportsPackageJson ? [{ path: "./package.json", conditions: ["json"] }] : []),
+    ].sort((a, b) => a.path.localeCompare(b.path, "en")),
+    legacyTypeFields,
+    versionedEntryPoints,
     // { dependencies: { tslib: "catalog:" }, peerDependencies: { pg: ">=8.0.0" } }
     //   -> [{ name: "pg", specifier: ">=8.0.0", resolved: ">=8.0.0", hashed: "8", type: "peer" },
     //       { name: "tslib", specifier: "catalog:", resolved: "^2.8.1", hashed: "2", type: "runtime" }]
@@ -121,7 +258,10 @@ export async function buildReview(packageRoot: string): Promise<Review> {
           Object.entries<string>(packageJson[field] ?? {}).map(([name, specifier]) => ({
             name,
             specifier,
-            type,
+            type:
+              type === "peer" && packageJson.peerDependenciesMeta?.[name]?.optional === true
+                ? ("optional peer" as const)
+                : type,
           })),
         )
         .sort((a, b) => a.name.localeCompare(b.name, "en"))
@@ -135,6 +275,9 @@ export async function buildReview(packageRoot: string): Promise<Review> {
         }),
     ),
     references: esm.references,
+    forgottenDeclarations: esm.forgottenDeclarations,
+    augmentations: esm.augmentations,
+    typeOnlyExports: esm.typeOnlyExports,
     exportSections: esm.sections,
     identicalConditions,
     conditionDiffs,
@@ -146,13 +289,38 @@ export async function buildReview(packageRoot: string): Promise<Review> {
  * Compares each condition's view with the ESM view, item by item.
  */
 function compareConditions(
-  esm: { references: NamedImports[]; sections: ExportSection[] },
-  views: { condition: string; references: NamedImports[]; sections: ExportSection[] }[],
+  esm: {
+    references: NamedImports[];
+    forgottenDeclarations: Declaration[];
+    augmentations: Declaration[];
+    typeOnlyExports: Declaration[];
+    sections: ExportSection[];
+  },
+  views: {
+    condition: string;
+    references: NamedImports[];
+    forgottenDeclarations: Declaration[];
+    augmentations: Declaration[];
+    typeOnlyExports: Declaration[];
+    sections: ExportSection[];
+  }[],
 ): { identicalConditions: string[]; conditionDiffs: ConditionDiff[] } {
   const identicalConditions: string[] = [];
   const conditionDiffs: ConditionDiff[] = [];
-  for (const { condition, references, sections } of views) {
-    if (isDeepStrictEqual({ references, sections }, esm)) {
+  for (const {
+    condition,
+    references,
+    forgottenDeclarations,
+    augmentations,
+    typeOnlyExports,
+    sections,
+  } of views) {
+    if (
+      isDeepStrictEqual(
+        { references, forgottenDeclarations, augmentations, typeOnlyExports, sections },
+        esm,
+      )
+    ) {
       identicalConditions.push(condition);
       continue;
     }
@@ -170,10 +338,17 @@ function compareConditions(
           )
           .map((reference) => ({ change: "added" as const, reference })),
       ],
+      forgottenDeclarations: diffItems(esm.forgottenDeclarations, forgottenDeclarations),
+      augmentations: diffItems(esm.augmentations, augmentations),
+      typeOnlyExports: diffItems(esm.typeOnlyExports, typeOnlyExports),
       exports: esm.sections
         .map((esmSection, index) => ({
           path: esmSection.path,
-          items: diffItems(esmSection.declarations, sections[index].declarations),
+          items: [
+            ...diffItems(esmSection.declarations, sections[index].declarations),
+            ...diffItems(esmSection.differsFromRoot, sections[index].differsFromRoot),
+            ...diffItems(repeatedExports(esmSection), repeatedExports(sections[index])),
+          ],
           reExports: [
             ...esmSection.reExports
               .filter(
@@ -193,6 +368,15 @@ function compareConditions(
     });
   }
   return { identicalConditions, conditionDiffs };
+}
+
+function repeatedExports(section: ExportSection): Declaration[] {
+  return section.alsoExportedFrom.flatMap(({ path: earlierPath, names }) =>
+    names.map((name) => ({
+      name: `${earlierPath}\0${name}`,
+      code: `// ${name} is also exported from ${earlierPath}`,
+    })),
+  );
 }
 
 /**
@@ -290,9 +474,8 @@ function compilerOptionsFor(condition: string, packageRoot: string): ts.Compiler
       };
 }
 
-// Cannot find module (2307, 2792), namespace has no exported member (2694), and cannot find type
-// definition (2688). Other diagnostics are ignored: the review doesn't type-check.
-const resolutionErrorCodes = new Set([2307, 2792, 2694, 2688]);
+// Missing names, modules, namespaces, members, and type definitions make the review incomplete.
+const resolutionErrorCodes = new Set([2304, 2307, 2503, 2688, 2694, 2792]);
 // Module has no exported member (2305, 2614, 2724).
 const missingMemberCodes = new Set([2305, 2614, 2724]);
 
@@ -313,10 +496,28 @@ function checkResolution(
     );
 
   for (const file of packageFiles) {
+    const syntaxError = program.getSyntacticDiagnostics(file)[0];
+    if (syntaxError) {
+      const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+      throw new Error(
+        `[${condition}] ${relativeFile}: ${ts.flattenDiagnosticMessageText(syntaxError.messageText, " ")}`,
+      );
+    }
     if (!file.isDeclarationFile) {
       throw new Error(
         `[${condition}] ${path.relative(packageRoot, file.fileName).split(path.sep).join("/")}: Implementation file is part of the review program`,
       );
+    }
+    for (const statement of file.statements) {
+      if (
+        (ts.isExportAssignment(statement) && statement.isExportEquals) ||
+        ts.isNamespaceExportDeclaration(statement)
+      ) {
+        const relativeFile = path.relative(packageRoot, file.fileName).split(path.sep).join("/");
+        throw new Error(
+          `[${condition}] ${relativeFile}: Export assignments and UMD globals are not supported by API review.`,
+        );
+      }
     }
   }
   const unresolved: UnresolvedReference[] = [];
@@ -368,6 +569,9 @@ function buildExportSections(
   exportFiles: { path: string; file: string }[],
 ): {
   references: NamedImports[];
+  forgottenDeclarations: Declaration[];
+  augmentations: Declaration[];
+  typeOnlyExports: Declaration[];
   sections: ExportSection[];
   unresolvedReferences: UnresolvedReference[];
 } {
@@ -379,7 +583,34 @@ function buildExportSections(
   const unresolvedReferences = checkResolution(program, condition, packageRoot);
   const checker = program.getTypeChecker();
   const printer = ts.createPrinter();
-  const shownUnder = new Map<ts.Symbol, string>();
+  const declarationRoot = path.dirname(
+    exportFiles.find((exportFile) => exportFile.path === ".")?.file ?? exportFiles[0].file,
+  );
+  const packageFiles = program
+    .getSourceFiles()
+    .filter(
+      (file) =>
+        !program.isSourceFileFromExternalLibrary(file) && !program.isSourceFileDefaultLibrary(file),
+    )
+    .sort((a, b) => a.fileName.localeCompare(b.fileName, "en"));
+  const supplemental = packageFiles.flatMap((file) => {
+    const relativeFile = path.relative(declarationRoot, file.fileName).split(path.sep).join("/");
+    return file.statements.flatMap((statement, index) => {
+      const augmentation =
+        !ts.isExternalModule(file) ||
+        (ts.isModuleDeclaration(statement) &&
+          (ts.isStringLiteral(statement.name) ||
+            Boolean(statement.flags & ts.NodeFlags.GlobalAugmentation)));
+      const typeOnlyExport =
+        ts.isExportDeclaration(statement) &&
+        statement.isTypeOnly &&
+        (!statement.exportClause || ts.isNamespaceExport(statement.exportClause));
+      return augmentation || typeOnlyExport
+        ? [{ file, relativeFile, statement, index, augmentation, typeOnlyExport }]
+        : [];
+    });
+  });
+  const shownUnder = new Map<ts.Symbol, { path: string; name: string }>();
   const rootNames = new Set<string>();
   const references = new Map<string, Map<string, string>>();
 
@@ -395,7 +626,8 @@ function buildExportSections(
         ((ts.isExportSpecifier(declaration) &&
           (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)) ||
           (ts.isImportSpecifier(declaration) &&
-            (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)))
+            (declaration.isTypeOnly || declaration.parent.parent.isTypeOnly)) ||
+          (ts.isImportClause(declaration) && declaration.isTypeOnly))
       ) {
         return true;
       }
@@ -412,11 +644,19 @@ function buildExportSections(
     symbol.declarations?.some(ts.isSourceFile) ?? false;
 
   // Names missing from their module resolve to `unknown`; Unresolved references lists them.
-  const exportsByFile = exportFiles.map(({ file }) =>
-    exportsOf(checker.getSymbolAtLocation(program.getSourceFile(file)!)!).filter(
+  const exportsByFile = exportFiles.map(({ path: exportPath, file }) => {
+    const sourceFile = program.getSourceFile(file);
+    const moduleSymbol = sourceFile && checker.getSymbolAtLocation(sourceFile);
+    if (!moduleSymbol) {
+      if (sourceFile && sourceFile.statements.length === 0) {
+        return [];
+      }
+      throw new Error(`[${condition}] Export ${exportPath} has no module at ${file}.`);
+    }
+    return exportsOf(moduleSymbol).filter(
       (exported) => resolveAlias(exported).declarations?.length,
-    ),
-  );
+    );
+  });
 
   // A local symbol keeps the public name used by its first export path.
   // AddPolicyOptions -> AddPipelineOptions, both at the declaration and its usages.
@@ -442,9 +682,58 @@ function buildExportSections(
   };
   expose(exportsByFile.flat());
 
+  const forgottenSymbols = new Set<ts.Symbol>();
+  const forgottenSymbol = (identifier: ts.Identifier): ts.Symbol | undefined => {
+    const symbol = checker.getSymbolAtLocation(identifier);
+    const target = symbol && resolveAlias(symbol);
+    const declaration = target?.declarations?.[0];
+    if (!target || !declaration || exposed.has(target)) {
+      return undefined;
+    }
+    const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
+    const parent = node.parent;
+    if (
+      !parent ||
+      !ts.isSourceFile(parent) ||
+      !ts.isExternalModule(parent) ||
+      (ts.isModuleDeclaration(node) &&
+        (ts.isStringLiteral(node.name) || Boolean(node.flags & ts.NodeFlags.GlobalAugmentation)))
+    ) {
+      return undefined;
+    }
+    return program.isSourceFileFromExternalLibrary(parent) ||
+      program.isSourceFileDefaultLibrary(parent)
+      ? undefined
+      : target;
+  };
+
   const collectReferences = (node: ts.Node): void => {
     if (isPrivateMember(node)) {
       return;
+    }
+    if (ts.isImportTypeNode(node) && !node.qualifier) {
+      throw new Error(`[${condition}] Unqualified import types are not supported by API review.`);
+    }
+    if (ts.isTypeQueryNode(node) && ts.isIdentifier(node.exprName)) {
+      const symbol = checker.getSymbolAtLocation(node.exprName);
+      const target = symbol && resolveAlias(symbol);
+      if (
+        target &&
+        isModuleObject(target) &&
+        !isExternal(program, target) &&
+        !exposed.has(target)
+      ) {
+        throw new Error(
+          `[${condition}] Type query on an unreviewed local module object is not supported by API review.`,
+        );
+      }
+    }
+    const forgotten = ts.isIdentifier(node) ? forgottenSymbol(node) : undefined;
+    if (forgotten && !forgottenSymbols.has(forgotten)) {
+      forgottenSymbols.add(forgotten);
+      for (const declaration of forgotten.declarations ?? []) {
+        collectReferences(declaration);
+      }
     }
     const reference = resolveReference(program, node);
     if (reference?.module) {
@@ -458,12 +747,20 @@ function buildExportSections(
     }
     if (reference) {
       if (ts.isImportTypeNode(node)) {
+        if (!reference.module && node.qualifier) {
+          collectReferences(node.qualifier);
+        }
         node.typeArguments?.forEach(collectReferences);
       }
       return;
     }
     ts.forEachChild(node, collectReferences);
   };
+  for (const { statement, augmentation } of supplemental) {
+    if (augmentation) {
+      collectReferences(statement);
+    }
+  }
   for (const symbol of exposed) {
     if (isExternal(program, symbol) || isModuleObject(symbol)) {
       continue;
@@ -507,14 +804,22 @@ function buildExportSections(
       };
     });
 
+  const markTypeOnly = (code: Code): Code =>
+    typeof code === "string"
+      ? `// type-only export\n${code}`
+      : { ...code, open: `// type-only export\n${code.open}` };
+
   // A module object is a group: `export declare namespace <name> {`, its exports, `}`.
   const printModuleObject = (name: string, moduleSymbol: ts.Symbol): Code => ({
     open: `export declare namespace ${name} {`,
     children: exportsOf(moduleSymbol).map((member) => {
       const target = resolveAlias(member);
-      return isModuleObject(target)
+      const printed = isModuleObject(target)
         ? printModuleObject(member.name, target)
         : printDeclarations(target, member.name, printer, referenceNames).join("\n\n");
+      return isTypeOnlyExport(member) && target.flags & ts.SymbolFlags.Value
+        ? markTypeOnly(printed)
+        : printed;
     }),
     close: "}",
   });
@@ -534,16 +839,7 @@ function buildExportSections(
       return (symbol && localNames.get(resolveAlias(symbol))) ?? reference?.name;
     },
     forgotten: (identifier) => {
-      const symbol = checker.getSymbolAtLocation(identifier);
-      const target = symbol && resolveAlias(symbol);
-      const parent = target?.declarations?.[0]?.parent;
-      if (!target || !parent || !ts.isSourceFile(parent) || exposed.has(target)) {
-        return undefined;
-      }
-      return program.isSourceFileFromExternalLibrary(parent) ||
-        program.isSourceFileDefaultLibrary(parent)
-        ? undefined
-        : target.name;
+      return forgottenSymbol(identifier)?.name;
     },
   };
 
@@ -553,19 +849,28 @@ function buildExportSections(
 
     const declarations: Declaration[] = [];
     const reExports: { module: string; name: string }[] = [];
-    const differsFromRoot: Code[] = [];
+    const differsFromRoot: Declaration[] = [];
     const alsoExported: { path: string; name: string }[] = [];
     for (const exportedSymbol of exportedSymbols) {
       const symbol = resolveAlias(exportedSymbol);
       if (isRoot) {
         rootNames.add(exportedSymbol.name);
       }
-      const earlierPath = shownUnder.get(symbol);
-      if (earlierPath !== undefined) {
-        alsoExported.push({ path: earlierPath, name: exportedSymbol.name });
+      const earlier = shownUnder.get(symbol);
+      if (earlier !== undefined) {
+        const typeOnly =
+          isTypeOnlyExport(exportedSymbol) && Boolean(symbol.flags & ts.SymbolFlags.Value);
+        const name =
+          earlier.name === exportedSymbol.name
+            ? exportedSymbol.name
+            : `${earlier.name} as ${exportedSymbol.name}`;
+        alsoExported.push({
+          path: earlier.path,
+          name: typeOnly ? `type ${name}` : name,
+        });
         continue;
       }
-      shownUnder.set(symbol, exportPath);
+      shownUnder.set(symbol, { path: exportPath, name: exportedSymbol.name });
       const typeOnly = isTypeOnlyExport(exportedSymbol);
       const reExport = externalImport(program, exportedSymbol);
       if (reExport) {
@@ -583,13 +888,10 @@ function buildExportSections(
         ? printModuleObject(exportedSymbol.name, symbol)
         : printDeclarations(symbol, exportedSymbol.name, printer, referenceNames).join("\n\n");
       if (typeOnly && symbol.flags & ts.SymbolFlags.Value) {
-        printed =
-          typeof printed === "string"
-            ? `// type-only export\n${printed}`
-            : { ...printed, open: `// type-only export\n${printed.open}` };
+        printed = markTypeOnly(printed);
       }
       if (!isRoot && rootNames.has(exportedSymbol.name)) {
-        differsFromRoot.push(printed);
+        differsFromRoot.push({ name: exportedSymbol.name, code: printed });
       } else {
         declarations.push({ name: exportedSymbol.name, code: printed });
       }
@@ -611,8 +913,41 @@ function buildExportSections(
     };
   });
 
+  const forgottenNames = new Set<string>();
+  const forgottenDeclarations = [...forgottenSymbols]
+    .sort((a, b) => a.name.localeCompare(b.name, "en"))
+    .map((symbol) => {
+      if (forgottenNames.has(symbol.name)) {
+        throw new Error(
+          `[${condition}] Multiple unexported declarations are named ${symbol.name}.`,
+        );
+      }
+      forgottenNames.add(symbol.name);
+      return {
+        name: symbol.name,
+        code: printDeclarations(symbol, symbol.name, printer, referenceNames, false).join("\n\n"),
+      };
+    });
+
+  const supplementalDeclarations = (kind: "augmentation" | "typeOnlyExport"): Declaration[] =>
+    supplemental
+      .filter((entry) => entry[kind])
+      .map(({ file, relativeFile, statement, index }) => {
+        const [node] = ts.transform(statement, [
+          (context) =>
+            toReviewShape(context, undefined, "", referenceNames.rewritten, new Map(), false),
+        ]).transformed;
+        return {
+          name: `${relativeFile}:${index}`,
+          code: `// ${relativeFile}\n${printer.printNode(ts.EmitHint.Unspecified, node, file)}`,
+        };
+      });
+
   return {
     references: namedReferences,
+    forgottenDeclarations,
+    augmentations: supplementalDeclarations("augmentation"),
+    typeOnlyExports: supplementalDeclarations("typeOnlyExport"),
     sections,
     unresolvedReferences,
   };
@@ -733,6 +1068,7 @@ function printDeclarations(
   publicName: string,
   printer: ts.Printer,
   referenceNames: ReferenceNames,
+  exported = true,
 ): string[] {
   return (symbol.declarations ?? []).map((declaration) => {
     const node = ts.isVariableDeclaration(declaration) ? declaration.parent.parent : declaration;
@@ -752,7 +1088,14 @@ function printDeclarations(
 
     const [reviewNode] = ts.transform(node, [
       (context) =>
-        toReviewShape(context, declaredName, publicName, referenceNames.rewritten, forgotten),
+        toReviewShape(
+          context,
+          declaredName,
+          publicName,
+          referenceNames.rewritten,
+          forgotten,
+          exported,
+        ),
     ]).transformed;
     return printer.printNode(ts.EmitHint.Unspecified, reviewNode, node.getSourceFile());
   });
@@ -802,6 +1145,7 @@ function toReviewShape(
   publicName: string,
   referenceName: (node: ts.Node) => string | undefined,
   forgotten: ReadonlyMap<ts.Node, string[]>,
+  exported: boolean,
 ): ts.Transformer<ts.Node> {
   let printed: ts.Node | undefined;
   const visit = (node: ts.Node): ts.Node | undefined => {
@@ -840,8 +1184,9 @@ function toReviewShape(
           modifier.kind !== ts.SyntaxKind.ExportKeyword &&
           modifier.kind !== ts.SyntaxKind.DefaultKeyword,
       );
-      const exportModifiers =
-        publicName === "default"
+      const exportModifiers = !exported
+        ? []
+        : publicName === "default"
           ? ([ts.SyntaxKind.ExportKeyword, ts.SyntaxKind.DefaultKeyword] as const)
           : ([ts.SyntaxKind.ExportKeyword] as const);
       result = context.factory.replaceModifiers(result, [

@@ -8,8 +8,13 @@ export interface Review {
   name: string;
   version: string;
   entryPoints: { path: string; conditions: string[] }[];
+  legacyTypeFields: string[];
+  versionedEntryPoints: { versions: string; path: string }[];
   dependencies: Dependency[];
   references: NamedImports[];
+  forgottenDeclarations: Declaration[];
+  augmentations: Declaration[];
+  typeOnlyExports: Declaration[];
   exportSections: ExportSection[];
   identicalConditions: string[];
   conditionDiffs: ConditionDiff[];
@@ -25,6 +30,9 @@ export interface UnresolvedReference {
 export interface ConditionDiff {
   condition: string;
   references: { change: "added" | "removed"; reference: NamedImports }[];
+  forgottenDeclarations: DiffLine[][];
+  augmentations: DiffLine[][];
+  typeOnlyExports: DiffLine[][];
   // One list of diff lines per changed declaration.
   exports: {
     path: string;
@@ -58,7 +66,7 @@ export interface ExportSection {
   path: string;
   declarations: Declaration[];
   reExports: NamedImports[];
-  differsFromRoot: Code[];
+  differsFromRoot: Declaration[];
   alsoExportedFrom: { path: string; names: string[] }[];
 }
 
@@ -70,7 +78,7 @@ export interface Dependency {
   type: DependencyType;
 }
 
-export type DependencyType = "runtime" | "peer";
+export type DependencyType = "runtime" | "optional" | "peer" | "optional peer";
 
 /**
  * A format-neutral document block. A renderer prints these without knowing about TypeScript or
