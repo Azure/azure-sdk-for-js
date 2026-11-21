@@ -109,7 +109,7 @@ export async function processDistinctQueryAndUpdateRangeMap(
       const lastItemIndex = rangeEndIndex - 1;
 
       const lastItem = originalBuffer[lastItemIndex];
-      if (lastItem) {
+      if (lastItem !== undefined) {
         lastHashForThisRange = await hashFunction(lastItem);
       }
       bufferIndex = rangeEndIndex;

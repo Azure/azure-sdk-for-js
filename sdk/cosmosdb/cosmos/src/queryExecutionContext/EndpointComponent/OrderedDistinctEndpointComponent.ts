@@ -42,7 +42,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
 
     // Process each item and maintain hashedLastResult for distinct filtering
     for (const item of dataToProcess) {
-      if (item) {
+      if (item !== undefined) {
         const hashedResult = await hashObject(item);
         if (hashedResult !== this.hashedLastResult) {
           buffer.push(item);
