@@ -56,8 +56,8 @@ describe("ContainerRegistry test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest11162026";
-    registryName = "myregistry11162026";
+    resourceGroup = "myjstest11202026";
+    registryName = "myregistry11202026";
   });
 
   afterEach(async () => {

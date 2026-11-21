@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified webhook.
  *
  * @summary gets the properties of the specified webhook.
- * x-ms-original-file: 2026-10-15-preview/WebhookGet.json
+ * x-ms-original-file: 2026-11-01/WebhookGet.json
  */
 async function webhookGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

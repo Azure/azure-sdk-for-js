@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all connected registries for the specified container registry.
  *
  * @summary lists all connected registries for the specified container registry.
- * x-ms-original-file: 2026-10-15-preview/ConnectedRegistryList.json
+ * x-ms-original-file: 2026-11-01/ConnectedRegistryList.json
  */
 async function connectedRegistryList(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,5 +1,38 @@
 # Release History
 
+## 13.0.0 (2026-11-20)
+
+### Features Added
+  - Added Interface VirtualNetworkRule
+  - Interface NetworkRuleSet has a new optional parameter virtualNetworkRules
+  - Interface Registry has a new optional parameter endpointProtocol
+  - Interface Registry has a new optional parameter regionalEndpointHostNames
+  - Interface Registry has a new optional parameter regionalEndpoints
+  - Interface RegistryProperties has a new optional parameter endpointProtocol
+  - Interface RegistryProperties has a new optional parameter regionalEndpointHostNames
+  - Interface RegistryProperties has a new optional parameter regionalEndpoints
+  - Interface RegistryPropertiesUpdateParameters has a new optional parameter endpointProtocol
+  - Interface RegistryPropertiesUpdateParameters has a new optional parameter regionalEndpoints
+  - Interface RegistryUpdateParameters has a new optional parameter endpointProtocol
+  - Interface RegistryUpdateParameters has a new optional parameter regionalEndpoints
+  - Added Type Alias EndpointProtocol
+  - Added Type Alias RegionalEndpoints
+  - Added Enum KnownEndpointProtocol
+  - Added Enum KnownRegionalEndpoints
+  - Enum KnownVersions has a new value V20261101
+
+### Breaking Changes
+  - Operation ConnectedRegistriesOperations.beginCreate has a new signature
+  - Operation ConnectedRegistriesOperations.beginCreateAndWait has a new signature
+  - Operation ConnectedRegistriesOperations.beginUpdate has a new signature
+  - Operation ConnectedRegistriesOperations.beginUpdateAndWait has a new signature
+  - Operation ConnectedRegistriesOperations.create has a new signature
+  - Operation ConnectedRegistriesOperations.get has a new signature
+  - Operation ConnectedRegistriesOperations.list has a new signature
+  - Operation ConnectedRegistriesOperations.update has a new signature
+  - Type of property connectedRegistries of class ContainerRegistryManagementClient has changed
+  - Parameter tokenId of interface SyncProperties is now optional
+
 ## 13.0.0-beta.2 (2026-11-11)
 Compared with version 12.0.0
 
