@@ -56,8 +56,8 @@ describe("ContainerRegistry test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest11162026";
-    registryName = "myregistry11162026";
+    resourceGroup = "acr-sdk-ga-recording-0e7ae546";
+    registryName = "acrga202611200e7ae546";
   });
 
   afterEach(async () => {
