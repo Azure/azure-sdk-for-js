@@ -3013,13 +3013,25 @@ export interface ImageGenTool extends Tool {
   model?:
     | "gpt-image-1"
     | "gpt-image-1-mini"
-    | "gpt-image-1.5"
     | "gpt-image-2"
     | "gpt-image-2-2026-04-21"
     | "gpt-image-2.5-sunburst"
     | "gpt-image-2.5-sunburst-2026-09-08"
     | "gpt-image-2.5-flare"
-    | "gpt-image-2.5-flare-2026-09-08";
+    | "gpt-image-2.5-flare-2026-09-08"
+    | "gpt-image-2.6-sunburst"
+    | "gpt-image-2.6-flare"
+    | "gpt-image-1.5"
+    | "chatgpt-image-latest";
+  /**
+   * Computation spent planning the image, independently of rendering quality.
+   *   Overrides the outer response's `reasoning.effort` for image generation.
+   *   When omitted, inherits a supported outer reasoning effort or uses the
+   *   image model's configured default.
+   *   For SVG output, controls the reference image, not the SVG author's
+   *   reasoning.
+   */
+  complexity?: "low" | "medium" | "high";
   /**
    * The quality of the generated image. The GPT image models support `low`,
    *   `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -3030,10 +3042,28 @@ export interface ImageGenTool extends Tool {
   /** The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing. For `dall-e-2`, use one of `256x256`, `512x512`, or `1024x1024`. For `dall-e-3`, use one of `1024x1024`, `1792x1024`, or `1024x1792`. */
   size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
   /**
-   * The output format of the generated image. One of `png`, `webp`, or
-   *   `jpeg`. Default: `png`.
+   * The output format of the generated image. One of `png`, `webp`, `jpeg`,
+   *   `gif`, or `svg`. Default: `png`. GIF and SVG output require a model
+   *   that supports the selected format. GIF output does not support
+   *   partial image streaming (`partial_images` greater than `0`),
+   *   `input_image_mask`, or custom `output_compression`.
+   *   Responses lifecycle events can still be streamed for GIF output.
    */
-  output_format?: "png" | "webp" | "jpeg";
+  output_format?: "png" | "webp" | "jpeg" | "gif" | "svg";
+  /** Number of GIF frames. Requires `output_format` to be `gif`. Default: 9. */
+  frame_count?: number;
+  /**
+   * Duration of each GIF frame in milliseconds, rounded to 10 ms.
+   *   Requires `output_format` to be `gif`. Default: 200.
+   */
+  frame_duration_ms?: number;
+  /**
+   * SVG author model settings. Requires `output_format` to be `svg`.
+   *   When SVG model selection is enabled, omitting this object uses the
+   *   outer response model. Otherwise, the default SVG author is used and
+   *   explicit model overrides are unavailable.
+   */
+  svg?: SvgParam;
   /** Compression level for the output image. Default: 100. */
   output_compression?: number;
   /** Moderation level for the generated image. Default: `auto`. */
@@ -3066,9 +3096,13 @@ export function imageGenToolSerializer(item: ImageGenTool): any {
   return {
     type: item["type"],
     model: item["model"],
+    complexity: item["complexity"],
     quality: item["quality"],
     size: item["size"],
     output_format: item["output_format"],
+    frame_count: item["frame_count"],
+    frame_duration_ms: item["frame_duration_ms"],
+    svg: !item["svg"] ? item["svg"] : svgParamSerializer(item["svg"]),
     output_compression: item["output_compression"],
     moderation: item["moderation"],
     background: item["background"],
@@ -3090,9 +3124,13 @@ export function imageGenToolDeserializer(item: any): ImageGenTool {
   return {
     type: item["type"],
     model: item["model"],
+    complexity: item["complexity"],
     quality: item["quality"],
     size: item["size"],
     output_format: item["output_format"],
+    frame_count: item["frame_count"],
+    frame_duration_ms: item["frame_duration_ms"],
+    svg: !item["svg"] ? item["svg"] : svgParamDeserializer(item["svg"]),
     output_compression: item["output_compression"],
     moderation: item["moderation"],
     background: item["background"],
@@ -3245,27 +3283,27 @@ export function functionShellToolParamEnvironmentDeserializer(
 
 /** Alias for FunctionShellToolParamEnvironmentUnion */
 export type FunctionShellToolParamEnvironmentUnion =
-  | FunctionShellToolParamEnvironmentLocalEnvironmentParam
-  | FunctionShellToolParamEnvironmentContainerReferenceParam
   | ContainerAutoParam
+  | FunctionShellToolParamEnvironmentContainerReferenceParam
+  | FunctionShellToolParamEnvironmentLocalEnvironmentParam
   | FunctionShellToolParamEnvironment;
 
 export function functionShellToolParamEnvironmentUnionSerializer(
   item: FunctionShellToolParamEnvironmentUnion,
 ): any {
   switch (item.type) {
-    case "local":
-      return functionShellToolParamEnvironmentLocalEnvironmentParamSerializer(
-        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
-      );
+    case "container_auto":
+      return containerAutoParamSerializer(item as ContainerAutoParam);
 
     case "container_reference":
       return functionShellToolParamEnvironmentContainerReferenceParamSerializer(
         item as FunctionShellToolParamEnvironmentContainerReferenceParam,
       );
 
-    case "container_auto":
-      return containerAutoParamSerializer(item as ContainerAutoParam);
+    case "local":
+      return functionShellToolParamEnvironmentLocalEnvironmentParamSerializer(
+        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
+      );
 
     default:
       return functionShellToolParamEnvironmentSerializer(item);
@@ -3276,18 +3314,18 @@ export function functionShellToolParamEnvironmentUnionDeserializer(
   item: any,
 ): FunctionShellToolParamEnvironmentUnion {
   switch (item["type"]) {
-    case "local":
-      return functionShellToolParamEnvironmentLocalEnvironmentParamDeserializer(
-        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
-      );
+    case "container_auto":
+      return containerAutoParamDeserializer(item as ContainerAutoParam);
 
     case "container_reference":
       return functionShellToolParamEnvironmentContainerReferenceParamDeserializer(
         item as FunctionShellToolParamEnvironmentContainerReferenceParam,
       );
 
-    case "container_auto":
-      return containerAutoParamDeserializer(item as ContainerAutoParam);
+    case "local":
+      return functionShellToolParamEnvironmentLocalEnvironmentParamDeserializer(
+        item as FunctionShellToolParamEnvironmentLocalEnvironmentParam,
+      );
 
     default:
       return functionShellToolParamEnvironmentDeserializer(item);
@@ -11984,6 +12022,7 @@ export interface ResponseUsageInputTokensDetails {
   cached_tokens: number;
   /** The number of cache-write input tokens used. */
   cache_write_tokens?: number;
+  cache_write_tokens_details?: CacheWriteTokensDetails;
 }
 
 export function responseUsageInputTokensDetailsDeserializer(
@@ -11992,6 +12031,9 @@ export function responseUsageInputTokensDetailsDeserializer(
   return {
     cached_tokens: item["cached_tokens"],
     cache_write_tokens: item["cache_write_tokens"],
+    cache_write_tokens_details: !item["cache_write_tokens_details"]
+      ? item["cache_write_tokens_details"]
+      : cacheWriteTokensDetailsDeserializer(item["cache_write_tokens_details"]),
   };
 }
 
@@ -18755,6 +18797,7 @@ export function realtimeConversationItemDeserializer(item: any): RealtimeConvers
 
 /** Alias for RealtimeConversationItemUnion */
 export type RealtimeConversationItemUnion =
+  | VoiceAgentSystemToolItem
   | RealtimeConversationItemMessageUnion
   | RealtimeConversationItemFunctionCall
   | RealtimeConversationItemFunctionCallOutput
@@ -18762,11 +18805,13 @@ export type RealtimeConversationItemUnion =
   | RealtimeMCPListTools
   | RealtimeMCPToolCall
   | RealtimeMCPApprovalRequest
-  | VoiceAgentSystemToolItem
   | RealtimeConversationItem;
 
 export function realtimeConversationItemUnionSerializer(item: RealtimeConversationItemUnion): any {
   switch (item.type) {
+    case "system_tool":
+      return voiceAgentSystemToolItemSerializer(item as VoiceAgentSystemToolItem);
+
     case "message":
       return realtimeConversationItemMessageUnionSerializer(
         item as RealtimeConversationItemMessageUnion,
@@ -18794,9 +18839,6 @@ export function realtimeConversationItemUnionSerializer(item: RealtimeConversati
     case "mcp_approval_request":
       return realtimeMCPApprovalRequestSerializer(item as RealtimeMCPApprovalRequest);
 
-    case "system_tool":
-      return voiceAgentSystemToolItemSerializer(item as VoiceAgentSystemToolItem);
-
     default:
       return realtimeConversationItemSerializer(item);
   }
@@ -18806,6 +18848,9 @@ export function realtimeConversationItemUnionDeserializer(
   item: any,
 ): RealtimeConversationItemUnion {
   switch (item["type"]) {
+    case "system_tool":
+      return voiceAgentSystemToolItemDeserializer(item as VoiceAgentSystemToolItem);
+
     case "message":
       return realtimeConversationItemMessageUnionDeserializer(
         item as RealtimeConversationItemMessageUnion,
@@ -18832,9 +18877,6 @@ export function realtimeConversationItemUnionDeserializer(
 
     case "mcp_approval_request":
       return realtimeMCPApprovalRequestDeserializer(item as RealtimeMCPApprovalRequest);
-
-    case "system_tool":
-      return voiceAgentSystemToolItemDeserializer(item as VoiceAgentSystemToolItem);
 
     default:
       return realtimeConversationItemDeserializer(item);
@@ -21660,17 +21702,28 @@ export function realtimeServerEventDeserializer(item: any): RealtimeServerEvent 
 
 /** Alias for RealtimeServerEventUnion */
 export type RealtimeServerEventUnion =
+  | VoiceAgentServerEventSessionHandoffStarted
+  | VoiceAgentServerEventSessionHandoffCompleted
+  | VoiceAgentServerEventSessionHandoffAborted
+  | RealtimeServerEventConversationItemAdded
   | RealtimeServerEventConversationItemCreated
   | RealtimeServerEventConversationItemDeleted
+  | RealtimeServerEventConversationItemDone
   | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted
   | RealtimeServerEventConversationItemInputAudioTranscriptionDelta
   | RealtimeServerEventConversationItemInputAudioTranscriptionFailed
+  | RealtimeServerEventConversationItemInputAudioTranscriptionSegment
   | RealtimeServerEventConversationItemRetrieved
   | RealtimeServerEventConversationItemTruncated
   | RealtimeServerEventInputAudioBufferCleared
   | RealtimeServerEventInputAudioBufferCommitted
   | RealtimeServerEventInputAudioBufferSpeechStarted
   | RealtimeServerEventInputAudioBufferSpeechStopped
+  | RealtimeServerEventInputAudioBufferTimeoutTriggered
+  | RealtimeServerEventMCPListToolsCompleted
+  | RealtimeServerEventMCPListToolsFailed
+  | RealtimeServerEventMCPListToolsInProgress
+  | RealtimeServerEventOutputAudioBufferCleared
   | RealtimeServerEventRateLimitsUpdated
   | RealtimeServerEventResponseAudioDelta
   | RealtimeServerEventResponseAudioDone
@@ -21682,34 +21735,23 @@ export type RealtimeServerEventUnion =
   | RealtimeServerEventResponseDone
   | RealtimeServerEventResponseFunctionCallArgumentsDelta
   | RealtimeServerEventResponseFunctionCallArgumentsDone
+  | VoiceAgentServerEventSystemToolArgumentsDelta
+  | VoiceAgentServerEventSystemToolArgumentsDone
+  | VoiceAgentServerEventInputCollectionStatus
+  | RealtimeServerEventResponseMCPCallArgumentsDelta
+  | RealtimeServerEventResponseMCPCallArgumentsDone
+  | RealtimeServerEventResponseMCPCallCompleted
+  | RealtimeServerEventResponseMCPCallFailed
+  | RealtimeServerEventResponseMCPCallInProgress
   | RealtimeServerEventResponseOutputItemAdded
   | RealtimeServerEventResponseOutputItemDone
   | RealtimeServerEventResponseTextDelta
   | RealtimeServerEventResponseTextDone
   | RealtimeServerEventSessionCreated
-  | RealtimeServerEventSessionUpdated
-  | RealtimeServerEventOutputAudioBufferCleared
-  | RealtimeServerEventConversationItemAdded
-  | RealtimeServerEventConversationItemDone
-  | RealtimeServerEventInputAudioBufferTimeoutTriggered
-  | RealtimeServerEventConversationItemInputAudioTranscriptionSegment
-  | RealtimeServerEventMCPListToolsInProgress
-  | RealtimeServerEventMCPListToolsCompleted
-  | RealtimeServerEventMCPListToolsFailed
-  | RealtimeServerEventResponseMCPCallArgumentsDelta
-  | RealtimeServerEventResponseMCPCallArgumentsDone
-  | RealtimeServerEventResponseMCPCallInProgress
-  | RealtimeServerEventResponseMCPCallCompleted
-  | RealtimeServerEventResponseMCPCallFailed
-  | VoiceAgentServerEventSessionHandoffStarted
-  | VoiceAgentServerEventSessionHandoffCompleted
-  | VoiceAgentServerEventSessionHandoffAborted
-  | VoiceAgentServerEventSystemToolArgumentsDelta
-  | VoiceAgentServerEventSystemToolArgumentsDone
-  | VoiceAgentServerEventInputCollectionStatus
   | VoiceAgentServerEventSessionSubagentStarted
   | VoiceAgentServerEventSessionSubagentCompleted
   | VoiceAgentServerEventSessionSubagentAborted
+  | RealtimeServerEventSessionUpdated
   | VoiceAgentServerEventWarning
   | VoiceAgentServerEventSessionAvatarConnecting
   | VoiceAgentServerEventRtcCallSdpCreated
@@ -21727,6 +21769,26 @@ export type RealtimeServerEventUnion =
 
 export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnion): any {
   switch (item.type) {
+    case "session.handoff.started":
+      return voiceAgentServerEventSessionHandoffStartedSerializer(
+        item as VoiceAgentServerEventSessionHandoffStarted,
+      );
+
+    case "session.handoff.completed":
+      return voiceAgentServerEventSessionHandoffCompletedSerializer(
+        item as VoiceAgentServerEventSessionHandoffCompleted,
+      );
+
+    case "session.handoff.aborted":
+      return voiceAgentServerEventSessionHandoffAbortedSerializer(
+        item as VoiceAgentServerEventSessionHandoffAborted,
+      );
+
+    case "conversation.item.added":
+      return realtimeServerEventConversationItemAddedSerializer(
+        item as RealtimeServerEventConversationItemAdded,
+      );
+
     case "conversation.item.created":
       return realtimeServerEventConversationItemCreatedSerializer(
         item as RealtimeServerEventConversationItemCreated,
@@ -21735,6 +21797,11 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
     case "conversation.item.deleted":
       return realtimeServerEventConversationItemDeletedSerializer(
         item as RealtimeServerEventConversationItemDeleted,
+      );
+
+    case "conversation.item.done":
+      return realtimeServerEventConversationItemDoneSerializer(
+        item as RealtimeServerEventConversationItemDone,
       );
 
     case "conversation.item.input_audio_transcription.completed":
@@ -21750,6 +21817,11 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
     case "conversation.item.input_audio_transcription.failed":
       return realtimeServerEventConversationItemInputAudioTranscriptionFailedSerializer(
         item as RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+      );
+
+    case "conversation.item.input_audio_transcription.segment":
+      return realtimeServerEventConversationItemInputAudioTranscriptionSegmentSerializer(
+        item as RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
       );
 
     case "conversation.item.retrieved":
@@ -21780,6 +21852,31 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
     case "input_audio_buffer.speech_stopped":
       return realtimeServerEventInputAudioBufferSpeechStoppedSerializer(
         item as RealtimeServerEventInputAudioBufferSpeechStopped,
+      );
+
+    case "input_audio_buffer.timeout_triggered":
+      return realtimeServerEventInputAudioBufferTimeoutTriggeredSerializer(
+        item as RealtimeServerEventInputAudioBufferTimeoutTriggered,
+      );
+
+    case "mcp_list_tools.completed":
+      return realtimeServerEventMCPListToolsCompletedSerializer(
+        item as RealtimeServerEventMCPListToolsCompleted,
+      );
+
+    case "mcp_list_tools.failed":
+      return realtimeServerEventMCPListToolsFailedSerializer(
+        item as RealtimeServerEventMCPListToolsFailed,
+      );
+
+    case "mcp_list_tools.in_progress":
+      return realtimeServerEventMCPListToolsInProgressSerializer(
+        item as RealtimeServerEventMCPListToolsInProgress,
+      );
+
+    case "output_audio_buffer.cleared":
+      return realtimeServerEventOutputAudioBufferClearedSerializer(
+        item as RealtimeServerEventOutputAudioBufferCleared,
       );
 
     case "rate_limits.updated":
@@ -21835,6 +21932,46 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
         item as RealtimeServerEventResponseFunctionCallArgumentsDone,
       );
 
+    case "response.system_tool_arguments.delta":
+      return voiceAgentServerEventSystemToolArgumentsDeltaSerializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDelta,
+      );
+
+    case "response.system_tool_arguments.done":
+      return voiceAgentServerEventSystemToolArgumentsDoneSerializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDone,
+      );
+
+    case "input_collection.status":
+      return voiceAgentServerEventInputCollectionStatusSerializer(
+        item as VoiceAgentServerEventInputCollectionStatus,
+      );
+
+    case "response.mcp_call_arguments.delta":
+      return realtimeServerEventResponseMCPCallArgumentsDeltaSerializer(
+        item as RealtimeServerEventResponseMCPCallArgumentsDelta,
+      );
+
+    case "response.mcp_call_arguments.done":
+      return realtimeServerEventResponseMCPCallArgumentsDoneSerializer(
+        item as RealtimeServerEventResponseMCPCallArgumentsDone,
+      );
+
+    case "response.mcp_call.completed":
+      return realtimeServerEventResponseMCPCallCompletedSerializer(
+        item as RealtimeServerEventResponseMCPCallCompleted,
+      );
+
+    case "response.mcp_call.failed":
+      return realtimeServerEventResponseMCPCallFailedSerializer(
+        item as RealtimeServerEventResponseMCPCallFailed,
+      );
+
+    case "response.mcp_call.in_progress":
+      return realtimeServerEventResponseMCPCallInProgressSerializer(
+        item as RealtimeServerEventResponseMCPCallInProgress,
+      );
+
     case "response.output_item.added":
       return realtimeServerEventResponseOutputItemAddedSerializer(
         item as RealtimeServerEventResponseOutputItemAdded,
@@ -21858,104 +21995,6 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
     case "session.created":
       return realtimeServerEventSessionCreatedSerializer(item as RealtimeServerEventSessionCreated);
 
-    case "session.updated":
-      return realtimeServerEventSessionUpdatedSerializer(item as RealtimeServerEventSessionUpdated);
-
-    case "output_audio_buffer.cleared":
-      return realtimeServerEventOutputAudioBufferClearedSerializer(
-        item as RealtimeServerEventOutputAudioBufferCleared,
-      );
-
-    case "conversation.item.added":
-      return realtimeServerEventConversationItemAddedSerializer(
-        item as RealtimeServerEventConversationItemAdded,
-      );
-
-    case "conversation.item.done":
-      return realtimeServerEventConversationItemDoneSerializer(
-        item as RealtimeServerEventConversationItemDone,
-      );
-
-    case "input_audio_buffer.timeout_triggered":
-      return realtimeServerEventInputAudioBufferTimeoutTriggeredSerializer(
-        item as RealtimeServerEventInputAudioBufferTimeoutTriggered,
-      );
-
-    case "conversation.item.input_audio_transcription.segment":
-      return realtimeServerEventConversationItemInputAudioTranscriptionSegmentSerializer(
-        item as RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
-      );
-
-    case "mcp_list_tools.in_progress":
-      return realtimeServerEventMCPListToolsInProgressSerializer(
-        item as RealtimeServerEventMCPListToolsInProgress,
-      );
-
-    case "mcp_list_tools.completed":
-      return realtimeServerEventMCPListToolsCompletedSerializer(
-        item as RealtimeServerEventMCPListToolsCompleted,
-      );
-
-    case "mcp_list_tools.failed":
-      return realtimeServerEventMCPListToolsFailedSerializer(
-        item as RealtimeServerEventMCPListToolsFailed,
-      );
-
-    case "response.mcp_call_arguments.delta":
-      return realtimeServerEventResponseMCPCallArgumentsDeltaSerializer(
-        item as RealtimeServerEventResponseMCPCallArgumentsDelta,
-      );
-
-    case "response.mcp_call_arguments.done":
-      return realtimeServerEventResponseMCPCallArgumentsDoneSerializer(
-        item as RealtimeServerEventResponseMCPCallArgumentsDone,
-      );
-
-    case "response.mcp_call.in_progress":
-      return realtimeServerEventResponseMCPCallInProgressSerializer(
-        item as RealtimeServerEventResponseMCPCallInProgress,
-      );
-
-    case "response.mcp_call.completed":
-      return realtimeServerEventResponseMCPCallCompletedSerializer(
-        item as RealtimeServerEventResponseMCPCallCompleted,
-      );
-
-    case "response.mcp_call.failed":
-      return realtimeServerEventResponseMCPCallFailedSerializer(
-        item as RealtimeServerEventResponseMCPCallFailed,
-      );
-
-    case "session.handoff.started":
-      return voiceAgentServerEventSessionHandoffStartedSerializer(
-        item as VoiceAgentServerEventSessionHandoffStarted,
-      );
-
-    case "session.handoff.completed":
-      return voiceAgentServerEventSessionHandoffCompletedSerializer(
-        item as VoiceAgentServerEventSessionHandoffCompleted,
-      );
-
-    case "session.handoff.aborted":
-      return voiceAgentServerEventSessionHandoffAbortedSerializer(
-        item as VoiceAgentServerEventSessionHandoffAborted,
-      );
-
-    case "response.system_tool_arguments.delta":
-      return voiceAgentServerEventSystemToolArgumentsDeltaSerializer(
-        item as VoiceAgentServerEventSystemToolArgumentsDelta,
-      );
-
-    case "response.system_tool_arguments.done":
-      return voiceAgentServerEventSystemToolArgumentsDoneSerializer(
-        item as VoiceAgentServerEventSystemToolArgumentsDone,
-      );
-
-    case "input_collection.status":
-      return voiceAgentServerEventInputCollectionStatusSerializer(
-        item as VoiceAgentServerEventInputCollectionStatus,
-      );
-
     case "session.subagent.started":
       return voiceAgentServerEventSessionSubagentStartedSerializer(
         item as VoiceAgentServerEventSessionSubagentStarted,
@@ -21970,6 +22009,9 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
       return voiceAgentServerEventSessionSubagentAbortedSerializer(
         item as VoiceAgentServerEventSessionSubagentAborted,
       );
+
+    case "session.updated":
+      return realtimeServerEventSessionUpdatedSerializer(item as RealtimeServerEventSessionUpdated);
 
     case "warning":
       return voiceAgentServerEventWarningSerializer(item as VoiceAgentServerEventWarning);
@@ -22039,6 +22081,26 @@ export function realtimeServerEventUnionSerializer(item: RealtimeServerEventUnio
 
 export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerEventUnion {
   switch (item["type"]) {
+    case "session.handoff.started":
+      return voiceAgentServerEventSessionHandoffStartedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffStarted,
+      );
+
+    case "session.handoff.completed":
+      return voiceAgentServerEventSessionHandoffCompletedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffCompleted,
+      );
+
+    case "session.handoff.aborted":
+      return voiceAgentServerEventSessionHandoffAbortedDeserializer(
+        item as VoiceAgentServerEventSessionHandoffAborted,
+      );
+
+    case "conversation.item.added":
+      return realtimeServerEventConversationItemAddedDeserializer(
+        item as RealtimeServerEventConversationItemAdded,
+      );
+
     case "conversation.item.created":
       return realtimeServerEventConversationItemCreatedDeserializer(
         item as RealtimeServerEventConversationItemCreated,
@@ -22047,6 +22109,11 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
     case "conversation.item.deleted":
       return realtimeServerEventConversationItemDeletedDeserializer(
         item as RealtimeServerEventConversationItemDeleted,
+      );
+
+    case "conversation.item.done":
+      return realtimeServerEventConversationItemDoneDeserializer(
+        item as RealtimeServerEventConversationItemDone,
       );
 
     case "conversation.item.input_audio_transcription.completed":
@@ -22062,6 +22129,11 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
     case "conversation.item.input_audio_transcription.failed":
       return realtimeServerEventConversationItemInputAudioTranscriptionFailedDeserializer(
         item as RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+      );
+
+    case "conversation.item.input_audio_transcription.segment":
+      return realtimeServerEventConversationItemInputAudioTranscriptionSegmentDeserializer(
+        item as RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
       );
 
     case "conversation.item.retrieved":
@@ -22092,6 +22164,31 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
     case "input_audio_buffer.speech_stopped":
       return realtimeServerEventInputAudioBufferSpeechStoppedDeserializer(
         item as RealtimeServerEventInputAudioBufferSpeechStopped,
+      );
+
+    case "input_audio_buffer.timeout_triggered":
+      return realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer(
+        item as RealtimeServerEventInputAudioBufferTimeoutTriggered,
+      );
+
+    case "mcp_list_tools.completed":
+      return realtimeServerEventMCPListToolsCompletedDeserializer(
+        item as RealtimeServerEventMCPListToolsCompleted,
+      );
+
+    case "mcp_list_tools.failed":
+      return realtimeServerEventMCPListToolsFailedDeserializer(
+        item as RealtimeServerEventMCPListToolsFailed,
+      );
+
+    case "mcp_list_tools.in_progress":
+      return realtimeServerEventMCPListToolsInProgressDeserializer(
+        item as RealtimeServerEventMCPListToolsInProgress,
+      );
+
+    case "output_audio_buffer.cleared":
+      return realtimeServerEventOutputAudioBufferClearedDeserializer(
+        item as RealtimeServerEventOutputAudioBufferCleared,
       );
 
     case "rate_limits.updated":
@@ -22147,6 +22244,46 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
         item as RealtimeServerEventResponseFunctionCallArgumentsDone,
       );
 
+    case "response.system_tool_arguments.delta":
+      return voiceAgentServerEventSystemToolArgumentsDeltaDeserializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDelta,
+      );
+
+    case "response.system_tool_arguments.done":
+      return voiceAgentServerEventSystemToolArgumentsDoneDeserializer(
+        item as VoiceAgentServerEventSystemToolArgumentsDone,
+      );
+
+    case "input_collection.status":
+      return voiceAgentServerEventInputCollectionStatusDeserializer(
+        item as VoiceAgentServerEventInputCollectionStatus,
+      );
+
+    case "response.mcp_call_arguments.delta":
+      return realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer(
+        item as RealtimeServerEventResponseMCPCallArgumentsDelta,
+      );
+
+    case "response.mcp_call_arguments.done":
+      return realtimeServerEventResponseMCPCallArgumentsDoneDeserializer(
+        item as RealtimeServerEventResponseMCPCallArgumentsDone,
+      );
+
+    case "response.mcp_call.completed":
+      return realtimeServerEventResponseMCPCallCompletedDeserializer(
+        item as RealtimeServerEventResponseMCPCallCompleted,
+      );
+
+    case "response.mcp_call.failed":
+      return realtimeServerEventResponseMCPCallFailedDeserializer(
+        item as RealtimeServerEventResponseMCPCallFailed,
+      );
+
+    case "response.mcp_call.in_progress":
+      return realtimeServerEventResponseMCPCallInProgressDeserializer(
+        item as RealtimeServerEventResponseMCPCallInProgress,
+      );
+
     case "response.output_item.added":
       return realtimeServerEventResponseOutputItemAddedDeserializer(
         item as RealtimeServerEventResponseOutputItemAdded,
@@ -22172,106 +22309,6 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
         item as RealtimeServerEventSessionCreated,
       );
 
-    case "session.updated":
-      return realtimeServerEventSessionUpdatedDeserializer(
-        item as RealtimeServerEventSessionUpdated,
-      );
-
-    case "output_audio_buffer.cleared":
-      return realtimeServerEventOutputAudioBufferClearedDeserializer(
-        item as RealtimeServerEventOutputAudioBufferCleared,
-      );
-
-    case "conversation.item.added":
-      return realtimeServerEventConversationItemAddedDeserializer(
-        item as RealtimeServerEventConversationItemAdded,
-      );
-
-    case "conversation.item.done":
-      return realtimeServerEventConversationItemDoneDeserializer(
-        item as RealtimeServerEventConversationItemDone,
-      );
-
-    case "input_audio_buffer.timeout_triggered":
-      return realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer(
-        item as RealtimeServerEventInputAudioBufferTimeoutTriggered,
-      );
-
-    case "conversation.item.input_audio_transcription.segment":
-      return realtimeServerEventConversationItemInputAudioTranscriptionSegmentDeserializer(
-        item as RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
-      );
-
-    case "mcp_list_tools.in_progress":
-      return realtimeServerEventMCPListToolsInProgressDeserializer(
-        item as RealtimeServerEventMCPListToolsInProgress,
-      );
-
-    case "mcp_list_tools.completed":
-      return realtimeServerEventMCPListToolsCompletedDeserializer(
-        item as RealtimeServerEventMCPListToolsCompleted,
-      );
-
-    case "mcp_list_tools.failed":
-      return realtimeServerEventMCPListToolsFailedDeserializer(
-        item as RealtimeServerEventMCPListToolsFailed,
-      );
-
-    case "response.mcp_call_arguments.delta":
-      return realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer(
-        item as RealtimeServerEventResponseMCPCallArgumentsDelta,
-      );
-
-    case "response.mcp_call_arguments.done":
-      return realtimeServerEventResponseMCPCallArgumentsDoneDeserializer(
-        item as RealtimeServerEventResponseMCPCallArgumentsDone,
-      );
-
-    case "response.mcp_call.in_progress":
-      return realtimeServerEventResponseMCPCallInProgressDeserializer(
-        item as RealtimeServerEventResponseMCPCallInProgress,
-      );
-
-    case "response.mcp_call.completed":
-      return realtimeServerEventResponseMCPCallCompletedDeserializer(
-        item as RealtimeServerEventResponseMCPCallCompleted,
-      );
-
-    case "response.mcp_call.failed":
-      return realtimeServerEventResponseMCPCallFailedDeserializer(
-        item as RealtimeServerEventResponseMCPCallFailed,
-      );
-
-    case "session.handoff.started":
-      return voiceAgentServerEventSessionHandoffStartedDeserializer(
-        item as VoiceAgentServerEventSessionHandoffStarted,
-      );
-
-    case "session.handoff.completed":
-      return voiceAgentServerEventSessionHandoffCompletedDeserializer(
-        item as VoiceAgentServerEventSessionHandoffCompleted,
-      );
-
-    case "session.handoff.aborted":
-      return voiceAgentServerEventSessionHandoffAbortedDeserializer(
-        item as VoiceAgentServerEventSessionHandoffAborted,
-      );
-
-    case "response.system_tool_arguments.delta":
-      return voiceAgentServerEventSystemToolArgumentsDeltaDeserializer(
-        item as VoiceAgentServerEventSystemToolArgumentsDelta,
-      );
-
-    case "response.system_tool_arguments.done":
-      return voiceAgentServerEventSystemToolArgumentsDoneDeserializer(
-        item as VoiceAgentServerEventSystemToolArgumentsDone,
-      );
-
-    case "input_collection.status":
-      return voiceAgentServerEventInputCollectionStatusDeserializer(
-        item as VoiceAgentServerEventInputCollectionStatus,
-      );
-
     case "session.subagent.started":
       return voiceAgentServerEventSessionSubagentStartedDeserializer(
         item as VoiceAgentServerEventSessionSubagentStarted,
@@ -22285,6 +22322,11 @@ export function realtimeServerEventUnionDeserializer(item: any): RealtimeServerE
     case "session.subagent.aborted":
       return voiceAgentServerEventSessionSubagentAbortedDeserializer(
         item as VoiceAgentServerEventSessionSubagentAborted,
+      );
+
+    case "session.updated":
+      return realtimeServerEventSessionUpdatedDeserializer(
+        item as RealtimeServerEventSessionUpdated,
       );
 
     case "warning":
@@ -41271,5 +41313,63 @@ export function csvEvalRunDataSourceDeserializer(item: any): CsvEvalRunDataSourc
   return {
     type: item["type"],
     source: evalCsvFileIdSourceDeserializer(item["source"]),
+  };
+}
+
+/** model interface SvgParam */
+export interface SvgParam {
+  model?: string;
+  reasoning?: SvgReasoningParam;
+}
+
+export function svgParamSerializer(item: SvgParam): any {
+  return {
+    model: item["model"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : svgReasoningParamSerializer(item["reasoning"]),
+  };
+}
+
+export function svgParamDeserializer(item: any): SvgParam {
+  return {
+    model: item["model"],
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : svgReasoningParamDeserializer(item["reasoning"]),
+  };
+}
+
+/** Reasoning effort for SVG authoring. When omitted, uses the author model's default in both Images and Responses. */
+export interface SvgReasoningParam {
+  /** Controls how much effort the model should spend on reasoning for this request. */
+  effort?: ReasoningEffortEnum;
+}
+
+export function svgReasoningParamSerializer(item: SvgReasoningParam): any {
+  return { effort: item["effort"] };
+}
+
+export function svgReasoningParamDeserializer(item: any): SvgReasoningParam {
+  return {
+    effort: item["effort"],
+  };
+}
+
+/** Type of ReasoningEffortEnum */
+export type ReasoningEffortEnum = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
+
+/** model interface CacheWriteTokensDetails */
+export interface CacheWriteTokensDetails {
+  /** The number of input tokens written with 30-minute retention. */
+  ttl_30m_tokens: number;
+  /** The number of input tokens written with 12-hour retention. */
+  ttl_12h_tokens: number;
+}
+
+export function cacheWriteTokensDetailsDeserializer(item: any): CacheWriteTokensDetails {
+  return {
+    ttl_30m_tokens: item["ttl_30m_tokens"],
+    ttl_12h_tokens: item["ttl_12h_tokens"],
   };
 }

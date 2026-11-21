@@ -8,37 +8,37 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  MCPToolRequireApproval,
+  MCPToolRequireApproval as MCPToolRequireApproval_1,
   MCPToolFilter,
   ComparisonFilter,
   CompoundFilter,
   AutoCodeInterpreterToolParam,
 } from "../openAI/models.js";
 
-/** Alias for _MCPToolAllowedTools */
-export type _MCPToolAllowedTools = string[] | MCPToolFilter;
+/** Alias for MCPToolAllowedTools */
+export type MCPToolAllowedTools = string[] | MCPToolFilter;
 
-export function _MCPToolAllowedToolsSerializer(item: _MCPToolAllowedTools): any {
+export function mcpToolAllowedToolsSerializer(item: MCPToolAllowedTools): any {
   return item;
 }
 
-export function _MCPToolAllowedToolsDeserializer(item: any): _MCPToolAllowedTools {
+export function mcpToolAllowedToolsDeserializer(item: any): MCPToolAllowedTools {
   return item;
 }
 
-/** Alias for _MCPToolRequireApproval */
-export type _MCPToolRequireApproval = MCPToolRequireApproval | "always" | "never";
+/** Alias for MCPToolRequireApproval */
+export type MCPToolRequireApproval = MCPToolRequireApproval_1 | "always" | "never";
 
-export function _MCPToolRequireApprovalSerializer(item: _MCPToolRequireApproval): any {
+export function mcpToolRequireApprovalSerializer(item: MCPToolRequireApproval): any {
   return item;
 }
 
-export function _MCPToolRequireApprovalDeserializer(item: any): _MCPToolRequireApproval {
+export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApproval {
   return item;
 }
 
 /** Alias for FileSearchToolFiltersValue */
-export type FileSearchToolFiltersValue = string | number | boolean | _FileSearchToolFiltersValue[];
+export type FileSearchToolFiltersValue = string | number | boolean | FileSearchToolFiltersValue_1[];
 
 export function fileSearchToolFiltersValueSerializer(item: FileSearchToolFiltersValue): any {
   return item;
@@ -48,69 +48,67 @@ export function fileSearchToolFiltersValueDeserializer(item: any): FileSearchToo
   return item;
 }
 
-export function _FileSearchToolFiltersValueArraySerializer(
-  result: Array<_FileSearchToolFiltersValue>,
+export function fileSearchToolFiltersValueArraySerializer(
+  result: Array<FileSearchToolFiltersValue>,
 ): any[] {
   return result.map((item) => {
-    return _FileSearchToolFiltersValueSerializer(item);
+    return fileSearchToolFiltersValueSerializer_1(item);
   });
 }
 
-export function _FileSearchToolFiltersValueArrayDeserializer(
-  result: Array<_FileSearchToolFiltersValue>,
+export function fileSearchToolFiltersValueArrayDeserializer(
+  result: Array<FileSearchToolFiltersValue>,
 ): any[] {
   return result.map((item) => {
-    return _FileSearchToolFiltersValueDeserializer(item);
+    return fileSearchToolFiltersValueDeserializer_1(item);
   });
 }
 
-/** Alias for _FileSearchToolFiltersValue */
-export type _FileSearchToolFiltersValue = string | number;
+/** Alias for FileSearchToolFiltersValue */
+export type FileSearchToolFiltersValue_1 = string | number;
 
-export function _FileSearchToolFiltersValueSerializer(item: _FileSearchToolFiltersValue): any {
+export function fileSearchToolFiltersValueSerializer_1(item: FileSearchToolFiltersValue_1): any {
   return item;
 }
 
-export function _FileSearchToolFiltersValueDeserializer(item: any): _FileSearchToolFiltersValue {
+export function fileSearchToolFiltersValueDeserializer_1(item: any): FileSearchToolFiltersValue_1 {
   return item;
 }
 
-export function _FileSearchToolFiltersFilterArraySerializer(
-  result: Array<_FileSearchToolFiltersFilter>,
+export function fileSearchToolFiltersFilterArraySerializer(
+  result: Array<FileSearchToolFiltersFilter>,
 ): any[] {
   return result.map((item) => {
-    return _FileSearchToolFiltersFilterSerializer(item);
+    return fileSearchToolFiltersFilterSerializer(item);
   });
 }
 
-export function _FileSearchToolFiltersFilterArrayDeserializer(
-  result: Array<_FileSearchToolFiltersFilter>,
+export function fileSearchToolFiltersFilterArrayDeserializer(
+  result: Array<FileSearchToolFiltersFilter>,
 ): any[] {
   return result.map((item) => {
-    return _FileSearchToolFiltersFilterDeserializer(item);
+    return fileSearchToolFiltersFilterDeserializer(item);
   });
 }
 
-/** Alias for _FileSearchToolFiltersFilter */
-export type _FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
+/** Alias for FileSearchToolFiltersFilter */
+export type FileSearchToolFiltersFilter = ComparisonFilter | CompoundFilter;
 
-export function _FileSearchToolFiltersFilterSerializer(item: _FileSearchToolFiltersFilter): any {
+export function fileSearchToolFiltersFilterSerializer(item: FileSearchToolFiltersFilter): any {
   return item;
 }
 
-export function _FileSearchToolFiltersFilterDeserializer(item: any): _FileSearchToolFiltersFilter {
+export function fileSearchToolFiltersFilterDeserializer(item: any): FileSearchToolFiltersFilter {
   return item;
 }
 
-/** Alias for _CodeInterpreterToolContainer */
-export type _CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
+/** Alias for CodeInterpreterToolContainer */
+export type CodeInterpreterToolContainer = string | AutoCodeInterpreterToolParam;
 
-export function _CodeInterpreterToolContainerSerializer(item: _CodeInterpreterToolContainer): any {
+export function codeInterpreterToolContainerSerializer(item: CodeInterpreterToolContainer): any {
   return item;
 }
 
-export function _CodeInterpreterToolContainerDeserializer(
-  item: any,
-): _CodeInterpreterToolContainer {
+export function codeInterpreterToolContainerDeserializer(item: any): CodeInterpreterToolContainer {
   return item;
 }

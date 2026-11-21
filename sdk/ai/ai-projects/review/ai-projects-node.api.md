@@ -2388,6 +2388,12 @@ export interface BrowserAutomationToolParameters {
 }
 
 // @public
+export interface CacheWriteTokensDetails {
+    ttl_12h_tokens: number;
+    ttl_30m_tokens: number;
+}
+
+// @public
 export type CallableToolAllowedCaller = "direct" | "programmatic";
 
 // @public
@@ -3990,7 +3996,7 @@ export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends 
 export type FunctionShellToolParamEnvironmentType = "container_auto" | "local" | "container_reference";
 
 // @public
-export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvironmentLocalEnvironmentParam | FunctionShellToolParamEnvironmentContainerReferenceParam | ContainerAutoParam | FunctionShellToolParamEnvironment;
+export type FunctionShellToolParamEnvironmentUnion = ContainerAutoParam | FunctionShellToolParamEnvironmentContainerReferenceParam | FunctionShellToolParamEnvironmentLocalEnvironmentParam | FunctionShellToolParamEnvironment;
 
 // @public
 export interface FunctionTool extends Tool {
@@ -4173,17 +4179,21 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
+    complexity?: "low" | "medium" | "high";
     description?: string;
+    frame_count?: number;
+    frame_duration_ms?: number;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5" | "gpt-image-2" | "gpt-image-2-2026-04-21" | "gpt-image-2.5-sunburst" | "gpt-image-2.5-sunburst-2026-09-08" | "gpt-image-2.5-flare" | "gpt-image-2.5-flare-2026-09-08";
+    model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-2" | "gpt-image-2-2026-04-21" | "gpt-image-2.5-sunburst" | "gpt-image-2.5-sunburst-2026-09-08" | "gpt-image-2.5-flare" | "gpt-image-2.5-flare-2026-09-08" | "gpt-image-2.6-sunburst" | "gpt-image-2.6-flare" | "gpt-image-1.5" | "chatgpt-image-latest";
     moderation?: "auto" | "low";
     name?: string;
     output_compression?: number;
-    output_format?: "png" | "webp" | "jpeg";
+    output_format?: "png" | "webp" | "jpeg" | "gif" | "svg";
     partial_images?: number;
     quality?: "low" | "medium" | "high" | "xhigh" | "max" | "auto";
     size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+    svg?: SvgParam;
     tool_configs?: Record<string, ToolConfig>;
     type: "image_generation";
 }
@@ -6507,7 +6517,7 @@ export interface RealtimeConversationItemMessageUserContent {
 export type RealtimeConversationItemType = string | "function_call" | "function_call_output" | "mcp_approval_response" | "mcp_list_tools" | "mcp_call" | "mcp_approval_request" | "message" | VoiceAgentConversationItemTypeExtension;
 
 // @public
-export type RealtimeConversationItemUnion = RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | VoiceAgentSystemToolItem | RealtimeConversationItem;
+export type RealtimeConversationItemUnion = VoiceAgentSystemToolItem | RealtimeConversationItemMessageUnion | RealtimeConversationItemFunctionCall | RealtimeConversationItemFunctionCallOutput | RealtimeMCPApprovalResponse | RealtimeMCPListTools | RealtimeMCPToolCall | RealtimeMCPApprovalRequest | RealtimeConversationItem;
 
 // @public
 export interface RealtimeFunctionTool {
@@ -7178,7 +7188,7 @@ export interface RealtimeServerEventSessionUpdated extends RealtimeServerEvent {
 export type RealtimeServerEventType = string | "conversation.created" | "conversation.item.created" | "conversation.item.deleted" | "conversation.item.input_audio_transcription.completed" | "conversation.item.input_audio_transcription.delta" | "conversation.item.input_audio_transcription.failed" | "conversation.item.retrieved" | "conversation.item.truncated" | "error" | "input_audio_buffer.cleared" | "input_audio_buffer.committed" | "input_audio_buffer.dtmf_event_received" | "input_audio_buffer.speech_started" | "input_audio_buffer.speech_stopped" | "rate_limits.updated" | "response.output_audio.delta" | "response.output_audio.done" | "response.output_audio_transcript.delta" | "response.output_audio_transcript.done" | "response.content_part.added" | "response.content_part.done" | "response.created" | "response.done" | "response.function_call_arguments.delta" | "response.function_call_arguments.done" | "response.output_item.added" | "response.output_item.done" | "response.output_text.delta" | "response.output_text.done" | "session.created" | "session.updated" | "output_audio_buffer.started" | "output_audio_buffer.stopped" | "output_audio_buffer.cleared" | "conversation.item.added" | "conversation.item.done" | "input_audio_buffer.timeout_triggered" | "conversation.item.input_audio_transcription.segment" | "mcp_list_tools.in_progress" | "mcp_list_tools.completed" | "mcp_list_tools.failed" | "response.mcp_call_arguments.delta" | "response.mcp_call_arguments.done" | "response.mcp_call.in_progress" | "response.mcp_call.completed" | "response.mcp_call.failed" | VoiceAgentServerEventTypeExtension;
 
 // @public
-export type RealtimeServerEventUnion = RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | RealtimeServerEventSessionUpdated | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemDone | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted | VoiceAgentServerEventSystemToolArgumentsDelta | VoiceAgentServerEventSystemToolArgumentsDone | VoiceAgentServerEventInputCollectionStatus | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | RealtimeServerEvent;
+export type RealtimeServerEventUnion = VoiceAgentServerEventSessionHandoffStarted | VoiceAgentServerEventSessionHandoffCompleted | VoiceAgentServerEventSessionHandoffAborted | RealtimeServerEventConversationItemAdded | RealtimeServerEventConversationItemCreated | RealtimeServerEventConversationItemDeleted | RealtimeServerEventConversationItemDone | RealtimeServerEventConversationItemInputAudioTranscriptionCompleted | RealtimeServerEventConversationItemInputAudioTranscriptionDelta | RealtimeServerEventConversationItemInputAudioTranscriptionFailed | RealtimeServerEventConversationItemInputAudioTranscriptionSegment | RealtimeServerEventConversationItemRetrieved | RealtimeServerEventConversationItemTruncated | RealtimeServerEventInputAudioBufferCleared | RealtimeServerEventInputAudioBufferCommitted | RealtimeServerEventInputAudioBufferSpeechStarted | RealtimeServerEventInputAudioBufferSpeechStopped | RealtimeServerEventInputAudioBufferTimeoutTriggered | RealtimeServerEventMCPListToolsCompleted | RealtimeServerEventMCPListToolsFailed | RealtimeServerEventMCPListToolsInProgress | RealtimeServerEventOutputAudioBufferCleared | RealtimeServerEventRateLimitsUpdated | RealtimeServerEventResponseAudioDelta | RealtimeServerEventResponseAudioDone | RealtimeServerEventResponseAudioTranscriptDelta | RealtimeServerEventResponseAudioTranscriptDone | RealtimeServerEventResponseContentPartAdded | RealtimeServerEventResponseContentPartDone | RealtimeServerEventResponseCreated | RealtimeServerEventResponseDone | RealtimeServerEventResponseFunctionCallArgumentsDelta | RealtimeServerEventResponseFunctionCallArgumentsDone | VoiceAgentServerEventSystemToolArgumentsDelta | VoiceAgentServerEventSystemToolArgumentsDone | VoiceAgentServerEventInputCollectionStatus | RealtimeServerEventResponseMCPCallArgumentsDelta | RealtimeServerEventResponseMCPCallArgumentsDone | RealtimeServerEventResponseMCPCallCompleted | RealtimeServerEventResponseMCPCallFailed | RealtimeServerEventResponseMCPCallInProgress | RealtimeServerEventResponseOutputItemAdded | RealtimeServerEventResponseOutputItemDone | RealtimeServerEventResponseTextDelta | RealtimeServerEventResponseTextDone | RealtimeServerEventSessionCreated | VoiceAgentServerEventSessionSubagentStarted | VoiceAgentServerEventSessionSubagentCompleted | VoiceAgentServerEventSessionSubagentAborted | RealtimeServerEventSessionUpdated | VoiceAgentServerEventWarning | VoiceAgentServerEventSessionAvatarConnecting | VoiceAgentServerEventRtcCallSdpCreated | VoiceAgentServerEventRtcCallError | VoiceAgentServerEventSessionAvatarSwitchToSpeaking | VoiceAgentServerEventSessionAvatarSwitchToIdle | VoiceAgentServerEventResponseAudioTimestampDelta | VoiceAgentServerEventResponseAudioTimestampDone | VoiceAgentServerEventResponseAnimationBlendshapesDelta | VoiceAgentServerEventResponseAnimationBlendshapesDone | VoiceAgentServerEventResponseAnimationVisemeDelta | VoiceAgentServerEventResponseAnimationVisemeDone | VoiceAgentServerEventResponseVideoDelta | RealtimeServerEvent;
 
 // @public
 export interface Reasoning {
@@ -7191,6 +7201,9 @@ export interface Reasoning {
 
 // @public
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
+
+// @public
+export type ReasoningEffortEnum = "none" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
 // @public
 export type ReasoningModeEnum = string | "standard" | "pro";
@@ -7329,6 +7342,8 @@ export interface ResponsesProtocolConfiguration {
 // @public
 export interface ResponseUsageInputTokensDetails {
     cache_write_tokens?: number;
+    // (undocumented)
+    cache_write_tokens_details?: CacheWriteTokensDetails;
     cached_tokens: number;
 }
 
@@ -7774,6 +7789,19 @@ export interface SupervisedFineTuningDataGenerationJobOutputConfiguration {
     merge_file_id?: string;
     name: string;
     write_mode?: DataGenerationJobOutputWriteMode;
+}
+
+// @public
+export interface SvgParam {
+    // (undocumented)
+    model?: string;
+    // (undocumented)
+    reasoning?: SvgReasoningParam;
+}
+
+// @public
+export interface SvgReasoningParam {
+    effort?: ReasoningEffortEnum;
 }
 
 // @public

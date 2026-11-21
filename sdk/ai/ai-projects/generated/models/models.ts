@@ -99,21 +99,29 @@ import {
   _voiceResponseMaxOutputTokensDeserializer,
   LiveSessionUsage,
   liveSessionUsageDeserializer,
-  RealtimeReasoning,
-  realtimeReasoningSerializer,
-  realtimeReasoningDeserializer,
   RealtimeServerEvent,
+  RealtimeServerEventErrorError,
+  realtimeServerEventErrorErrorSerializer,
+  realtimeServerEventErrorErrorDeserializer,
+  RealtimeServerEventConversationItemAdded,
   RealtimeServerEventConversationItemCreated,
   RealtimeServerEventConversationItemDeleted,
+  RealtimeServerEventConversationItemDone,
   RealtimeServerEventConversationItemInputAudioTranscriptionCompleted,
   RealtimeServerEventConversationItemInputAudioTranscriptionDelta,
   RealtimeServerEventConversationItemInputAudioTranscriptionFailed,
+  RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
   RealtimeServerEventConversationItemRetrieved,
   RealtimeServerEventConversationItemTruncated,
   RealtimeServerEventInputAudioBufferCleared,
   RealtimeServerEventInputAudioBufferCommitted,
   RealtimeServerEventInputAudioBufferSpeechStarted,
   RealtimeServerEventInputAudioBufferSpeechStopped,
+  RealtimeServerEventInputAudioBufferTimeoutTriggered,
+  RealtimeServerEventMCPListToolsCompleted,
+  RealtimeServerEventMCPListToolsFailed,
+  RealtimeServerEventMCPListToolsInProgress,
+  RealtimeServerEventOutputAudioBufferCleared,
   RealtimeServerEventRateLimitsUpdated,
   RealtimeServerEventResponseAudioDelta,
   RealtimeServerEventResponseAudioDone,
@@ -125,28 +133,20 @@ import {
   RealtimeServerEventResponseDone,
   RealtimeServerEventResponseFunctionCallArgumentsDelta,
   RealtimeServerEventResponseFunctionCallArgumentsDone,
+  RealtimeServerEventResponseMCPCallArgumentsDelta,
+  RealtimeServerEventResponseMCPCallArgumentsDone,
+  RealtimeServerEventResponseMCPCallCompleted,
+  RealtimeServerEventResponseMCPCallFailed,
+  RealtimeServerEventResponseMCPCallInProgress,
   RealtimeServerEventResponseOutputItemAdded,
   RealtimeServerEventResponseOutputItemDone,
   RealtimeServerEventResponseTextDelta,
   RealtimeServerEventResponseTextDone,
   RealtimeServerEventSessionCreated,
+  RealtimeReasoning,
+  realtimeReasoningSerializer,
+  realtimeReasoningDeserializer,
   RealtimeServerEventSessionUpdated,
-  RealtimeServerEventOutputAudioBufferCleared,
-  RealtimeServerEventConversationItemAdded,
-  RealtimeServerEventConversationItemDone,
-  RealtimeServerEventInputAudioBufferTimeoutTriggered,
-  RealtimeServerEventConversationItemInputAudioTranscriptionSegment,
-  RealtimeServerEventMCPListToolsInProgress,
-  RealtimeServerEventMCPListToolsCompleted,
-  RealtimeServerEventMCPListToolsFailed,
-  RealtimeServerEventResponseMCPCallArgumentsDelta,
-  RealtimeServerEventResponseMCPCallArgumentsDone,
-  RealtimeServerEventResponseMCPCallInProgress,
-  RealtimeServerEventResponseMCPCallCompleted,
-  RealtimeServerEventResponseMCPCallFailed,
-  RealtimeServerEventErrorError,
-  realtimeServerEventErrorErrorSerializer,
-  realtimeServerEventErrorErrorDeserializer,
   RealtimeClientEvent,
   RealtimeClientEventConversationItemCreate,
   RealtimeClientEventConversationItemDelete,
@@ -23535,558 +23535,6 @@ export function telephonyCampaignValidationErrorDeserializer(
   };
 }
 
-/** The stable realtime session settings accepted in a `session.update` client event. */
-export interface VoiceAgentSessionUpdateConfig {
-  /** The session type. Always `realtime`. */
-  type: "realtime";
-  /** Instructions applied throughout the session. */
-  instructions?: string;
-  /** The sampling temperature for compatible cascaded pipelines. */
-  temperature?: number;
-  /** The maximum output-token count for one response. */
-  max_output_tokens?: VoiceAgentMaxOutputTokens;
-  /** The output modalities enabled for the session. */
-  output_modalities?: VoiceOutputModality[];
-  /** The input- and output-audio settings for the session. */
-  audio?: VoiceAgentAudioConfig;
-  /** The avatar settings for the session. */
-  avatar?: VoiceAgentSessionAvatarConfig;
-  /** Animation settings for the session. */
-  animation?: VoiceAgentAnimationConfig;
-  /** Tools available to the session. */
-  tools?: VoiceAgentToolUnion[];
-  /** Tool-selection behavior for the session. */
-  tool_choice?: VoiceAgentToolChoice;
-  /** Reasoning settings for compatible realtime models. */
-  reasoning?: RealtimeReasoning;
-  /** Whether the model may call multiple tools in parallel. */
-  parallel_tool_calls?: boolean;
-  /** Additional fields to include in service outputs. */
-  include?: VoiceAgentSessionIncludeOption[];
-  /** Up to 16 string key-value pairs attached to the session. */
-  metadata?: Record<string, string>;
-  /** Interim-response settings for latency and tool execution. */
-  interim_response?: VoiceAgentInterimResponseConfigUnion;
-  /** A proactive assistant greeting started after session configuration. */
-  greeting?: VoiceAgentGreetingConfigUnion;
-}
-
-export function voiceAgentSessionUpdateConfigSerializer(item: VoiceAgentSessionUpdateConfig): any {
-  return {
-    type: item["type"],
-    instructions: item["instructions"],
-    temperature: item["temperature"],
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
-    avatar: !item["avatar"]
-      ? item["avatar"]
-      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
-    animation: !item["animation"]
-      ? item["animation"]
-      : voiceAgentAnimationConfigSerializer(item["animation"]),
-    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningSerializer(item["reasoning"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    include: !item["include"]
-      ? item["include"]
-      : item["include"].map((p: any) => {
-          return p;
-        }),
-    metadata: item["metadata"],
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
-    greeting: !item["greeting"]
-      ? item["greeting"]
-      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
-  };
-}
-
-export function voiceAgentSessionUpdateConfigDeserializer(
-  item: any,
-): VoiceAgentSessionUpdateConfig {
-  return {
-    type: item["type"],
-    instructions: item["instructions"],
-    temperature: item["temperature"],
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
-    avatar: !item["avatar"]
-      ? item["avatar"]
-      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
-    animation: !item["animation"]
-      ? item["animation"]
-      : voiceAgentAnimationConfigDeserializer(item["animation"]),
-    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningDeserializer(item["reasoning"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    include: !item["include"]
-      ? item["include"]
-      : item["include"].map((p: any) => {
-          return p;
-        }),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
-    greeting: !item["greeting"]
-      ? item["greeting"]
-      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
-  };
-}
-
-/** Avatar settings accepted by the stable voice-agent WebSocket contract. */
-export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
-  ice_servers?: VoiceAgentAvatarIceServer[];
-}
-
-export function voiceAgentSessionAvatarConfigSerializer(item: VoiceAgentSessionAvatarConfig): any {
-  return {
-    type: item["type"],
-    character: item["character"],
-    style: item["style"],
-    customized: item["customized"],
-    output_protocol: item["output_protocol"],
-    model: item["model"],
-    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsSerializer(item["video"]),
-    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneSerializer(item["scene"]),
-    output_audit_audio: item["output_audit_audio"],
-    ice_servers: !item["ice_servers"]
-      ? item["ice_servers"]
-      : voiceAgentAvatarIceServerArraySerializer(item["ice_servers"]),
-  };
-}
-
-export function voiceAgentSessionAvatarConfigDeserializer(
-  item: any,
-): VoiceAgentSessionAvatarConfig {
-  return {
-    type: item["type"],
-    character: item["character"],
-    style: item["style"],
-    customized: item["customized"],
-    output_protocol: item["output_protocol"],
-    model: item["model"],
-    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsDeserializer(item["video"]),
-    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneDeserializer(item["scene"]),
-    output_audit_audio: item["output_audit_audio"],
-    ice_servers: !item["ice_servers"]
-      ? item["ice_servers"]
-      : voiceAgentAvatarIceServerArrayDeserializer(item["ice_servers"]),
-  };
-}
-
-export function voiceAgentAvatarIceServerArraySerializer(
-  result: Array<VoiceAgentAvatarIceServer>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentAvatarIceServerSerializer(item);
-  });
-}
-
-export function voiceAgentAvatarIceServerArrayDeserializer(
-  result: Array<VoiceAgentAvatarIceServer>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentAvatarIceServerDeserializer(item);
-  });
-}
-
-/** An ICE server used for avatar WebRTC negotiation. */
-export interface VoiceAgentAvatarIceServer {
-  urls: string[];
-  username?: string;
-  credential?: string;
-}
-
-export function voiceAgentAvatarIceServerSerializer(item: VoiceAgentAvatarIceServer): any {
-  return {
-    urls: item["urls"].map((p: any) => {
-      return p;
-    }),
-    username: item["username"],
-    credential: item["credential"],
-  };
-}
-
-export function voiceAgentAvatarIceServerDeserializer(item: any): VoiceAgentAvatarIceServer {
-  return {
-    urls: item["urls"].map((p: any) => {
-      return p;
-    }),
-    username: item["username"],
-    credential: item["credential"],
-  };
-}
-
-/** Animation settings for a voice-agent session. */
-export interface VoiceAgentAnimationConfig {
-  /** The animation model name. */
-  model_name?: string;
-  /** The requested animation output kinds. */
-  outputs?: VoiceAgentAnimationOutputType[];
-}
-
-export function voiceAgentAnimationConfigSerializer(item: VoiceAgentAnimationConfig): any {
-  return {
-    model_name: item["model_name"],
-    outputs: !item["outputs"]
-      ? item["outputs"]
-      : item["outputs"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function voiceAgentAnimationConfigDeserializer(item: any): VoiceAgentAnimationConfig {
-  return {
-    model_name: item["model_name"],
-    outputs: !item["outputs"]
-      ? item["outputs"]
-      : item["outputs"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** An animation output produced by a voice-agent session. */
-export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
-
-/** The effective stable realtime session settings returned by the voice-agent service. */
-export interface VoiceAgentSessionResponseConfig {
-  /** The session type. Always `realtime`. */
-  type: "realtime";
-  /** Instructions applied throughout the session. */
-  instructions?: string;
-  /** The sampling temperature for compatible cascaded pipelines. */
-  temperature?: number;
-  /** The maximum output-token count for one response. */
-  max_output_tokens?: VoiceAgentMaxOutputTokens;
-  /** The output modalities enabled for the session. */
-  output_modalities?: VoiceOutputModality[];
-  /** The input- and output-audio settings for the session. */
-  audio?: VoiceAgentAudioConfig;
-  /** The avatar settings for the session. */
-  avatar?: VoiceAgentSessionAvatarConfig;
-  /** Animation settings for the session. */
-  animation?: VoiceAgentAnimationConfig;
-  /** Tools available to the session. */
-  tools?: VoiceAgentToolUnion[];
-  /** Tool-selection behavior for the session. */
-  tool_choice?: VoiceAgentToolChoice;
-  /** Reasoning settings for compatible realtime models. */
-  reasoning?: RealtimeReasoning;
-  /** Whether the model may call multiple tools in parallel. */
-  parallel_tool_calls?: boolean;
-  /** Additional fields to include in service outputs. */
-  include?: VoiceAgentSessionIncludeOption[];
-  /** Up to 16 string key-value pairs attached to the session. */
-  metadata?: Record<string, string>;
-  /** Interim-response settings for latency and tool execution. */
-  interim_response?: VoiceAgentInterimResponseConfigUnion;
-  /** A proactive assistant greeting started after session configuration. */
-  greeting?: VoiceAgentGreetingConfigUnion;
-  /** The effective handoff topology and runtime state, when handoff is configured. */
-  handoff?: VoiceAgentHandoffState;
-  /** The object type. Always `realtime.session`. */
-  object: "realtime.session";
-  /** The session identifier. */
-  id: string;
-  /** The selected model. */
-  model: string;
-  /** The session expiration time as a Unix timestamp in seconds. */
-  expires_at?: Date;
-}
-
-export function voiceAgentSessionResponseConfigSerializer(
-  item: VoiceAgentSessionResponseConfig,
-): any {
-  return {
-    type: item["type"],
-    instructions: item["instructions"],
-    temperature: item["temperature"],
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
-    avatar: !item["avatar"]
-      ? item["avatar"]
-      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
-    animation: !item["animation"]
-      ? item["animation"]
-      : voiceAgentAnimationConfigSerializer(item["animation"]),
-    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningSerializer(item["reasoning"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    include: !item["include"]
-      ? item["include"]
-      : item["include"].map((p: any) => {
-          return p;
-        }),
-    metadata: item["metadata"],
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
-    greeting: !item["greeting"]
-      ? item["greeting"]
-      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
-    handoff: !item["handoff"] ? item["handoff"] : voiceAgentHandoffStateSerializer(item["handoff"]),
-    object: item["object"],
-    id: item["id"],
-    model: item["model"],
-    expires_at: !item["expires_at"]
-      ? item["expires_at"]
-      : (item["expires_at"].getTime() / 1000) | 0,
-  };
-}
-
-export function voiceAgentSessionResponseConfigDeserializer(
-  item: any,
-): VoiceAgentSessionResponseConfig {
-  return {
-    type: item["type"],
-    instructions: item["instructions"],
-    temperature: item["temperature"],
-    max_output_tokens: !item["max_output_tokens"]
-      ? item["max_output_tokens"]
-      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
-    output_modalities: !item["output_modalities"]
-      ? item["output_modalities"]
-      : item["output_modalities"].map((p: any) => {
-          return p;
-        }),
-    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
-    avatar: !item["avatar"]
-      ? item["avatar"]
-      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
-    animation: !item["animation"]
-      ? item["animation"]
-      : voiceAgentAnimationConfigDeserializer(item["animation"]),
-    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
-    tool_choice: !item["tool_choice"]
-      ? item["tool_choice"]
-      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
-    reasoning: !item["reasoning"]
-      ? item["reasoning"]
-      : realtimeReasoningDeserializer(item["reasoning"]),
-    parallel_tool_calls: item["parallel_tool_calls"],
-    include: !item["include"]
-      ? item["include"]
-      : item["include"].map((p: any) => {
-          return p;
-        }),
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
-    interim_response: !item["interim_response"]
-      ? item["interim_response"]
-      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
-    greeting: !item["greeting"]
-      ? item["greeting"]
-      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
-    handoff: !item["handoff"]
-      ? item["handoff"]
-      : voiceAgentHandoffStateDeserializer(item["handoff"]),
-    object: item["object"],
-    id: item["id"],
-    model: item["model"],
-    expires_at: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
-  };
-}
-
-/** The effective topology and runtime state of a voice-agent handoff graph. */
-export interface VoiceAgentHandoffState {
-  /** The immutable execution pipeline family. */
-  pipeline_family: VoiceAgentHandoffPipelineFamily;
-  /** The currently committed node identifier or `$entrypoint`. */
-  active_node_id: string;
-  /** The monotonically increasing generation of the committed active-node configuration. */
-  node_generation: number;
-  /** The number of successfully completed handoffs. */
-  transfer_count: number;
-  /** The number of unique reserved handoff attempts. */
-  attempt_count: number;
-  /** The edge identifiers currently available from the active node. */
-  available_edge_ids: string[];
-  /** The generated handoff function visible to the active model, or null when no route is available. */
-  transfer_tool: VoiceAgentFunctionTool | null;
-  /** The compiled handoff nodes, including the implicit or explicit `$entrypoint`. */
-  nodes: VoiceAgentHandoffNodeState[];
-  /** The compiled handoff edges. */
-  edges: VoiceAgentHandoffEdgeState[];
-}
-
-export function voiceAgentHandoffStateSerializer(item: VoiceAgentHandoffState): any {
-  return {
-    pipeline_family: item["pipeline_family"],
-    active_node_id: item["active_node_id"],
-    node_generation: item["node_generation"],
-    transfer_count: item["transfer_count"],
-    attempt_count: item["attempt_count"],
-    available_edge_ids: item["available_edge_ids"].map((p: any) => {
-      return p;
-    }),
-    transfer_tool: !item["transfer_tool"]
-      ? item["transfer_tool"]
-      : voiceAgentFunctionToolSerializer(item["transfer_tool"]),
-    nodes: voiceAgentHandoffNodeStateArraySerializer(item["nodes"]),
-    edges: voiceAgentHandoffEdgeStateArraySerializer(item["edges"]),
-  };
-}
-
-export function voiceAgentHandoffStateDeserializer(item: any): VoiceAgentHandoffState {
-  return {
-    pipeline_family: item["pipeline_family"],
-    active_node_id: item["active_node_id"],
-    node_generation: item["node_generation"],
-    transfer_count: item["transfer_count"],
-    attempt_count: item["attempt_count"],
-    available_edge_ids: item["available_edge_ids"].map((p: any) => {
-      return p;
-    }),
-    transfer_tool: !item["transfer_tool"]
-      ? item["transfer_tool"]
-      : voiceAgentFunctionToolDeserializer(item["transfer_tool"]),
-    nodes: voiceAgentHandoffNodeStateArrayDeserializer(item["nodes"]),
-    edges: voiceAgentHandoffEdgeStateArrayDeserializer(item["edges"]),
-  };
-}
-
-/** The immutable pipeline family selected for a voice-agent handoff graph. */
-export type VoiceAgentHandoffPipelineFamily = "cascaded" | "realtime";
-
-export function voiceAgentHandoffNodeStateArraySerializer(
-  result: Array<VoiceAgentHandoffNodeState>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentHandoffNodeStateSerializer(item);
-  });
-}
-
-export function voiceAgentHandoffNodeStateArrayDeserializer(
-  result: Array<VoiceAgentHandoffNodeState>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentHandoffNodeStateDeserializer(item);
-  });
-}
-
-/** Non-sensitive topology metadata for one compiled handoff node. */
-export interface VoiceAgentHandoffNodeState {
-  /** The node identifier or `$entrypoint`. */
-  id: string;
-  /** The display-only node description. This value is not provided to the model. */
-  display_description: string;
-  /** Whether this is the implicit `$entrypoint` node. */
-  implicit?: boolean;
-}
-
-export function voiceAgentHandoffNodeStateSerializer(item: VoiceAgentHandoffNodeState): any {
-  return { id: item["id"], description: item["display_description"], implicit: item["implicit"] };
-}
-
-export function voiceAgentHandoffNodeStateDeserializer(item: any): VoiceAgentHandoffNodeState {
-  return {
-    id: item["id"],
-    display_description: item["description"],
-    implicit: item["implicit"],
-  };
-}
-
-export function voiceAgentHandoffEdgeStateArraySerializer(
-  result: Array<VoiceAgentHandoffEdgeState>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentHandoffEdgeStateSerializer(item);
-  });
-}
-
-export function voiceAgentHandoffEdgeStateArrayDeserializer(
-  result: Array<VoiceAgentHandoffEdgeState>,
-): any[] {
-  return result.map((item) => {
-    return voiceAgentHandoffEdgeStateDeserializer(item);
-  });
-}
-
-/** Non-sensitive topology metadata for one compiled handoff edge. */
-export interface VoiceAgentHandoffEdgeState {
-  /** The edge identifier. */
-  id: string;
-  /** The source node identifier or `$entrypoint`. */
-  source: string;
-  /** The target node identifier or `$entrypoint`. */
-  target: string;
-  /** Whether user interruption before commit cancels the pending handoff. */
-  cancel_on_interruption?: boolean;
-  /** The minimum delay before target activation, in milliseconds. */
-  delay_ms?: number;
-  /** The deterministic source-voice announcement played before target activation. */
-  transfer_message?: string;
-  /** Whether Voice Live automatically starts a response after target activation. */
-  target_response?: VoiceAgentHandoffTargetResponse;
-}
-
-export function voiceAgentHandoffEdgeStateSerializer(item: VoiceAgentHandoffEdgeState): any {
-  return {
-    id: item["id"],
-    source: item["source"],
-    target: item["target"],
-    cancel_on_interruption: item["cancel_on_interruption"],
-    delay_ms: item["delay_ms"],
-    transfer_message: item["transfer_message"],
-    target_response: item["target_response"],
-  };
-}
-
-export function voiceAgentHandoffEdgeStateDeserializer(item: any): VoiceAgentHandoffEdgeState {
-  return {
-    id: item["id"],
-    source: item["source"],
-    target: item["target"],
-    cancel_on_interruption: item["cancel_on_interruption"],
-    delay_ms: item["delay_ms"],
-    transfer_message: item["transfer_message"],
-    target_response: item["target_response"],
-  };
-}
-
 /** The `session.handoff.completed` server event. */
 export interface VoiceAgentServerEventSessionHandoffCompleted extends RealtimeServerEvent {
   /** The server-generated event identifier. */
@@ -24177,6 +23625,135 @@ export type VoiceAgentServerEventTypeExtension =
   | "session.handoff.started"
   | "session.handoff.completed"
   | "session.handoff.aborted";
+
+/** The `session.handoff.started` server event. */
+export interface VoiceAgentServerEventSessionHandoffStarted extends RealtimeServerEvent {
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** The event type. Always `session.handoff.started`. */
+  type: "session.handoff.started";
+}
+
+export function voiceAgentServerEventSessionHandoffStartedSerializer(
+  item: VoiceAgentServerEventSessionHandoffStarted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffStartedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffStarted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+  };
+}
+
+/** The `session.handoff.aborted` server event. */
+export interface VoiceAgentServerEventSessionHandoffAborted extends RealtimeServerEvent {
+  /** The server-generated event identifier. */
+  event_id: string;
+  /** The server-generated handoff attempt identifier. */
+  handoff_id: string;
+  /** The configured edge selected for this handoff. */
+  edge_id: string;
+  /** The source node identifier or `$entrypoint`. */
+  from_node_id: string;
+  /** The target node identifier or `$entrypoint`. */
+  to_node_id: string;
+  /** The model active before the handoff. */
+  from_model: string;
+  /** The model prepared for the target behavior. */
+  to_model: string;
+  /** The function-call identifier that initiated the handoff. */
+  tool_call_id: string;
+  /** The source generation for started or aborted events, and the committed target generation for completed events. */
+  node_generation: number;
+  /** Why the handoff ended before target commit. */
+  reason: VoiceAgentHandoffAbortReason;
+  /** The handoff failure detail when `reason` is `error`. */
+  error?: RealtimeServerEventErrorError;
+  /** The event type. Always `session.handoff.aborted`. */
+  type: "session.handoff.aborted";
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedSerializer(
+  item: VoiceAgentServerEventSessionHandoffAborted,
+): any {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"] ? item["error"] : realtimeServerEventErrorErrorSerializer(item["error"]),
+  };
+}
+
+export function voiceAgentServerEventSessionHandoffAbortedDeserializer(
+  item: any,
+): VoiceAgentServerEventSessionHandoffAborted {
+  return {
+    type: item["type"],
+    event_id: item["event_id"],
+    handoff_id: item["handoff_id"],
+    edge_id: item["edge_id"],
+    from_node_id: item["from_node_id"],
+    to_node_id: item["to_node_id"],
+    from_model: item["from_model"],
+    to_model: item["to_model"],
+    tool_call_id: item["tool_call_id"],
+    node_generation: item["node_generation"],
+    reason: item["reason"],
+    error: !item["error"]
+      ? item["error"]
+      : realtimeServerEventErrorErrorDeserializer(item["error"]),
+  };
+}
+
+/** Why a server-managed handoff ended before target commit. */
+export type VoiceAgentHandoffAbortReason = "user_interruption" | "error";
 
 export function voiceAgentTranscriptionPhraseArraySerializer(
   result: Array<VoiceAgentTranscriptionPhrase>,
@@ -24379,146 +23956,6 @@ export function voiceAgentRealtimeResponseDeserializer(item: any): VoiceAgentRea
   };
 }
 
-/** The effective session configuration returned in voice-agent session lifecycle events. */
-export type VoiceAgentSessionResponse = VoiceAgentSessionResponseConfig;
-
-export function voiceAgentSessionResponseSerializer(item: VoiceAgentSessionResponse): any {
-  return item;
-}
-
-export function voiceAgentSessionResponseDeserializer(item: any): VoiceAgentSessionResponse {
-  return item;
-}
-
-/** The `session.handoff.started` server event. */
-export interface VoiceAgentServerEventSessionHandoffStarted extends RealtimeServerEvent {
-  /** The server-generated event identifier. */
-  event_id: string;
-  /** The server-generated handoff attempt identifier. */
-  handoff_id: string;
-  /** The configured edge selected for this handoff. */
-  edge_id: string;
-  /** The source node identifier or `$entrypoint`. */
-  from_node_id: string;
-  /** The target node identifier or `$entrypoint`. */
-  to_node_id: string;
-  /** The model active before the handoff. */
-  from_model: string;
-  /** The model prepared for the target behavior. */
-  to_model: string;
-  /** The function-call identifier that initiated the handoff. */
-  tool_call_id: string;
-  /** The source generation for started or aborted events, and the committed target generation for completed events. */
-  node_generation: number;
-  /** The event type. Always `session.handoff.started`. */
-  type: "session.handoff.started";
-}
-
-export function voiceAgentServerEventSessionHandoffStartedSerializer(
-  item: VoiceAgentServerEventSessionHandoffStarted,
-): any {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    handoff_id: item["handoff_id"],
-    edge_id: item["edge_id"],
-    from_node_id: item["from_node_id"],
-    to_node_id: item["to_node_id"],
-    from_model: item["from_model"],
-    to_model: item["to_model"],
-    tool_call_id: item["tool_call_id"],
-    node_generation: item["node_generation"],
-  };
-}
-
-export function voiceAgentServerEventSessionHandoffStartedDeserializer(
-  item: any,
-): VoiceAgentServerEventSessionHandoffStarted {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    handoff_id: item["handoff_id"],
-    edge_id: item["edge_id"],
-    from_node_id: item["from_node_id"],
-    to_node_id: item["to_node_id"],
-    from_model: item["from_model"],
-    to_model: item["to_model"],
-    tool_call_id: item["tool_call_id"],
-    node_generation: item["node_generation"],
-  };
-}
-
-/** The `session.handoff.aborted` server event. */
-export interface VoiceAgentServerEventSessionHandoffAborted extends RealtimeServerEvent {
-  /** The server-generated event identifier. */
-  event_id: string;
-  /** The server-generated handoff attempt identifier. */
-  handoff_id: string;
-  /** The configured edge selected for this handoff. */
-  edge_id: string;
-  /** The source node identifier or `$entrypoint`. */
-  from_node_id: string;
-  /** The target node identifier or `$entrypoint`. */
-  to_node_id: string;
-  /** The model active before the handoff. */
-  from_model: string;
-  /** The model prepared for the target behavior. */
-  to_model: string;
-  /** The function-call identifier that initiated the handoff. */
-  tool_call_id: string;
-  /** The source generation for started or aborted events, and the committed target generation for completed events. */
-  node_generation: number;
-  /** Why the handoff ended before target commit. */
-  reason: VoiceAgentHandoffAbortReason;
-  /** The handoff failure detail when `reason` is `error`. */
-  error?: RealtimeServerEventErrorError;
-  /** The event type. Always `session.handoff.aborted`. */
-  type: "session.handoff.aborted";
-}
-
-export function voiceAgentServerEventSessionHandoffAbortedSerializer(
-  item: VoiceAgentServerEventSessionHandoffAborted,
-): any {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    handoff_id: item["handoff_id"],
-    edge_id: item["edge_id"],
-    from_node_id: item["from_node_id"],
-    to_node_id: item["to_node_id"],
-    from_model: item["from_model"],
-    to_model: item["to_model"],
-    tool_call_id: item["tool_call_id"],
-    node_generation: item["node_generation"],
-    reason: item["reason"],
-    error: !item["error"] ? item["error"] : realtimeServerEventErrorErrorSerializer(item["error"]),
-  };
-}
-
-export function voiceAgentServerEventSessionHandoffAbortedDeserializer(
-  item: any,
-): VoiceAgentServerEventSessionHandoffAborted {
-  return {
-    type: item["type"],
-    event_id: item["event_id"],
-    handoff_id: item["handoff_id"],
-    edge_id: item["edge_id"],
-    from_node_id: item["from_node_id"],
-    to_node_id: item["to_node_id"],
-    from_model: item["from_model"],
-    to_model: item["to_model"],
-    tool_call_id: item["tool_call_id"],
-    node_generation: item["node_generation"],
-    reason: item["reason"],
-    error: !item["error"]
-      ? item["error"]
-      : realtimeServerEventErrorErrorDeserializer(item["error"]),
-  };
-}
-
-/** Why a server-managed handoff ended before target commit. */
-export type VoiceAgentHandoffAbortReason = "user_interruption" | "error";
-
 /** An incremental model-argument fragment for a service-managed system tool. */
 export interface VoiceAgentServerEventSystemToolArgumentsDelta extends RealtimeServerEvent {
   /** The event type. Always `response.system_tool_arguments.delta`. */
@@ -24695,6 +24132,443 @@ export type VoiceAgentInputCollectionStatus =
   | "provider_failed_or_unsupported"
   | "provider_result_uncertain"
   | "provider_not_executed";
+
+/** The effective session configuration returned in voice-agent session lifecycle events. */
+export type VoiceAgentSessionResponse = VoiceAgentSessionResponseConfig;
+
+export function voiceAgentSessionResponseSerializer(item: VoiceAgentSessionResponse): any {
+  return item;
+}
+
+export function voiceAgentSessionResponseDeserializer(item: any): VoiceAgentSessionResponse {
+  return item;
+}
+
+/** The effective stable realtime session settings returned by the voice-agent service. */
+export interface VoiceAgentSessionResponseConfig {
+  /** The session type. Always `realtime`. */
+  type: "realtime";
+  /** Instructions applied throughout the session. */
+  instructions?: string;
+  /** The sampling temperature for compatible cascaded pipelines. */
+  temperature?: number;
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** The output modalities enabled for the session. */
+  output_modalities?: VoiceOutputModality[];
+  /** The input- and output-audio settings for the session. */
+  audio?: VoiceAgentAudioConfig;
+  /** The avatar settings for the session. */
+  avatar?: VoiceAgentSessionAvatarConfig;
+  /** Animation settings for the session. */
+  animation?: VoiceAgentAnimationConfig;
+  /** Tools available to the session. */
+  tools?: VoiceAgentToolUnion[];
+  /** Tool-selection behavior for the session. */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Reasoning settings for compatible realtime models. */
+  reasoning?: RealtimeReasoning;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Up to 16 string key-value pairs attached to the session. */
+  metadata?: Record<string, string>;
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** A proactive assistant greeting started after session configuration. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+  /** The effective handoff topology and runtime state, when handoff is configured. */
+  handoff?: VoiceAgentHandoffState;
+  /** The object type. Always `realtime.session`. */
+  object: "realtime.session";
+  /** The session identifier. */
+  id: string;
+  /** The selected model. */
+  model: string;
+  /** The session expiration time as a Unix timestamp in seconds. */
+  expires_at?: Date;
+}
+
+export function voiceAgentSessionResponseConfigSerializer(
+  item: VoiceAgentSessionResponseConfig,
+): any {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigSerializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: item["metadata"],
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+    handoff: !item["handoff"] ? item["handoff"] : voiceAgentHandoffStateSerializer(item["handoff"]),
+    object: item["object"],
+    id: item["id"],
+    model: item["model"],
+    expires_at: !item["expires_at"]
+      ? item["expires_at"]
+      : (item["expires_at"].getTime() / 1000) | 0,
+  };
+}
+
+export function voiceAgentSessionResponseConfigDeserializer(
+  item: any,
+): VoiceAgentSessionResponseConfig {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigDeserializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
+    handoff: !item["handoff"]
+      ? item["handoff"]
+      : voiceAgentHandoffStateDeserializer(item["handoff"]),
+    object: item["object"],
+    id: item["id"],
+    model: item["model"],
+    expires_at: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
+  };
+}
+
+/** Avatar settings accepted by the stable voice-agent WebSocket contract. */
+export interface VoiceAgentSessionAvatarConfig extends VoiceAgentAvatarConfig {
+  ice_servers?: VoiceAgentAvatarIceServer[];
+}
+
+export function voiceAgentSessionAvatarConfigSerializer(item: VoiceAgentSessionAvatarConfig): any {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsSerializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneSerializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+    ice_servers: !item["ice_servers"]
+      ? item["ice_servers"]
+      : voiceAgentAvatarIceServerArraySerializer(item["ice_servers"]),
+  };
+}
+
+export function voiceAgentSessionAvatarConfigDeserializer(
+  item: any,
+): VoiceAgentSessionAvatarConfig {
+  return {
+    type: item["type"],
+    character: item["character"],
+    style: item["style"],
+    customized: item["customized"],
+    output_protocol: item["output_protocol"],
+    model: item["model"],
+    video: !item["video"] ? item["video"] : voiceAgentAvatarVideoParamsDeserializer(item["video"]),
+    scene: !item["scene"] ? item["scene"] : voiceAgentAvatarSceneDeserializer(item["scene"]),
+    output_audit_audio: item["output_audit_audio"],
+    ice_servers: !item["ice_servers"]
+      ? item["ice_servers"]
+      : voiceAgentAvatarIceServerArrayDeserializer(item["ice_servers"]),
+  };
+}
+
+export function voiceAgentAvatarIceServerArraySerializer(
+  result: Array<VoiceAgentAvatarIceServer>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentAvatarIceServerSerializer(item);
+  });
+}
+
+export function voiceAgentAvatarIceServerArrayDeserializer(
+  result: Array<VoiceAgentAvatarIceServer>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentAvatarIceServerDeserializer(item);
+  });
+}
+
+/** An ICE server used for avatar WebRTC negotiation. */
+export interface VoiceAgentAvatarIceServer {
+  urls: string[];
+  username?: string;
+  credential?: string;
+}
+
+export function voiceAgentAvatarIceServerSerializer(item: VoiceAgentAvatarIceServer): any {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+export function voiceAgentAvatarIceServerDeserializer(item: any): VoiceAgentAvatarIceServer {
+  return {
+    urls: item["urls"].map((p: any) => {
+      return p;
+    }),
+    username: item["username"],
+    credential: item["credential"],
+  };
+}
+
+/** Animation settings for a voice-agent session. */
+export interface VoiceAgentAnimationConfig {
+  /** The animation model name. */
+  model_name?: string;
+  /** The requested animation output kinds. */
+  outputs?: VoiceAgentAnimationOutputType[];
+}
+
+export function voiceAgentAnimationConfigSerializer(item: VoiceAgentAnimationConfig): any {
+  return {
+    model_name: item["model_name"],
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : item["outputs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function voiceAgentAnimationConfigDeserializer(item: any): VoiceAgentAnimationConfig {
+  return {
+    model_name: item["model_name"],
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : item["outputs"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** An animation output produced by a voice-agent session. */
+export type VoiceAgentAnimationOutputType = "blendshapes" | "viseme_id";
+
+/** The effective topology and runtime state of a voice-agent handoff graph. */
+export interface VoiceAgentHandoffState {
+  /** The immutable execution pipeline family. */
+  pipeline_family: VoiceAgentHandoffPipelineFamily;
+  /** The currently committed node identifier or `$entrypoint`. */
+  active_node_id: string;
+  /** The monotonically increasing generation of the committed active-node configuration. */
+  node_generation: number;
+  /** The number of successfully completed handoffs. */
+  transfer_count: number;
+  /** The number of unique reserved handoff attempts. */
+  attempt_count: number;
+  /** The edge identifiers currently available from the active node. */
+  available_edge_ids: string[];
+  /** The generated handoff function visible to the active model, or null when no route is available. */
+  transfer_tool: VoiceAgentFunctionTool | null;
+  /** The compiled handoff nodes, including the implicit or explicit `$entrypoint`. */
+  nodes: VoiceAgentHandoffNodeState[];
+  /** The compiled handoff edges. */
+  edges: VoiceAgentHandoffEdgeState[];
+}
+
+export function voiceAgentHandoffStateSerializer(item: VoiceAgentHandoffState): any {
+  return {
+    pipeline_family: item["pipeline_family"],
+    active_node_id: item["active_node_id"],
+    node_generation: item["node_generation"],
+    transfer_count: item["transfer_count"],
+    attempt_count: item["attempt_count"],
+    available_edge_ids: item["available_edge_ids"].map((p: any) => {
+      return p;
+    }),
+    transfer_tool: !item["transfer_tool"]
+      ? item["transfer_tool"]
+      : voiceAgentFunctionToolSerializer(item["transfer_tool"]),
+    nodes: voiceAgentHandoffNodeStateArraySerializer(item["nodes"]),
+    edges: voiceAgentHandoffEdgeStateArraySerializer(item["edges"]),
+  };
+}
+
+export function voiceAgentHandoffStateDeserializer(item: any): VoiceAgentHandoffState {
+  return {
+    pipeline_family: item["pipeline_family"],
+    active_node_id: item["active_node_id"],
+    node_generation: item["node_generation"],
+    transfer_count: item["transfer_count"],
+    attempt_count: item["attempt_count"],
+    available_edge_ids: item["available_edge_ids"].map((p: any) => {
+      return p;
+    }),
+    transfer_tool: !item["transfer_tool"]
+      ? item["transfer_tool"]
+      : voiceAgentFunctionToolDeserializer(item["transfer_tool"]),
+    nodes: voiceAgentHandoffNodeStateArrayDeserializer(item["nodes"]),
+    edges: voiceAgentHandoffEdgeStateArrayDeserializer(item["edges"]),
+  };
+}
+
+/** The immutable pipeline family selected for a voice-agent handoff graph. */
+export type VoiceAgentHandoffPipelineFamily = "cascaded" | "realtime";
+
+export function voiceAgentHandoffNodeStateArraySerializer(
+  result: Array<VoiceAgentHandoffNodeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffNodeStateSerializer(item);
+  });
+}
+
+export function voiceAgentHandoffNodeStateArrayDeserializer(
+  result: Array<VoiceAgentHandoffNodeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffNodeStateDeserializer(item);
+  });
+}
+
+/** Non-sensitive topology metadata for one compiled handoff node. */
+export interface VoiceAgentHandoffNodeState {
+  /** The node identifier or `$entrypoint`. */
+  id: string;
+  /** The display-only node description. This value is not provided to the model. */
+  display_description: string;
+  /** Whether this is the implicit `$entrypoint` node. */
+  implicit?: boolean;
+}
+
+export function voiceAgentHandoffNodeStateSerializer(item: VoiceAgentHandoffNodeState): any {
+  return { id: item["id"], description: item["display_description"], implicit: item["implicit"] };
+}
+
+export function voiceAgentHandoffNodeStateDeserializer(item: any): VoiceAgentHandoffNodeState {
+  return {
+    id: item["id"],
+    display_description: item["description"],
+    implicit: item["implicit"],
+  };
+}
+
+export function voiceAgentHandoffEdgeStateArraySerializer(
+  result: Array<VoiceAgentHandoffEdgeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffEdgeStateSerializer(item);
+  });
+}
+
+export function voiceAgentHandoffEdgeStateArrayDeserializer(
+  result: Array<VoiceAgentHandoffEdgeState>,
+): any[] {
+  return result.map((item) => {
+    return voiceAgentHandoffEdgeStateDeserializer(item);
+  });
+}
+
+/** Non-sensitive topology metadata for one compiled handoff edge. */
+export interface VoiceAgentHandoffEdgeState {
+  /** The edge identifier. */
+  id: string;
+  /** The source node identifier or `$entrypoint`. */
+  source: string;
+  /** The target node identifier or `$entrypoint`. */
+  target: string;
+  /** Whether user interruption before commit cancels the pending handoff. */
+  cancel_on_interruption?: boolean;
+  /** The minimum delay before target activation, in milliseconds. */
+  delay_ms?: number;
+  /** The deterministic source-voice announcement played before target activation. */
+  transfer_message?: string;
+  /** Whether Voice Live automatically starts a response after target activation. */
+  target_response?: VoiceAgentHandoffTargetResponse;
+}
+
+export function voiceAgentHandoffEdgeStateSerializer(item: VoiceAgentHandoffEdgeState): any {
+  return {
+    id: item["id"],
+    source: item["source"],
+    target: item["target"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
+  };
+}
+
+export function voiceAgentHandoffEdgeStateDeserializer(item: any): VoiceAgentHandoffEdgeState {
+  return {
+    id: item["id"],
+    source: item["source"],
+    target: item["target"],
+    cancel_on_interruption: item["cancel_on_interruption"],
+    delay_ms: item["delay_ms"],
+    transfer_message: item["transfer_message"],
+    target_response: item["target_response"],
+  };
+}
 
 /** The `session.subagent.started` server event. */
 export interface VoiceAgentServerEventSessionSubagentStarted extends RealtimeServerEvent {
@@ -25311,6 +25185,132 @@ export function voiceAgentServerEventResponseVideoDeltaDeserializer(
     output_index: item["output_index"],
     codec: item["codec"],
     delta: item["delta"],
+  };
+}
+
+/** The stable realtime session settings accepted in a `session.update` client event. */
+export interface VoiceAgentSessionUpdateConfig {
+  /** The session type. Always `realtime`. */
+  type: "realtime";
+  /** Instructions applied throughout the session. */
+  instructions?: string;
+  /** The sampling temperature for compatible cascaded pipelines. */
+  temperature?: number;
+  /** The maximum output-token count for one response. */
+  max_output_tokens?: VoiceAgentMaxOutputTokens;
+  /** The output modalities enabled for the session. */
+  output_modalities?: VoiceOutputModality[];
+  /** The input- and output-audio settings for the session. */
+  audio?: VoiceAgentAudioConfig;
+  /** The avatar settings for the session. */
+  avatar?: VoiceAgentSessionAvatarConfig;
+  /** Animation settings for the session. */
+  animation?: VoiceAgentAnimationConfig;
+  /** Tools available to the session. */
+  tools?: VoiceAgentToolUnion[];
+  /** Tool-selection behavior for the session. */
+  tool_choice?: VoiceAgentToolChoice;
+  /** Reasoning settings for compatible realtime models. */
+  reasoning?: RealtimeReasoning;
+  /** Whether the model may call multiple tools in parallel. */
+  parallel_tool_calls?: boolean;
+  /** Additional fields to include in service outputs. */
+  include?: VoiceAgentSessionIncludeOption[];
+  /** Up to 16 string key-value pairs attached to the session. */
+  metadata?: Record<string, string>;
+  /** Interim-response settings for latency and tool execution. */
+  interim_response?: VoiceAgentInterimResponseConfigUnion;
+  /** A proactive assistant greeting started after session configuration. */
+  greeting?: VoiceAgentGreetingConfigUnion;
+}
+
+export function voiceAgentSessionUpdateConfigSerializer(item: VoiceAgentSessionUpdateConfig): any {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensSerializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigSerializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigSerializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigSerializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArraySerializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceSerializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningSerializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: item["metadata"],
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionSerializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionSerializer(item["greeting"]),
+  };
+}
+
+export function voiceAgentSessionUpdateConfigDeserializer(
+  item: any,
+): VoiceAgentSessionUpdateConfig {
+  return {
+    type: item["type"],
+    instructions: item["instructions"],
+    temperature: item["temperature"],
+    max_output_tokens: !item["max_output_tokens"]
+      ? item["max_output_tokens"]
+      : voiceAgentMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    output_modalities: !item["output_modalities"]
+      ? item["output_modalities"]
+      : item["output_modalities"].map((p: any) => {
+          return p;
+        }),
+    audio: !item["audio"] ? item["audio"] : voiceAgentAudioConfigDeserializer(item["audio"]),
+    avatar: !item["avatar"]
+      ? item["avatar"]
+      : voiceAgentSessionAvatarConfigDeserializer(item["avatar"]),
+    animation: !item["animation"]
+      ? item["animation"]
+      : voiceAgentAnimationConfigDeserializer(item["animation"]),
+    tools: !item["tools"] ? item["tools"] : voiceAgentToolUnionArrayDeserializer(item["tools"]),
+    tool_choice: !item["tool_choice"]
+      ? item["tool_choice"]
+      : voiceAgentToolChoiceDeserializer(item["tool_choice"]),
+    reasoning: !item["reasoning"]
+      ? item["reasoning"]
+      : realtimeReasoningDeserializer(item["reasoning"]),
+    parallel_tool_calls: item["parallel_tool_calls"],
+    include: !item["include"]
+      ? item["include"]
+      : item["include"].map((p: any) => {
+          return p;
+        }),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    interim_response: !item["interim_response"]
+      ? item["interim_response"]
+      : voiceAgentInterimResponseConfigUnionDeserializer(item["interim_response"]),
+    greeting: !item["greeting"]
+      ? item["greeting"]
+      : voiceAgentGreetingConfigUnionDeserializer(item["greeting"]),
   };
 }
 

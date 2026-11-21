@@ -1419,4 +1419,8 @@ export type {
   TraceSourceEvalRunDataSource,
   TraceSourcePreviewEvalRunDataSource,
   CsvEvalRunDataSource,
+  SvgParam,
+  SvgReasoningParam,
+  ReasoningEffortEnum,
+  CacheWriteTokensDetails,
 } from "./models.js";
