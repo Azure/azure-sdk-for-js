@@ -14,6 +14,7 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
+    // <ChatJavaScript_CreateClient>
     const connectionStringClient = new WebPubSubChatServiceClient(
       "<connectionString>",
       "<hubName>",
@@ -30,9 +31,11 @@ describe("snippets", () => {
       new AzureKeyCredential("<accessKey>"),
       "<hubName>",
     );
+    // </ChatJavaScript_CreateClient>
   });
 
   it("ReadmeSampleSetUpChatResources", async () => {
+    // <ChatJavaScript_SetUpChatResources>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -58,9 +61,11 @@ describe("snippets", () => {
     await client.createOrReplaceRoomMember(roomId, userId, { roleName: roomRoleName });
 
     console.log(`Created room ${room.id} with conversation ${room.defaultConversation}`);
+    // </ChatJavaScript_SetUpChatResources>
   });
 
   it("ReadmeSampleUseBuiltInRolesAndKnownPermissions", async () => {
+    // <ChatJavaScript_UseBuiltInRolesAndKnownPermissions>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -80,9 +85,11 @@ describe("snippets", () => {
         KnownChatPermission.RoomPublishMessage,
       ],
     });
+    // </ChatJavaScript_UseBuiltInRolesAndKnownPermissions>
   });
 
   it("ReadmeSampleManageRoles", async () => {
+    // <ChatJavaScript_ManageRoles>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -105,9 +112,11 @@ describe("snippets", () => {
     } finally {
       await client.deleteRole(roleName);
     }
+    // </ChatJavaScript_ManageRoles>
   });
 
   it("ReadmeSampleManageRoom", async () => {
+    // <ChatJavaScript_ManageRoom>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -122,9 +131,11 @@ describe("snippets", () => {
     console.log(`Fetched room: ${fetchedRoom.id}, title: ${fetchedRoom.title}`);
 
     await client.deleteRoom(roomId);
+    // </ChatJavaScript_ManageRoom>
   });
 
   it("ReadmeSampleManageUser", async () => {
+    // <ChatJavaScript_ManageUser>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -143,9 +154,11 @@ describe("snippets", () => {
     console.log(`Fetched user: ${fetchedUser.id}, nickname: ${fetchedUser.nickname}`);
 
     await client.deleteUser(userId);
+    // </ChatJavaScript_ManageUser>
   });
 
   it("ReadmeSampleListMessages", async () => {
+    // <ChatJavaScript_ListMessages>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
@@ -155,15 +168,18 @@ describe("snippets", () => {
     for await (const message of client.listMessages("<conversationId>")) {
       console.log(`${message.createdBy}: ${message.content.text}`);
     }
+    // </ChatJavaScript_ListMessages>
   });
 
   it("ReadmeSampleGetClientAccessToken", async () => {
+    // <ChatJavaScript_GetClientAccessToken>
     const client = new WebPubSubChatServiceClient(
       "<endpoint>",
       new DefaultAzureCredential(),
       "<hubName>",
     );
     const accessToken = await client.getClientAccessToken({ userId: "alice" });
+    // </ChatJavaScript_GetClientAccessToken>
   });
 
   it("ReadmeSampleListRooms", async () => {
@@ -285,6 +301,8 @@ describe("snippets", () => {
   });
 
   it("SetLogLevel", async () => {
+    // <ChatJavaScript_SetLogLevel>
     setLogLevel("info");
+    // </ChatJavaScript_SetLogLevel>
   });
 });
