@@ -42,7 +42,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     const dataToProcess: any[] = parallelResult.buffer;
 
     for (const item of dataToProcess) {
-      if (item) {
+      if (item !== undefined) {
         const hashedResult = await hashObject(item);
         if (!this.hashedResults.has(hashedResult)) {
           buffer.push(item);
