@@ -3,8 +3,10 @@
 
 import type { NetworkManagementContext } from "../../api/networkManagementContext.js";
 import {
-  listVirtualMachineScaleSetPublicIPAddresses,
   listCloudServicePublicIPAddresses,
+  listVirtualMachineScaleSetVMPublicIPAddresses,
+  getVirtualMachineScaleSetPublicIPAddress,
+  listVirtualMachineScaleSetPublicIPAddresses,
   disassociateCloudServiceReservedPublicIp,
   reserveCloudServicePublicIpAddress,
   ddosProtectionStatus,
@@ -14,14 +16,14 @@ import {
   updateTags,
   createOrUpdate,
   get,
-  listVirtualMachineScaleSetVMPublicIPAddresses,
-  getVirtualMachineScaleSetPublicIPAddress,
   listCloudServiceRoleInstancePublicIPAddresses,
   getCloudServicePublicIPAddress,
 } from "../../api/publicIPAddresses/operations.js";
 import type {
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
   PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
@@ -31,18 +33,16 @@ import type {
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesCreateOrUpdateOptionalParams,
   PublicIPAddressesGetOptionalParams,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
 } from "../../api/publicIPAddresses/options.js";
-import type { PublicIPAddress } from "../../models/common/models.js";
 import type {
+  PublicIPAddress,
   TagsObject,
   PublicIpDdosProtectionStatusResult,
   ReserveCloudServicePublicIpAddressRequest,
   DisassociateCloudServicePublicIpRequest,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -50,17 +50,36 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PublicIPAddresses operations. */
 export interface PublicIPAddressesOperations {
-  /** Gets information about all public IP addresses on a virtual machine scale set level. */
-  listVirtualMachineScaleSetPublicIPAddresses: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
-  ) => PagedAsyncIterableIterator<PublicIPAddress>;
   /** Gets information about all public IP addresses on a cloud service level. */
   listCloudServicePublicIPAddresses: (
     resourceGroupName: string,
     cloudServiceName: string,
     options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+  ) => PagedAsyncIterableIterator<PublicIPAddress>;
+  /** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
+  listVirtualMachineScaleSetVMPublicIPAddresses: (
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+  ) => PagedAsyncIterableIterator<PublicIPAddress>;
+  /** Get the specified public IP address in a virtual machine scale set. */
+  getVirtualMachineScaleSetPublicIPAddress: (
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    virtualmachineIndex: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    publicIpAddressName: string,
+    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
+  ) => Promise<PublicIPAddress>;
+  /** Gets information about all public IP addresses on a virtual machine scale set level. */
+  listVirtualMachineScaleSetPublicIPAddresses: (
+    resourceGroupName: string,
+    virtualMachineScaleSetName: string,
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   ) => PagedAsyncIterableIterator<PublicIPAddress>;
   /** Disassociates the Cloud Service reserved Public IP and associates the specified Standalone Public IP to the same Cloud Service frontend. */
   disassociateCloudServiceReservedPublicIp: (
@@ -191,25 +210,6 @@ export interface PublicIPAddressesOperations {
     publicIpAddressName: string,
     options?: PublicIPAddressesGetOptionalParams,
   ) => Promise<PublicIPAddress>;
-  /** Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set. */
-  listVirtualMachineScaleSetVMPublicIPAddresses: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    virtualmachineIndex: string,
-    networkInterfaceName: string,
-    ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-  ) => PagedAsyncIterableIterator<PublicIPAddress>;
-  /** Get the specified public IP address in a virtual machine scale set. */
-  getVirtualMachineScaleSetPublicIPAddress: (
-    resourceGroupName: string,
-    virtualMachineScaleSetName: string,
-    virtualmachineIndex: string,
-    networkInterfaceName: string,
-    ipConfigurationName: string,
-    publicIpAddressName: string,
-    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
-  ) => Promise<PublicIPAddress>;
   /** Gets information about all public IP addresses in a role instance IP configuration in a cloud service. */
   listCloudServiceRoleInstancePublicIPAddresses: (
     resourceGroupName: string,
@@ -233,6 +233,47 @@ export interface PublicIPAddressesOperations {
 
 function _getPublicIPAddresses(context: NetworkManagementContext) {
   return {
+    listCloudServicePublicIPAddresses: (
+      resourceGroupName: string,
+      cloudServiceName: string,
+      options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+    ) => listCloudServicePublicIPAddresses(context, resourceGroupName, cloudServiceName, options),
+    listVirtualMachineScaleSetVMPublicIPAddresses: (
+      resourceGroupName: string,
+      virtualMachineScaleSetName: string,
+      virtualmachineIndex: string,
+      networkInterfaceName: string,
+      ipConfigurationName: string,
+      options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+    ) =>
+      listVirtualMachineScaleSetVMPublicIPAddresses(
+        context,
+        resourceGroupName,
+        virtualMachineScaleSetName,
+        virtualmachineIndex,
+        networkInterfaceName,
+        ipConfigurationName,
+        options,
+      ),
+    getVirtualMachineScaleSetPublicIPAddress: (
+      resourceGroupName: string,
+      virtualMachineScaleSetName: string,
+      virtualmachineIndex: string,
+      networkInterfaceName: string,
+      ipConfigurationName: string,
+      publicIpAddressName: string,
+      options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
+    ) =>
+      getVirtualMachineScaleSetPublicIPAddress(
+        context,
+        resourceGroupName,
+        virtualMachineScaleSetName,
+        virtualmachineIndex,
+        networkInterfaceName,
+        ipConfigurationName,
+        publicIpAddressName,
+        options,
+      ),
     listVirtualMachineScaleSetPublicIPAddresses: (
       resourceGroupName: string,
       virtualMachineScaleSetName: string,
@@ -244,11 +285,6 @@ function _getPublicIPAddresses(context: NetworkManagementContext) {
         virtualMachineScaleSetName,
         options,
       ),
-    listCloudServicePublicIPAddresses: (
-      resourceGroupName: string,
-      cloudServiceName: string,
-      options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
-    ) => listCloudServicePublicIPAddresses(context, resourceGroupName, cloudServiceName, options),
     disassociateCloudServiceReservedPublicIp: (
       resourceGroupName: string,
       publicIpAddressName: string,
@@ -427,42 +463,6 @@ function _getPublicIPAddresses(context: NetworkManagementContext) {
       publicIpAddressName: string,
       options?: PublicIPAddressesGetOptionalParams,
     ) => get(context, resourceGroupName, publicIpAddressName, options),
-    listVirtualMachineScaleSetVMPublicIPAddresses: (
-      resourceGroupName: string,
-      virtualMachineScaleSetName: string,
-      virtualmachineIndex: string,
-      networkInterfaceName: string,
-      ipConfigurationName: string,
-      options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-    ) =>
-      listVirtualMachineScaleSetVMPublicIPAddresses(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        options,
-      ),
-    getVirtualMachineScaleSetPublicIPAddress: (
-      resourceGroupName: string,
-      virtualMachineScaleSetName: string,
-      virtualmachineIndex: string,
-      networkInterfaceName: string,
-      ipConfigurationName: string,
-      publicIpAddressName: string,
-      options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
-    ) =>
-      getVirtualMachineScaleSetPublicIPAddress(
-        context,
-        resourceGroupName,
-        virtualMachineScaleSetName,
-        virtualmachineIndex,
-        networkInterfaceName,
-        ipConfigurationName,
-        publicIpAddressName,
-        options,
-      ),
     listCloudServiceRoleInstancePublicIPAddresses: (
       resourceGroupName: string,
       cloudServiceName: string,

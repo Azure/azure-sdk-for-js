@@ -1,5 +1,13 @@
 # Release History
 
+## 40.0.0 (2026-11-23)
+
+### Features Added
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed Interface ProxyResourceVirtualNetworkApplianceCapabilityProperties
+
 ## 39.2.0 (2026-11-18)
 
 ### Features Added

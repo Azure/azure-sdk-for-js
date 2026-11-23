@@ -394,7 +394,7 @@ import type {
   VirtualWanVpnProfileParameters,
   VpnProfileResponse,
   DnsNameAvailabilityResult,
-} from "./models/network/models.js";
+} from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";

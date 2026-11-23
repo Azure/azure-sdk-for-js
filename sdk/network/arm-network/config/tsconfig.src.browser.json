@@ -176,8 +176,6 @@
     "../src/api/applicationGateways/index.ts",
     "../src/api/operations/index.ts",
     "../src/models/index.ts",
-    "../src/models/common/index.ts",
-    "../src/models/network/index.ts",
-    "../src/models/network/connectionAnalyzerEndpointTypes/index.ts"
+    "../src/models/connectionAnalyzerEndpointTypes/index.ts"
   ]
 }

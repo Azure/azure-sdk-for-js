@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 export {
-  listVirtualMachineScaleSetPublicIPAddresses,
   listCloudServicePublicIPAddresses,
+  listVirtualMachineScaleSetVMPublicIPAddresses,
+  getVirtualMachineScaleSetPublicIPAddress,
+  listVirtualMachineScaleSetPublicIPAddresses,
   disassociateCloudServiceReservedPublicIp,
   reserveCloudServicePublicIpAddress,
   ddosProtectionStatus,
@@ -13,14 +15,14 @@ export {
   updateTags,
   createOrUpdate,
   get,
-  listVirtualMachineScaleSetVMPublicIPAddresses,
-  getVirtualMachineScaleSetPublicIPAddress,
   listCloudServiceRoleInstancePublicIPAddresses,
   getCloudServicePublicIPAddress,
 } from "./operations.js";
 export type {
-  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
+  PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams,
   PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams,
   PublicIPAddressesDdosProtectionStatusOptionalParams,
@@ -30,8 +32,6 @@ export type {
   PublicIPAddressesUpdateTagsOptionalParams,
   PublicIPAddressesCreateOrUpdateOptionalParams,
   PublicIPAddressesGetOptionalParams,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-  PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
 } from "./options.js";

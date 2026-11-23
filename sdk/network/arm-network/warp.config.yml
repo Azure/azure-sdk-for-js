@@ -174,9 +174,7 @@ exports:
   "./api/applicationGateways": "./src/api/applicationGateways/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
-  "./models/common": "./src/models/common/index.ts"
-  "./models/network": "./src/models/network/index.ts"
-  "./models/network/connectionAnalyzerEndpointTypes": "./src/models/network/connectionAnalyzerEndpointTypes/index.ts"
+  "./models/connectionAnalyzerEndpointTypes": "./src/models/connectionAnalyzerEndpointTypes/index.ts"
 
 targets:
   - name: browser

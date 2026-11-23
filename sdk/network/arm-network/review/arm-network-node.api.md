@@ -9564,6 +9564,16 @@ export enum KnownVerbosityLevel {
 }
 
 // @public
+export enum KnownVersions {
+    V20250501 = "2025-05-01",
+    V20250701 = "2025-07-01",
+    V20250901 = "2025-09-01",
+    V20260101 = "2026-01-01",
+    V20260301 = "2026-03-01",
+    V20260501 = "2026-05-01"
+}
+
+// @public
 export enum KnownVirtualNetworkApplianceCapabilityIpVersion {
     DualStack = "DualStack",
     IPv6 = "IPv6"
@@ -11281,6 +11291,7 @@ export class NetworkManagementClient {
 
 // @public
 export interface NetworkManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
@@ -13752,11 +13763,6 @@ export interface ProxyResource {
     id?: string;
     readonly name?: string;
     readonly type?: string;
-}
-
-// @public
-export interface ProxyResourceVirtualNetworkApplianceCapabilityProperties extends ArmProxyResource {
-    properties?: VirtualNetworkApplianceCapabilityProperties;
 }
 
 // @public
@@ -16955,8 +16961,9 @@ export interface VirtualNetworkApplianceCapabilitiesOperations {
 }
 
 // @public
-export interface VirtualNetworkApplianceCapability extends ProxyResourceVirtualNetworkApplianceCapabilityProperties {
+export interface VirtualNetworkApplianceCapability extends ArmProxyResource {
     kind: VirtualNetworkApplianceCapabilityKind;
+    properties?: VirtualNetworkApplianceCapabilityProperties;
 }
 
 // @public

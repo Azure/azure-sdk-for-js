@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SyncRemoteAddressSpace } from "../../models/network/models.js";
+import type { SyncRemoteAddressSpace } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */

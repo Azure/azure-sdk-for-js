@@ -7,7 +7,7 @@ import type { FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams } from 
 import type {
   SignatureOverridesFilterValuesQuery,
   SignatureOverridesFilterValuesResponse,
-} from "../../models/network/models.js";
+} from "../../models/models.js";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesFilterValues operations. */
 export interface FirewallPolicyIdpsSignaturesFilterValuesOperations {
