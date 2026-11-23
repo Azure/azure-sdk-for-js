@@ -291,14 +291,14 @@ describe("Keys client - create, read, update and delete operations for managed H
         releasePolicy: { encodedPolicy: encodedReleasePolicy },
       });
 
-      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256");
+      const cryptographyClient = hsmClient.getCryptographyClient(keyName);
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       assert.exists(wrapped.result);
       assert.isAbove(wrapped.result.byteLength, 0);
       assert.equal(wrapped.algorithm, "RSA-OAEP-256");
       assert.isNotEmpty(wrapped.keyID);
 
-      const unwrapped = await hsmClient.secureUnwrapKey(
-        keyName,
+      const unwrapped = await cryptographyClient.secureUnwrapKey(
         wrapped.algorithm,
         wrapped.result,
         attestation,
@@ -323,16 +323,15 @@ describe("Keys client - create, read, update and delete operations for managed H
       });
       const version = createdKey.properties.version!;
 
-      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256", { version });
+      const cryptographyClient = hsmClient.getCryptographyClient(keyName, { keyVersion: version });
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       assert.exists(wrapped.result);
       assert.include(wrapped.keyID, version);
 
-      const unwrapped = await hsmClient.secureUnwrapKey(
-        keyName,
+      const unwrapped = await cryptographyClient.secureUnwrapKey(
         wrapped.algorithm,
         wrapped.result,
         attestation,
-        { version },
       );
       assert.exists(unwrapped.result);
       assert.include(unwrapped.keyID, version);
@@ -350,10 +349,10 @@ describe("Keys client - create, read, update and delete operations for managed H
         releasePolicy: { encodedPolicy: encodedReleasePolicy },
       });
 
-      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256");
+      const cryptographyClient = hsmClient.getCryptographyClient(keyName);
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       await expect(
-        hsmClient.secureUnwrapKey(
-          keyName,
+        cryptographyClient.secureUnwrapKey(
           wrapped.algorithm,
           wrapped.result,
           "not-a-valid-attestation-token",

@@ -1,5 +1,19 @@
 # Release History
 
+## 4.12.0 (Unreleased)
+
+### Features Added
+
+- Added `CryptographyClient.secureWrapKey` and `CryptographyClient.secureUnwrapKey` to perform secure key operations with a key-bound client. These operations require Managed HSM and cannot run with local-only keys.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Deprecated `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` in favor of the corresponding `CryptographyClient` methods. Existing calls remain supported.
+
 ## 4.11.0 (2026-11-18)
 
 ### Features Added

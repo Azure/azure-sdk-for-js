@@ -1180,14 +1180,16 @@ export class KeyClient {
    * const url = `https://${vaultName}.managedhsm.azure.net`;
    *
    * const client = new KeyClient(url, credential);
+   * const cryptographyClient = client.getCryptographyClient("myKey");
    *
-   * const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+   * const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
    * console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
    * ```
    *
    * @param name - The name of the key encryption key.
    * @param algorithm - The algorithm to use to wrap the generated key.
    * @param options - The optional parameters.
+   * @deprecated Use {@link CryptographyClient.secureWrapKey} instead.
    */
   public secureWrapKey(
     name: string,
@@ -1199,12 +1201,10 @@ export class KeyClient {
       options,
       async (updatedOptions): Promise<SecureKeyOperationResult> => {
         const { version, ...rest } = updatedOptions;
-        const result = await this.client.secureWrapKey(name, version, { algorithm }, rest);
-        return {
-          keyID: result.kid ?? "",
-          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
-          result: result.result ?? new Uint8Array(),
-        };
+        return this.getCryptographyClient(name, { keyVersion: version }).secureWrapKey(
+          algorithm,
+          rest,
+        );
       },
     );
   }
@@ -1228,10 +1228,10 @@ export class KeyClient {
    * const url = `https://${vaultName}.managedhsm.azure.net`;
    *
    * const client = new KeyClient(url, credential);
+   * const cryptographyClient = client.getCryptographyClient("myKey");
    *
-   * const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
-   * const unwrapped = await client.secureUnwrapKey(
-   *   "myKey",
+   * const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+   * const unwrapped = await cryptographyClient.secureUnwrapKey(
    *   wrapped.algorithm,
    *   wrapped.result,
    *   "<attestation-target>",
@@ -1245,6 +1245,7 @@ export class KeyClient {
    * @param targetAttestationToken - The attestation assertion for the target
    *   of the key release.
    * @param options - The optional parameters.
+   * @deprecated Use {@link CryptographyClient.secureUnwrapKey} instead.
    */
   public secureUnwrapKey(
     name: string,
@@ -1258,17 +1259,12 @@ export class KeyClient {
       options,
       async (updatedOptions): Promise<SecureKeyOperationResult> => {
         const { version, ...rest } = updatedOptions;
-        const result = await this.client.secureUnwrapKey(
-          name,
-          version,
-          { algorithm, value, targetAttestationToken },
+        return this.getCryptographyClient(name, { keyVersion: version }).secureUnwrapKey(
+          algorithm,
+          value,
+          targetAttestationToken,
           rest,
         );
-        return {
-          keyID: result.kid ?? "",
-          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
-          result: result.result ?? new Uint8Array(),
-        };
       },
     );
   }

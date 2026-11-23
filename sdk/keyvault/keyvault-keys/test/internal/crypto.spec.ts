@@ -127,6 +127,130 @@ describe("internal crypto tests", () => {
     });
   });
 
+  describe("secure key operations", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it.each(["v1", ""])("uses the bound key version '%s' and forwards options", async (version) => {
+      const keyID = `https://my.managedhsm.azure.net/keys/keyId${version ? `/${version}` : ""}`;
+      const client = new CryptographyClient(keyID, tokenCredential);
+      const serviceClient = client["remoteProvider"]!["client"];
+      const value = new Uint8Array([1, 2, 3]);
+      const response = { kid: keyID, algorithm: "RSA-OAEP-256", result: value };
+      const wrapStub = vi.spyOn(serviceClient, "secureWrapKey").mockResolvedValue(response);
+      const unwrapStub = vi.spyOn(serviceClient, "secureUnwrapKey").mockResolvedValue(response);
+      const options = { abortSignal: new AbortController().signal, requestOptions: { timeout: 5 } };
+
+      const wrapped = await client.secureWrapKey("RSA-OAEP-256", options);
+      const unwrapped = await client.secureUnwrapKey(
+        "RSA-OAEP-256",
+        value,
+        "attestation-token",
+        options,
+      );
+
+      expect(wrapStub).toHaveBeenCalledWith(
+        "keyId",
+        version,
+        { algorithm: "RSA-OAEP-256" },
+        expect.objectContaining(options),
+      );
+      expect(unwrapStub).toHaveBeenCalledWith(
+        "keyId",
+        version,
+        { algorithm: "RSA-OAEP-256", value, targetAttestationToken: "attestation-token" },
+        expect.objectContaining(options),
+      );
+      expect(wrapped).toEqual({ keyID, algorithm: "RSA-OAEP-256", result: value });
+      expect(unwrapped).toEqual(wrapped);
+    });
+
+    it("preserves explicit versions on the legacy KeyClient methods", async () => {
+      const client = new KeyClient("https://my.managedhsm.azure.net", tokenCredential);
+      const value = new Uint8Array([1, 2, 3]);
+      const wrapStub = vi
+        .spyOn(client["client"], "secureWrapKey")
+        .mockResolvedValue({ result: value });
+      const unwrapStub = vi
+        .spyOn(client["client"], "secureUnwrapKey")
+        .mockResolvedValue({ result: value });
+      await client.secureWrapKey("keyId", "RSA-OAEP-256", { version: "v2" });
+      await client.secureUnwrapKey("keyId", "RSA-OAEP-256", value, "attestation-token", {
+        version: "v2",
+      });
+      expect(wrapStub).toHaveBeenCalledWith(
+        "keyId",
+        "v2",
+        { algorithm: "RSA-OAEP-256" },
+        expect.anything(),
+      );
+      expect(unwrapStub).toHaveBeenCalledWith(
+        "keyId",
+        "v2",
+        { algorithm: "RSA-OAEP-256", value, targetAttestationToken: "attestation-token" },
+        expect.anything(),
+      );
+    });
+
+    it("supports an explicit version override", async () => {
+      const client = new CryptographyClient(
+        "https://my.managedhsm.azure.net/keys/keyId/v1",
+        tokenCredential,
+      );
+      const serviceClient = client["remoteProvider"]!["client"];
+      const value = new Uint8Array([1, 2, 3]);
+      const wrapStub = vi
+        .spyOn(serviceClient, "secureWrapKey")
+        .mockResolvedValue({ result: value });
+      const unwrapStub = vi
+        .spyOn(serviceClient, "secureUnwrapKey")
+        .mockResolvedValue({ result: value });
+      await client.secureWrapKey("RSA-OAEP-256", { version: "v2" });
+      await client.secureUnwrapKey("RSA-OAEP-256", value, "attestation-token", { version: "v2" });
+      expect(wrapStub).toHaveBeenCalledWith(
+        "keyId",
+        "v2",
+        { algorithm: "RSA-OAEP-256" },
+        expect.not.objectContaining({ version: "v2" }),
+      );
+      expect(unwrapStub).toHaveBeenCalledWith(
+        "keyId",
+        "v2",
+        { algorithm: "RSA-OAEP-256", value, targetAttestationToken: "attestation-token" },
+        expect.not.objectContaining({ version: "v2" }),
+      );
+    });
+
+    it("rejects local-only clients", async () => {
+      const client = new CryptographyClient({ kty: "RSA" });
+      await expect(client.secureWrapKey("RSA-OAEP-256")).rejects.toThrow(
+        "Operation secureWrapKey requires a remote Key Vault key.",
+      );
+      await expect(
+        client.secureUnwrapKey("RSA-OAEP-256", new Uint8Array(), "attestation-token"),
+      ).rejects.toThrow("Operation secureUnwrapKey requires a remote Key Vault key.");
+    });
+
+    it("propagates service errors", async () => {
+      const client = new CryptographyClient(
+        "https://my.managedhsm.azure.net/keys/keyId/v1",
+        tokenCredential,
+      );
+      const serviceClient = client["remoteProvider"]!["client"];
+      vi.spyOn(serviceClient, "secureWrapKey").mockRejectedValue(
+        new RestError("wrap forbidden", { statusCode: 403 }),
+      );
+      vi.spyOn(serviceClient, "secureUnwrapKey").mockRejectedValue(
+        new RestError("invalid attestation", { statusCode: 400 }),
+      );
+      await expect(client.secureWrapKey("RSA-OAEP-256")).rejects.toThrow("wrap forbidden");
+      await expect(
+        client.secureUnwrapKey("RSA-OAEP-256", new Uint8Array(), "invalid-token"),
+      ).rejects.toThrow("invalid attestation");
+    });
+  });
+
   describe("Parameter passing to encrypt / decrypt", function () {
     let client: CryptographyClient;
     let cryptoProvider: CryptographyProvider;
