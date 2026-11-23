@@ -164,20 +164,6 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 @@ -327,10 +333,11 @@
- export { GetTokenOptions }
- 
- // @public
- export class GitHubActionsCredential implements TokenCredential {
--    constructor(options?: GitHubActionsCredentialOptions);
--    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor(_options?: GitHubActionsCredentialOptions);
-+    // (undocumented)
-+    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
- }
- 
- // @public
- export interface GitHubActionsCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
-@@ -340,9 +347,9 @@
  export type IdentityPlugin = (context: unknown) => void;
  
  // @public
