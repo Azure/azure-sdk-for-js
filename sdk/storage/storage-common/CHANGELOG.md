@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `BufferScheduler.do()` takes an optional `options` object with an `abortSignal`. When it's aborted, `do()` pauses the stream and rejects with an `AbortError`, also while it waits for data. After `do()` rejects, no more data is handed to the outgoing handler; handlers already running aren't stopped, so pass the same signal to the requests they send.
+- `BufferScheduler.do()` takes an optional `options` object with an `abortSignal`. When it's aborted, `do()` pauses the stream and rejects with an `AbortError`, also while it waits for data. After `do()` rejects, no more data is handed to the outgoing handler; handlers already running aren't stopped, so pass the same signal to the requests they send. [#40885](https://github.com/Azure/azure-sdk-for-js/pull/40885)
 
 ### Breaking Changes
 

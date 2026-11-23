@@ -51,6 +51,8 @@ describe("BufferScheduler", () => {
     assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
     assert.equal(handled, 0, "no buffer should be handed to the outgoing handler");
     assert.lengthOf(getEventListeners(abortController.signal, "abort"), 0);
+    // A later error from the stream must not end the process.
+    assert.doesNotThrow(() => stream.emit("error", new Error("ENOENT: no such file or directory")));
   });
 
   it("starts no queued buffer and leaves the stream alone when running handlers end after an abort", async () => {
@@ -114,6 +116,9 @@ describe("BufferScheduler", () => {
 
     assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
     assert.equal(stream.listenerCount("data"), 0, "do() should not read the stream");
+    // An error the stream raises later, as a file stream does when its file can't be opened,
+    // must not end the process.
+    assert.doesNotThrow(() => stream.emit("error", new Error("ENOENT: no such file or directory")));
   });
 
   it("handles a small amount of data", async () => {

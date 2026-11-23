@@ -71,7 +71,7 @@ describe("BlockBlobClient.uploadStream", () => {
     assert.isEmpty(sent);
   });
 
-  it("rejects with an AbortError when aborted while the source stream is paused", async () => {
+  it("rejects with an AbortError when aborted while the source stream is paused or before the upload starts", async () => {
     const { client, sent } = createClient();
     const source = new PassThrough();
     const abortController = new AbortController();
@@ -82,7 +82,19 @@ describe("BlockBlobClient.uploadStream", () => {
     abortController.abort();
 
     await expect(upload).rejects.toMatchObject({ name: "AbortError" });
+    // The signal is aborted now, so the next upload rejects before it reads its stream.
+    const unread = new PassThrough();
+    await expect(
+      client.uploadStream(unread, 4 * MB, 2, { abortSignal: abortController.signal }),
+    ).rejects.toMatchObject({ name: "AbortError" });
     assert.isEmpty(sent);
+    // Errors the streams raise later, as a file stream does when its file can't be opened, must
+    // not end the process.
+    for (const stream of [source, unread]) {
+      assert.doesNotThrow(() =>
+        stream.emit("error", new Error("ENOENT: no such file or directory")),
+      );
+    }
   });
 
   it("cancels the blocks in flight and doesn't commit after an abort", async () => {

@@ -3,7 +3,9 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
+import { getErrorMessage } from "@azure/core-util";
 import { EventEmitter } from "events";
+import { logger } from "../log.js";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -166,10 +168,16 @@ export class BufferScheduler {
    * @param options - `abortSignal`: when it's aborted, `do()` rejects with an `AbortError` and
    *                  pauses the stream. No more data is handed to the outgoing handler after
    *                  `do()` rejects. Pass the same signal to the requests the handler sends.
+   *                  If the signal is already aborted, `do()` rejects without reading the stream
+   *                  and leaves a logging `error` listener on it, so an error the stream raises
+   *                  later doesn't end the process.
    */
   public async do(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     const { abortSignal } = options;
     if (abortSignal?.aborted) {
+      // The stream isn't read, but it can still emit "error" (a file stream does when its file
+      // can't be opened), and an "error" event with no listener ends the process.
+      this.readable.on("error", logIgnoredStreamError);
       throw new AbortError("The operation was aborted.");
     }
     const onAbort = (): void => {
@@ -361,4 +369,10 @@ export class BufferScheduler {
       this.readable.resume();
     }
   }
+}
+
+function logIgnoredStreamError(error: unknown): void {
+  logger.info(
+    `BufferScheduler: the operation was aborted before the stream was read, and the stream then emitted an error: ${getErrorMessage(error)}`,
+  );
 }
