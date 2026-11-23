@@ -179,7 +179,7 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
 
     ```shell
     pnpm turbo build --filter=${PACKAGE_NAME}... --token 1
-    SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    SET TEST_MODE=playback&& pnpm test # this runs the tests in playback mode using existing recordings; no new recordings are generated.
     ```
 
 3. **Push recording to assets repo**

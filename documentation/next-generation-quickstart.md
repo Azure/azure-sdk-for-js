@@ -153,7 +153,7 @@ const resourcesClient = new resources.ResourceManagementClient(credential, subsc
 TypeScript
 
 ```typescript
-async function updateResourceGroup(resourceGroupName: string) {
+async function createResourceGroup(resourceGroupName: string) {
   const parameter: ResourceGroup = {
     location: "eastus",
     tags: {

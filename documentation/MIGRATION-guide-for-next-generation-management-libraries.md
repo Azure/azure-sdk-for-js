@@ -152,7 +152,7 @@ Refer to [@azure/core-paging](https://www.npmjs.com/package/@azure/core-paging) 
 
 ## Long Running Operations
 
-Many operations may take a long time to finish before receiving the desired response. The SDK provides two types of methods to interact with such operations. First type is a method that simply returns the result after the operation finishes processing and those methods' names correspond to the name of the API they call. One issue with these methods is that they do not provide a way to check on the current status of the operation or to access any partial results computed so far. The next-generation SDK provides similar methods but with a slightly different name, it has the prefix `begin` and the postfix `AndWait`. The other type of methods is one that returns a poller object which gives you access to the underlying state of the operation. Previously, these methods returned an object of type [`LROPoller`](https://github.com/Azure/ms-rest-azure-js/blob/a9cee4480a8710d5c81890ae7cb7a1dea559ec65/lib/lroPoller.ts#L13), a class that is exported by `@azure/ms-rest-azure-js` but the new operations return an object that implements the [`PollerLike`](https://github.com/Azure/azure-sdk-for-js/blob/35f86a68def5022d4c03a32d4c8c0362a0158772/sdk/core/core-lro/src/poller.ts#L50) interface instead which is exported by `@azure/core-lro`. The name of those methods did not change, both versions use the prefix `begin` with no postfix.
+Many operations may take a long time to finish before receiving the desired response. The SDK provides two types of methods to interact with such operations. First type is a method that simply returns the result after the operation finishes processing and those methods' names correspond to the name of the API they call. One issue with these methods is that they do not provide a way to check on the current status of the operation or to access any partial results computed so far. The next-generation SDK provides similar methods but with a slightly different name, it has the prefix `begin` and the postfix `AndWait`. The other type of methods is one that returns a poller object which gives you access to the underlying state of the operation. Previously, these methods returned an object of type [`LROPoller`](https://github.com/Azure/ms-rest-azure-js/blob/a9cee4480a8710d5c81890ae7cb7a1dea559ec65/lib/lroPoller.ts#L13), a class that is exported by `@azure/ms-rest-azure-js` but the new operations return an object that implements the [`PollerLike`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/src/poller/models.ts) interface instead which is exported by `@azure/core-lro`. The name of those methods did not change, both versions use the prefix `begin` with no postfix.
 
 <!-- markdownlint-disable MD033 -->
 <table>
@@ -283,7 +283,7 @@ const poller = await computeClient.dedicatedHosts.beginCreateOrUpdate(
   parameter
 );
 poller.onProgress((state) => {
-  console.log(`Are we done yet? ${Boolean(state.isCompleted)}`);
+  console.log(`Are we done yet? ${state.status === "succeeded" || state.status === "failed" || state.status === "canceled"}`);
 })
 const result = await poller.pollUntilDone().then((response) => {
   console.log(response);
