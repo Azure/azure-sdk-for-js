@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the topics in a namespace.
  *
  * @summary gets all the topics in a namespace.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicListByNameSpace.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicListByNameSpace.json
  */
 async function topicGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

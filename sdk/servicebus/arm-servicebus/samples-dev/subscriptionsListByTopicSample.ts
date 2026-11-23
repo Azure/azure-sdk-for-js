@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the subscriptions under a specified topic.
  *
  * @summary list all the subscriptions under a specified topic.
- * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionListByTopic.json
+ * x-ms-original-file: 2026-07-01-preview/Subscriptions/SBSubscriptionListByTopic.json
  */
 async function subscriptionListByTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all migrationConfigurations
  *
  * @summary gets all migrationConfigurations
- * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationList.json
+ * x-ms-original-file: 2026-07-01-preview/Migrationconfigurations/SBMigrationconfigurationList.json
  */
 async function migrationConfigurationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
