@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteCircuitCreate.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteCircuitCreate.json
  */
 async function createExpressRouteCircuit(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createExpressRouteCircuit(): Promise<void> {
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteCircuitCreateOnExpressRouteLag.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteCircuitCreateOnExpressRouteLag.json
  */
 async function createExpressRouteCircuitOnExpressRouteLag(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function createExpressRouteCircuitOnExpressRouteLag(): Promise<void> {
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteCircuitCreateOnExpressRouteLagWithAuthorizationKey.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteCircuitCreateOnExpressRouteLagWithAuthorizationKey.json
  */
 async function createExpressRouteCircuitOnExpressRouteLagWithAuthorizationKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function createExpressRouteCircuitOnExpressRouteLagWithAuthorizationKey():
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteCircuitCreateOnExpressRoutePort.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteCircuitCreateOnExpressRoutePort.json
  */
 async function createExpressRouteCircuitOnExpressRoutePort(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -101,7 +101,7 @@ async function createExpressRouteCircuitOnExpressRoutePort(): Promise<void> {
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteMultiCloudCircuitCreateWithActivationKey.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteMultiCloudCircuitCreateWithActivationKey.json
  */
 async function createMultiCloudExpressRouteCircuitWithActivationKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -125,7 +125,7 @@ async function createMultiCloudExpressRouteCircuitWithActivationKey(): Promise<v
  * This sample demonstrates how to creates or updates an express route circuit.
  *
  * @summary creates or updates an express route circuit.
- * x-ms-original-file: 2026-03-01/ExpressRouteMultiCloudCircuitCreateWithPartnerAccountId.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteMultiCloudCircuitCreateWithPartnerAccountId.json
  */
 async function createMultiCloudExpressRouteCircuitWithPartnerAccountId(): Promise<void> {
   const credential = new DefaultAzureCredential();
