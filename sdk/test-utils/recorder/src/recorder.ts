@@ -37,12 +37,6 @@ import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "#platform/env";
 
 /**
- * Query parameters ignored by default during playback matching, so that
- * recordings do not need to be re-recorded when only the api-version changes.
- */
-const DEFAULT_IGNORED_QUERY_PARAMETERS = ["api-version"];
-
-/**
  * Caculates session file path and JSON assets path from test context
  *
  * @internal
@@ -374,12 +368,12 @@ export class Recorder {
           removalList.concat(options.removeCentralSanitizers ?? []),
         );
 
-        // Ignore api-version during playback matching by default, so that recordings
-        // only need to be re-recorded when there are actual API changes.
+        // Make sure the default matcher is applied in playback mode, so that the recorder's
+        // default matching options (see `setMatcher`) take effect for every test.
         // Skip if a matcher has already been set (e.g. by the test before start(),
         // or by preStart in the browser) to avoid overriding it.
         if (isPlaybackMode() && !this.matcherSet) {
-          logger.verbose("[Recorder#start] Setting default matcher to ignore api-version");
+          logger.verbose("[Recorder#start] Setting the default matcher");
           await this.setMatcher("CustomDefaultMatcher");
         }
 
@@ -450,9 +444,6 @@ export class Recorder {
   async setMatcher(matcher: "CustomDefaultMatcher", options?: CustomMatcherOptions): Promise<void>;
   /**
    * Sets the matcher for the current recording to the matcher specified.
-   *
-   * The "api-version" query parameter is always ignored during matching (except for HeaderlessMatcher,
-   * which does not accept options), so that recordings do not need to be re-recorded when only the api-version changes.
    */
   async setMatcher(matcher: Matcher, options: CustomMatcherOptions = {}): Promise<void> {
     if (isPlaybackMode()) {
@@ -475,8 +466,11 @@ export class Recorder {
           )
         : options.excludedHeaders;
 
+      // Always ignore the "api-version" query parameter so that recordings only need to be
+      // re-recorded when there are actual API changes, not api-version upgrades.
+      // Note: this has no effect for HeaderlessMatcher, which does not accept options.
       const ignoredQueryParameters = Array.from(
-        new Set([...(options.ignoredQueryParameters ?? []), ...DEFAULT_IGNORED_QUERY_PARAMETERS]),
+        new Set([...(options.ignoredQueryParameters ?? []), "api-version"]),
       );
 
       const updatedOptions = {
