@@ -145,6 +145,77 @@ describe("AMQP message encoding", () => {
   });
 
   describe("toRheaMessage", () => {
+    for (const skipConvertingDate of [false, true]) {
+      it(`preserves types when forwarding cloned or reused properties with skipConvertingDate=${skipConvertingDate}`, () => {
+        const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+        const timestamp = new Date(0);
+        const encoded = rheaMessageUtil.encode(
+          toRheaMessage(
+            {
+              body: "hello",
+              applicationProperties: {
+                long: { type: "long", value: longValue },
+                priority: { type: "ubyte", value: 200 },
+                createdAt: { type: "timestamp", value: timestamp },
+                removed: { type: "symbol", value: "remove" },
+              },
+            },
+            defaultDataTransformer,
+          ),
+        );
+        const received = new ServiceBusMessageImpl(
+          rheaMessageUtil.decode(encoded) as unknown as Message,
+          {} as Delivery,
+          false,
+          "receiveAndDelete",
+          false,
+          skipConvertingDate,
+        );
+        const applicationProperties = received.applicationProperties!;
+        for (const properties of [
+          applicationProperties,
+          received._rawAmqpMessage.applicationProperties!,
+        ]) {
+          properties.priority = 201;
+          properties.createdAt = skipConvertingDate ? new Date(1000) : 1000;
+          delete properties.removed;
+        }
+
+        assert.deepEqual(applicationProperties, {
+          long: Number(longValue),
+          priority: 201,
+          createdAt: skipConvertingDate ? new Date(1000) : 1000,
+        });
+        for (const outgoing of [
+          received.clone(),
+          { body: "forwarded", applicationProperties },
+          {
+            body: "forwarded raw properties",
+            applicationProperties: received._rawAmqpMessage.applicationProperties,
+          },
+        ]) {
+          const rheaMessage = toRheaMessage(outgoing, defaultDataTransformer);
+          const resent = rheaMessage.application_properties!;
+          assert.equal((resent.long as Typed).type.name, "Long");
+          assert.equal(Buffer.from((resent.long as Typed).value).readBigInt64BE(), longValue);
+          assert.equal((resent.priority as Typed).type.name, "Ubyte");
+          assert.equal((resent.priority as Typed).value, 201);
+          assert.equal((resent.createdAt as Typed).type.name, "Timestamp");
+          assert.deepEqual((resent.createdAt as Typed).value, new Date(1000));
+          assert.notProperty(resent, "removed");
+          const roundTripped = fromRheaMessage(
+            rheaMessageUtil.decode(rheaMessageUtil.encode(rheaMessage)) as unknown as Message,
+            { skipParsingBodyAsJson: false },
+          );
+          assert.deepEqual(roundTripped.applicationPropertiesWithAmqpTypes, {
+            long: { type: "long", value: longValue },
+            priority: { type: "ubyte", value: 201 },
+            createdAt: { type: "timestamp", value: new Date(1000) },
+          });
+        }
+      });
+    }
+
     it("AmqpAnnotatedMessage (explicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",

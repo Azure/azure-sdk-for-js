@@ -678,6 +678,7 @@ export function fromRheaMessage(
     rawMessage.applicationProperties = skipConvertingDate
       ? rawMessage.applicationProperties
       : convertDatesToNumbers(rawMessage.applicationProperties);
+    _defineApplicationPropertiesWithAmqpTypes(rawMessage, applicationPropertiesWithAmqpTypes);
   }
   if (rawMessage.deliveryAnnotations) {
     rawMessage.deliveryAnnotations = skipConvertingDate
