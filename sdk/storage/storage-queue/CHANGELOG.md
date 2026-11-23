@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Restored the core v1 user agent string prefix, `azsdk-js-storagequeue`. [#38265](https://github.com/Azure/azure-sdk-for-js/issues/38265)
+- Fixed errors of failed requests having the message `Unexpected status code: <status>` instead of the error message the service returned, a regression in 12.32.0-beta.1 that also shipped in 12.32.0. `details` again includes `authenticationErrorDetail` and the other fields the service returns, such as `QueryParameterName`. [#40864](https://github.com/Azure/azure-sdk-for-js/pull/40864)
 
 ### Other Changes
 

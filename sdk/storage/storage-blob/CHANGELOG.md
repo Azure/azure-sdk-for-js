@@ -1,5 +1,17 @@
 # Release History
 
+## 12.35.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed errors of failed requests having the message `Unexpected status code: <status>` instead of the error message the service returned, a regression in 12.35.0-beta.1. `details` again includes `authenticationErrorDetail` and the other fields the service returns, such as `HeaderName`, and errors of downloads, quick queries, batch requests and blob listings (`ContainerClient.listBlobsFlat()` and `ContainerClient.listBlobsByHierarchy()` in the Apache Arrow format, the default) again include `details.code` and `details.message`. Errors of requests whose response has no body, such as `BlobClient.getProperties()`, still have the message `Unexpected status code: <status>`, because the service returns no error message for them. [#40864](https://github.com/Azure/azure-sdk-for-js/pull/40864)
+
+### Other Changes
+
 ## 12.35.0-beta.1 (2026-11-11)
 
 ### Features Added

@@ -42,6 +42,7 @@ import {
   StorageSharedKeyCredential,
   getCachedDefaultHttpClient,
   storageRequestFailureDetailsParserPolicy,
+  storageServiceErrorPolicy,
   storageBrowserPolicy,
   storageRetryPolicy,
   storageSharedKeyCredentialPolicy,
@@ -415,6 +416,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       { afterPhase: "Retry" },
     );
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
+    corePipeline.addPolicy(storageServiceErrorPolicy(), { afterPhase: "Deserialize" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {
