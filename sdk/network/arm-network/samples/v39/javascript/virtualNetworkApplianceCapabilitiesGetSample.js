@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified capability of a virtual network appliance.
  *
  * @summary gets the specified capability of a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_Get.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_Get.json
  */
 async function getVirtualNetworkApplianceCapability() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified capability of a virtual network appliance.
  *
  * @summary deletes the specified capability of a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkApplianceCapabilities_Delete.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkApplianceCapabilities_Delete.json
  */
 async function deleteVirtualNetworkApplianceCapability(): Promise<void> {
   const credential = new DefaultAzureCredential();

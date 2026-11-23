@@ -2018,6 +2018,8 @@ export interface ApplicationGateway extends Resource {
   identity?: ManagedServiceIdentity;
   /** SKU of the application gateway resource. */
   sku?: ApplicationGatewaySku;
+  /** Deployment tier of the application gateway resource. Only valid on Standard_v2 and WAF_v2 SKUs. */
+  deploymentTier?: ApplicationGatewayDeploymentTier;
   /** SSL policy of the application gateway resource. */
   sslPolicy?: ApplicationGatewaySslPolicy;
   /** Operational state of the application gateway resource. */
@@ -2072,6 +2074,8 @@ export interface ApplicationGateway extends Resource {
   enableHttp2?: boolean;
   /** Whether FIPS is enabled on the application gateway resource. */
   enableFips?: boolean;
+  /** Whether Confidential Compute is enabled on the application gateway resource. */
+  enableConfidentialCompute?: boolean;
   /** Autoscale Configuration. */
   autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
   /** The reserved capacity of the application gateway resource. Applicable to the Basic_v2 and Basic_WAF_v2 SKU tiers. */
@@ -2105,6 +2109,7 @@ export function applicationGatewaySerializer(item: ApplicationGateway): any {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
       "sku",
+      "deploymentTier",
       "sslPolicy",
       "gatewayIPConfigurations",
       "authenticationCertificates",
@@ -2131,6 +2136,7 @@ export function applicationGatewaySerializer(item: ApplicationGateway): any {
       "firewallPolicy",
       "enableHttp2",
       "enableFips",
+      "enableConfidentialCompute",
       "autoscaleConfiguration",
       "reservedCapacity",
       "privateLinkConfigurations",
@@ -2181,6 +2187,8 @@ export function applicationGatewayDeserializer(item: any): ApplicationGateway {
 export interface ApplicationGatewayPropertiesFormat {
   /** SKU of the application gateway resource. */
   sku?: ApplicationGatewaySku;
+  /** Deployment tier of the application gateway resource. Only valid on Standard_v2 and WAF_v2 SKUs. */
+  deploymentTier?: ApplicationGatewayDeploymentTier;
   /** SSL policy of the application gateway resource. */
   sslPolicy?: ApplicationGatewaySslPolicy;
   /** Operational state of the application gateway resource. */
@@ -2235,6 +2243,8 @@ export interface ApplicationGatewayPropertiesFormat {
   enableHttp2?: boolean;
   /** Whether FIPS is enabled on the application gateway resource. */
   enableFips?: boolean;
+  /** Whether Confidential Compute is enabled on the application gateway resource. */
+  enableConfidentialCompute?: boolean;
   /** Autoscale Configuration. */
   autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
   /** The reserved capacity of the application gateway resource. Applicable to the Basic_v2 and Basic_WAF_v2 SKU tiers. */
@@ -2266,6 +2276,7 @@ export function applicationGatewayPropertiesFormatSerializer(
 ): any {
   return {
     sku: !item["sku"] ? item["sku"] : applicationGatewaySkuSerializer(item["sku"]),
+    deploymentTier: item["deploymentTier"],
     sslPolicy: !item["sslPolicy"]
       ? item["sslPolicy"]
       : applicationGatewaySslPolicySerializer(item["sslPolicy"]),
@@ -2348,6 +2359,7 @@ export function applicationGatewayPropertiesFormatSerializer(
       : subResourceSerializer(item["firewallPolicy"]),
     enableHttp2: item["enableHttp2"],
     enableFips: item["enableFips"],
+    enableConfidentialCompute: item["enableConfidentialCompute"],
     autoscaleConfiguration: !item["autoscaleConfiguration"]
       ? item["autoscaleConfiguration"]
       : applicationGatewayAutoscaleConfigurationSerializer(item["autoscaleConfiguration"]),
@@ -2380,6 +2392,7 @@ export function applicationGatewayPropertiesFormatDeserializer(
 ): ApplicationGatewayPropertiesFormat {
   return {
     sku: !item["sku"] ? item["sku"] : applicationGatewaySkuDeserializer(item["sku"]),
+    deploymentTier: item["deploymentTier"],
     sslPolicy: !item["sslPolicy"]
       ? item["sslPolicy"]
       : applicationGatewaySslPolicyDeserializer(item["sslPolicy"]),
@@ -2467,6 +2480,7 @@ export function applicationGatewayPropertiesFormatDeserializer(
       : subResourceDeserializer(item["firewallPolicy"]),
     enableHttp2: item["enableHttp2"],
     enableFips: item["enableFips"],
+    enableConfidentialCompute: item["enableConfidentialCompute"],
     autoscaleConfiguration: !item["autoscaleConfiguration"]
       ? item["autoscaleConfiguration"]
       : applicationGatewayAutoscaleConfigurationDeserializer(item["autoscaleConfiguration"]),
@@ -2624,6 +2638,30 @@ export enum KnownApplicationGatewaySkuFamily {
  * **Generation_2**: Generation_2
  */
 export type ApplicationGatewaySkuFamily = string;
+
+/** Deployment tier of the Application Gateway. */
+export enum KnownApplicationGatewayDeploymentTier {
+  /** Default deployment type. */
+  Standard = "Standard",
+  /** Management NIC deployment type. */
+  NetworkIsolated = "NetworkIsolated",
+  /** Accelerated deployment type. */
+  Accelerated = "Accelerated",
+  /** Accelerated deployment type with reserved capacity and vertical scaling. */
+  Elastic = "Elastic",
+}
+
+/**
+ * Deployment tier of the Application Gateway. \
+ * {@link KnownApplicationGatewayDeploymentTier} can be used interchangeably with ApplicationGatewayDeploymentTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Default deployment type. \
+ * **NetworkIsolated**: Management NIC deployment type. \
+ * **Accelerated**: Accelerated deployment type. \
+ * **Elastic**: Accelerated deployment type with reserved capacity and vertical scaling.
+ */
+export type ApplicationGatewayDeploymentTier = string;
 
 /** Application Gateway Ssl policy. */
 export interface ApplicationGatewaySslPolicy {
@@ -7991,6 +8029,8 @@ export interface AzureFirewall extends Resource {
   readonly afcConfiguration?: AfcConfiguration;
   /** Indicates whether the AI security add-on is enabled for the Azure Firewall. */
   aiSecurityAddOn?: boolean;
+  /** The TCP idle timeout for the Azure Firewall, in minutes. Valid values range from 4 to 64, inclusive. */
+  tcpIdleTimeoutInMinutes?: number;
 }
 
 export function azureFirewallSerializer(item: AzureFirewall): any {
@@ -8012,6 +8052,7 @@ export function azureFirewallSerializer(item: AzureFirewall): any {
       "additionalProperties",
       "autoscaleConfiguration",
       "aiSecurityAddOn",
+      "tcpIdleTimeoutInMinutes",
     ])
       ? undefined
       : _azureFirewallPropertiesSerializer(item),
@@ -8084,6 +8125,8 @@ export interface AzureFirewallPropertiesFormat {
   readonly afcConfiguration?: AfcConfiguration;
   /** Indicates whether the AI security add-on is enabled for the Azure Firewall. */
   aiSecurityAddOn?: boolean;
+  /** The TCP idle timeout for the Azure Firewall, in minutes. Valid values range from 4 to 64, inclusive. */
+  tcpIdleTimeoutInMinutes?: number;
 }
 
 export function azureFirewallPropertiesFormatSerializer(item: AzureFirewallPropertiesFormat): any {
@@ -8119,6 +8162,7 @@ export function azureFirewallPropertiesFormatSerializer(item: AzureFirewallPrope
       ? item["autoscaleConfiguration"]
       : azureFirewallAutoscaleConfigurationSerializer(item["autoscaleConfiguration"]),
     aiSecurityAddOn: item["aiSecurityAddOn"],
+    tcpIdleTimeoutInMinutes: item["tcpIdleTimeoutInMinutes"],
   };
 }
 
@@ -8168,6 +8212,7 @@ export function azureFirewallPropertiesFormatDeserializer(
       ? item["afcConfiguration"]
       : afcConfigurationDeserializer(item["afcConfiguration"]),
     aiSecurityAddOn: item["aiSecurityAddOn"],
+    tcpIdleTimeoutInMinutes: item["tcpIdleTimeoutInMinutes"],
   };
 }
 
@@ -20859,6 +20904,8 @@ export interface NetworkVirtualAppliance extends Resource {
   readonly etag?: string;
   /** Network Virtual Appliance SKU. */
   nvaSku?: VirtualApplianceSkuProperties;
+  /** Configuration of the internal load balancer for a managed Network Virtual Appliance in a virtual hub or virtual network. Not applicable to partner-managed load balancers on SaaS NVAs. When omitted on create or update, Default distribution and a 5-minute idle timeout are used. */
+  loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
   /** Address Prefix. */
   readonly addressPrefix?: string;
   /** Address Prefix for Dual-Stack NVAs. */
@@ -20916,6 +20963,7 @@ export function networkVirtualApplianceSerializer(item: NetworkVirtualAppliance)
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
       "nvaSku",
+      "loadBalancerConfiguration",
       "bootStrapConfigurationBlobs",
       "virtualHub",
       "cloudInitConfigurationBlobs",
@@ -20961,6 +21009,8 @@ export function networkVirtualApplianceDeserializer(item: any): NetworkVirtualAp
 export interface NetworkVirtualAppliancePropertiesFormat {
   /** Network Virtual Appliance SKU. */
   nvaSku?: VirtualApplianceSkuProperties;
+  /** Configuration of the internal load balancer for a managed Network Virtual Appliance in a virtual hub or virtual network. Not applicable to partner-managed load balancers on SaaS NVAs. When omitted on create or update, Default distribution and a 5-minute idle timeout are used. */
+  loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
   /** Address Prefix. */
   readonly addressPrefix?: string;
   /** Address Prefix for Dual-Stack NVAs. */
@@ -21018,6 +21068,11 @@ export function networkVirtualAppliancePropertiesFormatSerializer(
     nvaSku: !item["nvaSku"]
       ? item["nvaSku"]
       : virtualApplianceSkuPropertiesSerializer(item["nvaSku"]),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationSerializer(
+          item["loadBalancerConfiguration"],
+        ),
     bootStrapConfigurationBlobs: !item["bootStrapConfigurationBlobs"]
       ? item["bootStrapConfigurationBlobs"]
       : item["bootStrapConfigurationBlobs"].map((p: any) => {
@@ -21067,6 +21122,11 @@ export function networkVirtualAppliancePropertiesFormatDeserializer(
     nvaSku: !item["nvaSku"]
       ? item["nvaSku"]
       : virtualApplianceSkuPropertiesDeserializer(item["nvaSku"]),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationDeserializer(
+          item["loadBalancerConfiguration"],
+        ),
     addressPrefix: item["addressPrefix"],
     addressPrefixV6: item["addressPrefixV6"],
     bootStrapConfigurationBlobs: !item["bootStrapConfigurationBlobs"]
@@ -21157,6 +21217,53 @@ export function virtualApplianceSkuPropertiesDeserializer(
     marketPlaceVersion: item["marketPlaceVersion"],
   };
 }
+
+/** Load balancer settings shared by managed Network Virtual Appliances and their Permanent inbound security rules. */
+export interface NetworkVirtualApplianceLoadBalancerConfiguration {
+  /** The load distribution policy. Default uses a five-tuple hash of source IP, destination IP, source port, destination port, and protocol. SourceIP uses a two-tuple hash of source IP and destination IP. SourceIPProtocol uses a three-tuple hash of source IP, destination IP, and protocol. When omitted, Default is used. */
+  loadDistribution?: NetworkVirtualApplianceLoadDistribution;
+  /** The idle timeout of the load-balancing rule, in minutes. When omitted, the managed NVA platform default of 5 minutes is used. Values outside 4 through 100 are rejected with HTTP 400 InvalidParameter. */
+  idleTimeoutInMinutes?: number;
+}
+
+export function networkVirtualApplianceLoadBalancerConfigurationSerializer(
+  item: NetworkVirtualApplianceLoadBalancerConfiguration,
+): any {
+  return {
+    loadDistribution: item["loadDistribution"],
+    idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
+  };
+}
+
+export function networkVirtualApplianceLoadBalancerConfigurationDeserializer(
+  item: any,
+): NetworkVirtualApplianceLoadBalancerConfiguration {
+  return {
+    loadDistribution: item["loadDistribution"],
+    idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
+  };
+}
+
+/** The load distribution policy for a managed Network Virtual Appliance load-balancing rule. */
+export enum KnownNetworkVirtualApplianceLoadDistribution {
+  /** Distributes traffic using a five-tuple hash of source IP, destination IP, source port, destination port, and protocol. */
+  Default = "Default",
+  /** Distributes traffic using a two-tuple hash of source IP and destination IP. */
+  SourceIP = "SourceIP",
+  /** Distributes traffic using a three-tuple hash of source IP, destination IP, and protocol. */
+  SourceIPProtocol = "SourceIPProtocol",
+}
+
+/**
+ * The load distribution policy for a managed Network Virtual Appliance load-balancing rule. \
+ * {@link KnownNetworkVirtualApplianceLoadDistribution} can be used interchangeably with NetworkVirtualApplianceLoadDistribution,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Distributes traffic using a five-tuple hash of source IP, destination IP, source port, destination port, and protocol. \
+ * **SourceIP**: Distributes traffic using a two-tuple hash of source IP and destination IP. \
+ * **SourceIPProtocol**: Distributes traffic using a three-tuple hash of source IP, destination IP, and protocol.
+ */
+export type NetworkVirtualApplianceLoadDistribution = string;
 
 export function virtualApplianceNicPropertiesArrayDeserializer(
   result: Array<VirtualApplianceNicProperties>,
@@ -38795,6 +38902,8 @@ export interface InboundSecurityRules {
   destinationPortRanges?: string[];
   /** Public IP name in case of Permanent Rule type & Interface Name in case of Auto Expire Rule type */
   appliesOn?: string[];
+  /** Configuration of the Internet Ingress load-balancing rule for a managed Network Virtual Appliance. Supported only when the enclosing ruleType is Permanent; supplying this configuration for AutoExpire rules is rejected with HTTP 400 Bad Request. When omitted on create or update, Default distribution and a 5-minute idle timeout are used. */
+  loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
 }
 
 export function inboundSecurityRulesSerializer(item: InboundSecurityRules): any {
@@ -38813,6 +38922,11 @@ export function inboundSecurityRulesSerializer(item: InboundSecurityRules): any 
       : item["appliesOn"].map((p: any) => {
           return p;
         }),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationSerializer(
+          item["loadBalancerConfiguration"],
+        ),
   };
 }
 
@@ -38832,6 +38946,11 @@ export function inboundSecurityRulesDeserializer(item: any): InboundSecurityRule
       : item["appliesOn"].map((p: any) => {
           return p;
         }),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationDeserializer(
+          item["loadBalancerConfiguration"],
+        ),
   };
 }
 
@@ -43307,6 +43426,7 @@ export function _applicationGatewayEntraJWTValidationConfigPropertiesDeserialize
 export function _applicationGatewayPropertiesSerializer(item: ApplicationGateway): any {
   return {
     sku: !item["sku"] ? item["sku"] : applicationGatewaySkuSerializer(item["sku"]),
+    deploymentTier: item["deploymentTier"],
     sslPolicy: !item["sslPolicy"]
       ? item["sslPolicy"]
       : applicationGatewaySslPolicySerializer(item["sslPolicy"]),
@@ -43389,6 +43509,7 @@ export function _applicationGatewayPropertiesSerializer(item: ApplicationGateway
       : subResourceSerializer(item["firewallPolicy"]),
     enableHttp2: item["enableHttp2"],
     enableFips: item["enableFips"],
+    enableConfidentialCompute: item["enableConfidentialCompute"],
     autoscaleConfiguration: !item["autoscaleConfiguration"]
       ? item["autoscaleConfiguration"]
       : applicationGatewayAutoscaleConfigurationSerializer(item["autoscaleConfiguration"]),
@@ -43419,6 +43540,7 @@ export function _applicationGatewayPropertiesSerializer(item: ApplicationGateway
 export function _applicationGatewayPropertiesDeserializer(item: any) {
   return {
     sku: !item["sku"] ? item["sku"] : applicationGatewaySkuDeserializer(item["sku"]),
+    deploymentTier: item["deploymentTier"],
     sslPolicy: !item["sslPolicy"]
       ? item["sslPolicy"]
       : applicationGatewaySslPolicyDeserializer(item["sslPolicy"]),
@@ -43506,6 +43628,7 @@ export function _applicationGatewayPropertiesDeserializer(item: any) {
       : subResourceDeserializer(item["firewallPolicy"]),
     enableHttp2: item["enableHttp2"],
     enableFips: item["enableFips"],
+    enableConfidentialCompute: item["enableConfidentialCompute"],
     autoscaleConfiguration: !item["autoscaleConfiguration"]
       ? item["autoscaleConfiguration"]
       : applicationGatewayAutoscaleConfigurationDeserializer(item["autoscaleConfiguration"]),
@@ -43706,6 +43829,7 @@ export function _azureFirewallPropertiesSerializer(item: AzureFirewall): any {
       ? item["autoscaleConfiguration"]
       : azureFirewallAutoscaleConfigurationSerializer(item["autoscaleConfiguration"]),
     aiSecurityAddOn: item["aiSecurityAddOn"],
+    tcpIdleTimeoutInMinutes: item["tcpIdleTimeoutInMinutes"],
   };
 }
 
@@ -43753,6 +43877,7 @@ export function _azureFirewallPropertiesDeserializer(item: any) {
       ? item["afcConfiguration"]
       : afcConfigurationDeserializer(item["afcConfiguration"]),
     aiSecurityAddOn: item["aiSecurityAddOn"],
+    tcpIdleTimeoutInMinutes: item["tcpIdleTimeoutInMinutes"],
   };
 }
 
@@ -44947,6 +45072,11 @@ export function _networkVirtualAppliancePropertiesSerializer(item: NetworkVirtua
     nvaSku: !item["nvaSku"]
       ? item["nvaSku"]
       : virtualApplianceSkuPropertiesSerializer(item["nvaSku"]),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationSerializer(
+          item["loadBalancerConfiguration"],
+        ),
     bootStrapConfigurationBlobs: !item["bootStrapConfigurationBlobs"]
       ? item["bootStrapConfigurationBlobs"]
       : item["bootStrapConfigurationBlobs"].map((p: any) => {
@@ -44994,6 +45124,11 @@ export function _networkVirtualAppliancePropertiesDeserializer(item: any) {
     nvaSku: !item["nvaSku"]
       ? item["nvaSku"]
       : virtualApplianceSkuPropertiesDeserializer(item["nvaSku"]),
+    loadBalancerConfiguration: !item["loadBalancerConfiguration"]
+      ? item["loadBalancerConfiguration"]
+      : networkVirtualApplianceLoadBalancerConfigurationDeserializer(
+          item["loadBalancerConfiguration"],
+        ),
     addressPrefix: item["addressPrefix"],
     addressPrefixV6: item["addressPrefixV6"],
     bootStrapConfigurationBlobs: !item["bootStrapConfigurationBlobs"]

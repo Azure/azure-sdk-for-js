@@ -37,7 +37,7 @@ export function _listBySubscriptionsSend(
       namespaceName: namespaceName,
       topicName: topicName,
       subscriptionName: subscriptionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
       "%24skip": options?.skip,
       "%24top": options?.top,
     },
@@ -66,7 +66,6 @@ export async function _listBySubscriptionsDeserialize(
 
   return _ruleListResultDeserializer(result.body);
 }
-
 /** List all the rules within given topic-subscription */
 export function listBySubscriptions(
   context: Client,
@@ -89,7 +88,11 @@ export function listBySubscriptions(
       ),
     _listBySubscriptionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -111,7 +114,7 @@ export function _$deleteSend(
       topicName: topicName,
       subscriptionName: subscriptionName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +136,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an existing rule. */
 export async function $delete(
   context: Client,
@@ -175,7 +177,7 @@ export function _createOrUpdateSend(
       topicName: topicName,
       subscriptionName: subscriptionName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -202,7 +204,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return ruleDeserializer(result.body);
 }
-
 /** Creates a new rule and updates an existing rule */
 export async function createOrUpdate(
   context: Client,
@@ -245,7 +246,7 @@ export function _getSend(
       topicName: topicName,
       subscriptionName: subscriptionName,
       ruleName: ruleName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -270,7 +271,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ru
 
   return ruleDeserializer(result.body);
 }
-
 /** Retrieves the description for the specified rule. */
 export async function get(
   context: Client,

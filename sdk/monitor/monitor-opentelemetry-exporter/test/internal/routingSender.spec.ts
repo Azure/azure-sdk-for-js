@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { ExportResultCode } from "@opentelemetry/core";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
@@ -16,6 +16,7 @@ import {
   getStorageDirectory,
 } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
+import * as helpers from "../../src/platform/nodejs/persist/fileSystemHelpers.js";
 import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
@@ -104,8 +105,10 @@ describe("routed senders and persistence", () => {
   }
 
   function storage(name: string): FileSystemPersist {
+    const exporterRoot = join(directory, "exporter");
     const persister = new FileSystemPersist("", {}, undefined, undefined, {
-      root: join(directory, "routes"),
+      exporterRoot,
+      root: join(exporterRoot, "routes"),
       name: name.repeat(64),
     });
     persisters.push(persister);
@@ -477,6 +480,32 @@ describe("routed senders and persistence", () => {
       expect(vi.getTimerCount()).toBe(0);
     } finally {
       release();
+    }
+  });
+
+  it("protects the existing outer exporter directory before writing a routed batch", async () => {
+    const hostKey = "host-key";
+    const routesRoot = `${getStorageDirectory(hostKey, directory)}-routes`;
+    const exporterRoot = dirname(routesRoot);
+    await mkdir(routesRoot, { recursive: true });
+    if (process.platform !== "win32") {
+      await chmod(directory, 0o750);
+      await chmod(exporterRoot, 0o755);
+    }
+
+    const protect = vi.spyOn(helpers, "confirmDirExists");
+    sendRequest.mockImplementationOnce(async (request) => response(request, 503));
+    expect((await router({}, hostKey).export(groups())).code).toBe(ExportResultCode.SUCCESS);
+    const [partition] = await readdir(routesRoot);
+    expect(await readdir(join(routesRoot, partition))).toHaveLength(1);
+    expect(protect.mock.calls.map(([path]) => path)).toEqual([
+      exporterRoot,
+      routesRoot,
+      join(routesRoot, partition),
+    ]);
+    if (process.platform !== "win32") {
+      expect((await stat(exporterRoot)).mode & 0o777).toBe(0o700);
+      expect((await stat(directory)).mode & 0o777).toBe(0o750);
     }
   });
 
