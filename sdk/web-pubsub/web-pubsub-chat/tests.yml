@@ -9,4 +9,6 @@ extends:
       - web-pubsub/web-pubsub-chat
     MatrixFilters:
       - DependencyVersion=^$
+      # Disables live sample execution: running samples needs substantial pre-existing data setup,
+      # which would complicate focused examples. Regular tests stay enabled.
       - TestType=^(?!sample).*
