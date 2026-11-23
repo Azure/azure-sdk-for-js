@@ -28,7 +28,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {
-  /** A long-running resource action. */
+  /** Restarts one or more replicas of a Service Fabric managed service. */
   restartReplica: (
     resourceGroupName: string,
     clusterName: string,

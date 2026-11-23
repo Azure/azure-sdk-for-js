@@ -7,6 +7,7 @@ import {
   _startFaultSimulationDeserialize,
   _startDeserialize,
   _restartDeserialize,
+  _reimageAllDisksDeserialize,
   _reimageDeserialize,
   _redeployDeserialize,
   _deleteNodeDeserialize,
@@ -121,6 +122,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/restart":
     { deserializer: _restartDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimageAllDisks":
+    { deserializer: _reimageAllDisksDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimage":
     { deserializer: _reimageDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/redeploy":

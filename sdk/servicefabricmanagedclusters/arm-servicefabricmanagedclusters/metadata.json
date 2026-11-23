@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ServiceFabric": "2026-05-01-preview"
+    "Microsoft.ServiceFabric": "2026-09-01-preview"
   },
-  "emitterVersion": "0.56.0",
+  "emitterVersion": "0.58.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ServiceFabric",
     "CrossLanguageDefinitionId": {
@@ -128,10 +128,13 @@
       "@azure/arm-servicefabricmanagedclusters!ScaleInPolicy:interface": "Microsoft.ServiceFabric.ScaleInPolicy",
       "@azure/arm-servicefabricmanagedclusters!ProxyAgentSettings:interface": "Microsoft.ServiceFabric.ProxyAgentSettings",
       "@azure/arm-servicefabricmanagedclusters!HostEndpointSettings:interface": "Microsoft.ServiceFabric.HostEndpointSettings",
+      "@azure/arm-servicefabricmanagedclusters!SkuProfile:interface": "Microsoft.ServiceFabric.SkuProfile",
+      "@azure/arm-servicefabricmanagedclusters!SkuProfileVmSize:interface": "Microsoft.ServiceFabric.SkuProfileVmSize",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeSku:interface": "Microsoft.ServiceFabric.NodeTypeSku",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeUpdateParameters:interface": "Microsoft.ServiceFabric.NodeTypeUpdateParameters",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeActionParameters:interface": "Microsoft.ServiceFabric.NodeTypeActionParameters",
+      "@azure/arm-servicefabricmanagedclusters!ReimageAllDisksParameters:interface": "Microsoft.ServiceFabric.ReimageAllDisksParameters",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeListSkuResult:interface": "Microsoft.ServiceFabric.NodeTypeListSkuResult",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeAvailableSku:interface": "Microsoft.ServiceFabric.NodeTypeAvailableSku",
       "@azure/arm-servicefabricmanagedclusters!NodeTypeSupportedSku:interface": "Microsoft.ServiceFabric.NodeTypeSupportedSku",
@@ -180,6 +183,7 @@
       "@azure/arm-servicefabricmanagedclusters!KnownDiskType:enum": "Microsoft.ServiceFabric.DiskType",
       "@azure/arm-servicefabricmanagedclusters!KnownVmssExtensionSetupOrder:enum": "Microsoft.ServiceFabric.VmssExtensionSetupOrder",
       "@azure/arm-servicefabricmanagedclusters!KnownIPAddressType:enum": "Microsoft.ServiceFabric.IPAddressType",
+      "@azure/arm-servicefabricmanagedclusters!KnownDiskCachingType:enum": "Microsoft.ServiceFabric.DiskCachingType",
       "@azure/arm-servicefabricmanagedclusters!KnownEvictionPolicyType:enum": "Microsoft.ServiceFabric.EvictionPolicyType",
       "@azure/arm-servicefabricmanagedclusters!KnownVmSetupAction:enum": "Microsoft.ServiceFabric.VmSetupAction",
       "@azure/arm-servicefabricmanagedclusters!KnownSecurityType:enum": "Microsoft.ServiceFabric.SecurityType",
@@ -187,6 +191,7 @@
       "@azure/arm-servicefabricmanagedclusters!KnownPrivateIPAddressVersion:enum": "Microsoft.ServiceFabric.PrivateIPAddressVersion",
       "@azure/arm-servicefabricmanagedclusters!KnownPublicIPAddressVersion:enum": "Microsoft.ServiceFabric.PublicIPAddressVersion",
       "@azure/arm-servicefabricmanagedclusters!KnownScaleInPolicyMode:enum": "Microsoft.ServiceFabric.ScaleInPolicyMode",
+      "@azure/arm-servicefabricmanagedclusters!KnownAllocationStrategy:enum": "Microsoft.ServiceFabric.AllocationStrategy",
       "@azure/arm-servicefabricmanagedclusters!KnownUpdateType:enum": "Microsoft.ServiceFabric.UpdateType",
       "@azure/arm-servicefabricmanagedclusters!KnownNodeTypeSkuScaleType:enum": "Microsoft.ServiceFabric.NodeTypeSkuScaleType",
       "@azure/arm-servicefabricmanagedclusters!KnownVersions:enum": "Microsoft.ServiceFabric.Versions",
@@ -199,6 +204,7 @@
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#startFaultSimulation:member": "Microsoft.ServiceFabric.NodeTypes.startFaultSimulation",
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#start:member": "Microsoft.ServiceFabric.NodeTypes.start",
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#restart:member": "Microsoft.ServiceFabric.NodeTypes.restart",
+      "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#reimageAllDisks:member": "Microsoft.ServiceFabric.NodeTypes.reimageAllDisks",
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#reimage:member": "Microsoft.ServiceFabric.NodeTypes.reimage",
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#redeploy:member": "Microsoft.ServiceFabric.NodeTypes.redeploy",
       "@azure/arm-servicefabricmanagedclusters!NodeTypesOperations#deleteNode:member": "Microsoft.ServiceFabric.NodeTypes.deleteNode",

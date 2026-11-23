@@ -5,10 +5,10 @@ import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-service
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to restarts one or more replicas of a Service Fabric managed service.
  *
- * @summary a long-running resource action.
- * x-ms-original-file: 2026-05-01-preview/ServiceActionRestartReplica_example.json
+ * @summary restarts one or more replicas of a Service Fabric managed service.
+ * x-ms-original-file: 2026-09-01-preview/ServiceActionRestartReplica_example.json
  */
 async function restartReplicas(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -43,7 +43,7 @@ export function _listByApplicationTypesSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -94,7 +94,7 @@ export function listByApplicationTypes(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -115,7 +115,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +153,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationTypeName, version, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -174,7 +174,7 @@ export function _updateSend(
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +243,7 @@ export function _createOrUpdateSend(
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +297,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<ApplicationTypeVersionResource>, ApplicationTypeVersionResource>;
 }
 
@@ -317,7 +317,7 @@ export function _getSend(
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

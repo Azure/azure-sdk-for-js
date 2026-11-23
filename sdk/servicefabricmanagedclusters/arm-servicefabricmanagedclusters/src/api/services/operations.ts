@@ -49,7 +49,7 @@ export function _restartReplicaSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,7 @@ export async function _restartReplicaDeserialize(result: PathUncheckedResponse):
   return;
 }
 
-/** A long-running resource action. */
+/** Restarts one or more replicas of a Service Fabric managed service. */
 export function restartReplica(
   context: Client,
   resourceGroupName: string,
@@ -100,7 +100,7 @@ export function restartReplica(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -118,7 +118,7 @@ export function _listByApplicationsSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function listByApplications(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -184,7 +184,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,7 +222,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationName, serviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -243,7 +243,7 @@ export function _updateSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,7 +310,7 @@ export function _createOrUpdateSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -364,7 +364,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<ServiceResource>, ServiceResource>;
 }
 
@@ -384,7 +384,7 @@ export function _getSend(
       clusterName: clusterName,
       applicationName: applicationName,
       serviceName: serviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

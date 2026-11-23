@@ -9,6 +9,7 @@ import {
   startFaultSimulation,
   start,
   restart,
+  reimageAllDisks,
   reimage,
   redeploy,
   deleteNode,
@@ -26,6 +27,7 @@ import type {
   NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
+  NodeTypesReimageAllDisksOptionalParams,
   NodeTypesReimageOptionalParams,
   NodeTypesRedeployOptionalParams,
   NodeTypesDeleteNodeOptionalParams,
@@ -43,6 +45,7 @@ import type {
   NodeType,
   NodeTypeUpdateParameters,
   NodeTypeActionParameters,
+  ReimageAllDisksParameters,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -95,6 +98,14 @@ export interface NodeTypesOperations {
     nodeTypeName: string,
     parameters: NodeTypeActionParameters,
     options?: NodeTypesRestartOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Reimages a single node on the node type, including its OS disk and all data disks. */
+  reimageAllDisks: (
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: ReimageAllDisksParameters,
+    options?: NodeTypesReimageAllDisksOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again. */
   reimage: (
@@ -233,6 +244,14 @@ function _getNodeTypes(context: ServiceFabricManagedClustersManagementContext) {
       parameters: NodeTypeActionParameters,
       options?: NodeTypesRestartOptionalParams,
     ) => restart(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
+    reimageAllDisks: (
+      resourceGroupName: string,
+      clusterName: string,
+      nodeTypeName: string,
+      parameters: ReimageAllDisksParameters,
+      options?: NodeTypesReimageAllDisksOptionalParams,
+    ) =>
+      reimageAllDisks(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     reimage: (
       resourceGroupName: string,
       clusterName: string,

@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -103,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -140,7 +140,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationTypeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -159,7 +159,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +224,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -288,7 +288,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationTypeName: applicationTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

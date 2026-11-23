@@ -23,7 +23,7 @@ export function _postSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -4699,6 +4699,16 @@ export interface NodeType extends ProxyResource {
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies the settings for the proxy agent on the node type. */
   proxyAgentSettings?: ProxyAgentSettings;
+  /** Specifies the sku profile for the node type when vmSize is set to Mix. This allows specifying multiple VM sizes and an allocation strategy for Instance Mix scenarios. */
+  skuProfile?: SkuProfile;
+  /** Specifies the caching requirements for the primary Service Fabric data disk. Possible values include: None, ReadOnly, ReadWrite. */
+  dataDiskCaching?: DiskCachingType;
+  /** Specifies whether write accelerator should be enabled or disabled on the primary Service Fabric data disk. */
+  dataDiskWriteAcceleratorEnabled?: boolean;
+  /** Specifies the Read-Write IOPS for the primary Service Fabric data disk. */
+  dataDiskIopsReadWrite?: number;
+  /** Specifies the bandwidth in MB per second for the primary Service Fabric data disk. */
+  dataDiskMBpsReadWrite?: number;
 }
 
 export function nodeTypeSerializer(item: NodeType): any {
@@ -4759,6 +4769,11 @@ export function nodeTypeSerializer(item: NodeType): any {
       "enableResilientEphemeralOsDisk",
       "scaleInPolicy",
       "proxyAgentSettings",
+      "skuProfile",
+      "dataDiskCaching",
+      "dataDiskWriteAcceleratorEnabled",
+      "dataDiskIopsReadWrite",
+      "dataDiskMBpsReadWrite",
     ])
       ? undefined
       : _nodeTypePropertiesSerializer(item),
@@ -4899,6 +4914,16 @@ export interface NodeTypeProperties {
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies the settings for the proxy agent on the node type. */
   proxyAgentSettings?: ProxyAgentSettings;
+  /** Specifies the sku profile for the node type when vmSize is set to Mix. This allows specifying multiple VM sizes and an allocation strategy for Instance Mix scenarios. */
+  skuProfile?: SkuProfile;
+  /** Specifies the caching requirements for the primary Service Fabric data disk. Possible values include: None, ReadOnly, ReadWrite. */
+  dataDiskCaching?: DiskCachingType;
+  /** Specifies whether write accelerator should be enabled or disabled on the primary Service Fabric data disk. */
+  dataDiskWriteAcceleratorEnabled?: boolean;
+  /** Specifies the Read-Write IOPS for the primary Service Fabric data disk. */
+  dataDiskIopsReadWrite?: number;
+  /** Specifies the bandwidth in MB per second for the primary Service Fabric data disk. */
+  dataDiskMBpsReadWrite?: number;
 }
 
 export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
@@ -4996,6 +5021,11 @@ export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
     proxyAgentSettings: !item["proxyAgentSettings"]
       ? item["proxyAgentSettings"]
       : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
+    skuProfile: !item["skuProfile"] ? item["skuProfile"] : skuProfileSerializer(item["skuProfile"]),
+    dataDiskCaching: item["dataDiskCaching"],
+    dataDiskWriteAcceleratorEnabled: item["dataDiskWriteAcceleratorEnabled"],
+    dataDiskIOPSReadWrite: item["dataDiskIopsReadWrite"],
+    dataDiskMBpsReadWrite: item["dataDiskMBpsReadWrite"],
   };
 }
 
@@ -5103,6 +5133,13 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
     proxyAgentSettings: !item["proxyAgentSettings"]
       ? item["proxyAgentSettings"]
       : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
+    skuProfile: !item["skuProfile"]
+      ? item["skuProfile"]
+      : skuProfileDeserializer(item["skuProfile"]),
+    dataDiskCaching: item["dataDiskCaching"],
+    dataDiskWriteAcceleratorEnabled: item["dataDiskWriteAcceleratorEnabled"],
+    dataDiskIopsReadWrite: item["dataDiskIOPSReadWrite"],
+    dataDiskMBpsReadWrite: item["dataDiskMBpsReadWrite"],
   };
 }
 
@@ -5485,6 +5522,14 @@ export interface VmssDataDisk {
   diskType: DiskType;
   /** Managed data disk letter. It can not use the reserved letter C or D and it can not change after created. */
   diskLetter: string;
+  /** Specifies the caching requirements for the managed data disk. Possible values include: None, ReadOnly, ReadWrite. */
+  caching?: DiskCachingType;
+  /** Specifies whether write accelerator should be enabled or disabled on the managed data disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** Specifies the Read-Write IOPS for the managed data disk. */
+  diskIopsReadWrite?: number;
+  /** Specifies the bandwidth in MB per second for the managed data disk. */
+  diskMBpsReadWrite?: number;
 }
 
 export function vmssDataDiskSerializer(item: VmssDataDisk): any {
@@ -5493,6 +5538,10 @@ export function vmssDataDiskSerializer(item: VmssDataDisk): any {
     diskSizeGB: item["diskSizeGB"],
     diskType: item["diskType"],
     diskLetter: item["diskLetter"],
+    caching: item["caching"],
+    writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
+    diskIOPSReadWrite: item["diskIopsReadWrite"],
+    diskMBpsReadWrite: item["diskMBpsReadWrite"],
   };
 }
 
@@ -5502,8 +5551,33 @@ export function vmssDataDiskDeserializer(item: any): VmssDataDisk {
     diskSizeGB: item["diskSizeGB"],
     diskType: item["diskType"],
     diskLetter: item["diskLetter"],
+    caching: item["caching"],
+    writeAcceleratorEnabled: item["writeAcceleratorEnabled"],
+    diskIopsReadWrite: item["diskIOPSReadWrite"],
+    diskMBpsReadWrite: item["diskMBpsReadWrite"],
   };
 }
+
+/** Specifies the caching requirements for a managed disk. Consistent with Azure VM disk caching conventions. */
+export enum KnownDiskCachingType {
+  /** No caching. */
+  None = "None",
+  /** Read-only caching. */
+  ReadOnly = "ReadOnly",
+  /** Read-write caching. */
+  ReadWrite = "ReadWrite",
+}
+
+/**
+ * Specifies the caching requirements for a managed disk. Consistent with Azure VM disk caching conventions. \
+ * {@link KnownDiskCachingType} can be used interchangeably with DiskCachingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No caching. \
+ * **ReadOnly**: Read-only caching. \
+ * **ReadWrite**: Read-write caching.
+ */
+export type DiskCachingType = string;
 
 /** Specifies the eviction policy for virtual machines in a SPOT node type. */
 export enum KnownEvictionPolicyType {
@@ -5999,6 +6073,80 @@ export function hostEndpointSettingsDeserializer(item: any): HostEndpointSetting
   };
 }
 
+/** Specifies the sku profile for Instance Mix scenarios on a node type. */
+export interface SkuProfile {
+  /** Specifies the VM sizes for the node type. */
+  vmSizes: SkuProfileVmSize[];
+  /** Specifies the allocation strategy for the VM sizes in the sku profile. */
+  allocationStrategy?: AllocationStrategy;
+}
+
+export function skuProfileSerializer(item: SkuProfile): any {
+  return {
+    vmSizes: skuProfileVmSizeArraySerializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function skuProfileDeserializer(item: any): SkuProfile {
+  return {
+    vmSizes: skuProfileVmSizeArrayDeserializer(item["vmSizes"]),
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function skuProfileVmSizeArraySerializer(result: Array<SkuProfileVmSize>): any[] {
+  return result.map((item) => {
+    return skuProfileVmSizeSerializer(item);
+  });
+}
+
+export function skuProfileVmSizeArrayDeserializer(result: Array<SkuProfileVmSize>): any[] {
+  return result.map((item) => {
+    return skuProfileVmSizeDeserializer(item);
+  });
+}
+
+/** Specifies a VM size in the sku profile. */
+export interface SkuProfileVmSize {
+  /** The name of the VM size. For example, Standard_D2s_v3. */
+  name: string;
+  /** Specifies the rank or priority of the VM size when allocationStrategy is Prioritized. Lower values indicate higher priority. */
+  rank?: number;
+}
+
+export function skuProfileVmSizeSerializer(item: SkuProfileVmSize): any {
+  return { name: item["name"], rank: item["rank"] };
+}
+
+export function skuProfileVmSizeDeserializer(item: any): SkuProfileVmSize {
+  return {
+    name: item["name"],
+    rank: item["rank"],
+  };
+}
+
+/** Specifies the allocation strategy for VM sizes in a sku profile. */
+export enum KnownAllocationStrategy {
+  /** VMs are allocated using the lowest-priced available size. */
+  LowestPrice = "LowestPrice",
+  /** VMs are allocated to optimize capacity availability across the specified sizes. */
+  CapacityOptimized = "CapacityOptimized",
+  /** VMs are allocated according to the rank assigned to each VM size. */
+  Prioritized = "Prioritized",
+}
+
+/**
+ * Specifies the allocation strategy for VM sizes in a sku profile. \
+ * {@link KnownAllocationStrategy} can be used interchangeably with AllocationStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LowestPrice**: VMs are allocated using the lowest-priced available size. \
+ * **CapacityOptimized**: VMs are allocated to optimize capacity availability across the specified sizes. \
+ * **Prioritized**: VMs are allocated according to the rank assigned to each VM size.
+ */
+export type AllocationStrategy = string;
+
 /** Describes a node type sku. */
 export interface NodeTypeSku {
   /** The sku name. Name is internally generated and is used in auto-scale scenarios. Property does not allow to be changed to other values than generated. To avoid deployment errors please omit the property. */
@@ -6102,6 +6250,23 @@ export enum KnownUpdateType {
  * **ByUpgradeDomain**: The operation will proceed one upgrade domain at a time, checking the health in between each to continue.
  */
 export type UpdateType = string;
+
+/** Parameters for the operation that reimages all disks on a single node. */
+export interface ReimageAllDisksParameters {
+  /** The name of the node to reimage. */
+  nodes: string[];
+  /** Force the action to go through. */
+  force?: boolean;
+}
+
+export function reimageAllDisksParametersSerializer(item: ReimageAllDisksParameters): any {
+  return {
+    nodes: item["nodes"].map((p: any) => {
+      return p;
+    }),
+    force: item["force"],
+  };
+}
 
 /** Node type available sku list results */
 export interface _NodeTypeListSkuResult {
@@ -6272,6 +6437,8 @@ export enum KnownVersions {
   V20260201 = "2026-02-01",
   /** 2026-05-01-preview */
   V20260501Preview = "2026-05-01-preview",
+  /** The 2026-09-01-preview API version. */
+  V20260901Preview = "2026-09-01-preview",
 }
 
 export function managedClusterCodeVersionResultArrayDeserializer(
@@ -6629,6 +6796,11 @@ export function _nodeTypePropertiesSerializer(item: NodeType): any {
     proxyAgentSettings: !item["proxyAgentSettings"]
       ? item["proxyAgentSettings"]
       : proxyAgentSettingsSerializer(item["proxyAgentSettings"]),
+    skuProfile: !item["skuProfile"] ? item["skuProfile"] : skuProfileSerializer(item["skuProfile"]),
+    dataDiskCaching: item["dataDiskCaching"],
+    dataDiskWriteAcceleratorEnabled: item["dataDiskWriteAcceleratorEnabled"],
+    dataDiskIOPSReadWrite: item["dataDiskIopsReadWrite"],
+    dataDiskMBpsReadWrite: item["dataDiskMBpsReadWrite"],
   };
 }
 
@@ -6736,5 +6908,12 @@ export function _nodeTypePropertiesDeserializer(item: any) {
     proxyAgentSettings: !item["proxyAgentSettings"]
       ? item["proxyAgentSettings"]
       : proxyAgentSettingsDeserializer(item["proxyAgentSettings"]),
+    skuProfile: !item["skuProfile"]
+      ? item["skuProfile"]
+      : skuProfileDeserializer(item["skuProfile"]),
+    dataDiskCaching: item["dataDiskCaching"],
+    dataDiskWriteAcceleratorEnabled: item["dataDiskWriteAcceleratorEnabled"],
+    dataDiskIopsReadWrite: item["dataDiskIOPSReadWrite"],
+    dataDiskMBpsReadWrite: item["dataDiskMBpsReadWrite"],
   };
 }
