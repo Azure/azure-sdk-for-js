@@ -9,3 +9,4 @@ extends:
       - web-pubsub/web-pubsub-chat
     MatrixFilters:
       - DependencyVersion=^$
+      - TestType=^(?!sample).*
