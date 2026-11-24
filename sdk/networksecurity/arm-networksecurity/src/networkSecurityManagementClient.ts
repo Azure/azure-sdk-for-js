@@ -6,6 +6,14 @@ import type {
   NetworkSecurityManagementClientOptionalParams,
 } from "./api/index.js";
 import { createNetworkSecurityManagement } from "./api/index.js";
+import type { AgentFabricsOperations } from "./classic/agentFabrics/index.js";
+import { _getAgentFabricsOperations } from "./classic/agentFabrics/index.js";
+import type { ClusterAssociationsOperations } from "./classic/clusterAssociations/index.js";
+import { _getClusterAssociationsOperations } from "./classic/clusterAssociations/index.js";
+import type { EgressTrustBundlesOperations } from "./classic/egressTrustBundles/index.js";
+import { _getEgressTrustBundlesOperations } from "./classic/egressTrustBundles/index.js";
+import type { MembersOperations } from "./classic/members/index.js";
+import { _getMembersOperations } from "./classic/members/index.js";
 import type { NeuroShieldFindingsOperations } from "./classic/neuroShieldFindings/index.js";
 import { _getNeuroShieldFindingsOperations } from "./classic/neuroShieldFindings/index.js";
 import type { NeuroShieldMitigationsOperations } from "./classic/neuroShieldMitigations/index.js";
@@ -18,8 +26,12 @@ import type { NeuroShieldSummariesOperations } from "./classic/neuroShieldSummar
 import { _getNeuroShieldSummariesOperations } from "./classic/neuroShieldSummaries/index.js";
 import type { NeuroShieldsOperations } from "./classic/neuroShields/index.js";
 import { _getNeuroShieldsOperations } from "./classic/neuroShields/index.js";
+import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
+import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PolicyGroupsOperations } from "./classic/policyGroups/index.js";
+import { _getPolicyGroupsOperations } from "./classic/policyGroups/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -37,6 +49,12 @@ export class NetworkSecurityManagementClient {
   ) {
     this._client = createNetworkSecurityManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.egressTrustBundles = _getEgressTrustBundlesOperations(this._client);
+    this.clusterAssociations = _getClusterAssociationsOperations(this._client);
+    this.operationStatus = _getOperationStatusOperations(this._client);
+    this.policyGroups = _getPolicyGroupsOperations(this._client);
+    this.members = _getMembersOperations(this._client);
+    this.agentFabrics = _getAgentFabricsOperations(this._client);
     this.neuroShieldMitigations = _getNeuroShieldMitigationsOperations(this._client);
     this.neuroShieldFindings = _getNeuroShieldFindingsOperations(this._client);
     this.neuroShieldProtectedResources = _getNeuroShieldProtectedResourcesOperations(this._client);
@@ -46,6 +64,18 @@ export class NetworkSecurityManagementClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for egressTrustBundles */
+  public readonly egressTrustBundles: EgressTrustBundlesOperations;
+  /** The operation groups for clusterAssociations */
+  public readonly clusterAssociations: ClusterAssociationsOperations;
+  /** The operation groups for operationStatus */
+  public readonly operationStatus: OperationStatusOperations;
+  /** The operation groups for policyGroups */
+  public readonly policyGroups: PolicyGroupsOperations;
+  /** The operation groups for members */
+  public readonly members: MembersOperations;
+  /** The operation groups for agentFabrics */
+  public readonly agentFabrics: AgentFabricsOperations;
   /** The operation groups for neuroShieldMitigations */
   public readonly neuroShieldMitigations: NeuroShieldMitigationsOperations;
   /** The operation groups for neuroShieldFindings */

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { listByReplicationProtectionCluster } from "../../api/clusterRecoveryPoints/operations.js";
-import { ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams } from "../../api/clusterRecoveryPoints/options.js";
-import { ClusterRecoveryPoint } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams } from "../../api/clusterRecoveryPoints/options.js";
+import type { ClusterRecoveryPoint } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ClusterRecoveryPoints operations. */
 export interface ClusterRecoveryPointsOperations {

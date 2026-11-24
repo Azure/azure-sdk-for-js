@@ -19,7 +19,7 @@ import type {
 import type {
   NeuroShieldProtectedResource,
   NeuroShieldInventoryUploadRequestResult,
-} from "../../models/models.js";
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 

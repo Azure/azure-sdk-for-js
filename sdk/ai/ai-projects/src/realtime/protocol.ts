@@ -16,7 +16,7 @@ type RequiredEventFields<T extends VoiceAgentServerEvent["type"] = VoiceAgentSer
   ReadonlyArray<keyof Extract<VoiceAgentServerEvent, { type: T }>>;
 
 const clientEventSerializers: {
-  readonly [K in VoiceAgentClientEvent["type"]]?: ClientEventSerializer<K>;
+  readonly [K in VoiceAgentClientEvent["type"]]: ClientEventSerializer<K>;
 } = {
   "conversation.item.create": models.realtimeClientEventConversationItemCreateSerializer,
   "conversation.item.delete": models.realtimeClientEventConversationItemDeleteSerializer,
@@ -34,7 +34,7 @@ const clientEventSerializers: {
 };
 
 const serverEventDeserializers: {
-  readonly [K in VoiceAgentServerEvent["type"]]?: ServerEventDeserializer<K>;
+  readonly [K in VoiceAgentServerEvent["type"]]: ServerEventDeserializer<K>;
 } = {
   "conversation.item.added": models.realtimeServerEventConversationItemAddedDeserializer,
   "conversation.item.created": models.realtimeServerEventConversationItemCreatedDeserializer,
@@ -58,6 +58,7 @@ const serverEventDeserializers: {
     models.realtimeServerEventInputAudioBufferSpeechStoppedDeserializer,
   "input_audio_buffer.timeout_triggered":
     models.realtimeServerEventInputAudioBufferTimeoutTriggeredDeserializer,
+  "input_collection.status": models.voiceAgentServerEventInputCollectionStatusDeserializer,
   "mcp_list_tools.completed": models.realtimeServerEventMCPListToolsCompletedDeserializer,
   "mcp_list_tools.failed": models.realtimeServerEventMCPListToolsFailedDeserializer,
   "mcp_list_tools.in_progress": models.realtimeServerEventMCPListToolsInProgressDeserializer,
@@ -77,6 +78,10 @@ const serverEventDeserializers: {
     models.realtimeServerEventResponseFunctionCallArgumentsDeltaDeserializer,
   "response.function_call_arguments.done":
     models.realtimeServerEventResponseFunctionCallArgumentsDoneDeserializer,
+  "response.system_tool_arguments.delta":
+    models.voiceAgentServerEventSystemToolArgumentsDeltaDeserializer,
+  "response.system_tool_arguments.done":
+    models.voiceAgentServerEventSystemToolArgumentsDoneDeserializer,
   "response.mcp_call_arguments.delta":
     models.realtimeServerEventResponseMCPCallArgumentsDeltaDeserializer,
   "response.mcp_call_arguments.done":
@@ -91,6 +96,9 @@ const serverEventDeserializers: {
   "rtc.call.error": models.voiceAgentServerEventRtcCallErrorDeserializer,
   "rtc.call.sdp.created": models.voiceAgentServerEventRtcCallSdpCreatedDeserializer,
   "session.created": models.realtimeServerEventSessionCreatedDeserializer,
+  "session.handoff.started": models.voiceAgentServerEventSessionHandoffStartedDeserializer,
+  "session.handoff.completed": models.voiceAgentServerEventSessionHandoffCompletedDeserializer,
+  "session.handoff.aborted": models.voiceAgentServerEventSessionHandoffAbortedDeserializer,
   "session.subagent.aborted": models.voiceAgentServerEventSessionSubagentAbortedDeserializer,
   "session.subagent.completed": models.voiceAgentServerEventSessionSubagentCompletedDeserializer,
   "session.subagent.started": models.voiceAgentServerEventSessionSubagentStartedDeserializer,
@@ -119,7 +127,9 @@ const serverEventDeserializers: {
 
 /** @internal */
 export function serializeVoiceAgentClientEvent(event: VoiceAgentClientEvent): string {
-  const serializer = clientEventSerializers[event.type];
+  const serializer = Object.prototype.hasOwnProperty.call(clientEventSerializers, event.type)
+    ? clientEventSerializers[event.type]
+    : undefined;
   if (!serializer) {
     throw new VoiceAgentProtocolError(`Unsupported client event type: ${event.type}`);
   }
@@ -213,19 +223,71 @@ const requiredServerEventFields: {
   "response.output_audio_transcript.delta": ["delta", "item_id", "response_id"],
   "response.function_call_arguments.delta": ["delta", "call_id"],
   "response.function_call_arguments.done": ["arguments", "call_id"],
+  "response.system_tool_arguments.delta": [
+    "response_id",
+    "item_id",
+    "output_index",
+    "call_id",
+    "delta",
+  ],
+  "response.system_tool_arguments.done": [
+    "response_id",
+    "item_id",
+    "output_index",
+    "call_id",
+    "name",
+    "arguments",
+  ],
+  "input_collection.status": ["call_id", "status"],
   "response.created": ["response"],
   "response.done": ["response"],
   "rtc.call.error": ["error"],
   "rtc.call.sdp.created": ["rtc_call_id", "sdp_answer"],
   error: ["error"],
   "session.created": ["session"],
+  "session.handoff.started": [
+    "handoff_id",
+    "edge_id",
+    "from_node_id",
+    "to_node_id",
+    "from_model",
+    "to_model",
+    "tool_call_id",
+    "node_generation",
+  ],
+  "session.handoff.completed": [
+    "handoff_id",
+    "edge_id",
+    "from_node_id",
+    "to_node_id",
+    "from_model",
+    "to_model",
+    "tool_call_id",
+    "node_generation",
+    "prepare_duration_ms",
+    "duration_ms",
+  ],
+  "session.handoff.aborted": [
+    "handoff_id",
+    "edge_id",
+    "from_node_id",
+    "to_node_id",
+    "from_model",
+    "to_model",
+    "tool_call_id",
+    "node_generation",
+    "reason",
+  ],
   "session.subagent.aborted": ["consultation_id", "call_id", "subagent_name", "reason"],
   "session.subagent.completed": ["consultation_id", "call_id", "subagent_name"],
   "session.subagent.started": ["consultation_id", "call_id", "subagent_name"],
   "session.updated": ["session"],
 };
 
-const optionalEventIdServerEvents = new Set<VoiceAgentServerEvent["type"]>(["rtc.call.error"]);
+const optionalEventIdServerEvents = new Set<VoiceAgentServerEvent["type"]>([
+  "rtc.call.error",
+  "input_collection.status",
+]);
 
 function validateRequiredServerEventFields(eventType: string, event: unknown): void {
   const record = event as Record<string, unknown>;
@@ -311,12 +373,26 @@ function serializeInterimResponse(
 }
 
 function normalizeSessionResponseUnions(session: models.VoiceAgentSessionResponseConfig): void {
+  // The generated event deserializers leave this session alias in its wire representation.
+  const expiresAt: unknown = session.expires_at;
+  if (typeof expiresAt === "number") {
+    const expiration = new Date(expiresAt * 1000);
+    if (Number.isNaN(expiration.getTime())) {
+      throw new VoiceAgentProtocolError(
+        'The service returned an invalid session "expires_at" timestamp.',
+      );
+    }
+    session.expires_at = expiration;
+  }
   const turnDetection = session.audio?.input?.turn_detection;
   if (turnDetection) {
     session.audio!.input!.turn_detection = deserializeTurnDetection(turnDetection);
   }
   if (session.interim_response) {
     session.interim_response = deserializeInterimResponse(session.interim_response);
+  }
+  if (session.handoff) {
+    session.handoff = models.voiceAgentHandoffStateDeserializer(session.handoff);
   }
 }
 

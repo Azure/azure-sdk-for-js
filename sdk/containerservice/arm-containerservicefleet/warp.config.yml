@@ -8,6 +8,7 @@ exports:
   "./api/autoUpgradeProfiles": "./src/api/autoUpgradeProfiles/index.ts"
   "./api/fleetUpdateStrategies": "./src/api/fleetUpdateStrategies/index.ts"
   "./api/updateRuns": "./src/api/updateRuns/index.ts"
+  "./api/identityBindingProfiles": "./src/api/identityBindingProfiles/index.ts"
   "./api/gates": "./src/api/gates/index.ts"
   "./api/fleetManagedNamespaces": "./src/api/fleetManagedNamespaces/index.ts"
   "./api/fleetMembers": "./src/api/fleetMembers/index.ts"
@@ -15,6 +16,9 @@ exports:
   "./api/clusterMeshProfiles": "./src/api/clusterMeshProfiles/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/core/v1": "./src/models/core/v1/index.ts"
+  "./models/meta/v1": "./src/models/meta/v1/index.ts"
+  "./models/placement/v1": "./src/models/placement/v1/index.ts"
 
 targets:
   - name: browser

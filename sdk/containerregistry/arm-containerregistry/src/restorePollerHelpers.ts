@@ -8,18 +8,6 @@ import {
   _createDeserialize,
 } from "./api/webhooks/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializePipelineRuns,
-  _createDeserialize as _createDeserializePipelineRuns,
-} from "./api/pipelineRuns/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeImportPipelines,
-  _createDeserialize as _createDeserializeImportPipelines,
-} from "./api/importPipelines/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeExportPipelines,
-  _createDeserialize as _createDeserializeExportPipelines,
-} from "./api/exportPipelines/operations.js";
-import {
   _$deleteDeserialize as _$deleteDeserializeTokens,
   _updateDeserialize as _updateDeserializeTokens,
   _createDeserialize as _createDeserializeTokens,
@@ -54,14 +42,6 @@ import {
   _updateDeserialize as _updateDeserializeCacheRules,
   _createDeserialize as _createDeserializeCacheRules,
 } from "./api/cacheRules/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeArchiveVersions,
-  _createDeserialize as _createDeserializeArchiveVersions,
-} from "./api/archiveVersions/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeArchives,
-  _createDeserialize as _createDeserializeArchives,
-} from "./api/archives/operations.js";
 import {
   _generateCredentialsDeserialize,
   _importImageDeserialize,
@@ -145,18 +125,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}":
     { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}":
-    { deserializer: _$deleteDeserializePipelineRuns, expectedStatuses: ["200", "202", "204"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}":
-    { deserializer: _createDeserializePipelineRuns, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}":
-    { deserializer: _$deleteDeserializeImportPipelines, expectedStatuses: ["200", "202", "204"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}":
-    { deserializer: _createDeserializeImportPipelines, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}":
-    { deserializer: _$deleteDeserializeExportPipelines, expectedStatuses: ["200", "202", "204"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}":
-    { deserializer: _createDeserializeExportPipelines, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}":
     { deserializer: _$deleteDeserializeTokens, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}":
@@ -211,14 +179,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeCacheRules, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/cacheRules/{cacheRuleName}":
     { deserializer: _createDeserializeCacheRules, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}":
-    { deserializer: _$deleteDeserializeArchiveVersions, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}":
-    { deserializer: _createDeserializeArchiveVersions, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}":
-    { deserializer: _$deleteDeserializeArchives, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}":
-    { deserializer: _createDeserializeArchives, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials":
     { deserializer: _generateCredentialsDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importImage":

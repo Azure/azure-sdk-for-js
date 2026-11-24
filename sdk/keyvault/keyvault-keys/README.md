@@ -511,8 +511,9 @@ const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.managedhsm.azure.net`;
 
 const client = new KeyClient(url, credential);
+const cryptographyClient = client.getCryptographyClient("myKey");
 
-const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
 console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
 ```
 
@@ -529,10 +530,10 @@ const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.managedhsm.azure.net`;
 
 const client = new KeyClient(url, credential);
+const cryptographyClient = client.getCryptographyClient("myKey");
 
-const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
-const unwrapped = await client.secureUnwrapKey(
-  "myKey",
+const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+const unwrapped = await cryptographyClient.secureUnwrapKey(
   wrapped.algorithm,
   wrapped.result,
   "<attestation-target>",

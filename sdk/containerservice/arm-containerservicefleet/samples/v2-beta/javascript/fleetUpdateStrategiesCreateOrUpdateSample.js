@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FleetUpdateStrategy
  *
  * @summary create a FleetUpdateStrategy
- * x-ms-original-file: 2026-06-02-preview/UpdateStrategies_CreateOrUpdate.json
+ * x-ms-original-file: 2026-11-02-preview/UpdateStrategies_CreateOrUpdate.json
  */
 async function createAFleetUpdateStrategy() {
   const credential = new DefaultAzureCredential();
@@ -21,10 +21,12 @@ async function createAFleetUpdateStrategy() {
           {
             name: "stage1",
             maxConcurrency: "20%",
+            maxAllowedFailures: "2",
             groups: [
               {
                 name: "group-a",
                 maxConcurrency: "5",
+                maxAllowedFailures: "1",
                 memberSelector: { byLabel: "tier=frontend" },
                 beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
                 afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
@@ -37,6 +39,7 @@ async function createAFleetUpdateStrategy() {
           {
             name: "stage2",
             maxConcurrency: "50%",
+            maxAllowedFailures: "25%",
             memberSelector: { byLabel: "env=production" },
             afterStageWaitInSeconds: 600,
           },

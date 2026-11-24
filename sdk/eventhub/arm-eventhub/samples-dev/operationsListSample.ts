@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available Event Hub REST API operations.
  *
  * @summary lists all of the available Event Hub REST API operations.
- * x-ms-original-file: 2026-01-01/EHOperations_List.json
+ * x-ms-original-file: 2026-07-01-preview/EHOperations_List.json
  */
 async function ehOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

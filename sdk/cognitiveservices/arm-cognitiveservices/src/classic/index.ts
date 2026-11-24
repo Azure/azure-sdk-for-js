@@ -3,16 +3,17 @@
 
 export type { AccountCapabilityHostsOperations } from "./accountCapabilityHosts/index.js";
 export type { AccountConnectionsOperations } from "./accountConnections/index.js";
+export type { AccountCostControlsOperations } from "./accountCostControls/index.js";
 export type { AccountsOperations } from "./accounts/index.js";
 export type { AdapterDeploymentsOperations } from "./adapterDeployments/index.js";
 export type { AgentApplicationsOperations } from "./agentApplications/index.js";
 export type { AgentDeploymentsOperations } from "./agentDeployments/index.js";
 export type { ArcDeploymentsOperations } from "./arcDeployments/index.js";
+export type { AttachedAksClustersOperations } from "./attachedAksClusters/index.js";
 export type { CommitmentPlansOperations } from "./commitmentPlans/index.js";
 export type { CommitmentTiersOperations } from "./commitmentTiers/index.js";
 export type { ComputeOperationsOperations } from "./computeOperations/index.js";
 export type { ComputesOperations } from "./computes/index.js";
-export type { CostControlsOperations } from "./costControls/index.js";
 export type { DefenderForAISettingsOperations } from "./defenderForAISettings/index.js";
 export type { DeletedAccountsOperations } from "./deletedAccounts/index.js";
 export type { DeploymentsOperations } from "./deployments/index.js";
@@ -33,6 +34,7 @@ export type { PrivateEndpointConnectionsOperations } from "./privateEndpointConn
 export type { PrivateLinkResourcesOperations } from "./privateLinkResources/index.js";
 export type { ProjectCapabilityHostsOperations } from "./projectCapabilityHosts/index.js";
 export type { ProjectConnectionsOperations } from "./projectConnections/index.js";
+export type { ProjectCostControlsOperations } from "./projectCostControls/index.js";
 export type { ProjectsOperations } from "./projects/index.js";
 export type { QuotaTiersOperations } from "./quotaTiers/index.js";
 export type { RaiBindingsOperations } from "./raiBindings/index.js";

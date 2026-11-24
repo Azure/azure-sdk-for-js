@@ -4,7 +4,27 @@
 import type { NetworkSecurityManagementClient } from "./networkSecurityManagementClient.js";
 import {
   _$deleteDeserialize,
+  _updateDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/clusterAssociations/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializePolicyGroups,
+  _updateDeserialize as _updateDeserializePolicyGroups,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializePolicyGroups,
+} from "./api/policyGroups/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeMembers,
+  _updateDeserialize as _updateDeserializeMembers,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMembers,
+} from "./api/members/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeAgentFabrics,
+  _updateDeserialize as _updateDeserializeAgentFabrics,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeAgentFabrics,
+} from "./api/agentFabrics/operations.js";
+import {
+  _$deleteDeserialize as _$deleteDeserializeNeuroShieldProtectedResources,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeNeuroShieldProtectedResources,
 } from "./api/neuroShieldProtectedResources/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -76,10 +96,46 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/neuroShields/{neuroShieldName}/protectedResources/{protectedResourceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/clusterAssociations/{clusterAssociationName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/neuroShields/{neuroShieldName}/protectedResources/{protectedResourceName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/clusterAssociations/{clusterAssociationName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/clusterAssociations/{clusterAssociationName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/policyGroups/{policyGroupName}":
+    { deserializer: _$deleteDeserializePolicyGroups, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/policyGroups/{policyGroupName}":
+    { deserializer: _updateDeserializePolicyGroups, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/policyGroups/{policyGroupName}":
+    {
+      deserializer: _createOrUpdateDeserializePolicyGroups,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/members/{memberName}":
+    { deserializer: _$deleteDeserializeMembers, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/members/{memberName}":
+    { deserializer: _updateDeserializeMembers, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}/members/{memberName}":
+    { deserializer: _createOrUpdateDeserializeMembers, expectedStatuses: ["200", "201", "202"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}":
+    { deserializer: _$deleteDeserializeAgentFabrics, expectedStatuses: ["202", "204", "200"] },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}":
+    { deserializer: _updateDeserializeAgentFabrics, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/agentFabrics/{agentFabricName}":
+    {
+      deserializer: _createOrUpdateDeserializeAgentFabrics,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/neuroShields/{neuroShieldName}/protectedResources/{protectedResourceName}":
+    {
+      deserializer: _$deleteDeserializeNeuroShieldProtectedResources,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkSecurity/neuroShields/{neuroShieldName}/protectedResources/{protectedResourceName}":
+    {
+      deserializer: _createOrUpdateDeserializeNeuroShieldProtectedResources,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(

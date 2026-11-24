@@ -2,9 +2,19 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { VectorQueryTopicGraphUnion } from "./models/azure/search/documents/index.js";
+import type {
+  GraphProfile,
+  OneLakeSecuritySource,
+  ScoringFunctionInterpolation,
+  VectorSearchTopicGraphProfile,
+  KnowledgeSourceGraphExtractionParameters,
+  KnowledgeSourceFile,
+} from "./models/azure/search/documents/indexes/index.js";
+import type { KnowledgeSourceCache } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
-  WorkIQKnowledgeSourceParameters,
   ListingSearchType,
   AIFoundryModelCatalogName,
   AIServicesAccountKey,
@@ -259,7 +269,7 @@ export interface SearchServiceStatistics {
   /**
    * Service level information related to indexer runtime.
    */
-  indexersRuntime: ServiceIndexersRuntime;
+  indexersRuntime?: ServiceIndexersRuntime;
 }
 
 /**
@@ -1061,6 +1071,18 @@ export type LexicalNormalizer = CustomNormalizer;
 /**
  * Contains the possible cases for ScoringFunction.
  */
+export interface BaseScoringFunction {
+  /** The field used as input to a classic scoring function. */
+  fieldName: string;
+  /** A positive multiplier for a classic scoring function. */
+  boost: number;
+  /** Boost interpolation strategy. */
+  interpolation?: ScoringFunctionInterpolation;
+  /** The classic scoring function kind. */
+  type: string;
+}
+
+/** Classic field-based scoring functions. */
 export type ScoringFunction =
   | DistanceScoringFunction
   | FreshnessScoringFunction
@@ -1085,6 +1107,10 @@ export type SearchField = SimpleField | ComplexField;
  * behavior of a field.
  */
 export interface SimpleField {
+  /** The topic graph profile used for this vector field. */
+  topicGraphProfile?: string;
+  /** Whether this field contains the organization access expiration. */
+  organizationAccessExpiration?: boolean;
   /**
    * The name of the field, which must be unique within the fields collection of the index or
    * parent field.
@@ -1313,6 +1339,10 @@ export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>
  * index.
  */
 export interface SearchIndex {
+  /** Graph schema and field mappings for graph queries. */
+  graphProfile?: GraphProfile;
+  /** OneLake security information associated with the index. */
+  oneLakeSecuritySource?: OneLakeSecuritySource;
   /**
    * The name of the index.
    */
@@ -2316,6 +2346,8 @@ export interface SearchIndexerDataSourceConnection {
  * Contains configuration options related to vector search.
  */
 export interface VectorSearch {
+  /** Topic graph profiles used during vector retrieval. */
+  topicGraphProfiles?: VectorSearchTopicGraphProfile[];
   /**
    * Defines combinations of configurations to use with vector search.
    */
@@ -2541,8 +2573,7 @@ export interface WebApiParameters {
 /**
  * Contains configuration options on how to vectorize text vector queries.
  */
-export type VectorSearchVectorizer =
-  AzureMachineLearningVectorizer | AzureOpenAIVectorizer | WebApiVectorizer;
+export type VectorSearchVectorizer = AzureOpenAIVectorizer | WebApiVectorizer;
 
 /**
  * Specifies an Azure Machine Learning endpoint deployed via the Azure AI Foundry Model Catalog for
@@ -2696,6 +2727,8 @@ export interface SearchIndexerKnowledgeStoreParameters {
  * property. Each value must be of a primitive type.
  */
 export interface IndexingParametersConfiguration {
+  /** Whether to refresh all document access control lists. */
+  refreshAllAcls?: boolean;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -3104,12 +3137,7 @@ export type KnowledgeSource =
   | IndexedOneLakeKnowledgeSource
   | IndexedSqlKnowledgeSource
   | FileKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource
-  | WorkIQKnowledgeSource
-  | McpServerKnowledgeSource
-  | FabricDataAgentKnowledgeSource
-  | FabricOntologyKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3125,12 +3153,7 @@ export interface BaseKnowledgeSource {
     | "indexedOneLake"
     | "indexedSql"
     | "file"
-    | "web"
-    | "remoteSharePoint"
-    | "workIQ"
-    | "mcpServer"
-    | "fabricDataAgent"
-    | "fabricOntology";
+    | "web";
   /**
    * The name of the knowledge source.
    */
@@ -3185,6 +3208,10 @@ export interface AzureBlobKnowledgeSource extends BaseKnowledgeSource {
  * Parameters for Azure Blob Storage knowledge source.
  */
 export interface AzureBlobKnowledgeSourceParameters {
+  /** Graph extraction configuration applied during ingestion. */
+  graphExtraction?: KnowledgeSourceGraphExtractionParameters;
+  /** Topic graph configuration applied during retrieval. */
+  topicGraph?: VectorQueryTopicGraphUnion;
   /**
    * Key-based connection string or the ResourceId format if using a managed identity.
    */
@@ -3301,20 +3328,6 @@ export interface IndexedSharePointKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for a knowledge source backed by a remote (live-queried) SharePoint site.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the remote SharePoint knowledge source.
-   */
-  remoteSharePointParameters?: RemoteSharePointKnowledgeSourceParameters;
-}
-
-/**
  * Parameters for remote SharePoint knowledge source.
  */
 export interface RemoteSharePointKnowledgeSourceParameters {
@@ -3327,34 +3340,6 @@ export interface RemoteSharePointKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for a knowledge source backed by WorkIQ.
- */
-export interface WorkIQKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "workIQ";
-  /**
-   * The parameters for the WorkIQ knowledge source, including the customer-owned Entra app configuration used for on-behalf-of authentication.
-   */
-  workIQParameters: WorkIQKnowledgeSourceParameters;
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Data Agent.
- */
-export interface FabricDataAgentKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricDataAgent";
-  /**
-   * The parameters for the Fabric Data Agent knowledge source.
-   */
-  fabricDataAgentParameters: FabricDataAgentKnowledgeSourceParameters;
-}
-
-/**
  * Parameters for Fabric Data Agent knowledge source.
  */
 export interface FabricDataAgentKnowledgeSourceParameters {
@@ -3362,20 +3347,6 @@ export interface FabricDataAgentKnowledgeSourceParameters {
   workspaceId: string;
   /** Specifies which Fabric Data Agent to access. */
   dataAgentId: string;
-}
-
-/**
- * Configuration for a knowledge source backed by a Microsoft Fabric Ontology.
- */
-export interface FabricOntologyKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "fabricOntology";
-  /**
-   * The parameters for the Fabric Ontology knowledge source.
-   */
-  fabricOntologyParameters: FabricOntologyKnowledgeSourceParameters;
 }
 
 /**
@@ -3440,20 +3411,6 @@ export interface FileKnowledgeSourceParameters {
   queryHints?: SearchIndexKnowledgeSourceQueryHints;
   /** Names of resources created by the service. */
   readonly createdResources?: Record<string, string>;
-}
-
-/**
- * Configuration for a knowledge source backed by an MCP (Model Context Protocol) server.
- */
-export interface McpServerKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "mcpServer";
-  /**
-   * The parameters for the MCP server knowledge source.
-   */
-  mcpServerParameters: McpServerKnowledgeSourceParameters;
 }
 
 /** Parameters for an MCP server knowledge source. */
@@ -3596,6 +3553,8 @@ export interface McpServerNoneOutputParsing extends McpServerOutputParsing {
 
 /** Consolidates all general ingestion settings for knowledge sources. */
 export interface KnowledgeSourceIngestionParameters {
+  /** Incremental enrichment cache configuration. */
+  cache?: KnowledgeSourceCache;
   /** An explicit identity to use for this knowledge source. */
   identity?: SearchIndexerDataIdentity;
   /** Optional vectorizer configuration for vectorizing content. */
@@ -3634,6 +3593,32 @@ export interface KnowledgeBaseAzureOpenAIModel extends BaseKnowledgeBaseModel {
 }
 
 export type KnowledgeSourceVectorizer = KnowledgeSourceAzureOpenAIVectorizer;
+
+/** Options for asynchronously ingesting a file. */
+export interface IngestKnowledgeSourceFileOptions extends OperationOptions {
+  /** Delay in milliseconds between polling requests. */
+  updateIntervalInMs?: number;
+  /** Serialized poller state from a previous invocation to resume without uploading again. */
+  resumeFrom?: string;
+}
+
+/** Options for beginning asynchronous file ingestion. */
+export type BeginIngestKnowledgeSourceFileOptions = IngestKnowledgeSourceFileOptions;
+
+/** Options for beginning asynchronous replacement of a file. */
+export type BeginReplaceKnowledgeSourceFileOptions = IngestKnowledgeSourceFileOptions;
+
+/** A resumable asynchronous file ingestion operation. */
+export type KnowledgeSourceFileIngestionPoller = PollerLike<
+  OperationState<KnowledgeSourceFile>,
+  KnowledgeSourceFile
+>;
+
+/** Options for listing retained file ingestion operations. */
+export type ListKnowledgeSourceFileIngestionOperationsOptions = OperationOptions;
+
+/** Options for retrieving a file ingestion operation. */
+export type GetKnowledgeSourceFileIngestionOperationOptions = OperationOptions;
 
 /** Specifies the Azure OpenAI resource used to vectorize a query string. */
 export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourceVectorizer {

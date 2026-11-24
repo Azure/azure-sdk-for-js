@@ -71,9 +71,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  # Provides $(azuresdk-github-pat) for git-push-changes.yml and the
-  # create-pr step.
-  - group: Release Secrets for GitHub
   - name: sdkRoot
     value: $(Build.SourcesDirectory)
   - name: nodeVersion
@@ -207,6 +204,11 @@ stages:
         - task: NodeTool@0
           inputs: { versionSpec: $(nodeVersion) }
 
+        - template: /eng/common/pipelines/templates/steps/login-to-github.yml
+          parameters:
+            TokenOwners:
+              - Azure
+
         - bash: |
             node $(shardScript) create-pr \
               --sourceRepo     "$(Build.Repository.Name)" \
@@ -219,7 +221,7 @@ stages:
               --definitionName "$(Build.DefinitionName)"
           displayName: 'Open pull request'
           env:
-            AUTH_TOKEN: $(azuresdk-github-pat)
+            AUTH_TOKEN: $(GH_TOKEN)
 
   - job: RecordEmitterVersion
     displayName: 'Tag build with emitter version'

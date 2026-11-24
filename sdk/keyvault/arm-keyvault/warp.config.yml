@@ -12,6 +12,7 @@ exports:
   "./api/keys": "./src/api/keys/index.ts"
   "./api/secrets": "./src/api/secrets/index.ts"
   "./api/managedHsms": "./src/api/managedHsms/index.ts"
+  "./api/networkSecurityPerimeterConfigurations": "./src/api/networkSecurityPerimeterConfigurations/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/vaults": "./src/api/vaults/index.ts"
   "./api/operations": "./src/api/operations/index.ts"

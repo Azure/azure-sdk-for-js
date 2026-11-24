@@ -83,15 +83,17 @@ export function customizeNewOperation({ text, sendText, deserializeText, members
   const changes = [];
   function visit(node) {
     if (ts.isCallExpression(node) && ts.isIdentifier(node.expression)) {
-      const paging = node.expression.text === "buildPagedAsyncIterator" && cursor;
+      const paging = node.expression.text === "buildPagedAsyncIterator";
       const polling = node.expression.text === "getLongRunningPoller";
       const argument = paging ? node.arguments[4] : polling ? node.arguments.at(-1) : undefined;
       if (argument && ts.isObjectLiteralExpression(argument)) {
         const present = new Set(argument.properties.map((item) => nameOf(item.name)));
         const additions = [];
         if (paging) {
-          if (!present.has("cursorFieldName")) additions.push('cursorFieldName: "last_id"');
-          if (!present.has("hasMoreFieldName")) additions.push('hasMoreFieldName: "has_more"');
+          if (cursor && !present.has("cursorFieldName"))
+            additions.push('cursorFieldName: "last_id"');
+          if (cursor && !present.has("hasMoreFieldName"))
+            additions.push('hasMoreFieldName: "has_more"');
           if (!present.has("nextPageRequestOptions")) {
             additions.push(
               `nextPageRequestOptions: { ...operationOptionsToRequestParameters(options), headers: ${headers} }`,

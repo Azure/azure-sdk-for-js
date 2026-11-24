@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the available REST API operations of the Microsoft.Cache provider.
  *
  * @summary lists all of the available REST API operations of the Microsoft.Cache provider.
- * x-ms-original-file: 2026-09-01/OperationsList.json
+ * x-ms-original-file: 2026-10-01-preview/OperationsList.json
  */
 async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

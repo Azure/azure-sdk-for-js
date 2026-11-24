@@ -54,4 +54,4 @@ export {
   type SerializationPolicyOptions,
 } from "./serializationPolicy.js";
 export { authorizeRequestOnClaimChallenge } from "./authorizeRequestOnClaimChallenge.js";
-export { authorizeRequestOnTenantChallenge } from "./authorizeRequestOnTenantChallenge.js";
+export { authorizeRequestOnTenantChallenge } from "@azure/core-rest-pipeline";

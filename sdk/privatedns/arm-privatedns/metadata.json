@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Network": "2024-06-01"
+    "Microsoft.Network": "2026-06-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Network",
     "CrossLanguageDefinitionId": {
@@ -16,6 +16,7 @@
       "@azure/arm-privatedns!SoaRecord:interface": "Microsoft.Network.SoaRecord",
       "@azure/arm-privatedns!SrvRecord:interface": "Microsoft.Network.SrvRecord",
       "@azure/arm-privatedns!TxtRecord:interface": "Microsoft.Network.TxtRecord",
+      "@azure/arm-privatedns!SubResource:interface": "Microsoft.Network.SubResource",
       "@azure/arm-privatedns!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-privatedns!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-privatedns!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
@@ -30,15 +31,20 @@
       "@azure/arm-privatedns!PrivateZoneListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-privatedns!VirtualNetworkLink:interface": "Microsoft.Network.VirtualNetworkLink",
       "@azure/arm-privatedns!VirtualNetworkLinkProperties:interface": "Microsoft.Network.VirtualNetworkLinkProperties",
-      "@azure/arm-privatedns!SubResource:interface": "Microsoft.Network.SubResource",
       "@azure/arm-privatedns!VirtualNetworkLinkListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-privatedns!PrivateDnsResourceReferenceRequest:interface": "Microsoft.Network.PrivateDnsResourceReferenceRequest",
+      "@azure/arm-privatedns!PrivateDnsResourceReferenceRequestProperties:interface": "Microsoft.Network.PrivateDnsResourceReferenceRequestProperties",
+      "@azure/arm-privatedns!PrivateDnsResourceReferenceResult:interface": "Microsoft.Network.PrivateDnsResourceReferenceResult",
+      "@azure/arm-privatedns!PrivateDnsResourceReferenceResultProperties:interface": "Microsoft.Network.PrivateDnsResourceReferenceResultProperties",
+      "@azure/arm-privatedns!PrivateDnsResourceReference:interface": "Microsoft.Network.PrivateDnsResourceReference",
       "@azure/arm-privatedns!KnownRecordType:enum": "Microsoft.Network.RecordType",
-      "@azure/arm-privatedns!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-privatedns!KnownProvisioningState:enum": "Microsoft.Network.ProvisioningState",
+      "@azure/arm-privatedns!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-privatedns!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-privatedns!KnownResolutionPolicy:enum": "Microsoft.Network.ResolutionPolicy",
       "@azure/arm-privatedns!KnownVirtualNetworkLinkState:enum": "Microsoft.Network.VirtualNetworkLinkState",
       "@azure/arm-privatedns!KnownVersions:enum": "Microsoft.Network.Versions",
+      "@azure/arm-privatedns!PrivateDnsResourceReferenceOperations#getByTargetResources:member": "Microsoft.Network.PrivateDnsResourceReferenceOperations.getByTargetResources",
       "@azure/arm-privatedns!VirtualNetworkLinksOperations#list:member": "Microsoft.Network.VirtualNetworkLinks.list",
       "@azure/arm-privatedns!VirtualNetworkLinksOperations#delete:member": "Microsoft.Network.VirtualNetworkLinks.delete",
       "@azure/arm-privatedns!VirtualNetworkLinksOperations#update:member": "Microsoft.Network.VirtualNetworkLinks.update",

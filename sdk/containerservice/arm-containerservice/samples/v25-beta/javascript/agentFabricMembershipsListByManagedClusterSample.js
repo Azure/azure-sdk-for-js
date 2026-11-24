@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the AgentFabric memberships of a managed cluster.
  *
  * @summary lists the AgentFabric memberships of a managed cluster.
- * x-ms-original-file: 2026-08-02-preview/AgentFabricMemberships_ListByManagedCluster.json
+ * x-ms-original-file: 2026-09-02-preview/AgentFabricMemberships_ListByManagedCluster.json
  */
 async function listAgentFabricMembershipsByManagedCluster() {
   const credential = new DefaultAzureCredential();

@@ -16,7 +16,7 @@ export async function getDataplanePackages(): Promise<Packages> {
   const sdkPackageJsonFiles: string[] = [];
   for await (const file of glob("sdk/*/*/package.json", { cwd: workspaceRoot })) {
     const normalizedPath = file.replaceAll("\\", "/");
-    if (!normalizedPath.includes("/arm-")) {
+    if (!normalizedPath.includes("/arm-") && !normalizedPath.includes("/provisioning-")) {
       sdkPackageJsonFiles.push(normalizedPath);
     }
   }

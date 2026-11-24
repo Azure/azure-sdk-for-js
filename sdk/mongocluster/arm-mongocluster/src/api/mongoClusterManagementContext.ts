@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/arm-mongocluster/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
 import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
@@ -9,7 +10,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
+/** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure DocumentDB resources including clusters and firewall rules. */
 export interface MongoClusterManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +28,7 @@ export interface MongoClusterManagementClientOptionalParams extends ClientOption
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
+/** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure DocumentDB resources including clusters and firewall rules. */
 export function createMongoClusterManagement(
   credential: TokenCredential,
   subscriptionId: string,
@@ -36,14 +37,17 @@ export function createMongoClusterManagement(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-mongocluster/1.3.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-mongocluster/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },

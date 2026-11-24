@@ -1345,7 +1345,8 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Provisioning = "Provisioning",
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1935,6 +1936,7 @@ export type PasswordAuthenticationName = string;
 
 // @public
 export interface PasswordAuthenticationProperties {
+    administratorLogin?: string;
     readonly provisioningState?: ProvisioningState;
     state: AuthenticationState;
 }
@@ -1990,7 +1992,6 @@ export interface PasswordAuthenticationsUpdateOptionalParams extends OperationOp
 // @public
 export interface Pool extends ProxyResource {
     properties?: PoolProperties;
-    tags?: Record<string, string>;
 }
 
 // @public
@@ -2030,7 +2031,6 @@ export type PoolComputeModelType = string;
 // @public
 export interface PoolCreateOrUpdate extends ProxyResourceCreateOrUpdate {
     properties?: PoolPropertiesCreateOrUpdate;
-    tags?: Record<string, string>;
 }
 
 // @public
@@ -2041,13 +2041,11 @@ export interface PoolFeatureCapability {
 // @public
 export interface PoolForPatchUpdate {
     properties?: PoolPropertiesForPatchUpdate;
-    tags?: Record<string, string>;
 }
 
 // @public
 export interface PoolForPatchUpdateUpdate {
     properties?: PoolPropertiesForPatchUpdateUpdate;
-    tags?: Record<string, string>;
 }
 
 // @public
@@ -2098,7 +2096,7 @@ export interface PoolProperties {
     computeModel: PoolComputeModel;
     highAvailability: PoolHighAvailability;
     nodeCount: number;
-    parameterGroup: PoolParameterGroupReference;
+    parameterGroup?: PoolParameterGroupReference;
     readonly provisioningState?: ProvisioningState;
     scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
     readonly state?: PoolState;
@@ -2109,7 +2107,7 @@ export interface PoolPropertiesCreateOrUpdate {
     computeModel: PoolComputeModel;
     highAvailability: PoolHighAvailability;
     nodeCount: number;
-    parameterGroup: PoolParameterGroupReferenceCreateOrUpdate;
+    parameterGroup?: PoolParameterGroupReferenceCreateOrUpdate;
     scheduledMaintenance?: ScheduledMaintenancePropertiesUnion;
 }
 

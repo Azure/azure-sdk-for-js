@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a container registry with the specified parameters.
  *
  * @summary updates a container registry with the specified parameters.
- * x-ms-original-file: 2026-09-01-preview/RegistryUpdate.json
+ * x-ms-original-file: 2026-11-01/RegistryUpdate.json
  */
 async function registryUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,8 +16,11 @@ async function registryUpdate(): Promise<void> {
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.registries.update("myResourceGroup", "myRegistry", {
     tags: { key: "value" },
-    sku: { name: "Standard" },
+    sku: { name: "Premium" },
     adminUserEnabled: true,
+    regionalEndpoints: "Enabled",
+    dataEndpointEnabled: true,
+    endpointProtocol: "IPv4AndIPv6",
     roleAssignmentMode: "AbacRepositoryPermissions",
   });
   console.log(result);

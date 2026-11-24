@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a RoleMapping
  *
  * @summary delete a RoleMapping
- * x-ms-original-file: 2026-09-30/RoleMappings_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-03/RoleMappings_Delete_MaximumSet_Gen.json
  */
 async function roleMappingsDeleteMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

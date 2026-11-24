@@ -11,6 +11,8 @@
 
 ### Bugs Fixed
 
+- Fixed `invokeEvent` hanging when a successful response contains a JSON `null` payload.
+
 ### Other Changes
 
 ## 1.1.0 (2026-06-22)

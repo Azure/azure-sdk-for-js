@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a database in a Redis Enterprise cluster.
  *
  * @summary gets information about a database in a Redis Enterprise cluster.
- * x-ms-original-file: 2026-09-01/RedisEnterpriseDatabasesGet.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseDatabasesGet.json
  */
 async function redisEnterpriseDatabasesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
