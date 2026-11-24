@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { CostManagementClient } = require("@azure/arm-costmanagementpriceestimation");
+const {
+  CostManagementPriceEstimationManagementClient,
+} = require("@azure/arm-costmanagementpriceestimation");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -145,7 +147,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function reportAComponentWhosePriceIsUnavailableWithoutTreatingItAsZero() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new CostManagementClient(credential, subscriptionId);
+  const client = new CostManagementPriceEstimationManagementClient(credential, subscriptionId);
   const result = await client.priceEstimation.estimatePrices({
     resources: [
       {
@@ -394,7 +396,7 @@ async function reportAComponentWhosePriceIsUnavailableWithoutTreatingItAsZero() 
 async function estimateALinuxVMAndASeparatelyCountedPremiumDisk() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new CostManagementClient(credential, subscriptionId);
+  const client = new CostManagementPriceEstimationManagementClient(credential, subscriptionId);
   const result = await client.priceEstimation.estimatePrices({
     resources: [
       {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext as Client } from "../index.js";
+import type { CostManagementPriceEstimationManagementContext as Client } from "../index.js";
 import type { EstimateContent, EstimateResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,

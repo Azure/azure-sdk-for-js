@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  CostManagementContext,
-  CostManagementClientOptionalParams,
-} from "./costManagementContext.js";
-export { createCostManagement } from "./costManagementContext.js";
+  CostManagementPriceEstimationManagementContext,
+  CostManagementPriceEstimationManagementClientOptionalParams,
+} from "./costManagementPriceEstimationManagementContext.js";
+export { createCostManagementPriceEstimationManagement } from "./costManagementPriceEstimationManagementContext.js";

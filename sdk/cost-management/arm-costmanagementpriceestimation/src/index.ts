@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CostManagementClient } from "./costManagementClient.js";
+export { CostManagementPriceEstimationManagementClient } from "./costManagementPriceEstimationManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -48,7 +48,7 @@ export {
   KnownEstimateCostStatus,
   KnownVersions,
 } from "./models/index.js";
-export type { CostManagementClientOptionalParams } from "./api/index.js";
+export type { CostManagementPriceEstimationManagementClientOptionalParams } from "./api/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
 export type {
   PriceEstimationGetEstimatePricesOperationResultOptionalParams,

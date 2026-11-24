@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { CostManagementClient } = require("@azure/arm-costmanagementpriceestimation");
+const {
+  CostManagementPriceEstimationManagementClient,
+} = require("@azure/arm-costmanagementpriceestimation");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -23,7 +25,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getTheResultOfAPriceEstimationOperation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new CostManagementClient(credential, subscriptionId);
+  const client = new CostManagementPriceEstimationManagementClient(credential, subscriptionId);
   const result = await client.priceEstimation.getEstimatePricesOperationResult(
     "2f0d4b7a9c1e4d6f8a3b5c7d9e1f2a4b",
   );

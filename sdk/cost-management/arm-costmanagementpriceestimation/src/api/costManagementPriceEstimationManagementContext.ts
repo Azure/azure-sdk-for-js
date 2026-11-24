@@ -11,7 +11,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Estimates prices for proposed configurations using subscription-applicable prices. */
-export interface CostManagementContext extends Client {
+export interface CostManagementPriceEstimationManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -20,7 +20,7 @@ export interface CostManagementContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface CostManagementClientOptionalParams extends ClientOptions {
+export interface CostManagementPriceEstimationManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,11 +29,11 @@ export interface CostManagementClientOptionalParams extends ClientOptions {
 }
 
 /** Estimates prices for proposed configurations using subscription-applicable prices. */
-export function createCostManagement(
+export function createCostManagementPriceEstimationManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: CostManagementClientOptionalParams = {},
-): CostManagementContext {
+  options: CostManagementPriceEstimationManagementClientOptionalParams = {},
+): CostManagementPriceEstimationManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -54,5 +54,9 @@ export function createCostManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as CostManagementContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as CostManagementPriceEstimationManagementContext;
 }

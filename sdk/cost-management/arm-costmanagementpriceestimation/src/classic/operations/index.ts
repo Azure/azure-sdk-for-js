@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import type { CostManagementPriceEstimationManagementContext } from "../../api/costManagementPriceEstimationManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,15 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: CostManagementContext) {
+function _getOperations(context: CostManagementPriceEstimationManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: CostManagementContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: CostManagementPriceEstimationManagementContext,
+): OperationsOperations {
   return {
     ..._getOperations(context),
   };

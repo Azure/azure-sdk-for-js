@@ -1,6 +1,6 @@
-# Azure CostManagement client library for JavaScript
+# Azure CostManagementPriceEstimationManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CostManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure CostManagementPriceEstimationManagement client.
 
 Estimates prices for proposed configurations using subscription-applicable prices.
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-costmanagementpriceestimation` package
 
-Install the Azure CostManagement client library for JavaScript with `npm`:
+Install the Azure CostManagementPriceEstimationManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-costmanagementpriceestimation
 ```
 
-### Create and authenticate a `CostManagementClient`
+### Create and authenticate a `CostManagementPriceEstimationManagementClient`
 
-To create a client object to access the Azure CostManagement API, you will need the `endpoint` of your Azure CostManagement resource and a `credential`. The Azure CostManagement client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure CostManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure CostManagementPriceEstimationManagement API, you will need the `endpoint` of your Azure CostManagementPriceEstimationManagement resource and a `credential`. The Azure CostManagementPriceEstimationManagement client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure CostManagementPriceEstimationManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,35 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure CostManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new Microsoft Entra application and grant access to Azure CostManagementPriceEstimationManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { CostManagementClient } from "@azure/arm-costmanagementpriceestimation";
+import { CostManagementPriceEstimationManagementClient } from "@azure/arm-costmanagementpriceestimation";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new CostManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new CostManagementPriceEstimationManagementClient(
+  new DefaultAzureCredential(),
+  subscriptionId,
+);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { CostManagementClient } from "@azure/arm-costmanagementpriceestimation";
+import { CostManagementPriceEstimationManagementClient } from "@azure/arm-costmanagementpriceestimation";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new CostManagementClient(credential, subscriptionId);
+const client = new CostManagementPriceEstimationManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +82,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### CostManagementClient
+### CostManagementPriceEstimationManagementClient
 
-`CostManagementClient` is the primary interface for developers using the Azure CostManagement client library. Explore the methods on this client object to understand the different features of the Azure CostManagement service that you can access.
+`CostManagementPriceEstimationManagementClient` is the primary interface for developers using the Azure CostManagementPriceEstimationManagement client library. Explore the methods on this client object to understand the different features of the Azure CostManagementPriceEstimationManagement service that you can access.
 
 ## Troubleshooting
 

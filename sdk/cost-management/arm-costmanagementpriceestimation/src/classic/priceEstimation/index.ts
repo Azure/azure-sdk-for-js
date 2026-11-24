@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import type { CostManagementPriceEstimationManagementContext } from "../../api/costManagementPriceEstimationManagementContext.js";
 import {
   getEstimatePricesOperationResult,
   estimatePrices,
@@ -102,7 +102,7 @@ export interface PriceEstimationOperations {
   ) => PollerLike<OperationState<EstimateResult>, EstimateResult>;
 }
 
-function _getPriceEstimation(context: CostManagementContext) {
+function _getPriceEstimation(context: CostManagementPriceEstimationManagementContext) {
   return {
     getEstimatePricesOperationResult: (
       operationId: string,
@@ -116,7 +116,7 @@ function _getPriceEstimation(context: CostManagementContext) {
 }
 
 export function _getPriceEstimationOperations(
-  context: CostManagementContext,
+  context: CostManagementPriceEstimationManagementContext,
 ): PriceEstimationOperations {
   return {
     ..._getPriceEstimation(context),

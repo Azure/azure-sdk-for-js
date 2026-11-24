@@ -34,15 +34,15 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public (undocumented)
-export class CostManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: CostManagementClientOptionalParams);
+export class CostManagementPriceEstimationManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: CostManagementPriceEstimationManagementClientOptionalParams);
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly priceEstimation: PriceEstimationOperations;
 }
 
 // @public
-export interface CostManagementClientOptionalParams extends ClientOptions {
+export interface CostManagementPriceEstimationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -289,7 +289,7 @@ export interface PriceEstimationOperations {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CostManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CostManagementPriceEstimationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

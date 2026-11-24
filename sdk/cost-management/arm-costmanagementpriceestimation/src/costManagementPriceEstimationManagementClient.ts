@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext, CostManagementClientOptionalParams } from "./api/index.js";
-import { createCostManagement } from "./api/index.js";
+import type {
+  CostManagementPriceEstimationManagementContext,
+  CostManagementPriceEstimationManagementClientOptionalParams,
+} from "./api/index.js";
+import { createCostManagementPriceEstimationManagement } from "./api/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PriceEstimationOperations } from "./classic/priceEstimation/index.js";
@@ -10,10 +13,10 @@ import { _getPriceEstimationOperations } from "./classic/priceEstimation/index.j
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { CostManagementClientOptionalParams } from "./api/costManagementContext.js";
+export type { CostManagementPriceEstimationManagementClientOptionalParams } from "./api/costManagementPriceEstimationManagementContext.js";
 
-export class CostManagementClient {
-  private _client: CostManagementContext;
+export class CostManagementPriceEstimationManagementClient {
+  private _client: CostManagementPriceEstimationManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -21,9 +24,13 @@ export class CostManagementClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: CostManagementClientOptionalParams = {},
+    options: CostManagementPriceEstimationManagementClientOptionalParams = {},
   ) {
-    this._client = createCostManagement(credential, subscriptionId, options);
+    this._client = createCostManagementPriceEstimationManagement(
+      credential,
+      subscriptionId,
+      options,
+    );
     this.pipeline = this._client.pipeline;
     this.priceEstimation = _getPriceEstimationOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
