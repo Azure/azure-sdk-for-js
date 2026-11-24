@@ -9,7 +9,6 @@ import {
   DefaultAzureCredential,
   DeviceCodeCredential,
   getBearerTokenProvider,
-  GitHubActionsCredential,
   InteractiveBrowserCredential,
   OnBehalfOfCredential,
   useIdentityPlugin,
@@ -80,11 +79,6 @@ describe("snippets", function () {
         authorityHost: "https://login.partner.microsoftonline.cn",
       },
     );
-  });
-
-  snippet: it("ReadmeSampleGitHubActionsCredential", function () {
-    const credential = new GitHubActionsCredential();
-    const client = new KeyClient("https://<your-key-vault-name>.vault.azure.net", credential);
   });
 
   it("identity_breakingchanges_addexplicitadditionallyallowedtenants", function () {
