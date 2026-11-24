@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.48 (Unreleased)
 
+### Features Added
+
+- Added reason codes and affected-item counts to multi-endpoint routing diagnostics for invalid destinations, export and retry storage failures, expired batches, and capacity limits. Diagnostics omit destination values and telemetry contents.
+
 ### Breaking Changes
 
 - Updated to OpenTelemetry SDK 3.x and the matching 0.300.x instrumentation packages. Tracing now uses `@opentelemetry/sdk-trace`, and the logs API comes from `@opentelemetry/api` 1.10.0 instead of `@opentelemetry/api-logs`. See the [OpenTelemetry migration guide](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/3.x/migration-guide.md). [#40536](https://github.com/Azure/azure-sdk-for-js/pull/40536)

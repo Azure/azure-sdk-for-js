@@ -78,13 +78,20 @@ describe("multi-endpoint routing attributes", () => {
     expect(
       getTelemetryRoute({ ...attributes, "microsoft.ingestion_endpoint": endpoint }),
     ).toBeUndefined();
-    expect(debug).toHaveBeenCalledOnce();
+    expect(debug.mock.calls).toEqual([
+      [expect.stringContaining("reason=INVALID_INGESTION_ENDPOINT itemCount=1")],
+    ]);
+    expect(JSON.stringify(debug.mock.calls)).not.toContain("example.test");
   });
 
   it.each([undefined, null, 123, [], "", " ", "x".repeat(201)])("drops invalid key %s", (key) => {
+    const debug = vi.spyOn(diag, "debug");
     expect(
       getTelemetryRoute({ ...attributes, "microsoft.instrumentation_key": key }),
     ).toBeUndefined();
+    expect(debug.mock.calls).toEqual([
+      [expect.stringContaining("reason=INVALID_INSTRUMENTATION_KEY itemCount=1")],
+    ]);
   });
 
   it("accepts non-UUID keys and the exact attribute length limits", () => {

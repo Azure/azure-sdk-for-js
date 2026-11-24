@@ -4,6 +4,7 @@
 import { diag } from "@opentelemetry/api";
 import type { TelemetryItem as Envelope } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
+import { routingDiagnostic } from "./routingDiagnostics.js";
 
 const routingAttributes = [
   "microsoft.instrumentation_key",
@@ -78,13 +79,12 @@ export function parseRoutingEndpoint(value: unknown): URL {
 export function getTelemetryRoute(
   attributes: Readonly<Record<string, unknown>>,
 ): TelemetryRoute | undefined {
+  const key = attributes?.["microsoft.instrumentation_key"];
+  if (typeof key !== "string" || key.length > 200 || !key.trim()) {
+    diag.debug(routingDiagnostic("INVALID_INSTRUMENTATION_KEY", 1));
+    return undefined;
+  }
   try {
-    const key = attributes["microsoft.instrumentation_key"];
-    if (typeof key !== "string" || key.length > 200 || !key.trim()) {
-      throw new Error(
-        "Routing instrumentation key must be a nonempty string of at most 200 characters.",
-      );
-    }
     const url = parseRoutingEndpoint(attributes["microsoft.ingestion_endpoint"]);
     const auth = attributes["microsoft.ingestion_auth"];
     const role = attributes["microsoft.multi_endpoint_cloud_role"];
@@ -94,8 +94,8 @@ export function getTelemetryRoute(
       isAad: typeof auth === "string" && auth.trim().toLowerCase() === "aad",
       cloudRole: typeof role === "string" && role.trim() ? role.trim() : "unknown_service",
     };
-  } catch (error) {
-    diag.debug("Dropping telemetry with invalid multi-endpoint routing attributes:", error);
+  } catch {
+    diag.debug(routingDiagnostic("INVALID_INGESTION_ENDPOINT", 1));
     return undefined;
   }
 }

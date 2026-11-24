@@ -6,6 +6,7 @@ import { chmod, mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/pro
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { ExportResultCode } from "@opentelemetry/core";
+import { diag } from "@opentelemetry/api";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import "../../src/platform/nodejs/index.js";
@@ -20,6 +21,7 @@ import * as helpers from "../../src/platform/nodejs/persist/fileSystemHelpers.js
 import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
 import { makeOneSettingsRequest } from "../../src/_configuration/utils.js";
 import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
+import { CustomerSDKStatsManager } from "../../src/export/statsbeat/customerSDKStatsManager.js";
 import type { AzureMonitorExporterOptions } from "../../src/config.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import type { RoutingGroups } from "../../src/utils/routing.js";
@@ -299,14 +301,17 @@ describe("routed senders and persistence", () => {
   });
 
   it("persists only retriable envelopes in a partial response", async () => {
+    const warn = vi.spyOn(diag, "warn");
+    const error = vi.spyOn(diag, "error");
+    const info = vi.spyOn(diag, "info");
     sendRequest.mockImplementationOnce(async (request) => ({
       ...response(request, 206),
       bodyAsText: JSON.stringify({
         itemsReceived: 3,
         itemsAccepted: 1,
         errors: [
-          { index: 1, statusCode: 503, message: "retry" },
-          { index: 2, statusCode: 400, message: "drop" },
+          { index: 1, statusCode: 503, message: "sensitive response" },
+          { index: 2, statusCode: 400, message: "sensitive response" },
         ],
       }),
     }));
@@ -318,6 +323,15 @@ describe("routed senders and persistence", () => {
       { name: "drop", time: new Date(0), instrumentationKey: "drop-key" },
     );
     await sender.export(batch);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("reason=EXPORT_RETRY itemCount=1 httpStatus=503"),
+    );
+    expect(error).toHaveBeenCalledWith(
+      expect.stringContaining("reason=EXPORT_FAILED itemCount=1 httpStatus=400"),
+    );
+    expect(
+      JSON.stringify([...info.mock.calls, ...warn.mock.calls, ...error.mock.calls]),
+    ).not.toMatch(/sensitive response|retry-key|drop-key|azmon-routes/);
     await vi.advanceTimersByTimeAsync(60_000);
     await vi.waitFor(() => expect(requests).toHaveLength(1));
     expect(JSON.parse(String(requests[0].body)).map((item: { iKey: string }) => item.iKey)).toEqual(
@@ -330,6 +344,11 @@ describe("routed senders and persistence", () => {
     const update = vi.spyOn(stats, "updateEndpoint");
     const shutdown = vi.spyOn(stats, "shutdown");
     const count = vi.spyOn(stats, "countSuccess");
+    const customerStats = vi.spyOn(
+      CustomerSDKStatsManager.getInstance(),
+      "customerSDKStatsMetrics",
+      "get",
+    );
     sendRequest.mockImplementationOnce(async (request) =>
       response(request, 307, { location: "https://first.test/new" }),
     );
@@ -343,9 +362,26 @@ describe("routed senders and persistence", () => {
     }));
     expect((await sender.export(groups())).code).toBe(ExportResultCode.FAILED);
     expect(shutdown).not.toHaveBeenCalled();
+    expect(customerStats).not.toHaveBeenCalled();
+  });
+
+  it("reports the failed batch size without returning or logging a raw transport error", async () => {
+    const logged = vi.spyOn(diag, "error");
+    sendRequest.mockRejectedValueOnce(new Error("sensitive transport detail"));
+    const batch = groups();
+    for (const group of batch.values()) {
+      group.envelopes.push({ name: "sensitive payload", time: new Date(0) });
+    }
+    const result = await router().export(batch);
+    expect(result.code).toBe(ExportResultCode.FAILED);
+    expect(result.error?.message).toContain("reason=EXPORT_FAILED itemCount=2");
+    expect(logged.mock.calls).toEqual([[result.error?.message]]);
+    expect(result.error?.message).not.toMatch(/sensitive|first\.test|tenant-key/);
   });
 
   it("caps cached destinations at 64 and closes temporary senders", async () => {
+    const warn = vi.spyOn(diag, "warn");
+    const error = vi.spyOn(diag, "error");
     const shutdown = vi.spyOn(HttpSender.prototype, "shutdown");
     const sender = router();
     const batch: RoutingGroups = new Map();
@@ -357,12 +393,19 @@ describe("routed senders and persistence", () => {
     expect((await sender.export(batch)).code).toBe(ExportResultCode.SUCCESS);
     expect(sender["senders"].size).toBe(64);
     expect(shutdown).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("reason=ROUTE_CACHE_LIMIT itemCount=1"),
+    );
+    expect(error).not.toHaveBeenCalled();
     expect(vi.getTimerCount()).toBe(1);
     sendRequest.mockImplementationOnce(async (request) => response(request, 503));
     expect((await sender.export(groups("https://route-64.test"))).code).toBe(
       ExportResultCode.FAILED,
     );
     expect(shutdown).toHaveBeenCalledTimes(2);
+    expect(error).toHaveBeenCalledWith(
+      expect.stringContaining("reason=CLIENT_STORAGE_DISABLED itemCount=1"),
+    );
     expect(sender["senders"].size).toBe(64);
     await sender.shutdown();
     expect(shutdown).toHaveBeenCalledTimes(66);
@@ -420,7 +463,15 @@ describe("routed senders and persistence", () => {
         sender.export(batch(192, 128)),
       ]);
       expect(results).toEqual([
-        { code: ExportResultCode.FAILED, error },
+        {
+          code: ExportResultCode.FAILED,
+          error:
+            failure === "throw"
+              ? expect.objectContaining({
+                  message: expect.stringContaining("reason=EXPORT_FAILED itemCount=1"),
+                })
+              : error,
+        },
         { code: ExportResultCode.SUCCESS },
       ]);
       expect(peak).toBe(1);
@@ -572,11 +623,15 @@ describe("routed senders and persistence", () => {
   });
 
   it("shares the storage quota across concurrent partition writes", async () => {
+    const warn = vi.spyOn(diag, "warn");
     const first = storage("a");
     const second = storage("b");
     const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
     first.maxBytesOnDisk = second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
     expect(await Promise.all([first.push(batch), second.push(batch)])).toEqual([true, false]);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("reason=CLIENT_PERSISTENCE_CAPACITY itemCount=1"),
+    );
     const shifted = await first.shift();
     expect(shifted).toEqual(batch);
     expect(await second.push(batch)).toBe(false);
@@ -587,18 +642,32 @@ describe("routed senders and persistence", () => {
   });
 
   it("reclaims expired files in unopened partitions before checking the shared quota", async () => {
+    const warn = vi.spyOn(diag, "warn");
     const first = storage("a");
     const second = storage("b");
     const batch: Envelope[] = [{ name: "payload", time: new Date(0) }];
-    await first.push(batch);
-    const shifted = await first.shift();
-    if (Array.isArray(shifted)) {
-      first.release(shifted);
-    }
+    await first.push([...batch, ...batch]);
+    vi.setSystemTime(Date.now() + first.fileRetemptionPeriod + 1);
     await writeFile(join(first["_tempDirectory"], "0.ai.json"), "expired");
     second.maxBytesOnDisk = Buffer.byteLength(JSON.stringify(batch));
     expect(await second.push(batch)).toBe(true);
     expect(await readdir(first["_tempDirectory"])).toEqual([]);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("reason=STORAGE_EXPIRED itemCount=2"),
+    );
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("reason=STORAGE_EXPIRED itemCount=unknown"),
+    );
+  });
+
+  it("reports a retry storage setup failure without disclosing the path", async () => {
+    const error = vi.spyOn(diag, "error");
+    vi.spyOn(helpers, "confirmDirExists").mockRejectedValue(new Error("sensitive storage path"));
+    expect(await storage("a").push([{}, {}])).toBe(false);
+    expect(error.mock.calls).toEqual([
+      [expect.stringContaining("reason=CLIENT_READONLY itemCount=2")],
+    ]);
+    expect(JSON.stringify(error.mock.calls)).not.toContain("sensitive");
   });
 
   it("serializes new writes with dequeuing before the replay reservation is recorded", async () => {

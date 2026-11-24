@@ -228,9 +228,11 @@ export class HttpSender extends BaseSender {
     }
 
     if (!isSameRegisteredDomain(currentHost, locUrl.host)) {
-      diag.error(
-        `Refusing cross-origin redirect to https://${locUrl.host}: target is neither the configured ingestion host nor under a known Azure Monitor ingestion domain.`,
-      );
+      if (!this.isRouted) {
+        diag.error(
+          `Refusing cross-origin redirect to https://${locUrl.host}: target is neither the configured ingestion host nor under a known Azure Monitor ingestion domain.`,
+        );
+      }
       return false;
     }
 

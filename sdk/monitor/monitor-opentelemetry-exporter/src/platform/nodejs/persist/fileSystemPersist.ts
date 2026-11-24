@@ -15,6 +15,7 @@ import { lstat, open, readdir, readFile, stat, unlink } from "node:fs/promises";
 import type { CustomerSDKStatsMetrics } from "../../../export/statsbeat/customerSDKStats.js";
 import { DropCode, ExceptionType } from "../../../export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../../generated/index.js";
+import { routingDiagnostic } from "../../../utils/routingDiagnostics.js";
 
 /**
  * File system persist class.
@@ -89,7 +90,9 @@ export class FileSystemPersist implements PersistentStorage {
       return Promise.resolve(this.storagePaused(value as Envelope[]));
     }
     if (this._enabled) {
-      diag.debug("Pushing value to persistent storage", value.toString());
+      if (!this._storagePartition) {
+        diag.debug("Pushing value to persistent storage", value.toString());
+      }
       return this._storeToDisk(JSON.stringify(value), value as Envelope[]);
     }
     // Only return a false promise if the SDK isn't set to disable offline storage
@@ -105,6 +108,9 @@ export class FileSystemPersist implements PersistentStorage {
 
   public restore(value: unknown[], originalValue = value): Promise<boolean> {
     if (!this._enabled) {
+      if (this._storagePartition) {
+        diag.error(routingDiagnostic(DropCode.CLIENT_STORAGE_DISABLED, value.length));
+      }
       return Promise.resolve(false);
     }
     // This batch was already removed from disk. Preserve it without enabling new writes.
@@ -161,11 +167,18 @@ export class FileSystemPersist implements PersistentStorage {
                 (FileSystemPersist.reservedCapacity.get(root) ?? 0) + buffer.byteLength,
               );
             }
+          } else if (this._storagePartition) {
+            diag.error(routingDiagnostic("STORAGE_READ_FAILED"));
+            return null;
           }
           return value;
         }
       } catch (e: any) {
-        diag.debug("Failed to read persisted file", e);
+        if (this._storagePartition) {
+          diag.error(routingDiagnostic("STORAGE_READ_FAILED"));
+        } else {
+          diag.debug("Failed to read persisted file", e);
+        }
       }
       return null;
     }
@@ -231,7 +244,11 @@ export class FileSystemPersist implements PersistentStorage {
           DropCode.CLIENT_READONLY,
         );
       }
-      diag.warn("Disabling offline storage because its directory could not be protected.", error);
+      if (this._storagePartition) {
+        diag.error(routingDiagnostic(DropCode.CLIENT_READONLY, envelopes?.length));
+      } else {
+        diag.warn("Disabling offline storage because its directory could not be protected.", error);
+      }
       return false;
     }
   }
@@ -295,24 +312,36 @@ export class FileSystemPersist implements PersistentStorage {
           envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
         );
-        diag.warn(
-          `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
-        );
+        if (this._storagePartition) {
+          diag.warn(routingDiagnostic(DropCode.CLIENT_PERSISTENCE_CAPACITY, envelopes.length));
+        } else {
+          diag.warn(
+            `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
+          );
+        }
         return false;
       }
     } catch (error: any) {
-      diag.warn(`Error while checking size of persistence directory: `, error && error.message);
+      if (this._storagePartition) {
+        diag.error(routingDiagnostic("STORAGE_READ_FAILED", envelopes.length));
+      } else {
+        diag.warn(`Error while checking size of persistence directory: `, error && error.message);
+      }
       return false;
     }
 
     if (!restoring && !this._isStorageActive()) {
       return this.storagePaused(envelopes);
     }
-    const fileName = `${new Date().getTime()}-${process.hrtime.bigint()}${FileSystemPersist.FILENAME_SUFFIX}`;
+    // Expiration can report the count without opening or parsing discarded telemetry.
+    const count = this._storagePartition ? `-${envelopes.length}` : "";
+    const fileName = `${Date.now()}-${process.hrtime.bigint()}${count}${FileSystemPersist.FILENAME_SUFFIX}`;
     const fileFullPath = join(this._tempDirectory, fileName);
 
     // Mode 600 is w/r for creator and no read access for others
-    diag.info(`saving data to disk at: ${fileFullPath}`);
+    if (!this._storagePartition) {
+      diag.info(`saving data to disk at: ${fileFullPath}`);
+    }
     try {
       const handle = await open(
         fileFullPath,
@@ -332,7 +361,11 @@ export class FileSystemPersist implements PersistentStorage {
         writeError?.message,
         ExceptionType.STORAGE_EXCEPTION,
       );
-      diag.warn(`Error writing file to persistent file storage`, writeError);
+      if (this._storagePartition) {
+        diag.error(routingDiagnostic("STORAGE_WRITE_FAILED", envelopes.length));
+      } else {
+        diag.warn(`Error writing file to persistent file storage`, writeError);
+      }
       return false;
     }
     if (originalValue) {
@@ -365,7 +398,7 @@ export class FileSystemPersist implements PersistentStorage {
             file.name.endsWith(FileSystemPersist.FILENAME_SUFFIX) &&
             timestamp < Date.now() - this.fileRetemptionPeriod
           ) {
-            await unlink(filePath);
+            await this.removeExpiredFile(filePath);
           } else {
             size += fileStats.size;
           }
@@ -380,11 +413,22 @@ export class FileSystemPersist implements PersistentStorage {
   }
 
   private storagePaused(envelopes: Envelope[]): false {
+    if (this._storagePartition) {
+      diag.warn(routingDiagnostic(DropCode.CLIENT_STORAGE_DISABLED, envelopes.length));
+    }
     this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
       envelopes,
       DropCode.CLIENT_STORAGE_DISABLED,
     );
     return false;
+  }
+
+  private async removeExpiredFile(filePath: string): Promise<void> {
+    await unlink(filePath);
+    if (this._storagePartition) {
+      const match = /^\d+-\d+-(\d{1,10})\.ai\.json$/.exec(basename(filePath));
+      diag.warn(routingDiagnostic("STORAGE_EXPIRED", match ? Number(match[1]) : undefined));
+    }
   }
 
   async cleanExpiredFiles(): Promise<void> {
@@ -413,7 +457,7 @@ export class FileSystemPersist implements PersistentStorage {
             const expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {
               const filePath = join(this._tempDirectory, file);
-              await unlink(filePath);
+              await this.removeExpiredFile(filePath);
             }
           }
           return true;
@@ -421,7 +465,11 @@ export class FileSystemPersist implements PersistentStorage {
       }
       return false;
     } catch (error: any) {
-      diag.info(`Failed cleanup of persistent file storage expired files`, error);
+      if (this._storagePartition) {
+        diag.warn(routingDiagnostic("STORAGE_READ_FAILED"));
+      } else {
+        diag.info(`Failed cleanup of persistent file storage expired files`, error);
+      }
       return false;
     }
   }
