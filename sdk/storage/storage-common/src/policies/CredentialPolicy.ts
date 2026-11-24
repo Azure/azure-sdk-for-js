@@ -5,7 +5,7 @@ import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 
 /**
  * Credential policy used to sign HTTP(S) requests before sending. This is an

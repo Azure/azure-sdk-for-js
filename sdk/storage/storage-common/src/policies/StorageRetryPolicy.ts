@@ -9,7 +9,7 @@ import type {
   RequestPolicyFactory,
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 

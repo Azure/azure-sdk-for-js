@@ -13,14 +13,14 @@ For the complete API surface, see the corresponding -node.api.md file.
  import { Credential as Credential_2 } from '@azure/storage-common';
  import { CredentialPolicy } from '@azure/storage-common';
 -import { CredentialPolicyCreator } from '@azure/storage-common';
- import type { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+ import type { ExtendedServiceClientOptions } from '@azure/storage-common/compatibility';
  import type { FullOperationResponse } from '@azure-rest/core-client';
--import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
--import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+-import { HttpHeadersLike as HttpHeaders } from '@azure/storage-common/compatibility';
+-import { CompatResponse as HttpOperationResponse } from '@azure/storage-common/compatibility';
 -import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 -import { isRestError } from '@azure/core-rest-pipeline';
-+import type { HttpHeadersLike } from '@azure/core-http-compat';
- import type { KeepAliveOptions } from '@azure/core-http-compat';
++import type { HttpHeadersLike } from '@azure/storage-common/compatibility';
+ import type { KeepAliveOptions } from '@azure/storage-common/compatibility';
  import type { NodeJSReadableStream } from '@azure/storage-common';
  import { NodeReadableStream } from '@azure/core-rest-pipeline';
  import { OperationOptions } from '@azure-rest/core-client';
@@ -30,9 +30,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { ProxySettings } from '@azure/core-rest-pipeline';
  import type { Readable } from 'node:stream';
 +import type { RequestBodyType } from '@azure/core-rest-pipeline';
- import { RequestPolicy } from '@azure/core-http-compat';
- import { RequestPolicyFactory } from '@azure/core-http-compat';
--import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+ import { RequestPolicy } from '@azure/storage-common/compatibility';
+ import { RequestPolicyFactory } from '@azure/storage-common/compatibility';
+-import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/storage-common/compatibility';
  import { RestError } from '@azure/core-rest-pipeline';
  import { StorageBrowserPolicyFactory } from '@azure/storage-common';
  import { StorageRetryOptions } from '@azure/storage-common';
@@ -46,8 +46,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
  import { UserDelegationKey } from '@azure/storage-common';
--import { WebResourceLike as WebResource } from '@azure/core-http-compat';
-+import type { WebResourceLike } from '@azure/core-http-compat';
+-import { WebResourceLike as WebResource } from '@azure/storage-common/compatibility';
++import type { WebResourceLike } from '@azure/storage-common/compatibility';
  
  // @public
  export interface AccessPolicy {

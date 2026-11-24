@@ -4,7 +4,7 @@
 import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
-} from "@azure/core-http-compat";
+} from "@azure/storage-common/compatibility";
 import { Credential } from "@azure/storage-common";
 
 /**

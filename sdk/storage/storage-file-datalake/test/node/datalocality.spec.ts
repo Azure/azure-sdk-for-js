@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { Readable } from "node:stream";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type { Recorder } from "@azure-tools/test-recorder";

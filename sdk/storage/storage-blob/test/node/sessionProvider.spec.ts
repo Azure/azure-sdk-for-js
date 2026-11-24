@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect } from "vitest";
-import type { WebResourceLike } from "@azure/core-http-compat";
+import type { WebResourceLike } from "@azure/storage-common/compatibility";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import {

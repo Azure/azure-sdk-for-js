@@ -7,7 +7,7 @@
  */
 
 import { OperationOptions } from "@azure-rest/core-client";
-import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import { ExtendedServiceClientOptions } from "@azure/storage-common/compatibility";
 
 /** Storage Service Properties. */
 export interface BlobServiceProperties {

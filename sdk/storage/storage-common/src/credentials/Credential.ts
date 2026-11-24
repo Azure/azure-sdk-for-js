@@ -5,7 +5,7 @@ import type {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 import type { CredentialPolicy } from "../policies/CredentialPolicy.js";
 
 /**

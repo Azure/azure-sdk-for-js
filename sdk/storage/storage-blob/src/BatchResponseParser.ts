@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { toHttpHeadersLike } from "@azure/core-http-compat";
+import { toHttpHeadersLike } from "@azure/storage-common/compatibility";
 
 import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
 import {

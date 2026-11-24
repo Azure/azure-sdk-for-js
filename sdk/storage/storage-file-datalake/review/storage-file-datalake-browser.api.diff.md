@@ -16,12 +16,12 @@ For the complete API surface, see the corresponding -node.api.md file.
  import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
  import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
  import type { FullOperationResponse } from '@azure-rest/core-client';
- import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
- import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+ import { HttpHeadersLike as HttpHeaders } from '@azure/storage-common/compatibility';
+ import { CompatResponse as HttpOperationResponse } from '@azure/storage-common/compatibility';
  import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
  import { isPipelineLike } from '@azure/storage-blob';
 -import { isRestError } from '@azure/core-rest-pipeline';
- import type { KeepAliveOptions } from '@azure/core-http-compat';
+ import type { KeepAliveOptions } from '@azure/storage-common/compatibility';
  import { LayoutAwareRouting } from '@azure/storage-blob';
  import { Lease } from '@azure/storage-blob';
  import { LeaseAccessConditions } from '@azure/storage-blob';

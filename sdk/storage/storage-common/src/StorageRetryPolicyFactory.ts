@@ -5,7 +5,7 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   RequestPolicyFactory,
-} from "@azure/core-http-compat";
+} from "./compatibility/index.js";
 import { StorageRetryPolicy, NewRetryPolicyFactory } from "./policies/StorageRetryPolicy.js";
 import { StorageRetryPolicyType } from "./policies/StorageRetryPolicyType.js";
 

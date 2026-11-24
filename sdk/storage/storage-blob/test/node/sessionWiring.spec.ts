@@ -4,7 +4,7 @@
 import { describe, it, assert } from "vitest";
 import type { HttpMethods } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import type { WebResourceLike } from "@azure/core-http-compat";
+import type { WebResourceLike } from "@azure/storage-common/compatibility";
 import type { SessionOptions } from "../../src/Pipeline.js";
 import { getCoreClientOptions, newPipeline } from "../../src/Pipeline.js";
 import { AnonymousCredential, BlobClient, StorageSharedKeyCredential } from "../../src/index.js";

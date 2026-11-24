@@ -21,8 +21,8 @@ import {
   UrlConstants,
 } from "./constants.js";
 import type { HttpResponse } from "@azure/storage-blob";
-import type { HttpHeadersLike } from "@azure/core-http-compat";
-import { toCompatResponse } from "@azure/core-http-compat";
+import type { HttpHeadersLike } from "@azure/storage-common/compatibility";
+import { toCompatResponse } from "@azure/storage-common/compatibility";
 import { toAcl, toPermissions } from "../transforms.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";

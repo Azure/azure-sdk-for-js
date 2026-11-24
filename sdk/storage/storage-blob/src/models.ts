@@ -13,7 +13,7 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
-import type { RawHttpHeaders } from "@azure/core-http-compat";
+import type { RawHttpHeaders } from "@azure/storage-common/compatibility";
 import { StoragePipelineOptions } from "./Pipeline.js";
 
 /**

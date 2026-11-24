@@ -7,21 +7,23 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -7,23 +7,22 @@
- import type { CompatResponse } from '@azure/core-http-compat';
+@@ -8,12 +8,11 @@
+ import type { FullOperationResponse } from '@azure/core-client';
  import type { HttpClient } from '@azure/core-rest-pipeline';
- import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
+ import type { HttpMethods } from '@azure/core-rest-pipeline';
  import type { NodeBuffer } from '@azure/core-rest-pipeline';
 +import type { NodeReadableStream } from '@azure/core-rest-pipeline';
  import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 -import type { PipelineRequest } from '@azure/core-rest-pipeline';
+ import type { ProxySettings } from '@azure/core-rest-pipeline';
 -import { Readable } from 'node:stream';
  import type { RequestBodyType } from '@azure/core-rest-pipeline';
- import type { RequestPolicy } from '@azure/core-http-compat';
- import type { RequestPolicyFactory } from '@azure/core-http-compat';
- import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
  import type { RestError } from '@azure/core-rest-pipeline';
- import type { WebResourceLike } from '@azure/core-http-compat';
+ 
+ // @public
+@@ -25,12 +24,12 @@
+     sockets: unknown;
+ }
  
  // @public
 -export function allocBuffer(size: number): NodeBuffer;
@@ -34,7 +36,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -43,26 +42,25 @@
+@@ -50,20 +49,18 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -55,6 +57,12 @@ For the complete API surface, see the corresponding -node.api.md file.
 -export function buildStorageSharedKeyStringToSign(request: PipelineRequest, accountName: string): string;
 -
 -// @public
+ export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+     headers: HttpHeadersLike;
+     request: WebResourceLike;
+ }
+@@ -71,11 +68,12 @@
+ // @public
  export function createBlobFromData(data: Blob | ArrayBuffer | ArrayBufferView): Blob;
  
  // @public
@@ -67,7 +75,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -72,28 +70,29 @@
+@@ -85,9 +83,9 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -77,6 +85,10 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export function getCachedDefaultHttpClient(): HttpClient;
+ 
+@@ -125,27 +123,28 @@
+     WARNING = 2
+ }
  
  // @public
 -export function isBuffer(value: unknown): value is NodeBuffer;
@@ -98,14 +110,19 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
 +export type OutgoingHandler = (body: () => NodeReadableStream, length: number, offset?: number) => Promise<unknown>;
  
+ // @public
+ export type RawHttpHeaders = {
+     [headerName: string]: string;
+ };
+ 
 -export { Readable }
 +// @public (undocumented)
 +export type Readable = never;
  
  // @public
- export class StorageBrowserPolicy extends BaseRequestPolicy {
-     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -183,58 +182,46 @@
+ export interface RequestPolicy {
+     // (undocumented)
+@@ -255,58 +254,46 @@
      FIXED = 1
  }
  
@@ -171,11 +188,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
- export interface UserDelegationKey {
-     signedDelegatedUserTenantId?: string;
-     signedExpiresOn: Date;
-     signedObjectId: string;
-@@ -247,10 +234,13 @@
+ export type TransferProgressEvent = {
+     loadedBytes: number;
+ };
+ 
+@@ -324,10 +311,13 @@
  
  // @public
  export class UserDelegationKeyCredential {
@@ -189,6 +206,6 @@ For the complete API surface, see the corresponding -node.api.md file.
      readonly userDelegationKey: UserDelegationKey;
  }
  
- // (No @packageDocumentation comment for this package)
+ // @public
 
 ```

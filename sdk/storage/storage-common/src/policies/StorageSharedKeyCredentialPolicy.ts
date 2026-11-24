@@ -5,7 +5,7 @@ import type {
   RequestPolicy,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
-} from "@azure/core-http-compat";
+} from "../compatibility/index.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { StorageSharedKeyCredential } from "#platform/credentials/StorageSharedKeyCredential";
 import { HeaderConstants } from "../utils/constants.js";
