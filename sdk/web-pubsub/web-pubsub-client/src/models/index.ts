@@ -574,9 +574,9 @@ export interface InvokeEventResult {
    */
   dataType?: WebPubSubDataType;
   /**
-   * The response payload.
+   * The response payload. A JSON response can contain null.
    */
-  data?: JSONTypes | ArrayBuffer;
+  data?: JSONTypes | ArrayBuffer | null;
 }
 
 /**

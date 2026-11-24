@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete project capabilityHost.
  *
  * @summary delete project capabilityHost.
- * x-ms-original-file: 2026-11-01/ProjectCapabilityHost/delete.json
+ * x-ms-original-file: 2026-11-15-preview/ProjectCapabilityHost/delete.json
  */
 async function deleteProjectCapabilityHost(): Promise<void> {
   const credential = new DefaultAzureCredential();

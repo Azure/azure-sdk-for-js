@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone, { isUnexpected } = require("@azure-rest/maps-timezone");
+// Licensed under the MIT License.
 
 /**
  * @summary How to get the timezone by coordinates.
  */
+
+const { DefaultAzureCredential } = require("@azure/identity");
+const MapsTimezone = require("@azure-rest/maps-timezone").default,
+  { isUnexpected } = require("@azure-rest/maps-timezone");
+
 async function main() {
-    const credential = new DefaultAzureCredential();
-    const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-    const client = MapsTimezone(credential, mapsClientId);
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsTimezone(credential, mapsClientId);
 
-    const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-        queryParameters: {
-            query: [40.7128, -74.0060]
-        },
-    });
+  const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
+    queryParameters: {
+      query: [40.7128, -74.006],
+    },
+  });
 
-    if (isUnexpected(response)) {
-        throw response.body.error;
-    }
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
 
-    const timeZoneId = response.body.TimeZones?.[0]?.Id ?? "No time zone available";
-
-    console.log("Extracted TimeZone Id:", timeZoneId);
+  console.log(response.body.TimeZones?.[0]?.Id ?? "No time zone available");
 }
 
 main().catch((err) => {
-    console.error("The sample encountered an error:", err);
+  console.error("The sample encountered an error:", err);
 });

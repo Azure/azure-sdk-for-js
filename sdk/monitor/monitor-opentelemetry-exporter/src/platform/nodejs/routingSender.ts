@@ -2,38 +2,47 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
+import { dirname } from "node:path";
 import { context, diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { AzureMonitorExporterOptions } from "../../config.js";
+import { ENV_MULTI_ENDPOINT_AAD_AUDIENCE } from "../../Declarations/Constants.js";
 import type { RoutingGroups, TelemetryRoute } from "../../utils/routing.js";
 import { HttpSender } from "./httpSender.js";
 import { getStorageDirectory } from "./persist/fileSystemPersist.js";
 
 const MAX_CACHED_ROUTES = 64;
 const RETRY_POLL_INTERVAL_MS = 60_000;
+const SHUTDOWN_TIMEOUT_MS = 30_000;
 
 /** @internal */
 export class RoutingSender {
   private readonly senders = new Map<string, HttpSender>();
   private readonly operations = new Set<Promise<ExportResult>>();
+  private readonly abortController = new AbortController();
   private overflowReady: Promise<void> = Promise.resolve();
   private retryWorker: NodeJS.Timeout | undefined;
   private isShutdown = false;
   private shutdownPromise: Promise<void> | undefined;
   private readonly options: AzureMonitorExporterOptions;
   private readonly storageRoot: string;
+  private readonly aadScope?: string;
 
   constructor(
     options: AzureMonitorExporterOptions,
     private readonly instrumentationKey: string,
-    private readonly aadAudience?: string,
   ) {
-    this.options = { ...options };
     if (options.pipeline || options.additionalPolicies?.length) {
       throw new Error(
         "Custom pipelines and additional policies are not supported with multi-endpoint routing. Use httpClient and retryOptions instead.",
       );
+    }
+    // Routed clients are created lazily. Do not retain a caller-owned list of policies.
+    this.options = { ...options, additionalPolicies: undefined };
+    const audience = process.env[ENV_MULTI_ENDPOINT_AAD_AUDIENCE]?.trim();
+    if (audience) {
+      this.aadScope = audience.endsWith("/.default") ? audience : `${audience}/.default`;
     }
     this.storageRoot = `${getStorageDirectory(instrumentationKey, options.storageDirectory)}-routes`;
   }
@@ -68,6 +77,9 @@ export class RoutingSender {
           await previous;
         }
         try {
+          if (this.abortController.signal.aborted) {
+            throw new Error("Routed export cancelled because the shutdown deadline elapsed.");
+          }
           sender = this.senders.get(key);
           if (!sender) {
             temporary = this.senders.size >= MAX_CACHED_ROUTES;
@@ -137,8 +149,10 @@ export class RoutingSender {
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: false,
       isRouted: true,
+      routingAbortSignal: this.abortController.signal,
       disableKeepAlive: temporary,
       storagePartition: {
+        exporterRoot: dirname(this.storageRoot),
         root: this.storageRoot,
         name: createHash("sha256").update(key).digest("hex"),
       },
@@ -149,7 +163,7 @@ export class RoutingSender {
         credential: route.isAad ? this.options.credential : undefined,
         disableOfflineStorage: temporary || this.options.disableOfflineStorage,
       },
-      aadAudience: this.aadAudience,
+      aadAudience: route.isAad ? this.aadScope : undefined,
     });
   }
 
@@ -161,8 +175,17 @@ export class RoutingSender {
   private async shutdownCore(): Promise<void> {
     this.isShutdown = true;
     clearTimeout(this.retryWorker);
-    await Promise.allSettled([...this.operations]);
-    await Promise.all([...this.senders.values()].map((sender) => sender.shutdown()));
-    this.senders.clear();
+    const timeout = setTimeout(() => {
+      diag.warn("Cancelling routed requests because the shutdown deadline elapsed.");
+      this.abortController.abort();
+    }, SHUTDOWN_TIMEOUT_MS);
+    timeout.unref();
+    try {
+      await Promise.allSettled([...this.operations]);
+      await Promise.all([...this.senders.values()].map((sender) => sender.shutdown()));
+    } finally {
+      clearTimeout(timeout);
+      this.senders.clear();
+    }
   }
 }

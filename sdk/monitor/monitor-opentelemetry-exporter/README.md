@@ -194,16 +194,34 @@ Set the same attributes on spans or individual metric data points to route those
 Span events inherit their parent span's routing attributes. Resource and instrumentation-scope
 attributes are not used for metric routing.
 
-For Microsoft Entra ID authentication, set `microsoft.ingestion_auth` to `"aad"` and
-provide an exporter `credential`. Otherwise, items use key-only authentication, even if
-a credential is configured. AAD routes without a credential fail.
+For Microsoft Entra ID authentication, pass a `TokenCredential` to the exporter's
+`credential` option and grant the identity the **Monitoring Metrics Publisher** role on each
+destination resource. Setting `microsoft.ingestion_auth` to `"aad"` authorizes the exporter
+to send a bearer token to that item's HTTPS endpoint, including a custom endpoint. Other
+items use key-only authentication, even at the same endpoint. An `aad` route without a
+credential fails without preventing independent routes from exporting.
+
+All `aad` routes on an exporter share one identity and audience. The default token scope is
+`https://monitor.azure.com/.default`. For another cloud, set
+`APPLICATIONINSIGHTS_MULTI_ENDPOINT_AAD_AUDIENCE` before constructing the exporter, for
+example to `https://monitor.azure.cn/.default`. The host connection string's `AadAudience`
+does not apply to routed items. Use separate exporters if destinations require different
+identities or audiences.
 
 Set `microsoft.multi_endpoint_cloud_role` to specify the cloud role name. It defaults to
 `unknown_service`. Role instances still come from the resource.
 
 Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
+Each routed batch has a 10-second send deadline, including authentication, HTTP retries,
+and redirects. Server-requested `Retry-After` delays still apply to later sends after a timeout.
+Timed-out batches are saved for retry when offline storage is available. Overflow
+destinations have no offline storage and report a failed export instead.
+Shutdown allows 30 seconds for pending routed requests before cancelling them.
+Queued overflow destinations that have not started by that deadline report a failed export.
 Custom `httpClient` and `retryOptions` are supported, but `pipeline` and `additionalPolicies`
-are not supported in routing mode.
+are rejected in routing mode. A custom HTTP client is shared across destinations. Do not
+add an `Authorization` header, cookie, or other secret indiscriminately, even to key-only
+requests. Leave redirect handling to the exporter and honor request abort signals.
 
 ### Sampling
 

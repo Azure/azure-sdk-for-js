@@ -28,7 +28,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/modelCapacities{?api%2Dversion,modelFormat,modelName,modelVersion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
       modelFormat: modelFormat,
       modelName: modelName,
       modelVersion: modelVersion,
@@ -72,6 +72,10 @@ export function list(
     () => _listSend(context, modelFormat, modelName, modelVersion, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
+    },
   );
 }

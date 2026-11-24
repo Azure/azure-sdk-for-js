@@ -111,6 +111,8 @@ export interface PersistentStorage {
 
 /** @internal */
 export interface StoragePartition {
+  /** Outermost exporter-owned directory, above the shared routing root. */
+  exporterRoot: string;
   root: string;
   name: string;
 }

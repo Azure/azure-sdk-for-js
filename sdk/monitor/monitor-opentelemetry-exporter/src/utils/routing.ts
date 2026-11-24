@@ -37,6 +37,44 @@ export interface TelemetryRoute {
 export type RoutingGroups = Map<string, { route: TelemetryRoute; envelopes: Envelope[] }>;
 
 /** @internal */
+export function parseRoutingEndpoint(value: unknown): URL {
+  if (typeof value !== "string" || value.length > 2048 || !value.trim()) {
+    throw new Error("Routing endpoint must be a nonempty string of at most 2048 characters.");
+  }
+  const endpoint = value.trim();
+  // URL accepts and repairs malformed authorities and control characters. Reject them first.
+  const authority = /^https:\/\/(\[[0-9a-f:.]+\]|[^\s/\\:@?#[\]]+)(?::[0-9]+)?(?:\/|$)/i.exec(
+    endpoint,
+  );
+  if (
+    !authority ||
+    /[\s\\?#]/u.test(endpoint) ||
+    [...endpoint].some(
+      (character) => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127,
+    )
+  ) {
+    throw new Error(
+      "Routing endpoint must be an absolute HTTPS URL without credentials, query, or fragment.",
+    );
+  }
+  if (!authority[1].startsWith("[") && /[^a-z0-9._\-\u0080-\uffff]/i.test(authority[1])) {
+    throw new Error("Invalid routing endpoint host.");
+  }
+  const url = new URL(endpoint);
+  if (url.protocol !== "https:" || !url.hostname || url.username || url.password) {
+    throw new Error("Invalid routing endpoint.");
+  }
+  if (!url.hostname.startsWith("[")) {
+    const host = url.hostname.replace(/\.+$/, "");
+    if (!host || !/^[a-z0-9._-]+$/i.test(host)) {
+      throw new Error("Invalid routing endpoint host.");
+    }
+    url.hostname = host;
+  }
+  return url;
+}
+
+/** @internal */
 export function getTelemetryRoute(
   attributes: Readonly<Record<string, unknown>>,
 ): TelemetryRoute | undefined {
@@ -47,40 +85,7 @@ export function getTelemetryRoute(
         "Routing instrumentation key must be a nonempty string of at most 200 characters.",
       );
     }
-    const value = attributes["microsoft.ingestion_endpoint"];
-    if (typeof value !== "string" || value.length > 2048 || !value.trim()) {
-      throw new Error("Routing endpoint must be a nonempty string of at most 2048 characters.");
-    }
-    const endpoint = value.trim();
-    // URL accepts and repairs malformed authorities and control characters. Reject them first.
-    const authority = /^https:\/\/(\[[0-9a-f:.]+\]|[^\s/\\:@?#[\]]+)(?::[0-9]+)?(?:\/|$)/i.exec(
-      endpoint,
-    );
-    if (
-      !authority ||
-      /[\s\\?#]/u.test(endpoint) ||
-      [...endpoint].some(
-        (character) => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127,
-      )
-    ) {
-      throw new Error(
-        "Routing endpoint must be an absolute HTTPS URL without credentials, query, or fragment.",
-      );
-    }
-    if (!authority[1].startsWith("[") && /[^a-z0-9._\-\u0080-\uffff]/i.test(authority[1])) {
-      throw new Error("Invalid routing endpoint host.");
-    }
-    const url = new URL(endpoint);
-    if (url.protocol !== "https:" || !url.hostname || url.username || url.password) {
-      throw new Error("Invalid routing endpoint.");
-    }
-    if (!url.hostname.startsWith("[")) {
-      const host = url.hostname.replace(/\.+$/, "");
-      if (!host || !/^[a-z0-9._-]+$/i.test(host)) {
-        throw new Error("Invalid routing endpoint host.");
-      }
-      url.hostname = host;
-    }
+    const url = parseRoutingEndpoint(attributes["microsoft.ingestion_endpoint"]);
     const auth = attributes["microsoft.ingestion_auth"];
     const role = attributes["microsoft.multi_endpoint_cloud_role"];
     return {

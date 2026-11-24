@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to batch operation to delete blocklist items.
  *
  * @summary batch operation to delete blocklist items.
- * x-ms-original-file: 2026-11-01/DeleteRaiBlocklistItems.json
+ * x-ms-original-file: 2026-11-15-preview/DeleteRaiBlocklistItems.json
  */
 async function deleteRaiBlocklistItems(): Promise<void> {
   const credential = new DefaultAzureCredential();

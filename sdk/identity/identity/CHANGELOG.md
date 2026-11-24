@@ -1,5 +1,29 @@
 # Release History
 
+## 4.15.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Removed `GitHubActionsCredential`. [#40893](https://github.com/Azure/azure-sdk-for-js/issues/40893)
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.15.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed `ManagedIdentityCredential` reporting "Network unreachable" when an endpoint returns invalid JSON with a JSON content type. The authentication error now includes the HTTP status code. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
+
+### Other Changes
+
 ## 4.15.0-beta.2 (2026-11-03)
 
 

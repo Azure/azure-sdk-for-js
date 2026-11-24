@@ -20,16 +20,28 @@ import type { AccountCapabilityHostsOperations } from "./classic/accountCapabili
 import { _getAccountCapabilityHostsOperations } from "./classic/accountCapabilityHosts/index.js";
 import type { AccountConnectionsOperations } from "./classic/accountConnections/index.js";
 import { _getAccountConnectionsOperations } from "./classic/accountConnections/index.js";
+import type { AccountCostControlsOperations } from "./classic/accountCostControls/index.js";
+import { _getAccountCostControlsOperations } from "./classic/accountCostControls/index.js";
 import type { AccountsOperations } from "./classic/accounts/index.js";
 import { _getAccountsOperations } from "./classic/accounts/index.js";
+import type { AdapterDeploymentsOperations } from "./classic/adapterDeployments/index.js";
+import { _getAdapterDeploymentsOperations } from "./classic/adapterDeployments/index.js";
 import type { AgentApplicationsOperations } from "./classic/agentApplications/index.js";
 import { _getAgentApplicationsOperations } from "./classic/agentApplications/index.js";
 import type { AgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
 import { _getAgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
+import type { ArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
+import { _getArcDeploymentsOperations } from "./classic/arcDeployments/index.js";
+import type { AttachedAksClustersOperations } from "./classic/attachedAksClusters/index.js";
+import { _getAttachedAksClustersOperations } from "./classic/attachedAksClusters/index.js";
 import type { CommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import { _getCommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
 import type { CommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
 import { _getCommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
+import type { ComputeOperationsOperations } from "./classic/computeOperations/index.js";
+import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
+import type { ComputesOperations } from "./classic/computes/index.js";
+import { _getComputesOperations } from "./classic/computes/index.js";
 import type { DefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import { _getDefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
 import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
@@ -42,6 +54,10 @@ import type { LocationBasedModelCapacitiesOperations } from "./classic/locationB
 import { _getLocationBasedModelCapacitiesOperations } from "./classic/locationBasedModelCapacities/index.js";
 import type { ManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
 import { _getManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
+import type { ManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
+import { _getManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
+import type { ManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
+import { _getManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
 import type { ManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
 import { _getManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
 import type { ManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
@@ -66,10 +82,14 @@ import type { ProjectCapabilityHostsOperations } from "./classic/projectCapabili
 import { _getProjectCapabilityHostsOperations } from "./classic/projectCapabilityHosts/index.js";
 import type { ProjectConnectionsOperations } from "./classic/projectConnections/index.js";
 import { _getProjectConnectionsOperations } from "./classic/projectConnections/index.js";
+import type { ProjectCostControlsOperations } from "./classic/projectCostControls/index.js";
+import { _getProjectCostControlsOperations } from "./classic/projectCostControls/index.js";
 import type { ProjectsOperations } from "./classic/projects/index.js";
 import { _getProjectsOperations } from "./classic/projects/index.js";
 import type { QuotaTiersOperations } from "./classic/quotaTiers/index.js";
 import { _getQuotaTiersOperations } from "./classic/quotaTiers/index.js";
+import type { RaiBindingsOperations } from "./classic/raiBindings/index.js";
+import { _getRaiBindingsOperations } from "./classic/raiBindings/index.js";
 import type { RaiBlocklistItemsOperations } from "./classic/raiBlocklistItems/index.js";
 import { _getRaiBlocklistItemsOperations } from "./classic/raiBlocklistItems/index.js";
 import type { RaiBlocklistsOperations } from "./classic/raiBlocklists/index.js";
@@ -82,6 +102,8 @@ import type { RaiExternalSafetyProvidersOperations } from "./classic/raiExternal
 import { _getRaiExternalSafetyProvidersOperations } from "./classic/raiExternalSafetyProviders/index.js";
 import type { RaiPoliciesOperations } from "./classic/raiPolicies/index.js";
 import { _getRaiPoliciesOperations } from "./classic/raiPolicies/index.js";
+import type { RaiRegosOperations } from "./classic/raiRegos/index.js";
+import { _getRaiRegosOperations } from "./classic/raiRegos/index.js";
 import type { RaiToolLabelsOperations } from "./classic/raiToolLabels/index.js";
 import { _getRaiToolLabelsOperations } from "./classic/raiToolLabels/index.js";
 import type { RaiTopicsOperations } from "./classic/raiTopics/index.js";
@@ -94,6 +116,8 @@ import type { TestRaiExternalSafetyProviderOperations } from "./classic/testRaiE
 import { _getTestRaiExternalSafetyProviderOperations } from "./classic/testRaiExternalSafetyProvider/index.js";
 import type { UsagesOperations } from "./classic/usages/index.js";
 import { _getUsagesOperations } from "./classic/usages/index.js";
+import type { WorkbenchesOperations } from "./classic/workbenches/index.js";
+import { _getWorkbenchesOperations } from "./classic/workbenches/index.js";
 import type {
   SkuAvailabilityListResult,
   DomainAvailability,
@@ -134,8 +158,19 @@ export class CognitiveServicesManagementClient {
     this.raiExternalSafetyProvider = _getRaiExternalSafetyProviderOperations(this._client);
     this.testRaiExternalSafetyProvider = _getTestRaiExternalSafetyProviderOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
+    this.projectCostControls = _getProjectCostControlsOperations(this._client);
+    this.accountCostControls = _getAccountCostControlsOperations(this._client);
     this.managedComputeCapacities = _getManagedComputeCapacitiesOperations(this._client);
+    this.workbenches = _getWorkbenchesOperations(this._client);
+    this.computes = _getComputesOperations(this._client);
+    this.managedComputeUsagesOperationGroup = _getManagedComputeUsagesOperationGroupOperations(
+      this._client,
+    );
+    this.computeOperations = _getComputeOperationsOperations(this._client);
+    this.adapterDeployments = _getAdapterDeploymentsOperations(this._client);
+    this.managedComputeDeployments = _getManagedComputeDeploymentsOperations(this._client);
     this.agentApplications = _getAgentApplicationsOperations(this._client);
+    this.arcDeployments = _getArcDeploymentsOperations(this._client);
     this.quotaTiers = _getQuotaTiersOperations(this._client);
     this.projectCapabilityHosts = _getProjectCapabilityHostsOperations(this._client);
     this.projectConnections = _getProjectConnectionsOperations(this._client);
@@ -148,12 +183,15 @@ export class CognitiveServicesManagementClient {
     this.raiTopics = _getRaiTopicsOperations(this._client);
     this.raiBlocklists = _getRaiBlocklistsOperations(this._client);
     this.raiBlocklistItems = _getRaiBlocklistItemsOperations(this._client);
+    this.raiBindings = _getRaiBindingsOperations(this._client);
+    this.raiRegos = _getRaiRegosOperations(this._client);
     this.subscriptionRaiPolicy = _getSubscriptionRaiPolicyOperations(this._client);
     this.raiPolicies = _getRaiPoliciesOperations(this._client);
     this.encryptionScopes = _getEncryptionScopesOperations(this._client);
     this.commitmentPlans = _getCommitmentPlansOperations(this._client);
     this.deployments = _getDeploymentsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
+    this.attachedAksClusters = _getAttachedAksClustersOperations(this._client);
     this.deletedAccounts = _getDeletedAccountsOperations(this._client);
     this.accounts = _getAccountsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -220,10 +258,28 @@ export class CognitiveServicesManagementClient {
   public readonly testRaiExternalSafetyProvider: TestRaiExternalSafetyProviderOperations;
   /** The operation groups for privateLinkResources */
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
+  /** The operation groups for projectCostControls */
+  public readonly projectCostControls: ProjectCostControlsOperations;
+  /** The operation groups for accountCostControls */
+  public readonly accountCostControls: AccountCostControlsOperations;
   /** The operation groups for managedComputeCapacities */
   public readonly managedComputeCapacities: ManagedComputeCapacitiesOperations;
+  /** The operation groups for workbenches */
+  public readonly workbenches: WorkbenchesOperations;
+  /** The operation groups for computes */
+  public readonly computes: ComputesOperations;
+  /** The operation groups for managedComputeUsagesOperationGroup */
+  public readonly managedComputeUsagesOperationGroup: ManagedComputeUsagesOperationGroupOperations;
+  /** The operation groups for computeOperations */
+  public readonly computeOperations: ComputeOperationsOperations;
+  /** The operation groups for adapterDeployments */
+  public readonly adapterDeployments: AdapterDeploymentsOperations;
+  /** The operation groups for managedComputeDeployments */
+  public readonly managedComputeDeployments: ManagedComputeDeploymentsOperations;
   /** The operation groups for agentApplications */
   public readonly agentApplications: AgentApplicationsOperations;
+  /** The operation groups for arcDeployments */
+  public readonly arcDeployments: ArcDeploymentsOperations;
   /** The operation groups for quotaTiers */
   public readonly quotaTiers: QuotaTiersOperations;
   /** The operation groups for projectCapabilityHosts */
@@ -246,6 +302,10 @@ export class CognitiveServicesManagementClient {
   public readonly raiBlocklists: RaiBlocklistsOperations;
   /** The operation groups for raiBlocklistItems */
   public readonly raiBlocklistItems: RaiBlocklistItemsOperations;
+  /** The operation groups for raiBindings */
+  public readonly raiBindings: RaiBindingsOperations;
+  /** The operation groups for raiRegos */
+  public readonly raiRegos: RaiRegosOperations;
   /** The operation groups for subscriptionRaiPolicy */
   public readonly subscriptionRaiPolicy: SubscriptionRaiPolicyOperations;
   /** The operation groups for raiPolicies */
@@ -258,6 +318,8 @@ export class CognitiveServicesManagementClient {
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+  /** The operation groups for attachedAksClusters */
+  public readonly attachedAksClusters: AttachedAksClustersOperations;
   /** The operation groups for deletedAccounts */
   public readonly deletedAccounts: DeletedAccountsOperations;
   /** The operation groups for accounts */

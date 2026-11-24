@@ -26,7 +26,7 @@ export function _getSend(
       gatewayName: gatewayName,
       connectionName: connectionName,
       linkConnectionName: linkConnectionName,
-      "api%2Dversion": "2026-03-01",
+      "api%2Dversion": "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

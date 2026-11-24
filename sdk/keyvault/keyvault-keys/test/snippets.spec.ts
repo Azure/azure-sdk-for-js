@@ -328,8 +328,9 @@ describe("snippets", () => {
     const url = `https://${vaultName}.managedhsm.azure.net`;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
+    const cryptographyClient = client.getCryptographyClient("myKey");
     // @ts-preserve-whitespace
-    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
+    const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
     console.log(wrapped.keyID, wrapped.algorithm, wrapped.result);
   });
 
@@ -340,10 +341,10 @@ describe("snippets", () => {
     const url = `https://${vaultName}.managedhsm.azure.net`;
     // @ts-preserve-whitespace
     const client = new KeyClient(url, credential);
+    const cryptographyClient = client.getCryptographyClient("myKey");
     // @ts-preserve-whitespace
-    const wrapped = await client.secureWrapKey("myKey", "RSA-OAEP-256");
-    const unwrapped = await client.secureUnwrapKey(
-      "myKey",
+    const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+    const unwrapped = await cryptographyClient.secureUnwrapKey(
       wrapped.algorithm,
       wrapped.result,
       "<attestation-target>",

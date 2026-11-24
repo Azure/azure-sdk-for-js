@@ -340,6 +340,21 @@ describe("AIProjectClient browser realtime", () => {
     expect(connection.state).toBe("disconnected");
   });
 
+  it("fails the iterator when the service closes with an error code after a clean handshake", async () => {
+    const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
+    const nextEvent = connection[Symbol.asyncIterator]().next();
+    const socket = getSocket();
+
+    // Browsers report wasClean: true for any completed close handshake, including error codes.
+    socket.readyState = MockBrowserWebSocket.CLOSED;
+    socket.dispatchEvent(
+      new CloseEvent("close", { code: 1011, reason: "service failure", wasClean: true }),
+    );
+
+    await expect(nextEvent).rejects.toMatchObject({ code: "connectionClosed" });
+    await expect(connection.closed).resolves.toMatchObject({ code: 1011, wasClean: false });
+  });
+
   it("reports wasClean: true for a normal client-initiated close", async () => {
     const connection = await createClient().voiceAgents.realtime.connect("browser-agent");
     const socket = getSocket();

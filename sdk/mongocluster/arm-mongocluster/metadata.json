@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.DocumentDB": "2026-06-15-preview"
+    "Microsoft.DocumentDB": "2026-09-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.58.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DocumentDB",
     "CrossLanguageDefinitionId": {

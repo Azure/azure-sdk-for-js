@@ -263,6 +263,32 @@ describe("ManagedIdentityCredential (MSAL)", function () {
     });
 
     describe("error handling", function () {
+      it("reports authentication failure with HTTP status 502 for malformed JSON", async () => {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "Imds",
+        );
+        acquireTokenStub.mockRestore();
+
+        const credential = new ManagedIdentityCredential({
+          retryOptions: { maxRetries: 0 },
+          httpClient: {
+            async sendRequest(request) {
+              return {
+                request,
+                status: 502,
+                bodyAsText: "Bad Gateway",
+                headers: createHttpHeaders({ "content-type": "application/json" }),
+              };
+            },
+          },
+        });
+
+        const tokenPromise = credential.getToken("scope");
+        await expect(tokenPromise).rejects.toThrow(CredentialUnavailableError);
+        await expect(tokenPromise).rejects.toThrow(/Authentication failed/);
+        await expect(tokenPromise).rejects.toThrow("Http status code: 502");
+      });
+
       it("can handle empty body response for server errors", async function () {
         vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
           "Imds",

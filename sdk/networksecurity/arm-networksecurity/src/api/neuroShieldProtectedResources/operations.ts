@@ -2,18 +2,20 @@
 // Licensed under the MIT License.
 
 import type { NetworkSecurityManagementContext as Client } from "../index.js";
-import type {
-  NeuroShieldProtectedResource,
-  _NeuroShieldProtectedResourceListResult,
-  NeuroShieldInventoryUploadRequestResult,
-} from "../../models/models.js";
+import type { _NeuroShieldProtectedResourceListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
+  _neuroShieldProtectedResourceListResultDeserializer,
+} from "../../models/models.js";
+import type {
+  NeuroShieldProtectedResource,
+  NeuroShieldInventoryUploadRequestResult,
+} from "../../models/neuroShield/management/models.js";
+import {
   neuroShieldProtectedResourceSerializer,
   neuroShieldProtectedResourceDeserializer,
-  _neuroShieldProtectedResourceListResultDeserializer,
   neuroShieldInventoryUploadRequestResultDeserializer,
-} from "../../models/models.js";
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
@@ -45,7 +47,7 @@ export function _triggerInventoryUploadSend(
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +107,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -147,11 +149,7 @@ export function list(
     () => _listSend(context, resourceGroupName, neuroShieldName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }
 
@@ -169,7 +167,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +210,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, neuroShieldName, protectedResourceName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    apiVersion: "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -231,7 +229,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +285,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    apiVersion: "2026-10-01-preview",
   }) as PollerLike<OperationState<NeuroShieldProtectedResource>, NeuroShieldProtectedResource>;
 }
 
@@ -305,7 +303,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
