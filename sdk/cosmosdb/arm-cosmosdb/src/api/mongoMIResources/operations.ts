@@ -47,7 +47,7 @@ export function _listMongoMIRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -87,11 +87,7 @@ export function listMongoMIRoleAssignments(
     () => _listMongoMIRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listMongoMIRoleAssignmentsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -109,7 +105,7 @@ export function _deleteMongoMIRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -158,7 +154,7 @@ export function deleteMongoMIRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -178,7 +174,7 @@ export function _createUpdateMongoMIRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -234,7 +230,7 @@ export function createUpdateMongoMIRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<MongoMIRoleAssignmentResource>, MongoMIRoleAssignmentResource>;
 }
@@ -253,7 +249,7 @@ export function _getMongoMIRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +307,7 @@ export function _listMongoMIRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -351,11 +347,7 @@ export function listMongoMIRoleDefinitions(
     () => _listMongoMIRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listMongoMIRoleDefinitionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -373,7 +365,7 @@ export function _deleteMongoMIRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -422,7 +414,7 @@ export function deleteMongoMIRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -442,7 +434,7 @@ export function _createUpdateMongoMIRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -498,7 +490,7 @@ export function createUpdateMongoMIRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<MongoMIRoleDefinitionResource>, MongoMIRoleDefinitionResource>;
 }
@@ -517,7 +509,7 @@ export function _getMongoMIRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

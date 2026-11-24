@@ -38,6 +38,12 @@ export interface AgentProfile {
 }
 
 // @public
+export interface AllowedSubject {
+    namespaceSelector: IdentityBindingLabelSelector;
+    serviceAccountSelector?: IdentityBindingLabelSelector;
+}
+
+// @public
 export interface APIServerAccessProfile {
     enablePrivateCluster?: boolean;
     enableVnetIntegration?: boolean;
@@ -267,6 +273,7 @@ export class ContainerServiceFleetClient {
     readonly fleets: FleetsOperations;
     readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
     readonly gates: GatesOperations;
+    readonly identityBindingProfiles: IdentityBindingProfilesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly updateRuns: UpdateRunsOperations;
@@ -691,6 +698,104 @@ export interface GenerateResponse {
     readonly id: string;
 }
 
+// @public
+export interface IdentityBindingLabelSelector {
+    matchExpressions?: IdentityBindingLabelSelectorRequirement[];
+    matchLabels?: string[];
+}
+
+// @public
+export type IdentityBindingLabelSelectorOperator = string;
+
+// @public
+export interface IdentityBindingLabelSelectorRequirement {
+    key?: string;
+    operator?: IdentityBindingLabelSelectorOperator;
+    values?: string[];
+}
+
+// @public
+export interface IdentityBindingManagedIdentityProfile {
+    readonly clientId?: string;
+    readonly objectId?: string;
+    resourceId: string;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface IdentityBindingOidcIssuerProfile {
+    readonly oidcIssuerUrl?: string;
+}
+
+// @public
+export interface IdentityBindingProfile extends ProxyResource {
+    readonly eTag?: string;
+    identityBindingProperties?: IdentityBindingProperties;
+    memberSelector?: MemberSelector;
+    readonly provisioningState?: IdentityBindingProfileProvisioningState;
+    readonly status?: IdentityBindingProfileStatus;
+}
+
+// @public
+export interface IdentityBindingProfileProperties {
+    identityBindingProperties: IdentityBindingProperties;
+    memberSelector?: MemberSelector;
+    readonly provisioningState?: IdentityBindingProfileProvisioningState;
+    readonly status?: IdentityBindingProfileStatus;
+}
+
+// @public
+export type IdentityBindingProfileProvisioningState = string;
+
+// @public
+export interface IdentityBindingProfilesApplyOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesDeleteOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IdentityBindingProfilesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IdentityBindingProfilesListByFleetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IdentityBindingProfilesOperations {
+    apply: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesApplyOptionalParams) => PollerLike<OperationState<IdentityBindingProfile>, IdentityBindingProfile>;
+    createOrUpdate: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, resource: IdentityBindingProfile, options?: IdentityBindingProfilesCreateOrUpdateOptionalParams) => PollerLike<OperationState<IdentityBindingProfile>, IdentityBindingProfile>;
+    delete: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fleetName: string, identityBindingProfileName: string, options?: IdentityBindingProfilesGetOptionalParams) => Promise<IdentityBindingProfile>;
+    listByFleet: (resourceGroupName: string, fleetName: string, options?: IdentityBindingProfilesListByFleetOptionalParams) => PagedAsyncIterableIterator<IdentityBindingProfile>;
+}
+
+// @public
+export interface IdentityBindingProfileStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
+
+// @public
+export interface IdentityBindingProperties {
+    allowedSubjects?: AllowedSubject[];
+    managedIdentity: IdentityBindingManagedIdentityProfile;
+    readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
+}
+
 export { isRestError }
 
 // @public
@@ -820,6 +925,22 @@ export enum KnownGateState {
 export enum KnownGateType {
     Approval = "Approval",
     ScheduledStart = "ScheduledStart"
+}
+
+// @public
+export enum KnownIdentityBindingLabelSelectorOperator {
+    DoesNotExist = "DoesNotExist",
+    Exists = "Exists",
+    In = "In",
+    NotIn = "NotIn"
+}
+
+// @public
+export enum KnownIdentityBindingProfileProvisioningState {
+    Applying = "Applying",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -970,7 +1091,9 @@ export enum KnownVersions {
     V20260201Preview = "2026-02-01-preview",
     V20260302Preview = "2026-03-02-preview",
     V20260601 = "2026-06-01",
-    V20260602Preview = "2026-06-02-preview"
+    V20260602Preview = "2026-06-02-preview",
+    V20261101 = "2026-11-01",
+    V20261102Preview = "2026-11-02-preview"
 }
 
 // @public

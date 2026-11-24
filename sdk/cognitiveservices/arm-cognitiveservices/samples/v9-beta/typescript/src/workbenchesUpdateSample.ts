@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbench.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbench.json
  */
 async function updateWorkbench(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function updateWorkbench(): Promise<void> {
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbenchComputeProperties.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbenchComputeProperties.json
  */
 async function updateWorkbenchComputeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -63,7 +63,7 @@ async function updateWorkbenchComputeProperties(): Promise<void> {
  * This sample demonstrates how to updates a workbench associated with the project.
  *
  * @summary updates a workbench associated with the project.
- * x-ms-original-file: 2026-09-15-preview/UpdateWorkbenchResetComputeProperties.json
+ * x-ms-original-file: 2026-11-15-preview/UpdateWorkbenchResetComputeProperties.json
  */
 async function updateWorkbenchResetComputeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

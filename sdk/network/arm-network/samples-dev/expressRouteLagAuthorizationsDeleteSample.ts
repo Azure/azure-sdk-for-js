@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified authorization from the specified express route LAG.
  *
  * @summary deletes the specified authorization from the specified express route LAG.
- * x-ms-original-file: 2026-03-01/ExpressRouteLagAuthorizationDelete.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteLagAuthorizationDelete.json
  */
 async function deleteExpressRouteLagAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();

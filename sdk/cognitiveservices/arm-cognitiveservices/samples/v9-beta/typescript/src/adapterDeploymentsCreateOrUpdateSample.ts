@@ -24,7 +24,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * To create only when absent, send If-None-Match: *.
  * To update only a matching version, send If-Match with the ETag returned by GET.
  * Conditional requests, including retries, return 412 if the precondition is not met.
- * x-ms-original-file: 2026-09-15-preview/CreateOrUpdateAdapterDeployment.json
+ * x-ms-original-file: 2026-11-15-preview/CreateOrUpdateAdapterDeployment.json
  */
 async function createOrUpdateAdapterDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

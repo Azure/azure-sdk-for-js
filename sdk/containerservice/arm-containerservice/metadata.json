@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ContainerService": "2026-08-02-preview"
+    "Microsoft.ContainerService": "2026-09-02-preview"
   },
-  "emitterVersion": "0.58.0",
+  "emitterVersion": "0.58.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ContainerService",
     "CrossLanguageDefinitionId": {
@@ -50,7 +50,6 @@
       "@azure/arm-containerservice!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-containerservice!AgentPoolListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-containerservice!AgentPoolDeleteMachinesParameter:interface": "Microsoft.ContainerService.AgentPoolDeleteMachinesParameter",
-      "@azure/arm-containerservice!ListBootstrapDataRequest:interface": "Microsoft.ContainerService.ListBootstrapDataRequest",
       "@azure/arm-containerservice!PoolBootstrapData:interface": "Microsoft.ContainerService.PoolBootstrapData",
       "@azure/arm-containerservice!BootstrapAzureConfig:interface": "Microsoft.ContainerService.BootstrapAzureConfig",
       "@azure/arm-containerservice!BootstrapTargetCluster:interface": "Microsoft.ContainerService.BootstrapTargetCluster",
@@ -300,6 +299,7 @@
       "@azure/arm-containerservice!MeshMembershipsListResult:interface": "Microsoft.ContainerService.MeshMembershipsListResult",
       "@azure/arm-containerservice!AgentFabricMembership:interface": "Microsoft.ContainerService.AgentFabricMembership",
       "@azure/arm-containerservice!AgentFabricMembershipProperties:interface": "Microsoft.ContainerService.AgentFabricMembershipProperties",
+      "@azure/arm-containerservice!AgentFabricMembershipSku:interface": "Microsoft.ContainerService.AgentFabricMembershipSku",
       "@azure/arm-containerservice!AgentFabricMembershipsListResult:interface": "Microsoft.ContainerService.AgentFabricMembershipsListResult",
       "@azure/arm-containerservice!OperationListResult:interface": "Microsoft.ContainerService.OperationListResult",
       "@azure/arm-containerservice!OperationValue:interface": "Microsoft.ContainerService.OperationValue",

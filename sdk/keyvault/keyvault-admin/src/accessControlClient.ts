@@ -162,7 +162,7 @@ export class KeyVaultAccessControlClient {
       options,
       async (updatedOptions) => {
         try {
-          await this.client.roleAssignments.delete(roleScope, name, updatedOptions);
+          await this.client.roleAssignments.deleteRoleAssignment(roleScope, name, updatedOptions);
         } catch (err: any) {
           // If the role assignment doesn't exist, we can consider it deleted.
           if (err.statusCode !== 404) {
@@ -410,7 +410,7 @@ export class KeyVaultAccessControlClient {
       options,
       async (updatedOptions) => {
         try {
-          await this.client.roleDefinitions.delete(roleScope, name, updatedOptions);
+          await this.client.roleDefinitions.deleteRoleDefinition(roleScope, name, updatedOptions);
         } catch (err: any) {
           // If the role definition doesn't exist, we can consider it deleted.
           if (err.statusCode !== 404) {

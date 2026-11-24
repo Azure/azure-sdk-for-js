@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MetricHandler } from "../metrics/handler.js";
-import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { LogRecordProcessor, ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import type { Context } from "@opentelemetry/api";
 import { trace } from "@opentelemetry/api";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { Logger } from "../shared/logging/index.js";
 import { MAIN_AGENT_TARGET_ATTRIBUTES } from "../utils/genaiAttributes.js";
 
@@ -20,7 +20,7 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     this._metricHandler = metricHandler;
   }
 
-  public onEmit(logRecord: SdkLogRecord, context?: Context): void {
+  public onEmit(logRecord: ReadWriteLogRecord, context?: Context): void {
     try {
       this._propagateMainAgentAttributesFromActiveSpan(logRecord, context);
     } catch (error) {
@@ -34,7 +34,7 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
   }
 
   private _propagateMainAgentAttributesFromActiveSpan(
-    logRecord: SdkLogRecord,
+    logRecord: ReadWriteLogRecord,
     context?: Context,
   ): void {
     if (!context) {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Table
  *
  * @summary update RUs per second of an Azure Cosmos DB Table
- * x-ms-original-file: 2026-04-01-preview/CosmosDBTableThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBTableThroughputUpdate.json
  */
 async function cosmosDBTableThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -16,8 +16,8 @@ async function cosmosDBTableThroughputUpdate(): Promise<void> {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.tableResources.updateTableThroughput("rg1", "ddb1", "tableName", {
     location: "West US",
-    resource: { throughput: 400 },
     tags: {},
+    resource: { throughput: 400 },
   });
   console.log(result);
 }

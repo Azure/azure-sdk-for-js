@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of the an Azure Cosmos DB MongoDB database
  *
  * @summary update RUs per second of the an Azure Cosmos DB MongoDB database
- * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBDatabaseThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBDatabaseThroughputUpdate.json
  */
 async function cosmosDBMongoDBDatabaseThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function cosmosDBMongoDBDatabaseThroughputUpdate(): Promise<void> {
     "rg1",
     "ddb1",
     "databaseName",
-    { location: "West US", resource: { throughput: 400 }, tags: {} },
+    { location: "West US", tags: {}, resource: { throughput: 400 } },
   );
   console.log(result);
 }

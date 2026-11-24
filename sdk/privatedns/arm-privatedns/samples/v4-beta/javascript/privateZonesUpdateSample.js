@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
  *
  * @summary updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
- * x-ms-original-file: 2024-06-01/PrivateZonePatch.json
+ * x-ms-original-file: 2026-06-01-preview/PrivateZonePatch.json
  */
 async function patchPrivateDNSZone() {
   const credential = new DefaultAzureCredential();

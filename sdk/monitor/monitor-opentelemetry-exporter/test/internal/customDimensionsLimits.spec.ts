@@ -8,8 +8,8 @@ import { MaxPropertyLengths } from "../../src/types.js";
 import { afterEach, beforeEach, describe, it, assert, vi } from "vitest";
 import { SpanKind, ValueType } from "@opentelemetry/api";
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { TracerProvider } from "@opentelemetry/sdk-trace";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
 import { AggregationTemporality, DataPointType } from "@opentelemetry/sdk-metrics";
 import type { ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { ExportResultCode } from "@opentelemetry/core";
@@ -412,7 +412,7 @@ describe("Custom Dimensions Size Limits", () => {
         "custom.attribute": "c".repeat(8 * 1024 + 1),
       };
       const resource = resourceFromAttributes(attributes);
-      const provider = new BasicTracerProvider({ resource });
+      const provider = new TracerProvider({ resource });
       const tracer = provider.getTracer("genai-limits");
       const spans: ReadableSpan[] = [];
       for (const kind of [SpanKind.SERVER, SpanKind.CLIENT]) {

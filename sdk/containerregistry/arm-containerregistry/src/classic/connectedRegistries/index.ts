@@ -3,7 +3,6 @@
 
 import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import {
-  resync,
   deactivate,
   list,
   $delete,
@@ -12,7 +11,6 @@ import {
   get,
 } from "../../api/connectedRegistries/operations.js";
 import type {
-  ConnectedRegistriesResyncOptionalParams,
   ConnectedRegistriesDeactivateOptionalParams,
   ConnectedRegistriesListOptionalParams,
   ConnectedRegistriesDeleteOptionalParams,
@@ -28,13 +26,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConnectedRegistries operations. */
 export interface ConnectedRegistriesOperations {
-  /** Resync the connected registry instance. */
-  resync: (
-    resourceGroupName: string,
-    registryName: string,
-    connectedRegistryName: string,
-    options?: ConnectedRegistriesResyncOptionalParams,
-  ) => Promise<ConnectedRegistry>;
   /** Deactivates the connected registry instance. */
   deactivate: (
     resourceGroupName: string,
@@ -142,12 +133,6 @@ export interface ConnectedRegistriesOperations {
 
 function _getConnectedRegistries(context: ContainerRegistryManagementContext) {
   return {
-    resync: (
-      resourceGroupName: string,
-      registryName: string,
-      connectedRegistryName: string,
-      options?: ConnectedRegistriesResyncOptionalParams,
-    ) => resync(context, resourceGroupName, registryName, connectedRegistryName, options),
     deactivate: (
       resourceGroupName: string,
       registryName: string,

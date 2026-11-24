@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the primary and secondary connection strings for the Namespace.
  *
  * @summary gets the primary and secondary connection strings for the Namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceAuthorizationRuleListKey.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceAuthorizationRuleListKey.json
  */
 async function nameSpaceAuthorizationRuleListKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

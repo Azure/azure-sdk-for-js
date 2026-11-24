@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export const SDK_VERSION: string = "12.34.0-beta.1";
-export const SERVICE_VERSION: string = "2026-10-06";
+export const SERVICE_VERSION: string = "2027-03-07";
 
 export const FILE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024 * 1024 * 1024; // 4TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
@@ -16,6 +16,7 @@ export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/
 
 export const URLConstants = {
   Parameters: {
+    FILE_ID: "fileid",
     FORCE_BROWSER_NO_CACHE: "_",
     SHARE_SNAPSHOT: "sharesnapshot",
     SIGNATURE: "sig",

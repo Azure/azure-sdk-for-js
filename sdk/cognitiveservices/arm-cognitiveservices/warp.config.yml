@@ -21,7 +21,8 @@ exports:
   "./api/raiExternalSafetyProvider": "./src/api/raiExternalSafetyProvider/index.ts"
   "./api/testRaiExternalSafetyProvider": "./src/api/testRaiExternalSafetyProvider/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
-  "./api/costControls": "./src/api/costControls/index.ts"
+  "./api/projectCostControls": "./src/api/projectCostControls/index.ts"
+  "./api/accountCostControls": "./src/api/accountCostControls/index.ts"
   "./api/managedComputeCapacities": "./src/api/managedComputeCapacities/index.ts"
   "./api/workbenches": "./src/api/workbenches/index.ts"
   "./api/computes": "./src/api/computes/index.ts"
@@ -50,10 +51,12 @@ exports:
   "./api/commitmentPlans": "./src/api/commitmentPlans/index.ts"
   "./api/deployments": "./src/api/deployments/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/attachedAksClusters": "./src/api/attachedAksClusters/index.ts"
   "./api/deletedAccounts": "./src/api/deletedAccounts/index.ts"
   "./api/accounts": "./src/api/accounts/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/cognitiveServicesClientCustomizations": "./src/models/cognitiveServicesClientCustomizations/index.ts"
 
 targets:
   - name: browser

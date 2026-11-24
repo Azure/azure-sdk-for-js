@@ -38,7 +38,7 @@ export function _listByManagedClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,7 @@ export function listByManagedCluster(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -100,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentFabricMembershipName: agentFabricMembershipName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, agentFabricMembershipName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +156,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentFabricMembershipName: agentFabricMembershipName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +208,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<AgentFabricMembership>, AgentFabricMembership>;
 }
 
@@ -226,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentFabricMembershipName: agentFabricMembershipName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

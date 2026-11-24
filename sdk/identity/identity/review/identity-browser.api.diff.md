@@ -163,21 +163,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-@@ -327,10 +333,11 @@
- export { GetTokenOptions }
- 
- // @public
- export class GitHubActionsCredential implements TokenCredential {
--    constructor(options?: GitHubActionsCredentialOptions);
--    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
-+    constructor(_options?: GitHubActionsCredentialOptions);
-+    // (undocumented)
-+    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
- }
- 
- // @public
- export interface GitHubActionsCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
-@@ -340,9 +347,9 @@
+@@ -330,9 +336,9 @@
  export type IdentityPlugin = (context: unknown) => void;
  
  // @public
@@ -188,7 +174,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
  }
  
-@@ -371,15 +378,16 @@
+@@ -361,15 +367,16 @@
  
  // @public
  export const logger: AzureLogger;
@@ -207,7 +193,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
-@@ -402,12 +410,11 @@
+@@ -392,12 +399,11 @@
  }
  
  // @public
@@ -223,7 +209,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface OnBehalfOfCredentialAssertionOptions {
-@@ -457,25 +464,26 @@
+@@ -447,25 +453,26 @@
          enableUnsafeSupportLogging?: boolean;
      };
  }
@@ -257,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
-@@ -483,10 +491,10 @@
+@@ -473,10 +480,10 @@
  }
  
  // @public

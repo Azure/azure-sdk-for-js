@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified authorization from the specified express route LAG.
  *
  * @summary gets the specified authorization from the specified express route LAG.
- * x-ms-original-file: 2026-03-01/ExpressRouteLagAuthorizationGet.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteLagAuthorizationGet.json
  */
 async function getExpressRouteLagAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();

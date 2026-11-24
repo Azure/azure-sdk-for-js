@@ -6,6 +6,7 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
+import { authorizeRequestOnTenantChallenge } from '@azure/core-rest-pipeline';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { HttpMethods } from '@azure/core-rest-pipeline';
 import type { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -27,8 +28,7 @@ export interface AdditionalPolicyConfig {
 // @public
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
-// @public
-export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+export { authorizeRequestOnTenantChallenge }
 
 // @public
 export interface BaseMapper {

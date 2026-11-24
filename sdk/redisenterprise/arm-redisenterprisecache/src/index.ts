@@ -93,6 +93,7 @@ export type {
   MaintenanceWindowType,
   MaintenanceWindowSchedule,
   MaintenanceDayOfWeek,
+  FirewallRule,
   RedundancyMode,
   TrackedResource,
   ClusterUpdate,
@@ -103,6 +104,7 @@ export type {
   PrivateLinkResourceProperties,
   AccessPolicyAssignment,
   AccessPolicyAssignmentProperties,
+  AccessPolicyAssignmentProvisioningError,
   AccessPolicyAssignmentPropertiesUser,
   OperationStatus,
 } from "./models/index.js";

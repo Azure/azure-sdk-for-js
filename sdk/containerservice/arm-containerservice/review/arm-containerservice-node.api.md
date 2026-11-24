@@ -73,12 +73,12 @@ export type AdvancedNetworkPolicies = string;
 export interface AgentFabricMembership extends ProxyResource {
     managedBy: string;
     properties?: AgentFabricMembershipProperties;
+    sku: AgentFabricMembershipSku;
 }
 
 // @public
 export interface AgentFabricMembershipProperties {
     readonly provisioningState?: AgentFabricMembershipProvisioningState;
-    sku: AgentFabricMembershipSkuName;
 }
 
 // @public
@@ -96,6 +96,11 @@ export interface AgentFabricMembershipsDeleteOptionalParams extends OperationOpt
 
 // @public
 export interface AgentFabricMembershipsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentFabricMembershipSku {
+    name: AgentFabricMembershipSkuName;
 }
 
 // @public
@@ -382,7 +387,7 @@ export interface AgentPoolsOperations {
     getAvailableAgentPoolVersions: (resourceGroupName: string, resourceName: string, options?: AgentPoolsGetAvailableAgentPoolVersionsOptionalParams) => Promise<AgentPoolAvailableVersions>;
     getUpgradeProfile: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetUpgradeProfileOptionalParams) => Promise<AgentPoolUpgradeProfile>;
     list: (resourceGroupName: string, resourceName: string, options?: AgentPoolsListOptionalParams) => PagedAsyncIterableIterator<AgentPool>;
-    listBootstrapData: (resourceGroupName: string, resourceName: string, agentPoolName: string, body: ListBootstrapDataRequest, options?: AgentPoolsListBootstrapDataOptionalParams) => Promise<PoolBootstrapData>;
+    listBootstrapData: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsListBootstrapDataOptionalParams) => Promise<PoolBootstrapData>;
     update: (resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPoolUpdate, options?: AgentPoolsUpdateOptionalParams) => PollerLike<OperationState<AgentPool>, AgentPool>;
     upgradeNodeImageVersion: (resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams) => PollerLike<OperationState<void>, void>;
 }
@@ -2052,7 +2057,8 @@ export enum KnownVersions {
     V20260601 = "2026-06-01",
     V20260701 = "2026-07-01",
     V20260801 = "2026-08-01",
-    V20260802Preview = "2026-08-02-preview"
+    V20260901 = "2026-09-01",
+    V20260902Preview = "2026-09-02-preview"
 }
 
 // @public
@@ -2174,10 +2180,6 @@ export interface LinuxOSConfig {
     sysctls?: SysctlConfig;
     transparentHugePageDefrag?: string;
     transparentHugePageEnabled?: string;
-}
-
-// @public
-export interface ListBootstrapDataRequest {
 }
 
 // @public
@@ -3939,6 +3941,7 @@ export interface PrivateEndpointConnection extends ProxyResource {
 
 // @public
 export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
     value?: PrivateEndpointConnection[];
 }
 
@@ -3997,6 +4000,7 @@ export interface PrivateLinkResourcesListOptionalParams extends OperationOptions
 
 // @public
 export interface PrivateLinkResourcesListResult {
+    nextLink?: string;
     value?: PrivateLinkResource[];
 }
 

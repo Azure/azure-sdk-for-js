@@ -12,13 +12,20 @@ import { fileURLToPath } from "node:url";
 const scriptPath = fileURLToPath(new URL("./open-pr.ps1", import.meta.url));
 const pkg = "sdk/ai/ai-projects";
 
-test("commits a maintained snippet and synchronized README together in managed mode", (t) => {
+test("groups customization tooling and maintained snippets in managed mode", (t) => {
   const root = mkdtempSync(join(tmpdir(), "ai-projects-open-pr-"));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const git = (...args) => execFileSync("git", args, { cwd: root, encoding: "utf8" }).trim();
   const files = [
     `${pkg}/generated/models.ts`,
     `${pkg}/src/models.ts`,
+    `${pkg}/scripts/customize.mjs`,
+    `${pkg}/scripts/customization/guards.mjs`,
+    `${pkg}/scripts/customization/guards.test.mjs`,
+    `${pkg}/.github/skills/open-regeneration-pr/scripts/open-pr.ps1`,
+    `${pkg}/.github/skills/open-regeneration-pr/scripts/open-pr.test.mjs`,
+    `${pkg}/.github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.mjs`,
+    `${pkg}/.github/skills/apply-post-emitter-edits/scripts/check-generated-member-parity.test.mjs`,
     `${pkg}/test/snippets.spec.ts`,
     `${pkg}/README.md`,
     `${pkg}/CHANGELOG.md`,
@@ -65,4 +72,8 @@ test("commits a maintained snippet and synchronized README together in managed m
     `${pkg}/README.md`,
     `${pkg}/test/snippets.spec.ts`,
   ]);
+  assert.deepEqual(
+    git("diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD~2").split("\n"),
+    files.filter((file) => file.includes("/src/") || file.includes("/scripts/")).sort(),
+  );
 });

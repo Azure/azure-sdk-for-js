@@ -5,8 +5,8 @@ import type {
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
   KnownSemanticSearchResultsType,
-  KnownVectorFilterMode,
-  KnownVectorQueryKind,
+  VectorFilterMode as PublicVectorFilterMode,
+  VectorQueryKind as PublicVectorQueryKind,
 } from "../../src/index.js";
 import type {
   KnownBlobIndexerDataToExtract,
@@ -56,8 +56,8 @@ type ExpectSemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 type ExpectSplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 type ExpectTextSplitMode = `${KnownTextSplitMode}`;
 type ExpectTextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
-type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
-type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
+type ExpectVectorFilterMode = PublicVectorFilterMode;
+type ExpectVectorQueryKind = PublicVectorQueryKind;
 type ExpectVectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 type ExpectVisualFeature = `${KnownVisualFeature}`;
@@ -463,8 +463,8 @@ type TextTranslationSkillLanguage =
   | "yue"
   | "zh-Hans"
   | "zh-Hant";
-type VectorFilterMode = "postFilter" | "preFilter" | "strictPostFilter";
-type VectorQueryKind = "imageBinary" | "imageUrl" | "text" | "vector";
+type VectorFilterMode = "postFilter" | "preFilter";
+type VectorQueryKind = "text" | "vector";
 type VectorSearchAlgorithmKind = "exhaustiveKnn" | "hnsw";
 type VectorSearchAlgorithmMetric = "cosine" | "dotProduct" | "euclidean" | "hamming";
 type VisualFeature =

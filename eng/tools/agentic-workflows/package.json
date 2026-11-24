@@ -1,0 +1,21 @@
+{
+  "name": "@azure-tools/agentic-workflows-upgrade-check",
+  "version": "1.0.0",
+  "private": true,
+  "sdk-type": "utility",
+  "type": "module",
+  "scripts": {
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{mjs,json,md}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{mjs,json,md}\"",
+    "test": "node --test",
+    "test:node": "node --test",
+    "check": "node check-upgrade.mjs"
+  },
+  "devDependencies": {
+    "prettier": "catalog:"
+  },
+  "dependencies": {
+    "semver": "^7.7.3",
+    "yaml": "^2.8.1"
+  }
+}

@@ -52,7 +52,7 @@ export function _fixResourcePermissionsSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -80,6 +80,7 @@ export async function _fixResourcePermissionsDeserialize(
 
   return permissionsFixDeserializer(result.body);
 }
+
 /** Fixes resource permissions for the given scenario configuration. */
 export function fixResourcePermissions(
   context: Client,
@@ -102,7 +103,7 @@ export function fixResourcePermissions(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<PermissionsFix>, PermissionsFix>;
 }
 
@@ -122,7 +123,7 @@ export function _validateSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,6 +145,7 @@ export async function _validateDeserialize(result: PathUncheckedResponse): Promi
 
   return validationDeserializer(result.body);
 }
+
 /** Validate the given scenario configuration. */
 export function validate(
   context: Client,
@@ -166,7 +168,7 @@ export function validate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<Validation>, Validation>;
 }
 
@@ -186,7 +188,7 @@ export function _executeSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,6 +210,7 @@ export async function _executeDeserialize(result: PathUncheckedResponse): Promis
 
   return scenarioRunDeserializer(result.body);
 }
+
 /** Execute the scenario execution with the given scenario configuration. */
 export function execute(
   context: Client,
@@ -230,7 +233,7 @@ export function execute(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
 }
 
@@ -248,7 +251,7 @@ export function _listAllSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       scenarioName: scenarioName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,6 +278,7 @@ export async function _listAllDeserialize(
 
   return _scenarioConfigurationListResultDeserializer(result.body);
 }
+
 /** Get a list of scenario definitions. */
 export function listAll(
   context: Client,
@@ -288,11 +292,7 @@ export function listAll(
     () => _listAllSend(context, resourceGroupName, workspaceName, scenarioName, options),
     _listAllDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -312,7 +312,7 @@ export function _$deleteSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -334,6 +334,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a scenario definition. */
 export function $delete(
   context: Client,
@@ -356,7 +357,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -377,7 +378,7 @@ export function _createOrUpdateSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,7 +387,12 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: scenarioConfigurationSerializer(resource),
   });
 }
@@ -406,6 +412,7 @@ export async function _createOrUpdateDeserialize(
 
   return scenarioConfigurationDeserializer(result.body);
 }
+
 /** Create or update a scenario definition. */
 export function createOrUpdate(
   context: Client,
@@ -430,7 +437,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<ScenarioConfiguration>, ScenarioConfiguration>;
 }
 
@@ -450,7 +457,7 @@ export function _getSend(
       workspaceName: workspaceName,
       scenarioName: scenarioName,
       scenarioConfigurationName: scenarioConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -477,6 +484,7 @@ export async function _getDeserialize(
 
   return scenarioConfigurationDeserializer(result.body);
 }
+
 /** Get a scenario definition. */
 export async function get(
   context: Client,

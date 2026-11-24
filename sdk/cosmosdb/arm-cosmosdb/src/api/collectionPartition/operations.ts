@@ -39,7 +39,7 @@ export function _listUsagesSend(
       accountName: accountName,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
       "%24filter": options?.filter,
     },
     {
@@ -83,11 +83,7 @@ export function listUsages(
       _listUsagesSend(context, resourceGroupName, accountName, databaseRid, collectionRid, options),
     _listUsagesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -108,7 +104,7 @@ export function _listMetricsSend(
       accountName: accountName,
       databaseRid: databaseRid,
       collectionRid: collectionRid,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
       "%24filter": filter,
     },
     {
@@ -161,10 +157,6 @@ export function listMetrics(
       ),
     _listMetricsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
