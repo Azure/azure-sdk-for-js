@@ -45,7 +45,7 @@ export function _acquireSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,6 +74,7 @@ export async function _acquireDeserialize(
 
   return managedServerDnsAliasDeserializer(result.body);
 }
+
 /** Acquires managed server DNS alias from another managed server. */
 export function acquire(
   context: Client,
@@ -96,7 +97,7 @@ export function acquire(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
 }
 
@@ -112,7 +113,7 @@ export function _listByManagedInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,6 +140,7 @@ export async function _listByManagedInstanceDeserialize(
 
   return _managedServerDnsAliasListResultDeserializer(result.body);
 }
+
 /** Gets a list of managed server DNS aliases for a managed server. */
 export function listByManagedInstance(
   context: Client,
@@ -154,7 +156,7 @@ export function listByManagedInstance(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -173,7 +175,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,6 +197,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes the managed server DNS alias with the given name. */
 export function $delete(
   context: Client,
@@ -209,7 +212,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, managedInstanceName, dnsAliasName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -228,7 +231,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,6 +260,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedServerDnsAliasDeserializer(result.body);
 }
+
 /** Creates a managed server DNS alias. */
 export function createOrUpdate(
   context: Client,
@@ -279,7 +283,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ManagedServerDnsAlias>, ManagedServerDnsAlias>;
 }
 
@@ -297,7 +301,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       dnsAliasName: dnsAliasName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,6 +328,7 @@ export async function _getDeserialize(
 
   return managedServerDnsAliasDeserializer(result.body);
 }
+
 /** Gets a server DNS alias. */
 export async function get(
   context: Client,

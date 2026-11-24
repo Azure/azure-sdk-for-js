@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a database's security alert policy.
  *
  * @summary creates or updates a database's security alert policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseSecurityAlertCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseSecurityAlertCreateMax.json
  */
 async function updateADatabaseThreatDetectionPolicyWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function updateADatabaseThreatDetectionPolicyWithAllParameters(): Promise<
  * This sample demonstrates how to creates or updates a database's security alert policy.
  *
  * @summary creates or updates a database's security alert policy.
- * x-ms-original-file: 2025-08-01-preview/DatabaseSecurityAlertCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseSecurityAlertCreateMin.json
  */
 async function updateADatabaseThreatDetectionPolicyWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

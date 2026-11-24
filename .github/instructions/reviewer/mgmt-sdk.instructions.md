@@ -40,7 +40,7 @@ Breaking changes are acceptable in mgmt SDKs with proper CHANGELOG documentation
 | Client name changed | ❌ Not allowed. Use `@clientName` decorator in TypeSpec spec repo |
 | Stable versions removed from `KnownVersions` | ❌ Not allowed (preview versions may be removed) |
 | `subscriptionId` or similar constructor params removed | ⚠️ Flag, discuss migration path on spec side |
-| Last major release <6 months ago | ⚠️ Flag frequent breakage, discuss justification |
+| New stable (GA) release increases the major version <6 months after the previous stable major release | ⚠️ Flag frequent stable breakage, discuss justification. Compare stable (GA) releases only; do NOT flag preview/beta targets (e.g., `8.0.0` to `9.0.0-beta.1`), regardless of the major-version increase |
 | Method parameters re-ordered | ❌ Restore original order. Use `@override` decorator in TypeSpec |
 
 ## Naming Validation (Spec Issues)

@@ -241,28 +241,9 @@ Not all credentials require this configuration. Credentials that authenticate th
 | Credential                                                                                                                                     | Usage                                                                                                                                                                | Example                                                                                                                                                                            | Reference                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | [`AzurePipelinesCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/azurepipelinescredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops) on Azure Pipelines. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-pipelines-with-service-connections)   |
-| `GitHubActionsCredential`                                                                                                                       | Authenticates a service principal using GitHub Actions OIDC federation.                                                                                              | [example](#authenticate-in-github-actions)                                                                                                                                          | [Configuring OpenID Connect in Azure](https://docs.github.com/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-azure)                 |
 | [`ClientAssertionCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientassertioncredential?view=azure-node-latest)     | Authenticates a service principal using a signed client assertion.                                                                                                   | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-assertion)   | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
 | [`ClientCertificateCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientcertificatecredential?view=azure-node-latest) | Authenticates a service principal using a certificate.                                                                                                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-certificate) | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
 | [`ClientSecretCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/clientsecretcredential?view=azure-node-latest)           | Authenticates a service principal using a secret.                                                                                                                    | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-a-client-secret)      | [Service principal authentication](https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals) |
-
-#### Authenticate in GitHub Actions
-
-Configure the workflow with `id-token: write` permission and set `AZURE_TENANT_ID` and `AZURE_CLIENT_ID`. GitHub Actions supplies `ACTIONS_ID_TOKEN_REQUEST_URL` and `ACTIONS_ID_TOKEN_REQUEST_TOKEN` automatically.
-
-```yml
-permissions:
-  id-token: write
-  contents: read
-```
-
-```ts snippet:ReadmeSampleGitHubActionsCredential
-import { GitHubActionsCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
-
-const credential = new GitHubActionsCredential();
-const client = new KeyClient("https://<your-key-vault-name>.vault.azure.net", credential);
-```
 
 ### Authenticate users
 
@@ -322,7 +303,7 @@ The Azure Identity library offers both in-memory and persistent disk caching. Fo
 
 ## Brokered authentication
 
-An authentication broker is an application that runs on a user’s machine and manages the authentication handshakes and token maintenance for connected accounts. Currently, only the Windows Web Account Manager (WAM) is supported. Broker authentication is used by `DefaultAzureCredential` to enable secure sign-in via the WAM. To enable support, use the [`@azure/identity-broker`][azure_identity_broker] package. For details on authenticating using WAM, see the [broker plugin documentation][azure_identity_broker_readme].
+An authentication broker is an application that runs on a user’s machine and manages the authentication handshakes and token maintenance for connected accounts. Broker authentication is used by `DefaultAzureCredential` to enable secure sign-in. To enable support, use the [`@azure/identity-broker`][azure_identity_broker] package. For the list of supported platforms and details on authenticating with each, see the [broker plugin documentation][azure_identity_broker_readme].
 
 ## Troubleshooting
 

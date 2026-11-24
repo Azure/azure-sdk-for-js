@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a replication link.
  *
  * @summary gets a replication link.
- * x-ms-original-file: 2025-08-01-preview/ReplicationLinkGet.json
+ * x-ms-original-file: 2026-08-01-preview/ReplicationLinkGet.json
  */
 async function getsTheReplicationLink() {
   const credential = new DefaultAzureCredential();

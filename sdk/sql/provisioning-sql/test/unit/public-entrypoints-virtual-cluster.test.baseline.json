@@ -1,0 +1,28 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "virtualCluster": {
+          "bicepIdentifier": "virtualCluster",
+          "type": "Microsoft.Sql/virtualClusters",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "publicentrypointsvir"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

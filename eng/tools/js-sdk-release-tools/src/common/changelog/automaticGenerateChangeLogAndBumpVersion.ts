@@ -128,14 +128,17 @@ export async function generateChangelogAndBumpVersion(
     try {
       extractNpmPackage(packageFolderPath, packageName, stableVersion);
 
-      // only track2 sdk includes sdk-type with value mgmt
       const sdkType = JSON.parse(
         fs.readFileSync(path.join(packageFolderPath, "changelog-temp", "package", "package.json"), {
           encoding: "utf-8",
         }),
       )["sdk-type"];
       const clientType = getSDKType(packageFolderPath);
-      if ((sdkType && sdkType === "mgmt") || clientType === SDKType.RestLevelClient) {
+      if (
+        sdkType === "mgmt" ||
+        sdkType === "provisioning" ||
+        clientType === SDKType.RestLevelClient
+      ) {
         logger.info(`Package ${packageName} released before is track2 sdk.`);
 
         logger.info("Start to generate changelog by comparing api.md.");

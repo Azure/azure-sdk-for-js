@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "domainName": "example.com",
+    "customCertificate": {
+      "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.SignalRService/WebPubSub/myWebPubSubService/customCertificates/myCert"
+    }
+  }
+}

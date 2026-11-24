@@ -27,6 +27,8 @@ import {
 } from "../Declarations/Constants.js";
 import { AttachTypeName, AZURE_MONITOR_AUTO_ATTACH } from "../export/statsbeat/types.js";
 import { getInstance } from "../platform/index.js";
+import type { RoutingGroups } from "./routing.js";
+import { addToRoutingGroups, getTelemetryRoute } from "./routing.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
@@ -65,6 +67,8 @@ export function resourceMetricsToEnvelope(
   metrics: ResourceMetrics,
   ikey: string,
   isStatsbeat?: boolean,
+  increaseGenAiMessageLimit = false,
+  routingGroups?: RoutingGroups,
 ): Envelope[] {
   const envelopes: Envelope[] = [];
   const time = new Date();
@@ -84,6 +88,10 @@ export function resourceMetricsToEnvelope(
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
+        const route = routingGroups ? getTelemetryRoute(dataPoint.attributes) : undefined;
+        if (routingGroups && !route) {
+          return;
+        }
         const baseData: MetricsData = {
           kind: "MetricsData",
           metrics: [],
@@ -141,11 +149,18 @@ export function resourceMetricsToEnvelope(
             baseType: "MetricData",
             baseData: {
               ...baseData,
-              properties: truncateCustomDimensions(baseData.properties || {}),
+              properties: truncateCustomDimensions(
+                baseData.properties || {},
+                increaseGenAiMessageLimit,
+              ),
             },
           },
         };
-        envelopes.push(envelope);
+        if (routingGroups && route) {
+          addToRoutingGroups(routingGroups, route, [envelope]);
+        } else {
+          envelopes.push(envelope);
+        }
       });
     });
   });

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the SQL storedProcedure under an existing Azure Cosmos DB database account.
  *
  * @summary lists the SQL storedProcedure under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlStoredProcedureList.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlStoredProcedureList.json
  */
 async function cosmosDBSqlStoredProcedureList() {
   const credential = new DefaultAzureCredential();

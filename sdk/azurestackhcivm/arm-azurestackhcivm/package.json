@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-util": "^1.12.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
@@ -88,7 +88,8 @@
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-azurestackhcivm",
@@ -126,6 +127,104 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/loadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancers/index.d.ts",
+        "default": "./dist/browser/api/loadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancers/index.d.ts",
+        "default": "./dist/esm/api/loadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancers/index.js"
+      }
+    },
+    "./api/inboundRules": {
+      "browser": {
+        "types": "./dist/browser/api/inboundRules/index.d.ts",
+        "default": "./dist/browser/api/inboundRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/inboundRules/index.d.ts",
+        "default": "./dist/esm/api/inboundRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/inboundRules/index.d.ts",
+        "default": "./dist/commonjs/api/inboundRules/index.js"
+      }
+    },
+    "./api/natGateways": {
+      "browser": {
+        "types": "./dist/browser/api/natGateways/index.d.ts",
+        "default": "./dist/browser/api/natGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/natGateways/index.d.ts",
+        "default": "./dist/esm/api/natGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/natGateways/index.d.ts",
+        "default": "./dist/commonjs/api/natGateways/index.js"
+      }
+    },
+    "./api/publicIPAddresses": {
+      "browser": {
+        "types": "./dist/browser/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/browser/api/publicIPAddresses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/esm/api/publicIPAddresses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/publicIPAddresses/index.d.ts",
+        "default": "./dist/commonjs/api/publicIPAddresses/index.js"
+      }
+    },
+    "./api/virtualNetworkSubnets": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworkSubnets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworkSubnets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworkSubnets/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworkSubnets/index.js"
+      }
+    },
+    "./api/virtualNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/virtualNetworks/index.d.ts",
+        "default": "./dist/browser/api/virtualNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualNetworks/index.d.ts",
+        "default": "./dist/esm/api/virtualNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/virtualNetworks/index.js"
       }
     },
     "./api/guestAgents": {
@@ -210,6 +309,20 @@
       "require": {
         "types": "./dist/commonjs/api/storageContainers/index.d.ts",
         "default": "./dist/commonjs/api/storageContainers/index.js"
+      }
+    },
+    "./api/snapshots": {
+      "browser": {
+        "types": "./dist/browser/api/snapshots/index.d.ts",
+        "default": "./dist/browser/api/snapshots/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/snapshots/index.d.ts",
+        "default": "./dist/esm/api/snapshots/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/snapshots/index.d.ts",
+        "default": "./dist/commonjs/api/snapshots/index.js"
       }
     },
     "./api/securityRules": {

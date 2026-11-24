@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra keyspace
  *
  * @summary create or update an Azure Cosmos DB Cassandra keyspace
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraKeyspaceCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCassandraKeyspaceCreateUpdate.json
  */
 async function cosmosDBCassandraKeyspaceCreateUpdate() {
   const credential = new DefaultAzureCredential();

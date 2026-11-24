@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a target execution.
  *
  * @summary gets a target execution.
- * x-ms-original-file: 2025-08-01-preview/GetJobExecutionTarget.json
+ * x-ms-original-file: 2026-08-01-preview/GetJobExecutionTarget.json
  */
 async function getAJobStepTargetExecution() {
   const credential = new DefaultAzureCredential();

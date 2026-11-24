@@ -43,7 +43,7 @@ export function _listByRestorableDroppedDatabaseSend(
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -70,6 +70,7 @@ export async function _listByRestorableDroppedDatabaseDeserialize(
 
   return _managedBackupShortTermRetentionPolicyListResultDeserializer(result.body);
 }
+
 /** Gets a dropped database's short term retention policy list. */
 export function listByRestorableDroppedDatabase(
   context: Client,
@@ -95,7 +96,7 @@ export function listByRestorableDroppedDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -119,7 +120,7 @@ export function _updateSend(
       managedInstanceName: managedInstanceName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,6 +149,7 @@ export async function _updateDeserialize(
 
   return managedBackupShortTermRetentionPolicyDeserializer(result.body);
 }
+
 /** Sets a database's short term retention policy. */
 export function update(
   context: Client,
@@ -177,7 +179,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<ManagedBackupShortTermRetentionPolicy>,
     ManagedBackupShortTermRetentionPolicy
@@ -203,7 +205,7 @@ export function _createOrUpdateSend(
       managedInstanceName: managedInstanceName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,6 +234,7 @@ export async function _createOrUpdateDeserialize(
 
   return managedBackupShortTermRetentionPolicyDeserializer(result.body);
 }
+
 /** Sets a database's short term retention policy. */
 export function createOrUpdate(
   context: Client,
@@ -261,7 +264,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<ManagedBackupShortTermRetentionPolicy>,
     ManagedBackupShortTermRetentionPolicy
@@ -286,7 +289,7 @@ export function _getSend(
       managedInstanceName: managedInstanceName,
       restorableDroppedDatabaseId: restorableDroppedDatabaseId,
       policyName: policyName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,6 +316,7 @@ export async function _getDeserialize(
 
   return managedBackupShortTermRetentionPolicyDeserializer(result.body);
 }
+
 /** Gets a dropped database's short term retention policy. */
 export async function get(
   context: Client,

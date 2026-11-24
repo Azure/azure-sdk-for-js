@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the Cassandra keyspaces under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the Cassandra keyspaces under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraKeyspaceGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCassandraKeyspaceGet.json
  */
 async function cosmosDBCassandraKeyspaceGet() {
   const credential = new DefaultAzureCredential();

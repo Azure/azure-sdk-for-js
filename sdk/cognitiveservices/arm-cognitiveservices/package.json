@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cognitiveservices",
-  "version": "9.0.0-beta.4",
+  "version": "9.1.0-beta.1",
   "description": "A generated SDK for CognitiveServicesManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -280,6 +280,34 @@
         "default": "./dist/commonjs/api/privateLinkResources/index.js"
       }
     },
+    "./api/projectCostControls": {
+      "browser": {
+        "types": "./dist/browser/api/projectCostControls/index.d.ts",
+        "default": "./dist/browser/api/projectCostControls/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/projectCostControls/index.d.ts",
+        "default": "./dist/esm/api/projectCostControls/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/projectCostControls/index.d.ts",
+        "default": "./dist/commonjs/api/projectCostControls/index.js"
+      }
+    },
+    "./api/accountCostControls": {
+      "browser": {
+        "types": "./dist/browser/api/accountCostControls/index.d.ts",
+        "default": "./dist/browser/api/accountCostControls/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accountCostControls/index.d.ts",
+        "default": "./dist/esm/api/accountCostControls/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accountCostControls/index.d.ts",
+        "default": "./dist/commonjs/api/accountCostControls/index.js"
+      }
+    },
     "./api/managedComputeCapacities": {
       "browser": {
         "types": "./dist/browser/api/managedComputeCapacities/index.d.ts",
@@ -348,6 +376,20 @@
       "require": {
         "types": "./dist/commonjs/api/computeOperations/index.d.ts",
         "default": "./dist/commonjs/api/computeOperations/index.js"
+      }
+    },
+    "./api/adapterDeployments": {
+      "browser": {
+        "types": "./dist/browser/api/adapterDeployments/index.d.ts",
+        "default": "./dist/browser/api/adapterDeployments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/adapterDeployments/index.d.ts",
+        "default": "./dist/esm/api/adapterDeployments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/adapterDeployments/index.d.ts",
+        "default": "./dist/commonjs/api/adapterDeployments/index.js"
       }
     },
     "./api/managedComputeDeployments": {
@@ -546,6 +588,34 @@
         "default": "./dist/commonjs/api/raiBlocklistItems/index.js"
       }
     },
+    "./api/raiBindings": {
+      "browser": {
+        "types": "./dist/browser/api/raiBindings/index.d.ts",
+        "default": "./dist/browser/api/raiBindings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/raiBindings/index.d.ts",
+        "default": "./dist/esm/api/raiBindings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/raiBindings/index.d.ts",
+        "default": "./dist/commonjs/api/raiBindings/index.js"
+      }
+    },
+    "./api/raiRegos": {
+      "browser": {
+        "types": "./dist/browser/api/raiRegos/index.d.ts",
+        "default": "./dist/browser/api/raiRegos/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/raiRegos/index.d.ts",
+        "default": "./dist/esm/api/raiRegos/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/raiRegos/index.d.ts",
+        "default": "./dist/commonjs/api/raiRegos/index.js"
+      }
+    },
     "./api/subscriptionRaiPolicy": {
       "browser": {
         "types": "./dist/browser/api/subscriptionRaiPolicy/index.d.ts",
@@ -630,6 +700,20 @@
         "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
       }
     },
+    "./api/attachedAksClusters": {
+      "browser": {
+        "types": "./dist/browser/api/attachedAksClusters/index.d.ts",
+        "default": "./dist/browser/api/attachedAksClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/attachedAksClusters/index.d.ts",
+        "default": "./dist/esm/api/attachedAksClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/attachedAksClusters/index.d.ts",
+        "default": "./dist/commonjs/api/attachedAksClusters/index.js"
+      }
+    },
     "./api/deletedAccounts": {
       "browser": {
         "types": "./dist/browser/api/deletedAccounts/index.d.ts",
@@ -684,6 +768,20 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./models/cognitiveServicesClientCustomizations": {
+      "browser": {
+        "types": "./dist/browser/models/cognitiveServicesClientCustomizations/index.d.ts",
+        "default": "./dist/browser/models/cognitiveServicesClientCustomizations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/cognitiveServicesClientCustomizations/index.d.ts",
+        "default": "./dist/esm/models/cognitiveServicesClientCustomizations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/cognitiveServicesClientCustomizations/index.d.ts",
+        "default": "./dist/commonjs/models/cognitiveServicesClientCustomizations/index.js"
       }
     }
   },
@@ -772,7 +870,8 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "dev-tool run test:vitest",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-cognitiveservices",

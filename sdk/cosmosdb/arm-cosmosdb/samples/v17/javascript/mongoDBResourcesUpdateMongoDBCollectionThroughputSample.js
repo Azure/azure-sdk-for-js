@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update the RUs per second of an Azure Cosmos DB MongoDB collection
  *
  * @summary update the RUs per second of an Azure Cosmos DB MongoDB collection
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBCollectionThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBCollectionThroughputUpdate.json
  */
 async function cosmosDBMongoDBCollectionThroughputUpdate() {
   const credential = new DefaultAzureCredential();

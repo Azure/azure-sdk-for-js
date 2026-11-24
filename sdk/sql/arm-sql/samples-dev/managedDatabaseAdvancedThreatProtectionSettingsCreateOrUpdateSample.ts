@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed database's Advanced Threat Protection state.
  *
  * @summary creates or updates a managed database's Advanced Threat Protection state.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseAdvancedThreatProtectionSettingsCreateMax.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseAdvancedThreatProtectionSettingsCreateMax.json
  */
 async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllPara
  * This sample demonstrates how to creates or updates a managed database's Advanced Threat Protection state.
  *
  * @summary creates or updates a managed database's Advanced Threat Protection state.
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseAdvancedThreatProtectionSettingsCreateMin.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseAdvancedThreatProtectionSettingsCreateMin.json
  */
 async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimalParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

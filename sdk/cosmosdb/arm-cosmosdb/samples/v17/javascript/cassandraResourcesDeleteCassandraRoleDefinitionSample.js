@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Cassandra Role Definition.
  *
  * @summary deletes an existing Azure Cosmos DB Cassandra Role Definition.
- * x-ms-original-file: 2026-03-15/cassandrarbac/CosmosDBCassandraRoleDefinitionDelete.json
+ * x-ms-original-file: 2026-07-15/cassandrarbac/CosmosDBCassandraRoleDefinitionDelete.json
  */
 async function cosmosDBCassandraRoleDefinitionDelete() {
   const credential = new DefaultAzureCredential();

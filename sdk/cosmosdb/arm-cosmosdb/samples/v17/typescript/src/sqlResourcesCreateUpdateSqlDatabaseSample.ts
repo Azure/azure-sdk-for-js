@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB SQL database
  *
  * @summary create or update an Azure Cosmos DB SQL database
- * x-ms-original-file: 2026-03-15/CosmosDBSqlDatabaseCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlDatabaseCreateUpdate.json
  */
 async function cosmosDBSqlDatabaseCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

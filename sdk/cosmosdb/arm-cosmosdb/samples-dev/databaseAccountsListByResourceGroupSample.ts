@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the Azure Cosmos DB database accounts available under the given resource group.
  *
  * @summary lists all the Azure Cosmos DB database accounts available under the given resource group.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountListByResourceGroup.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountListByResourceGroup.json
  */
 async function cosmosDBDatabaseAccountListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

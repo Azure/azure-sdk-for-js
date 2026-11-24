@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the fleetspaces under a fleet.
  *
  * @summary lists all the fleetspaces under a fleet.
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetspaceList.json
+ * x-ms-original-file: 2026-07-15/fleet/CosmosDBFleetspaceList.json
  */
 async function cosmosDBFleetspaceList() {
   const credential = new DefaultAzureCredential();

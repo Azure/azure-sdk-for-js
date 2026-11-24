@@ -35,7 +35,7 @@ export function _listByMongoClusterSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -62,7 +62,8 @@ export async function _listByMongoClusterDeserialize(
 
   return _firewallRuleListResultDeserializer(result.body);
 }
-/** List all the firewall rules in a given mongo cluster. */
+
+/** List all the firewall rules in a given DocumentDB cluster. */
 export function listByMongoCluster(
   context: Client,
   resourceGroupName: string,
@@ -74,11 +75,7 @@ export function listByMongoCluster(
     () => _listByMongoClusterSend(context, resourceGroupName, mongoClusterName, options),
     _listByMongoClusterDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
   );
 }
 
@@ -96,7 +93,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +115,8 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-/** Deletes a mongo cluster firewall rule. */
+
+/** Deletes a DocumentDB cluster firewall rule. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -132,7 +130,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, mongoClusterName, firewallRuleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -151,7 +149,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +178,8 @@ export async function _createOrUpdateDeserialize(
 
   return firewallRuleDeserializer(result.body);
 }
-/** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
+
+/** Creates a new firewall rule or updates an existing firewall rule on a DocumentDB cluster. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -202,7 +201,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-06-15-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01",
   }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
@@ -220,7 +219,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mongoClusterName: mongoClusterName,
       firewallRuleName: firewallRuleName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -245,7 +244,8 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallRuleDeserializer(result.body);
 }
-/** Gets information about a mongo cluster firewall rule. */
+
+/** Gets information about a DocumentDB cluster firewall rule. */
 export async function get(
   context: Client,
   resourceGroupName: string,

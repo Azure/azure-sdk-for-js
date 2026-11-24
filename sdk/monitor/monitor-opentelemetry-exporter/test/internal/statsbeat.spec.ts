@@ -19,6 +19,7 @@ import {
 } from "../../src/export/statsbeat/types.js";
 import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { StatsbeatManager } from "../../src/export/statsbeat/statsbeatManager.js";
+import { ConfigurationManager } from "../../src/_configuration/configurationManager.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
@@ -65,6 +66,17 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     };
 
     beforeAll(() => {
+      nock.disableNetConnect();
+      vi.spyOn(ConfigurationManager.getInstance(), "initialize").mockImplementation(() => {});
+      for (const endpoint of [
+        "https://westus-0.in.applicationinsights.azure.com",
+        "https://westeurope-5.in.applicationinsights.azure.com",
+      ]) {
+        nock(endpoint)
+          .post("/v2.1/track")
+          .reply(200, JSON.stringify(successfulBreezeResponse(1)))
+          .persist();
+      }
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
 
       it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
@@ -78,9 +90,14 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
     });
 
-    afterAll(() => {
-      vi.restoreAllMocks();
-      nock.cleanAll();
+    afterAll(async () => {
+      try {
+        await StatsbeatManager.getInstance().shutdown();
+      } finally {
+        vi.restoreAllMocks();
+        nock.cleanAll();
+        nock.enableNetConnect();
+      }
     });
 
     describe("Initialization, shutdown, and connection string functions", () => {
@@ -882,29 +899,88 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Disable Non-Essential Statsbeat", () => {
+      let originalEnv: NodeJS.ProcessEnv;
+
+      beforeEach(() => {
+        originalEnv = process.env;
+        process.env = { ...originalEnv };
+      });
+
+      afterEach(async () => {
+        try {
+          await StatsbeatManager.getInstance().shutdown();
+        } finally {
+          process.env = originalEnv;
+        }
+      });
+
       it("should disable statsbeat when the environment variable is set", async () => {
-        await StatsbeatManager.getInstance().shutdown();
+        // Shutdown can recreate metrics when a pending OneSettings callback enables Statsbeat.
         process.env[ENV_DISABLE_STATSBEAT] = "true";
-        const exporter = new AzureMonitorTraceExporter(exportOptions);
-        const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
-        assert.isDefined(networkStatsbeat);
-        assert.isUndefined(networkStatsbeat?.["readFailureGauge"]);
-        assert.isUndefined(networkStatsbeat?.["writeFailureGauge"]);
-        delete process.env[ENV_DISABLE_STATSBEAT];
         await StatsbeatManager.getInstance().shutdown();
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        try {
+          const networkStatsbeat = exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics;
+          assert.isDefined(networkStatsbeat);
+          assert.isUndefined(networkStatsbeat["readFailureGauge"]);
+          assert.isUndefined(networkStatsbeat["writeFailureGauge"]);
+        } finally {
+          await exporter.shutdown();
+        }
       });
 
       it("should disable all statsbeat when the legacy environment variable is set", async () => {
-        await StatsbeatManager.getInstance().shutdown();
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
+        await StatsbeatManager.getInstance().shutdown();
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
-        assert.isUndefined(exporter["sender"]["statsbeatManager"].longIntervalStatsbeatMetrics);
-        delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+        try {
+          assert.isUndefined(exporter["sender"]["statsbeatManager"].networkStatsbeatMetrics);
+          assert.isUndefined(exporter["sender"]["statsbeatManager"].longIntervalStatsbeatMetrics);
+        } finally {
+          await exporter.shutdown();
+        }
       });
     });
 
     describe("Long Interval Statsbeat Metrics", () => {
+      it.each([0, 16384, 32768, 49152])(
+        "exports experimental bitmap %s supplied by the distro without changing other bits",
+        async (experimentalBits) => {
+          vi.stubEnv("WEBSITE_SITE_NAME", "statsbeat-test");
+          vi.stubEnv("LONG_INTERVAL_EXPORT_MILLIS", "86400000");
+          vi.stubEnv(
+            "AZURE_MONITOR_STATSBEAT_FEATURES",
+            JSON.stringify({ feature: 16383 | experimentalBits, instrumentation: 10 }),
+          );
+          const statsbeat = new LongIntervalStatsbeatMetrics(options);
+
+          try {
+            await vi.waitFor(() => expect(statsbeat["initialExportTimer"]).toBeDefined());
+            const { resourceMetrics } = await statsbeat["longIntervalMetricReader"].collect();
+            const featureMetric = resourceMetrics.scopeMetrics
+              .flatMap((scopeMetric) => scopeMetric.metrics)
+              .find((entry) => entry.descriptor.name === StatsbeatCounter.FEATURE);
+
+            expect(featureMetric?.dataPoints).toEqual([
+              expect.objectContaining({
+                value: 1,
+                attributes: expect.objectContaining({ feature: 10, type: 1 }),
+              }),
+              expect.objectContaining({
+                value: 1,
+                attributes: expect.objectContaining({
+                  feature: 16383 | experimentalBits,
+                  type: 0,
+                }),
+              }),
+            ]);
+          } finally {
+            await statsbeat.shutdown();
+            vi.unstubAllEnvs();
+          }
+        },
+      );
+
       it("unrefs and cancels the delayed initial export during shutdown", async () => {
         const originalWebsiteSiteName = process.env.WEBSITE_SITE_NAME;
         process.env.WEBSITE_SITE_NAME = "statsbeat-test";

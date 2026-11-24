@@ -60,6 +60,7 @@ export interface ServerSecurityAlertPoliciesOperations {
     options?: ServerSecurityAlertPoliciesGetOptionalParams,
   ) => Promise<ServerSecurityAlertPolicy>;
 }
+
 function _getServerSecurityAlertPolicies(context: SqlManagementContext) {
   return {
     listByServer: (
@@ -124,6 +125,7 @@ function _getServerSecurityAlertPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, securityAlertPolicyName, options),
   };
 }
+
 export function _getServerSecurityAlertPoliciesOperations(
   context: SqlManagementContext,
 ): ServerSecurityAlertPoliciesOperations {

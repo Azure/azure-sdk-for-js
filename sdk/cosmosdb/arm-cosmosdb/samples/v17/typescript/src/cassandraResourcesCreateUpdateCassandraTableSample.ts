@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra Table
  *
  * @summary create or update an Azure Cosmos DB Cassandra Table
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraTableCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCassandraTableCreateUpdate.json
  */
 async function cosmosDBCassandraTableCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

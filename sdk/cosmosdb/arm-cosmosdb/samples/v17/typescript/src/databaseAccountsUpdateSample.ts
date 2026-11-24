@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the properties of an existing Azure Cosmos DB database account.
  *
  * @summary updates the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountPatch.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountPatch.json
  */
 async function cosmosDBDatabaseAccountPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -52,6 +52,7 @@ async function cosmosDBDatabaseAccountPatch(): Promise<void> {
         backupRetentionIntervalInHours: 720,
         backupStorageRedundancy: "Local",
       },
+      backupRetentionLockExpirationTimestamp: new Date("2030-06-01T00:00:00Z"),
     },
     networkAclBypass: "AzureServices",
     networkAclBypassResourceIds: [
@@ -60,6 +61,7 @@ async function cosmosDBDatabaseAccountPatch(): Promise<void> {
     capacity: { totalThroughputLimit: 2000 },
     enablePartitionMerge: true,
     enforceHierarchicalPartitionKeyIdLastLevel: false,
+    perPartitionAutomaticFailoverEnabled: true,
     minimalTlsVersion: "Tls",
   });
   console.log(result);

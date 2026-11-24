@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an existing custom domain within an endpoint.
  *
  * @summary gets an existing custom domain within an endpoint.
- * x-ms-original-file: 2025-12-01/CustomDomains_Get.json
+ * x-ms-original-file: 2026-10-01/CustomDomains_Get.json
  */
 async function customDomainsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

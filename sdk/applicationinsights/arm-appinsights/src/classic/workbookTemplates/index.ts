@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workbookTemplates/operations.js";
-import {
+import type {
   WorkbookTemplatesListByResourceGroupOptionalParams,
   WorkbookTemplatesDeleteOptionalParams,
   WorkbookTemplatesUpdateOptionalParams,
   WorkbookTemplatesCreateOrUpdateOptionalParams,
   WorkbookTemplatesGetOptionalParams,
 } from "../../api/workbookTemplates/options.js";
-import { WorkbookTemplate } from "../../models/workbookTemplatesApi/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { WorkbookTemplate } from "../../models/workbookTemplatesApi/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkbookTemplates operations. */
 export interface WorkbookTemplatesOperations {

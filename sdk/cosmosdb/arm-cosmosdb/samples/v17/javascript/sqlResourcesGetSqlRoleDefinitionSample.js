@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlRoleDefinitionGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlRoleDefinitionGet.json
  */
 async function cosmosDBSqlRoleDefinitionGet() {
   const credential = new DefaultAzureCredential();

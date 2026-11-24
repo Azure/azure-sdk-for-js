@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a restorable dropped managed database.
  *
  * @summary gets a restorable dropped managed database.
- * x-ms-original-file: 2025-08-01-preview/GetRestorableDroppedManagedDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/GetRestorableDroppedManagedDatabase.json
  */
 async function getsARestorableDroppedManagedDatabase() {
   const credential = new DefaultAzureCredential();

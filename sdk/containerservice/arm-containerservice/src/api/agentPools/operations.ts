@@ -6,7 +6,6 @@ import type {
   AgentPool,
   _AgentPoolListResult,
   AgentPoolDeleteMachinesParameter,
-  ListBootstrapDataRequest,
   PoolBootstrapData,
   AgentPoolUpdate,
   AgentPoolAvailableVersions,
@@ -18,7 +17,6 @@ import {
   errorResponseDeserializer,
   _agentPoolListResultDeserializer,
   agentPoolDeleteMachinesParameterSerializer,
-  listBootstrapDataRequestSerializer,
   poolBootstrapDataDeserializer,
   agentPoolUpdateSerializer,
   agentPoolAvailableVersionsDeserializer,
@@ -60,7 +58,7 @@ export function _getUpgradeProfileSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +116,7 @@ export function _getAvailableAgentPoolVersionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -177,7 +175,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +222,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, resourceName, agentPoolName, parameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
@@ -233,7 +231,6 @@ export function _listBootstrapDataSend(
   resourceGroupName: string,
   resourceName: string,
   agentPoolName: string,
-  body: ListBootstrapDataRequest,
   options: AgentPoolsListBootstrapDataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -243,7 +240,7 @@ export function _listBootstrapDataSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,9 +248,7 @@ export function _listBootstrapDataSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listBootstrapDataRequestSerializer(body),
   });
 }
 
@@ -279,7 +274,6 @@ export async function listBootstrapData(
   resourceGroupName: string,
   resourceName: string,
   agentPoolName: string,
-  body: ListBootstrapDataRequest,
   options: AgentPoolsListBootstrapDataOptionalParams = { requestOptions: {} },
 ): Promise<PoolBootstrapData> {
   const result = await _listBootstrapDataSend(
@@ -287,7 +281,6 @@ export async function listBootstrapData(
     resourceGroupName,
     resourceName,
     agentPoolName,
-    body,
     options,
   );
   return _listBootstrapDataDeserialize(result);
@@ -307,7 +300,7 @@ export function _upgradeNodeImageVersionSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -355,7 +348,7 @@ export function upgradeNodeImageVersion(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -374,7 +367,7 @@ export function _deleteMachinesSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,7 +416,7 @@ export function deleteMachines(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -441,7 +434,7 @@ export function _completeUpgradeSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -478,7 +471,7 @@ export function completeUpgrade(
     getInitialResponse: () =>
       _completeUpgradeSend(context, resourceGroupName, resourceName, agentPoolName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -496,7 +489,7 @@ export function _abortLatestOperationSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -539,7 +532,7 @@ export function abortLatestOperation(
       getInitialResponse: () =>
         _abortLatestOperationSend(context, resourceGroupName, resourceName, agentPoolName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-07-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -556,7 +549,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -599,7 +592,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-07-02-preview",
+      apiVersion: context.apiVersion ?? "2026-09-02-preview",
     },
   );
 }
@@ -618,7 +611,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
       "ignore%2Dpod%2Ddisruption%2Dbudget": options?.ignorePodDisruptionBudget,
     },
     {
@@ -662,7 +655,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, resourceName, agentPoolName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -681,7 +674,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +731,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-02-preview",
+    apiVersion: context.apiVersion ?? "2026-09-02-preview",
   }) as PollerLike<OperationState<AgentPool>, AgentPool>;
 }
 
@@ -756,7 +749,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

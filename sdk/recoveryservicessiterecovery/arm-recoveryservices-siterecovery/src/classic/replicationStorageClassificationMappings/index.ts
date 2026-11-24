@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import {
   list,
   listByReplicationStorageClassifications,
@@ -9,20 +9,21 @@ import {
   create,
   get,
 } from "../../api/replicationStorageClassificationMappings/operations.js";
-import {
+import type {
   ReplicationStorageClassificationMappingsListOptionalParams,
   ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams,
   ReplicationStorageClassificationMappingsDeleteOptionalParams,
   ReplicationStorageClassificationMappingsCreateOptionalParams,
   ReplicationStorageClassificationMappingsGetOptionalParams,
 } from "../../api/replicationStorageClassificationMappings/options.js";
-import {
+import type {
   StorageClassificationMapping,
   StorageClassificationMappingInput,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationStorageClassificationMappings operations. */
 export interface ReplicationStorageClassificationMappingsOperations {

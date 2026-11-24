@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBDataTransferServiceCreate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDataTransferServiceCreate.json
  */
 async function dataTransferServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function dataTransferServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBGraphAPIComputeServiceCreate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBGraphAPIComputeServiceCreate.json
  */
 async function graphAPIComputeServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function graphAPIComputeServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/CosmosDBMaterializedViewsBuilderServiceCreate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMaterializedViewsBuilderServiceCreate.json
  */
 async function materializedViewsBuilderServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function materializedViewsBuilderServiceCreate(): Promise<void> {
  * This sample demonstrates how to creates a service.
  *
  * @summary creates a service.
- * x-ms-original-file: 2026-03-15/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceCreate.json
+ * x-ms-original-file: 2026-07-15/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceCreate.json
  */
 async function sqlDedicatedGatewayServiceCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

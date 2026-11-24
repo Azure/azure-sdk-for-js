@@ -126,7 +126,7 @@ export function _listSqlRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +166,7 @@ export function listSqlRoleAssignments(
     () => _listSqlRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listSqlRoleAssignmentsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -184,7 +184,7 @@ export function _deleteSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +229,7 @@ export function deleteSqlRoleAssignment(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -248,7 +248,7 @@ export function _createUpdateSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +306,7 @@ export function createUpdateSqlRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlRoleAssignmentGetResults>, SqlRoleAssignmentGetResults>;
 }
@@ -325,7 +325,7 @@ export function _getSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,7 +383,7 @@ export function _listSqlRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,7 +423,7 @@ export function listSqlRoleDefinitions(
     () => _listSqlRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listSqlRoleDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -441,7 +441,7 @@ export function _deleteSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -486,7 +486,7 @@ export function deleteSqlRoleDefinition(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -505,7 +505,7 @@ export function _createUpdateSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -563,7 +563,7 @@ export function createUpdateSqlRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlRoleDefinitionGetResults>, SqlRoleDefinitionGetResults>;
 }
@@ -582,7 +582,7 @@ export function _getSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -644,7 +644,7 @@ export function _listSqlTriggersSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -694,7 +694,7 @@ export function listSqlTriggers(
       ),
     _listSqlTriggersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -716,7 +716,7 @@ export function _deleteSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -763,7 +763,7 @@ export function deleteSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -786,7 +786,7 @@ export function _createUpdateSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -842,7 +842,7 @@ export function createUpdateSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<SqlTriggerGetResults>, SqlTriggerGetResults>;
 }
 
@@ -864,7 +864,7 @@ export function _getSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -930,7 +930,7 @@ export function _listSqlUserDefinedFunctionsSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -980,7 +980,7 @@ export function listSqlUserDefinedFunctions(
       ),
     _listSqlUserDefinedFunctionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1002,7 +1002,7 @@ export function _deleteSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1055,7 +1055,7 @@ export function deleteSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1079,7 +1079,7 @@ export function _createUpdateSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1141,7 +1141,7 @@ export function createUpdateSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<
     OperationState<SqlUserDefinedFunctionGetResults>,
@@ -1167,7 +1167,7 @@ export function _getSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1233,7 +1233,7 @@ export function _listSqlStoredProceduresSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1283,7 +1283,7 @@ export function listSqlStoredProcedures(
       ),
     _listSqlStoredProceduresDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1305,7 +1305,7 @@ export function _deleteSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1358,7 +1358,7 @@ export function deleteSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1382,7 +1382,7 @@ export function _createUpdateSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1444,7 +1444,7 @@ export function createUpdateSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlStoredProcedureGetResults>, SqlStoredProcedureGetResults>;
 }
@@ -1467,7 +1467,7 @@ export function _getSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1534,7 +1534,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1592,7 +1592,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -1611,7 +1611,7 @@ export function _listSqlContainersSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1652,7 +1652,7 @@ export function listSqlContainers(
     () => _listSqlContainersSend(context, resourceGroupName, accountName, databaseName, options),
     _listSqlContainersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1672,7 +1672,7 @@ export function _deleteSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1717,7 +1717,7 @@ export function deleteSqlContainer(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1738,7 +1738,7 @@ export function _createUpdateSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1796,7 +1796,7 @@ export function createUpdateSqlContainer(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlContainerGetResults>, SqlContainerGetResults>;
 }
@@ -1817,7 +1817,7 @@ export function _getSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1879,7 +1879,7 @@ export function _listClientEncryptionKeysSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1921,7 +1921,7 @@ export function listClientEncryptionKeys(
       _listClientEncryptionKeysSend(context, resourceGroupName, accountName, databaseName, options),
     _listClientEncryptionKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1942,7 +1942,7 @@ export function _createUpdateClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2002,7 +2002,7 @@ export function createUpdateClientEncryptionKey(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ClientEncryptionKeyGetResults>, ClientEncryptionKeyGetResults>;
 }
@@ -2023,7 +2023,7 @@ export function _getClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2087,7 +2087,7 @@ export function _migrateSqlContainerToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2141,7 +2141,7 @@ export function migrateSqlContainerToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2162,7 +2162,7 @@ export function _migrateSqlContainerToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2216,7 +2216,7 @@ export function migrateSqlContainerToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2238,7 +2238,7 @@ export function _updateSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2296,7 +2296,7 @@ export function updateSqlContainerThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2317,7 +2317,7 @@ export function _getSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2379,7 +2379,7 @@ export function _migrateSqlDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2431,7 +2431,7 @@ export function migrateSqlDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2450,7 +2450,7 @@ export function _migrateSqlDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2502,7 +2502,7 @@ export function migrateSqlDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2522,7 +2522,7 @@ export function _updateSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2578,7 +2578,7 @@ export function updateSqlDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2597,7 +2597,7 @@ export function _getSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2655,7 +2655,7 @@ export function _listSqlDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2695,7 +2695,7 @@ export function listSqlDatabases(
     () => _listSqlDatabasesSend(context, resourceGroupName, accountName, options),
     _listSqlDatabasesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -2713,7 +2713,7 @@ export function _deleteSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2750,7 +2750,7 @@ export function deleteSqlDatabase(
     getInitialResponse: () =>
       _deleteSqlDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -2769,7 +2769,7 @@ export function _createUpdateSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2821,7 +2821,7 @@ export function createUpdateSqlDatabase(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<SqlDatabaseGetResults>, SqlDatabaseGetResults>;
 }
 
@@ -2839,7 +2839,7 @@ export function _getSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

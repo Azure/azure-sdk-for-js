@@ -1,0 +1,64 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "queryPack": {
+          "bicepIdentifier": "queryPack",
+          "type": "Microsoft.OperationalInsights/queryPacks",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-query-pack"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {}
+              }
+            }
+          }
+        },
+        "query": {
+          "bicepIdentifier": "query",
+          "type": "Microsoft.OperationalInsights/queryPacks/queries",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "public-query"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "queryPack"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "body": {
+                    "kind": "string",
+                    "value": "Heartbeat | take 10"
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "value": "public query"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

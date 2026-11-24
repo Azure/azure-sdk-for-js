@@ -1,5 +1,25 @@
 # Release History
 
+## 39.2.0 (2026-11-18)
+
+### Features Added
+  - Added Interface NetworkVirtualApplianceLoadBalancerConfiguration
+  - Interface ApplicationGateway has a new optional parameter deploymentTier
+  - Interface ApplicationGateway has a new optional parameter enableConfidentialCompute
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter deploymentTier
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter enableConfidentialCompute
+  - Interface AzureFirewall has a new optional parameter tcpIdleTimeoutInMinutes
+  - Interface AzureFirewallPropertiesFormat has a new optional parameter tcpIdleTimeoutInMinutes
+  - Interface InboundSecurityRules has a new optional parameter loadBalancerConfiguration
+  - Interface NetworkInterface has a new optional parameter networkAdapterIndex
+  - Interface NetworkInterfacePropertiesFormat has a new optional parameter networkAdapterIndex
+  - Interface NetworkVirtualAppliance has a new optional parameter loadBalancerConfiguration
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter loadBalancerConfiguration
+  - Added Type Alias ApplicationGatewayDeploymentTier
+  - Added Type Alias NetworkVirtualApplianceLoadDistribution
+  - Added Enum KnownApplicationGatewayDeploymentTier
+  - Added Enum KnownNetworkVirtualApplianceLoadDistribution
+
 ## 39.1.0 (2026-10-09)
 
 ### Features Added

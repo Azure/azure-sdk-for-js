@@ -99,6 +99,7 @@ export type {
   AutoscaleSettingsResource,
   AutoUpgradePolicyResource,
   ThroughputPolicyResource,
+  ThroughputBucketResource,
   ThroughputSettingsUpdateParameters,
   ThroughputSettingsUpdateProperties,
   CloudError,

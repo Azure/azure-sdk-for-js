@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
  *
  * @summary gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
- * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraStatus.json
+ * x-ms-original-file: 2026-07-15/CosmosDBManagedCassandraStatus.json
  */
 async function cosmosDBManagedCassandraStatus() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a workload classifier.
  *
  * @summary deletes a workload classifier.
- * x-ms-original-file: 2025-08-01-preview/DeleteWorkloadClassifier.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteWorkloadClassifier.json
  */
 async function deleteAWorkloadClassifier(): Promise<void> {
   const credential = new DefaultAzureCredential();

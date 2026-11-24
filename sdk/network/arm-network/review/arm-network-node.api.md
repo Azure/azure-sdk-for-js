@@ -324,6 +324,8 @@ export interface ApplicationGateway extends Resource {
     backendSettingsCollection?: ApplicationGatewayBackendSettings[];
     customErrorConfigurations?: ApplicationGatewayCustomError[];
     readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
+    deploymentTier?: ApplicationGatewayDeploymentTier;
+    enableConfidentialCompute?: boolean;
     enableFips?: boolean;
     enableHttp2?: boolean;
     entraJWTValidationConfigs?: ApplicationGatewayEntraJWTValidationConfig[];
@@ -642,6 +644,9 @@ export interface ApplicationGatewayCustomError {
 
 // @public
 export type ApplicationGatewayCustomErrorStatusCode = string;
+
+// @public
+export type ApplicationGatewayDeploymentTier = string;
 
 // @public
 export interface ApplicationGatewayEntraJWTValidationConfig extends SubResource {
@@ -1114,6 +1119,8 @@ export interface ApplicationGatewayPropertiesFormat {
     backendSettingsCollection?: ApplicationGatewayBackendSettings[];
     customErrorConfigurations?: ApplicationGatewayCustomError[];
     readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
+    deploymentTier?: ApplicationGatewayDeploymentTier;
+    enableConfidentialCompute?: boolean;
     enableFips?: boolean;
     enableHttp2?: boolean;
     entraJWTValidationConfigs?: ApplicationGatewayEntraJWTValidationConfig[];
@@ -1983,6 +1990,7 @@ export interface AzureFirewall extends Resource {
     networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
     readonly provisioningState?: CommonProvisioningState;
     sku?: AzureFirewallSku;
+    tcpIdleTimeoutInMinutes?: number;
     threatIntelMode?: AzureFirewallThreatIntelMode;
     virtualHub?: SubResource;
     zones?: string[];
@@ -2196,6 +2204,7 @@ export interface AzureFirewallPropertiesFormat {
     networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
     readonly provisioningState?: CommonProvisioningState;
     sku?: AzureFirewallSku;
+    tcpIdleTimeoutInMinutes?: number;
     threatIntelMode?: AzureFirewallThreatIntelMode;
     virtualHub?: SubResource;
 }
@@ -7177,6 +7186,7 @@ export interface InboundSecurityRules {
     appliesOn?: string[];
     destinationPortRange?: number;
     destinationPortRanges?: string[];
+    loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
     name?: string;
     protocol?: InboundSecurityRulesProtocol;
     sourceAddressPrefix?: string;
@@ -7764,6 +7774,14 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
     HttpStatus502 = "HttpStatus502",
     HttpStatus503 = "HttpStatus503",
     HttpStatus504 = "HttpStatus504"
+}
+
+// @public
+export enum KnownApplicationGatewayDeploymentTier {
+    Accelerated = "Accelerated",
+    Elastic = "Elastic",
+    NetworkIsolated = "NetworkIsolated",
+    Standard = "Standard"
 }
 
 // @public
@@ -8983,6 +9001,13 @@ export enum KnownNetworkProtocol {
     Icmp = "ICMP",
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownNetworkVirtualApplianceLoadDistribution {
+    Default = "Default",
+    SourceIP = "SourceIP",
+    SourceIPProtocol = "SourceIPProtocol"
 }
 
 // @public
@@ -10754,6 +10779,7 @@ export interface NetworkInterface extends Resource {
     ipConfigurations?: NetworkInterfaceIPConfiguration[];
     readonly macAddress?: string;
     migrationPhase?: NetworkInterfaceMigrationPhase;
+    networkAdapterIndex?: number;
     networkSecurityGroup?: NetworkSecurityGroup;
     nicType?: NetworkInterfaceNicType;
     readonly primary?: boolean;
@@ -10877,6 +10903,7 @@ export interface NetworkInterfacePropertiesFormat {
     ipConfigurations?: NetworkInterfaceIPConfiguration[];
     readonly macAddress?: string;
     migrationPhase?: NetworkInterfaceMigrationPhase;
+    networkAdapterIndex?: number;
     networkSecurityGroup?: NetworkSecurityGroup;
     nicType?: NetworkInterfaceNicType;
     readonly primary?: boolean;
@@ -11907,6 +11934,7 @@ export interface NetworkVirtualAppliance extends Resource {
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
     internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
+    loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
     readonly migrationStatus?: NetworkVirtualApplianceMigrationStatus;
     networkProfile?: NetworkVirtualAppliancePropertiesFormatNetworkProfile;
     nvaInterfaceConfigurations?: NvaInterfaceConfigurationsProperties[];
@@ -12018,6 +12046,15 @@ export interface NetworkVirtualApplianceInstanceIds {
 }
 
 // @public
+export interface NetworkVirtualApplianceLoadBalancerConfiguration {
+    idleTimeoutInMinutes?: number;
+    loadDistribution?: NetworkVirtualApplianceLoadDistribution;
+}
+
+// @public
+export type NetworkVirtualApplianceLoadDistribution = string;
+
+// @public
 export interface NetworkVirtualApplianceMigrationStatus {
     migrationPhase?: string;
     migrationPhaseStatus?: string;
@@ -12048,6 +12085,7 @@ export interface NetworkVirtualAppliancePropertiesFormat {
     readonly deploymentType?: string;
     readonly inboundSecurityRules?: SubResource[];
     internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
+    loadBalancerConfiguration?: NetworkVirtualApplianceLoadBalancerConfiguration;
     readonly migrationStatus?: NetworkVirtualApplianceMigrationStatus;
     networkProfile?: NetworkVirtualAppliancePropertiesFormatNetworkProfile;
     nvaInterfaceConfigurations?: NvaInterfaceConfigurationsProperties[];

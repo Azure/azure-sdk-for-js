@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all managed Cassandra clusters in this resource group.
  *
  * @summary list all managed Cassandra clusters in this resource group.
- * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraClusterListByResourceGroup.json
+ * x-ms-original-file: 2026-07-15/CosmosDBManagedCassandraClusterListByResourceGroup.json
  */
 async function cosmosDBManagedCassandraClusterListByResourceGroup() {
   const credential = new DefaultAzureCredential();

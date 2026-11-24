@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the Azure Active Directory administrator with the given name.
  *
  * @summary deletes the Azure Active Directory administrator with the given name.
- * x-ms-original-file: 2025-08-01-preview/AdministratorDelete.json
+ * x-ms-original-file: 2026-08-01-preview/AdministratorDelete.json
  */
 async function deleteAzureActiveDirectoryAdministrator() {
   const credential = new DefaultAzureCredential();

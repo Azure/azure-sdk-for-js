@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get managed database table
  *
  * @summary get managed database table
- * x-ms-original-file: 2025-08-01-preview/ManagedDatabaseTableGet.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedDatabaseTableGet.json
  */
 async function getManagedDatabaseTable() {
   const credential = new DefaultAzureCredential();

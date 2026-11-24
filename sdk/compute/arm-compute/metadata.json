@@ -5,7 +5,7 @@
     "ComputeGallery": "2026-03-03",
     "ComputeSku": "2021-07-01"
   },
-  "emitterVersion": "0.57.0",
+  "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Compute",
     "CrossLanguageDefinitionId": {
@@ -187,6 +187,7 @@
       "@azure/arm-compute!VirtualMachine:interface": "Compute.VirtualMachine",
       "@azure/arm-compute!VirtualMachineProperties:interface": "Compute.VirtualMachineProperties",
       "@azure/arm-compute!HardwareProfile:interface": "Compute.HardwareProfile",
+      "@azure/arm-compute!FlexProfile:interface": "Compute.FlexProfile",
       "@azure/arm-compute!StorageProfile:interface": "Compute.StorageProfile",
       "@azure/arm-compute!OSDisk:interface": "Compute.OSDisk",
       "@azure/arm-compute!DiskEncryptionSettings:interface": "Compute.DiskEncryptionSettings",
@@ -748,6 +749,7 @@
       "@azure/arm-compute!KnownIntervalInMins:enum": "Compute.IntervalInMins",
       "@azure/arm-compute!KnownSoftDeletedArtifactTypes:enum": "ComputeGallery.SoftDeletedArtifactTypes",
       "@azure/arm-compute!KnownSharingUpdateOperationTypes:enum": "ComputeGallery.SharingUpdateOperationTypes",
+      "@azure/arm-compute!VirtualMachineScaleSetUpdateIPConfigurationPropertiesPrivateIpAddressPrefixLength:type": "Compute.VirtualMachineScaleSetUpdateIPConfigurationProperties.privateIPAddressPrefixLength.anonymous",
       "@azure/arm-compute!GallerySharingProfileOperations#update:member": "ComputeGallery.Galleries.gallerySharingProfileUpdate",
       "@azure/arm-compute!SoftDeletedResourceOperations#listByArtifactName:member": "ComputeGallery.Galleries.listByArtifactName",
       "@azure/arm-compute!DiskRestorePointOperations#revokeAccess:member": "ComputeDisk.DiskRestorePoints.revokeAccess",

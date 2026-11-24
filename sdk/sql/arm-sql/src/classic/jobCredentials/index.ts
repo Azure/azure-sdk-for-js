@@ -47,6 +47,7 @@ export interface JobCredentialsOperations {
     options?: JobCredentialsGetOptionalParams,
   ) => Promise<JobCredential>;
 }
+
 function _getJobCredentials(context: SqlManagementContext) {
   return {
     listByAgent: (
@@ -88,6 +89,7 @@ function _getJobCredentials(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, jobAgentName, credentialName, options),
   };
 }
+
 export function _getJobCredentialsOperations(
   context: SqlManagementContext,
 ): JobCredentialsOperations {

@@ -1,5 +1,23 @@
 # Release History
 
+## 1.26.0 (Unreleased)
+
+### Features Added
+
+- Export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` so it can be used without depending on `@azure/core-client`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.25.1 (2026-11-06)
+
+### Bugs Fixed
+
+- Restore original abort signals after wrapping, keep legacy signals connected through streamed request and response completion, and dispose streamed authentication challenge bodies before resending requests. [#40251](https://github.com/Azure/azure-sdk-for-js/issues/40251)
+
 ## 1.25.0 (2026-07-13)
 
 ### Other Changes

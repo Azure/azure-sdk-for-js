@@ -47,7 +47,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/timeseriesinsights/arm-timeseriesinsights",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/timeseriesinsights/arm-timeseriesinsights"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

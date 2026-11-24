@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Azure Cosmos DB Cassandra Role Definition.
  *
  * @summary creates or updates an Azure Cosmos DB Cassandra Role Definition.
- * x-ms-original-file: 2026-03-15/cassandrarbac/CosmosDBCassandraRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/cassandrarbac/CosmosDBCassandraRoleDefinitionCreateUpdate.json
  */
 async function cosmosDBCassandraRoleDefinitionCreateUpdate() {
   const credential = new DefaultAzureCredential();

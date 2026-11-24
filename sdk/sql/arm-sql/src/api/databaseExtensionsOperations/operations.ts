@@ -40,7 +40,7 @@ export function _listByDatabaseSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,6 +67,7 @@ export async function _listByDatabaseDeserialize(
 
   return _importExportExtensionsOperationListResultDeserializer(result.body);
 }
+
 /** List database extension. This will return an empty list as it is not supported. */
 export function listByDatabase(
   context: Client,
@@ -83,7 +84,7 @@ export function listByDatabase(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -105,7 +106,7 @@ export function _createOrUpdateSend(
       serverName: serverName,
       databaseName: databaseName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -134,6 +135,7 @@ export async function _createOrUpdateDeserialize(
 
   return importExportExtensionsOperationResultDeserializer(result.body);
 }
+
 /** Perform a database extension operation, like database import, database export, or polybase import */
 export function createOrUpdate(
   context: Client,
@@ -161,7 +163,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<ImportExportExtensionsOperationResult>,
     ImportExportExtensionsOperationResult
@@ -184,7 +186,7 @@ export function _getSend(
       serverName: serverName,
       databaseName: databaseName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -206,6 +208,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<vo
 
   return;
 }
+
 /** Gets a database extension. This will return resource not found as it is not supported. */
 export async function get(
   context: Client,

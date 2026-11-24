@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { KeyVaultContext } from "../../api/keyVaultContext.js";
-import { listForScope, get, create, $delete } from "../../api/roleAssignments/operations.js";
+import {
+  listForScope,
+  get,
+  create,
+  deleteRoleAssignment,
+} from "../../api/roleAssignments/operations.js";
 import {
   RoleAssignmentsListForScopeOptionalParams,
   RoleAssignmentsGetOptionalParams,
@@ -33,12 +38,7 @@ export interface RoleAssignmentsOperations {
     options?: RoleAssignmentsCreateOptionalParams,
   ) => Promise<RoleAssignment>;
   /** Deletes a role assignment. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
-  delete: (
+  deleteRoleAssignment: (
     scope: string,
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams,
@@ -57,11 +57,11 @@ function _getRoleAssignments(context: KeyVaultContext) {
       parameters: RoleAssignmentCreateParameters,
       options?: RoleAssignmentsCreateOptionalParams,
     ) => create(context, scope, roleAssignmentName, parameters, options),
-    delete: (
+    deleteRoleAssignment: (
       scope: string,
       roleAssignmentName: string,
       options?: RoleAssignmentsDeleteOptionalParams,
-    ) => $delete(context, scope, roleAssignmentName, options),
+    ) => deleteRoleAssignment(context, scope, roleAssignmentName, options),
   };
 }
 

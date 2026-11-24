@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB SQL database
  *
  * @summary update RUs per second of an Azure Cosmos DB SQL database
- * x-ms-original-file: 2026-03-15/CosmosDBSqlDatabaseThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlDatabaseThroughputUpdate.json
  */
 async function cosmosDBSqlDatabaseThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

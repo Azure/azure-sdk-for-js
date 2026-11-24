@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the Gremlin graph throughput under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinGraphThroughputGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBGremlinGraphThroughputGet.json
  */
 async function cosmosDBGremlinGraphThroughputGet() {
   const credential = new DefaultAzureCredential();

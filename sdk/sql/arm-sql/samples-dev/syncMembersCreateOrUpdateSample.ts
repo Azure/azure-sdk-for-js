@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a sync member.
  *
  * @summary creates or updates a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberCreate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberCreate.json
  */
 async function createANewSyncMember(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function createANewSyncMember(): Promise<void> {
  * This sample demonstrates how to creates or updates a sync member.
  *
  * @summary creates or updates a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberCreateWithIdentity.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberCreateWithIdentity.json
  */
 async function createANewSyncMemberWithUserAssignedIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -74,7 +74,7 @@ async function createANewSyncMemberWithUserAssignedIdentity(): Promise<void> {
  * This sample demonstrates how to creates or updates a sync member.
  *
  * @summary creates or updates a sync member.
- * x-ms-original-file: 2025-08-01-preview/SyncMemberUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/SyncMemberUpdate.json
  */
 async function updateASyncMember(): Promise<void> {
   const credential = new DefaultAzureCredential();

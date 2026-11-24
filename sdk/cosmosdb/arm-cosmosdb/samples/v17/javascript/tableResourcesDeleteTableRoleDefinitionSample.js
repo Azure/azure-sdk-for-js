@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Table Role Definition.
  *
  * @summary deletes an existing Azure Cosmos DB Table Role Definition.
- * x-ms-original-file: 2026-03-15/tablerbac/CosmosDBTableRoleDefinitionDelete.json
+ * x-ms-original-file: 2026-07-15/tablerbac/CosmosDBTableRoleDefinitionDelete.json
  */
 async function cosmosDBTableRoleDefinitionDelete() {
   const credential = new DefaultAzureCredential();

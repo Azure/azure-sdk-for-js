@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the database data masking policy.
  *
  * @summary gets the database data masking policy.
- * x-ms-original-file: 2025-08-01-preview/DataMaskingPolicyGet.json
+ * x-ms-original-file: 2026-08-01-preview/DataMaskingPolicyGet.json
  */
 async function getsTheDatabaseDataMaskingPolicies() {
   const credential = new DefaultAzureCredential();

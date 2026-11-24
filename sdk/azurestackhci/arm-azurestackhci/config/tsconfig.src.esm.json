@@ -1,6 +1,39 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/updateSummaries/index.ts",
+    "../src/api/edgeMachineDeploymentSettings/index.ts",
+    "../src/api/edgeMachineSecuritySettingsOperations/index.ts",
+    "../src/api/edgeMachineDiskPrivilegedJobs/index.ts",
+    "../src/api/edgeMachineDiskJobs/index.ts",
+    "../src/api/edgeMachineVolumes/index.ts",
+    "../src/api/edgeMachineDisks/index.ts",
+    "../src/api/edgeMachineNetworkAdapterJobs/index.ts",
+    "../src/api/edgeMachineNetworkAdapters/index.ts",
+    "../src/api/clusterJobs/index.ts",
+    "../src/api/ownershipVouchers/index.ts",
+    "../src/api/edgeMachineJobs/index.ts",
+    "../src/api/edgeMachines/index.ts",
+    "../src/api/validatedSolutionRecipes/index.ts",
+    "../src/api/updateSummariesOperationGroup/index.ts",
+    "../src/api/updates/index.ts",
+    "../src/api/updateRuns/index.ts",
+    "../src/api/skus/index.ts",
+    "../src/api/securitySettings/index.ts",
+    "../src/api/extensions/index.ts",
+    "../src/api/edgeDevices/index.ts",
+    "../src/api/edgeDeviceJobs/index.ts",
+    "../src/api/deploymentSettings/index.ts",
+    "../src/api/clusters/index.ts",
+    "../src/api/offers/index.ts",
+    "../src/api/arcSettings/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/api/osImages/index.ts",
+    "../src/models/index.ts"
   ]
 }

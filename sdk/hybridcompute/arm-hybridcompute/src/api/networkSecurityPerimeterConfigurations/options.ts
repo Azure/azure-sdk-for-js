@@ -8,7 +8,9 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkSc
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams extends OperationOptions {}

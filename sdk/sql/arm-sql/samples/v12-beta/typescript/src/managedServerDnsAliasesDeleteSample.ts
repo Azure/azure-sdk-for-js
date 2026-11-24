@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the managed server DNS alias with the given name.
  *
  * @summary deletes the managed server DNS alias with the given name.
- * x-ms-original-file: 2025-08-01-preview/ManagedServerDnsAliasDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ManagedServerDnsAliasDelete.json
  */
 async function deleteManagedServerDNSAlias(): Promise<void> {
   const credential = new DefaultAzureCredential();

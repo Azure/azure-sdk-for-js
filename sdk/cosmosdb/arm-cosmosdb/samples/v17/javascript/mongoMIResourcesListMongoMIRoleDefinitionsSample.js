@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the list of all Azure Cosmos DB MongoMI Role Definitions.
  *
  * @summary retrieves the list of all Azure Cosmos DB MongoMI Role Definitions.
- * x-ms-original-file: 2026-03-15/mongoMIrbac/CosmosDBMongoMIRoleDefinitionList.json
+ * x-ms-original-file: 2026-07-15/mongoMIrbac/CosmosDBMongoMIRoleDefinitionList.json
  */
 async function cosmosDBMongoMIRoleDefinitionList() {
   const credential = new DefaultAzureCredential();

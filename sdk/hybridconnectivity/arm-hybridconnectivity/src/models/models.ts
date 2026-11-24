@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -48,7 +55,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -222,7 +229,9 @@ export function endpointPropertiesDeserializer(item: any): EndpointProperties {
 
 /** The type of endpoint. */
 export enum KnownType {
+  /** default */
   Default = "default",
+  /** custom */
   Custom = "custom",
 }
 
@@ -239,8 +248,8 @@ export type Type = string;
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -266,8 +275,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -324,7 +333,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -373,7 +382,9 @@ export function listCredentialsRequestSerializer(item: ListCredentialsRequest): 
 
 /** Name of the service. */
 export enum KnownServiceName {
+  /** SSH */
   SSH = "SSH",
+  /** WAC */
   WAC = "WAC",
 }
 
@@ -389,15 +400,23 @@ export type ServiceName = string;
 
 /** The endpoint access for the target resource. */
 export interface EndpointAccessResource {
-  /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
+  /** The namespace name. */
+  namespaceName?: string;
+  /** The suffix domain name of relay namespace. */
+  namespaceNameSuffix?: string;
+  /** Azure Relay hybrid connection name for the resource. */
+  hybridConnectionName?: string;
+  /** Access key for hybrid connection. */
+  readonly accessKey?: string;
+  /** The expiration of access key in unix time. */
+  expiresOn?: number;
+  /** The token to access the enabled service. */
+  serviceConfigurationToken?: string;
 }
 
 export function endpointAccessResourceDeserializer(item: any): EndpointAccessResource {
   return {
-    relay: !item["relay"]
-      ? item["relay"]
-      : relayNamespaceAccessPropertiesDeserializer(item["relay"]),
+    ...(!item["relay"] ? item["relay"] : _endpointAccessResourceRelayDeserializer(item["relay"])),
   };
 }
 
@@ -444,20 +463,30 @@ export function listIngressGatewayCredentialsRequestSerializer(
 
 /** The ingress gateway access credentials */
 export interface IngressGatewayResource {
-  /** Azure relay hybrid connection access properties */
-  relay?: RelayNamespaceAccessProperties;
-  /** Ingress gateway profile */
-  ingress?: IngressProfileProperties;
+  /** The namespace name. */
+  namespaceName?: string;
+  /** The suffix domain name of relay namespace. */
+  namespaceNameSuffix?: string;
+  /** Azure Relay hybrid connection name for the resource. */
+  hybridConnectionName?: string;
+  /** Access key for hybrid connection. */
+  readonly accessKey?: string;
+  /** The expiration of access key in unix time. */
+  expiresOn?: number;
+  /** The token to access the enabled service. */
+  serviceConfigurationToken?: string;
+  /** The ingress hostname. */
+  hostname?: string;
+  /** The AAD Profile */
+  aadProfile?: AADProfileProperties;
 }
 
 export function ingressGatewayResourceDeserializer(item: any): IngressGatewayResource {
   return {
-    relay: !item["relay"]
-      ? item["relay"]
-      : relayNamespaceAccessPropertiesDeserializer(item["relay"]),
-    ingress: !item["ingress"]
+    ...(!item["relay"] ? item["relay"] : _ingressGatewayResourceRelayDeserializer(item["relay"])),
+    ...(!item["ingress"]
       ? item["ingress"]
-      : ingressProfilePropertiesDeserializer(item["ingress"]),
+      : _ingressGatewayResourceIngressDeserializer(item["ingress"])),
   };
 }
 
@@ -465,14 +494,16 @@ export function ingressGatewayResourceDeserializer(item: any): IngressGatewayRes
 export interface IngressProfileProperties {
   /** The ingress hostname. */
   hostname: string;
-  /** The AAD Profile */
-  aadProfile: AADProfileProperties;
+  /** The arc ingress gateway server app id. */
+  serverId: string;
+  /** The target resource home tenant id. */
+  tenantId: string;
 }
 
 export function ingressProfilePropertiesDeserializer(item: any): IngressProfileProperties {
   return {
     hostname: item["hostname"],
-    aadProfile: aadProfilePropertiesDeserializer(item["aadProfile"]),
+    ..._ingressProfilePropertiesAadProfileDeserializer(item["aadProfile"]),
   };
 }
 
@@ -502,11 +533,7 @@ export interface ManagedProxyRequest {
 }
 
 export function managedProxyRequestSerializer(item: ManagedProxyRequest): any {
-  return {
-    service: item["service"],
-    hostname: item["hostname"],
-    serviceName: item["serviceName"],
-  };
+  return { service: item["service"], hostname: item["hostname"], serviceName: item["serviceName"] };
 }
 
 /** Managed Proxy */
@@ -526,15 +553,21 @@ export function managedProxyResourceDeserializer(item: any): ManagedProxyResourc
 
 /** The service configuration details associated with the target resource. */
 export interface ServiceConfigurationResource extends ExtensionResource {
-  /** The service configuration properties. */
-  properties?: ServiceConfigurationProperties;
+  /** Name of the service. */
+  serviceName?: ServiceName;
+  /** The resource Id of the connectivity endpoint (optional). */
+  resourceId?: string;
+  /** The port on which service is enabled. */
+  port?: number;
+  /** The resource provisioning state. */
+  readonly provisioningState?: ProvisioningState;
 }
 
 export function serviceConfigurationResourceSerializer(item: ServiceConfigurationResource): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : serviceConfigurationPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["serviceName", "resourceId", "port"])
+      ? undefined
+      : _serviceConfigurationResourcePropertiesSerializer(item),
   };
 }
 
@@ -546,9 +579,9 @@ export function serviceConfigurationResourceDeserializer(item: any): ServiceConf
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : serviceConfigurationPropertiesDeserializer(item["properties"]),
+      : _serviceConfigurationResourcePropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -567,11 +600,7 @@ export interface ServiceConfigurationProperties {
 export function serviceConfigurationPropertiesSerializer(
   item: ServiceConfigurationProperties,
 ): any {
-  return {
-    serviceName: item["serviceName"],
-    resourceId: item["resourceId"],
-    port: item["port"],
-  };
+  return { serviceName: item["serviceName"], resourceId: item["resourceId"], port: item["port"] };
 }
 
 export function serviceConfigurationPropertiesDeserializer(
@@ -587,10 +616,15 @@ export function serviceConfigurationPropertiesDeserializer(
 
 /** The resource provisioning state. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
 }
 
@@ -609,17 +643,17 @@ export type ProvisioningState = string;
 
 /** The service details under service configuration for the target endpoint resource. */
 export interface ServiceConfigurationResourcePatch {
-  /** The service configuration properties. */
-  properties?: ServiceConfigurationPropertiesPatch;
+  /** The port on which service is enabled. */
+  port?: number;
 }
 
 export function serviceConfigurationResourcePatchSerializer(
   item: ServiceConfigurationResourcePatch,
 ): any {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : serviceConfigurationPropertiesPatchSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, ["port"])
+      ? undefined
+      : _serviceConfigurationResourcePatchPropertiesSerializer(item),
   };
 }
 
@@ -713,7 +747,7 @@ export interface SolutionSettings {
 }
 
 export function solutionSettingsSerializer(item: SolutionSettings): any {
-  return { ...serializeRecord(item.additionalProperties) };
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
 
 export function solutionSettingsDeserializer(item: any): SolutionSettings {
@@ -729,10 +763,161 @@ export function generateAwsTemplateResponseDeserializer(item: any): GenerateAwsT
   return item;
 }
 
+/** ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template. */
+export interface GenerateGcpTemplateRequest {
+  /** The name of public cloud connector */
+  connectorId: string;
+  /** The list of solution types and their settings */
+  solutionTypes?: SolutionTypeSettings[];
+  /** The GCP cloud profile. */
+  gcpCloudProfile?: GcpCloudProfile;
+  /** Optional template output format. Defaults to 'terraform' if not provided */
+  gcpTemplateFormat?: GcpTemplateFormat;
+}
+
+export function generateGcpTemplateRequestSerializer(item: GenerateGcpTemplateRequest): any {
+  return {
+    connectorId: item["connectorId"],
+    solutionTypes: !item["solutionTypes"]
+      ? item["solutionTypes"]
+      : solutionTypeSettingsArraySerializer(item["solutionTypes"]),
+    gcpCloudProfile: !item["gcpCloudProfile"]
+      ? item["gcpCloudProfile"]
+      : gcpCloudProfileSerializer(item["gcpCloudProfile"]),
+    gcpTemplateFormat: item["gcpTemplateFormat"],
+  };
+}
+
+/** cloud profile for GCP. */
+export interface GcpCloudProfile {
+  /** The project properties of the GCP project. */
+  projectProperties?: GcpProjectProperties;
+  /** The organization properties of the GCP organization. */
+  organizationProperties?: GcpOrganizationProperties;
+}
+
+export function gcpCloudProfileSerializer(item: GcpCloudProfile): any {
+  return {
+    projectProperties: !item["projectProperties"]
+      ? item["projectProperties"]
+      : gcpProjectPropertiesSerializer(item["projectProperties"]),
+    organizationProperties: !item["organizationProperties"]
+      ? item["organizationProperties"]
+      : gcpOrganizationPropertiesSerializer(item["organizationProperties"]),
+  };
+}
+
+export function gcpCloudProfileDeserializer(item: any): GcpCloudProfile {
+  return {
+    projectProperties: !item["projectProperties"]
+      ? item["projectProperties"]
+      : gcpProjectPropertiesDeserializer(item["projectProperties"]),
+    organizationProperties: !item["organizationProperties"]
+      ? item["organizationProperties"]
+      : gcpOrganizationPropertiesDeserializer(item["organizationProperties"]),
+  };
+}
+
+/** GCP project properties. */
+export interface GcpProjectProperties {
+  /** The project number of the GCP project. */
+  projectNumber: string;
+  /** The project id of the GCP project. */
+  projectId: string;
+}
+
+export function gcpProjectPropertiesSerializer(item: GcpProjectProperties): any {
+  return { projectNumber: item["projectNumber"], projectId: item["projectId"] };
+}
+
+export function gcpProjectPropertiesDeserializer(item: any): GcpProjectProperties {
+  return {
+    projectNumber: item["projectNumber"],
+    projectId: item["projectId"],
+  };
+}
+
+/** GCP organization properties. */
+export interface GcpOrganizationProperties {
+  /** The organization id of the GCP organization. */
+  organizationId: string;
+  /** The project number of the management project under the GCP organization. */
+  managementProjectNumber: string;
+  /** The project Id of the management project under the GCP organization. */
+  managementProjectId: string;
+  /** List of GCP projects which need to be excluded. */
+  excludedProjectNumbers?: string[];
+  /** List of GCP folders which need to be excluded. */
+  excludedFolderIds?: string[];
+}
+
+export function gcpOrganizationPropertiesSerializer(item: GcpOrganizationProperties): any {
+  return {
+    organizationId: item["organizationId"],
+    managementProjectNumber: item["managementProjectNumber"],
+    managementProjectId: item["managementProjectId"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    excludedFolderIds: !item["excludedFolderIds"]
+      ? item["excludedFolderIds"]
+      : item["excludedFolderIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function gcpOrganizationPropertiesDeserializer(item: any): GcpOrganizationProperties {
+  return {
+    organizationId: item["organizationId"],
+    managementProjectNumber: item["managementProjectNumber"],
+    managementProjectId: item["managementProjectId"],
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    excludedFolderIds: !item["excludedFolderIds"]
+      ? item["excludedFolderIds"]
+      : item["excludedFolderIds"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** GCP template format. */
+export enum KnownGcpTemplateFormat {
+  /** Terraform template format */
+  Terraform = "terraform",
+  /** Shell script template format */
+  ShellScript = "shellscript",
+}
+
+/**
+ * GCP template format. \
+ * {@link KnownGcpTemplateFormat} can be used interchangeably with GcpTemplateFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **terraform**: Terraform template format \
+ * **shellscript**: Shell script template format
+ */
+export type GcpTemplateFormat = string;
+
+/** The HybridConnectivity post operation response */
+export interface GenerateGcpTemplateResponse {}
+
+export function generateGcpTemplateResponseDeserializer(item: any): GenerateGcpTemplateResponse {
+  return item;
+}
+
 /** Public Cloud Connector */
 export interface PublicCloudConnector extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: PublicCloudConnectorProperties;
+  /** The kind of the public cloud connector. */
+  readonly kind?: HostType;
 }
 
 export function publicCloudConnectorSerializer(item: PublicCloudConnector): any {
@@ -747,7 +932,9 @@ export function publicCloudConnectorSerializer(item: PublicCloudConnector): any 
 
 export function publicCloudConnectorDeserializer(item: any): PublicCloudConnector {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -758,13 +945,16 @@ export function publicCloudConnectorDeserializer(item: any): PublicCloudConnecto
     properties: !item["properties"]
       ? item["properties"]
       : publicCloudConnectorPropertiesDeserializer(item["properties"]),
+    kind: item["kind"],
   };
 }
 
 /** Properties of public cloud connectors. */
 export interface PublicCloudConnectorProperties {
   /** Cloud profile for AWS. */
-  awsCloudProfile: AwsCloudProfile;
+  awsCloudProfile?: AwsCloudProfile;
+  /** Cloud profile for GCP. */
+  gcpCloudProfile?: GcpCloudProfile;
   /** Host cloud the public cloud connector. */
   hostType: HostType;
   /** The resource provisioning state. */
@@ -777,7 +967,12 @@ export function publicCloudConnectorPropertiesSerializer(
   item: PublicCloudConnectorProperties,
 ): any {
   return {
-    awsCloudProfile: awsCloudProfileSerializer(item["awsCloudProfile"]),
+    awsCloudProfile: !item["awsCloudProfile"]
+      ? item["awsCloudProfile"]
+      : awsCloudProfileSerializer(item["awsCloudProfile"]),
+    gcpCloudProfile: !item["gcpCloudProfile"]
+      ? item["gcpCloudProfile"]
+      : gcpCloudProfileSerializer(item["gcpCloudProfile"]),
     hostType: item["hostType"],
   };
 }
@@ -786,7 +981,12 @@ export function publicCloudConnectorPropertiesDeserializer(
   item: any,
 ): PublicCloudConnectorProperties {
   return {
-    awsCloudProfile: awsCloudProfileDeserializer(item["awsCloudProfile"]),
+    awsCloudProfile: !item["awsCloudProfile"]
+      ? item["awsCloudProfile"]
+      : awsCloudProfileDeserializer(item["awsCloudProfile"]),
+    gcpCloudProfile: !item["gcpCloudProfile"]
+      ? item["gcpCloudProfile"]
+      : gcpCloudProfileDeserializer(item["gcpCloudProfile"]),
     hostType: item["hostType"],
     provisioningState: item["provisioningState"],
     connectorPrimaryIdentifier: item["connectorPrimaryIdentifier"],
@@ -831,6 +1031,8 @@ export function awsCloudProfileDeserializer(item: any): AwsCloudProfile {
 export enum KnownHostType {
   /** AWS state */
   AWS = "AWS",
+  /** GCP state */
+  GCP = "GCP",
 }
 
 /**
@@ -838,7 +1040,8 @@ export enum KnownHostType {
  * {@link KnownHostType} can be used interchangeably with HostType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AWS**: AWS state
+ * **AWS**: AWS state \
+ * **GCP**: GCP state
  */
 export type HostType = string;
 
@@ -883,7 +1086,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -907,6 +1112,8 @@ export function publicCloudConnectorUpdateSerializer(item: PublicCloudConnectorU
 export interface PublicCloudConnectorPropertiesUpdate {
   /** Cloud profile for AWS. */
   awsCloudProfile?: AwsCloudProfileUpdate;
+  /** Cloud profile for GCP. */
+  gcpCloudProfile?: GcpCloudProfileUpdate;
 }
 
 export function publicCloudConnectorPropertiesUpdateSerializer(
@@ -916,6 +1123,9 @@ export function publicCloudConnectorPropertiesUpdateSerializer(
     awsCloudProfile: !item["awsCloudProfile"]
       ? item["awsCloudProfile"]
       : awsCloudProfileUpdateSerializer(item["awsCloudProfile"]),
+    gcpCloudProfile: !item["gcpCloudProfile"]
+      ? item["gcpCloudProfile"]
+      : gcpCloudProfileUpdateSerializer(item["gcpCloudProfile"]),
   };
 }
 
@@ -930,6 +1140,45 @@ export function awsCloudProfileUpdateSerializer(item: AwsCloudProfileUpdate): an
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
       : item["excludedAccounts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** cloud profile for GCP. */
+export interface GcpCloudProfileUpdate {
+  /** The organization properties of the GCP organization. */
+  organizationProperties?: GcpOrganizationPropertiesUpdate;
+}
+
+export function gcpCloudProfileUpdateSerializer(item: GcpCloudProfileUpdate): any {
+  return {
+    organizationProperties: !item["organizationProperties"]
+      ? item["organizationProperties"]
+      : gcpOrganizationPropertiesUpdateSerializer(item["organizationProperties"]),
+  };
+}
+
+/** GCP organization properties for update. */
+export interface GcpOrganizationPropertiesUpdate {
+  /** List of GCP projects which need to be excluded. */
+  excludedProjectNumbers?: string[];
+  /** List of GCP folders which need to be excluded. */
+  excludedFolderIds?: string[];
+}
+
+export function gcpOrganizationPropertiesUpdateSerializer(
+  item: GcpOrganizationPropertiesUpdate,
+): any {
+  return {
+    excludedProjectNumbers: !item["excludedProjectNumbers"]
+      ? item["excludedProjectNumbers"]
+      : item["excludedProjectNumbers"].map((p: any) => {
+          return p;
+        }),
+    excludedFolderIds: !item["excludedFolderIds"]
+      ? item["excludedFolderIds"]
+      : item["excludedFolderIds"].map((p: any) => {
           return p;
         }),
   };
@@ -1150,8 +1399,8 @@ export function solutionConfigurationPropertiesUpdateSerializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1307,6 +1556,8 @@ export interface SolutionTypeProperties {
   description?: string;
   /** The locations this solution is supported in. */
   supportedAzureRegions?: string[];
+  /** The supported host types for the current solution type. */
+  hostTypes?: HostType[];
   /** Array of solution settings and its description. */
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
@@ -1318,6 +1569,11 @@ export function solutionTypePropertiesDeserializer(item: any): SolutionTypePrope
     supportedAzureRegions: !item["supportedAzureRegions"]
       ? item["supportedAzureRegions"]
       : item["supportedAzureRegions"].map((p: any) => {
+          return p;
+        }),
+    hostTypes: !item["hostTypes"]
+      ? item["hostTypes"]
+      : item["hostTypes"].map((p: any) => {
           return p;
         }),
     solutionSettings: !item["solutionSettings"]
@@ -1346,6 +1602,8 @@ export interface SolutionTypeSettingsProperties {
   description: string;
   /** Array of allowed values for this solution settings property. */
   allowedValues: string[];
+  /** The supported host types for the current solution setting */
+  hostTypes: HostType[];
   /** Default value for this solution settings property. */
   defaultValue: string;
 }
@@ -1359,6 +1617,9 @@ export function solutionTypeSettingsPropertiesDeserializer(
     type: item["type"],
     description: item["description"],
     allowedValues: item["allowedValues"].map((p: any) => {
+      return p;
+    }),
+    hostTypes: item["hostTypes"].map((p: any) => {
       return p;
     }),
     defaultValue: item["defaultValue"],
@@ -1392,4 +1653,65 @@ export function solutionTypeResourceArrayDeserializer(result: Array<SolutionType
 export enum KnownVersions {
   /** Version 2024-12-01 */
   V20241201 = "2024-12-01",
+  /** Version 2027-01-01 */
+  V20270101 = "2027-01-01",
+}
+
+export function _endpointAccessResourceRelayDeserializer(item: any) {
+  return {
+    namespaceName: item["namespaceName"],
+    namespaceNameSuffix: item["namespaceNameSuffix"],
+    hybridConnectionName: item["hybridConnectionName"],
+    accessKey: item["accessKey"],
+    expiresOn: item["expiresOn"],
+    serviceConfigurationToken: item["serviceConfigurationToken"],
+  };
+}
+
+export function _ingressGatewayResourceRelayDeserializer(item: any) {
+  return {
+    namespaceName: item["namespaceName"],
+    namespaceNameSuffix: item["namespaceNameSuffix"],
+    hybridConnectionName: item["hybridConnectionName"],
+    accessKey: item["accessKey"],
+    expiresOn: item["expiresOn"],
+    serviceConfigurationToken: item["serviceConfigurationToken"],
+  };
+}
+
+export function _ingressProfilePropertiesAadProfileDeserializer(item: any) {
+  return {
+    serverId: item["serverId"],
+    tenantId: item["tenantId"],
+  };
+}
+
+export function _ingressGatewayResourceIngressDeserializer(item: any) {
+  return {
+    hostname: item["hostname"],
+    aadProfile: !item["aadProfile"]
+      ? item["aadProfile"]
+      : aadProfilePropertiesDeserializer(item["aadProfile"]),
+  };
+}
+
+export function _serviceConfigurationResourcePropertiesSerializer(
+  item: ServiceConfigurationResource,
+): any {
+  return { serviceName: item["serviceName"], resourceId: item["resourceId"], port: item["port"] };
+}
+
+export function _serviceConfigurationResourcePropertiesDeserializer(item: any) {
+  return {
+    serviceName: item["serviceName"],
+    resourceId: item["resourceId"],
+    port: item["port"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _serviceConfigurationResourcePatchPropertiesSerializer(
+  item: ServiceConfigurationResourcePatch,
+): any {
+  return { port: item["port"] };
 }

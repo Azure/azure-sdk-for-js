@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a server trust group.
  *
  * @summary deletes a server trust group.
- * x-ms-original-file: 2025-08-01-preview/ServerTrustGroupDelete.json
+ * x-ms-original-file: 2026-08-01-preview/ServerTrustGroupDelete.json
  */
 async function dropServerTrustGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

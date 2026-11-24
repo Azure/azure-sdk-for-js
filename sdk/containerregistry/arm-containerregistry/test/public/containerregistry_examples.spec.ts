@@ -21,6 +21,11 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
+  sanitizerOptions: {
+    removeHeaderSanitizer: {
+      headersForRemoval: ["x-ms-operation-identifier"],
+    },
+  },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
@@ -51,8 +56,8 @@ describe("ContainerRegistry test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest07092026";
-    registryName = "myregistry07092026";
+    resourceGroup = "myjstest11202026";
+    registryName = "myregistry11202026";
   });
 
   afterEach(async () => {
