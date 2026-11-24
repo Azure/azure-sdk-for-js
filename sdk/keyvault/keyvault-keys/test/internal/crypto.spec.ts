@@ -166,31 +166,13 @@ describe("internal crypto tests", () => {
       expect(unwrapped).toEqual(wrapped);
     });
 
-    it("preserves explicit versions on the legacy KeyClient methods", async () => {
+    it("exposes secure operations only on the cryptography client", () => {
       const client = new KeyClient("https://my.managedhsm.azure.net", tokenCredential);
-      const value = new Uint8Array([1, 2, 3]);
-      const wrapStub = vi
-        .spyOn(client["client"], "secureWrapKey")
-        .mockResolvedValue({ result: value });
-      const unwrapStub = vi
-        .spyOn(client["client"], "secureUnwrapKey")
-        .mockResolvedValue({ result: value });
-      await client.secureWrapKey("keyId", "RSA-OAEP-256", { version: "v2" });
-      await client.secureUnwrapKey("keyId", "RSA-OAEP-256", value, "attestation-token", {
-        version: "v2",
-      });
-      expect(wrapStub).toHaveBeenCalledWith(
-        "keyId",
-        "v2",
-        { algorithm: "RSA-OAEP-256" },
-        expect.anything(),
-      );
-      expect(unwrapStub).toHaveBeenCalledWith(
-        "keyId",
-        "v2",
-        { algorithm: "RSA-OAEP-256", value, targetAttestationToken: "attestation-token" },
-        expect.anything(),
-      );
+      expect(client).not.toHaveProperty("secureWrapKey");
+      expect(client).not.toHaveProperty("secureUnwrapKey");
+      const cryptographyClient = client.getCryptographyClient("keyId");
+      expect(cryptographyClient.secureWrapKey).toBeTypeOf("function");
+      expect(cryptographyClient.secureUnwrapKey).toBeTypeOf("function");
     });
 
     it("supports an explicit version override", async () => {
