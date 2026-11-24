@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all authorizations in an express route LAG.
  *
  * @summary gets all authorizations in an express route LAG.
- * x-ms-original-file: 2026-03-01/ExpressRouteLagAuthorizationList.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteLagAuthorizationList.json
  */
 async function listExpressRouteLagAuthorization() {
   const credential = new DefaultAzureCredential();

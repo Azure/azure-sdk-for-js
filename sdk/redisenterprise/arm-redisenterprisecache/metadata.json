@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "Microsoft.Cache": "2026-09-01"
+    "Microsoft.Cache": "2026-10-01-preview"
   },
   "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
@@ -58,6 +58,7 @@
       "@azure/arm-redisenterprisecache!MaintenanceConfiguration:interface": "Microsoft.Cache.MaintenanceConfiguration",
       "@azure/arm-redisenterprisecache!MaintenanceWindow:interface": "Microsoft.Cache.MaintenanceWindow",
       "@azure/arm-redisenterprisecache!MaintenanceWindowSchedule:interface": "Microsoft.Cache.MaintenanceWindowSchedule",
+      "@azure/arm-redisenterprisecache!FirewallRule:interface": "Microsoft.Cache.FirewallRule",
       "@azure/arm-redisenterprisecache!Sku:interface": "Microsoft.Cache.Sku",
       "@azure/arm-redisenterprisecache!ManagedServiceIdentity:interface": "Azure.ResourceManager.Legacy.ManagedServiceIdentityV4",
       "@azure/arm-redisenterprisecache!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
@@ -72,6 +73,7 @@
       "@azure/arm-redisenterprisecache!PrivateLinkResourceProperties:interface": "Azure.ResourceManager.CommonTypes.PrivateLinkResourceProperties",
       "@azure/arm-redisenterprisecache!AccessPolicyAssignment:interface": "Microsoft.Cache.AccessPolicyAssignment",
       "@azure/arm-redisenterprisecache!AccessPolicyAssignmentProperties:interface": "Microsoft.Cache.AccessPolicyAssignmentProperties",
+      "@azure/arm-redisenterprisecache!AccessPolicyAssignmentProvisioningError:interface": "Microsoft.Cache.AccessPolicyAssignmentProvisioningError",
       "@azure/arm-redisenterprisecache!AccessPolicyAssignmentPropertiesUser:interface": "Microsoft.Cache.AccessPolicyAssignmentPropertiesUser",
       "@azure/arm-redisenterprisecache!AccessPolicyAssignmentList:interface": "Microsoft.Cache.AccessPolicyAssignmentList",
       "@azure/arm-redisenterprisecache!OperationStatus:interface": "Microsoft.Cache.OperationStatus",

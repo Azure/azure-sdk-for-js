@@ -16,7 +16,10 @@ import type {
   NeuroShieldFindingsListOptionalParams,
   NeuroShieldFindingsGetOptionalParams,
 } from "../../api/neuroShieldFindings/options.js";
-import type { NeuroShieldFinding, NeuroShieldMitigationActionResult } from "../../models/models.js";
+import type {
+  NeuroShieldFinding,
+  NeuroShieldMitigationActionResult,
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NeuroShieldFindings operations. */

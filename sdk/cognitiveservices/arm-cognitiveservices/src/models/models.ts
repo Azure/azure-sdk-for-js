@@ -617,12 +617,14 @@ export interface AccountProperties {
   capabilitySettings?: CapabilitySettings;
   /** Customer-owned AKS hosting configurations for Foundry agents. This property can only be specified when the account is created; an existing account without a hosting configuration cannot add one later. This API version supports exactly one configuration, while the array shape is reserved for future API versions that may support multiple configurations. Once set, the configuration cannot be changed, removed, or reordered. Account update requests should omit this property or send the complete existing value unchanged. Responses only include hosting configuration types defined by the requested API version. */
   agentHostingConfigurations?: AgentHostingConfigurationUnion[];
+  /** Private CA trust sources for supported features in an AIServices account with allowProjectManagement enabled. Supports one Azure Key Vault source containing version-pinned references to secrets with PEM-encoded CA certificates or certificate bundles. On PUT or PATCH, a non-null array replaces the complete configuration, so include all references to retain. Omit this property or send null to preserve the existing configuration; send an empty array to clear it. */
+  trustedCertificateSources?: TrustedCertificateSource[];
   /**
-   * The full resource IDs of cost controls directly attached to this account.
-   * At the moment the service only supports a single cost control. This will be expanded in future API versions.
+   * Account-level cost-control telemetry connections. Application Insights is optional.
+   * Budget notifications use their own Event Grid connection IDs; account-level Event Grid configuration is not exposed or accepted by this API version.
+   * Set this object to null in an account update to clear the Application Insights connection. Existing legacy Event Grid configuration is preserved.
+   * This property is available independently of Microsoft.CognitiveServices/CostControls subscription registration.
    */
-  costControlIds?: string[];
-  /** The account-level connections used to publish cost control telemetry and events. Application Insights is optional for attachment, accounting, and enforcement and can be configured later. Event Grid must be configured before attaching a cost control with an alert threshold. */
   costControlConnections?: CostControlConnections;
 }
 
@@ -680,11 +682,9 @@ export function accountPropertiesSerializer(item: AccountProperties): any {
     agentHostingConfigurations: !item["agentHostingConfigurations"]
       ? item["agentHostingConfigurations"]
       : agentHostingConfigurationUnionArraySerializer(item["agentHostingConfigurations"]),
-    costControlIds: !item["costControlIds"]
-      ? item["costControlIds"]
-      : item["costControlIds"].map((p: any) => {
-          return p;
-        }),
+    trustedCertificateSources: !item["trustedCertificateSources"]
+      ? item["trustedCertificateSources"]
+      : trustedCertificateSourceArraySerializer(item["trustedCertificateSources"]),
     costControlConnections: !item["costControlConnections"]
       ? item["costControlConnections"]
       : costControlConnectionsSerializer(item["costControlConnections"]),
@@ -780,11 +780,9 @@ export function accountPropertiesDeserializer(item: any): AccountProperties {
     agentHostingConfigurations: !item["agentHostingConfigurations"]
       ? item["agentHostingConfigurations"]
       : agentHostingConfigurationUnionArrayDeserializer(item["agentHostingConfigurations"]),
-    costControlIds: !item["costControlIds"]
-      ? item["costControlIds"]
-      : item["costControlIds"].map((p: any) => {
-          return p;
-        }),
+    trustedCertificateSources: !item["trustedCertificateSources"]
+      ? item["trustedCertificateSources"]
+      : trustedCertificateSourceArrayDeserializer(item["trustedCertificateSources"]),
     costControlConnections: !item["costControlConnections"]
       ? item["costControlConnections"]
       : costControlConnectionsDeserializer(item["costControlConnections"]),
@@ -1833,29 +1831,115 @@ export function managedClusterAgentHostingConfigurationDeserializer(
   };
 }
 
+export function trustedCertificateSourceArraySerializer(
+  result: Array<TrustedCertificateSource>,
+): any[] {
+  return result.map((item) => {
+    return trustedCertificateSourceSerializer(item);
+  });
+}
+
+export function trustedCertificateSourceArrayDeserializer(
+  result: Array<TrustedCertificateSource>,
+): any[] {
+  return result.map((item) => {
+    return trustedCertificateSourceDeserializer(item);
+  });
+}
+
+/** An Azure resource containing the CA certificate bundles trusted by supported features in the account. */
+export interface TrustedCertificateSource {
+  /** Type of resource containing the certificate bundles. Currently only AzureKeyVault is supported. */
+  type: TrustedCertificateSourceType;
+  /** Azure resource ID of the Key Vault containing the referenced secrets. The account identity must have permission to read these secrets. */
+  resourceId: string;
+  /** References to secrets containing one or more PEM-encoded CA certificates. Each secret name and version pair must be unique within the source, using case-insensitive comparison. The same secret name can be referenced with different versions. */
+  certificateBundleReferences: CertificateBundleReference[];
+}
+
+export function trustedCertificateSourceSerializer(item: TrustedCertificateSource): any {
+  return {
+    type: item["type"],
+    resourceId: item["resourceId"],
+    certificateBundleReferences: certificateBundleReferenceArraySerializer(
+      item["certificateBundleReferences"],
+    ),
+  };
+}
+
+export function trustedCertificateSourceDeserializer(item: any): TrustedCertificateSource {
+  return {
+    type: item["type"],
+    resourceId: item["resourceId"],
+    certificateBundleReferences: certificateBundleReferenceArrayDeserializer(
+      item["certificateBundleReferences"],
+    ),
+  };
+}
+
+/** Type of Azure resource containing trusted CA certificate bundles. */
+export enum KnownTrustedCertificateSourceType {
+  /** Azure Key Vault secrets containing CA certificates or certificate bundles. */
+  AzureKeyVault = "AzureKeyVault",
+}
+
 /**
- * Defines account-level connections used to publish cost-control telemetry and events.
- * Application Insights is optional and may be removed while policies remain attached.
- * Event Grid is required for alerts; supplied connection references must still be valid.
+ * Type of Azure resource containing trusted CA certificate bundles. \
+ * {@link KnownTrustedCertificateSourceType} can be used interchangeably with TrustedCertificateSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureKeyVault**: Azure Key Vault secrets containing CA certificates or certificate bundles.
  */
+export type TrustedCertificateSourceType = string;
+
+export function certificateBundleReferenceArraySerializer(
+  result: Array<CertificateBundleReference>,
+): any[] {
+  return result.map((item) => {
+    return certificateBundleReferenceSerializer(item);
+  });
+}
+
+export function certificateBundleReferenceArrayDeserializer(
+  result: Array<CertificateBundleReference>,
+): any[] {
+  return result.map((item) => {
+    return certificateBundleReferenceDeserializer(item);
+  });
+}
+
+/** A reference to a specific version of a Key Vault secret containing a PEM-encoded CA certificate or certificate bundle. */
+export interface CertificateBundleReference {
+  /** Name of the Key Vault secret containing the CA certificate or certificate bundle. */
+  secretName: string;
+  /** Required, pinned version of the Key Vault secret. Newer secret versions are not followed automatically. To rotate a bundle, update this value and resubmit the complete account trust configuration. */
+  secretVersion: string;
+}
+
+export function certificateBundleReferenceSerializer(item: CertificateBundleReference): any {
+  return { secretName: item["secretName"], secretVersion: item["secretVersion"] };
+}
+
+export function certificateBundleReferenceDeserializer(item: any): CertificateBundleReference {
+  return {
+    secretName: item["secretName"],
+    secretVersion: item["secretVersion"],
+  };
+}
+
+/** Account-level telemetry connections. Application Insights is optional and may be removed while controls exist. */
 export interface CostControlConnections {
-  /** Gets or sets the full resource ID of the optional Application Insights connection. */
+  /** The full resource ID of the optional Application Insights connection. Set to null in an account update to remove it. */
   appInsightsConnectionId?: string;
-  /** The full resource ID of the Event Grid connection used for cost control alerts. This connection must be configured when an attached cost control contains an alert threshold action and cannot be removed while such an action remains attached. */
-  eventGridConnectionId?: string;
 }
 
 export function costControlConnectionsSerializer(item: CostControlConnections): any {
-  return {
-    appInsightsConnectionId: item["appInsightsConnectionId"],
-    eventGridConnectionId: item["eventGridConnectionId"],
-  };
+  return { appInsightsConnectionId: item["appInsightsConnectionId"] };
 }
 
 export function costControlConnectionsDeserializer(item: any): CostControlConnections {
   return {
     appInsightsConnectionId: item["appInsightsConnectionId"],
-    eventGridConnectionId: item["eventGridConnectionId"],
   };
 }
 
@@ -2808,6 +2892,812 @@ export function policyExpressionEvaluationDetailsDeserializer(
   };
 }
 
+/** An existing Azure Kubernetes Service cluster attached to a Cognitive Services account. */
+export interface AttachedAksCluster extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties: AttachedAksClusterProperties;
+}
+
+export function attachedAksClusterSerializer(item: AttachedAksCluster): any {
+  return { properties: attachedAksClusterPropertiesSerializer(item["properties"]) };
+}
+
+export function attachedAksClusterDeserializer(item: any): AttachedAksCluster {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: attachedAksClusterPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of an account-level AKS attachment. */
+export interface AttachedAksClusterProperties {
+  /** ARM resource ID of the existing AKS cluster. This value is immutable. */
+  clusterResourceId: string;
+  /**
+   * The complete set of capabilities for this attachment, without duplicates.
+   * PUT replaces the set. foundryNative is added automatically unless aiManager
+   * is the only capability. After attach, the only supported change is adding
+   * kuberay; other changes return 409 Conflict and require detaching first.
+   */
+  capabilities: AttachedAksClusterCapability[];
+  /** Configuration of the training extension on the attached cluster. */
+  extensionProfile?: AttachedAksClusterExtensionProfile;
+  /** Server-managed project bindings on the attached cluster. */
+  readonly projectBindings?: AttachedAksClusterProjectBinding[];
+  /** Server-reported attachment provisioning, integration, and health status. */
+  readonly status?: AttachedAksClusterStatus;
+}
+
+export function attachedAksClusterPropertiesSerializer(item: AttachedAksClusterProperties): any {
+  return {
+    clusterResourceId: item["clusterResourceId"],
+    capabilities: item["capabilities"].map((p: any) => {
+      return p;
+    }),
+    extensionProfile: !item["extensionProfile"]
+      ? item["extensionProfile"]
+      : attachedAksClusterExtensionProfileSerializer(item["extensionProfile"]),
+  };
+}
+
+export function attachedAksClusterPropertiesDeserializer(item: any): AttachedAksClusterProperties {
+  return {
+    clusterResourceId: item["clusterResourceId"],
+    capabilities: item["capabilities"].map((p: any) => {
+      return p;
+    }),
+    extensionProfile: !item["extensionProfile"]
+      ? item["extensionProfile"]
+      : attachedAksClusterExtensionProfileDeserializer(item["extensionProfile"]),
+    projectBindings: !item["projectBindings"]
+      ? item["projectBindings"]
+      : attachedAksClusterProjectBindingArrayDeserializer(item["projectBindings"]),
+    status: !item["status"] ? item["status"] : attachedAksClusterStatusDeserializer(item["status"]),
+  };
+}
+
+/** A capability supported by an AKS attachment. */
+export enum KnownAttachedAksClusterCapability {
+  /** Foundry-native training workloads. */
+  FoundryNative = "foundryNative",
+  /** KubeRay workloads. */
+  Kuberay = "kuberay",
+  /** AI Manager inference workloads. */
+  AiManager = "aiManager",
+}
+
+/**
+ * A capability supported by an AKS attachment. \
+ * {@link KnownAttachedAksClusterCapability} can be used interchangeably with AttachedAksClusterCapability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **foundryNative**: Foundry-native training workloads. \
+ * **kuberay**: KubeRay workloads. \
+ * **aiManager**: AI Manager inference workloads.
+ */
+export type AttachedAksClusterCapability = string;
+
+/** Configuration of the training extension. */
+export interface AttachedAksClusterExtensionProfile {
+  /**
+   * Extension installation mode. Defaults to Managed.
+   * Manual installation requires service enablement and an exact chart version.
+   */
+  installationMode?: AttachedAksClusterExtensionInstallationMode;
+  /** Extension package version, or the exact chart version for Manual installation. */
+  version?: string;
+  /** Extension package release train. */
+  releaseTrain?: string;
+  /** Whether to use an existing KubeRay operator instead of installing one. */
+  useExistingKubeRayOperator?: boolean;
+  /** Supported extension configuration. Other Helm settings are service-managed. */
+  configuration?: AttachedAksClusterExtensionConfiguration;
+}
+
+export function attachedAksClusterExtensionProfileSerializer(
+  item: AttachedAksClusterExtensionProfile,
+): any {
+  return {
+    installationMode: item["installationMode"],
+    version: item["version"],
+    releaseTrain: item["releaseTrain"],
+    useExistingKubeRayOperator: item["useExistingKubeRayOperator"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : attachedAksClusterExtensionConfigurationSerializer(item["configuration"]),
+  };
+}
+
+export function attachedAksClusterExtensionProfileDeserializer(
+  item: any,
+): AttachedAksClusterExtensionProfile {
+  return {
+    installationMode: item["installationMode"],
+    version: item["version"],
+    releaseTrain: item["releaseTrain"],
+    useExistingKubeRayOperator: item["useExistingKubeRayOperator"],
+    configuration: !item["configuration"]
+      ? item["configuration"]
+      : attachedAksClusterExtensionConfigurationDeserializer(item["configuration"]),
+  };
+}
+
+/** How the training extension is installed. */
+export enum KnownAttachedAksClusterExtensionInstallationMode {
+  /** The service manages installation of the extension. */
+  Managed = "Managed",
+  /** The extension is installed manually, when enabled by the service. */
+  Manual = "Manual",
+}
+
+/**
+ * How the training extension is installed. \
+ * {@link KnownAttachedAksClusterExtensionInstallationMode} can be used interchangeably with AttachedAksClusterExtensionInstallationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed**: The service manages installation of the extension. \
+ * **Manual**: The extension is installed manually, when enabled by the service.
+ */
+export type AttachedAksClusterExtensionInstallationMode = string;
+
+/** User-configurable training extension settings. */
+export interface AttachedAksClusterExtensionConfiguration {
+  /** Ray version used by the training extension. */
+  rayVersion?: string;
+}
+
+export function attachedAksClusterExtensionConfigurationSerializer(
+  item: AttachedAksClusterExtensionConfiguration,
+): any {
+  return { rayVersion: item["rayVersion"] };
+}
+
+export function attachedAksClusterExtensionConfigurationDeserializer(
+  item: any,
+): AttachedAksClusterExtensionConfiguration {
+  return {
+    rayVersion: item["rayVersion"],
+  };
+}
+
+export function attachedAksClusterProjectBindingArrayDeserializer(
+  result: Array<AttachedAksClusterProjectBinding>,
+): any[] {
+  return result.map((item) => {
+    return attachedAksClusterProjectBindingDeserializer(item);
+  });
+}
+
+/** A server-managed project binding on the attached cluster. */
+export interface AttachedAksClusterProjectBinding {
+  /** Identifier of the bound Foundry project. */
+  projectId?: string;
+  /** Name of the bound Foundry project. */
+  projectName?: string;
+  /** Kubernetes namespace assigned to the project. */
+  namespace?: string;
+  /** Kubernetes service account used by the project. */
+  serviceAccountName?: string;
+  /** Client ID of the project's workload identity. */
+  workloadIdentityClientId?: string;
+  /** Capabilities available to the project binding. */
+  allowedCapabilities?: AttachedAksClusterCapability[];
+  /** Current project binding stage. */
+  stage?: AttachedAksClusterProjectBindingStage;
+  /** Details of the current binding state. */
+  message?: string;
+  /** Whether the binding is ready for KubeRay workloads. */
+  kubeRayReady?: boolean;
+  /** Whether the binding is ready for Foundry-native workloads. */
+  foundryNativeReady?: boolean;
+}
+
+export function attachedAksClusterProjectBindingDeserializer(
+  item: any,
+): AttachedAksClusterProjectBinding {
+  return {
+    projectId: item["projectId"],
+    projectName: item["projectName"],
+    namespace: item["namespace"],
+    serviceAccountName: item["serviceAccountName"],
+    workloadIdentityClientId: item["workloadIdentityClientId"],
+    allowedCapabilities: !item["allowedCapabilities"]
+      ? item["allowedCapabilities"]
+      : item["allowedCapabilities"].map((p: any) => {
+          return p;
+        }),
+    stage: item["stage"],
+    message: item["message"],
+    kubeRayReady: item["kubeRayReady"],
+    foundryNativeReady: item["foundryNativeReady"],
+  };
+}
+
+/** Provisioning stage of a project binding. */
+export enum KnownAttachedAksClusterProjectBindingStage {
+  /** The binding is being reconciled. */
+  Reconciling = "Reconciling",
+  /** The binding is ready. */
+  Ready = "Ready",
+  /** The binding is degraded. */
+  Degraded = "Degraded",
+  /** The binding is blocked. */
+  Blocked = "Blocked",
+}
+
+/**
+ * Provisioning stage of a project binding. \
+ * {@link KnownAttachedAksClusterProjectBindingStage} can be used interchangeably with AttachedAksClusterProjectBindingStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Reconciling**: The binding is being reconciled. \
+ * **Ready**: The binding is ready. \
+ * **Degraded**: The binding is degraded. \
+ * **Blocked**: The binding is blocked.
+ */
+export type AttachedAksClusterProjectBindingStage = string;
+
+/** Current provisioning and health status of an attachment. */
+export interface AttachedAksClusterStatus {
+  /** Current attachment provisioning stage. */
+  stage?: AttachedAksClusterProvisioningStage;
+  /** ARM resource ID of the attached AKS cluster. */
+  clusterResourceId?: string;
+  /** Identifier of an underlying provider operation, when present. */
+  providerOperationId?: string;
+  /** Details of the current attachment state. */
+  message?: string;
+  /** Identity provisioned for training on the attached cluster. */
+  identity?: AttachedAksClusterIdentityStatus;
+  /** Connector registration associated with the attachment. */
+  connectorRegistration?: AttachedAksClusterConnectorRegistration;
+  /** Attachment generation observed by the connector. */
+  observedGeneration?: number;
+  /** Time at which the connector was last observed. */
+  connectorObservedAtUtc?: Date;
+  /** Connector and capability readiness. */
+  readiness?: AttachedAksClusterReadinessStatus;
+  /** Status of the AI Manager integration. */
+  aiManager?: AttachedAksClusterAiManagerStatus;
+  /** Status of the training extension resource. */
+  extension?: AttachedAksClusterIntegrationResourceStatus;
+  /** Evaluated attachment health and workload admission status. */
+  health?: AttachedAksClusterHealthStatus;
+  /** Last update time of the attachment status. */
+  lastUpdatedTimeUtc?: Date;
+}
+
+export function attachedAksClusterStatusDeserializer(item: any): AttachedAksClusterStatus {
+  return {
+    stage: item["stage"],
+    clusterResourceId: item["clusterResourceId"],
+    providerOperationId: item["providerOperationId"],
+    message: item["message"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : attachedAksClusterIdentityStatusDeserializer(item["identity"]),
+    connectorRegistration: !item["connectorRegistration"]
+      ? item["connectorRegistration"]
+      : attachedAksClusterConnectorRegistrationDeserializer(item["connectorRegistration"]),
+    observedGeneration: item["observedGeneration"],
+    connectorObservedAtUtc: !item["connectorObservedAtUtc"]
+      ? item["connectorObservedAtUtc"]
+      : new Date(item["connectorObservedAtUtc"]),
+    readiness: !item["readiness"]
+      ? item["readiness"]
+      : attachedAksClusterReadinessStatusDeserializer(item["readiness"]),
+    aiManager: !item["aiManager"]
+      ? item["aiManager"]
+      : attachedAksClusterAiManagerStatusDeserializer(item["aiManager"]),
+    extension: !item["extension"]
+      ? item["extension"]
+      : attachedAksClusterIntegrationResourceStatusDeserializer(item["extension"]),
+    health: !item["health"]
+      ? item["health"]
+      : attachedAksClusterHealthStatusDeserializer(item["health"]),
+    lastUpdatedTimeUtc: !item["lastUpdatedTimeUtc"]
+      ? item["lastUpdatedTimeUtc"]
+      : new Date(item["lastUpdatedTimeUtc"]),
+  };
+}
+
+/** Provisioning stage reported by an attachment. */
+export enum KnownAttachedAksClusterProvisioningStage {
+  /** The attachment request was accepted. */
+  Accepted = "Accepted",
+  /** The attachment is being validated. */
+  Validating = "Validating",
+  /** Cluster provisioning is in progress. */
+  ProvisioningCluster = "ProvisioningCluster",
+  /** Identity provisioning is in progress. */
+  ProvisioningIdentity = "ProvisioningIdentity",
+  /** Cluster bootstrap is pending. */
+  PendingBootstrap = "PendingBootstrap",
+  /** The cluster is ready. */
+  ClusterReady = "ClusterReady",
+  /** The attachment is ready. */
+  Ready = "Ready",
+  /** The attachment is degraded. */
+  Degraded = "Degraded",
+  /** Attachment provisioning failed. */
+  Failed = "Failed",
+  /** The attachment is being deleted. */
+  Deleting = "Deleting",
+  /** The attachment is blocked. */
+  Blocked = "Blocked",
+}
+
+/**
+ * Provisioning stage reported by an attachment. \
+ * {@link KnownAttachedAksClusterProvisioningStage} can be used interchangeably with AttachedAksClusterProvisioningStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: The attachment request was accepted. \
+ * **Validating**: The attachment is being validated. \
+ * **ProvisioningCluster**: Cluster provisioning is in progress. \
+ * **ProvisioningIdentity**: Identity provisioning is in progress. \
+ * **PendingBootstrap**: Cluster bootstrap is pending. \
+ * **ClusterReady**: The cluster is ready. \
+ * **Ready**: The attachment is ready. \
+ * **Degraded**: The attachment is degraded. \
+ * **Failed**: Attachment provisioning failed. \
+ * **Deleting**: The attachment is being deleted. \
+ * **Blocked**: The attachment is blocked.
+ */
+export type AttachedAksClusterProvisioningStage = string;
+
+/** Identity status for training on the attached cluster. */
+export interface AttachedAksClusterIdentityStatus {
+  /** ARM resource ID of the identity. */
+  resourceId?: string;
+  /** Identity client ID. */
+  clientId?: string;
+  /** Identity principal ID. */
+  principalId?: string;
+  /** Identity tenant ID. */
+  tenantId?: string;
+  /** ARM resource ID of the federated identity credential. */
+  federatedIdentityCredentialResourceId?: string;
+  /** Kubernetes service account associated with the identity. */
+  kubernetesServiceAccountName?: string;
+}
+
+export function attachedAksClusterIdentityStatusDeserializer(
+  item: any,
+): AttachedAksClusterIdentityStatus {
+  return {
+    resourceId: item["resourceId"],
+    clientId: item["clientId"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    federatedIdentityCredentialResourceId: item["federatedIdentityCredentialResourceId"],
+    kubernetesServiceAccountName: item["kubernetesServiceAccountName"],
+  };
+}
+
+/** Registration details of the attachment connector. */
+export interface AttachedAksClusterConnectorRegistration {
+  /** Connector registration identifier. */
+  registrationId?: string;
+  /** Project identifier associated with the registration. */
+  projectId?: string;
+  /** Name of the attachment. */
+  attachmentName?: string;
+  /** Region associated with the connector registration. */
+  projectLocation?: string;
+  /** Connector service endpoint. */
+  endpoint?: string;
+  /** Authentication audience for the connector service. */
+  tokenAudience?: string;
+  /** ARM resource ID of the connector identity. */
+  connectorIdentityResourceId?: string;
+  /** Connector identity client ID. */
+  connectorClientId?: string;
+  /** Connector identity tenant ID. */
+  connectorTenantId?: string;
+}
+
+export function attachedAksClusterConnectorRegistrationDeserializer(
+  item: any,
+): AttachedAksClusterConnectorRegistration {
+  return {
+    registrationId: item["registrationId"],
+    projectId: item["projectId"],
+    attachmentName: item["attachmentName"],
+    projectLocation: item["projectLocation"],
+    endpoint: item["endpoint"],
+    tokenAudience: item["tokenAudience"],
+    connectorIdentityResourceId: item["connectorIdentityResourceId"],
+    connectorClientId: item["connectorClientId"],
+    connectorTenantId: item["connectorTenantId"],
+  };
+}
+
+/** Readiness of the attachment connector and capabilities. */
+export interface AttachedAksClusterReadinessStatus {
+  /** Whether the connector is ready. */
+  connectorReady?: boolean;
+  /** Readiness of individual capabilities. */
+  capabilities?: AttachedAksClusterCapabilityStatus[];
+  /** Conditions preventing readiness. */
+  blockers?: string[];
+}
+
+export function attachedAksClusterReadinessStatusDeserializer(
+  item: any,
+): AttachedAksClusterReadinessStatus {
+  return {
+    connectorReady: item["connectorReady"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : attachedAksClusterCapabilityStatusArrayDeserializer(item["capabilities"]),
+    blockers: !item["blockers"]
+      ? item["blockers"]
+      : item["blockers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function attachedAksClusterCapabilityStatusArrayDeserializer(
+  result: Array<AttachedAksClusterCapabilityStatus>,
+): any[] {
+  return result.map((item) => {
+    return attachedAksClusterCapabilityStatusDeserializer(item);
+  });
+}
+
+/** Readiness of an individual attachment capability. */
+export interface AttachedAksClusterCapabilityStatus {
+  /** Capability name. */
+  name?: string;
+  /** Whether the capability is ready. */
+  ready?: boolean;
+  /** Details of the capability's readiness. */
+  message?: string;
+}
+
+export function attachedAksClusterCapabilityStatusDeserializer(
+  item: any,
+): AttachedAksClusterCapabilityStatus {
+  return {
+    name: item["name"],
+    ready: item["ready"],
+    message: item["message"],
+  };
+}
+
+/** Status of the AI Manager integration on the attached cluster. */
+export interface AttachedAksClusterAiManagerStatus {
+  /** Provisioning state of the AI Manager integration. */
+  provisioningState?: string;
+  /** Details of the integration state. */
+  message?: string;
+  /** Attachment incarnation associated with this integration. */
+  attachmentIncarnation?: string;
+  /** ARM resource ID of the AI Manager resource. */
+  resourceId?: string;
+  /** ARM resource ID of the AKS cluster. */
+  clusterResourceId?: string;
+  /** ARM resource ID of the owning Cognitive Services account. */
+  ownerAccountId?: string;
+  /** Deletion policy for the underlying integration resource. */
+  deletePolicy?: string;
+  /** Account identity used by the integration. */
+  effectiveAccountIdentity?: AttachedAksClusterAccountIdentityStatus;
+  /** Role assignment status for the integration. */
+  roleAssignments?: AttachedAksClusterRoleAssignmentStatus;
+  /** Dependency tracking epoch. */
+  dependencyEpoch?: number;
+  /** Current integration consumer state, such as Invalid, Degraded, or Ready. */
+  consumerState?: string;
+  /** Whether new dependency references are admitted, such as Open or Closed. */
+  referenceAdmission?: string;
+  /** Number of deployments that depend on the integration. */
+  dependentDeploymentCount?: number;
+}
+
+export function attachedAksClusterAiManagerStatusDeserializer(
+  item: any,
+): AttachedAksClusterAiManagerStatus {
+  return {
+    provisioningState: item["provisioningState"],
+    message: item["message"],
+    attachmentIncarnation: item["attachmentIncarnation"],
+    resourceId: item["resourceId"],
+    clusterResourceId: item["clusterResourceId"],
+    ownerAccountId: item["ownerAccountId"],
+    deletePolicy: item["deletePolicy"],
+    effectiveAccountIdentity: !item["effectiveAccountIdentity"]
+      ? item["effectiveAccountIdentity"]
+      : attachedAksClusterAccountIdentityStatusDeserializer(item["effectiveAccountIdentity"]),
+    roleAssignments: !item["roleAssignments"]
+      ? item["roleAssignments"]
+      : attachedAksClusterRoleAssignmentStatusDeserializer(item["roleAssignments"]),
+    dependencyEpoch: item["dependencyEpoch"],
+    consumerState: item["consumerState"],
+    referenceAdmission: item["referenceAdmission"],
+    dependentDeploymentCount: item["dependentDeploymentCount"],
+  };
+}
+
+/** Account identity associated with the AI Manager integration. */
+export interface AttachedAksClusterAccountIdentityStatus {
+  /** ARM resource ID of the account identity. */
+  resourceId?: string;
+  /** Identity principal ID. */
+  principalId?: string;
+  /** Identity tenant ID. */
+  tenantId?: string;
+  /** Identity revision. */
+  revision?: number;
+}
+
+export function attachedAksClusterAccountIdentityStatusDeserializer(
+  item: any,
+): AttachedAksClusterAccountIdentityStatus {
+  return {
+    resourceId: item["resourceId"],
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    revision: item["revision"],
+  };
+}
+
+/** Role assignments associated with the AI Manager integration. */
+export interface AttachedAksClusterRoleAssignmentStatus {
+  /** ARM resource ID of the contributor role assignment. */
+  contributorId?: string;
+  /** ARM resource ID of the inference operator role assignment. */
+  inferenceOperatorId?: string;
+  /** Current role assignment status. */
+  status?: string;
+}
+
+export function attachedAksClusterRoleAssignmentStatusDeserializer(
+  item: any,
+): AttachedAksClusterRoleAssignmentStatus {
+  return {
+    contributorId: item["contributorId"],
+    inferenceOperatorId: item["inferenceOperatorId"],
+    status: item["status"],
+  };
+}
+
+/** Status of an integration resource associated with the attachment. */
+export interface AttachedAksClusterIntegrationResourceStatus {
+  /** ARM resource ID of the integration resource. */
+  resourceId?: string;
+  /** Provisioning state of the integration resource. */
+  provisioningState?: string;
+  /** Details of the integration state. */
+  message?: string;
+}
+
+export function attachedAksClusterIntegrationResourceStatusDeserializer(
+  item: any,
+): AttachedAksClusterIntegrationResourceStatus {
+  return {
+    resourceId: item["resourceId"],
+    provisioningState: item["provisioningState"],
+    message: item["message"],
+  };
+}
+
+/** Evaluated health of an attachment. */
+export interface AttachedAksClusterHealthStatus {
+  /** Overall attachment health. */
+  state?: AttachedAksClusterHealthState;
+  /** Summary of the evaluated health. */
+  summary?: string;
+  /** Time at which health was last observed. */
+  lastObservedAtUtc?: Date;
+  /** Whether the attachment can admit new workloads. */
+  newWorkAdmissionAllowed?: boolean;
+  /** Health of individual attachment components. */
+  components?: AttachedAksClusterHealthComponent[];
+  /** Reasons contributing to the evaluated health. */
+  reasons?: AttachedAksClusterHealthReason[];
+}
+
+export function attachedAksClusterHealthStatusDeserializer(
+  item: any,
+): AttachedAksClusterHealthStatus {
+  return {
+    state: item["state"],
+    summary: item["summary"],
+    lastObservedAtUtc: !item["lastObservedAtUtc"]
+      ? item["lastObservedAtUtc"]
+      : new Date(item["lastObservedAtUtc"]),
+    newWorkAdmissionAllowed: item["newWorkAdmissionAllowed"],
+    components: !item["components"]
+      ? item["components"]
+      : attachedAksClusterHealthComponentArrayDeserializer(item["components"]),
+    reasons: !item["reasons"]
+      ? item["reasons"]
+      : attachedAksClusterHealthReasonArrayDeserializer(item["reasons"]),
+  };
+}
+
+/** Health state of an attachment or one of its components. */
+export enum KnownAttachedAksClusterHealthState {
+  /** Health has not yet been established. */
+  Unknown = "Unknown",
+  /** The attachment or component is healthy. */
+  Healthy = "Healthy",
+  /** The attachment or component is degraded. */
+  Degraded = "Degraded",
+  /** The attachment or component is unhealthy. */
+  Unhealthy = "Unhealthy",
+}
+
+/**
+ * Health state of an attachment or one of its components. \
+ * {@link KnownAttachedAksClusterHealthState} can be used interchangeably with AttachedAksClusterHealthState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Health has not yet been established. \
+ * **Healthy**: The attachment or component is healthy. \
+ * **Degraded**: The attachment or component is degraded. \
+ * **Unhealthy**: The attachment or component is unhealthy.
+ */
+export type AttachedAksClusterHealthState = string;
+
+export function attachedAksClusterHealthComponentArrayDeserializer(
+  result: Array<AttachedAksClusterHealthComponent>,
+): any[] {
+  return result.map((item) => {
+    return attachedAksClusterHealthComponentDeserializer(item);
+  });
+}
+
+/** Health of an individual attachment component. */
+export interface AttachedAksClusterHealthComponent {
+  /** Component name. */
+  name?: string;
+  /** Evaluated component health. */
+  state?: AttachedAksClusterHealthState;
+  /** Details of the component's health. */
+  message?: string;
+  /** Time at which component health was last observed. */
+  lastObservedAtUtc?: Date;
+}
+
+export function attachedAksClusterHealthComponentDeserializer(
+  item: any,
+): AttachedAksClusterHealthComponent {
+  return {
+    name: item["name"],
+    state: item["state"],
+    message: item["message"],
+    lastObservedAtUtc: !item["lastObservedAtUtc"]
+      ? item["lastObservedAtUtc"]
+      : new Date(item["lastObservedAtUtc"]),
+  };
+}
+
+export function attachedAksClusterHealthReasonArrayDeserializer(
+  result: Array<AttachedAksClusterHealthReason>,
+): any[] {
+  return result.map((item) => {
+    return attachedAksClusterHealthReasonDeserializer(item);
+  });
+}
+
+/** A reason contributing to attachment health. */
+export interface AttachedAksClusterHealthReason {
+  /** Machine-readable health reason code. */
+  code?: string;
+  /** Component associated with the reason. */
+  component?: string;
+  /** Description of the health condition. */
+  message?: string;
+  /** Recommended action for the health condition. */
+  recommendedAction?: string;
+}
+
+export function attachedAksClusterHealthReasonDeserializer(
+  item: any,
+): AttachedAksClusterHealthReason {
+  return {
+    code: item["code"],
+    component: item["component"],
+    message: item["message"],
+    recommendedAction: item["recommendedAction"],
+  };
+}
+
+/** A page of lightweight attachment summaries. */
+export interface _AttachedAksClusterListResult {
+  /** The items on this page */
+  value: AttachedAksClusterListItem[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _attachedAksClusterListResultDeserializer(
+  item: any,
+): _AttachedAksClusterListResult {
+  return {
+    value: attachedAksClusterListItemArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function attachedAksClusterListItemArrayDeserializer(
+  result: Array<AttachedAksClusterListItem>,
+): any[] {
+  return result.map((item) => {
+    return attachedAksClusterListItemDeserializer(item);
+  });
+}
+
+/** A lightweight attachment resource returned by LIST. */
+export interface AttachedAksClusterListItem {
+  /** ARM resource ID of the attachment. */
+  readonly id?: string;
+  /** Attachment name. */
+  readonly name?: string;
+  /** Resource type of the attachment. */
+  readonly type?: string;
+  /** Lightweight attachment properties. */
+  readonly properties?: AttachedAksClusterListProperties;
+}
+
+export function attachedAksClusterListItemDeserializer(item: any): AttachedAksClusterListItem {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : attachedAksClusterListPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Lightweight attachment properties returned by LIST. */
+export interface AttachedAksClusterListProperties {
+  /** ARM resource ID of the attached AKS cluster. */
+  clusterResourceId?: string;
+  /** Capabilities enabled on the attachment. */
+  capabilities?: AttachedAksClusterCapability[];
+  /** Current attachment provisioning stage. */
+  stage?: AttachedAksClusterProvisioningStage;
+  /** Evaluated attachment health. */
+  health?: AttachedAksClusterHealthStatus;
+  /** Region associated with the attachment. */
+  projectLocation?: string;
+  /** Attachment creation time. */
+  createdTime?: Date;
+  /** Attachment modification time. */
+  modifiedTime?: Date;
+}
+
+export function attachedAksClusterListPropertiesDeserializer(
+  item: any,
+): AttachedAksClusterListProperties {
+  return {
+    clusterResourceId: item["clusterResourceId"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : item["capabilities"].map((p: any) => {
+          return p;
+        }),
+    stage: item["stage"],
+    health: !item["health"]
+      ? item["health"]
+      : attachedAksClusterHealthStatusDeserializer(item["health"]),
+    projectLocation: item["projectLocation"],
+    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
+    modifiedTime: !item["modifiedTime"] ? item["modifiedTime"] : new Date(item["modifiedTime"]),
+  };
+}
+
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -2902,11 +3792,6 @@ export interface DeploymentProperties {
   deploymentState?: DeploymentState;
   /** Routing configuration for the model-router deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, quality, cost) for routing across all supported models or the model subset. */
   routing?: DeploymentRouting;
-  /**
-   * The full resource IDs of cost controls directly attached to this deployment.
-   * At the moment the service only supports a single cost control. This will be expanded in future API versions.
-   */
-  costControlIds?: string[];
 }
 
 export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
@@ -2930,11 +3815,6 @@ export function deploymentPropertiesSerializer(item: DeploymentProperties): any 
     serviceTier: item["serviceTier"],
     deploymentState: item["deploymentState"],
     routing: !item["routing"] ? item["routing"] : deploymentRoutingSerializer(item["routing"]),
-    costControlIds: !item["costControlIds"]
-      ? item["costControlIds"]
-      : item["costControlIds"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -2972,11 +3852,6 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
     serviceTier: item["serviceTier"],
     deploymentState: item["deploymentState"],
     routing: !item["routing"] ? item["routing"] : deploymentRoutingDeserializer(item["routing"]),
-    costControlIds: !item["costControlIds"]
-      ? item["costControlIds"]
-      : item["costControlIds"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -3929,8 +4804,8 @@ export interface RaiAcsManifest {
    * selected key fails closed.
    */
   tools?: Record<string, RaiAcsToolDefinition>;
-  /** Standard Agent Control Specification annotator dispatch is disabled; when present, this object must be empty. */
-  annotators?: RaiAcsEmptyObject;
+  /** Optional annotator declarations keyed by name. Omitted or empty maps request no annotator declarations. */
+  annotators?: Record<string, RaiAcsAnnotatorDefinition>;
 }
 
 export function raiAcsManifestSerializer(item: RaiAcsManifest): any {
@@ -3942,7 +4817,7 @@ export function raiAcsManifestSerializer(item: RaiAcsManifest): any {
     tools: !item["tools"] ? item["tools"] : raiAcsToolDefinitionRecordSerializer(item["tools"]),
     annotators: !item["annotators"]
       ? item["annotators"]
-      : raiAcsEmptyObjectSerializer(item["annotators"]),
+      : raiAcsAnnotatorDefinitionRecordSerializer(item["annotators"]),
   };
 }
 
@@ -3957,7 +4832,7 @@ export function raiAcsManifestDeserializer(item: any): RaiAcsManifest {
     tools: !item["tools"] ? item["tools"] : raiAcsToolDefinitionRecordDeserializer(item["tools"]),
     annotators: !item["annotators"]
       ? item["annotators"]
-      : raiAcsEmptyObjectDeserializer(item["annotators"]),
+      : raiAcsAnnotatorDefinitionRecordDeserializer(item["annotators"]),
   };
 }
 
@@ -4017,19 +4892,36 @@ export type RaiAcsPolicyDefinitionType = string;
 
 /** Intervention points supported by the Azure AI Content Safety Unified Moderate host profile. */
 export interface RaiAcsInterventionPoints {
+  /** The policy evaluated when the agent execution session starts. */
+  agentStartup?: RaiAcsAgentStartupInterventionPoint;
   /** The policy evaluated for user input. */
   input?: RaiAcsInterventionPoint;
+  /** The policy evaluated before a model call. */
+  preModelCall?: RaiAcsPreModelCallInterventionPoint;
+  /** The policy evaluated after a model call. */
+  postModelCall?: RaiAcsPostModelCallInterventionPoint;
   /** The policy evaluated before a tool call. */
   preToolCall?: RaiAcsToolInterventionPoint;
   /** The policy evaluated after a tool call. */
   postToolCall?: RaiAcsToolInterventionPoint;
   /** The policy evaluated for final output. */
   output?: RaiAcsInterventionPoint;
+  /** The policy evaluated when the agent execution session shuts down. */
+  agentShutdown?: RaiAcsAgentShutdownInterventionPoint;
 }
 
 export function raiAcsInterventionPointsSerializer(item: RaiAcsInterventionPoints): any {
   return {
+    agent_startup: !item["agentStartup"]
+      ? item["agentStartup"]
+      : raiAcsAgentStartupInterventionPointSerializer(item["agentStartup"]),
     input: !item["input"] ? item["input"] : raiAcsInterventionPointSerializer(item["input"]),
+    pre_model_call: !item["preModelCall"]
+      ? item["preModelCall"]
+      : raiAcsPreModelCallInterventionPointSerializer(item["preModelCall"]),
+    post_model_call: !item["postModelCall"]
+      ? item["postModelCall"]
+      : raiAcsPostModelCallInterventionPointSerializer(item["postModelCall"]),
     pre_tool_call: !item["preToolCall"]
       ? item["preToolCall"]
       : raiAcsToolInterventionPointSerializer(item["preToolCall"]),
@@ -4037,12 +4929,24 @@ export function raiAcsInterventionPointsSerializer(item: RaiAcsInterventionPoint
       ? item["postToolCall"]
       : raiAcsToolInterventionPointSerializer(item["postToolCall"]),
     output: !item["output"] ? item["output"] : raiAcsInterventionPointSerializer(item["output"]),
+    agent_shutdown: !item["agentShutdown"]
+      ? item["agentShutdown"]
+      : raiAcsAgentShutdownInterventionPointSerializer(item["agentShutdown"]),
   };
 }
 
 export function raiAcsInterventionPointsDeserializer(item: any): RaiAcsInterventionPoints {
   return {
+    agentStartup: !item["agent_startup"]
+      ? item["agent_startup"]
+      : raiAcsAgentStartupInterventionPointDeserializer(item["agent_startup"]),
     input: !item["input"] ? item["input"] : raiAcsInterventionPointDeserializer(item["input"]),
+    preModelCall: !item["pre_model_call"]
+      ? item["pre_model_call"]
+      : raiAcsPreModelCallInterventionPointDeserializer(item["pre_model_call"]),
+    postModelCall: !item["post_model_call"]
+      ? item["post_model_call"]
+      : raiAcsPostModelCallInterventionPointDeserializer(item["post_model_call"]),
     preToolCall: !item["pre_tool_call"]
       ? item["pre_tool_call"]
       : raiAcsToolInterventionPointDeserializer(item["pre_tool_call"]),
@@ -4050,90 +4954,49 @@ export function raiAcsInterventionPointsDeserializer(item: any): RaiAcsIntervent
       ? item["post_tool_call"]
       : raiAcsToolInterventionPointDeserializer(item["post_tool_call"]),
     output: !item["output"] ? item["output"] : raiAcsInterventionPointDeserializer(item["output"]),
+    agentShutdown: !item["agent_shutdown"]
+      ? item["agent_shutdown"]
+      : raiAcsAgentShutdownInterventionPointDeserializer(item["agent_shutdown"]),
   };
 }
 
-/** Binds one logical policy to an Agent Control Specification intervention point. */
-export interface RaiAcsInterventionPoint {
+/** Agent-startup binding with the canonical initialization target. */
+export interface RaiAcsAgentStartupInterventionPoint {
   /** The canonical Agent Hooks snapshot path projected as the policy target. */
-  policyTarget: RaiAcsPolicyTarget;
+  policyTarget: "$snap.agent_init";
   /** The semantic kind of the projected policy target. */
-  policyTargetKind: RaiAcsPolicyTargetKind;
+  policyTargetKind: "agent_init";
   /** The logical policy evaluated at this intervention point. */
   policy: RaiAcsPolicyBinding;
-  /** Standard Agent Control Specification annotation bindings are disabled; when present, this object must be empty. */
-  annotations?: RaiAcsEmptyObject;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
 }
 
-export function raiAcsInterventionPointSerializer(item: RaiAcsInterventionPoint): any {
+export function raiAcsAgentStartupInterventionPointSerializer(
+  item: RaiAcsAgentStartupInterventionPoint,
+): any {
   return {
     policy_target: item["policyTarget"],
     policy_target_kind: item["policyTargetKind"],
     policy: raiAcsPolicyBindingSerializer(item["policy"]),
     annotations: !item["annotations"]
       ? item["annotations"]
-      : raiAcsEmptyObjectSerializer(item["annotations"]),
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
   };
 }
 
-export function raiAcsInterventionPointDeserializer(item: any): RaiAcsInterventionPoint {
+export function raiAcsAgentStartupInterventionPointDeserializer(
+  item: any,
+): RaiAcsAgentStartupInterventionPoint {
   return {
     policyTarget: item["policy_target"],
     policyTargetKind: item["policy_target_kind"],
     policy: raiAcsPolicyBindingDeserializer(item["policy"]),
     annotations: !item["annotations"]
       ? item["annotations"]
-      : raiAcsEmptyObjectDeserializer(item["annotations"]),
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
   };
 }
-
-/** Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. */
-export enum KnownRaiAcsPolicyTarget {
-  /** Selects the incoming user input. */
-  Input = "$snap.input",
-  /** Selects the assistant output. */
-  Output = "$snap.output",
-  /** Selects tool-call arguments. */
-  ToolArguments = "$snap.tool_call.args",
-  /** Selects a tool result. */
-  ToolResult = "$snap.tool_result.value",
-}
-
-/**
- * Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. \
- * {@link KnownRaiAcsPolicyTarget} can be used interchangeably with RaiAcsPolicyTarget,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **$snap.input**: Selects the incoming user input. \
- * **$snap.output**: Selects the assistant output. \
- * **$snap.tool_call.args**: Selects tool-call arguments. \
- * **$snap.tool_result.value**: Selects a tool result.
- */
-export type RaiAcsPolicyTarget = string;
-
-/** Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. */
-export enum KnownRaiAcsPolicyTargetKind {
-  /** The target contains user input. */
-  UserInput = "user_input",
-  /** The target contains assistant output. */
-  AssistantOutput = "assistant_output",
-  /** The target contains tool-call arguments. */
-  ToolArguments = "tool_args",
-  /** The target contains a tool result. */
-  ToolResult = "tool_result",
-}
-
-/**
- * Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. \
- * {@link KnownRaiAcsPolicyTargetKind} can be used interchangeably with RaiAcsPolicyTargetKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user_input**: The target contains user input. \
- * **assistant_output**: The target contains assistant output. \
- * **tool_args**: The target contains tool-call arguments. \
- * **tool_result**: The target contains a tool result.
- */
-export type RaiAcsPolicyTargetKind = string;
 
 /** Identifies the logical policy evaluated at an Agent Control Specification intervention point. */
 export interface RaiAcsPolicyBinding {
@@ -4283,15 +5146,225 @@ export enum KnownRaiAcsHarmCategory {
  */
 export type RaiAcsHarmCategory = string;
 
-/** An object that must contain no properties. */
-export interface RaiAcsEmptyObject {}
-
-export function raiAcsEmptyObjectSerializer(_item: RaiAcsEmptyObject): any {
-  return {};
+export function raiAcsAnnotationBindingRecordSerializer(
+  item: Record<string, RaiAcsAnnotationBinding>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsAnnotationBindingSerializer(item[key]);
+  });
+  return result;
 }
 
-export function raiAcsEmptyObjectDeserializer(item: any): RaiAcsEmptyObject {
-  return item;
+export function raiAcsAnnotationBindingRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RaiAcsAnnotationBinding> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsAnnotationBindingDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Binds an annotator to a subject at one intervention point. The map key selects its declaration. */
+export interface RaiAcsAnnotationBinding {
+  /** The Agent Control Specification path selecting the subject passed to the annotator. */
+  from: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function raiAcsAnnotationBindingSerializer(item: RaiAcsAnnotationBinding): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}), from: item["from"] };
+}
+
+export function raiAcsAnnotationBindingDeserializer(item: any): RaiAcsAnnotationBinding {
+  return {
+    additionalProperties: serializeRecord(item, ["from"]),
+    from: item["from"],
+  };
+}
+
+/** Binds one logical policy to an Agent Control Specification intervention point. */
+export interface RaiAcsInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: RaiAcsPolicyTarget;
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: RaiAcsPolicyTargetKind;
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
+}
+
+export function raiAcsInterventionPointSerializer(item: RaiAcsInterventionPoint): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
+  };
+}
+
+export function raiAcsInterventionPointDeserializer(item: any): RaiAcsInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
+  };
+}
+
+/** Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. */
+export enum KnownRaiAcsPolicyTarget {
+  /** Selects the agent initialization payload. */
+  AgentInitialization = "$snap.agent_init",
+  /** Selects the incoming user input. */
+  Input = "$snap.input",
+  /** Selects the model messages proposed for dispatch. */
+  ModelMessages = "$snap.messages",
+  /** Selects the completed model response. */
+  ModelResponse = "$snap.response",
+  /** Selects the assistant output. */
+  Output = "$snap.output",
+  /** Selects tool-call arguments. */
+  ToolArguments = "$snap.tool_call.args",
+  /** Selects a tool result. */
+  ToolResult = "$snap.tool_result.value",
+  /** Selects the final agent execution summary. */
+  AgentSummary = "$snap.summary",
+}
+
+/**
+ * Canonical policy targets supported by the Azure AI Content Safety Unified Moderate host profile. \
+ * {@link KnownRaiAcsPolicyTarget} can be used interchangeably with RaiAcsPolicyTarget,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **$snap.agent_init**: Selects the agent initialization payload. \
+ * **$snap.input**: Selects the incoming user input. \
+ * **$snap.messages**: Selects the model messages proposed for dispatch. \
+ * **$snap.response**: Selects the completed model response. \
+ * **$snap.output**: Selects the assistant output. \
+ * **$snap.tool_call.args**: Selects tool-call arguments. \
+ * **$snap.tool_result.value**: Selects a tool result. \
+ * **$snap.summary**: Selects the final agent execution summary.
+ */
+export type RaiAcsPolicyTarget = string;
+
+/** Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. */
+export enum KnownRaiAcsPolicyTargetKind {
+  /** The target contains agent initialization state. */
+  AgentInitialization = "agent_init",
+  /** The target contains user input. */
+  UserInput = "user_input",
+  /** The target contains model messages. */
+  ModelMessages = "messages",
+  /** The target contains a completed model response. */
+  ModelResponse = "model_response",
+  /** The target contains assistant output. */
+  AssistantOutput = "assistant_output",
+  /** The target contains tool-call arguments. */
+  ToolArguments = "tool_args",
+  /** The target contains a tool result. */
+  ToolResult = "tool_result",
+  /** The target contains the final agent execution summary. */
+  AgentSummary = "agent_summary",
+}
+
+/**
+ * Canonical target kinds supported by the Azure AI Content Safety Unified Moderate host profile. \
+ * {@link KnownRaiAcsPolicyTargetKind} can be used interchangeably with RaiAcsPolicyTargetKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **agent_init**: The target contains agent initialization state. \
+ * **user_input**: The target contains user input. \
+ * **messages**: The target contains model messages. \
+ * **model_response**: The target contains a completed model response. \
+ * **assistant_output**: The target contains assistant output. \
+ * **tool_args**: The target contains tool-call arguments. \
+ * **tool_result**: The target contains a tool result. \
+ * **agent_summary**: The target contains the final agent execution summary.
+ */
+export type RaiAcsPolicyTargetKind = string;
+
+/** Pre-model binding with the canonical messages target. */
+export interface RaiAcsPreModelCallInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: "$snap.messages";
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: "messages";
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
+}
+
+export function raiAcsPreModelCallInterventionPointSerializer(
+  item: RaiAcsPreModelCallInterventionPoint,
+): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
+  };
+}
+
+export function raiAcsPreModelCallInterventionPointDeserializer(
+  item: any,
+): RaiAcsPreModelCallInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
+  };
+}
+
+/** Post-model binding with the canonical model-response target. */
+export interface RaiAcsPostModelCallInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: "$snap.response";
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: "model_response";
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
+}
+
+export function raiAcsPostModelCallInterventionPointSerializer(
+  item: RaiAcsPostModelCallInterventionPoint,
+): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
+  };
+}
+
+export function raiAcsPostModelCallInterventionPointDeserializer(
+  item: any,
+): RaiAcsPostModelCallInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
+  };
 }
 
 /** Binds one logical policy to a tool-call intervention point. */
@@ -4302,8 +5375,8 @@ export interface RaiAcsToolInterventionPoint {
   policyTargetKind: RaiAcsPolicyTargetKind;
   /** The logical policy evaluated at this intervention point. */
   policy: RaiAcsPolicyBinding;
-  /** Standard Agent Control Specification annotation bindings are disabled; when present, this object must be empty. */
-  annotations?: RaiAcsEmptyObject;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
   /** Selects the tool catalog key from the raw Agent Hooks snapshot using an extensible snapshot path. */
   toolNameFrom?: RaiAcsToolNameSelector;
 }
@@ -4315,7 +5388,7 @@ export function raiAcsToolInterventionPointSerializer(item: RaiAcsToolInterventi
     policy: raiAcsPolicyBindingSerializer(item["policy"]),
     annotations: !item["annotations"]
       ? item["annotations"]
-      : raiAcsEmptyObjectSerializer(item["annotations"]),
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
     tool_name_from: item["toolNameFrom"],
   };
 }
@@ -4327,7 +5400,7 @@ export function raiAcsToolInterventionPointDeserializer(item: any): RaiAcsToolIn
     policy: raiAcsPolicyBindingDeserializer(item["policy"]),
     annotations: !item["annotations"]
       ? item["annotations"]
-      : raiAcsEmptyObjectDeserializer(item["annotations"]),
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
     toolNameFrom: item["tool_name_from"],
   };
 }
@@ -4353,6 +5426,44 @@ export enum KnownRaiAcsToolNameSelector {
  * **$.tool_call.name**: Selects the tool-call name through the snapshot-root alias.
  */
 export type RaiAcsToolNameSelector = string;
+
+/** Agent-shutdown binding with the canonical summary target. */
+export interface RaiAcsAgentShutdownInterventionPoint {
+  /** The canonical Agent Hooks snapshot path projected as the policy target. */
+  policyTarget: "$snap.summary";
+  /** The semantic kind of the projected policy target. */
+  policyTargetKind: "agent_summary";
+  /** The logical policy evaluated at this intervention point. */
+  policy: RaiAcsPolicyBinding;
+  /** Optional annotator bindings keyed by declaration name. Results are available to Rego as input.annotations.<name>. */
+  annotations?: Record<string, RaiAcsAnnotationBinding>;
+}
+
+export function raiAcsAgentShutdownInterventionPointSerializer(
+  item: RaiAcsAgentShutdownInterventionPoint,
+): any {
+  return {
+    policy_target: item["policyTarget"],
+    policy_target_kind: item["policyTargetKind"],
+    policy: raiAcsPolicyBindingSerializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordSerializer(item["annotations"]),
+  };
+}
+
+export function raiAcsAgentShutdownInterventionPointDeserializer(
+  item: any,
+): RaiAcsAgentShutdownInterventionPoint {
+  return {
+    policyTarget: item["policy_target"],
+    policyTargetKind: item["policy_target_kind"],
+    policy: raiAcsPolicyBindingDeserializer(item["policy"]),
+    annotations: !item["annotations"]
+      ? item["annotations"]
+      : raiAcsAnnotationBindingRecordDeserializer(item["annotations"]),
+  };
+}
 
 export function raiAcsToolDefinitionRecordSerializer(
   item: Record<string, RaiAcsToolDefinition>,
@@ -4425,6 +5536,66 @@ export function raiAcsToolDefinitionDeserializer(item: any): RaiAcsToolDefinitio
     clearance: item["clearance"],
   };
 }
+
+export function raiAcsAnnotatorDefinitionRecordSerializer(
+  item: Record<string, RaiAcsAnnotatorDefinition>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsAnnotatorDefinitionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function raiAcsAnnotatorDefinitionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, RaiAcsAnnotatorDefinition> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : raiAcsAnnotatorDefinitionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** A named Agent Control Specification annotator declaration with host-defined configuration. */
+export interface RaiAcsAnnotatorDefinition {
+  /** The dispatcher kind. Supported configuration is determined by the evaluation host. */
+  type: RaiAcsAnnotatorType;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function raiAcsAnnotatorDefinitionSerializer(item: RaiAcsAnnotatorDefinition): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}), type: item["type"] };
+}
+
+export function raiAcsAnnotatorDefinitionDeserializer(item: any): RaiAcsAnnotatorDefinition {
+  return {
+    additionalProperties: serializeRecord(item, ["type"]),
+    type: item["type"],
+  };
+}
+
+/** Extensible kinds of Agent Control Specification annotator dispatchers. */
+export enum KnownRaiAcsAnnotatorType {
+  /** Obtains annotations from a classifier dispatcher. */
+  Classifier = "classifier",
+  /** Obtains annotations from a language-model dispatcher. */
+  Llm = "llm",
+  /** Obtains annotations from an external endpoint dispatcher. */
+  Endpoint = "endpoint",
+}
+
+/**
+ * Extensible kinds of Agent Control Specification annotator dispatchers. \
+ * {@link KnownRaiAcsAnnotatorType} can be used interchangeably with RaiAcsAnnotatorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **classifier**: Obtains annotations from a classifier dispatcher. \
+ * **llm**: Obtains annotations from a language-model dispatcher. \
+ * **endpoint**: Obtains annotations from an external endpoint dispatcher.
+ */
+export type RaiAcsAnnotatorType = string;
 
 export function raiRegoReferenceArraySerializer(result: Array<RaiRegoReference>): any[] {
   return result.map((item) => {
@@ -4585,6 +5756,14 @@ export enum KnownRaiPolicyContentSource {
   PreRun = "PreRun",
   /** PostRun */
   PostRun = "PostRun",
+  /** Content evaluated when an agent execution session starts. */
+  AgentStartup = "AgentStartup",
+  /** Content evaluated before a model call is made. */
+  PreModelCall = "PreModelCall",
+  /** Content evaluated after a model call returns. */
+  PostModelCall = "PostModelCall",
+  /** Content evaluated when an agent execution session shuts down. */
+  AgentShutdown = "AgentShutdown",
 }
 
 /**
@@ -4597,7 +5776,11 @@ export enum KnownRaiPolicyContentSource {
  * **PreToolCall** \
  * **PostToolCall** \
  * **PreRun** \
- * **PostRun**
+ * **PostRun** \
+ * **AgentStartup**: Content evaluated when an agent execution session starts. \
+ * **PreModelCall**: Content evaluated before a model call is made. \
+ * **PostModelCall**: Content evaluated after a model call returns. \
+ * **AgentShutdown**: Content evaluated when an agent execution session shuts down.
  */
 export type RaiPolicyContentSource = string;
 
@@ -6442,6 +7625,8 @@ export interface ProjectProperties {
   readonly isDefault?: boolean;
   /** Effective agent capability settings for the project. Optional partial override of the account defaults; omitted fields inherit from the parent account when present. Settable only at create time. */
   capabilitySettings?: CapabilitySettings;
+  /** The project-level tool access policy. Omitting this property in a PUT request clears the policy. In PATCH requests, omission preserves the policy and an explicit null clears it. Responses omit this property when no policy is configured. */
+  toolControls?: ToolControls;
 }
 
 export function projectPropertiesSerializer(item: ProjectProperties): any {
@@ -6451,6 +7636,9 @@ export function projectPropertiesSerializer(item: ProjectProperties): any {
     capabilitySettings: !item["capabilitySettings"]
       ? item["capabilitySettings"]
       : capabilitySettingsSerializer(item["capabilitySettings"]),
+    toolControls: !item["toolControls"]
+      ? item["toolControls"]
+      : toolControlsSerializer(item["toolControls"]),
   };
 }
 
@@ -6468,8 +7656,185 @@ export function projectPropertiesDeserializer(item: any): ProjectProperties {
     capabilitySettings: !item["capabilitySettings"]
       ? item["capabilitySettings"]
       : capabilitySettingsDeserializer(item["capabilitySettings"]),
+    toolControls: !item["toolControls"]
+      ? item["toolControls"]
+      : toolControlsDeserializer(item["toolControls"]),
   };
 }
+
+/** Defines the default and per-tool access policy for a Foundry project. */
+export interface ToolControls {
+  /** The action applied when a tool is not listed explicitly. Only Deny is currently supported. */
+  defaultAction?: ToolControlsDefaultAction;
+  /** The tools explicitly allowed by the policy. Omission or an empty array specifies no explicitly allowed tools. */
+  allowedTools?: ToolControlEntry[];
+}
+
+export function toolControlsSerializer(item: ToolControls): any {
+  return {
+    defaultAction: item["defaultAction"],
+    allowedTools: !item["allowedTools"]
+      ? item["allowedTools"]
+      : toolControlEntryArraySerializer(item["allowedTools"]),
+  };
+}
+
+export function toolControlsDeserializer(item: any): ToolControls {
+  return {
+    defaultAction: item["defaultAction"],
+    allowedTools: !item["allowedTools"]
+      ? item["allowedTools"]
+      : toolControlEntryArrayDeserializer(item["allowedTools"]),
+  };
+}
+
+/** Specifies the default action for a tool that is not listed explicitly. */
+export enum KnownToolControlsDefaultAction {
+  /** Tools that are not listed explicitly are denied. */
+  Deny = "Deny",
+}
+
+/**
+ * Specifies the default action for a tool that is not listed explicitly. \
+ * {@link KnownToolControlsDefaultAction} can be used interchangeably with ToolControlsDefaultAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deny**: Tools that are not listed explicitly are denied.
+ */
+export type ToolControlsDefaultAction = string;
+
+export function toolControlEntryArraySerializer(result: Array<ToolControlEntry>): any[] {
+  return result.map((item) => {
+    return toolControlEntrySerializer(item);
+  });
+}
+
+export function toolControlEntryArrayDeserializer(result: Array<ToolControlEntry>): any[] {
+  return result.map((item) => {
+    return toolControlEntryDeserializer(item);
+  });
+}
+
+/** Identifies a tool by its canonical type and optional MCP server URL or connector. */
+export interface ToolControlEntry {
+  /** The canonical tool type. For type mcp, exactly one of serverUrl or connectorId must be specified. Other tool types must omit both properties. */
+  type: ToolControlType;
+  /** The absolute HTTPS URL or URL pattern of an MCP server, stored as a string to support wildcards. The entire URL may contain at most one literal '*' across its hostname, path, query, and fragment. Supported patterns include https://*.contoso.com/mcp, https://contoso.com/mcp/*, https://contoso.com/mcp?tenant=*, and https://contoso.com/mcp#*. A hostname wildcard must be the leftmost label. The URL must not contain user information. Applies only to type mcp and cannot be specified together with connectorId. */
+  serverUrl?: string;
+  /** The opaque MCP connector catalog identifier, not an Azure resource ID. Applies only to type mcp and cannot be specified together with serverUrl. */
+  connectorId?: string;
+}
+
+export function toolControlEntrySerializer(item: ToolControlEntry): any {
+  return { type: item["type"], serverUrl: item["serverUrl"], connectorId: item["connectorId"] };
+}
+
+export function toolControlEntryDeserializer(item: any): ToolControlEntry {
+  return {
+    type: item["type"],
+    serverUrl: item["serverUrl"],
+    connectorId: item["connectorId"],
+  };
+}
+
+/** The canonical tool type supported by Foundry agents. Additional tool types may be specified as strings. */
+export enum KnownToolControlType {
+  /** Agent-to-agent tool. */
+  A2A = "a2a",
+  /** Azure AI Search tool. */
+  AzureAiSearch = "azure_ai_search",
+  /** Azure Function tool. */
+  AzureFunction = "azure_function",
+  /** Grounding with Bing Search tool. */
+  BingGrounding = "bing_grounding",
+  /** Browser automation tool. */
+  BrowserAutomation = "browser_automation",
+  /** Capture structured outputs tool. */
+  CaptureStructuredOutputs = "capture_structured_outputs",
+  /** OpenAPI tool. */
+  Openapi = "openapi",
+  /** Function tool. */
+  Function = "function",
+  /** File search tool. */
+  FileSearch = "file_search",
+  /** Computer use tool. */
+  ComputerUsePreview = "computer_use_preview",
+  /** Web search tool. */
+  WebSearch = "web_search",
+  /** Model Context Protocol (MCP) tool. */
+  Mcp = "mcp",
+  /** Code interpreter tool. */
+  CodeInterpreter = "code_interpreter",
+  /** Image generation tool. */
+  ImageGeneration = "image_generation",
+  /** Local shell tool. */
+  LocalShell = "local_shell",
+  /** Shell tool. */
+  Shell = "shell",
+  /** Custom tool. */
+  Custom = "custom",
+  /** Web search preview tool. */
+  WebSearchPreview = "web_search_preview",
+  /** Apply patch tool. */
+  ApplyPatch = "apply_patch",
+  /** Agent-to-agent preview tool. */
+  A2APreview = "a2a_preview",
+  /** Grounding with Bing Custom Search preview tool. */
+  BingCustomSearchPreview = "bing_custom_search_preview",
+  /** Browser automation preview tool. */
+  BrowserAutomationPreview = "browser_automation_preview",
+  /** Fabric data agent preview tool. */
+  FabricDataagentPreview = "fabric_dataagent_preview",
+  /** SharePoint grounding preview tool. */
+  SharepointGroundingPreview = "sharepoint_grounding_preview",
+  /** Memory search preview tool. */
+  MemorySearchPreview = "memory_search_preview",
+  /** Work IQ preview tool. */
+  WorkIqPreview = "work_iq_preview",
+  /** Fabric IQ preview tool. */
+  FabricIqPreview = "fabric_iq_preview",
+  /** Toolbox search preview tool. */
+  ToolboxSearchPreview = "toolbox_search_preview",
+  /** Web IQ preview tool. */
+  WebIqPreview = "web_iq_preview",
+}
+
+/**
+ * The canonical tool type supported by Foundry agents. Additional tool types may be specified as strings. \
+ * {@link KnownToolControlType} can be used interchangeably with ToolControlType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **a2a**: Agent-to-agent tool. \
+ * **azure_ai_search**: Azure AI Search tool. \
+ * **azure_function**: Azure Function tool. \
+ * **bing_grounding**: Grounding with Bing Search tool. \
+ * **browser_automation**: Browser automation tool. \
+ * **capture_structured_outputs**: Capture structured outputs tool. \
+ * **openapi**: OpenAPI tool. \
+ * **function**: Function tool. \
+ * **file_search**: File search tool. \
+ * **computer_use_preview**: Computer use tool. \
+ * **web_search**: Web search tool. \
+ * **mcp**: Model Context Protocol (MCP) tool. \
+ * **code_interpreter**: Code interpreter tool. \
+ * **image_generation**: Image generation tool. \
+ * **local_shell**: Local shell tool. \
+ * **shell**: Shell tool. \
+ * **custom**: Custom tool. \
+ * **web_search_preview**: Web search preview tool. \
+ * **apply_patch**: Apply patch tool. \
+ * **a2a_preview**: Agent-to-agent preview tool. \
+ * **bing_custom_search_preview**: Grounding with Bing Custom Search preview tool. \
+ * **browser_automation_preview**: Browser automation preview tool. \
+ * **fabric_dataagent_preview**: Fabric data agent preview tool. \
+ * **sharepoint_grounding_preview**: SharePoint grounding preview tool. \
+ * **memory_search_preview**: Memory search preview tool. \
+ * **work_iq_preview**: Work IQ preview tool. \
+ * **fabric_iq_preview**: Fabric IQ preview tool. \
+ * **toolbox_search_preview**: Toolbox search preview tool. \
+ * **web_iq_preview**: Web IQ preview tool.
+ */
+export type ToolControlType = string;
 
 /** The list of cognitive services projects operation response. */
 export interface _ProjectListResult {
@@ -8547,13 +9912,6 @@ export interface ArcDeployment extends ProxyResource {
   readonly etag?: string;
 }
 
-export function arcDeploymentSerializer(item: ArcDeployment): any {
-  return {
-    properties: arcDeploymentPropertiesSerializer(item["properties"]),
-    sku: arcDeploymentSkuSerializer(item["sku"]),
-  };
-}
-
 export function arcDeploymentDeserializer(item: any): ArcDeployment {
   return {
     id: item["id"],
@@ -8574,10 +9932,10 @@ export interface ArcDeploymentProperties {
   model: ArcDeploymentModel;
   /** Full Azure resource ID of the Foundry inference extension on the target Arc-enabled Kubernetes cluster. Required on creation and immutable after creation. */
   extensionId: string;
-  /** Inference runtime. Required on creation and immutable after creation. */
-  runtime: ArcDeploymentRuntime;
-  /** Compute type for the deployment. Required on creation and immutable after creation. */
-  compute: ArcDeploymentComputeType;
+  /** Read-only. Inference runtime resolved from the model asset. */
+  readonly runtime: ArcDeploymentRuntime;
+  /** Read-only. Compute type resolved from the model asset. */
+  readonly compute: ArcDeploymentComputeType;
   /**
    * Optional deployment template identifier for advanced vLLM tuning. Allowed only when runtime is vllm.
    * Example: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}
@@ -8603,21 +9961,6 @@ export interface ArcDeploymentProperties {
   readonly inferenceEndpoint?: string;
   /** Read-only. Deployment capabilities represented as key-value pairs. */
   readonly capabilities?: Record<string, string>;
-}
-
-export function arcDeploymentPropertiesSerializer(item: ArcDeploymentProperties): any {
-  return {
-    model: arcDeploymentModelSerializer(item["model"]),
-    extensionId: item["extensionId"],
-    runtime: item["runtime"],
-    compute: item["compute"],
-    deploymentTemplate: item["deploymentTemplate"],
-    replicas: item["replicas"],
-    resources: arcDeploymentKubernetesResourcesSerializer(item["resources"]),
-    nodeSelector: item["nodeSelector"],
-    deploymentState: item["deploymentState"],
-    raiPolicyName: item["raiPolicyName"],
-  };
 }
 
 export function arcDeploymentPropertiesDeserializer(item: any): ArcDeploymentProperties {
@@ -8654,20 +9997,22 @@ export function arcDeploymentPropertiesDeserializer(item: any): ArcDeploymentPro
 
 /** Model reference for an Arc deployment. */
 export interface ArcDeploymentModel {
-  /** Deployment model format. */
-  format: string;
-  /** Deployment model name. */
-  name: string;
-}
-
-export function arcDeploymentModelSerializer(item: ArcDeploymentModel): any {
-  return { format: item["format"], name: item["name"] };
+  /** Read-only. Deployment model format resolved from the model asset. */
+  readonly format: string;
+  /** Read-only. Deployment model name resolved from the model asset. */
+  readonly name: string;
+  /** Read-only. Deployment model version resolved from the model asset. */
+  readonly version: string;
+  /** AzureML Registry model asset URI. */
+  assetId: string;
 }
 
 export function arcDeploymentModelDeserializer(item: any): ArcDeploymentModel {
   return {
     format: item["format"],
     name: item["name"],
+    version: item["version"],
+    assetId: item["assetId"],
   };
 }
 
@@ -8873,6 +10218,56 @@ export enum KnownArcDeploymentSkuName {
  */
 export type ArcDeploymentSkuName = string;
 
+/** Properties of a Cognitive Services Arc deployment. */
+export interface CreateOrUpdateArcDeploymentProperties {
+  /** Model reference. Required on creation and immutable after creation. */
+  model: CreateOrUpdateArcDeploymentModel;
+  /** Full Azure resource ID of the Foundry inference extension on the target Arc-enabled Kubernetes cluster. Required on creation and immutable after creation. */
+  extensionId: string;
+  /**
+   * Optional deployment template identifier for advanced vLLM tuning. Allowed only when runtime is vllm.
+   * Example: azureml://registries/{registry}/deploymenttemplates/{template}/versions/{version}
+   */
+  deploymentTemplate?: string;
+  /** Physical replica count on the Arc cluster. */
+  replicas: number;
+  /** Per-replica Kubernetes resource requests and limits. */
+  resources: ArcDeploymentKubernetesResources;
+  /** Kubernetes node selector key-value map used to schedule pods onto nodes with matching labels. */
+  nodeSelector?: Record<string, string>;
+  /** The deployment state. */
+  deploymentState?: DeploymentState;
+  /** The name of RAI policy. */
+  raiPolicyName?: string;
+}
+
+export function createOrUpdateArcDeploymentPropertiesSerializer(
+  item: CreateOrUpdateArcDeploymentProperties,
+): any {
+  return {
+    model: createOrUpdateArcDeploymentModelSerializer(item["model"]),
+    extensionId: item["extensionId"],
+    deploymentTemplate: item["deploymentTemplate"],
+    replicas: item["replicas"],
+    resources: arcDeploymentKubernetesResourcesSerializer(item["resources"]),
+    nodeSelector: item["nodeSelector"],
+    deploymentState: item["deploymentState"],
+    raiPolicyName: item["raiPolicyName"],
+  };
+}
+
+/** Model reference for an Arc deployment. */
+export interface CreateOrUpdateArcDeploymentModel {
+  /** AzureML Registry model asset URI. */
+  assetId: string;
+}
+
+export function createOrUpdateArcDeploymentModelSerializer(
+  item: CreateOrUpdateArcDeploymentModel,
+): any {
+  return { assetId: item["assetId"] };
+}
+
 /** The object used to update an Arc deployment. */
 export interface ArcDeploymentUpdate {
   /** Properties that can be updated on an Arc deployment. */
@@ -8955,12 +10350,6 @@ export function _arcDeploymentListResultDeserializer(item: any): _ArcDeploymentL
     nextLink: item["nextLink"],
     value: arcDeploymentArrayDeserializer(item["value"]),
   };
-}
-
-export function arcDeploymentArraySerializer(result: Array<ArcDeployment>): any[] {
-  return result.map((item) => {
-    return arcDeploymentSerializer(item);
-  });
 }
 
 export function arcDeploymentArrayDeserializer(result: Array<ArcDeployment>): any[] {
@@ -10088,8 +11477,10 @@ export interface ManagedComputeUsage {
   limit?: number;
   /** Current value for this metric. */
   currentValue?: number;
-  /** Offer scope (e.g., 'Global', 'Datazone-US'). */
+  /** Offer scope. Supported values are 'Global' and 'DataZone'. */
   offerScope?: string;
+  /** Scope identifier for the managed compute usage. Supported values are '' (empty), 'US', and 'EU'. */
+  scopeId?: string;
   /** Deployments consuming this managed compute quota. */
   deployments?: ManagedComputeDeploymentInfo[];
 }
@@ -10103,6 +11494,7 @@ export function managedComputeUsageDeserializer(item: any): ManagedComputeUsage 
     limit: item["limit"],
     currentValue: item["currentValue"],
     offerScope: item["offerScope"],
+    scopeId: item["scopeId"],
     deployments: !item["deployments"]
       ? item["deployments"]
       : managedComputeDeploymentInfoArrayDeserializer(item["deployments"]),
@@ -10795,8 +12187,20 @@ export function managedComputeCapacityDeserializer(item: any): ManagedComputeCap
 export interface ManagedComputeCapacityProperties {
   /** The type of accelerator (e.g., Azure.A100, Azure.H100). */
   readonly acceleratorType?: string;
+  /** The capacity offer scope: Global or DataZone. Omitted for deployment-scoped results. */
+  readonly offerScope?: string;
+  /**
+   * The identifier within the offer scope: an empty string for Global, or US or EU
+   * for DataZone. Omitted for deployment-scoped results.
+   */
+  readonly scopeId?: string;
   /** The number of available accelerators in the region. */
   readonly availableAccelerators?: number;
+  /**
+   * The total number of available accelerators summed across regions within the scope.
+   * Omitted for deployment-scoped results.
+   */
+  readonly totalAvailableAccelerators?: number;
   /** Capacity information broken down by deployment size. */
   readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
 }
@@ -10806,7 +12210,10 @@ export function managedComputeCapacityPropertiesDeserializer(
 ): ManagedComputeCapacityProperties {
   return {
     acceleratorType: item["acceleratorType"],
+    offerScope: item["offerScope"],
+    scopeId: item["scopeId"],
     availableAccelerators: item["availableAccelerators"],
+    totalAvailableAccelerators: item["totalAvailableAccelerators"],
     deploymentSizeCapacities: !item["deploymentSizeCapacities"]
       ? item["deploymentSizeCapacities"]
       : deploymentSizeCapacityArrayDeserializer(item["deploymentSizeCapacities"]),
@@ -10839,15 +12246,18 @@ export function deploymentSizeCapacityDeserializer(item: any): DeploymentSizeCap
   };
 }
 
-/** A cost control owned by a Cognitive Services account. */
-export interface CostControl extends ProxyResource {
+/**
+ * A budget that measures consumption and optionally alerts or blocks requests within an account.
+ * Reading, deleting, and enforcing stored identity selections requires Microsoft.CognitiveServices/CostControlsByIdentity registration.
+ */
+export interface AccountCostControl extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: CostControlProperties;
-  /** The entity tag used for optimistic concurrency. */
+  /** The opaque entity tag used for optimistic concurrency. */
   readonly etag?: string;
 }
 
-export function costControlSerializer(item: CostControl): any {
+export function accountCostControlSerializer(item: AccountCostControl): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -10855,7 +12265,7 @@ export function costControlSerializer(item: CostControl): any {
   };
 }
 
-export function costControlDeserializer(item: any): CostControl {
+export function accountCostControlDeserializer(item: any): AccountCostControl {
   return {
     id: item["id"],
     name: item["name"],
@@ -10870,354 +12280,459 @@ export function costControlDeserializer(item: any): CostControl {
   };
 }
 
-/** The customer-authored settings of a cost control. */
+/**
+ * The consumption budget and its traffic selection, notifications, and enforcement actions.
+ * A cost control applies within its owner's scope.
+ */
 export interface CostControlProperties {
-  /** An optional human-readable name for the cost control. */
-  displayName?: string;
-  /** The rules enforced by the cost control. */
-  rules: CostControlRule[];
+  /** The resource provider for this budget. Omission selects Microsoft.CognitiveServices; responses return that value. */
+  provider?: "Microsoft.CognitiveServices";
+  /**
+   * Optional additional partitioning of consumption. Omission or an empty array uses one counter for the owning account or Foundry project.
+   * Responses omit owner-default grouping. A project-owned control cannot explicitly group by project.
+   */
+  grouping?: CostControlGrouping[];
+  /** Whether the budget measures estimated cost in United States dollars or token consumption. This category cannot be changed after creation. */
+  category: CostControlCategory;
+  /**
+   * The positive budget amount, measured in United States dollars for the Cost category or in tokens for the Tokens category.
+   * Token amounts must be whole numbers.
+   */
+  amount: number;
+  /** The calendar-aligned UTC interval at which consumption counters renew within the validity window. */
+  timeGrain: CostControlTimeGrain;
+  /** The finite UTC validity window during which the control applies. */
+  timePeriod: CostControlTimePeriod;
+  /** Optional traffic selection. Omission selects all eligible traffic within the owner's scope. */
+  filter?: CostControlFilter;
+  /**
+   * Alert notifications keyed by nonempty, case-insensitively unique names. Each notification supplies its own Event Grid connection.
+   * PUT and the complete merged PATCH result may contain at most one notification, including disabled notifications.
+   * Omission on creation creates no notifications.
+   */
+  notifications?: Record<string, CostControlNotification>;
+  /** Optional provider-specific enforcement settings. Omission creates no blocking actions. */
+  providerProperties?: CostControlProviderProperties;
 }
 
 export function costControlPropertiesSerializer(item: CostControlProperties): any {
-  return { displayName: item["displayName"], rules: costControlRuleArraySerializer(item["rules"]) };
+  return {
+    provider: item["provider"],
+    grouping: !item["grouping"]
+      ? item["grouping"]
+      : costControlGroupingArraySerializer(item["grouping"]),
+    category: item["category"],
+    amount: item["amount"],
+    timeGrain: item["timeGrain"],
+    timePeriod: costControlTimePeriodSerializer(item["timePeriod"]),
+    filter: !item["filter"] ? item["filter"] : costControlFilterSerializer(item["filter"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : costControlNotificationRecordSerializer(item["notifications"]),
+    providerProperties: !item["providerProperties"]
+      ? item["providerProperties"]
+      : costControlProviderPropertiesSerializer(item["providerProperties"]),
+  };
 }
 
 export function costControlPropertiesDeserializer(item: any): CostControlProperties {
   return {
-    displayName: item["displayName"],
-    rules: costControlRuleArrayDeserializer(item["rules"]),
+    provider: item["provider"],
+    grouping: !item["grouping"]
+      ? item["grouping"]
+      : costControlGroupingArrayDeserializer(item["grouping"]),
+    category: item["category"],
+    amount: item["amount"],
+    timeGrain: item["timeGrain"],
+    timePeriod: costControlTimePeriodDeserializer(item["timePeriod"]),
+    filter: !item["filter"] ? item["filter"] : costControlFilterDeserializer(item["filter"]),
+    notifications: !item["notifications"]
+      ? item["notifications"]
+      : costControlNotificationRecordDeserializer(item["notifications"]),
+    providerProperties: !item["providerProperties"]
+      ? item["providerProperties"]
+      : costControlProviderPropertiesDeserializer(item["providerProperties"]),
   };
 }
 
-export function costControlRuleArraySerializer(result: Array<CostControlRule>): any[] {
+export function costControlGroupingArraySerializer(result: Array<CostControlGrouping>): any[] {
   return result.map((item) => {
-    return costControlRuleSerializer(item);
+    return costControlGroupingSerializer(item);
   });
 }
 
-export function costControlRuleArrayDeserializer(result: Array<CostControlRule>): any[] {
+export function costControlGroupingArrayDeserializer(result: Array<CostControlGrouping>): any[] {
   return result.map((item) => {
-    return costControlRuleDeserializer(item);
+    return costControlGroupingDeserializer(item);
   });
 }
 
-/** A cost limit and the population to which it applies. */
-export interface CostControlRule {
-  /** The stable rule identifier, unique within the cost control without regard to case. */
-  name: string;
-  /**
-   * Gets or sets the single built-in dimension used to partition consumption.
-   * Custom dimensions are retained only for legacy reads and metadata-only updates.
-   * Legacy singleton arrays are accepted on read; serialization always emits an object.
-   * To track another field, create another rule.
-   */
-  counterKey: CostControlDimension;
-  /** The unit used for the cost control amount and absolute thresholds. */
-  unit: CostControlUnit;
-  /** The maximum consumption allowed by this rule, expressed in the selected unit. */
-  amount: number;
-  /**
-   * Gets or sets the calendar-aligned UTC renewal period. Authored rules support Day, Week, or Month.
-   * This field is required for recurring rules and must be omitted for non-recurring rules.
-   * Legacy stored minute, hour, and year periods are preserved when reading definitions.
-   */
-  period?: CostControlPeriod;
-  /** Whether the cost control renews. The default is true. */
-  recurring?: boolean;
-  /**
-   * Gets or sets optional match arrays keyed by `agentResourceIds`, `identityObjectIds`,
-   * `sessionIds`, or `projectIds`. Each array contains 1 to 20 non-empty values.
-   * Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}.
-   * Legacy dotted identity, session, and project keys remain accepted, but cannot be combined with their canonical key.
-   */
-  match?: CostControlMatch;
-  /**
-   * Gets or sets optional thresholds. Omitted or empty thresholds track usage without explicit actions.
-   * Authored thresholds must explicitly specify Alert or Block; Audit is retained for legacy reads.
-   */
-  thresholds?: CostControlThreshold[];
+/** An additional built-in request attribute used to partition a budget into independent counters. */
+export interface CostControlGrouping {
+  /** The built-in attribute to group by. project is available only for account-owned controls. */
+  name: CostControlGroupingName;
+  /** The grouping kind. Only `AdditionalInfoKey` is supported. */
+  type: "AdditionalInfoKey";
 }
 
-export function costControlRuleSerializer(item: CostControlRule): any {
+export function costControlGroupingSerializer(item: CostControlGrouping): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+export function costControlGroupingDeserializer(item: any): CostControlGrouping {
   return {
     name: item["name"],
-    counterKey: costControlDimensionSerializer(item["counterKey"]),
-    unit: item["unit"],
-    amount: item["amount"],
-    period: item["period"],
-    recurring: item["recurring"],
-    match: !item["match"] ? item["match"] : costControlMatchSerializer(item["match"]),
-    thresholds: !item["thresholds"]
-      ? item["thresholds"]
-      : costControlThresholdArraySerializer(item["thresholds"]),
-  };
-}
-
-export function costControlRuleDeserializer(item: any): CostControlRule {
-  return {
-    name: item["name"],
-    counterKey: costControlDimensionDeserializer(item["counterKey"]),
-    unit: item["unit"],
-    amount: item["amount"],
-    period: item["period"],
-    recurring: item["recurring"],
-    match: !item["match"] ? item["match"] : costControlMatchDeserializer(item["match"]),
-    thresholds: !item["thresholds"]
-      ? item["thresholds"]
-      : costControlThresholdArrayDeserializer(item["thresholds"]),
-  };
-}
-
-/** A request dimension used to partition cost control consumption. */
-export interface CostControlDimension {
-  /** The kind of request dimension. */
-  type: CostControlDimensionType;
-  /**
-   * Gets or sets the attribute path retained for legacy Custom counters.
-   * Authored rules cannot select Custom; built-in dimensions must omit this property.
-   */
-  readonly attribute?: string;
-}
-
-export function costControlDimensionSerializer(item: CostControlDimension): any {
-  return { type: item["type"] };
-}
-
-export function costControlDimensionDeserializer(item: any): CostControlDimension {
-  return {
     type: item["type"],
-    attribute: item["attribute"],
   };
 }
 
-/** Cost control counter dimensions, including Custom retained for legacy read compatibility. */
-export enum KnownCostControlDimensionType {
-  /** Consumption is partitioned by the stable Foundry agent ID. */
-  Agent = "Agent",
-  /** Consumption is partitioned by the authenticated principal object ID. */
-  Identity = "Identity",
-  /** Consumption is partitioned by the Foundry session ID. */
-  Session = "Session",
-  /** Consumption is partitioned by the Foundry project resource ID. */
-  Project = "Project",
-  /** Consumption is partitioned by the owning Cognitive Services account. */
-  Account = "Account",
-  /**
-   * Legacy read-only dimension using `CostControlDimension.Attribute`.
-   * New Custom counter authoring is reserved for future support.
-   */
-  Custom = "Custom",
+/** Built-in attributes supported for additional budget partitioning. */
+export enum KnownCostControlGroupingName {
+  /** Creates an independent counter for each Foundry project in the owning account. */
+  Project = "project",
+  /** Creates an independent counter for each Foundry agent, qualified by its Foundry project so identical agent names in different projects do not share counters. */
+  Agent = "agent",
+  /** Creates an independent counter for each Foundry session ID. */
+  SessionId = "sessionId",
 }
 
 /**
- * Cost control counter dimensions, including Custom retained for legacy read compatibility. \
- * {@link KnownCostControlDimensionType} can be used interchangeably with CostControlDimensionType,
+ * Built-in attributes supported for additional budget partitioning. \
+ * {@link KnownCostControlGroupingName} can be used interchangeably with CostControlGroupingName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Agent**: Consumption is partitioned by the stable Foundry agent ID. \
- * **Identity**: Consumption is partitioned by the authenticated principal object ID. \
- * **Session**: Consumption is partitioned by the Foundry session ID. \
- * **Project**: Consumption is partitioned by the Foundry project resource ID. \
- * **Account**: Consumption is partitioned by the owning Cognitive Services account. \
- * **Custom**: Legacy read-only dimension using `CostControlDimension.Attribute`.
- * New Custom counter authoring is reserved for future support.
+ * **project**: Creates an independent counter for each Foundry project in the owning account. \
+ * **agent**: Creates an independent counter for each Foundry agent, qualified by its Foundry project so identical agent names in different projects do not share counters. \
+ * **sessionId**: Creates an independent counter for each Foundry session ID.
  */
-export type CostControlDimensionType = string;
+export type CostControlGroupingName = string;
 
-/** The supported unit for cost control amounts and thresholds. */
-export enum KnownCostControlUnit {
-  /** Estimated cost in United States dollars. */
-  Usd = "Usd",
+/** The measurement used for the budget amount and absolute thresholds. */
+export enum KnownCostControlCategory {
+  /** Estimated consumption cost in United States dollars. */
+  Cost = "Cost",
+  /** The number of consumed tokens, optionally selected by a tokenType filter. */
+  Tokens = "Tokens",
 }
 
 /**
- * The supported unit for cost control amounts and thresholds. \
- * {@link KnownCostControlUnit} can be used interchangeably with CostControlUnit,
+ * The measurement used for the budget amount and absolute thresholds. \
+ * {@link KnownCostControlCategory} can be used interchangeably with CostControlCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Usd**: Estimated cost in United States dollars.
+ * **Cost**: Estimated consumption cost in United States dollars. \
+ * **Tokens**: The number of consumed tokens, optionally selected by a tokenType filter.
  */
-export type CostControlUnit = string;
+export type CostControlCategory = string;
 
-/** Calendar-aligned UTC renewal periods, including legacy values retained for read compatibility. */
-export enum KnownCostControlPeriod {
-  /** Legacy read-only period renewing at the start of the next UTC minute. */
-  Minute = "Minute",
-  /** Legacy read-only period renewing at the start of the next UTC hour. */
-  Hour = "Hour",
-  /** Renews daily at 00:00 UTC. */
-  Day = "Day",
-  /** Renews Monday at 00:00 UTC. */
-  Week = "Week",
+/** Calendar-aligned UTC renewal intervals. */
+export enum KnownCostControlTimeGrain {
+  /** Renews each day at 00:00 UTC. */
+  Daily = "Daily",
+  /** Renews each Monday at 00:00 UTC. */
+  Weekly = "Weekly",
   /** Renews on the first day of each month at 00:00 UTC. */
-  Month = "Month",
-  /** Legacy read-only period renewing January 1 at 00:00 UTC. */
-  Year = "Year",
+  Monthly = "Monthly",
 }
 
 /**
- * Calendar-aligned UTC renewal periods, including legacy values retained for read compatibility. \
- * {@link KnownCostControlPeriod} can be used interchangeably with CostControlPeriod,
+ * Calendar-aligned UTC renewal intervals. \
+ * {@link KnownCostControlTimeGrain} can be used interchangeably with CostControlTimeGrain,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Minute**: Legacy read-only period renewing at the start of the next UTC minute. \
- * **Hour**: Legacy read-only period renewing at the start of the next UTC hour. \
- * **Day**: Renews daily at 00:00 UTC. \
- * **Week**: Renews Monday at 00:00 UTC. \
- * **Month**: Renews on the first day of each month at 00:00 UTC. \
- * **Year**: Legacy read-only period renewing January 1 at 00:00 UTC.
+ * **Daily**: Renews each day at 00:00 UTC. \
+ * **Weekly**: Renews each Monday at 00:00 UTC. \
+ * **Monthly**: Renews on the first day of each month at 00:00 UTC.
  */
-export type CostControlPeriod = string;
+export type CostControlTimeGrain = string;
+
+/** A finite validity interval, including its start and excluding its end. */
+export interface CostControlTimePeriod {
+  /** The inclusive UTC start, encoded as an ISO 8601 timestamp ending in Z with up to seven fractional digits. */
+  startDate: Date;
+  /** The exclusive UTC end, later than startDate, encoded as an ISO 8601 timestamp ending in Z with up to seven fractional digits. */
+  endDate: Date;
+}
+
+export function costControlTimePeriodSerializer(item: CostControlTimePeriod): any {
+  return { startDate: item["startDate"].toISOString(), endDate: item["endDate"].toISOString() };
+}
+
+export function costControlTimePeriodDeserializer(item: any): CostControlTimePeriod {
+  return {
+    startDate: new Date(item["startDate"]),
+    endDate: new Date(item["endDate"]),
+  };
+}
 
 /**
- * Gets or sets optional match arrays keyed by `agentResourceIds`, `identityObjectIds`,
- * `sessionIds`, or `projectIds`. Each array contains 1 to 20 non-empty values.
- * Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}.
- * Legacy dotted identity, session, and project keys remain accepted, but cannot be combined with their canonical key.
+ * Traffic selection using exactly one of `additionalInfo` or `and`. Additional-info names must be unique across the complete expression.
+ * Filters narrow the owner's scope and cannot extend a project-owned control to another project.
+ * Values within one condition are alternatives; conditions are combined with AND. An agent selection requires an explicit project filter selecting exactly one project, including for project-owned controls.
  */
-export interface CostControlMatch {
-  /** Agent resource IDs use /subscriptions/{subscription_guid}/accounts/{account-name}/project/{project-name}/agent/{agent_name}. */
-  agentResourceIds?: string[];
-  /** The authenticated principal object IDs to match. */
-  identityObjectIds?: string[];
-  /** The Foundry session IDs to match. */
-  sessionIds?: string[];
-  /** The Foundry project resource IDs to match. */
-  projectIds?: string[];
+export interface CostControlFilter {
+  /** A single additional-info condition. Must not be combined with `and` on the same filter object. */
+  additionalInfo?: CostControlAdditionalInfoFilter;
+  /** A conjunction of at least two conditions. Must not be combined with `additionalInfo` on the same filter object. */
+  and?: CostControlFilter[];
 }
 
-export function costControlMatchSerializer(item: CostControlMatch): any {
+export function costControlFilterSerializer(item: CostControlFilter): any {
   return {
-    agentResourceIds: !item["agentResourceIds"]
-      ? item["agentResourceIds"]
-      : item["agentResourceIds"].map((p: any) => {
-          return p;
-        }),
-    identityObjectIds: !item["identityObjectIds"]
-      ? item["identityObjectIds"]
-      : item["identityObjectIds"].map((p: any) => {
-          return p;
-        }),
-    sessionIds: !item["sessionIds"]
-      ? item["sessionIds"]
-      : item["sessionIds"].map((p: any) => {
-          return p;
-        }),
-    projectIds: !item["projectIds"]
-      ? item["projectIds"]
-      : item["projectIds"].map((p: any) => {
-          return p;
-        }),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : costControlAdditionalInfoFilterSerializer(item["additionalInfo"]),
+    and: !item["and"] ? item["and"] : costControlFilterArraySerializer(item["and"]),
   };
 }
 
-export function costControlMatchDeserializer(item: any): CostControlMatch {
+export function costControlFilterDeserializer(item: any): CostControlFilter {
   return {
-    agentResourceIds: !item["agentResourceIds"]
-      ? item["agentResourceIds"]
-      : item["agentResourceIds"].map((p: any) => {
-          return p;
-        }),
-    identityObjectIds: !item["identityObjectIds"]
-      ? item["identityObjectIds"]
-      : item["identityObjectIds"].map((p: any) => {
-          return p;
-        }),
-    sessionIds: !item["sessionIds"]
-      ? item["sessionIds"]
-      : item["sessionIds"].map((p: any) => {
-          return p;
-        }),
-    projectIds: !item["projectIds"]
-      ? item["projectIds"]
-      : item["projectIds"].map((p: any) => {
-          return p;
-        }),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : costControlAdditionalInfoFilterDeserializer(item["additionalInfo"]),
+    and: !item["and"] ? item["and"] : costControlFilterArrayDeserializer(item["and"]),
   };
 }
 
-export function costControlThresholdArraySerializer(result: Array<CostControlThreshold>): any[] {
+/** Selects traffic whose named additional-info attribute equals at least one of the supplied values. */
+export interface CostControlAdditionalInfoFilter {
+  /**
+   * The built-in attribute: agent, sessionId, project, deployment, or tokenType.
+   * Resource selectors use owner-scoped short names, not Azure resource IDs. Agent selections require an explicit project filter selecting exactly one project; multiple agents in that project are supported.
+   * A project-owned control can select only its owning project. Project, agent, and deployment values must be plain names of 1-64 characters without leading or trailing whitespace, control characters, path/query/fragment separators, percent signs, or . and .. path segments.
+   * tokenType accepts input, output, or both for a Tokens budget; omission measures overall tokens.
+   */
+  name: CostControlFilterName;
+  /** The comparison operator.`In` is supported. */
+  operator: "In";
+  /** One or more nonempty, non-whitespace strings to match. There is no per-condition value-count limit; the serialized cost-control definition must not exceed 32 KiB. */
+  values: string[];
+}
+
+export function costControlAdditionalInfoFilterSerializer(
+  item: CostControlAdditionalInfoFilter,
+): any {
+  return {
+    name: item["name"],
+    operator: item["operator"],
+    values: item["values"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function costControlAdditionalInfoFilterDeserializer(
+  item: any,
+): CostControlAdditionalInfoFilter {
+  return {
+    name: item["name"],
+    operator: item["operator"],
+    values: item["values"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Built-in request attributes supported for traffic filtering. */
+export enum KnownCostControlFilterName {
+  /** The Foundry agent name within the single explicitly selected Foundry project. */
+  Agent = "agent",
+  /** The Foundry session ID. */
+  SessionId = "sessionId",
+  /** The Foundry project name within the owning account. */
+  Project = "project",
+  /** The deployment name within the owning account. */
+  Deployment = "deployment",
+  /** The input or output token category. */
+  TokenType = "tokenType",
+}
+
+/**
+ * Built-in request attributes supported for traffic filtering. \
+ * {@link KnownCostControlFilterName} can be used interchangeably with CostControlFilterName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **agent**: The Foundry agent name within the single explicitly selected Foundry project. \
+ * **sessionId**: The Foundry session ID. \
+ * **project**: The Foundry project name within the owning account. \
+ * **deployment**: The deployment name within the owning account. \
+ * **tokenType**: The input or output token category.
+ */
+export type CostControlFilterName = string;
+
+export function costControlFilterArraySerializer(result: Array<CostControlFilter>): any[] {
   return result.map((item) => {
-    return costControlThresholdSerializer(item);
+    return costControlFilterSerializer(item);
   });
 }
 
-export function costControlThresholdArrayDeserializer(result: Array<CostControlThreshold>): any[] {
+export function costControlFilterArrayDeserializer(result: Array<CostControlFilter>): any[] {
   return result.map((item) => {
-    return costControlThresholdDeserializer(item);
+    return costControlFilterDeserializer(item);
   });
 }
 
-/** An action evaluated when cost control consumption reaches a threshold. */
-export interface CostControlThreshold {
-  /** How the threshold value is interpreted. */
-  type: CostControlThresholdType;
-  /**
-   * Gets or sets the threshold value. Legacy Audit definitions retain their stored values;
-   * new thresholds support only Alert or Block.
-   */
-  value: number;
-  /**
-   * Gets or sets the threshold action. Authored thresholds must explicitly specify Alert or Block.
-   * Legacy stored definitions with omitted actions continue to read as Audit.
-   */
-  action: CostControlThresholdAction;
+export function costControlNotificationRecordSerializer(
+  item: Record<string, CostControlNotification>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : costControlNotificationSerializer(item[key]);
+  });
+  return result;
 }
 
-export function costControlThresholdSerializer(item: CostControlThreshold): any {
-  return { type: item["type"], value: item["value"], action: item["action"] };
+export function costControlNotificationRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, CostControlNotification> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : costControlNotificationDeserializer(item[key]);
+  });
+  return result;
 }
 
-export function costControlThresholdDeserializer(item: any): CostControlThreshold {
+/** An alert notification with an explicit threshold, enabled state, and Event Grid destination. */
+export interface CostControlNotification {
+  /** The full resource ID of the Cognitive Services Event Grid connection used to publish this notification. */
+  eventGridConnectionId: string;
+  /** Whether threshold is a percentage of amount or an absolute value in the budget's unit. */
+  thresholdType: CostControlThresholdType;
+  /** The positive threshold. Percentages cannot exceed 100; absolute thresholds cannot exceed amount and must be whole numbers for Tokens budgets. */
+  threshold: number;
+  /** Whether this notification is enabled. Disabled notifications remain configured but do not publish alerts. */
+  enabled: boolean;
+  /** The threshold comparison. Only `GreaterThanOrEqualTo` is supported. */
+  operator: "GreaterThanOrEqualTo";
+}
+
+export function costControlNotificationSerializer(item: CostControlNotification): any {
   return {
-    type: item["type"],
-    value: item["value"],
-    action: item["action"],
+    eventGridConnectionId: item["eventGridConnectionId"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    enabled: item["enabled"],
+    operator: item["operator"],
   };
 }
 
-/** The supported threshold value interpretations. */
+export function costControlNotificationDeserializer(item: any): CostControlNotification {
+  return {
+    eventGridConnectionId: item["eventGridConnectionId"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    enabled: item["enabled"],
+    operator: item["operator"],
+  };
+}
+
+/** The interpretation of a notification or blocking-action threshold. */
 export enum KnownCostControlThresholdType {
-  /** The value is a percentage of the configured rule amount. */
+  /** The threshold is a percentage of the configured budget amount. */
   Percentage = "Percentage",
-  /** The value is expressed in the rule's unit. */
+  /** The threshold is expressed in United States dollars or tokens, according to the budget category. */
   Absolute = "Absolute",
 }
 
 /**
- * The supported threshold value interpretations. \
+ * The interpretation of a notification or blocking-action threshold. \
  * {@link KnownCostControlThresholdType} can be used interchangeably with CostControlThresholdType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Percentage**: The value is a percentage of the configured rule amount. \
- * **Absolute**: The value is expressed in the rule's unit.
+ * **Percentage**: The threshold is a percentage of the configured budget amount. \
+ * **Absolute**: The threshold is expressed in United States dollars or tokens, according to the budget category.
  */
 export type CostControlThresholdType = string;
 
-/** The supported actions when a threshold is reached. */
-export enum KnownCostControlThresholdAction {
-  /** Legacy read-only action retained to deserialize existing definitions without changing their semantics. */
-  Audit = "Audit",
-  /** Emits a customer-facing alert without blocking requests. */
-  Alert = "Alert",
-  /** Blocks the request without emitting a customer-facing alert. */
-  Block = "Block",
+/** Provider-specific budget enforcement settings. */
+export interface CostControlProviderProperties {
+  /**
+   * Blocking actions keyed by nonempty, case-insensitively unique names.
+   * PUT and the complete merged PATCH result may contain at most one Block action, independently of the notification limit.
+   * Omission on creation creates no blocking actions.
+   */
+  actions?: Record<string, CostControlAction>;
+}
+
+export function costControlProviderPropertiesSerializer(item: CostControlProviderProperties): any {
+  return {
+    actions: !item["actions"]
+      ? item["actions"]
+      : costControlActionRecordSerializer(item["actions"]),
+  };
+}
+
+export function costControlProviderPropertiesDeserializer(
+  item: any,
+): CostControlProviderProperties {
+  return {
+    actions: !item["actions"]
+      ? item["actions"]
+      : costControlActionRecordDeserializer(item["actions"]),
+  };
+}
+
+export function costControlActionRecordSerializer(
+  item: Record<string, CostControlAction>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : costControlActionSerializer(item[key]);
+  });
+  return result;
+}
+
+export function costControlActionRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, CostControlAction> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : costControlActionDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** Blocks requests when consumption reaches the explicitly configured threshold. No implicit blocking action is created. */
+export interface CostControlAction {
+  /** The enforcement action. Only `Block` is supported. */
+  type: "Block";
+  /** Whether threshold is a percentage of amount or an absolute value in the budget's unit. */
+  thresholdType: CostControlThresholdType;
+  /** The positive threshold. Percentages cannot exceed 100; absolute thresholds cannot exceed amount and must be whole numbers for Tokens budgets. */
+  threshold: number;
+  /** The threshold comparison. Only `GreaterThanOrEqualTo` is supported. */
+  operator: "GreaterThanOrEqualTo";
+}
+
+export function costControlActionSerializer(item: CostControlAction): any {
+  return {
+    type: item["type"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    operator: item["operator"],
+  };
+}
+
+export function costControlActionDeserializer(item: any): CostControlAction {
+  return {
+    type: item["type"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    operator: item["operator"],
+  };
 }
 
 /**
- * The supported actions when a threshold is reached. \
- * {@link KnownCostControlThresholdAction} can be used interchangeably with CostControlThresholdAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Audit**: Legacy read-only action retained to deserialize existing definitions without changing their semantics. \
- * **Alert**: Emits a customer-facing alert without blocking requests. \
- * **Block**: Blocks the request without emitting a customer-facing alert.
+ * A partial budget update. Omitting properties preserves all existing budget properties.
+ * Setting properties to null or an empty object ({}) clears all existing budget properties.
+ * A non-empty properties object updates the supplied fields according to their merge semantics; omitted fields retain their existing values.
  */
-export type CostControlThresholdAction = string;
-
-/** The request used to update a cost control. */
 export interface CostControlPatch {
-  /** The cost control properties to update. */
+  /**
+   * The budget properties to update. Omission preserves existing properties.
+   * Null or an empty object ({}) clears all existing properties.
+   */
   properties?: CostControlPatchProperties;
 }
 
@@ -11229,45 +12744,221 @@ export function costControlPatchSerializer(item: CostControlPatch): any {
   };
 }
 
-/** The properties that can be changed on a cost control. */
+/**
+ * Edits applied when properties is a non-empty object. Omitted fields retain their existing values; no defaults are applied.
+ * The complete merged result may contain at most one notification, including disabled notifications, and one Block action.
+ * Exceeding either limit returns HTTP 400 without changing the stored definition.
+ * Missing registration returns 403 FeatureNotRegistered before merging or no-op detection.
+ * Omitting or removing identity selections does not require this registration; omitted stored selections are preserved, subject to existing validation rules.
+ */
 export interface CostControlPatchProperties {
-  /** An optional human-readable name for the cost control. Set this property to null to clear it. */
-  displayName?: string;
-  /** The complete replacement set of cost control rules. */
-  rules?: CostControlRule[];
+  /** The resource provider. If supplied, it must be Microsoft.CognitiveServices and cannot be null. */
+  provider?: "Microsoft.CognitiveServices";
+  /** Replaces additional grouping. Omission preserves grouping; an empty array restores the owner's default counter. Null is not accepted. */
+  grouping?: CostControlGrouping[];
+  /** The existing measurement category. Changing it after creation is not supported. */
+  category?: CostControlCategory;
+  /** Replaces the positive budget amount, measured in United States dollars for the Cost category or in whole tokens for the Tokens category. */
+  amount?: number;
+  /** Replaces the calendar-aligned UTC renewal interval. */
+  timeGrain?: CostControlTimeGrain;
+  /** Merges supplied dates into the existing validity window; omitted dates remain unchanged. */
+  timePeriod?: CostControlTimePeriodPatch;
+  /** Replaces the complete traffic filter. Set to null to select all eligible traffic within the owner's scope. */
+  filter?: CostControlFilter;
+  /**
+   * Merges notifications by case-insensitive name, preserving existing name casing. Null entries delete notifications; null clears the collection.
+   * Omission or an empty object preserves existing notifications. New entries must supply all required notification fields after merging.
+   * The complete merged result may contain at most one notification, including disabled notifications; otherwise the request returns HTTP 400.
+   */
+  notifications?: Record<string, CostControlNotificationPatch>;
+  /** Merges provider-specific settings. Set to null to remove all blocking actions; omission preserves them. */
+  providerProperties?: CostControlProviderPropertiesPatch;
 }
 
 export function costControlPatchPropertiesSerializer(item: CostControlPatchProperties): any {
   return {
-    displayName: item["displayName"],
-    rules: !item["rules"] ? item["rules"] : costControlRuleArraySerializer(item["rules"]),
+    provider: item["provider"],
+    grouping: !item["grouping"]
+      ? item["grouping"]
+      : costControlGroupingArraySerializer(item["grouping"]),
+    category: item["category"],
+    amount: item["amount"],
+    timeGrain: item["timeGrain"],
+    timePeriod: !item["timePeriod"]
+      ? item["timePeriod"]
+      : costControlTimePeriodPatchSerializer(item["timePeriod"]),
+    filter: !item["filter"] ? item["filter"] : costControlFilterSerializer(item["filter"]),
+    notifications: item["notifications"],
+    providerProperties: !item["providerProperties"]
+      ? item["providerProperties"]
+      : costControlProviderPropertiesPatchSerializer(item["providerProperties"]),
   };
 }
 
-/** A page of cost controls. */
+/** Partial edits to a validity interval. Supplied dates cannot be null, and the merged start must precede the merged end. */
+export interface CostControlTimePeriodPatch {
+  /** The inclusive UTC start, encoded as an ISO 8601 timestamp ending in Z with up to seven fractional digits. */
+  startDate?: Date;
+  /** The exclusive UTC end, later than startDate, encoded as an ISO 8601 timestamp ending in Z with up to seven fractional digits. */
+  endDate?: Date;
+}
+
+export function costControlTimePeriodPatchSerializer(item: CostControlTimePeriodPatch): any {
+  return {
+    startDate: !item["startDate"] ? item["startDate"] : item["startDate"].toISOString(),
+    endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+  };
+}
+
+/** Edits to an existing named notification. New notifications require all fields after merging; supplied fields cannot be null. */
+export interface CostControlNotificationPatch {
+  /** The full resource ID of the Cognitive Services Event Grid connection used to publish this notification. */
+  eventGridConnectionId?: string;
+  /** Whether threshold is a percentage of amount or an absolute value in the budget's unit. */
+  thresholdType?: CostControlThresholdType;
+  /** The positive threshold. Percentages cannot exceed 100; absolute thresholds cannot exceed amount and must be whole numbers for Tokens budgets. */
+  threshold?: number;
+  /** Whether this notification is enabled. Disabled notifications remain configured but do not publish alerts. */
+  enabled?: boolean;
+  /** The threshold comparison. Only `GreaterThanOrEqualTo` is supported. */
+  operator?: "GreaterThanOrEqualTo";
+}
+
+export function costControlNotificationPatchSerializer(item: CostControlNotificationPatch): any {
+  return {
+    eventGridConnectionId: item["eventGridConnectionId"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    enabled: item["enabled"],
+    operator: item["operator"],
+  };
+}
+
+/** Partial provider-specific edits. Named actions merge rather than replacing the complete collection. */
+export interface CostControlProviderPropertiesPatch {
+  /**
+   * Merges actions by case-insensitive name, preserving existing name casing. Null entries delete actions; null clears the collection.
+   * Omission or an empty object preserves existing actions. New entries must supply all required action fields after merging.
+   * The complete merged result may contain at most one Block action; otherwise the request returns HTTP 400.
+   */
+  actions?: Record<string, CostControlActionPatch>;
+}
+
+export function costControlProviderPropertiesPatchSerializer(
+  item: CostControlProviderPropertiesPatch,
+): any {
+  return { actions: item["actions"] };
+}
+
+/** Edits to an existing named blocking action. New actions require all fields after merging; supplied fields cannot be null. */
+export interface CostControlActionPatch {
+  /** The enforcement action. Only `Block` is supported. */
+  type?: "Block";
+  /** Whether threshold is a percentage of amount or an absolute value in the budget's unit. */
+  thresholdType?: CostControlThresholdType;
+  /** The positive threshold. Percentages cannot exceed 100; absolute thresholds cannot exceed amount and must be whole numbers for Tokens budgets. */
+  threshold?: number;
+  /** The threshold comparison. Only `GreaterThanOrEqualTo` is supported. */
+  operator?: "GreaterThanOrEqualTo";
+}
+
+export function costControlActionPatchSerializer(item: CostControlActionPatch): any {
+  return {
+    type: item["type"],
+    thresholdType: item["thresholdType"],
+    threshold: item["threshold"],
+    operator: item["operator"],
+  };
+}
+
+/** A page of cost controls owned by an account. */
 export interface _CostControlListResult {
-  /** The link used to get the next page of cost controls. */
+  /** The link used to retrieve the next page, when present. */
   nextLink?: string;
   /** The cost controls in this page. */
-  value: CostControl[];
+  value: AccountCostControl[];
 }
 
 export function _costControlListResultDeserializer(item: any): _CostControlListResult {
   return {
     nextLink: item["nextLink"],
-    value: costControlArrayDeserializer(item["value"]),
+    value: accountCostControlArrayDeserializer(item["value"]),
   };
 }
 
-export function costControlArraySerializer(result: Array<CostControl>): any[] {
+export function accountCostControlArraySerializer(result: Array<AccountCostControl>): any[] {
   return result.map((item) => {
-    return costControlSerializer(item);
+    return accountCostControlSerializer(item);
   });
 }
 
-export function costControlArrayDeserializer(result: Array<CostControl>): any[] {
+export function accountCostControlArrayDeserializer(result: Array<AccountCostControl>): any[] {
   return result.map((item) => {
-    return costControlDeserializer(item);
+    return accountCostControlDeserializer(item);
+  });
+}
+
+/**
+ * A budget that measures consumption and optionally alerts or blocks requests within its owning Foundry project.
+ * Reading, deleting, and enforcing stored identity selections requires Microsoft.CognitiveServices/CostControlsByIdentity registration.
+ */
+export interface ProjectCostControl extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: CostControlProperties;
+  /** The opaque entity tag used for optimistic concurrency. */
+  readonly etag?: string;
+}
+
+export function projectCostControlSerializer(item: ProjectCostControl): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : costControlPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function projectCostControlDeserializer(item: any): ProjectCostControl {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : costControlPropertiesDeserializer(item["properties"]),
+    etag: item["etag"],
+  };
+}
+
+/** A page of cost controls owned by a Foundry project. */
+export interface _ProjectCostControlListResult {
+  /** The link used to retrieve the next page, when present. */
+  nextLink?: string;
+  /** The cost controls in this page. */
+  value: ProjectCostControl[];
+}
+
+export function _projectCostControlListResultDeserializer(
+  item: any,
+): _ProjectCostControlListResult {
+  return {
+    nextLink: item["nextLink"],
+    value: projectCostControlArrayDeserializer(item["value"]),
+  };
+}
+
+export function projectCostControlArraySerializer(result: Array<ProjectCostControl>): any[] {
+  return result.map((item) => {
+    return projectCostControlSerializer(item);
+  });
+}
+
+export function projectCostControlArrayDeserializer(result: Array<ProjectCostControl>): any[] {
+  return result.map((item) => {
+    return projectCostControlDeserializer(item);
   });
 }
 
@@ -13112,6 +14803,10 @@ export enum KnownVersions {
   V20260901 = "2026-09-01",
   /** The 2026-09-15-preview API version. */
   V20260915Preview = "2026-09-15-preview",
+  /** The 2026-11-01 API version. */
+  V20261101 = "2026-11-01",
+  /** The 2026-11-15-preview API version. */
+  V20261115Preview = "2026-11-15-preview",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

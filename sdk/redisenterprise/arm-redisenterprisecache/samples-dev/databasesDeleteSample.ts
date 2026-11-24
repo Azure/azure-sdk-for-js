@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a single database
  *
  * @summary deletes a single database
- * x-ms-original-file: 2026-09-01/RedisEnterpriseDatabasesDelete.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseDatabasesDelete.json
  */
 async function redisEnterpriseDatabasesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

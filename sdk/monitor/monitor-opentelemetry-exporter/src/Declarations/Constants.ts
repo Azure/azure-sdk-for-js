@@ -187,6 +187,9 @@ export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SD
 export const ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES =
   "APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES";
 
+/** Microsoft Entra audience for multi-endpoint exports only. @internal */
+export const ENV_MULTI_ENDPOINT_AAD_AUDIENCE = "APPLICATIONINSIGHTS_MULTI_ENDPOINT_AAD_AUDIENCE";
+
 /**
  * Gen AI message properties eligible for the opt-in 4 MiB limit.
  * @internal

@@ -103,6 +103,8 @@ export class CryptographyClient {
     // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyID(): string | undefined;
+    secureUnwrapKey(algorithm: SecureKeyWrapAlgorithm, value: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyOperationResult>;
+    secureWrapKey(algorithm: SecureKeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyOperationResult>;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
@@ -271,8 +273,6 @@ export class KeyClient {
     releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
-    secureUnwrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, value: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyOperationResult>;
-    secureWrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyOperationResult>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyRotationPolicy(keyName: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
@@ -431,8 +431,6 @@ export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
-    SecureUnwrapKey = "secureUnwrapKey",
-    SecureWrapKey = "secureWrapKey",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
     Verify = "verify",

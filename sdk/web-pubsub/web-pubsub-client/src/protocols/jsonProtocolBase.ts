@@ -71,10 +71,10 @@ export function parseMessages(input: string): WebPubSubMessage | null {
   } else if (typedMessage.type === "ack") {
     returnMessage = { ...parsedMessage, kind: "ack" } as AckMessage;
   } else if (typedMessage.type === "invokeResponse") {
-    let data: JSONTypes | ArrayBuffer | undefined;
+    let data: JSONTypes | ArrayBuffer | null | undefined;
     if (parsedMessage.dataType != null) {
       const parsedData = parsePayload(parsedMessage.data, parsedMessage.dataType);
-      if (parsedData === null) {
+      if (parsedData === null && parsedMessage.dataType !== "json") {
         return null;
       }
       data = parsedData;

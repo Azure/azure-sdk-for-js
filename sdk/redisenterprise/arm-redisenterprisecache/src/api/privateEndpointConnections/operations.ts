@@ -38,7 +38,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,11 @@ export function list(
     () => _listSend(context, resourceGroupName, clusterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -96,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -133,7 +137,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +156,7 @@ export function _putSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -204,7 +208,7 @@ export function put(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
@@ -222,7 +226,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

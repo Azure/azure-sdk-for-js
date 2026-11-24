@@ -6,7 +6,7 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type * as fsPromises from "node:fs/promises";
+import * as helpers from "../../src/platform/nodejs/persist/fileSystemHelpers.js";
 import {
   FileSystemPersist,
   getStorageDirectory,
@@ -222,18 +222,17 @@ describe("FileSystemPersist", () => {
       }
     });
 
-    it("should not crash if folder does not exist", () => {
+    it("does not create a directory for replay or cleanup when there are no files", async () => {
       const persister = new FileSystemPersist(instrumentationKey);
-      expect(() => persister.shift()).not.toThrow();
+      await persister.cleanExpiredFiles();
+      expect(await persister.shift()).toBeNull();
+      expect(fs.existsSync(tempDir)).toBe(false);
     });
 
-    it("should not crash if file does not exist", () => {
+    it("returns null for an empty directory", async () => {
       const persister = new FileSystemPersist(instrumentationKey);
-      const mkdirAsync = promisify(fs.mkdir);
-      expect(async () => {
-        await mkdirAsync(tempDir);
-        await persister.shift();
-      }).not.toThrow();
+      await fs.promises.mkdir(tempDir, { recursive: true });
+      expect(await persister.shift()).toBeNull();
     });
 
     it("should get the first file on disk and return it", async () => {
@@ -487,103 +486,74 @@ describe("FileSystemPersist", () => {
     });
   });
 
-  describe("#confirmDirExists ownership enforcement", () => {
-    const directory = "/tmp/azure-monitor-test";
-    const originalGetuid = (process as any).getuid;
-
-    const restoreGetuid = (): void => {
-      if (originalGetuid === undefined) {
-        delete (process as any).getuid;
-      } else {
-        (process as any).getuid = originalGetuid;
-      }
-    };
-
+  describe("offline directory protection", () => {
     afterEach(() => {
       vi.restoreAllMocks();
-      vi.resetModules();
-      vi.doUnmock("node:fs/promises");
-      restoreGetuid();
     });
 
-    it("does not warn when directory is owned by current user", async () => {
-      (process as any).getuid = () => 4242;
-      vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return {
-          ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{
-            isDirectory: () => true,
-            uid: 4242,
-          }),
-        };
-      });
+    it.skipIf(process.platform === "win32")(
+      "restricts existing directories and new files",
+      async () => {
+        await fs.promises.mkdir(tempDir, { recursive: true });
+        await fs.promises.chmod(path.dirname(tempDir), 0o755);
+        await fs.promises.chmod(tempDir, 0o755);
+        const persister = new FileSystemPersist(instrumentationKey);
+        try {
+          expect(await persister.push([{ name: "test" }])).toBe(true);
+          const [file] = await readdirAsync(tempDir);
+          expect((await statAsync(path.dirname(tempDir))).mode & 0o777).toBe(0o700);
+          expect((await statAsync(tempDir)).mode & 0o777).toBe(0o700);
+          expect((await statAsync(path.join(tempDir, file))).mode & 0o777).toBe(0o600);
+        } finally {
+          persister.shutdown();
+        }
+      },
+    );
 
-      const { confirmDirExists } =
-        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+    it.skipIf(process.platform === "win32" || process.getuid?.() === 0)(
+      "rejects a directory not owned by the current user or root",
+      async () => {
+        await fs.promises.mkdir(tempDir, { recursive: true });
+        const owner = (await statAsync(tempDir)).uid;
+        vi.spyOn(process, "getuid").mockReturnValue(owner + 1);
+        await expect(helpers.confirmDirExists(tempDir)).rejects.toThrow(`owned by uid ${owner}`);
+      },
+    );
 
-      await confirmDirExists(directory);
-    });
+    it.each(["shift", "cleanExpiredFiles"] as const)(
+      "disables storage without consuming existing files when protection fails during %s",
+      async (operation) => {
+        await fs.promises.mkdir(tempDir, { recursive: true });
+        const name = `1${FileSystemPersist.FILENAME_SUFFIX}`;
+        await fs.promises.writeFile(path.join(tempDir, name), "[]");
+        const setup = vi.spyOn(helpers, "confirmDirExists").mockRejectedValue(new Error("denied"));
+        const persister = new FileSystemPersist(instrumentationKey);
+        try {
+          await persister[operation]();
+          setup.mockRestore();
+          expect(await persister.push([])).toBe(false);
+          expect(await persister.restore([])).toBe(false);
+          expect(await persister.shift()).toBeNull();
+          expect(await readdirAsync(tempDir)).toEqual([name]);
+        } finally {
+          persister.shutdown();
+        }
+      },
+    );
 
-    it("does not warn when directory is owned by admin (uid 0)", async () => {
-      (process as any).getuid = () => 4242;
-      vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return {
-          ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{
-            isDirectory: () => true,
-            uid: 0,
-          }),
-        };
-      });
-
-      const { confirmDirExists } =
-        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
-
-      await confirmDirExists(directory);
-    });
-
-    it("throws when directory is owned by another user", async () => {
-      (process as any).getuid = () => 4242;
-      vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return {
-          ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{
-            isDirectory: () => true,
-            uid: 9999,
-          }),
-        };
-      });
-
-      const { confirmDirExists } =
-        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
-
-      await expect(confirmDirExists(directory)).rejects.toThrow("owned by uid 9999");
-    });
-
-    it("skips ownership check on Windows (process.getuid undefined)", async () => {
-      // Simulate Windows environment where getuid is not available
-      delete (process as any).getuid;
-
-      vi.doMock("node:fs/promises", async () => {
-        const actual = await vi.importActual<typeof fsPromises>("node:fs/promises");
-        return {
-          ...actual,
-          lstat: vi.fn().mockResolvedValue(<any>{
-            isDirectory: () => true,
-            uid: 9999, // Would trigger error on Unix, but should be ignored on Windows
-          }),
-        };
-      });
-
-      const { confirmDirExists } =
-        await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
-
-      // Should not throw even though uid doesn't match - ownership check is skipped on Windows
-      await expect(confirmDirExists(directory)).resolves.not.toThrow();
-    });
+    it.runIf(process.platform === "win32")(
+      "requires ACL setup before the first write",
+      async () => {
+        vi.spyOn(FileAccessControl, "applyACLRules").mockRejectedValue(new Error("ACL failed"));
+        const persister = new FileSystemPersist(instrumentationKey);
+        try {
+          expect(await persister.push([])).toBe(false);
+          expect(fs.existsSync(tempDir)).toBe(false);
+        } finally {
+          persister.shutdown();
+        }
+      },
+    );
   });
 
   describe("#getStorageDirectory", () => {

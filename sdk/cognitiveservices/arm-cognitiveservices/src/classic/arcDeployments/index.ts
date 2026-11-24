@@ -10,6 +10,7 @@ import type {
   ArcDeploymentsCreateOrUpdateOptionalParams,
   ArcDeploymentsGetOptionalParams,
 } from "../../api/arcDeployments/options.js";
+import type { ArcDeploymentCreateOrUpdateContent } from "../../models/cognitiveServicesClientCustomizations/models.js";
 import type { ArcDeployment, ArcDeploymentUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -74,7 +75,7 @@ export interface ArcDeploymentsOperations {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    resource: ArcDeployment,
+    resource: ArcDeploymentCreateOrUpdateContent,
     options?: ArcDeploymentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ArcDeployment>, ArcDeployment>;
   /** @deprecated use createOrUpdate instead */
@@ -82,7 +83,7 @@ export interface ArcDeploymentsOperations {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    resource: ArcDeployment,
+    resource: ArcDeploymentCreateOrUpdateContent,
     options?: ArcDeploymentsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<ArcDeployment>, ArcDeployment>>;
   /** @deprecated use createOrUpdate instead */
@@ -90,7 +91,7 @@ export interface ArcDeploymentsOperations {
     resourceGroupName: string,
     accountName: string,
     deploymentName: string,
-    resource: ArcDeployment,
+    resource: ArcDeploymentCreateOrUpdateContent,
     options?: ArcDeploymentsCreateOrUpdateOptionalParams,
   ) => Promise<ArcDeployment>;
   /** Gets the specified Arc deployment associated with the Cognitive Services account. */
@@ -178,14 +179,14 @@ function _getArcDeployments(context: CognitiveServicesManagementContext) {
       resourceGroupName: string,
       accountName: string,
       deploymentName: string,
-      resource: ArcDeployment,
+      resource: ArcDeploymentCreateOrUpdateContent,
       options?: ArcDeploymentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, accountName, deploymentName, resource, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       accountName: string,
       deploymentName: string,
-      resource: ArcDeployment,
+      resource: ArcDeploymentCreateOrUpdateContent,
       options?: ArcDeploymentsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -203,7 +204,7 @@ function _getArcDeployments(context: CognitiveServicesManagementContext) {
       resourceGroupName: string,
       accountName: string,
       deploymentName: string,
-      resource: ArcDeployment,
+      resource: ArcDeploymentCreateOrUpdateContent,
       options?: ArcDeploymentsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

@@ -37,7 +37,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,11 @@ export function list(
     () => _listSend(context, resourceGroupName, clusterName, databaseName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-09-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -98,7 +102,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +147,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -164,7 +168,7 @@ export function _createUpdateSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +222,7 @@ export function createUpdate(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<AccessPolicyAssignment>, AccessPolicyAssignment>;
 }
 
@@ -238,7 +242,7 @@ export function _getSend(
       clusterName: clusterName,
       databaseName: databaseName,
       accessPolicyAssignmentName: accessPolicyAssignmentName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

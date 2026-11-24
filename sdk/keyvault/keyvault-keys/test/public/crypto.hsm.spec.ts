@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import type { ClientSecretCredential } from "@azure/identity";
 import type { NoOpCredential } from "@azure-tools/test-credential";
 
@@ -9,7 +9,8 @@ import { CryptographyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import TestClient from "./utils/testClient.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)", () => {
   let hsmClient: KeyClient;
@@ -42,6 +43,138 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  describe("secureWrapKey & secureUnwrapKey", () => {
+    let attestation: string;
+    let encodedReleasePolicy: Uint8Array;
+
+    beforeEach(async () => {
+      await recorder.setMatcher("BodilessMatcher");
+      const attestationUri = env.AZURE_KEYVAULT_ATTESTATION_URI;
+      const releasePolicy = {
+        anyOf: [
+          {
+            allOf: [
+              {
+                claim: "sdk-test",
+                equals: "true",
+              },
+            ],
+            authority: attestationUri,
+          },
+        ],
+        version: "1.0",
+      };
+
+      encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
+
+      if (!isPlaybackMode()) {
+        const client = createDefaultHttpClient();
+        const response = await client.sendRequest(
+          createPipelineRequest({ url: `${attestationUri}/generate-test-token` }),
+        );
+        attestation = JSON.parse(response.bodyAsText!).token;
+        recorder.variable("attestation", attestation);
+      } else {
+        attestation = recorder.variable("attestation", attestation);
+      }
+    });
+
+    it("can secure wrap and unwrap a key using RSA-OAEP-256", async () => {
+      const secureKeyName = recorder.variable(
+        "securewrapkey",
+        `securewrapkey-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await hsmClient.createRsaKey(secureKeyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName);
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+      assert.exists(wrapped.result);
+      assert.isAbove(wrapped.result.byteLength, 0);
+      assert.equal(wrapped.algorithm, "RSA-OAEP-256");
+      assert.isNotEmpty(wrapped.keyID);
+
+      const unwrapped = await cryptographyClient.secureUnwrapKey(
+        wrapped.algorithm,
+        wrapped.result,
+        attestation,
+      );
+      assert.exists(unwrapped.result);
+      assert.isAbove(unwrapped.result.byteLength, 0);
+      assert.equal(unwrapped.algorithm, "RSA-OAEP-256");
+      assert.isNotEmpty(unwrapped.keyID);
+
+      await testClient.flushKey(secureKeyName);
+    });
+
+    it("can secure wrap and unwrap targeting a specific key version", async () => {
+      const secureKeyName = recorder.variable(
+        "securewrapkey-version",
+        `securewrapkey-version-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      const createdKey = await hsmClient.createRsaKey(secureKeyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+      const version = createdKey.properties.version!;
+
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName, {
+        keyVersion: version,
+      });
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+      assert.exists(wrapped.result);
+      assert.include(wrapped.keyID, version);
+
+      const unwrapped = await cryptographyClient.secureUnwrapKey(
+        wrapped.algorithm,
+        wrapped.result,
+        attestation,
+      );
+      assert.exists(unwrapped.result);
+      assert.include(unwrapped.keyID, version);
+      await testClient.flushKey(secureKeyName);
+    });
+
+    it("secureUnwrapKey throws when the attestation token is invalid", async () => {
+      const secureKeyName = recorder.variable(
+        "securewrapkey-badattest",
+        `securewrapkey-badattest-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await hsmClient.createRsaKey(secureKeyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName);
+      const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
+      await expect(
+        cryptographyClient.secureUnwrapKey(
+          wrapped.algorithm,
+          wrapped.result,
+          "not-a-valid-attestation-token",
+        ),
+      ).rejects.toThrow();
+
+      await testClient.flushKey(secureKeyName);
+    });
+
+    it("secureWrapKey throws when the key has no release policy", async () => {
+      const secureKeyName = recorder.variable(
+        "securewrapkey-nopolicy",
+        `securewrapkey-nopolicy-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await expect(
+        hsmClient.createRsaKey(secureKeyName, { keyOps: ["secureWrapKey", "secureUnwrapKey"] }),
+      ).rejects.toThrow();
+    });
   });
 
   describe("with AES crypto algorithms", async function () {

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * upgrade, or the combined control plane and agent pools upgrade — persists the result
  * as an UpgradeInsight resource with a server-generated name, and returns that
  * resource. The response body is identical to a subsequent GET of the resource.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGenerateUpgradeInsights_AgentPool.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGenerateUpgradeInsights_AgentPool.json
  */
 async function generateASingleAgentPoolKubernetesVersionUpgradeInsight(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function generateASingleAgentPoolKubernetesVersionUpgradeInsight(): Promis
  * upgrade, or the combined control plane and agent pools upgrade — persists the result
  * as an UpgradeInsight resource with a server-generated name, and returns that
  * resource. The response body is identical to a subsequent GET of the resource.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGenerateUpgradeInsights_ControlPlane.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGenerateUpgradeInsights_ControlPlane.json
  */
 async function generateAControlPlaneUpgradeInsight(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -79,7 +79,7 @@ async function generateAControlPlaneUpgradeInsight(): Promise<void> {
  * upgrade, or the combined control plane and agent pools upgrade — persists the result
  * as an UpgradeInsight resource with a server-generated name, and returns that
  * resource. The response body is identical to a subsequent GET of the resource.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGenerateUpgradeInsights_ControlPlaneAndAgentPools.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGenerateUpgradeInsights_ControlPlaneAndAgentPools.json
  */
 async function generateACombinedControlPlaneAndAgentPoolsUpgradeInsight(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -108,7 +108,7 @@ async function generateACombinedControlPlaneAndAgentPoolsUpgradeInsight(): Promi
  * upgrade, or the combined control plane and agent pools upgrade — persists the result
  * as an UpgradeInsight resource with a server-generated name, and returns that
  * resource. The response body is identical to a subsequent GET of the resource.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGenerateUpgradeInsights_NodeImage.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGenerateUpgradeInsights_NodeImage.json
  */
 async function generateANodeOSImageUpgradeInsight(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function generateANodeOSImageUpgradeInsight(): Promise<void> {
  * upgrade, or the combined control plane and agent pools upgrade — persists the result
  * as an UpgradeInsight resource with a server-generated name, and returns that
  * resource. The response body is identical to a subsequent GET of the resource.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGenerateUpgradeInsights_NodeImageLatest.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGenerateUpgradeInsights_NodeImageLatest.json
  */
 async function generateANodeOSImageUpgradeInsightUsingTheLatestAvailableImage(): Promise<void> {
   const credential = new DefaultAzureCredential();

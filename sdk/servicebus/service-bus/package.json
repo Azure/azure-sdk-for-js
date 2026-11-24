@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-amqp": "^4.3.2",
+    "@azure/core-amqp": "^4.6.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
@@ -124,7 +124,7 @@
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
     "events": "^3.0.0",
-    "https-proxy-agent": "^9.1.0",
+    "https-proxy-agent": "^7.0.0",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "react-native": "catalog:testing",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel or rollback the migration operation in a Redis Enterprise cluster.
  *
  * @summary cancel or rollback the migration operation in a Redis Enterprise cluster.
- * x-ms-original-file: 2026-09-01/RedisEnterpriseMigrationUndo.json
+ * x-ms-original-file: 2026-10-01-preview/RedisEnterpriseMigrationUndo.json
  */
 async function redisEnterpriseMigrationUndo(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -35,7 +35,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
       "%24top": options?.top,
       "%24recordsetnamesuffix": options?.recordsetnamesuffix,
     },
@@ -77,7 +77,11 @@ export function list(
     () => _listSend(context, resourceGroupName, privateZoneName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
   );
 }
 
@@ -95,7 +99,7 @@ export function _listByTypeSend(
       resourceGroupName: resourceGroupName,
       privateZoneName: privateZoneName,
       recordType: recordType,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
       "%24top": options?.top,
       "%24recordsetnamesuffix": options?.recordsetnamesuffix,
     },
@@ -138,7 +142,11 @@ export function listByType(
     () => _listByTypeSend(context, resourceGroupName, privateZoneName, recordType, options),
     _listByTypeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
   );
 }
 
@@ -158,7 +166,7 @@ export function _$deleteSend(
       privateZoneName: privateZoneName,
       recordType: recordType,
       relativeRecordSetName: relativeRecordSetName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,7 +232,7 @@ export function _updateSend(
       privateZoneName: privateZoneName,
       recordType: recordType,
       relativeRecordSetName: relativeRecordSetName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -295,7 +303,7 @@ export function _createOrUpdateSend(
       privateZoneName: privateZoneName,
       recordType: recordType,
       relativeRecordSetName: relativeRecordSetName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -368,7 +376,7 @@ export function _getSend(
       privateZoneName: privateZoneName,
       recordType: recordType,
       relativeRecordSetName: relativeRecordSetName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

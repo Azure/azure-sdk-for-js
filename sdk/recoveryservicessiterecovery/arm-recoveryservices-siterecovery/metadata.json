@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.RecoveryServices": "2025-08-01"
+    "Microsoft.RecoveryServices": "2026-11-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RecoveryServices",
     "CrossLanguageDefinitionId": {
@@ -24,6 +24,7 @@
       "@azure/arm-recoveryservices-siterecovery!A2AProtectedDiskDetails:interface": "Microsoft.RecoveryServices.A2AProtectedDiskDetails",
       "@azure/arm-recoveryservices-siterecovery!A2AUnprotectedDiskDetails:interface": "Microsoft.RecoveryServices.A2AUnprotectedDiskDetails",
       "@azure/arm-recoveryservices-siterecovery!A2AProtectedManagedDiskDetails:interface": "Microsoft.RecoveryServices.A2AProtectedManagedDiskDetails",
+      "@azure/arm-recoveryservices-siterecovery!ConfidentialDiskEncryptionInfo:interface": "Microsoft.RecoveryServices.ConfidentialDiskEncryptionInfo",
       "@azure/arm-recoveryservices-siterecovery!VMNicDetails:interface": "Microsoft.RecoveryServices.VMNicDetails",
       "@azure/arm-recoveryservices-siterecovery!IPConfigDetails:interface": "Microsoft.RecoveryServices.IPConfigDetails",
       "@azure/arm-recoveryservices-siterecovery!AzureToAzureVmSyncedConfigDetails:interface": "Microsoft.RecoveryServices.AzureToAzureVmSyncedConfigDetails",
@@ -97,6 +98,7 @@
       "@azure/arm-recoveryservices-siterecovery!UpdateReplicationProtectedItemProviderInput:interface": "Microsoft.RecoveryServices.UpdateReplicationProtectedItemProviderInput",
       "@azure/arm-recoveryservices-siterecovery!A2AUpdateReplicationProtectedItemInput:interface": "Microsoft.RecoveryServices.A2AUpdateReplicationProtectedItemInput",
       "@azure/arm-recoveryservices-siterecovery!A2AVmManagedDiskUpdateDetails:interface": "Microsoft.RecoveryServices.A2AVmManagedDiskUpdateDetails",
+      "@azure/arm-recoveryservices-siterecovery!UpdateConfidentialDiskEncryptionInfo:interface": "Microsoft.RecoveryServices.UpdateConfidentialDiskEncryptionInfo",
       "@azure/arm-recoveryservices-siterecovery!HyperVReplicaAzureUpdateReplicationProtectedItemInput:interface": "Microsoft.RecoveryServices.HyperVReplicaAzureUpdateReplicationProtectedItemInput",
       "@azure/arm-recoveryservices-siterecovery!UpdateDiskInput:interface": "Microsoft.RecoveryServices.UpdateDiskInput",
       "@azure/arm-recoveryservices-siterecovery!InMageAzureV2UpdateReplicationProtectedItemInput:interface": "Microsoft.RecoveryServices.InMageAzureV2UpdateReplicationProtectedItemInput",
@@ -349,6 +351,7 @@
       "@azure/arm-recoveryservices-siterecovery!SwitchClusterProtectionProviderSpecificInput:interface": "Microsoft.RecoveryServices.SwitchClusterProtectionProviderSpecificInput",
       "@azure/arm-recoveryservices-siterecovery!A2ASwitchClusterProtectionInput:interface": "Microsoft.RecoveryServices.A2ASwitchClusterProtectionInput",
       "@azure/arm-recoveryservices-siterecovery!A2AProtectedItemDetail:interface": "Microsoft.RecoveryServices.A2AProtectedItemDetail",
+      "@azure/arm-recoveryservices-siterecovery!A2AClusterVmManagedDiskInputDetails:interface": "Microsoft.RecoveryServices.A2AClusterVmManagedDiskInputDetails",
       "@azure/arm-recoveryservices-siterecovery!SwitchProtectionInput:interface": "Microsoft.RecoveryServices.SwitchProtectionInput",
       "@azure/arm-recoveryservices-siterecovery!SwitchProtectionInputProperties:interface": "Microsoft.RecoveryServices.SwitchProtectionInputProperties",
       "@azure/arm-recoveryservices-siterecovery!SwitchProtectionProviderSpecificInput:interface": "Microsoft.RecoveryServices.SwitchProtectionProviderSpecificInput",
@@ -578,6 +581,9 @@
       "@azure/arm-recoveryservices-siterecovery!KnownExtendedLocationType:enum": "Microsoft.RecoveryServices.ExtendedLocationType",
       "@azure/arm-recoveryservices-siterecovery!KnownMultiVmGroupCreateOption:enum": "Microsoft.RecoveryServices.MultiVmGroupCreateOption",
       "@azure/arm-recoveryservices-siterecovery!KnownAutoProtectionOfDataDisk:enum": "Microsoft.RecoveryServices.AutoProtectionOfDataDisk",
+      "@azure/arm-recoveryservices-siterecovery!KnownDiskNetworkAccessPolicy:enum": "Microsoft.RecoveryServices.DiskNetworkAccessPolicy",
+      "@azure/arm-recoveryservices-siterecovery!KnownDiskPublicNetworkAccess:enum": "Microsoft.RecoveryServices.DiskPublicNetworkAccess",
+      "@azure/arm-recoveryservices-siterecovery!KnownIPVersion:enum": "Microsoft.RecoveryServices.IPVersion",
       "@azure/arm-recoveryservices-siterecovery!KnownVmEncryptionType:enum": "Microsoft.RecoveryServices.VmEncryptionType",
       "@azure/arm-recoveryservices-siterecovery!KnownChurnOptionSelected:enum": "Microsoft.RecoveryServices.ChurnOptionSelected",
       "@azure/arm-recoveryservices-siterecovery!KnownLinuxLicenseType:enum": "Microsoft.RecoveryServices.LinuxLicenseType",
@@ -629,6 +635,7 @@
       "@azure/arm-recoveryservices-siterecovery!KnownRpInMageRecoveryPointType:enum": "Microsoft.RecoveryServices.RpInMageRecoveryPointType",
       "@azure/arm-recoveryservices-siterecovery!KnownRecoveryPlanPointType:enum": "Microsoft.RecoveryServices.RecoveryPlanPointType",
       "@azure/arm-recoveryservices-siterecovery!KnownSourceSiteOperations:enum": "Microsoft.RecoveryServices.SourceSiteOperations",
+      "@azure/arm-recoveryservices-siterecovery!KnownRecoveryNetworkConfigAutoSyncPolicy:enum": "Microsoft.RecoveryServices.RecoveryNetworkConfigAutoSyncPolicy",
       "@azure/arm-recoveryservices-siterecovery!KnownHealthErrorCategory:enum": "Microsoft.RecoveryServices.HealthErrorCategory",
       "@azure/arm-recoveryservices-siterecovery!KnownSeverity:enum": "Microsoft.RecoveryServices.Severity",
       "@azure/arm-recoveryservices-siterecovery!KnownVersions:enum": "Microsoft.RecoveryServices.Versions",

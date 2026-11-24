@@ -528,6 +528,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
+   * The service's recommendation for how to read the remainder of the blob. Only layout-aware
+   * routing in `downloadToBuffer` reads it, so the public response types leave it out.
+   *
+   * @readonly
+   */
+  public get downloadHint(): string | undefined {
+    return (this.originalResponse as BlobDownloadResponseParsed & { downloadHint?: string })
+      .downloadHint;
+  }
+
+  /**
    * The response body as a browser Blob.
    * Always undefined in node.js.
    *

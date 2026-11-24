@@ -23,13 +23,14 @@ export function _listSend(
   options: ManagedComputeCapacitiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/managedComputeCapacities{?api%2Dversion,offer,acceleratorType,deploymentId}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/managedComputeCapacities{?api%2Dversion,offer,acceleratorType,deploymentId,location}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-15-preview",
       offer: offer,
       acceleratorType: options?.acceleratorType,
       deploymentId: options?.deploymentId,
+      location: options?.location,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -74,7 +75,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-15-preview",
+      apiVersion: context.apiVersion ?? "2026-11-15-preview",
     },
   );
 }

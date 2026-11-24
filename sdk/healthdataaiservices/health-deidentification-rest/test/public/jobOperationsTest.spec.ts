@@ -13,6 +13,7 @@ import type {
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
+import { delay } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
 import { isUnexpected } from "../../src/isUnexpected.js";
@@ -26,6 +27,9 @@ const NUMBER_OF_DOCUMENTS = 3;
 const OUTPUT_FOLDER = "_output";
 const INPUT_PREFIX = "example_patient_1";
 const TERMINAL_JOB_STATUSES = ["Succeeded", "Failed", "Canceled"];
+// Bounds the wait for a newly created job to appear in list results to roughly 30 seconds.
+const LIST_VISIBILITY_MAX_ATTEMPTS = 6;
+const LIST_VISIBILITY_RETRY_DELAY_MS = isPlaybackMode() ? 0 : 5000;
 let jobName: string;
 
 function getErrorCode(body: unknown): string | undefined {
@@ -130,24 +134,33 @@ describe("Batch", () => {
       await poller.poll();
       assert.equal(poller.getOperationState().status, "running");
 
-      // Test list jobs with pagination
-      const jobs = await client.path("/jobs").get({ queryParameters: { maxpagesize: 2 } });
-      const items = [];
-      const iter = paginate(client, jobs);
-      for await (const item of iter) {
-        items.push(item);
+      // Test list jobs with pagination. A newly created job can briefly be missing from list
+      // results (eventual visibility across service instances), so re-list for a bounded time.
+      let foundJob: DeidentificationJobOutput | undefined;
+      for (let attempt = 1; attempt <= LIST_VISIBILITY_MAX_ATTEMPTS; attempt++) {
+        const jobs = await client.path("/jobs").get({ queryParameters: { maxpagesize: 2 } });
+        const items = [];
+        const iter = paginate(client, jobs);
+        for await (const item of iter) {
+          items.push(item);
+        }
+        foundJob = (items as DeidentificationJobOutput[]).find((j) => j.name === jobName);
+        if (foundJob !== undefined || attempt === LIST_VISIBILITY_MAX_ATTEMPTS) {
+          break;
+        }
+        await delay(LIST_VISIBILITY_RETRY_DELAY_MS);
       }
-      const foundJob = (items as DeidentificationJobOutput[]).find((j) => j.name === jobName);
 
       assert.isTrue(foundJob !== undefined, "Job should be found");
       assert.isString(foundJob!.createdAt, "Job should have createdAt");
       assert.isString(foundJob!.lastUpdatedAt, "Job should have lastUpdatedAt");
-      // The job may begin processing before it is listed, so it can be NotStarted or Running,
-      // and a summary (with in-progress counts) can appear as soon as processing begins.
+      // The job may begin processing, or even finish while list visibility is retried, before it is
+      // listed, so it can be NotStarted, Running, or Succeeded, and a summary (with in-progress
+      // counts) can appear as soon as processing begins.
       assert.include(
-        ["NotStarted", "Running"],
+        ["NotStarted", "Running", "Succeeded"],
         foundJob!.status,
-        "Job status should be NotStarted or Running",
+        "Job status should be NotStarted, Running, or Succeeded",
       );
       assert.isUndefined(foundJob!.error, "Job should not have error");
       assert.isUndefined(

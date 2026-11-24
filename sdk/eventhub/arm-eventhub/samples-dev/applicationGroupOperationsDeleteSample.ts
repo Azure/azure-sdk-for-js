@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an ApplicationGroup for a Namespace.
  *
  * @summary deletes an ApplicationGroup for a Namespace.
- * x-ms-original-file: 2026-01-01/ApplicationGroup/ApplicationGroupDelete.json
+ * x-ms-original-file: 2026-07-01-preview/ApplicationGroup/ApplicationGroupDelete.json
  */
 async function applicationGroupDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

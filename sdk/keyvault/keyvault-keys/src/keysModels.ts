@@ -17,7 +17,7 @@ export type { KeyType, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "2026-01-01-preview";
+export const LATEST_API_VERSION = "2026-04-01";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -640,28 +640,30 @@ export interface ReleaseKeyResult {
 }
 
 /**
- * Options for {@link KeyClient.secureWrapKey}.
+ * Options for {@link CryptographyClient.secureWrapKey}.
  */
 export interface SecureWrapKeyOptions extends coreClient.OperationOptions {
   /**
-   * The version of the key to wrap with. Defaults to the latest version of the key if omitted.
+   * The version of the key to wrap with. Defaults to the client's bound key version,
+   * or the latest version when the client has no bound version.
    */
   version?: string;
 }
 
 /**
- * Options for {@link KeyClient.secureUnwrapKey}.
+ * Options for {@link CryptographyClient.secureUnwrapKey}.
  */
 export interface SecureUnwrapKeyOptions extends coreClient.OperationOptions {
   /**
-   * The version of the key to unwrap with. Defaults to the latest version of the key if omitted.
+   * The version of the key to unwrap with. Defaults to the client's bound key version,
+   * or the latest version when the client has no bound version.
    */
   version?: string;
 }
 
 /**
  * The algorithms supported by the secure wrap and unwrap operations on
- * {@link KeyClient}.
+ * {@link CryptographyClient}.
  *
  * Secure wrap/unwrap operations support a wider set of algorithms than the
  * regular wrap/unwrap. The additional algorithms typically end with `KWPAD`
@@ -679,8 +681,8 @@ export type SecureKeyWrapAlgorithm =
   | "CKM_AES_KEY_WRAP_PAD";
 
 /**
- * Result of the {@link KeyClient.secureWrapKey} and
- * {@link KeyClient.secureUnwrapKey} operations.
+ * Result of the {@link CryptographyClient.secureWrapKey} and
+ * {@link CryptographyClient.secureUnwrapKey} operations.
  */
 export interface SecureKeyOperationResult {
   /**
@@ -693,9 +695,9 @@ export interface SecureKeyOperationResult {
   algorithm: SecureKeyWrapAlgorithm;
   /**
    * The result of the operation:
-   *  - For {@link KeyClient.secureWrapKey}, this is the wrapped 256-bit AES
+   *  - For {@link CryptographyClient.secureWrapKey}, this is the wrapped 256-bit AES
    *    key generated within the trusted execution environment (TEE).
-   *  - For {@link KeyClient.secureUnwrapKey}, this is the unwrapped symmetric
+   *  - For {@link CryptographyClient.secureUnwrapKey}, this is the unwrapped symmetric
    *    key.
    */
   result: Uint8Array;
@@ -717,10 +719,6 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
-  /** Key operation - secureWrapKey */
-  SecureWrapKey = "secureWrapKey",
-  /** Key operation - secureUnwrapKey */
-  SecureUnwrapKey = "secureUnwrapKey",
 }
 
 /* eslint-disable tsdoc/syntax */

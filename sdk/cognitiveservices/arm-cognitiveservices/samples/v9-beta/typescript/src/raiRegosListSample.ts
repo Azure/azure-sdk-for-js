@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists reusable Rego artifacts on an account.
  *
  * @summary lists reusable Rego artifacts on an account.
- * x-ms-original-file: 2026-09-15-preview/ListRaiRegos.json
+ * x-ms-original-file: 2026-11-15-preview/ListRaiRegos.json
  */
 async function listReusableRegoArtifacts(): Promise<void> {
   const credential = new DefaultAzureCredential();
