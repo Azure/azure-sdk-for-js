@@ -1,23 +1,10 @@
 # Release History
 
-## 4.12.0 (Unreleased)
+## 4.11.0 (2026-11-24)
 
 ### Features Added
 
 - Added `CryptographyClient.secureWrapKey` and `CryptographyClient.secureUnwrapKey` to perform secure key operations with a key-bound client. These operations require Managed HSM and cannot run with local-only keys. [#40887](https://github.com/Azure/azure-sdk-for-js/pull/40887)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-- Deprecated `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` in favor of the corresponding `CryptographyClient` methods. Existing calls remain supported. [#40887](https://github.com/Azure/azure-sdk-for-js/pull/40887)
-
-## 4.11.0 (2026-11-18)
-
-### Features Added
-
 - Added support for service version `2026-04-01`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - (From 4.11.0-beta.1) Added the `KeyClient.createExternalKey` method and the `ExternalKey` model to create a Managed HSM key backed by a key stored in an external key management system, along with the `externalKey` and read-only `keySize` properties on `KeyProperties`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - (From 4.11.0-beta.1) Added the `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods, along with the `SecureKeyWrapAlgorithm`, `SecureKeyOperationResult`, `SecureWrapKeyOptions`, and `SecureUnwrapKeyOptions` types. Only supported on Managed HSM. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
