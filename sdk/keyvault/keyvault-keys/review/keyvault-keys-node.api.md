@@ -273,10 +273,6 @@ export class KeyClient {
     releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
-    // @deprecated
-    secureUnwrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, value: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyOperationResult>;
-    // @deprecated
-    secureWrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyOperationResult>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyRotationPolicy(keyName: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
