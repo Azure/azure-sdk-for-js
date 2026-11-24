@@ -31,9 +31,10 @@ async function main() {
   // The wrapping key must already exist in the Managed HSM and have a
   // release policy that permits secure wrap/unwrap.
   const keyName = process.env["KEY_NAME"] || "myWrappingKey";
+  const cryptographyClient = client.getCryptographyClient(keyName);
 
   // 1) Generate and wrap a 256-bit AES key inside the TEE using the wrapping key.
-  const wrapped = await client.secureWrapKey(keyName, "RSA-OAEP-256");
+  const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
   console.log("Wrapped key:");
   console.log("  keyID    :", wrapped.keyID);
   console.log("  algorithm:", wrapped.algorithm);
@@ -43,8 +44,7 @@ async function main() {
   //    instance trusted by your Managed HSM.
   const attestationToken = process.env["MAA_ATTESTATION_TOKEN"] || "<attestation-target>";
 
-  const unwrapped = await client.secureUnwrapKey(
-    keyName,
+  const unwrapped = await cryptographyClient.secureUnwrapKey(
     wrapped.algorithm,
     wrapped.result,
     attestationToken,

@@ -38,7 +38,7 @@ export function _listByDatabaseAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,11 +78,7 @@ export function listByDatabaseAccount(
     () => _listByDatabaseAccountSend(context, resourceGroupName, accountName, options),
     _listByDatabaseAccountDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -100,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -137,7 +133,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, privateEndpointConnectionName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -156,7 +152,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -208,7 +204,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
@@ -226,7 +222,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

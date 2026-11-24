@@ -7,6 +7,7 @@ import type {
   HttpResponseField,
   HttpResponseFields,
   ConfigurationSettingId,
+  WebResourceLike,
 } from "../../src/index.js";
 import {
   featureFlagContentType,
@@ -28,7 +29,6 @@ import {
   getScope,
 } from "../../src/internal/helpers.js";
 import type { FeatureFlagValue } from "../../src/featureFlag.js";
-import type { WebResourceLike } from "@azure/core-http-compat";
 import type { SecretReferenceValue } from "../../src/secretReference.js";
 import { describe, it, assert } from "vitest";
 
@@ -204,7 +204,7 @@ describe("helper methods", () => {
           throw new Error("Cannot clone a non-proxied WebResourceLike");
         },
         prepare(): WebResourceLike {
-          throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
+          throw new Error("WebResourceLike.prepare() is not supported");
         },
         validateRequestProperties(): void {
           /** do nothing */

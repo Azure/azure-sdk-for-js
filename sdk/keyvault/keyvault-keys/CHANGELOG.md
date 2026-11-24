@@ -1,18 +1,24 @@
 # Release History
 
-## 4.11.0 (2026-11-18)
+## 4.11.0 (2026-11-24)
 
 ### Features Added
 
+- Added `CryptographyClient.secureWrapKey` and `CryptographyClient.secureUnwrapKey` to perform secure key operations with a key-bound client. These operations require Managed HSM and cannot run with local-only keys. [#40887](https://github.com/Azure/azure-sdk-for-js/pull/40887)
 - Added support for service version `2026-04-01`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - (From 4.11.0-beta.1) Added the `KeyClient.createExternalKey` method and the `ExternalKey` model to create a Managed HSM key backed by a key stored in an external key management system, along with the `externalKey` and read-only `keySize` properties on `KeyProperties`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
-- (From 4.11.0-beta.1) Added the `KeyClient.secureWrapKey` and `KeyClient.secureUnwrapKey` methods, along with the `SecureKeyWrapAlgorithm`, `SecureKeyOperationResult`, `SecureWrapKeyOptions`, and `SecureUnwrapKeyOptions` types. Only supported on Managed HSM. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- (From 4.11.0-beta.1) Added the `SecureKeyWrapAlgorithm`, `SecureKeyOperationResult`, `SecureWrapKeyOptions`, and `SecureUnwrapKeyOptions` types. Only supported on Managed HSM. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 - (From 4.11.0-beta.1) Added the `SecureWrapKey` and `SecureUnwrapKey` values to `KnownKeyOperations`. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
 
 ### Breaking Changes
 
 - These changes do not impact the API of stable versions such as 4.10.2. Only code written against a beta version such as 4.11.0-beta.1 may be affected. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+- Moved `secureWrapKey` and `secureUnwrapKey` from `KeyClient` to `CryptographyClient`. Obtain a key-bound client using `KeyClient.getCryptographyClient` and omit the key name argument when calling these operations. [#40887](https://github.com/Azure/azure-sdk-for-js/pull/40887)
 - Removed support for service API version `2026-01-01-preview`; use `2026-04-01` instead. [#40772](https://github.com/Azure/azure-sdk-for-js/pull/40772)
+
+### Bugs Fixed
+
+- Corrected local RSA signature verification to use the padding and salt length required by the requested algorithm. [#40780](https://github.com/Azure/azure-sdk-for-js/pull/40780)
 
 ### Other Changes
 

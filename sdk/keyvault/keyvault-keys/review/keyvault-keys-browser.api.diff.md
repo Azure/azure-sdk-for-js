@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // @deprecated
      decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
      encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-@@ -136,11 +136,11 @@
+@@ -138,11 +138,11 @@
  
  // @public
  export interface DeletedKey {
@@ -32,7 +32,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      properties: KeyProperties & {
          readonly recoveryId?: string;
          readonly scheduledPurgeDate?: Date;
-@@ -218,26 +218,27 @@
+@@ -220,26 +220,27 @@
  
  export { isRestError }
  
@@ -62,7 +62,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyAttestation {
      certificatePemFile?: Uint8Array;
-@@ -253,18 +254,18 @@
+@@ -255,18 +256,18 @@
      beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;

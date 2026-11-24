@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import { createHash } from "node:crypto";
+import { dirname } from "node:path";
 import { context, diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { AzureMonitorExporterOptions } from "../../config.js";
+import { ENV_MULTI_ENDPOINT_AAD_AUDIENCE } from "../../Declarations/Constants.js";
 import type { RoutingGroups, TelemetryRoute } from "../../utils/routing.js";
 import { HttpSender } from "./httpSender.js";
 import { getStorageDirectory } from "./persist/fileSystemPersist.js";
@@ -25,17 +27,22 @@ export class RoutingSender {
   private shutdownPromise: Promise<void> | undefined;
   private readonly options: AzureMonitorExporterOptions;
   private readonly storageRoot: string;
+  private readonly aadScope?: string;
 
   constructor(
     options: AzureMonitorExporterOptions,
     private readonly instrumentationKey: string,
-    private readonly aadAudience?: string,
   ) {
-    this.options = { ...options };
     if (options.pipeline || options.additionalPolicies?.length) {
       throw new Error(
         "Custom pipelines and additional policies are not supported with multi-endpoint routing. Use httpClient and retryOptions instead.",
       );
+    }
+    // Routed clients are created lazily. Do not retain a caller-owned list of policies.
+    this.options = { ...options, additionalPolicies: undefined };
+    const audience = process.env[ENV_MULTI_ENDPOINT_AAD_AUDIENCE]?.trim();
+    if (audience) {
+      this.aadScope = audience.endsWith("/.default") ? audience : `${audience}/.default`;
     }
     this.storageRoot = `${getStorageDirectory(instrumentationKey, options.storageDirectory)}-routes`;
   }
@@ -145,6 +152,7 @@ export class RoutingSender {
       routingAbortSignal: this.abortController.signal,
       disableKeepAlive: temporary,
       storagePartition: {
+        exporterRoot: dirname(this.storageRoot),
         root: this.storageRoot,
         name: createHash("sha256").update(key).digest("hex"),
       },
@@ -155,7 +163,7 @@ export class RoutingSender {
         credential: route.isAad ? this.options.credential : undefined,
         disableOfflineStorage: temporary || this.options.disableOfflineStorage,
       },
-      aadAudience: this.aadAudience,
+      aadAudience: route.isAad ? this.aadScope : undefined,
     });
   }
 

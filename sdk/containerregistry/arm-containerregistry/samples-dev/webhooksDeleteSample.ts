@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a webhook from a container registry.
  *
  * @summary deletes a webhook from a container registry.
- * x-ms-original-file: 2026-10-15-preview/WebhookDelete.json
+ * x-ms-original-file: 2026-11-01/WebhookDelete.json
  */
 async function webhookDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a managed Cassandra data center.
  *
  * @summary delete a managed Cassandra data center.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraDataCenterDelete.json
+ * x-ms-original-file: 2026-07-15/CosmosDBManagedCassandraDataCenterDelete.json
  */
 async function cosmosDBManagedCassandraDataCenterDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

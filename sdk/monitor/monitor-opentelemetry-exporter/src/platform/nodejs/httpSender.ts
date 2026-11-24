@@ -17,6 +17,7 @@ import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isRetriable, parseRetryAfterHeader } from "../../utils/breezeUtils.js";
 import { isSameRegisteredDomain } from "../../utils/redirectUtils.js";
+import { parseRoutingEndpoint } from "../../utils/routing.js";
 import { createGzipHttpClient } from "./gzipHttpClient.js";
 import { createAbortablePromise } from "@azure/core-util";
 
@@ -211,7 +212,7 @@ export class HttpSender extends BaseSender {
     }
     let locUrl: url.URL;
     try {
-      locUrl = new url.URL(location);
+      locUrl = this.isRouted ? parseRoutingEndpoint(location) : new url.URL(location);
     } catch {
       return false;
     }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the Tables under an existing Azure Cosmos DB database account.
  *
  * @summary lists the Tables under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBTableList.json
+ * x-ms-original-file: 2026-07-15/CosmosDBTableList.json
  */
 async function cosmosDBTableList(): Promise<void> {
   const credential = new DefaultAzureCredential();

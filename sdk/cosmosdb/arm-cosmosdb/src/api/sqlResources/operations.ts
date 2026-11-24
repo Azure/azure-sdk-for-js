@@ -6,13 +6,8 @@ import type {
   SqlDatabaseGetResults,
   SqlDatabaseCreateUpdateParameters,
   _SqlDatabaseListResult,
-  MergeParameters,
-  PhysicalPartitionStorageInfoCollection,
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
-  RetrieveThroughputParameters,
-  PhysicalPartitionThroughputInfoResult,
-  RedistributeThroughputParameters,
   ClientEncryptionKeyGetResults,
   ClientEncryptionKeyCreateUpdateParameters,
   _ClientEncryptionKeysListResult,
@@ -39,17 +34,12 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  cloudErrorDeserializer,
   sqlDatabaseGetResultsDeserializer,
   sqlDatabaseCreateUpdateParametersSerializer,
   _sqlDatabaseListResultDeserializer,
-  mergeParametersSerializer,
-  physicalPartitionStorageInfoCollectionDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
-  retrieveThroughputParametersSerializer,
-  physicalPartitionThroughputInfoResultDeserializer,
-  redistributeThroughputParametersSerializer,
+  cloudErrorDeserializer,
   clientEncryptionKeyGetResultsDeserializer,
   clientEncryptionKeyCreateUpdateParametersSerializer,
   _clientEncryptionKeysListResultDeserializer,
@@ -100,7 +90,6 @@ import type {
   SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
   SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
-  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
   SqlResourcesListSqlContainersOptionalParams,
   SqlResourcesDeleteSqlContainerOptionalParams,
   SqlResourcesCreateUpdateSqlContainerOptionalParams,
@@ -108,19 +97,14 @@ import type {
   SqlResourcesListClientEncryptionKeysOptionalParams,
   SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
   SqlResourcesGetClientEncryptionKeyOptionalParams,
-  SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
-  SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
-  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
-  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams,
   SqlResourcesUpdateSqlDatabaseThroughputOptionalParams,
   SqlResourcesGetSqlDatabaseThroughputOptionalParams,
-  SqlResourcesSqlDatabasePartitionMergeOptionalParams,
   SqlResourcesListSqlDatabasesOptionalParams,
   SqlResourcesDeleteSqlDatabaseOptionalParams,
   SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
@@ -142,7 +126,7 @@ export function _listSqlRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -182,11 +166,7 @@ export function listSqlRoleAssignments(
     () => _listSqlRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listSqlRoleAssignmentsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -204,7 +184,7 @@ export function _deleteSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +229,7 @@ export function deleteSqlRoleAssignment(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -268,7 +248,7 @@ export function _createUpdateSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,7 +306,7 @@ export function createUpdateSqlRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlRoleAssignmentGetResults>, SqlRoleAssignmentGetResults>;
 }
@@ -345,7 +325,7 @@ export function _getSqlRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -403,7 +383,7 @@ export function _listSqlRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -443,11 +423,7 @@ export function listSqlRoleDefinitions(
     () => _listSqlRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listSqlRoleDefinitionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -465,7 +441,7 @@ export function _deleteSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -510,7 +486,7 @@ export function deleteSqlRoleDefinition(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -529,7 +505,7 @@ export function _createUpdateSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -587,7 +563,7 @@ export function createUpdateSqlRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlRoleDefinitionGetResults>, SqlRoleDefinitionGetResults>;
 }
@@ -606,7 +582,7 @@ export function _getSqlRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -668,7 +644,7 @@ export function _listSqlTriggersSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -718,11 +694,7 @@ export function listSqlTriggers(
       ),
     _listSqlTriggersDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -744,7 +716,7 @@ export function _deleteSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -791,7 +763,7 @@ export function deleteSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -814,7 +786,7 @@ export function _createUpdateSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -870,7 +842,7 @@ export function createUpdateSqlTrigger(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<SqlTriggerGetResults>, SqlTriggerGetResults>;
 }
 
@@ -892,7 +864,7 @@ export function _getSqlTriggerSend(
       databaseName: databaseName,
       containerName: containerName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -958,7 +930,7 @@ export function _listSqlUserDefinedFunctionsSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1008,11 +980,7 @@ export function listSqlUserDefinedFunctions(
       ),
     _listSqlUserDefinedFunctionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1034,7 +1002,7 @@ export function _deleteSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1087,7 +1055,7 @@ export function deleteSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1111,7 +1079,7 @@ export function _createUpdateSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1173,7 +1141,7 @@ export function createUpdateSqlUserDefinedFunction(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<
     OperationState<SqlUserDefinedFunctionGetResults>,
@@ -1199,7 +1167,7 @@ export function _getSqlUserDefinedFunctionSend(
       databaseName: databaseName,
       containerName: containerName,
       userDefinedFunctionName: userDefinedFunctionName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1265,7 +1233,7 @@ export function _listSqlStoredProceduresSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1315,11 +1283,7 @@ export function listSqlStoredProcedures(
       ),
     _listSqlStoredProceduresDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1341,7 +1305,7 @@ export function _deleteSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1394,7 +1358,7 @@ export function deleteSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -1418,7 +1382,7 @@ export function _createUpdateSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1480,7 +1444,7 @@ export function createUpdateSqlStoredProcedure(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlStoredProcedureGetResults>, SqlStoredProcedureGetResults>;
 }
@@ -1503,7 +1467,7 @@ export function _getSqlStoredProcedureSend(
       databaseName: databaseName,
       containerName: containerName,
       storedProcedureName: storedProcedureName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1570,7 +1534,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1628,95 +1592,9 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
-}
-
-export function _listSqlContainerPartitionMergeSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  mergeParameters: MergeParameters,
-  options: SqlResourcesListSqlContainerPartitionMergeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mergeParametersSerializer(mergeParameters),
-  });
-}
-
-export async function _listSqlContainerPartitionMergeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionStorageInfoCollection> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionStorageInfoCollectionDeserializer(result.body);
-}
-
-/** Merges the partitions of a SQL Container */
-export function listSqlContainerPartitionMerge(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  mergeParameters: MergeParameters,
-  options: SqlResourcesListSqlContainerPartitionMergeOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PhysicalPartitionStorageInfoCollection>,
-  PhysicalPartitionStorageInfoCollection
-> {
-  return getLongRunningPoller(
-    context,
-    _listSqlContainerPartitionMergeDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _listSqlContainerPartitionMergeSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          containerName,
-          mergeParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
 }
 
 export function _listSqlContainersSend(
@@ -1733,7 +1611,7 @@ export function _listSqlContainersSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1774,11 +1652,7 @@ export function listSqlContainers(
     () => _listSqlContainersSend(context, resourceGroupName, accountName, databaseName, options),
     _listSqlContainersDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1798,7 +1672,7 @@ export function _deleteSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1843,7 +1717,7 @@ export function deleteSqlContainer(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1864,7 +1738,7 @@ export function _createUpdateSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1922,7 +1796,7 @@ export function createUpdateSqlContainer(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<SqlContainerGetResults>, SqlContainerGetResults>;
 }
@@ -1943,7 +1817,7 @@ export function _getSqlContainerSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2005,7 +1879,7 @@ export function _listClientEncryptionKeysSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2047,11 +1921,7 @@ export function listClientEncryptionKeys(
       _listClientEncryptionKeysSend(context, resourceGroupName, accountName, databaseName, options),
     _listClientEncryptionKeysDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -2072,7 +1942,7 @@ export function _createUpdateClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2132,7 +2002,7 @@ export function createUpdateClientEncryptionKey(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ClientEncryptionKeyGetResults>, ClientEncryptionKeyGetResults>;
 }
@@ -2153,7 +2023,7 @@ export function _getClientEncryptionKeySend(
       accountName: accountName,
       databaseName: databaseName,
       clientEncryptionKeyName: clientEncryptionKeyName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2201,182 +2071,6 @@ export async function getClientEncryptionKey(
   return _getClientEncryptionKeyDeserialize(result);
 }
 
-export function _sqlContainerRedistributeThroughputSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  redistributeThroughputParameters: RedistributeThroughputParameters,
-  options: SqlResourcesSqlContainerRedistributeThroughputOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/redistributeThroughput{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
-  });
-}
-
-export async function _sqlContainerRedistributeThroughputDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionThroughputInfoResult> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionThroughputInfoResultDeserializer(result.body);
-}
-
-/** Redistribute throughput for an Azure Cosmos DB SQL container */
-export function sqlContainerRedistributeThroughput(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  redistributeThroughputParameters: RedistributeThroughputParameters,
-  options: SqlResourcesSqlContainerRedistributeThroughputOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PhysicalPartitionThroughputInfoResult>,
-  PhysicalPartitionThroughputInfoResult
-> {
-  return getLongRunningPoller(
-    context,
-    _sqlContainerRedistributeThroughputDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sqlContainerRedistributeThroughputSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          containerName,
-          redistributeThroughputParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-}
-
-export function _sqlContainerRetrieveThroughputDistributionSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  retrieveThroughputParameters: RetrieveThroughputParameters,
-  options: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/retrieveThroughputDistribution{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
-  });
-}
-
-export async function _sqlContainerRetrieveThroughputDistributionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionThroughputInfoResult> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionThroughputInfoResultDeserializer(result.body);
-}
-
-/** Retrieve throughput distribution for an Azure Cosmos DB SQL container */
-export function sqlContainerRetrieveThroughputDistribution(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  containerName: string,
-  retrieveThroughputParameters: RetrieveThroughputParameters,
-  options: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<
-  OperationState<PhysicalPartitionThroughputInfoResult>,
-  PhysicalPartitionThroughputInfoResult
-> {
-  return getLongRunningPoller(
-    context,
-    _sqlContainerRetrieveThroughputDistributionDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sqlContainerRetrieveThroughputDistributionSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          containerName,
-          retrieveThroughputParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-}
-
 export function _migrateSqlContainerToManualThroughputSend(
   context: Client,
   resourceGroupName: string,
@@ -2393,7 +2087,7 @@ export function _migrateSqlContainerToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2447,7 +2141,7 @@ export function migrateSqlContainerToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2468,7 +2162,7 @@ export function _migrateSqlContainerToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2522,7 +2216,7 @@ export function migrateSqlContainerToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2544,7 +2238,7 @@ export function _updateSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2602,7 +2296,7 @@ export function updateSqlContainerThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2623,7 +2317,7 @@ export function _getSqlContainerThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       containerName: containerName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2671,174 +2365,6 @@ export async function getSqlContainerThroughput(
   return _getSqlContainerThroughputDeserialize(result);
 }
 
-export function _sqlDatabaseRedistributeThroughputSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  redistributeThroughputParameters: RedistributeThroughputParameters,
-  options: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/redistributeThroughput{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: redistributeThroughputParametersSerializer(redistributeThroughputParameters),
-  });
-}
-
-export async function _sqlDatabaseRedistributeThroughputDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionThroughputInfoResult> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionThroughputInfoResultDeserializer(result.body);
-}
-
-/** Redistribute throughput for an Azure Cosmos DB SQL database */
-export function sqlDatabaseRedistributeThroughput(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  redistributeThroughputParameters: RedistributeThroughputParameters,
-  options: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PhysicalPartitionThroughputInfoResult>,
-  PhysicalPartitionThroughputInfoResult
-> {
-  return getLongRunningPoller(
-    context,
-    _sqlDatabaseRedistributeThroughputDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sqlDatabaseRedistributeThroughputSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          redistributeThroughputParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-}
-
-export function _sqlDatabaseRetrieveThroughputDistributionSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  retrieveThroughputParameters: RetrieveThroughputParameters,
-  options: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: retrieveThroughputParametersSerializer(retrieveThroughputParameters),
-  });
-}
-
-export async function _sqlDatabaseRetrieveThroughputDistributionDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionThroughputInfoResult> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionThroughputInfoResultDeserializer(result.body);
-}
-
-/** Retrieve throughput distribution for an Azure Cosmos DB SQL database */
-export function sqlDatabaseRetrieveThroughputDistribution(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  retrieveThroughputParameters: RetrieveThroughputParameters,
-  options: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams = {
-    requestOptions: {},
-  },
-): PollerLike<
-  OperationState<PhysicalPartitionThroughputInfoResult>,
-  PhysicalPartitionThroughputInfoResult
-> {
-  return getLongRunningPoller(
-    context,
-    _sqlDatabaseRetrieveThroughputDistributionDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sqlDatabaseRetrieveThroughputDistributionSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          retrieveThroughputParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-}
-
 export function _migrateSqlDatabaseToManualThroughputSend(
   context: Client,
   resourceGroupName: string,
@@ -2853,7 +2379,7 @@ export function _migrateSqlDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2905,7 +2431,7 @@ export function migrateSqlDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2924,7 +2450,7 @@ export function _migrateSqlDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -2976,7 +2502,7 @@ export function migrateSqlDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -2996,7 +2522,7 @@ export function _updateSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3052,7 +2578,7 @@ export function updateSqlDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -3071,7 +2597,7 @@ export function _getSqlDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3117,88 +2643,6 @@ export async function getSqlDatabaseThroughput(
   return _getSqlDatabaseThroughputDeserialize(result);
 }
 
-export function _sqlDatabasePartitionMergeSend(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  mergeParameters: MergeParameters,
-  options: SqlResourcesSqlDatabasePartitionMergeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/partitionMerge{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      accountName: accountName,
-      databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: mergeParametersSerializer(mergeParameters),
-  });
-}
-
-export async function _sqlDatabasePartitionMergeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PhysicalPartitionStorageInfoCollection> {
-  const expectedStatuses = ["200", "202", "201"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return physicalPartitionStorageInfoCollectionDeserializer(result.body);
-}
-
-/** Merges the partitions of a SQL database */
-export function sqlDatabasePartitionMerge(
-  context: Client,
-  resourceGroupName: string,
-  accountName: string,
-  databaseName: string,
-  mergeParameters: MergeParameters,
-  options: SqlResourcesSqlDatabasePartitionMergeOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<PhysicalPartitionStorageInfoCollection>,
-  PhysicalPartitionStorageInfoCollection
-> {
-  return getLongRunningPoller(
-    context,
-    _sqlDatabasePartitionMergeDeserialize,
-    ["200", "202", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sqlDatabasePartitionMergeSend(
-          context,
-          resourceGroupName,
-          accountName,
-          databaseName,
-          mergeParameters,
-          options,
-        ),
-      resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
-  ) as PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
-}
-
 export function _listSqlDatabasesSend(
   context: Client,
   resourceGroupName: string,
@@ -3211,7 +2655,7 @@ export function _listSqlDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3251,11 +2695,7 @@ export function listSqlDatabases(
     () => _listSqlDatabasesSend(context, resourceGroupName, accountName, options),
     _listSqlDatabasesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -3273,7 +2713,7 @@ export function _deleteSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3310,7 +2750,7 @@ export function deleteSqlDatabase(
     getInitialResponse: () =>
       _deleteSqlDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -3329,7 +2769,7 @@ export function _createUpdateSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -3381,7 +2821,7 @@ export function createUpdateSqlDatabase(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<SqlDatabaseGetResults>, SqlDatabaseGetResults>;
 }
 
@@ -3399,7 +2839,7 @@ export function _getSqlDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

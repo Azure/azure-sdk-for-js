@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the specified authorization rule.
  *
  * @summary returns the specified authorization rule.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleGet.json
  */
 async function topicAuthorizationRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

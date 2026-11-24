@@ -1,9 +1,9 @@
 {
   "apiVersions": {
-    "Microsoft.Network": "2026-03-01",
+    "Microsoft.Network": "2026-05-01",
     "Microsoft.Compute": "2018-10-01"
   },
-  "emitterVersion": "0.57.1",
+  "emitterVersion": "0.58.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Network",
     "CrossLanguageDefinitionId": {
@@ -607,6 +607,7 @@
       "@azure/arm-network!NetworkVirtualAppliance:interface": "Microsoft.Network.NetworkVirtualAppliance",
       "@azure/arm-network!NetworkVirtualAppliancePropertiesFormat:interface": "Microsoft.Network.NetworkVirtualAppliancePropertiesFormat",
       "@azure/arm-network!VirtualApplianceSkuProperties:interface": "Microsoft.Network.VirtualApplianceSkuProperties",
+      "@azure/arm-network!NetworkVirtualApplianceLoadBalancerConfiguration:interface": "Microsoft.Network.NetworkVirtualApplianceLoadBalancerConfiguration",
       "@azure/arm-network!VirtualApplianceNicProperties:interface": "Microsoft.Network.VirtualApplianceNicProperties",
       "@azure/arm-network!NetworkVirtualAppliancePropertiesFormatNetworkProfile:interface": "Microsoft.Network.NetworkVirtualAppliancePropertiesFormatNetworkProfile",
       "@azure/arm-network!VirtualApplianceNetworkInterfaceConfiguration:interface": "Microsoft.Network.VirtualApplianceNetworkInterfaceConfiguration",
@@ -1191,6 +1192,7 @@
       "@azure/arm-network!KnownApplicationGatewaySkuName:enum": "Microsoft.Network.ApplicationGatewaySkuName",
       "@azure/arm-network!KnownApplicationGatewayTier:enum": "Microsoft.Network.ApplicationGatewayTier",
       "@azure/arm-network!KnownApplicationGatewaySkuFamily:enum": "Microsoft.Network.ApplicationGatewaySkuFamily",
+      "@azure/arm-network!KnownApplicationGatewayDeploymentTier:enum": "Microsoft.Network.ApplicationGatewayDeploymentTier",
       "@azure/arm-network!KnownApplicationGatewaySslProtocol:enum": "Microsoft.Network.ApplicationGatewaySslProtocol",
       "@azure/arm-network!KnownApplicationGatewaySslPolicyType:enum": "Microsoft.Network.ApplicationGatewaySslPolicyType",
       "@azure/arm-network!KnownApplicationGatewaySslPolicyName:enum": "Microsoft.Network.ApplicationGatewaySslPolicyName",
@@ -1333,6 +1335,7 @@
       "@azure/arm-network!KnownNspProvisioningState:enum": "Microsoft.Network.NspProvisioningState",
       "@azure/arm-network!KnownNetworkProtocol:enum": "Microsoft.Network.NetworkProtocol",
       "@azure/arm-network!KnownVnetLocalRouteOverrideCriteria:enum": "Microsoft.Network.VnetLocalRouteOverrideCriteria",
+      "@azure/arm-network!KnownNetworkVirtualApplianceLoadDistribution:enum": "Microsoft.Network.NetworkVirtualApplianceLoadDistribution",
       "@azure/arm-network!KnownNicTypeInResponse:enum": "Microsoft.Network.NicTypeInResponse",
       "@azure/arm-network!KnownNicTypeInRequest:enum": "Microsoft.Network.NicTypeInRequest",
       "@azure/arm-network!KnownNvaNicType:enum": "Microsoft.Network.NvaNicType",

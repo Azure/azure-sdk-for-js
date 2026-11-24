@@ -24,7 +24,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,7 +51,6 @@ export async function _getDeserialize(
 
   return privateLinkResourcesListResultDeserializer(result.body);
 }
-
 /** Gets lists of resources that supports Privatelinks. */
 export async function get(
   context: Client,

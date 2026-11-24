@@ -20,6 +20,10 @@
   "//metadata": {
     "constantPaths": [
       {
+        "path": "src/accessControlRestClient.ts",
+        "prefix": "userAgentInfo"
+      },
+      {
         "path": "swagger/README.md",
         "prefix": "package-version"
       }

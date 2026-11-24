@@ -8,11 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountCreateMax.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountCreateMax.json
  */
 async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.createOrUpdate("rg1", "ddb1", {
     location: "westus",
@@ -39,7 +39,6 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
       { failoverPriority: 0, locationName: "southcentralus", isZoneRedundant: false },
       { failoverPriority: 1, locationName: "eastus", isZoneRedundant: false },
     ],
-    createMode: "Default",
     consistencyPolicy: {
       defaultConsistencyLevel: "BoundedStaleness",
       maxIntervalInSeconds: 10,
@@ -50,7 +49,12 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
     enableFreeTier: false,
     apiProperties: { serverVersion: "3.2" },
     enableAnalyticalStorage: true,
+    enableBurstCapacity: true,
+    enablePriorityBasedExecution: true,
+    defaultPriorityLevel: "Low",
+    enablePerRegionPerPartitionAutoscale: true,
     analyticalStorageConfiguration: { schemaType: "WellDefined" },
+    createMode: "Default",
     backupPolicy: {
       type: "Periodic",
       periodicModeProperties: {
@@ -58,6 +62,7 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
         backupRetentionIntervalInHours: 8,
         backupStorageRedundancy: "Geo",
       },
+      backupRetentionLockExpirationTimestamp: new Date("2030-01-01T00:00:00Z"),
     },
     cors: [{ allowedOrigins: "https://test" }],
     networkAclBypass: "AzureServices",
@@ -65,15 +70,9 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
       "/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.Synapse/workspaces/workspaceName",
     ],
     capacity: { totalThroughputLimit: 2000 },
-    capacityMode: "Provisioned",
-    enableMaterializedViews: false,
-    enableBurstCapacity: true,
     enforceHierarchicalPartitionKeyIdLastLevel: false,
+    perPartitionAutomaticFailoverEnabled: true,
     minimalTlsVersion: "Tls12",
-    enablePriorityBasedExecution: true,
-    defaultPriorityLevel: "Low",
-    enablePerRegionPerPartitionAutoscale: true,
-    enableAllVersionsAndDeletesChangeFeed: false,
   });
   console.log(result);
 }
@@ -82,17 +81,17 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountCreateMin.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDBDatabaseAccountCreateMin(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.createOrUpdate("rg1", "ddb1", {
     location: "westus",
     databaseAccountOfferType: "Standard",
-    locations: [{ failoverPriority: 0, locationName: "southcentralus", isZoneRedundant: false }],
     createMode: "Default",
+    locations: [{ failoverPriority: 0, locationName: "southcentralus", isZoneRedundant: false }],
   });
   console.log(result);
 }
@@ -101,44 +100,43 @@ async function cosmosDBDatabaseAccountCreateMin(): Promise<void> {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBRestoreDatabaseAccountCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDBRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.createOrUpdate("rg1", "ddb1", {
-    kind: "GlobalDocumentDB",
     location: "westus",
-    apiProperties: { serverVersion: "3.2" },
+    tags: {},
+    kind: "GlobalDocumentDB",
+    databaseAccountOfferType: "Standard",
+    locations: [{ failoverPriority: 0, locationName: "southcentralus", isZoneRedundant: false }],
+    createMode: "Restore",
+    restoreParameters: {
+      restoreMode: "PointInTime",
+      restoreSource:
+        "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/westus/restorableDatabaseAccounts/1a97b4bb-f6a0-430e-ade1-638d781830cc",
+      restoreTimestampInUtc: new Date("2021-03-11T22:05:09Z"),
+      restoreWithTtlDisabled: false,
+      databasesToRestore: [
+        { databaseName: "db1", collectionNames: ["collection1", "collection2"] },
+        { databaseName: "db2", collectionNames: ["collection3", "collection4"] },
+      ],
+      sourceBackupLocation: "westus",
+    },
     backupPolicy: { type: "Continuous", continuousModeProperties: { tier: "Continuous30Days" } },
     consistencyPolicy: {
       defaultConsistencyLevel: "BoundedStaleness",
       maxIntervalInSeconds: 10,
       maxStalenessPrefix: 200,
     },
-    createMode: "Restore",
-    databaseAccountOfferType: "Standard",
-    enableAnalyticalStorage: true,
-    enableFreeTier: false,
-    enableMaterializedViews: false,
     keyVaultKeyUri: "https://myKeyVault.vault.azure.net",
-    locations: [{ failoverPriority: 0, isZoneRedundant: false, locationName: "southcentralus" }],
+    enableFreeTier: false,
+    apiProperties: { serverVersion: "3.2" },
+    enableAnalyticalStorage: true,
     enforceHierarchicalPartitionKeyIdLastLevel: false,
     minimalTlsVersion: "Tls",
-    restoreParameters: {
-      databasesToRestore: [
-        { collectionNames: ["collection1", "collection2"], databaseName: "db1" },
-        { collectionNames: ["collection3", "collection4"], databaseName: "db2" },
-      ],
-      restoreMode: "PointInTime",
-      restoreSource:
-        "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.DocumentDB/locations/westus/restorableDatabaseAccounts/1a97b4bb-f6a0-430e-ade1-638d781830cc",
-      restoreTimestampInUtc: new Date("2021-03-11T22:05:09Z"),
-      restoreWithTtlDisabled: false,
-      sourceBackupLocation: "westus",
-    },
-    tags: {},
   });
   console.log(result);
 }

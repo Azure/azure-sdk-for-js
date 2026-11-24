@@ -1,5 +1,17 @@
 # Release History
 
+## 4.15.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Removed `GitHubActionsCredential`. [#40893](https://github.com/Azure/azure-sdk-for-js/issues/40893)
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.15.0-beta.3 (Unreleased)
 
 ### Features Added

@@ -33,7 +33,7 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
     if (this.multiEndpointRouting) {
-      this.routingSender = new RoutingSender(options, this.instrumentationKey, this.aadAudience);
+      this.routingSender = new RoutingSender(options, this.instrumentationKey);
     }
     this._sender = new HttpSender({
       endpointUrl: this.endpointUrl,
