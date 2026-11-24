@@ -368,15 +368,6 @@ export class Recorder {
           removalList.concat(options.removeCentralSanitizers ?? []),
         );
 
-        // Make sure the default matcher is applied in playback mode, so that the recorder's
-        // default matching options (see `setMatcher`) take effect for every test.
-        // Skip if a matcher has already been set (e.g. by the test before start(),
-        // or by preStart in the browser) to avoid overriding it.
-        if (isPlaybackMode() && !this.matcherSet) {
-          logger.verbose("[Recorder#start] Setting the default matcher");
-          await this.setMatcher("CustomDefaultMatcher");
-        }
-
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
@@ -466,17 +457,9 @@ export class Recorder {
           )
         : options.excludedHeaders;
 
-      // Always ignore the "api-version" query parameter so that recordings only need to be
-      // re-recorded when there are actual API changes, not api-version upgrades.
-      // Note: this has no effect for HeaderlessMatcher, which does not accept options.
-      const ignoredQueryParameters = Array.from(
-        new Set([...(options.ignoredQueryParameters ?? []), "api-version"]),
-      );
-
       const updatedOptions = {
         ...options,
         excludedHeaders,
-        ignoredQueryParameters,
       };
       if (matcher === "BodilessMatcher") {
         updatedOptions.compareBodies = false;

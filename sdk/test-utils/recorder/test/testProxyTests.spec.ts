@@ -292,11 +292,12 @@ import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "
           );
         });
 
-        it("ignores api-version by default", async () => {
+        it("ignoredQueryParameters - ignores api-version when configured", async () => {
           await recorder.start({ envSetupForPlayback: {} });
+          await recorder.setMatcher("CustomDefaultMatcher", {
+            ignoredQueryParameters: ["api-version"],
+          });
 
-          // No setMatcher call: api-version differs between record and playback,
-          // and should be ignored by the default matcher set in start().
           await makeRequestAndVerifyResponse(
             client,
             {
@@ -311,28 +312,29 @@ import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "
           );
         });
 
-        it("ignoredQueryParameters - custom parameter is ignored", async () => {
+        it("api-version differences fail by default", async () => {
           await recorder.start({ envSetupForPlayback: {} });
-          await recorder.setMatcher("CustomDefaultMatcher", {
-            ignoredQueryParameters: ["foo"],
-          });
 
-          await makeRequestAndVerifyResponse(
-            client,
-            {
-              path: `/sample_response?foo=${isPlaybackMode() ? "playback" : "record"}`,
-              body: undefined,
-              method: "POST",
-              headers: [{ headerName: "Content-Type", value: "text/plain" }],
-            },
-            { val: "abc" },
-          );
+          const request = {
+            path: `/sample_response?api-version=${isPlaybackMode() ? "2025-01-01" : "2024-01-01"}`,
+            body: undefined,
+            method: "POST" as const,
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          };
+
+          if (isPlaybackMode()) {
+            await expect(
+              makeRequestAndVerifyResponse(client, request, { val: "abc" }),
+            ).rejects.toThrow();
+          } else {
+            await makeRequestAndVerifyResponse(client, request, { val: "abc" });
+          }
         });
 
-        it("ignoredQueryParameters - api-version is still ignored alongside custom parameters", async () => {
+        it("ignoredQueryParameters - ignores api-version and custom parameters", async () => {
           await recorder.start({ envSetupForPlayback: {} });
           await recorder.setMatcher("CustomDefaultMatcher", {
-            ignoredQueryParameters: ["foo"],
+            ignoredQueryParameters: ["api-version", "foo"],
           });
 
           // Both the custom parameter and api-version differ between record and playback.
@@ -352,6 +354,9 @@ import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "
 
         it("ignoredQueryParameters - non-ignored query differences still fail", async () => {
           await recorder.start({ envSetupForPlayback: {} });
+          await recorder.setMatcher("CustomDefaultMatcher", {
+            ignoredQueryParameters: ["api-version"],
+          });
 
           // api-version is ignored, but "bar" is not, so playback must not match the recording.
           const request = {

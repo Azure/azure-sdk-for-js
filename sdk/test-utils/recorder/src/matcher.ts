@@ -27,6 +27,7 @@ export interface CustomMatcherOptions {
   /**
    * Array of query parameters that should be ignored during matching, e.g. ["api-version"].
    * The values of these query parameters will not be compared when matching requests against the recording.
+   * No query parameters are ignored by default.
    */
   ignoredQueryParameters?: string[];
 }

@@ -30,6 +30,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
   - [TEST_MODE](#test_mode)
 - [Onboard to asset-sync workflow](#onboard-to-asset---sync-workflow)
 - [Using the `Recorder`](#using-the-recorder)
+  - [Ignoring query parameters during playback](#ignoring-query-parameters-during-playback)
   - [Recorder#variable()](#recordervariable)
   - [Environment Variables](#environment-variables)
   - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
@@ -175,6 +176,18 @@ await recorder.stop();
 - Call this method to ping the test-proxy tool with a stop request, this helps to stop recording, saves the recording file in record mode.
 
 _Note: Instantiating, starting, and stopping the recorder all have no effect in the `live` mode (`TEST_MODE=live`). In `live` mode, the redirection to the test-proxy tool doesn't happen and the requests are sent to the services as usual._
+
+### Ignoring query parameters during playback
+
+Query parameters are matched by default. To ignore specific parameters, explicitly configure the matcher after starting the recorder:
+
+<!-- dev-tool snippets ignore -->
+
+```ts
+await recorder.setMatcher("CustomDefaultMatcher", {
+  ignoredQueryParameters: ["api-version"],
+});
+```
 
 ### Recorder#variable()
 
