@@ -83,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
      listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
      purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-@@ -359,16 +360,17 @@
+@@ -355,16 +356,17 @@
      lifetimeActions?: KeyRotationLifetimeAction[];
  }
  
