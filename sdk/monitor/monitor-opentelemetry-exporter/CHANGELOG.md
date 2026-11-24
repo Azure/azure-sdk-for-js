@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added reason codes and affected-item counts to multi-endpoint routing diagnostics for invalid destinations, export and retry storage failures, expired batches, and capacity limits. Diagnostics omit destination values and telemetry contents.
+- Added reason codes and affected-item counts to multi-endpoint routing diagnostics for invalid destinations, export and retry storage failures, expired batches, and capacity limits. Diagnostics omit destination values and telemetry contents. [#40897](https://github.com/Azure/azure-sdk-for-js/pull/40897)
 
 ### Breaking Changes
 
