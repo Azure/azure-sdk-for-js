@@ -555,7 +555,7 @@
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt %mgmt-review-needed
+# PRLabel: %Mgmt
 /sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
