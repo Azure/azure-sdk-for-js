@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the container registries under the specified resource group.
  *
  * @summary lists all the container registries under the specified resource group.
- * x-ms-original-file: 2026-10-15-preview/RegistryListByResourceGroup.json
+ * x-ms-original-file: 2026-11-01/RegistryListByResourceGroup.json
  */
 async function registryListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
