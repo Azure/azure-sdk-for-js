@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB Gremlin database
  *
  * @summary create or update an Azure Cosmos DB Gremlin database
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinDatabaseCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBGremlinDatabaseCreateUpdate.json
  */
 async function cosmosDBGremlinDatabaseCreateUpdate() {
   const credential = new DefaultAzureCredential();

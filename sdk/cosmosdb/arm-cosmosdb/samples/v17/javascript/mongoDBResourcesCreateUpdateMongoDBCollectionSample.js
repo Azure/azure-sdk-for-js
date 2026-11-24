@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an Azure Cosmos DB MongoDB Collection
  *
  * @summary create or update an Azure Cosmos DB MongoDB Collection
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBCollectionCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBCollectionCreateUpdate.json
  */
 async function cosmosDBMongoDBCollectionCreateUpdate() {
   const credential = new DefaultAzureCredential();

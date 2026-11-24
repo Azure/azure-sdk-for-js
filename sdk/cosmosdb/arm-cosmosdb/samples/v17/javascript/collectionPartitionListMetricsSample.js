@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the metrics determined by the given filter for the given collection, split by partition.
  *
  * @summary retrieves the metrics determined by the given filter for the given collection, split by partition.
- * x-ms-original-file: 2026-03-15/CosmosDBCollectionPartitionGetMetrics.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCollectionPartitionGetMetrics.json
  */
 async function cosmosDBCollectionPartitionGetMetrics() {
   const credential = new DefaultAzureCredential();

@@ -6,8 +6,8 @@ import {
   AzureMonitorTraceExporter,
   RateLimitedSampler,
 } from "@azure/monitor-opentelemetry-exporter";
-import type { Sampler } from "@opentelemetry/sdk-trace-base";
-import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { Sampler } from "@opentelemetry/sdk-trace";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace";
 import type {
   HttpInstrumentationConfig,
   IgnoreOutgoingRequestFunction,
@@ -19,6 +19,7 @@ import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
 
 import type { InternalConfig } from "../shared/config.js";
+import { getPositiveNumberFromEnv } from "../shared/envConfig.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { ignoreOutgoingRequestHook } from "../utils/common.js";
 import { AzureMonitorSpanProcessor } from "./spanProcessor.js";
@@ -66,7 +67,13 @@ export class TraceHandler {
       this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
     }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
-    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter);
+    this._batchSpanProcessor = new BatchSpanProcessor({
+      exporter: this._azureExporter,
+      maxQueueSize: getPositiveNumberFromEnv("OTEL_BSP_MAX_QUEUE_SIZE"),
+      maxExportBatchSize: getPositiveNumberFromEnv("OTEL_BSP_MAX_EXPORT_BATCH_SIZE"),
+      scheduledDelayMillis: getPositiveNumberFromEnv("OTEL_BSP_SCHEDULE_DELAY"),
+      exportTimeoutMillis: getPositiveNumberFromEnv("OTEL_BSP_EXPORT_TIMEOUT"),
+    });
     this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();

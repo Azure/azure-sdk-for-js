@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  *
  * @summary creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: 2026-01-01/InboundSecurityRulePut.json
+ * x-ms-original-file: 2026-05-01/InboundSecurityRulePut.json
  */
 async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,8 +30,65 @@ async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ * x-ms-original-file: 2026-05-01/InboundSecurityRuleSourceIPProtocolPut.json
+ */
+async function createOrUpdateAPermanentInternetIngressRuleWithSourceIPProtocolLoadDistribution(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.inboundSecurityRuleOperations.createOrUpdate("rg1", "nva", "rule1", {
+    ruleType: "Permanent",
+    rules: [
+      {
+        name: "inboundRule1",
+        appliesOn: ["slbip1"],
+        destinationPortRange: 443,
+        sourceAddressPrefix: "50.20.121.5/32",
+        protocol: "TCP",
+        loadBalancerConfiguration: {
+          loadDistribution: "SourceIPProtocol",
+          idleTimeoutInMinutes: 15,
+        },
+      },
+    ],
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ *
+ * @summary creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ * x-ms-original-file: 2026-05-01/InboundSecurityRuleSourceIPPut.json
+ */
+async function createOrUpdateAPermanentInternetIngressRuleWithSourceIPLoadDistribution(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.inboundSecurityRuleOperations.createOrUpdate("rg1", "nva", "rule1", {
+    ruleType: "Permanent",
+    rules: [
+      {
+        name: "inboundRule1",
+        appliesOn: ["slbip1"],
+        destinationPortRange: 443,
+        sourceAddressPrefix: "50.20.121.5/32",
+        protocol: "TCP",
+        loadBalancerConfiguration: { loadDistribution: "SourceIP", idleTimeoutInMinutes: 15 },
+      },
+    ],
+  });
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await createNetworkVirtualApplianceInboundSecurityRules();
+  await createOrUpdateAPermanentInternetIngressRuleWithSourceIPProtocolLoadDistribution();
+  await createOrUpdateAPermanentInternetIngressRuleWithSourceIPLoadDistribution();
 }
 
 main().catch(console.error);

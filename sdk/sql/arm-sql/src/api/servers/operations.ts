@@ -52,7 +52,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,6 +81,7 @@ export async function _checkNameAvailabilityDeserialize(
 
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
+
 /** Determines whether a resource can be created with the specified name. */
 export async function checkNameAvailability(
   context: Client,
@@ -103,7 +104,7 @@ export function _refreshStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,6 +131,7 @@ export async function _refreshStatusDeserialize(
 
   return refreshExternalGovernanceStatusOperationResultDeserializer(result.body);
 }
+
 /** Refresh external governance enablement status. */
 export function refreshStatus(
   context: Client,
@@ -145,7 +147,7 @@ export function refreshStatus(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _refreshStatusSend(context, resourceGroupName, serverName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<
     OperationState<RefreshExternalGovernanceStatusOperationResult>,
     RefreshExternalGovernanceStatusOperationResult
@@ -165,7 +167,7 @@ export function _importDatabaseSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,6 +196,7 @@ export async function _importDatabaseDeserialize(
 
   return importExportOperationResultDeserializer(result.body);
 }
+
 /** Imports a bacpac into a new database. */
 export function importDatabase(
   context: Client,
@@ -208,7 +211,7 @@ export function importDatabase(
     getInitialResponse: () =>
       _importDatabaseSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ImportExportOperationResult>, ImportExportOperationResult>;
 }
 
@@ -220,7 +223,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/servers{?api%2Dversion,%24expand}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -246,6 +249,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _serverListResultDeserializer(result.body);
 }
+
 /** Gets a list of all servers in the subscription. */
 export function list(
   context: Client,
@@ -259,7 +263,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -274,7 +278,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -302,6 +306,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _serverListResultDeserializer(result.body);
 }
+
 /** Gets a list of servers in a resource groups. */
 export function listByResourceGroup(
   context: Client,
@@ -316,7 +321,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -333,7 +338,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -355,6 +360,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a server. */
 export function $delete(
   context: Client,
@@ -367,7 +373,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, serverName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -384,7 +390,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,6 +417,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return serverDeserializer(result.body);
 }
+
 /** Updates a server. */
 export function update(
   context: Client,
@@ -425,7 +432,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Server>, Server>;
 }
 
@@ -442,7 +449,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -469,6 +476,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return serverDeserializer(result.body);
 }
+
 /** Creates or updates a server. */
 export function createOrUpdate(
   context: Client,
@@ -483,7 +491,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, serverName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Server>, Server>;
 }
 
@@ -499,7 +507,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       serverName: serverName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24expand": options?.expand,
     },
     {
@@ -525,6 +533,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return serverDeserializer(result.body);
 }
+
 /** Gets a server. */
 export async function get(
   context: Client,

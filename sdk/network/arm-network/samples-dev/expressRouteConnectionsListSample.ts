@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists ExpressRouteConnections.
  *
  * @summary lists ExpressRouteConnections.
- * x-ms-original-file: 2026-01-01/ExpressRouteConnectionList.json
+ * x-ms-original-file: 2026-05-01/ExpressRouteConnectionList.json
  */
 async function expressRouteConnectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

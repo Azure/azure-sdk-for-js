@@ -36,7 +36,7 @@ export function _listByInstanceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       managedInstanceName: managedInstanceName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,6 +63,7 @@ export async function _listByInstanceDeserialize(
 
   return _serverTrustGroupListResultDeserializer(result.body);
 }
+
 /** Gets a server trust groups by instance name. */
 export function listByInstance(
   context: Client,
@@ -78,7 +79,7 @@ export function listByInstance(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -95,7 +96,7 @@ export function _listByLocationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       locationName: locationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export async function _listByLocationDeserialize(
 
   return _serverTrustGroupListResultDeserializer(result.body);
 }
+
 /** Lists a server trust group. */
 export function listByLocation(
   context: Client,
@@ -137,7 +139,7 @@ export function listByLocation(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -156,7 +158,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       serverTrustGroupName: serverTrustGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,6 +180,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Deletes a server trust group. */
 export function $delete(
   context: Client,
@@ -192,7 +195,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, locationName, serverTrustGroupName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -211,7 +214,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       serverTrustGroupName: serverTrustGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,6 +243,7 @@ export async function _createOrUpdateDeserialize(
 
   return serverTrustGroupDeserializer(result.body);
 }
+
 /** Creates or updates a server trust group. */
 export function createOrUpdate(
   context: Client,
@@ -262,7 +266,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01-preview",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<ServerTrustGroup>, ServerTrustGroup>;
 }
 
@@ -280,7 +284,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       locationName: locationName,
       serverTrustGroupName: serverTrustGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -305,6 +309,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Se
 
   return serverTrustGroupDeserializer(result.body);
 }
+
 /** Gets a server trust group. */
 export async function get(
   context: Client,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
  *
  * @summary retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
- * x-ms-original-file: 2026-03-15/gremlinrbac/CosmosDBGremlinRoleDefinitionList.json
+ * x-ms-original-file: 2026-07-15/gremlinrbac/CosmosDBGremlinRoleDefinitionList.json
  */
 async function cosmosDBGremlinRoleDefinitionList() {
   const credential = new DefaultAzureCredential();

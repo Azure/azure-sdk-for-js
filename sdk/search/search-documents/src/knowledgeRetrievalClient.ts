@@ -210,13 +210,18 @@ export class KnowledgeRetrievalClient {
    *   new AzureKeyCredential("<apiKey>"),
    * );
    *
-   * for await (const event of await client.retrieveStream({
-   *   intents: [{ type: "semantic", search: "Summarize the indexed information." }],
-   *   includeActivity: true,
-   * })) {
+   * const controller = new AbortController();
+   * for await (const event of await client.retrieveStream(
+   *   {
+   *     intents: [{ type: "semantic", search: "Summarize the indexed information." }],
+   *     includeActivity: true,
+   *   },
+   *   { abortSignal: controller.signal },
+   * )) {
    *   if (event.event === "activity.completed") {
-   *     console.log(`Activity ${event.data.id} took ${event.data.elapsedInMs}ms`);
+   *     console.log(`Activity ${event.data.id} took ${event.data.elapsedMs}ms`);
    *   } else if (event.event === "response.completed") {
+   *     console.log(event.data.statusCode === 206 ? "Partial results" : "Complete results");
    *     console.log(event.data.response.response);
    *   } else if (event.event === "error") {
    *     throw new Error(event.data.error.message);

@@ -52,7 +52,7 @@ export async function _getDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Gets the status of the specified scheduled action operation. */
+/** Gets the status of the specified recurring bulk action operation. */
 export async function get(
   context: Client,
   location: string,

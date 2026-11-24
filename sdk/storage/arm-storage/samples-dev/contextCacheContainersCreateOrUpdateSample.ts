@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a container in a Context Cache.
  *
  * @summary create or update a container in a Context Cache.
- * x-ms-original-file: 2026-06-01/StorageContextCacheContainerCRUD/ContextCacheContainers_CreateOrUpdate.json
+ * x-ms-original-file: 2026-09-01/StorageContextCacheContainerCRUD/ContextCacheContainers_CreateOrUpdate.json
  */
 async function createAContextCacheContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountCreateMax.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountCreateMax.json
  */
 async function cosmosDBDatabaseAccountCreateMax() {
   const credential = new DefaultAzureCredential();
@@ -62,6 +62,7 @@ async function cosmosDBDatabaseAccountCreateMax() {
         backupRetentionIntervalInHours: 8,
         backupStorageRedundancy: "Geo",
       },
+      backupRetentionLockExpirationTimestamp: new Date("2030-01-01T00:00:00Z"),
     },
     cors: [{ allowedOrigins: "https://test" }],
     networkAclBypass: "AzureServices",
@@ -70,6 +71,7 @@ async function cosmosDBDatabaseAccountCreateMax() {
     ],
     capacity: { totalThroughputLimit: 2000 },
     enforceHierarchicalPartitionKeyIdLastLevel: false,
+    perPartitionAutomaticFailoverEnabled: true,
     minimalTlsVersion: "Tls12",
   });
   console.log(result);
@@ -79,7 +81,7 @@ async function cosmosDBDatabaseAccountCreateMax() {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountCreateMin.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDBDatabaseAccountCreateMin() {
   const credential = new DefaultAzureCredential();
@@ -98,7 +100,7 @@ async function cosmosDBDatabaseAccountCreateMin() {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2026-03-15/CosmosDBRestoreDatabaseAccountCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDBRestoreDatabaseAccountCreateUpdateJson() {
   const credential = new DefaultAzureCredential();

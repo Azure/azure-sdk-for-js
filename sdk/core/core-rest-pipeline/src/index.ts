@@ -108,6 +108,7 @@ export {
   type AuthorizeRequestOptions,
   type AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy.js";
+export { authorizeRequestOnTenantChallenge } from "./authorizeRequestOnTenantChallenge.js";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
 export {
   auxiliaryAuthenticationHeaderPolicy,

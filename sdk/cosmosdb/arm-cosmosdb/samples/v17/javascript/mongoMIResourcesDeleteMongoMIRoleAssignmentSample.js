@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB MongoMI Role Assignment.
  *
  * @summary deletes an existing Azure Cosmos DB MongoMI Role Assignment.
- * x-ms-original-file: 2026-03-15/mongoMIrbac/CosmosDBMongoMIRoleAssignmentDelete.json
+ * x-ms-original-file: 2026-07-15/mongoMIrbac/CosmosDBMongoMIRoleAssignmentDelete.json
  */
 async function cosmosDBMongoMIRoleAssignmentDelete() {
   const credential = new DefaultAzureCredential();

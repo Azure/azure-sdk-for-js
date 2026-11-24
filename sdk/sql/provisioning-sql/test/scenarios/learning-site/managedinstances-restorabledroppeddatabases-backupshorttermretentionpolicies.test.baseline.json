@@ -1,0 +1,66 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "managedInstance": {
+          "bicepIdentifier": "managedInstance",
+          "type": "Microsoft.Sql/managedInstances",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstancesrest"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "restorableDroppedDatabase": {
+          "bicepIdentifier": "restorableDroppedDatabase",
+          "type": "Microsoft.Sql/managedInstances/restorableDroppedDatabases",
+          "apiVersion": "2025-01-01",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "managedinstancesrest"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "managedInstance"
+              }
+            }
+          }
+        },
+        "backupShortTermRetentionPolicy": {
+          "bicepIdentifier": "backupShortTermRetentionPolicy",
+          "type": "Microsoft.Sql/managedInstances/restorableDroppedDatabases/backupShortTermRetentionPolicies",
+          "apiVersion": "2025-01-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "default"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "restorableDroppedDatabase"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

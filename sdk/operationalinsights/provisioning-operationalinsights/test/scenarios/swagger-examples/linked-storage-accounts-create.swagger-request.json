@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "storageAccountIds": [
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mms-eus/providers/Microsoft.Storage/storageAccounts/testStorageA",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/mms-eus/providers/Microsoft.Storage/storageAccounts/testStorageB"
+    ]
+  }
+}

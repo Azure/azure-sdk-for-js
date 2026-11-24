@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list private link resources for the given provisioning service
  *
  * @summary list private link resources for the given provisioning service
- * x-ms-original-file: 2026-08-31/DPSListPrivateLinkResources.json
+ * x-ms-original-file: 2026-11-01/DPSListPrivateLinkResources.json
  */
 async function privateLinkResourcesList() {
   const credential = new DefaultAzureCredential();

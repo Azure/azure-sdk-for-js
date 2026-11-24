@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
+import type { SiteRecoveryManagementContext } from "../../api/siteRecoveryManagementContext.js";
 import { list, create, get } from "../../api/replicationVaultSetting/operations.js";
-import {
+import type {
   ReplicationVaultSettingListOptionalParams,
   ReplicationVaultSettingCreateOptionalParams,
   ReplicationVaultSettingGetOptionalParams,
 } from "../../api/replicationVaultSetting/options.js";
-import { VaultSetting, VaultSettingCreationInput } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { VaultSetting, VaultSettingCreationInput } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationVaultSetting operations. */
 export interface ReplicationVaultSettingOperations {

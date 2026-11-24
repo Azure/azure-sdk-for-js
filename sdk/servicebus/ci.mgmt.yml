@@ -13,6 +13,7 @@ trigger:
       - sdk/servicebus-map/ci.mgmt.yml
       - sdk/servicebus/arm-servicebus
       - sdk/servicebus/ci.mgmt.yml
+      - sdk/servicebus/provisioning-servicebus
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/servicebus-map/ci.mgmt.yml
       - sdk/servicebus/arm-servicebus
       - sdk/servicebus/ci.mgmt.yml
+      - sdk/servicebus/provisioning-servicebus
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +36,5 @@ extends:
     Artifacts:
       - name: azure-arm-servicebus
         safeName: azurearmservicebus
+      - name: azure-provisioning-servicebus
+        safeName: azureprovisioningservicebus

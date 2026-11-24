@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list private links on the given resource
  *
  * @summary list private links on the given resource
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateLinkResourceList.json
+ * x-ms-original-file: 2026-09-01/MongoClusters_PrivateLinkResourceList.json
  */
-async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource(): Promise<void> {
+async function listsThePrivateLinkResourcesAvailableOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource(): P
 }
 
 async function main(): Promise<void> {
-  await listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
+  await listsThePrivateLinkResourcesAvailableOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

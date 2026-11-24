@@ -49,6 +49,9 @@ export interface AuthorizeRequestOnChallengeOptions {
 }
 
 // @public
+export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+
+// @public
 export interface AuthorizeRequestOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     logger?: AzureLogger;

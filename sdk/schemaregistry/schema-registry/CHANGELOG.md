@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Removed the direct dependency on `@azure/core-client`, preserving the existing client and operation option types. [#40689](https://github.com/Azure/azure-sdk-for-js/pull/40689)
+
 ## 1.4.0-beta.1 (2025-08-21)
 
 ## 1.3.0 (2024-09-10)

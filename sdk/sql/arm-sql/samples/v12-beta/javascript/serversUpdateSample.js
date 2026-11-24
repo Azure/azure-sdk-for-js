@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to updates a server.
  *
  * @summary updates a server.
- * x-ms-original-file: 2025-08-01-preview/ServerUpdate.json
+ * x-ms-original-file: 2026-08-01-preview/ServerUpdate.json
  */
 async function updateAServer() {
   const credential = new DefaultAzureCredential();

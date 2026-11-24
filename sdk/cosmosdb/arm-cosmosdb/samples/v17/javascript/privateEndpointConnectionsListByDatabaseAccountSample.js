@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all private endpoint connections on a Cosmos DB account.
  *
  * @summary list all private endpoint connections on a Cosmos DB account.
- * x-ms-original-file: 2026-03-15/CosmosDBPrivateEndpointConnectionListGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBPrivateEndpointConnectionListGet.json
  */
 async function getsPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

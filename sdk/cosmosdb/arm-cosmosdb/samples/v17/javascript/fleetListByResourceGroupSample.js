@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all the fleets under the specified subscription and resource group.
  *
  * @summary lists all the fleets under the specified subscription and resource group.
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetList_ListByResourceGroup.json
+ * x-ms-original-file: 2026-07-15/fleet/CosmosDBFleetList_ListByResourceGroup.json
  */
 async function cosmosDBFleetListByResourceGroup() {
   const credential = new DefaultAzureCredential();

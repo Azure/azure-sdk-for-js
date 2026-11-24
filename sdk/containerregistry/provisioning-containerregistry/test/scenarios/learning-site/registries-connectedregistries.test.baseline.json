@@ -1,0 +1,275 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "registry": {
+          "bicepIdentifier": "registry",
+          "type": "Microsoft.ContainerRegistry/registries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "crtest02"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "adminUserEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "anonymousPullEnabled": {
+                    "kind": "boolean",
+                    "value": false
+                  },
+                  "dataEndpointEnabled": {
+                    "kind": "boolean",
+                    "value": true
+                  },
+                  "networkRuleBypassOptions": {
+                    "kind": "string",
+                    "value": "AzureServices"
+                  },
+                  "policies": {
+                    "kind": "object",
+                    "value": {
+                      "exportPolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "enabled"
+                          }
+                        }
+                      },
+                      "quarantinePolicy": {
+                        "kind": "object",
+                        "value": {
+                          "status": {
+                            "kind": "string",
+                            "value": "disabled"
+                          }
+                        }
+                      },
+                      "retentionPolicy": {
+                        "kind": "object",
+                        "value": {}
+                      },
+                      "trustPolicy": {
+                        "kind": "object",
+                        "value": {}
+                      }
+                    }
+                  },
+                  "publicNetworkAccess": {
+                    "kind": "string",
+                    "value": "Enabled"
+                  },
+                  "zoneRedundancy": {
+                    "kind": "string",
+                    "value": "Disabled"
+                  }
+                }
+              },
+              "sku": {
+                "kind": "object",
+                "value": {
+                  "name": {
+                    "kind": "string",
+                    "value": "Premium"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "scopeMap": {
+          "bicepIdentifier": "scopeMap",
+          "type": "Microsoft.ContainerRegistry/registries/scopeMaps",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "scopemap01"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "actions": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "repositories/hello-world/content/delete"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "repositories/hello-world/content/read"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "repositories/hello-world/content/write"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "repositories/hello-world/metadata/read"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "repositories/hello-world/metadata/write"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "gateway/connected01/config/read"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "gateway/connected01/config/write"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "gateway/connected01/message/read"
+                      },
+                      {
+                        "kind": "string",
+                        "value": "gateway/connected01/message/write"
+                      }
+                    ]
+                  },
+                  "description": {
+                    "kind": "string",
+                    "value": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "token": {
+          "bicepIdentifier": "token",
+          "type": "Microsoft.ContainerRegistry/registries/tokens",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "token01"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "scopeMapId": {
+                    "kind": "property-access",
+                    "base": {
+                      "kind": "identifier",
+                      "id": "scopeMap"
+                    },
+                    "property": "id",
+                    "nullish": false
+                  },
+                  "status": {
+                    "kind": "string",
+                    "value": "enabled"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "connectedRegistry": {
+          "bicepIdentifier": "connectedRegistry",
+          "type": "Microsoft.ContainerRegistry/registries/connectedRegistries",
+          "apiVersion": "2025-11-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "connected01"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "registry"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "logging": {
+                    "kind": "object",
+                    "value": {
+                      "auditLogStatus": {
+                        "kind": "string",
+                        "value": "Disabled"
+                      },
+                      "logLevel": {
+                        "kind": "string",
+                        "value": "None"
+                      }
+                    }
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "value": "ReadWrite"
+                  },
+                  "parent": {
+                    "kind": "object",
+                    "value": {
+                      "syncProperties": {
+                        "kind": "object",
+                        "value": {
+                          "messageTtl": {
+                            "kind": "string",
+                            "value": "P1D"
+                          },
+                          "schedule": {
+                            "kind": "string",
+                            "value": "* * * * *"
+                          },
+                          "syncWindow": {
+                            "kind": "string",
+                            "value": "PT0S"
+                          },
+                          "tokenId": {
+                            "kind": "property-access",
+                            "base": {
+                              "kind": "identifier",
+                              "id": "token"
+                            },
+                            "property": "id",
+                            "nullish": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

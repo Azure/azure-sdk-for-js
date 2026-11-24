@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual cluster.
  *
  * @summary gets a virtual cluster.
- * x-ms-original-file: 2025-08-01-preview/VirtualClusterGet.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualClusterGet.json
  */
 async function getsAVirtualCluster() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB Table Role Assignment with the given Id.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB Table Role Assignment with the given Id.
- * x-ms-original-file: 2026-03-15/tablerbac/CosmosDBTableRoleAssignmentGet.json
+ * x-ms-original-file: 2026-07-15/tablerbac/CosmosDBTableRoleAssignmentGet.json
  */
 async function cosmosDBTableRoleAssignmentGet() {
   const credential = new DefaultAzureCredential();

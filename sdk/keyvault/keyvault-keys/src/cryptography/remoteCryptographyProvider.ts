@@ -25,6 +25,12 @@ import type { KeyVaultClientOptionalParams } from "../keyVaultClient.js";
 import { KeyVaultClient } from "../keyVaultClient.js";
 import { parseKeyVaultKeyIdentifier } from "../identifier.js";
 import type { CryptographyClientOptions, GetKeyOptions, KeyVaultKey } from "../keysModels.js";
+import type {
+  SecureKeyOperationResult,
+  SecureKeyWrapAlgorithm,
+  SecureUnwrapKeyOptions,
+  SecureWrapKeyOptions,
+} from "../keysModels.js";
 import { LATEST_API_VERSION } from "../keysModels.js";
 import { getKeyFromKeyBundle } from "../transformations.js";
 import { createHash } from "#platform/cryptography/crypto";
@@ -207,6 +213,56 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           result: result.result!,
           algorithm,
           keyID: this.getKeyID(),
+        };
+      },
+    );
+  }
+
+  secureWrapKey(
+    algorithm: SecureKeyWrapAlgorithm,
+    options: SecureWrapKeyOptions = {},
+  ): Promise<SecureKeyOperationResult> {
+    return tracingClient.withSpan(
+      "RemoteCryptographyProvider.secureWrapKey",
+      options,
+      async (updatedOptions) => {
+        const { version, ...rest } = updatedOptions;
+        const result = await this.client.secureWrapKey(
+          this.name,
+          version ?? this.version,
+          { algorithm },
+          rest,
+        );
+        return {
+          keyID: result.kid ?? "",
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
+          result: result.result ?? new Uint8Array(),
+        };
+      },
+    );
+  }
+
+  secureUnwrapKey(
+    algorithm: SecureKeyWrapAlgorithm,
+    value: Uint8Array,
+    targetAttestationToken: string,
+    options: SecureUnwrapKeyOptions = {},
+  ): Promise<SecureKeyOperationResult> {
+    return tracingClient.withSpan(
+      "RemoteCryptographyProvider.secureUnwrapKey",
+      options,
+      async (updatedOptions) => {
+        const { version, ...rest } = updatedOptions;
+        const result = await this.client.secureUnwrapKey(
+          this.name,
+          version ?? this.version,
+          { algorithm, value, targetAttestationToken },
+          rest,
+        );
+        return {
+          keyID: result.kid ?? "",
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
+          result: result.result ?? new Uint8Array(),
         };
       },
     );

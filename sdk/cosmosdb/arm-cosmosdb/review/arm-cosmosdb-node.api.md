@@ -110,6 +110,7 @@ export interface BackupInformation {
 
 // @public
 export interface BackupPolicy {
+    backupRetentionLockExpirationTimestamp?: Date;
     migrationState?: BackupPolicyMigrationState;
     type: BackupPolicyType;
 }
@@ -1061,6 +1062,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     restoreParameters?: RestoreParameters;
     virtualNetworkRules?: VirtualNetworkRule[];
@@ -1101,6 +1103,7 @@ export interface DatabaseAccountCreateUpdateProperties {
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     restoreParameters?: RestoreParameters;
     virtualNetworkRules?: VirtualNetworkRule[];
@@ -1145,6 +1148,7 @@ export interface DatabaseAccountGetProperties {
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1196,6 +1200,7 @@ export interface DatabaseAccountGetResults extends ProxyResource {
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -1418,6 +1423,7 @@ export interface DatabaseAccountUpdateParameters {
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     tags?: Record<string, string>;
     virtualNetworkRules?: VirtualNetworkRule[];
@@ -1456,6 +1462,7 @@ export interface DatabaseAccountUpdateProperties {
     minimalTlsVersion?: MinimalTlsVersion;
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
+    perPartitionAutomaticFailoverEnabled?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     virtualNetworkRules?: VirtualNetworkRule[];
 }
@@ -2582,7 +2589,8 @@ export enum KnownVectorIndexType {
 
 // @public
 export enum KnownVersions {
-    V20260315 = "2026-03-15"
+    V20260315 = "2026-03-15",
+    V20260715 = "2026-07-15"
 }
 
 // @public
@@ -4960,6 +4968,13 @@ export interface TableRoleDefinitionResourceProperties {
 }
 
 // @public
+export interface ThroughputBucketResource {
+    id: number;
+    isDefaultBucket?: boolean;
+    maxThroughputPercentage: number;
+}
+
+// @public
 export interface ThroughputPolicyResource {
     incrementPercent?: number;
     isEnabled?: boolean;
@@ -4995,6 +5010,7 @@ export interface ThroughputSettingsResource {
     readonly offerReplacePending?: string;
     readonly softAllowedMaximumThroughput?: string;
     throughput?: number;
+    throughputBuckets?: ThroughputBucketResource[];
 }
 
 // @public

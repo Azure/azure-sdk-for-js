@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Cassandra table.
  *
  * @summary deletes an existing Azure Cosmos DB Cassandra table.
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraTableDelete.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCassandraTableDelete.json
  */
 async function cosmosDBCassandraTableDelete() {
   const credential = new DefaultAzureCredential();

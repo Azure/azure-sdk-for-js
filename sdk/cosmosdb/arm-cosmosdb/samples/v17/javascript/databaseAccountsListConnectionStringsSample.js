@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountListConnectionStrings.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountListConnectionStrings.json
  */
 async function cosmosDBDatabaseAccountListConnectionStrings() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function cosmosDBDatabaseAccountListConnectionStrings() {
  * This sample demonstrates how to lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountListConnectionStringsMongo.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountListConnectionStringsMongo.json
  */
 async function cosmosDBDatabaseAccountListConnectionStringsMongo() {
   const credential = new DefaultAzureCredential();

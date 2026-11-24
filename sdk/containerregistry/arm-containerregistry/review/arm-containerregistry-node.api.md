@@ -36,140 +36,6 @@ export interface Actor {
 }
 
 // @public
-export interface AdditionalAuthenticationProperties {
-    authenticationType: AdditionalAuthenticationType;
-}
-
-// @public
-export type AdditionalAuthenticationPropertiesUnion = GarAuthenticationProperties | AdditionalAuthenticationProperties;
-
-// @public
-export type AdditionalAuthenticationType = string;
-
-// @public
-export interface Archive extends ProxyResource {
-    packageSource?: ArchivePackageSourceProperties;
-    readonly provisioningState?: ProvisioningState;
-    publishedVersion?: string;
-    // (undocumented)
-    readonly repositoryEndpoint?: string;
-    // (undocumented)
-    repositoryEndpointPrefix?: string;
-}
-
-// @public
-export interface ArchivePackageSourceProperties {
-    type?: PackageSourceType;
-    url?: string;
-}
-
-// @public
-export interface ArchiveProperties {
-    packageSource?: ArchivePackageSourceProperties;
-    readonly provisioningState?: ProvisioningState;
-    publishedVersion?: string;
-    // (undocumented)
-    readonly repositoryEndpoint?: string;
-    // (undocumented)
-    repositoryEndpointPrefix?: string;
-}
-
-// @public
-export interface ArchivesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ArchivesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ArchivesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ArchivesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ArchivesOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveCreateParameters: Archive, options?: ArchivesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Archive>, Archive>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveCreateParameters: Archive, options?: ArchivesCreateOptionalParams) => Promise<Archive>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveCreateParameters: Archive, options?: ArchivesCreateOptionalParams) => PollerLike<OperationState<Archive>, Archive>;
-    delete: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchivesGetOptionalParams) => Promise<Archive>;
-    list: (resourceGroupName: string, registryName: string, packageType: string, options?: ArchivesListOptionalParams) => PagedAsyncIterableIterator<Archive>;
-    update: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveUpdateParameters: ArchiveUpdateParameters, options?: ArchivesUpdateOptionalParams) => Promise<Archive>;
-}
-
-// @public
-export interface ArchivesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ArchiveUpdateParameters {
-    publishedVersion?: string;
-}
-
-// @public
-export interface ArchiveUpdateProperties {
-    publishedVersion?: string;
-}
-
-// @public
-export interface ArchiveVersion extends ProxyResource {
-    archiveVersionErrorMessage?: string;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface ArchiveVersionProperties {
-    archiveVersionErrorMessage?: string;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface ArchiveVersionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ArchiveVersionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ArchiveVersionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ArchiveVersionsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ArchiveVersionsOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ArchiveVersion>, ArchiveVersion>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsCreateOptionalParams) => Promise<ArchiveVersion>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsCreateOptionalParams) => PollerLike<OperationState<ArchiveVersion>, ArchiveVersion>;
-    delete: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, archiveVersionName: string, options?: ArchiveVersionsGetOptionalParams) => Promise<ArchiveVersion>;
-    list: (resourceGroupName: string, registryName: string, packageType: string, archiveName: string, options?: ArchiveVersionsListOptionalParams) => PagedAsyncIterableIterator<ArchiveVersion>;
-}
-
-// @public
 export type AuditLogStatus = string;
 
 // @public
@@ -179,12 +45,6 @@ export interface AuthCredential {
     passwordSecretIdentifier?: string;
     usernameSecretIdentifier?: string;
 }
-
-// @public
-export type AuthType = string;
-
-// @public
-export type AutoGeneratedDomainNameLabelScope = string;
 
 // @public
 export interface AzureADAuthenticationAsArmPolicy {
@@ -206,10 +66,8 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CacheRule extends ProxyResource {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     readonly creationDate?: Date;
     credentialSetResourceId?: string;
-    identity?: IdentityProperties;
     readonly provisioningState?: ProvisioningState;
     sourceRepository?: string;
     targetRepository?: string;
@@ -217,7 +75,6 @@ export interface CacheRule extends ProxyResource {
 
 // @public
 export interface CacheRuleProperties {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     readonly creationDate?: Date;
     credentialSetResourceId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -271,14 +128,11 @@ export interface CacheRulesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface CacheRuleUpdateParameters {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     credentialSetResourceId?: string;
-    identity?: IdentityProperties;
 }
 
 // @public
 export interface CacheRuleUpdateProperties {
-    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     credentialSetResourceId?: string;
 }
 
@@ -338,12 +192,7 @@ export interface ConnectedRegistriesOperations {
     delete: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesGetOptionalParams) => Promise<ConnectedRegistry>;
     list: (resourceGroupName: string, registryName: string, options?: ConnectedRegistriesListOptionalParams) => PagedAsyncIterableIterator<ConnectedRegistry>;
-    resync: (resourceGroupName: string, registryName: string, connectedRegistryName: string, options?: ConnectedRegistriesResyncOptionalParams) => Promise<ConnectedRegistry>;
     update: (resourceGroupName: string, registryName: string, connectedRegistryName: string, connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters, options?: ConnectedRegistriesUpdateOptionalParams) => PollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>;
-}
-
-// @public
-export interface ConnectedRegistriesResyncOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -357,7 +206,6 @@ export interface ConnectedRegistry extends ProxyResource {
     clientTokenIds?: string[];
     readonly connectionState?: ConnectionState;
     garbageCollection?: GarbageCollectionProperties;
-    identity?: ManagedServiceIdentity;
     readonly lastActivityTime?: Date;
     logging?: LoggingProperties;
     loginServer?: LoginServerProperties;
@@ -365,7 +213,6 @@ export interface ConnectedRegistry extends ProxyResource {
     notificationsList?: string[];
     parent?: ParentProperties;
     readonly provisioningState?: ProvisioningState;
-    registrySyncResult?: RegistrySyncResult;
     readonly statusDetails?: StatusDetailProperties[];
     readonly version?: string;
 }
@@ -386,7 +233,6 @@ export interface ConnectedRegistryProperties {
     notificationsList?: string[];
     parent: ParentProperties;
     readonly provisioningState?: ProvisioningState;
-    registrySyncResult?: RegistrySyncResult;
     readonly statusDetails?: StatusDetailProperties[];
     readonly version?: string;
 }
@@ -395,7 +241,6 @@ export interface ConnectedRegistryProperties {
 export interface ConnectedRegistryUpdateParameters {
     clientTokenIds?: string[];
     garbageCollection?: GarbageCollectionProperties;
-    identity?: ManagedServiceIdentity;
     logging?: LoggingProperties;
     notificationsList?: string[];
     syncProperties?: SyncUpdateProperties;
@@ -420,16 +265,11 @@ export type ConnectionStatus = string;
 export class ContainerRegistryManagementClient {
     constructor(credential: TokenCredential, options?: ContainerRegistryManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
-    readonly archives: ArchivesOperations;
-    readonly archiveVersions: ArchiveVersionsOperations;
     readonly cacheRules: CacheRulesOperations;
     readonly connectedRegistries: ConnectedRegistriesOperations;
     readonly credentialSets: CredentialSetsOperations;
-    readonly exportPipelines: ExportPipelinesOperations;
-    readonly importPipelines: ImportPipelinesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
-    readonly pipelineRuns: PipelineRunsOperations;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly registries: RegistriesOperations;
     readonly replications: ReplicationsOperations;
@@ -617,79 +457,12 @@ export interface EventResponseMessage {
 }
 
 // @public
-export interface ExportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    target?: ExportPipelineTargetProperties;
-}
-
-// @public
-export interface ExportPipelineProperties {
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    target: ExportPipelineTargetProperties;
-}
-
-// @public
-export interface ExportPipelinesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExportPipelinesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ExportPipelinesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExportPipelinesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExportPipelinesOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ExportPipeline>, ExportPipeline>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams) => Promise<ExportPipeline>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams) => PollerLike<OperationState<ExportPipeline>, ExportPipeline>;
-    delete: (resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesGetOptionalParams) => Promise<ExportPipeline>;
-    list: (resourceGroupName: string, registryName: string, options?: ExportPipelinesListOptionalParams) => PagedAsyncIterableIterator<ExportPipeline>;
-}
-
-// @public
-export interface ExportPipelineTargetProperties {
-    keyVaultUri?: string;
-    storageAccessMode?: StorageAccessMode;
-    type?: string;
-    uri?: string;
-}
-
-// @public
 export interface ExportPolicy {
     status?: ExportPolicyStatus;
 }
 
 // @public
 export type ExportPolicyStatus = string;
-
-// @public
-export interface GarAuthenticationProperties extends AdditionalAuthenticationProperties {
-    // (undocumented)
-    authenticationType: "GoogleArtifactRegistry";
-    projectNumber: string;
-    workloadIdentityPool: string;
-    workloadIdentityProvider: string;
-}
 
 // @public
 export interface GarbageCollectionProperties {
@@ -728,66 +501,6 @@ export interface ImportImageParameters {
 
 // @public
 export type ImportMode = string;
-
-// @public
-export interface ImportPipeline extends ProxyResource {
-    identity?: IdentityProperties;
-    location?: string;
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    source?: ImportPipelineSourceProperties;
-    trigger?: PipelineTriggerProperties;
-}
-
-// @public
-export interface ImportPipelineProperties {
-    options?: PipelineOptions[];
-    readonly provisioningState?: ProvisioningState;
-    source: ImportPipelineSourceProperties;
-    trigger?: PipelineTriggerProperties;
-}
-
-// @public
-export interface ImportPipelinesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ImportPipelinesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ImportPipelinesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ImportPipelinesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ImportPipelinesOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams) => Promise<SimplePollerLike<OperationState<ImportPipeline>, ImportPipeline>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams) => Promise<ImportPipeline>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams) => PollerLike<OperationState<ImportPipeline>, ImportPipeline>;
-    delete: (resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesGetOptionalParams) => Promise<ImportPipeline>;
-    list: (resourceGroupName: string, registryName: string, options?: ImportPipelinesListOptionalParams) => PagedAsyncIterableIterator<ImportPipeline>;
-}
-
-// @public
-export interface ImportPipelineSourceProperties {
-    keyVaultUri?: string;
-    storageAccessMode?: StorageAccessMode;
-    type?: PipelineSourceType;
-    uri?: string;
-}
 
 // @public
 export interface ImportSource {
@@ -838,29 +551,9 @@ export enum KnownActivationStatus {
 }
 
 // @public
-export enum KnownAdditionalAuthenticationType {
-    GoogleArtifactRegistry = "GoogleArtifactRegistry"
-}
-
-// @public
 export enum KnownAuditLogStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownAuthType {
-    ManagedIdentity = "ManagedIdentity",
-    SyncToken = "SyncToken"
-}
-
-// @public
-export enum KnownAutoGeneratedDomainNameLabelScope {
-    NoReuse = "NoReuse",
-    ResourceGroupReuse = "ResourceGroupReuse",
-    SubscriptionReuse = "SubscriptionReuse",
-    TenantReuse = "TenantReuse",
-    Unsecure = "Unsecure"
 }
 
 // @public
@@ -957,51 +650,9 @@ export enum KnownLogLevel {
 }
 
 // @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownMetadataSearch {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownNetworkRuleBypassOptions {
     AzureServices = "AzureServices",
     None = "None"
-}
-
-// @public
-export enum KnownPackageSourceType {
-    Remote = "remote"
-}
-
-// @public
-export enum KnownPipelineOptions {
-    ContinueOnErrors = "ContinueOnErrors",
-    DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-    OverwriteBlobs = "OverwriteBlobs",
-    OverwriteTags = "OverwriteTags"
-}
-
-// @public
-export enum KnownPipelineRunSourceType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineRunTargetType {
-    AzureStorageBlob = "AzureStorageBlob"
-}
-
-// @public
-export enum KnownPipelineSourceType {
-    AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
 // @public
@@ -1061,30 +712,6 @@ export enum KnownSkuTier {
 }
 
 // @public
-export enum KnownStorageAccessMode {
-    ManagedIdentity = "ManagedIdentity",
-    SasToken = "SasToken"
-}
-
-// @public
-export enum KnownSyncState {
-    Failed = "Failed",
-    NotActivated = "NotActivated",
-    Pending = "Pending",
-    Succeeded = "Succeeded",
-    Syncing = "Syncing",
-    TimedOut = "TimedOut"
-}
-
-// @public
-export enum KnownSyncTrigger {
-    InitialSync = "InitialSync",
-    ManualResync = "ManualResync",
-    RecoveryService = "RecoveryService",
-    SyncTokenUpdate = "SyncTokenUpdate"
-}
-
-// @public
 export enum KnownTlsStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1109,12 +736,6 @@ export enum KnownTokenStatus {
 }
 
 // @public
-export enum KnownTriggerStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownTrustPolicyType {
     Notary = "Notary"
 }
@@ -1122,7 +743,7 @@ export enum KnownTrustPolicyType {
 // @public
 export enum KnownVersions {
     V20251101 = "2025-11-01",
-    VLatestPreview = "2026-09-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -1138,12 +759,6 @@ export enum KnownWebhookAction {
 export enum KnownWebhookStatus {
     Disabled = "disabled",
     Enabled = "enabled"
-}
-
-// @public
-export enum KnownWritableCacheRepos {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -1166,20 +781,6 @@ export interface LoginServerProperties {
 
 // @public
 export type LogLevel = string;
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
-}
-
-// @public
-export type ManagedServiceIdentityType = string;
-
-// @public
-export type MetadataSearch = string;
 
 // @public
 export type NetworkRuleBypassOptions = string;
@@ -1246,9 +847,6 @@ export interface OperationsOperations {
 }
 
 // @public
-export type PackageSourceType = string;
-
-// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -1270,129 +868,11 @@ export interface ParentProperties {
 export type PasswordName = "password" | "password2";
 
 // @public
-export type PipelineOptions = string;
-
-// @public
-export interface PipelineRun extends ProxyResource {
-    forceUpdateTag?: string;
-    readonly provisioningState?: ProvisioningState;
-    request?: PipelineRunRequest;
-    readonly response?: PipelineRunResponse;
-}
-
-// @public
-export interface PipelineRunProperties {
-    forceUpdateTag?: string;
-    readonly provisioningState?: ProvisioningState;
-    request?: PipelineRunRequest;
-    readonly response?: PipelineRunResponse;
-}
-
-// @public
-export interface PipelineRunRequest {
-    artifacts?: string[];
-    catalogDigest?: string;
-    pipelineResourceId?: string;
-    source?: PipelineRunSourceProperties;
-    target?: PipelineRunTargetProperties;
-}
-
-// @public
-export interface PipelineRunResponse {
-    catalogDigest?: string;
-    finishTime?: Date;
-    importedArtifacts?: string[];
-    pipelineRunErrorMessage?: string;
-    progress?: ProgressProperties;
-    source?: ImportPipelineSourceProperties;
-    startTime?: Date;
-    status?: string;
-    target?: ExportPipelineTargetProperties;
-    trigger?: PipelineTriggerDescriptor;
-}
-
-// @public
-export interface PipelineRunsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineRunsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineRunsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PipelineRunsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PipelineRunsOperations {
-    // @deprecated (undocumented)
-    beginCreate: (resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<PipelineRun>, PipelineRun>>;
-    // @deprecated (undocumented)
-    beginCreateAndWait: (resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams) => Promise<PipelineRun>;
-    // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
-    // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams) => PollerLike<OperationState<PipelineRun>, PipelineRun>;
-    delete: (resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsGetOptionalParams) => Promise<PipelineRun>;
-    list: (resourceGroupName: string, registryName: string, options?: PipelineRunsListOptionalParams) => PagedAsyncIterableIterator<PipelineRun>;
-}
-
-// @public
-export interface PipelineRunSourceProperties {
-    name?: string;
-    type?: PipelineRunSourceType;
-}
-
-// @public
-export type PipelineRunSourceType = string;
-
-// @public
-export interface PipelineRunTargetProperties {
-    name?: string;
-    type?: PipelineRunTargetType;
-}
-
-// @public
-export type PipelineRunTargetType = string;
-
-// @public
-export interface PipelineSourceTriggerDescriptor {
-    timestamp?: Date;
-}
-
-// @public
-export interface PipelineSourceTriggerProperties {
-    status: TriggerStatus;
-}
-
-// @public
-export type PipelineSourceType = string;
-
-// @public
-export interface PipelineTriggerDescriptor {
-    sourceTrigger?: PipelineSourceTriggerDescriptor;
-}
-
-// @public
-export interface PipelineTriggerProperties {
-    sourceTrigger?: PipelineSourceTriggerProperties;
-}
-
-// @public
 export interface Policies {
     azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
     exportPolicy?: ExportPolicy;
     quarantinePolicy?: QuarantinePolicy;
     retentionPolicy?: RetentionPolicy;
-    softDeletePolicy?: SoftDeletePolicy;
     trustPolicy?: TrustPolicy;
 }
 
@@ -1469,11 +949,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: ActionsRequired;
     description?: string;
     status?: ConnectionStatus;
-}
-
-// @public
-export interface ProgressProperties {
-    percentage?: string;
 }
 
 // @public
@@ -1602,7 +1077,6 @@ export interface RegistriesUpdateOptionalParams extends OperationOptions {
 export interface Registry extends TrackedResource {
     adminUserEnabled?: boolean;
     anonymousPullEnabled?: boolean;
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly creationDate?: Date;
     dataEndpointEnabled?: boolean;
     readonly dataEndpointHostNames?: string[];
@@ -1610,7 +1084,6 @@ export interface Registry extends TrackedResource {
     endpointProtocol?: EndpointProtocol;
     identity?: IdentityProperties;
     readonly loginServer?: string;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
@@ -1623,7 +1096,6 @@ export interface Registry extends TrackedResource {
     roleAssignmentMode?: RoleAssignmentMode;
     sku: Sku;
     readonly status?: Status;
-    writableCacheRepos?: WritableCacheRepos;
     zoneRedundancy?: ZoneRedundancy;
 }
 
@@ -1635,15 +1107,12 @@ export interface RegistryListCredentialsResult {
 
 // @public
 export interface RegistryNameCheckRequest {
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     name: string;
-    resourceGroupName?: string;
     type: ContainerRegistryResourceType;
 }
 
 // @public
 export interface RegistryNameStatus {
-    availableLoginServerName?: string;
     message?: string;
     nameAvailable?: boolean;
     reason?: string;
@@ -1659,14 +1128,12 @@ export interface RegistryPassword {
 export interface RegistryProperties {
     adminUserEnabled?: boolean;
     anonymousPullEnabled?: boolean;
-    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly creationDate?: Date;
     dataEndpointEnabled?: boolean;
     readonly dataEndpointHostNames?: string[];
     encryption?: EncryptionProperty;
     endpointProtocol?: EndpointProtocol;
     readonly loginServer?: string;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
@@ -1678,7 +1145,6 @@ export interface RegistryProperties {
     regionalEndpoints?: RegionalEndpoints;
     roleAssignmentMode?: RoleAssignmentMode;
     readonly status?: Status;
-    writableCacheRepos?: WritableCacheRepos;
     zoneRedundancy?: ZoneRedundancy;
 }
 
@@ -1689,7 +1155,6 @@ export interface RegistryPropertiesUpdateParameters {
     dataEndpointEnabled?: boolean;
     encryption?: EncryptionProperty;
     endpointProtocol?: EndpointProtocol;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
@@ -1697,16 +1162,6 @@ export interface RegistryPropertiesUpdateParameters {
     publicNetworkAccess?: PublicNetworkAccess;
     regionalEndpoints?: RegionalEndpoints;
     roleAssignmentMode?: RoleAssignmentMode;
-    writableCacheRepos?: WritableCacheRepos;
-}
-
-// @public
-export interface RegistrySyncResult {
-    lastSuccessfulSyncEndTime?: Date;
-    lastSyncEndTime?: Date;
-    lastSyncStartTime?: Date;
-    readonly syncState: SyncState;
-    readonly syncTrigger: SyncTrigger;
 }
 
 // @public
@@ -1717,7 +1172,6 @@ export interface RegistryUpdateParameters {
     encryption?: EncryptionProperty;
     endpointProtocol?: EndpointProtocol;
     identity?: IdentityProperties;
-    metadataSearch?: MetadataSearch;
     networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
@@ -1727,7 +1181,6 @@ export interface RegistryUpdateParameters {
     roleAssignmentMode?: RoleAssignmentMode;
     sku?: Sku;
     tags?: Record<string, string>;
-    writableCacheRepos?: WritableCacheRepos;
 }
 
 // @public
@@ -1969,13 +1422,6 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export interface SoftDeletePolicy {
-    readonly lastUpdatedTime?: Date;
-    retentionDays?: number;
-    status?: PolicyStatus;
-}
-
-// @public
 export interface Source {
     addr?: string;
     instanceID?: string;
@@ -1990,21 +1436,15 @@ export interface Status {
 
 // @public
 export interface StatusDetailProperties {
-    readonly availableGib?: number;
     readonly code?: string;
     readonly correlationId?: string;
     readonly description?: string;
     readonly timestamp?: Date;
-    readonly totalGib?: number;
     readonly type?: string;
 }
 
 // @public
-export type StorageAccessMode = string;
-
-// @public
 export interface SyncProperties {
-    authType?: AuthType;
     readonly gatewayEndpoint?: string;
     readonly lastSyncTime?: Date;
     messageTtl: string;
@@ -2014,14 +1454,7 @@ export interface SyncProperties {
 }
 
 // @public
-export type SyncState = string;
-
-// @public
-export type SyncTrigger = string;
-
-// @public
 export interface SyncUpdateProperties {
-    authType?: AuthType;
     messageTtl?: string;
     schedule?: string;
     syncWindow?: string;
@@ -2182,9 +1615,6 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export type TriggerStatus = string;
-
-// @public
 export interface TrustPolicy {
     status?: PolicyStatus;
     type?: TrustPolicyType;
@@ -2192,12 +1622,6 @@ export interface TrustPolicy {
 
 // @public
 export type TrustPolicyType = string;
-
-// @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface UserIdentityProperties {
@@ -2330,9 +1754,6 @@ export interface WebhookUpdateParameters {
     status?: WebhookStatus;
     tags?: Record<string, string>;
 }
-
-// @public
-export type WritableCacheRepos = string;
 
 // @public
 export type ZoneRedundancy = string;

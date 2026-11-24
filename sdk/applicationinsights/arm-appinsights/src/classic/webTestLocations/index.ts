@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
+import type { ApplicationInsightsManagementContext } from "../../api/applicationInsightsManagementContext.js";
 import { list } from "../../api/webTestLocations/operations.js";
-import { WebTestLocationsListOptionalParams } from "../../api/webTestLocations/options.js";
-import { ApplicationInsightsComponentWebTestLocation } from "../../models/webTestLocation/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { WebTestLocationsListOptionalParams } from "../../api/webTestLocations/options.js";
+import type { ApplicationInsightsComponentWebTestLocation } from "../../models/webTestLocation/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WebTestLocations operations. */
 export interface WebTestLocationsOperations {

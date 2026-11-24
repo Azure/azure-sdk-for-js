@@ -3,9 +3,9 @@
 
 import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
-  BetaVoiceAgentsConversationsOperations,
-  _getBetaVoiceAgentsConversationsOperations,
-} from "./conversations/index.js";
+  BetaVoiceAgentsLiveConversationsOperations,
+  _getBetaVoiceAgentsLiveConversationsOperations,
+} from "./liveConversations/index.js";
 import {
   BetaVoiceAgentsTelephonyOperations,
   _getBetaVoiceAgentsTelephonyOperations,
@@ -14,7 +14,7 @@ import {
 /** Interface representing a BetaVoiceAgents operations. */
 export interface BetaVoiceAgentsOperations {
   telephony: BetaVoiceAgentsTelephonyOperations;
-  conversations: BetaVoiceAgentsConversationsOperations;
+  liveConversations: BetaVoiceAgentsLiveConversationsOperations;
 }
 
 export function _getBetaVoiceAgentsOperations(
@@ -22,6 +22,6 @@ export function _getBetaVoiceAgentsOperations(
 ): BetaVoiceAgentsOperations {
   return {
     telephony: _getBetaVoiceAgentsTelephonyOperations(context),
-    conversations: _getBetaVoiceAgentsConversationsOperations(context),
+    liveConversations: _getBetaVoiceAgentsLiveConversationsOperations(context),
   };
 }

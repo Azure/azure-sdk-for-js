@@ -4,6 +4,12 @@ import { AmqpMessageHeader } from "./messageHeader.js";
 import { AmqpMessageProperties } from "./messageProperties.js";
 import type { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "./util/constants.js";
+import {
+  type AmqpApplicationProperty,
+  _defineApplicationPropertiesWithAmqpTypes,
+  _getApplicationPropertiesWithAmqpTypes,
+  _toRheaApplicationProperties,
+} from "./amqpApplicationProperties.js";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
@@ -30,6 +36,18 @@ export interface AmqpAnnotatedMessage {
    * A dictionary containing application specific message properties.
    */
   applicationProperties?: { [key: string]: any };
+  /**
+   * The application properties with their AMQP scalar types preserved.
+   *
+   * When the message is encoded, `applicationProperties` supplies the outgoing
+   * keys and values. For matching plain values, this view preserves the original
+   * AMQP type. Deleted keys are omitted, and explicitly typed values in
+   * `applicationProperties` override the preserved type. Changing this view
+   * alone does not change the outgoing value.
+   */
+  applicationPropertiesWithAmqpTypes?: Readonly<{
+    [key: string]: AmqpApplicationProperty;
+  }>;
   /**
    *  Describes the defined set of standard properties of the message.
    */
@@ -62,6 +80,10 @@ export const AmqpAnnotatedMessage = {
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body,
     };
+    _defineApplicationPropertiesWithAmqpTypes(
+      amqpMsg,
+      _getApplicationPropertiesWithAmqpTypes(msg.application_properties),
+    );
     if (msg.absolute_expiry_time) {
       const absoluteExpiryTime = msg.absolute_expiry_time.getTime();
       amqpMsg.properties.absoluteExpiryTime = Math.min(
@@ -92,7 +114,10 @@ export const AmqpAnnotatedMessage = {
       body: msg.body,
       message_annotations: msg.messageAnnotations,
       delivery_annotations: msg.deliveryAnnotations,
-      application_properties: msg.applicationProperties,
+      application_properties: _toRheaApplicationProperties(
+        msg.applicationProperties,
+        msg.applicationPropertiesWithAmqpTypes,
+      ),
       footer: msg.footer,
     };
 

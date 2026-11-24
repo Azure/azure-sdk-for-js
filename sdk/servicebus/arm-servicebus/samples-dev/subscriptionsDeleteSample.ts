@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a subscription from the specified topic.
  *
  * @summary deletes a subscription from the specified topic.
- * x-ms-original-file: 2026-01-01/Subscriptions/SBSubscriptionDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Subscriptions/SBSubscriptionDelete.json
  */
 async function subscriptionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

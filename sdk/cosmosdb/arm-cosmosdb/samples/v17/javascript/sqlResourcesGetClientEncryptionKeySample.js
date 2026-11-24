@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
  *
  * @summary gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlClientEncryptionKeyGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlClientEncryptionKeyGet.json
  */
 async function cosmosDBClientEncryptionKeyGet() {
   const credential = new DefaultAzureCredential();

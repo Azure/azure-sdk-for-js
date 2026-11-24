@@ -11,6 +11,13 @@ export {
   parseFeatureFlag,
 } from "./featureFlag.js";
 export * from "./models.js";
+export type {
+  CompatResponse,
+  HttpHeader,
+  HttpHeadersLike,
+  RawHttpHeaders,
+  WebResourceLike,
+} from "./compatibility.js";
 export {
   isSecretReference,
   parseSecretReference,

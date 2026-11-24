@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of instance pools in the resource group
  *
  * @summary gets a list of instance pools in the resource group
- * x-ms-original-file: 2025-08-01-preview/ListInstancePoolsByResourceGroup.json
+ * x-ms-original-file: 2026-08-01-preview/ListInstancePoolsByResourceGroup.json
  */
 async function listInstancePoolsByResourceGroup() {
   const credential = new DefaultAzureCredential();

@@ -7,6 +7,7 @@ import type { AzureMonitorExporterOptions } from "../config.js";
 import {
   ALLOWED_REDIRECT_DOMAIN_SUFFIX_GROUPS,
   DEFAULT_BREEZE_ENDPOINT,
+  ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
   ENV_CONNECTION_STRING,
   isEnvVarTrue,
@@ -15,11 +16,14 @@ import {
 import { ConfigurationManager } from "../_configuration/configurationManager.js";
 import type { ConfigurationProfileValues } from "../_configuration/configurationProfile.js";
 import * as ai from "../utils/constants/applicationinsights.js";
+import { isMultiEndpointRoutingEnabled } from "../utils/routing.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
  */
 export abstract class AzureMonitorBaseExporter {
+  /** Whether per-item destination routing was enabled at exporter startup. */
+  protected readonly multiEndpointRouting: boolean;
   /**
    * Instrumentation key to be used for exported envelopes
    */
@@ -38,6 +42,12 @@ export abstract class AzureMonitorBaseExporter {
   protected aadAudience: string | undefined;
 
   /**
+   * GenAI message limit opt-in captured when this exporter is constructed.
+   * @internal
+   */
+  protected readonly _increaseGenAiMessageLimit: boolean;
+
+  /**
    * Flag to determine if the Exporter is a Statsbeat Exporter
    */
   private isStatsbeatExporter: boolean;
@@ -53,10 +63,19 @@ export abstract class AzureMonitorBaseExporter {
    */
   constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
     this.options = options;
+    this._increaseGenAiMessageLimit =
+      process.env[ENV_APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES]?.split(",").some(
+        (feature) => feature.trim().toLowerCase() === "gen_ai_input_output_limit_increase",
+      ) ?? false;
     this.instrumentationKey = "";
     this.endpointUrl = DEFAULT_BREEZE_ENDPOINT;
     const connectionString = this.options.connectionString || process.env[ENV_CONNECTION_STRING];
+    const hasHostConfiguration =
+      this.options.connectionString !== undefined ||
+      process.env[ENV_CONNECTION_STRING] !== undefined;
     this.isStatsbeatExporter = isStatsbeatExporter ? isStatsbeatExporter : false;
+    const routingEnabled = isMultiEndpointRoutingEnabled() && !this.isStatsbeatExporter;
+    this.multiEndpointRouting = routingEnabled;
     let region = "";
 
     if (connectionString) {
@@ -69,13 +88,16 @@ export abstract class AzureMonitorBaseExporter {
     }
 
     // Instrumentation key is required
-    if (!this.instrumentationKey) {
+    if (!this.instrumentationKey && (!routingEnabled || hasHostConfiguration)) {
       const message =
         "No instrumentation key or connection string was provided to the Azure Monitor Exporter";
       diag.error(message);
       throw new Error(message);
     }
-    if (!ConnectionStringParser.validateInstrumentationKey(this.instrumentationKey)) {
+    if (
+      this.instrumentationKey &&
+      !ConnectionStringParser.validateInstrumentationKey(this.instrumentationKey)
+    ) {
       const message = "Invalid instrumentation key was provided to the Azure Monitor Exporter";
       diag.error(message);
       throw new Error(message);
@@ -85,7 +107,10 @@ export abstract class AzureMonitorBaseExporter {
         createConfigurationProfile(this.instrumentationKey, region),
       );
     }
-    this.trackStatsbeat = !this.isStatsbeatExporter && !process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+    this.trackStatsbeat =
+      !!this.instrumentationKey &&
+      !this.isStatsbeatExporter &&
+      !process.env[LEGACY_ENV_DISABLE_STATSBEAT];
 
     diag.debug("AzureMonitorExporter was successfully setup");
   }

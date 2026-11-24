@@ -82,6 +82,18 @@ export type {
   NspAccessRulePropertiesSubscriptionsItem,
   ConsumerGroup,
   ConsumerGroupProperties,
+  FabricShortcut,
+  FabricShortcutProperties,
+  FabricShortcutConfiguration,
+  FabricShortcutType,
+  FabricShortcutStatus,
+  UpgradePreferences,
+  UpgradePreferencesProperties,
+  MaintenanceWindow,
+  UpgradePreferenceDayOfWeek,
+  ExceptionWindow,
+  ExceptionWindowAction,
+  UpgradeStatus,
   ClusterQuotaConfigurationProperties,
   EHNamespace,
   EHNamespaceProperties,
@@ -93,6 +105,7 @@ export type {
   GeoDataReplicationProperties,
   NamespaceReplicaLocation,
   GeoDRRoleType,
+  IpAddressType,
   Sku,
   SkuName,
   SkuTier,
@@ -143,6 +156,7 @@ export {
   KnownTlsVersion,
   KnownPublicNetworkAccess,
   KnownGeoDRRoleType,
+  KnownIpAddressType,
   KnownSkuName,
   KnownSkuTier,
   KnownDefaultAction,
@@ -206,6 +220,14 @@ export type {
   EventHubsGetAuthorizationRuleOptionalParams,
 } from "./api/eventHubs/index.js";
 export type {
+  FabricShortcutsRejectOptionalParams,
+  FabricShortcutsApproveOptionalParams,
+  FabricShortcutsDeleteOptionalParams,
+  FabricShortcutsListByEventHubOptionalParams,
+  FabricShortcutsCreateOrUpdateOptionalParams,
+  FabricShortcutsGetOptionalParams,
+} from "./api/fabricShortcuts/index.js";
+export type {
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesRegenerateKeysOptionalParams,
   NamespacesListKeysOptionalParams,
@@ -244,12 +266,18 @@ export type {
   SchemaRegistryGetOptionalParams,
 } from "./api/schemaRegistry/index.js";
 export type {
+  UpgradePreferencesOperationsUpgradeNowOptionalParams,
+  UpgradePreferencesOperationsCreateOrUpdateOptionalParams,
+  UpgradePreferencesOperationsGetOptionalParams,
+} from "./api/upgradePreferencesOperations/index.js";
+export type {
   ApplicationGroupOperationsOperations,
   ClustersOperations,
   ConfigurationOperations,
   ConsumerGroupsOperations,
   DisasterRecoveryConfigsOperations,
   EventHubsOperations,
+  FabricShortcutsOperations,
   NamespacesOperations,
   NetworkSecurityPerimeterConfigurationOperationsOperations,
   NetworkSecurityPerimeterConfigurationsOperations,
@@ -257,6 +285,7 @@ export type {
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
   SchemaRegistryOperations,
+  UpgradePreferencesOperationsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

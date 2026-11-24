@@ -3,6 +3,7 @@
 
 import type { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
+  checkNameAvailability,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -11,6 +12,7 @@ import {
   get,
 } from "../../api/contextCaches/operations.js";
 import type {
+  ContextCachesCheckNameAvailabilityOptionalParams,
   ContextCachesListBySubscriptionOptionalParams,
   ContextCachesListByResourceGroupOptionalParams,
   ContextCachesDeleteOptionalParams,
@@ -18,7 +20,12 @@ import type {
   ContextCachesCreateOrUpdateOptionalParams,
   ContextCachesGetOptionalParams,
 } from "../../api/contextCaches/options.js";
-import type { ContextCache, ContextCacheUpdate } from "../../models/models.js";
+import type {
+  ContextCache,
+  ContextCacheUpdate,
+  ContextCacheCheckNameAvailabilityParameters,
+  ContextCacheCheckNameAvailabilityResult,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -26,6 +33,11 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ContextCaches operations. */
 export interface ContextCachesOperations {
+  /** Check the availability of a context cache resource name. */
+  checkNameAvailability: (
+    body: ContextCacheCheckNameAvailabilityParameters,
+    options?: ContextCachesCheckNameAvailabilityOptionalParams,
+  ) => Promise<ContextCacheCheckNameAvailabilityResult>;
   /** List Context Caches by subscription. */
   listBySubscription: (
     options?: ContextCachesListBySubscriptionOptionalParams,
@@ -105,6 +117,10 @@ export interface ContextCachesOperations {
 
 function _getContextCaches(context: StorageManagementContext) {
   return {
+    checkNameAvailability: (
+      body: ContextCacheCheckNameAvailabilityParameters,
+      options?: ContextCachesCheckNameAvailabilityOptionalParams,
+    ) => checkNameAvailability(context, body, options),
     listBySubscription: (options?: ContextCachesListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

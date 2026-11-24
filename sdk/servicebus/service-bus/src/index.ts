@@ -10,6 +10,7 @@ export {
   type RetryOptions,
   RetryMode,
   TokenType,
+  type AmqpApplicationProperty,
   type WebSocketOptions,
 } from "@azure/core-amqp";
 export type { TokenCredential } from "@azure/core-auth";
@@ -19,6 +20,10 @@ export type { ServiceBusClientOptions } from "./constructorHelpers.js";
 export type { CorrelationRuleFilter } from "./core/managementClient.js";
 export type {
   ListMessageSessionsOptions,
+  DeleteMessagesOptions,
+  PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
   MessageHandlers,

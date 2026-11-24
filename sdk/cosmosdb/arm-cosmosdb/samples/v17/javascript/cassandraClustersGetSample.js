@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the properties of a managed Cassandra cluster.
  *
  * @summary get the properties of a managed Cassandra cluster.
- * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraClusterGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBManagedCassandraClusterGet.json
  */
 async function cosmosDBManagedCassandraClusterGet() {
   const credential = new DefaultAzureCredential();

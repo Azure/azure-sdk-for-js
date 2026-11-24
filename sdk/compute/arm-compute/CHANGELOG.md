@@ -1,5 +1,22 @@
 # Release History
 
+## 25.3.0 (2026-10-15)
+
+### Features Added
+  - Added operation CapacityReservationGroupsOperations.beginDelete
+  - Added operation CapacityReservationGroupsOperations.beginDeleteAndWait
+  - Added Interface FlexProfile
+  - Interface CapacityReservationGroupsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface VirtualMachine has a new optional parameter flexProfile
+  - Interface VirtualMachineNetworkInterfaceIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineNetworkInterfaceIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineProperties has a new optional parameter flexProfile
+  - Interface VirtualMachineScaleSetIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetUpdateIPConfiguration has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineScaleSetUpdateIPConfigurationProperties has a new optional parameter privateIPAddressPrefixLength
+  - Interface VirtualMachineUpdate has a new optional parameter flexProfile
+
 ## 25.2.0 (2026-09-16)
 
 ### Features Added

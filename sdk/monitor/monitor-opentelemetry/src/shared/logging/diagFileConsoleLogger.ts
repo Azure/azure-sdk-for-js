@@ -14,7 +14,7 @@ import {
   readFileAsync,
   writeFileAsync,
   unlinkAsync,
-} from "../../utils/index.js";
+} from "../../utils/fileSystem.js";
 
 // Capture the unpatched sink to prevent recursive diagnostic collection.
 // eslint-disable-next-line no-console

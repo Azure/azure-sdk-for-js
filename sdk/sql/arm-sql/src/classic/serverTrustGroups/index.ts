@@ -89,6 +89,7 @@ export interface ServerTrustGroupsOperations {
     options?: ServerTrustGroupsGetOptionalParams,
   ) => Promise<ServerTrustGroup>;
 }
+
 function _getServerTrustGroups(context: SqlManagementContext) {
   return {
     listByInstance: (
@@ -188,6 +189,7 @@ function _getServerTrustGroups(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, locationName, serverTrustGroupName, options),
   };
 }
+
 export function _getServerTrustGroupsOperations(
   context: SqlManagementContext,
 ): ServerTrustGroupsOperations {

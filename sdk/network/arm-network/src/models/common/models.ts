@@ -1649,6 +1649,8 @@ export interface NetworkInterface extends Resource {
   dnsSettings?: NetworkInterfaceDnsSettings;
   /** The MAC address of the network interface. */
   readonly macAddress?: string;
+  /** The index of the physical network adapter. */
+  networkAdapterIndex?: number;
   /** Whether this is a primary network interface on a virtual machine. */
   readonly primary?: boolean;
   /** Whether the virtual machine this nic is attached to supports encryption. */
@@ -1692,6 +1694,7 @@ export function networkInterfaceSerializer(item: NetworkInterface): any {
       "networkSecurityGroup",
       "ipConfigurations",
       "dnsSettings",
+      "networkAdapterIndex",
       "enableAcceleratedNetworking",
       "disableTcpStateTracking",
       "enableIPForwarding",
@@ -1745,6 +1748,8 @@ export interface NetworkInterfacePropertiesFormat {
   dnsSettings?: NetworkInterfaceDnsSettings;
   /** The MAC address of the network interface. */
   readonly macAddress?: string;
+  /** The index of the physical network adapter. */
+  networkAdapterIndex?: number;
   /** Whether this is a primary network interface on a virtual machine. */
   readonly primary?: boolean;
   /** Whether the virtual machine this nic is attached to supports encryption. */
@@ -1792,6 +1797,7 @@ export function networkInterfacePropertiesFormatSerializer(
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
       : networkInterfaceDnsSettingsSerializer(item["dnsSettings"]),
+    networkAdapterIndex: item["networkAdapterIndex"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
     disableTcpStateTracking: item["disableTcpStateTracking"],
     enableIPForwarding: item["enableIPForwarding"],
@@ -1829,6 +1835,7 @@ export function networkInterfacePropertiesFormatDeserializer(
       ? item["dnsSettings"]
       : networkInterfaceDnsSettingsDeserializer(item["dnsSettings"]),
     macAddress: item["macAddress"],
+    networkAdapterIndex: item["networkAdapterIndex"],
     primary: item["primary"],
     vnetEncryptionSupported: item["vnetEncryptionSupported"],
     defaultOutboundConnectivityEnabled: item["defaultOutboundConnectivityEnabled"],
@@ -7705,6 +7712,7 @@ export function _networkInterfacePropertiesSerializer(item: NetworkInterface): a
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
       : networkInterfaceDnsSettingsSerializer(item["dnsSettings"]),
+    networkAdapterIndex: item["networkAdapterIndex"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
     disableTcpStateTracking: item["disableTcpStateTracking"],
     enableIPForwarding: item["enableIPForwarding"],
@@ -7740,6 +7748,7 @@ export function _networkInterfacePropertiesDeserializer(item: any) {
       ? item["dnsSettings"]
       : networkInterfaceDnsSettingsDeserializer(item["dnsSettings"]),
     macAddress: item["macAddress"],
+    networkAdapterIndex: item["networkAdapterIndex"],
     primary: item["primary"],
     vnetEncryptionSupported: item["vnetEncryptionSupported"],
     defaultOutboundConnectivityEnabled: item["defaultOutboundConnectivityEnabled"],

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the list of all Azure Cosmos DB Cassandra Role Definitions.
  *
  * @summary retrieves the list of all Azure Cosmos DB Cassandra Role Definitions.
- * x-ms-original-file: 2026-03-15/cassandrarbac/CosmosDBCassandraRoleDefinitionList.json
+ * x-ms-original-file: 2026-07-15/cassandrarbac/CosmosDBCassandraRoleDefinitionList.json
  */
 async function cosmosDBCassandraRoleDefinitionList() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a scenario definition.
  *
  * @summary get a scenario definition.
- * x-ms-original-file: 2026-08-01-preview/ScenarioConfigurations_Get.json
+ * x-ms-original-file: 2026-11-01/ScenarioConfigurations_Get.json
  */
 async function getAScenarioConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

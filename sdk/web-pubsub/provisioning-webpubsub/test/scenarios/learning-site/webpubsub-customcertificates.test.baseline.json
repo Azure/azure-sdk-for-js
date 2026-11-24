@@ -1,0 +1,60 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "webPubSub": {
+          "bicepIdentifier": "webPubSub",
+          "type": "Microsoft.SignalRService/webPubSub",
+          "apiVersion": "2025-12-01-preview",
+          "existing": true,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "wps-learn-cert"
+              }
+            }
+          }
+        },
+        "customCertificate": {
+          "bicepIdentifier": "customCertificate",
+          "type": "Microsoft.SignalRService/webPubSub/customCertificates",
+          "apiVersion": "2025-12-01-preview",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-cert"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "webPubSub"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "keyVaultBaseUri": {
+                    "kind": "string",
+                    "value": "https://learn-vault.vault.azure.net/"
+                  },
+                  "keyVaultSecretName": {
+                    "kind": "string",
+                    "value": "learn-cert"
+                  },
+                  "keyVaultSecretVersion": {
+                    "kind": "string",
+                    "value": "00000000000000000000000000000000"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
