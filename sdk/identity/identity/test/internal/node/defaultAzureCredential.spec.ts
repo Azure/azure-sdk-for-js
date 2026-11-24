@@ -6,6 +6,25 @@ import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentia
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
+/**
+ * Uses the `prod` chain (keeping the IMDS probe) while clearing ambient credential variables,
+ * such as those set on CI agents, so Environment and Workload Identity credentials are unavailable.
+ */
+function stubProdChainEnvForImds(): void {
+  vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+  for (const name of [
+    "AZURE_TENANT_ID",
+    "AZURE_CLIENT_ID",
+    "AZURE_CLIENT_SECRET",
+    "AZURE_CLIENT_CERTIFICATE_PATH",
+    "AZURE_USERNAME",
+    "AZURE_PASSWORD",
+    "AZURE_FEDERATED_TOKEN_FILE",
+  ]) {
+    vi.stubEnv(name, undefined);
+  }
+}
+
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -23,7 +42,7 @@ describe("DefaultAzureCredential", () => {
   });
 
   it("reports the malformed JSON token response status after a valid JSON IMDS probe response", async () => {
-    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+    stubProdChainEnvForImds();
     const sendRequest = vi.fn(async (request: PipelineRequest) => ({
       request,
       status: request.headers.has("Metadata") ? 502 : 400,
@@ -44,7 +63,7 @@ describe("DefaultAzureCredential", () => {
   });
 
   it("treats a Docker Desktop unreachable response as unavailable", async () => {
-    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+    stubProdChainEnvForImds();
     const sendRequest = vi.fn(async (request: PipelineRequest) => ({
       request,
       status: 403,
