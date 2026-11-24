@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a private endpoint connection.
  *
  * @summary gets a private endpoint connection.
- * x-ms-original-file: 2026-04-01-preview/CosmosDBPrivateEndpointConnectionGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBPrivateEndpointConnectionGet.json
  */
 async function getsPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
