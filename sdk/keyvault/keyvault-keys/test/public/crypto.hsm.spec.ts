@@ -82,17 +82,17 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
     });
 
     it("can secure wrap and unwrap a key using RSA-OAEP-256", async () => {
-      const keyName = recorder.variable(
+      const secureKeyName = recorder.variable(
         "securewrapkey",
         `securewrapkey-${Math.floor(Math.random() * 100000)}`,
       );
 
-      await hsmClient.createRsaKey(keyName, {
+      await hsmClient.createRsaKey(secureKeyName, {
         keyOps: ["secureWrapKey", "secureUnwrapKey"],
         releasePolicy: { encodedPolicy: encodedReleasePolicy },
       });
 
-      const cryptographyClient = hsmClient.getCryptographyClient(keyName);
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName);
       const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       assert.exists(wrapped.result);
       assert.isAbove(wrapped.result.byteLength, 0);
@@ -109,22 +109,24 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       assert.equal(unwrapped.algorithm, "RSA-OAEP-256");
       assert.isNotEmpty(unwrapped.keyID);
 
-      await testClient.flushKey(keyName);
+      await testClient.flushKey(secureKeyName);
     });
 
     it("can secure wrap and unwrap targeting a specific key version", async () => {
-      const keyName = recorder.variable(
+      const secureKeyName = recorder.variable(
         "securewrapkey-version",
         `securewrapkey-version-${Math.floor(Math.random() * 100000)}`,
       );
 
-      const createdKey = await hsmClient.createRsaKey(keyName, {
+      const createdKey = await hsmClient.createRsaKey(secureKeyName, {
         keyOps: ["secureWrapKey", "secureUnwrapKey"],
         releasePolicy: { encodedPolicy: encodedReleasePolicy },
       });
       const version = createdKey.properties.version!;
 
-      const cryptographyClient = hsmClient.getCryptographyClient(keyName, { keyVersion: version });
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName, {
+        keyVersion: version,
+      });
       const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       assert.exists(wrapped.result);
       assert.include(wrapped.keyID, version);
@@ -136,21 +138,21 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       );
       assert.exists(unwrapped.result);
       assert.include(unwrapped.keyID, version);
-      await testClient.flushKey(keyName);
+      await testClient.flushKey(secureKeyName);
     });
 
     it("secureUnwrapKey throws when the attestation token is invalid", async () => {
-      const keyName = recorder.variable(
+      const secureKeyName = recorder.variable(
         "securewrapkey-badattest",
         `securewrapkey-badattest-${Math.floor(Math.random() * 100000)}`,
       );
 
-      await hsmClient.createRsaKey(keyName, {
+      await hsmClient.createRsaKey(secureKeyName, {
         keyOps: ["secureWrapKey", "secureUnwrapKey"],
         releasePolicy: { encodedPolicy: encodedReleasePolicy },
       });
 
-      const cryptographyClient = hsmClient.getCryptographyClient(keyName);
+      const cryptographyClient = hsmClient.getCryptographyClient(secureKeyName);
       const wrapped = await cryptographyClient.secureWrapKey("RSA-OAEP-256");
       await expect(
         cryptographyClient.secureUnwrapKey(
@@ -160,17 +162,17 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
         ),
       ).rejects.toThrow();
 
-      await testClient.flushKey(keyName);
+      await testClient.flushKey(secureKeyName);
     });
 
     it("secureWrapKey throws when the key has no release policy", async () => {
-      const keyName = recorder.variable(
+      const secureKeyName = recorder.variable(
         "securewrapkey-nopolicy",
         `securewrapkey-nopolicy-${Math.floor(Math.random() * 100000)}`,
       );
 
       await expect(
-        hsmClient.createRsaKey(keyName, { keyOps: ["secureWrapKey", "secureUnwrapKey"] }),
+        hsmClient.createRsaKey(secureKeyName, { keyOps: ["secureWrapKey", "secureUnwrapKey"] }),
       ).rejects.toThrow();
     });
   });
