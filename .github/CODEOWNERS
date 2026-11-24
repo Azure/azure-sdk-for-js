@@ -756,7 +756,7 @@
 # PRLabel: %Mgmt
 /sdk/marketplaceordering/arm-marketplaceordering/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt %mgmt-review-needed
+# PRLabel: %Mgmt
 /sdk/migrate/arm-migrate/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
