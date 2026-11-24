@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves metric definitions for the given database account.
  *
  * @summary retrieves metric definitions for the given database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountGetMetricDefinitions.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountGetMetricDefinitions.json
  */
 async function cosmosDBDatabaseAccountGetMetricDefinitions() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the RUs per second of the SQL container under an existing Azure Cosmos DB database account.
  *
  * @summary gets the RUs per second of the SQL container under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlContainerThroughputGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlContainerThroughputGet.json
  */
 async function cosmosDBSqlContainerThroughputGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

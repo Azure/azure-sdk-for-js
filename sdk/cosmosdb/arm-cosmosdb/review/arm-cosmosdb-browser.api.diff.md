@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1056,9 +1056,9 @@
+@@ -1057,9 +1057,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -17,8 +17,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -1096,9 +1096,9 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1098,9 +1098,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -28,8 +28,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -1140,19 +1140,19 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1143,20 +1143,20 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -39,6 +39,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
+     perPartitionAutomaticFailoverEnabled?: boolean;
      readonly privateEndpointConnections?: PrivateEndpointConnection[];
      readonly provisioningState?: string;
      publicNetworkAccess?: PublicNetworkAccess;
@@ -52,7 +53,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountGetResults extends ProxyResource {
-@@ -1191,20 +1191,20 @@
+@@ -1195,21 +1195,21 @@
      keyVaultKeyUri?: string;
      readonly keyVaultKeyUriVersion?: string;
      kind?: DatabaseAccountKind;
@@ -62,6 +63,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
+     perPartitionAutomaticFailoverEnabled?: boolean;
      readonly privateEndpointConnections?: PrivateEndpointConnection[];
      readonly provisioningState?: string;
      publicNetworkAccess?: PublicNetworkAccess;
@@ -76,7 +78,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountKeysMetadata {
-@@ -1413,9 +1413,9 @@
+@@ -1418,9 +1418,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -86,8 +88,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -1451,9 +1451,9 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1457,9 +1457,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -97,9 +99,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -2585,16 +2585,17 @@
-     V20260315 = "2026-03-15"
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -2593,16 +2593,17 @@
+     V20260715 = "2026-07-15"
  }
  
  // @public

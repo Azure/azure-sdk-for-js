@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update automatic tuning properties for target database.
  *
  * @summary update automatic tuning properties for target database.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAutomaticTuningUpdateMax.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAutomaticTuningUpdateMax.json
  */
 async function updatesDatabaseAutomaticTuningSettingsWithAllProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function updatesDatabaseAutomaticTuningSettingsWithAllProperties(): Promis
  * This sample demonstrates how to update automatic tuning properties for target database.
  *
  * @summary update automatic tuning properties for target database.
- * x-ms-original-file: 2025-08-01-preview/DatabaseAutomaticTuningUpdateMin.json
+ * x-ms-original-file: 2026-08-01-preview/DatabaseAutomaticTuningUpdateMin.json
  */
 async function updatesDatabaseAutomaticTuningSettingsWithMinimalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

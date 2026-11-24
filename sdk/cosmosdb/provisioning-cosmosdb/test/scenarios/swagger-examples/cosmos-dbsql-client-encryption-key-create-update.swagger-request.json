@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "resource": {
+      "id": "cekName",
+      "encryptionAlgorithm": "AEAD_AES_256_CBC_HMAC_SHA256",
+      "wrappedDataEncryptionKey": "U3dhZ2dlciByb2Nrcw==",
+      "keyWrapMetadata": {
+        "name": "customerManagedKey",
+        "type": "AzureKeyVault",
+        "value": "AzureKeyVault Key URL",
+        "algorithm": "RSA-OAEP"
+      }
+    }
+  }
+}

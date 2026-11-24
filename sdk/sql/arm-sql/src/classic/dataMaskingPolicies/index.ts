@@ -27,6 +27,7 @@ export interface DataMaskingPoliciesOperations {
     options?: DataMaskingPoliciesGetOptionalParams,
   ) => Promise<DataMaskingPolicy>;
 }
+
 function _getDataMaskingPolicies(context: SqlManagementContext) {
   return {
     createOrUpdate: (
@@ -44,6 +45,7 @@ function _getDataMaskingPolicies(context: SqlManagementContext) {
     ) => get(context, resourceGroupName, serverName, databaseName, options),
   };
 }
+
 export function _getDataMaskingPoliciesOperations(
   context: SqlManagementContext,
 ): DataMaskingPoliciesOperations {

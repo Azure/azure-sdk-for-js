@@ -5,12 +5,12 @@ import { ComputeClient } from "@azure/arm-compute-bulkactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to cancels the next occurrence of the specified scheduled action.
+ * This sample demonstrates how to cancels the next occurrence of the specified recurring bulk action.
  *
- * @summary cancels the next occurrence of the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_CancelNextOccurrence_BasicSuccess.json
+ * @summary cancels the next occurrence of the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_CancelNextOccurrence_BasicSuccess.json
  */
-async function _01CancelTheNextRecurringScheduledActionOccurrenceForMultipleResources(): Promise<void> {
+async function _01CancelTheNextRecurringBulkActionOccurrenceForMultipleResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -24,12 +24,12 @@ async function _01CancelTheNextRecurringScheduledActionOccurrenceForMultipleReso
 }
 
 /**
- * This sample demonstrates how to cancels the next occurrence of the specified scheduled action.
+ * This sample demonstrates how to cancels the next occurrence of the specified recurring bulk action.
  *
- * @summary cancels the next occurrence of the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_CancelNextOccurrence_EntireOccurrenceSuccess.json
+ * @summary cancels the next occurrence of the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_CancelNextOccurrence_EntireOccurrenceSuccess.json
  */
-async function _02CancelAllOperationsInTheNextRecurringScheduledActionOccurrence(): Promise<void> {
+async function _02CancelAllOperationsInTheNextRecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -40,12 +40,12 @@ async function _02CancelAllOperationsInTheNextRecurringScheduledActionOccurrence
 }
 
 /**
- * This sample demonstrates how to cancels the next occurrence of the specified scheduled action.
+ * This sample demonstrates how to cancels the next occurrence of the specified recurring bulk action.
  *
- * @summary cancels the next occurrence of the specified scheduled action.
- * x-ms-original-file: 2026-10-06-preview/ScheduledActions_CancelNextOccurrence_PartialSuccess.json
+ * @summary cancels the next occurrence of the specified recurring bulk action.
+ * x-ms-original-file: 2026-10-06-preview/RecurringBulkActions_CancelNextOccurrence_PartialSuccess.json
  */
-async function _03ResponseWithPartialResultsWhenCancelingTheNextRecurringScheduledActionOccurrence(): Promise<void> {
+async function _03ResponseWithPartialResultsWhenCancelingTheNextRecurringBulkActionOccurrence(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ComputeClient(credential, subscriptionId);
@@ -59,9 +59,9 @@ async function _03ResponseWithPartialResultsWhenCancelingTheNextRecurringSchedul
 }
 
 async function main(): Promise<void> {
-  await _01CancelTheNextRecurringScheduledActionOccurrenceForMultipleResources();
-  await _02CancelAllOperationsInTheNextRecurringScheduledActionOccurrence();
-  await _03ResponseWithPartialResultsWhenCancelingTheNextRecurringScheduledActionOccurrence();
+  await _01CancelTheNextRecurringBulkActionOccurrenceForMultipleResources();
+  await _02CancelAllOperationsInTheNextRecurringBulkActionOccurrence();
+  await _03ResponseWithPartialResultsWhenCancelingTheNextRecurringBulkActionOccurrence();
 }
 
 main().catch(console.error);

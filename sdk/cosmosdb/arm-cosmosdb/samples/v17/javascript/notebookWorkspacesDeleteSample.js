@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the notebook workspace for a Cosmos DB account.
  *
  * @summary deletes the notebook workspace for a Cosmos DB account.
- * x-ms-original-file: 2026-03-15/CosmosDBNotebookWorkspaceDelete.json
+ * x-ms-original-file: 2026-07-15/CosmosDBNotebookWorkspaceDelete.json
  */
 async function cosmosDBNotebookWorkspaceDelete() {
   const credential = new DefaultAzureCredential();

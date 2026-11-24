@@ -1,0 +1,83 @@
+{
+  "infras": [
+    {
+      "fileName": "infra.bicep",
+      "resources": {
+        "workspace": {
+          "bicepIdentifier": "workspace",
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-storage-insight-ws"
+              },
+              "location": {
+                "kind": "string",
+                "value": "eastus"
+              }
+            }
+          }
+        },
+        "storageInsightConfig": {
+          "bicepIdentifier": "storageInsightConfig",
+          "type": "Microsoft.OperationalInsights/workspaces/storageInsightConfigs",
+          "apiVersion": "2026-03-01",
+          "existing": false,
+          "value": {
+            "kind": "object",
+            "value": {
+              "name": {
+                "kind": "string",
+                "value": "learn-storage-insight"
+              },
+              "parent": {
+                "kind": "identifier",
+                "id": "workspace"
+              },
+              "properties": {
+                "kind": "object",
+                "value": {
+                  "containers": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "wad-iis-logfiles"
+                      }
+                    ]
+                  },
+                  "storageAccount": {
+                    "kind": "object",
+                    "value": {
+                      "id": {
+                        "kind": "string",
+                        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-cdk-package-test/providers/Microsoft.Storage/storageAccounts/learnstorage"
+                      },
+                      "key": {
+                        "kind": "string",
+                        "value": "key"
+                      }
+                    }
+                  },
+                  "tables": {
+                    "kind": "array",
+                    "items": [
+                      {
+                        "kind": "string",
+                        "value": "WADWindowsEventLogsTable"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

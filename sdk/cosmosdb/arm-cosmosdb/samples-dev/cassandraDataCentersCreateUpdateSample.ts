@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
  *
  * @summary create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
- * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraDataCenterCreate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBManagedCassandraDataCenterCreate.json
  */
 async function cosmosDBManagedCassandraDataCenterCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

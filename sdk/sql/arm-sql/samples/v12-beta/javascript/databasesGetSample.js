@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetDatabaseWithAvailabilityZone.json
+ * x-ms-original-file: 2026-08-01-preview/GetDatabaseWithAvailabilityZone.json
  */
 async function getsADatabaseWithAvailabilityZoneSpecified() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsADatabaseWithAvailabilityZoneSpecified() {
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetVCoreDatabase.json
+ * x-ms-original-file: 2026-08-01-preview/GetVCoreDatabase.json
  */
 async function getsADatabase() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getsADatabase() {
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetVCoreDatabaseDefaultEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/GetVCoreDatabaseDefaultEnclave.json
  */
 async function getsADatabaseConfiguredWithDefaultEnclaveType() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getsADatabaseConfiguredWithDefaultEnclaveType() {
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetVCoreDatabaseVBSEnclave.json
+ * x-ms-original-file: 2026-08-01-preview/GetVCoreDatabaseVBSEnclave.json
  */
 async function getsADatabaseConfiguredWithVBSEnclaveType() {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function getsADatabaseConfiguredWithVBSEnclaveType() {
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetVCoreDatabaseWithExpandEqualsKeys.json
+ * x-ms-original-file: 2026-08-01-preview/GetVCoreDatabaseWithExpandEqualsKeys.json
  */
 async function getsADatabaseWithDatabaseLevelKeysExpanded() {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function getsADatabaseWithDatabaseLevelKeysExpanded() {
  * This sample demonstrates how to gets a database.
  *
  * @summary gets a database.
- * x-ms-original-file: 2025-08-01-preview/GetVCoreDatabaseWithExpandEqualsKeysWithVersionlessKeys.json
+ * x-ms-original-file: 2026-08-01-preview/GetVCoreDatabaseWithExpandEqualsKeysWithVersionlessKeys.json
  */
 async function getsADatabaseWithDatabaseLevelKeysExpandedUsingVersionlessKeys() {
   const credential = new DefaultAzureCredential();

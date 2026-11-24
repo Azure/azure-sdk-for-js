@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves continuous backup information for a container resource.
  *
  * @summary retrieves continuous backup information for a container resource.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlContainerBackupInformation.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlContainerBackupInformation.json
  */
 async function cosmosDBSqlContainerBackupInformation() {
   const credential = new DefaultAzureCredential();

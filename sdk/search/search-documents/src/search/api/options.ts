@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import type {
+  VectorQueryUnion,
+  QueryRewritesType,
+  GraphQueryExecutionMode,
+  GraphQueryExplainStage,
+  GraphQueryProvenanceParameters,
   QueryType,
+  AgenticSearchOptions,
   ScoringStatistics,
   QueryDebugMode,
   SearchMode,
@@ -11,8 +17,6 @@ import type {
   SemanticErrorMode,
   QueryAnswerType,
   QueryCaptionType,
-  QueryRewritesType,
-  VectorQueryUnion,
   VectorFilterMode,
   HybridSearch,
   AutocompleteMode,
@@ -21,6 +25,8 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
@@ -39,12 +45,12 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
   searchFields?: string[];
   /** The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
@@ -63,20 +69,20 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
   searchFields?: string[];
   /** The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface IndexOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
 }
 
 /** Optional parameters. */
 export interface SuggestPostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
@@ -97,12 +103,12 @@ export interface SuggestPostOptionalParams extends OperationOptions {
   select?: string;
   /** The number of suggestions to retrieve. This must be a value between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SuggestGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
@@ -123,12 +129,12 @@ export interface SuggestGetOptionalParams extends OperationOptions {
   select?: string;
   /** The number of suggestions to retrieve. The value must be a number between 1 and 100. The default is 5. */
   top?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetDocumentOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -137,12 +143,12 @@ export interface GetDocumentOptionalParams extends OperationOptions {
   enableElevatedRead?: boolean;
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SearchPostOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -163,10 +169,14 @@ export interface SearchPostOptionalParams extends OperationOptions {
   highlightPreTag?: string;
   /** A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. This parameter can be useful for ensuring search availability even for services with only one replica. The default is 100. */
   minimumCoverage?: number;
+  /** The key of the document to use as the basis for finding similar documents. This parameter cannot be used together with search text. */
+  moreLikeThis?: string;
   /** The comma-separated list of OData $orderby expressions by which to sort the results. Each expression can be either a field name or a call to either the geo.distance() or the search.score() functions. Each expression can be followed by asc to indicate ascending, or desc to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no $orderby is specified, the default sort order is descending by document match score. There can be at most 32 $orderby clauses. */
   orderBy?: string;
   /** A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if your query uses the Lucene query syntax. */
   queryType?: QueryType;
+  /** Request-scoped runtime options when queryType is set to 'agentic'. Not supported with other query modes. Use the existing debug selector for diagnostics. */
+  agenticOptions?: AgenticSearchOptions;
   /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. The default is 'local'. Use 'global' to aggregate scoring statistics globally before scoring. Using global scoring statistics can increase latency of search queries. */
   scoringStatistics?: ScoringStatistics;
   /** A value to be used to create a sticky session, which can help getting more consistent results. As long as the same sessionId is used, a best-effort attempt will be made to target the same replica set. Be wary that reusing the same sessionID values repeatedly can interfere with the load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. */
@@ -215,12 +225,12 @@ export interface SearchPostOptionalParams extends OperationOptions {
   vectorFilterMode?: VectorFilterMode;
   /** The query parameters to configure hybrid search behaviors. */
   hybridSearch?: HybridSearch;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SearchGetOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The Accept header. */
   accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
@@ -243,6 +253,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
   highlightPreTag?: string;
   /** A number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. This parameter can be useful for ensuring search availability even for services with only one replica. The default is 100. */
   minimumCoverage?: number;
+  /** The key of the document to use as the basis for finding similar documents. This parameter cannot be used together with search text. */
+  moreLikeThis?: string;
   /** The list of OData $orderby expressions by which to sort the results. Each expression can be either a field name or a call to either the geo.distance() or the search.score() functions. Each expression can be followed by asc to indicate ascending, and desc to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no OrderBy is specified, the default sort order is descending by document match score. There can be at most 32 $orderby clauses. */
   orderBy?: string;
   /** A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if your query uses the Lucene query syntax. */
@@ -287,14 +299,42 @@ export interface SearchGetOptionalParams extends OperationOptions {
   speller?: QuerySpellerType;
   /** The list of field names used for semantic ranking. */
   semanticFields?: string[];
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** Maximum duration in seconds for the complete agentic search request, including retrieval, ranking and retries. Not supported with other query modes. */
+  agenticMaxRuntimeInSeconds?: number;
 }
 
 /** Optional parameters. */
 export interface GetDocumentCountOptionalParams extends OperationOptions {
-  /** The Accept header. */
-  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
+}
+
+/** Optional parameters. */
+export interface GraphOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
+  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
+  querySourceAuthorization?: string;
+  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
+  enableElevatedRead?: boolean;
+  /** Full-text search text used to constrain graph backend requests. */
+  search?: string;
+  /** An OData filter over graph-index fields applied throughout graph execution. */
+  filter?: string;
+  /** Vector queries used to constrain the graph's backend searches. */
+  vectorQueries?: VectorQueryUnion[];
+  /** Executes the query by default. planOnly builds the plan without backend query execution and requires at least one explain stage. */
+  executionMode?: GraphQueryExecutionMode;
+  /** Diagnostic plan stages to include in the response. Plan representations are diagnostic information rather than an executable client contract. */
+  explain?: GraphQueryExplainStage[];
+  /** Whether to include graph execution statistics. Defaults to true. */
+  includeStatistics?: boolean;
+  /** Whether to include informational diagnostics. Errors and warnings are returned regardless of this setting. */
+  includeDiagnostics?: boolean;
+  /** Controls bounded assertion evidence and optional source-document hydration. */
+  provenance?: GraphQueryProvenanceParameters;
 }

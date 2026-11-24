@@ -85,7 +85,7 @@ export function _listGremlinRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +125,7 @@ export function listGremlinRoleAssignments(
     () => _listGremlinRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listGremlinRoleAssignmentsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -143,7 +143,7 @@ export function _deleteGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +192,7 @@ export function deleteGremlinRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -212,7 +212,7 @@ export function _createUpdateGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +268,7 @@ export function createUpdateGremlinRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<GremlinRoleAssignmentResource>, GremlinRoleAssignmentResource>;
 }
@@ -287,7 +287,7 @@ export function _getGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -345,7 +345,7 @@ export function _listGremlinRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,7 +385,7 @@ export function listGremlinRoleDefinitions(
     () => _listGremlinRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listGremlinRoleDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -403,7 +403,7 @@ export function _deleteGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -452,7 +452,7 @@ export function deleteGremlinRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -472,7 +472,7 @@ export function _createUpdateGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -528,7 +528,7 @@ export function createUpdateGremlinRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<GremlinRoleDefinitionResource>, GremlinRoleDefinitionResource>;
 }
@@ -547,7 +547,7 @@ export function _getGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -612,7 +612,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -672,7 +672,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -691,7 +691,7 @@ export function _listGremlinGraphsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -732,7 +732,7 @@ export function listGremlinGraphs(
     () => _listGremlinGraphsSend(context, resourceGroupName, accountName, databaseName, options),
     _listGremlinGraphsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -752,7 +752,7 @@ export function _deleteGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -797,7 +797,7 @@ export function deleteGremlinGraph(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -818,7 +818,7 @@ export function _createUpdateGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -876,7 +876,7 @@ export function createUpdateGremlinGraph(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<GremlinGraphGetResults>, GremlinGraphGetResults>;
 }
@@ -897,7 +897,7 @@ export function _getGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -957,7 +957,7 @@ export function _listGremlinDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -997,7 +997,7 @@ export function listGremlinDatabases(
     () => _listGremlinDatabasesSend(context, resourceGroupName, accountName, options),
     _listGremlinDatabasesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -1015,7 +1015,7 @@ export function _deleteGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1054,7 +1054,7 @@ export function deleteGremlinDatabase(
     getInitialResponse: () =>
       _deleteGremlinDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1073,7 +1073,7 @@ export function _createUpdateGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1129,7 +1129,7 @@ export function createUpdateGremlinDatabase(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<GremlinDatabaseGetResults>, GremlinDatabaseGetResults>;
 }
@@ -1148,7 +1148,7 @@ export function _getGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1212,7 +1212,7 @@ export function _migrateGremlinGraphToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1268,7 +1268,7 @@ export function migrateGremlinGraphToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1289,7 +1289,7 @@ export function _migrateGremlinGraphToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1343,7 +1343,7 @@ export function migrateGremlinGraphToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1365,7 +1365,7 @@ export function _updateGremlinGraphThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1423,7 +1423,7 @@ export function updateGremlinGraphThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1444,7 +1444,7 @@ export function _getGremlinGraphThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1508,7 +1508,7 @@ export function _migrateGremlinDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1562,7 +1562,7 @@ export function migrateGremlinDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1581,7 +1581,7 @@ export function _migrateGremlinDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1633,7 +1633,7 @@ export function migrateGremlinDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1653,7 +1653,7 @@ export function _updateGremlinDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1709,7 +1709,7 @@ export function updateGremlinDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1728,7 +1728,7 @@ export function _getGremlinDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

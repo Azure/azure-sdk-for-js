@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a private endpoint connection for the durable task scheduler
  *
  * @summary delete a private endpoint connection for the durable task scheduler
- * x-ms-original-file: 2026-02-01/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-07-01-preview/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

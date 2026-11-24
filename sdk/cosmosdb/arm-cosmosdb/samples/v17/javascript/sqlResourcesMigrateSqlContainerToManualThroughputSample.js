@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
  *
  * @summary migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
- * x-ms-original-file: 2026-03-15/CosmosDBSqlContainerMigrateToManualThroughput.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlContainerMigrateToManualThroughput.json
  */
 async function cosmosDBSqlContainerMigrateToManualThroughput() {
   const credential = new DefaultAzureCredential();

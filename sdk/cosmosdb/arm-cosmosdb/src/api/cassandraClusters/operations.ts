@@ -50,7 +50,7 @@ export function _statusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -101,7 +101,7 @@ export function _startSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +136,7 @@ export function start(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _startSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -152,7 +152,7 @@ export function _deallocateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +195,7 @@ export function deallocate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deallocateSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -212,7 +212,7 @@ export function _invokeCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -256,7 +256,7 @@ export function invokeCommand(
     getInitialResponse: () =>
       _invokeCommandSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<CommandOutput>, CommandOutput>;
 }
 
@@ -268,7 +268,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/cassandraClusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -306,7 +306,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -320,7 +320,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,7 +359,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -375,7 +375,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -410,7 +410,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -427,7 +427,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -468,7 +468,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<ClusterResource>, ClusterResource>;
 }
 
@@ -485,7 +485,7 @@ export function _createUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -529,7 +529,7 @@ export function createUpdate(
     getInitialResponse: () =>
       _createUpdateSend(context, resourceGroupName, clusterName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<ClusterResource>, ClusterResource>;
 }
 
@@ -545,7 +545,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

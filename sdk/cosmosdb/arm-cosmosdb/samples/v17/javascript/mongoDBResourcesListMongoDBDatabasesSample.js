@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the MongoDB databases under an existing Azure Cosmos DB database account.
  *
  * @summary lists the MongoDB databases under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBDatabaseList.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBDatabaseList.json
  */
 async function cosmosDBMongoDBDatabaseList() {
   const credential = new DefaultAzureCredential();

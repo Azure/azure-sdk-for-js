@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Azure Cosmos DB MongoMI Role Assignment.
  *
  * @summary creates or updates an Azure Cosmos DB MongoMI Role Assignment.
- * x-ms-original-file: 2026-03-15/mongoMIrbac/CosmosDBMongoMIRoleAssignmentCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/mongoMIrbac/CosmosDBMongoMIRoleAssignmentCreateUpdate.json
  */
 async function cosmosDBMongoMIRoleAssignmentCreateUpdate() {
   const credential = new DefaultAzureCredential();

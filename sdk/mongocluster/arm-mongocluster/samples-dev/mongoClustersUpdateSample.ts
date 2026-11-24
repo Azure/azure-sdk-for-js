@@ -5,12 +5,12 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchCMK.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchCMK.json
  */
-async function updatesTheCustomerManagedEncryptionKeyOnAMongoClusterResource(): Promise<void> {
+async function updatesTheCustomerManagedEncryptionKeyOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -39,12 +39,12 @@ async function updatesTheCustomerManagedEncryptionKeyOnAMongoClusterResource(): 
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchDataApi.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchDataApi.json
  */
-async function enablesDataAPIOnAMongoClusterResource(): Promise<void> {
+async function enablesDataAPIOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -55,10 +55,10 @@ async function enablesDataAPIOnAMongoClusterResource(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchDisableNativeAuth.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchDisableNativeAuth.json
  */
 async function updatesTheAllowedAuthenticationModesToRemoveNativeAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -71,12 +71,12 @@ async function updatesTheAllowedAuthenticationModesToRemoveNativeAuthentication(
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchDiskSize.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchDiskSize.json
  */
-async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
+async function updatesTheDiskSizeOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -87,10 +87,10 @@ async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchEnableEntraIDAuth.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchEnableEntraIDAuth.json
  */
 async function updatesTheAllowedAuthenticationModesToIncludeMicrosoftEntraIDAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -103,12 +103,12 @@ async function updatesTheAllowedAuthenticationModesToIncludeMicrosoftEntraIDAuth
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchNetworkBypassMode.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchNetworkBypassMode.json
  */
-async function enablesNetworkBypassModeOnAMongoClusterResourceToAllowAzureCosmosDBServiceToBypassNetworkRestrictions(): Promise<void> {
+async function enablesNetworkBypassModeOnAnAzureDocumentDBClusterResourceToAllowTheAzureCosmosDBServiceToBypassNetworkRestrictions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -119,12 +119,12 @@ async function enablesNetworkBypassModeOnAMongoClusterResourceToAllowAzureCosmos
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchPrivateNetworkAccess.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchPrivateNetworkAccess.json
  */
-async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection(): Promise<void> {
+async function disablesPublicNetworkAccessOnADocumentDBClusterResourceWithAPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -135,12 +135,12 @@ async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEnd
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PatchSSDv2.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchSSDv2.json
  */
-async function updatesThePremiumSSDv2SizeOnAMongoClusterResource(): Promise<void> {
+async function updatesThePremiumSSDv2SizeOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -151,10 +151,26 @@ async function updatesThePremiumSSDv2SizeOnAMongoClusterResource(): Promise<void
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_ResetPassword.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_PatchTags.json
+ */
+async function updatesStringValuedResourceTagsWithoutChangingTheExistingPremiumSSDStorageType(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    tags: { environment: "production", costCenter: "1234" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ *
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_ResetPassword.json
  */
 async function resetsTheAdministratorLoginPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -167,12 +183,12 @@ async function resetsTheAdministratorLoginPassword(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
+ * This sample demonstrates how to updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
  *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_Update.json
+ * @summary updates an existing DocumentDB cluster. The request body can contain one to many of the properties present in the normal DocumentDB cluster definition.
+ * x-ms-original-file: 2026-09-01/MongoClusters_Update.json
  */
-async function updatesAMongoClusterResource(): Promise<void> {
+async function updatesADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -181,7 +197,7 @@ async function updatesAMongoClusterResource(): Promise<void> {
       administrator: { userName: "mongoAdmin" },
       authConfig: { allowedModes: ["NativeAuth"] },
       serverVersion: "5.0",
-      storage: { sizeGb: 256, type: "PremiumSSD" },
+      storage: { sizeGb: 256, type: "PremiumSSDv2" },
       compute: { tier: "M50" },
       sharding: { shardCount: 4 },
       highAvailability: { targetMode: "SameZone" },
@@ -194,16 +210,17 @@ async function updatesAMongoClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updatesTheCustomerManagedEncryptionKeyOnAMongoClusterResource();
-  await enablesDataAPIOnAMongoClusterResource();
+  await updatesTheCustomerManagedEncryptionKeyOnADocumentDBClusterResource();
+  await enablesDataAPIOnADocumentDBClusterResource();
   await updatesTheAllowedAuthenticationModesToRemoveNativeAuthentication();
-  await updatesTheDiskSizeOnAMongoClusterResource();
+  await updatesTheDiskSizeOnADocumentDBClusterResource();
   await updatesTheAllowedAuthenticationModesToIncludeMicrosoftEntraIDAuthentication();
-  await enablesNetworkBypassModeOnAMongoClusterResourceToAllowAzureCosmosDBServiceToBypassNetworkRestrictions();
-  await disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection();
-  await updatesThePremiumSSDv2SizeOnAMongoClusterResource();
+  await enablesNetworkBypassModeOnAnAzureDocumentDBClusterResourceToAllowTheAzureCosmosDBServiceToBypassNetworkRestrictions();
+  await disablesPublicNetworkAccessOnADocumentDBClusterResourceWithAPrivateEndpointConnection();
+  await updatesThePremiumSSDv2SizeOnADocumentDBClusterResource();
+  await updatesStringValuedResourceTagsWithoutChangingTheExistingPremiumSSDStorageType();
   await resetsTheAdministratorLoginPassword();
-  await updatesAMongoClusterResource();
+  await updatesADocumentDBClusterResource();
 }
 
 main().catch(console.error);

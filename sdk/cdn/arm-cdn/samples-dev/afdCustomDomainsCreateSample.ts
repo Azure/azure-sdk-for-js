@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new domain within the specified profile.
  *
  * @summary creates a new domain within the specified profile.
- * x-ms-original-file: 2025-12-01/AFDCustomDomains_Create.json
+ * x-ms-original-file: 2026-10-01/AFDCustomDomains_Create.json
  */
 async function afdCustomDomainsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,6 +25,8 @@ async function afdCustomDomainsCreate(): Promise<void> {
         cipherSuiteSetForTls13: ["TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"],
       },
       minimumTlsVersion: "TLS12",
+      serverTlsGroupPolicy: "Custom",
+      serverTlsGroups: ["X25519MLKEM768", "SecP256r1MLKEM768", "X25519", "prime256v1"],
     },
   });
   console.log(result);

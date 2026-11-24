@@ -2,7 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, expect, it } from "vitest";
-import { parsePnpmPackResult } from "../src/checks/release.ts";
+import * as releaseChecks from "../src/checks/release.ts";
+import { parsePnpmPackResult } from "../src/util/pnpmPack.ts";
+
+it("exports only runnable release checks", () => {
+  for (const check of Object.values(releaseChecks)) {
+    expect(check.check).toBeTypeOf("function");
+  }
+});
 
 describe("parsePnpmPackResult", () => {
   it("reads the filename from a single pnpm pack result", () => {

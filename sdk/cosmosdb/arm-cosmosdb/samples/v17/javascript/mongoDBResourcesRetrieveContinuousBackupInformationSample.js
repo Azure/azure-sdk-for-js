@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves continuous backup information for a Mongodb collection.
  *
  * @summary retrieves continuous backup information for a Mongodb collection.
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBCollectionBackupInformation.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBCollectionBackupInformation.json
  */
 async function cosmosDBMongoDBCollectionBackupInformation() {
   const credential = new DefaultAzureCredential();

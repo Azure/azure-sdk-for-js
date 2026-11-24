@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
  *
  * @summary creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
- * x-ms-original-file: 2024-06-01/PrivateZonePut.json
+ * x-ms-original-file: 2026-06-01-preview/PrivateZonePut.json
  */
 async function putPrivateDNSZone(): Promise<void> {
   const credential = new DefaultAzureCredential();

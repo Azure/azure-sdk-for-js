@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the usages (most recent storage data) for the given collection.
  *
  * @summary retrieves the usages (most recent storage data) for the given collection.
- * x-ms-original-file: 2026-03-15/CosmosDBCollectionGetUsages.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCollectionGetUsages.json
  */
 async function cosmosDBCollectionGetUsages() {
   const credential = new DefaultAzureCredential();

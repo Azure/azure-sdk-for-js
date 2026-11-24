@@ -1,5 +1,80 @@
 # Release History
 
+## 39.2.0 (2026-11-18)
+
+### Features Added
+  - Added Interface NetworkVirtualApplianceLoadBalancerConfiguration
+  - Interface ApplicationGateway has a new optional parameter deploymentTier
+  - Interface ApplicationGateway has a new optional parameter enableConfidentialCompute
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter deploymentTier
+  - Interface ApplicationGatewayPropertiesFormat has a new optional parameter enableConfidentialCompute
+  - Interface AzureFirewall has a new optional parameter tcpIdleTimeoutInMinutes
+  - Interface AzureFirewallPropertiesFormat has a new optional parameter tcpIdleTimeoutInMinutes
+  - Interface InboundSecurityRules has a new optional parameter loadBalancerConfiguration
+  - Interface NetworkInterface has a new optional parameter networkAdapterIndex
+  - Interface NetworkInterfacePropertiesFormat has a new optional parameter networkAdapterIndex
+  - Interface NetworkVirtualAppliance has a new optional parameter loadBalancerConfiguration
+  - Interface NetworkVirtualAppliancePropertiesFormat has a new optional parameter loadBalancerConfiguration
+  - Added Type Alias ApplicationGatewayDeploymentTier
+  - Added Type Alias NetworkVirtualApplianceLoadDistribution
+  - Added Enum KnownApplicationGatewayDeploymentTier
+  - Added Enum KnownNetworkVirtualApplianceLoadDistribution
+
+## 39.1.0 (2026-10-09)
+
+### Features Added
+  - Added operation group ExpressRouteLagAuthorizationsOperations
+  - Added operation group VirtualNetworkApplianceCapabilitiesOperations
+  - Added Interface ArmProxyResource
+  - Added Interface ArmResource
+  - Added Interface DdosGeoMatch
+  - Added Interface DdosMitigationRule
+  - Added Interface DdosMitigationRulePropertiesFormat
+  - Added Interface DdosSourceMatchConditions
+  - Added Interface DdosSourcePolicyAction
+  - Added Interface DdosSourcePolicyOverride
+  - Added Interface DdosTcpDefaultMitigations
+  - Added Interface DdosTcpPerSourceConnectionRateLimitPolicy
+  - Added Interface DdosTcpPerSourceRateLimitPolicy
+  - Added Interface DdosUdpDefaultMitigations
+  - Added Interface DdosUdpPerSourceRateLimitPolicy
+  - Added Interface ExpressRouteLagAuthorization
+  - Added Interface ExpressRouteLagAuthorizationPropertiesFormat
+  - Added Interface ExpressRouteLagAuthorizationsCreateOrUpdateOptionalParams
+  - Added Interface ExpressRouteLagAuthorizationsDeleteOptionalParams
+  - Added Interface ExpressRouteLagAuthorizationsGetOptionalParams
+  - Added Interface ExpressRouteLagAuthorizationsListKeysOptionalParams
+  - Added Interface ExpressRouteLagAuthorizationsListOptionalParams
+  - Added Interface Nat64Capability
+  - Added Interface PLGatewayCapability
+  - Added Interface PLGatewayFastpathCapability
+  - Added Interface PlipForwardersCapability
+  - Added Interface ProxyResourceVirtualNetworkApplianceCapabilityProperties
+  - Added Interface VirtualNetworkApplianceCapabilitiesCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkApplianceCapabilitiesDeleteOptionalParams
+  - Added Interface VirtualNetworkApplianceCapabilitiesGetOptionalParams
+  - Added Interface VirtualNetworkApplianceCapabilitiesListOptionalParams
+  - Added Interface VirtualNetworkApplianceCapability
+  - Added Interface VirtualNetworkApplianceCapabilityProperties
+  - Interface DdosCustomPolicy has a new optional parameter mitigationRules
+  - Interface DdosCustomPolicyPropertiesFormat has a new optional parameter mitigationRules
+  - Interface ExpressRouteLagPropertiesFormat has a new optional parameter authorizations
+  - Interface VirtualNetworkAppliance has a new optional parameter capacityProvider
+  - Interface VirtualNetworkAppliancePropertiesFormat has a new optional parameter capacityProvider
+  - Added Type Alias DdosContinent
+  - Added Type Alias DdosMitigationTrafficScope
+  - Added Type Alias DdosSourcePolicyActionType
+  - Added Type Alias ExpressRouteLagAuthorizationUseStatus
+  - Added Type Alias VirtualNetworkApplianceCapabilityIpVersion
+  - Added Type Alias VirtualNetworkApplianceCapabilityKind
+  - Added Type Alias VirtualNetworkApplianceCapabilityUnion
+  - Added Enum KnownDdosContinent
+  - Added Enum KnownDdosMitigationTrafficScope
+  - Added Enum KnownDdosSourcePolicyActionType
+  - Added Enum KnownExpressRouteLagAuthorizationUseStatus
+  - Added Enum KnownVirtualNetworkApplianceCapabilityIpVersion
+  - Added Enum KnownVirtualNetworkApplianceCapabilityKind
+
 ## 39.0.0 (2026-09-15)
 
 ### Features Added

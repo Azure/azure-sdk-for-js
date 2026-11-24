@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a job credential.
  *
  * @summary deletes a job credential.
- * x-ms-original-file: 2025-08-01-preview/DeleteJobCredential.json
+ * x-ms-original-file: 2026-08-01-preview/DeleteJobCredential.json
  */
 async function deleteACredential() {
   const credential = new DefaultAzureCredential();

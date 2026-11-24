@@ -28,16 +28,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
 
       - name: Install pnpm
         run: |
           PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
-          npm install -g "pnpm@${PNPM_VERSION}"
+          PNPM_REGISTRY=$(npm config get registry)
+          npm install -g --allow-scripts=pnpm --registry="$PNPM_REGISTRY" "pnpm@${PNPM_VERSION}"
 
       # The repo root .npmrc points at the Azure DevOps feed mirror of npmjs, but this
       # GitHub-hosted runner has no ADO service identity to authenticate with. The feed only

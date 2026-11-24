@@ -9,11 +9,7 @@ import type {
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, expect, it, vi } from "vitest";
 import type { AIProjectContext } from "../../src/api/index.js";
-import {
-  list,
-  listInsights,
-  listRuns,
-} from "../../src/api/beta/agentInsightMonitors/operations.js";
+import { list, listInsights, listRuns } from "../../src/api/agentInsightMonitors/operations.js";
 
 type ListFactory = (
   context: AIProjectContext,
@@ -28,7 +24,10 @@ const listFactories: Record<string, ListFactory> = {
   insights: (context, options) => listInsights(context, "monitor-1", options),
 };
 
-function createContext(capturedNextPageOptions: RequestParameters[]): AIProjectContext {
+function createContext(
+  capturedInitialOptions: RequestParameters[],
+  capturedNextPageOptions: RequestParameters[],
+): AIProjectContext {
   let pageNumber = 0;
   const createResponse = (): PathUncheckedResponse => {
     const isFirstPage = pageNumber++ === 0;
@@ -51,7 +50,10 @@ function createContext(capturedNextPageOptions: RequestParameters[]): AIProjectC
     apiVersion: "v1",
     endpoint: "https://example.com",
     path: () => ({
-      get: () => Promise.resolve(createResponse()),
+      get: (options?: RequestParameters) => {
+        capturedInitialOptions.push(options ?? {});
+        return Promise.resolve(createResponse());
+      },
     }),
     pathUnchecked: () => ({
       get: (options?: RequestParameters) => {
@@ -92,8 +94,9 @@ function createResumeContext(capturedPageLinks: string[]): AIProjectContext {
 describe("Agent Insights pagination", () => {
   for (const [name, createIterator] of Object.entries(listFactories)) {
     it(`forwards request options to ${name} continuation requests`, async () => {
+      const capturedInitialOptions: RequestParameters[] = [];
       const capturedNextPageOptions: RequestParameters[] = [];
-      const context = createContext(capturedNextPageOptions);
+      const context = createContext(capturedInitialOptions, capturedNextPageOptions);
       const abortController = new AbortController();
       const onUploadProgress = vi.fn();
       const onDownloadProgress = vi.fn();
@@ -114,6 +117,11 @@ describe("Agent Insights pagination", () => {
       await pages.next();
       await pages.next();
 
+      expect(capturedInitialOptions).toHaveLength(1);
+      expect(capturedInitialOptions[0].headers).toMatchObject({
+        "x-custom-header": "custom-value",
+      });
+      expect(capturedInitialOptions[0].headers).not.toHaveProperty("foundry-features");
       expect(capturedNextPageOptions).toHaveLength(1);
       expect(capturedNextPageOptions[0]).toMatchObject({
         abortSignal: abortController.signal,
@@ -122,10 +130,10 @@ describe("Agent Insights pagination", () => {
         onDownloadProgress,
         onResponse,
         headers: {
-          "foundry-features": "AgentInsights=V1Preview",
           "x-custom-header": "custom-value",
         },
       });
+      expect(capturedNextPageOptions[0].headers).not.toHaveProperty("foundry-features");
     });
 
     it(`advances ${name} after resuming from a continuation token`, async () => {

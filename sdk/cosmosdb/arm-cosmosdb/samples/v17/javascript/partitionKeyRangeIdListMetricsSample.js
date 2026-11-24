@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves the metrics determined by the given filter for the given partition key range id.
  *
  * @summary retrieves the metrics determined by the given filter for the given partition key range id.
- * x-ms-original-file: 2026-03-15/CosmosDBPKeyRangeIdGetMetrics.json
+ * x-ms-original-file: 2026-07-15/CosmosDBPKeyRangeIdGetMetrics.json
  */
 async function cosmosDBDatabaseAccountRegionGetMetrics() {
   const credential = new DefaultAzureCredential();

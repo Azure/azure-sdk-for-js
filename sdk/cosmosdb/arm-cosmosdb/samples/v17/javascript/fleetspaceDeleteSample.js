@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Fleetspace.
  *
  * @summary deletes an existing Azure Cosmos DB Fleetspace.
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetspaceDelete.json
+ * x-ms-original-file: 2026-07-15/fleet/CosmosDBFleetspaceDelete.json
  */
 async function cosmosDBFleetspaceDelete() {
   const credential = new DefaultAzureCredential();

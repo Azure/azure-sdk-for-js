@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
  *
  * @summary update the properties of an existing Azure Cosmos DB fleetspace under a fleet.
- * x-ms-original-file: 2026-03-15/fleet/CosmosDBFleetspaceUpdate.json
+ * x-ms-original-file: 2026-07-15/fleet/CosmosDBFleetspaceUpdate.json
  */
 async function cosmosDBFleetspaceUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

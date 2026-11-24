@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Gremlin graph
  *
  * @summary create or update an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinGraphCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBGremlinGraphCreateUpdate.json
  */
 async function cosmosDBGremlinGraphCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

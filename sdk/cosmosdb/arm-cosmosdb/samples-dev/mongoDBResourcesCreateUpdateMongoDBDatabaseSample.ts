@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or updates Azure Cosmos DB MongoDB database
  *
  * @summary create or updates Azure Cosmos DB MongoDB database
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBDatabaseCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBDatabaseCreateUpdate.json
  */
 async function cosmosDBMongoDBDatabaseCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AttributeValue, Context } from "@opentelemetry/api";
+import type { Context } from "@opentelemetry/api";
 import { trace } from "@opentelemetry/api";
-import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace";
 import type { MetricHandler } from "../metrics/index.js";
 import { Logger } from "../shared/logging/index.js";
 import {
@@ -92,11 +92,10 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
     // `attributes` directly avoids depending on the ReadableSpan also being a
     // writable Span (and on `setAttribute` being a no-op once the span has
     // ended).
-    const writableAttributes = attributes as Record<string, AttributeValue | undefined>;
     for (const { target, source } of MAIN_AGENT_ONEND_MAPPING) {
       const value = attributes[source];
       if (value !== undefined) {
-        writableAttributes[target] = value;
+        attributes[target] = value;
       }
     }
   }

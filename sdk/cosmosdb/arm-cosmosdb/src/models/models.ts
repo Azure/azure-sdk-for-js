@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface _OperationListResult {
   /** List of operations supported by the Resource Provider. */
@@ -231,6 +231,8 @@ export interface DatabaseAccountGetResults extends ProxyResource {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountGetResultsDeserializer(item: any): DatabaseAccountGetResults {
@@ -345,6 +347,8 @@ export interface DatabaseAccountGetProperties {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountGetPropertiesDeserializer(item: any): DatabaseAccountGetProperties {
@@ -425,6 +429,7 @@ export function databaseAccountGetPropertiesDeserializer(item: any): DatabaseAcc
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 
@@ -1095,6 +1100,11 @@ export interface BackupPolicy {
   type: BackupPolicyType;
   /** The object representing the state of the migration between the backup policies. */
   migrationState?: BackupPolicyMigrationState;
+  /**
+   * The UTC timestamp until which changes that reduce backup retention are locked.
+   * While active, this timestamp can only be extended.
+   */
+  backupRetentionLockExpirationTimestamp?: Date;
 }
 
 export function backupPolicySerializer(item: BackupPolicy): any {
@@ -1103,6 +1113,9 @@ export function backupPolicySerializer(item: BackupPolicy): any {
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateSerializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : item["backupRetentionLockExpirationTimestamp"].toISOString(),
   };
 }
 
@@ -1112,6 +1125,9 @@ export function backupPolicyDeserializer(item: any): BackupPolicy {
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateDeserializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : new Date(item["backupRetentionLockExpirationTimestamp"]),
   };
 }
 
@@ -1227,6 +1243,9 @@ export function periodicModeBackupPolicySerializer(item: PeriodicModeBackupPolic
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateSerializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : item["backupRetentionLockExpirationTimestamp"].toISOString(),
     periodicModeProperties: !item["periodicModeProperties"]
       ? item["periodicModeProperties"]
       : periodicModePropertiesSerializer(item["periodicModeProperties"]),
@@ -1239,6 +1258,9 @@ export function periodicModeBackupPolicyDeserializer(item: any): PeriodicModeBac
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateDeserializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : new Date(item["backupRetentionLockExpirationTimestamp"]),
     periodicModeProperties: !item["periodicModeProperties"]
       ? item["periodicModeProperties"]
       : periodicModePropertiesDeserializer(item["periodicModeProperties"]),
@@ -1306,6 +1328,9 @@ export function continuousModeBackupPolicySerializer(item: ContinuousModeBackupP
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateSerializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : item["backupRetentionLockExpirationTimestamp"].toISOString(),
     continuousModeProperties: !item["continuousModeProperties"]
       ? item["continuousModeProperties"]
       : continuousModePropertiesSerializer(item["continuousModeProperties"]),
@@ -1318,6 +1343,9 @@ export function continuousModeBackupPolicyDeserializer(item: any): ContinuousMod
     migrationState: !item["migrationState"]
       ? item["migrationState"]
       : backupPolicyMigrationStateDeserializer(item["migrationState"]),
+    backupRetentionLockExpirationTimestamp: !item["backupRetentionLockExpirationTimestamp"]
+      ? item["backupRetentionLockExpirationTimestamp"]
+      : new Date(item["backupRetentionLockExpirationTimestamp"]),
     continuousModeProperties: !item["continuousModeProperties"]
       ? item["continuousModeProperties"]
       : continuousModePropertiesDeserializer(item["continuousModeProperties"]),
@@ -1831,6 +1859,8 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountCreateUpdateParametersSerializer(
@@ -1921,6 +1951,8 @@ export interface DatabaseAccountCreateUpdateProperties {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountCreateUpdatePropertiesSerializer(
@@ -1980,6 +2012,7 @@ export function databaseAccountCreateUpdatePropertiesSerializer(
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 
@@ -2083,6 +2116,8 @@ export interface DatabaseAccountUpdateParameters {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountUpdateParametersSerializer(
@@ -2127,6 +2162,7 @@ export function databaseAccountUpdateParametersSerializer(
       "defaultPriorityLevel",
       "enablePerRegionPerPartitionAutoscale",
       "enforceHierarchicalPartitionKeyIdLastLevel",
+      "perPartitionAutomaticFailoverEnabled",
     ])
       ? undefined
       : _databaseAccountUpdateParametersPropertiesSerializer(item),
@@ -2201,6 +2237,8 @@ export interface DatabaseAccountUpdateProperties {
   enablePerRegionPerPartitionAutoscale?: boolean;
   /** Flag to indicate enabling/disabling of hierarchical partition key ID last level enforcement on the account. */
   enforceHierarchicalPartitionKeyIdLastLevel?: boolean;
+  /** Flag to indicate enabling/disabling of per-partition automatic failover on the account, which automatically fails over individual partitions to available regions during a regional outage. Opt-in; defaults to false. */
+  perPartitionAutomaticFailoverEnabled?: boolean;
 }
 
 export function databaseAccountUpdatePropertiesSerializer(
@@ -2255,6 +2293,7 @@ export function databaseAccountUpdatePropertiesSerializer(
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 
@@ -3082,6 +3121,9 @@ export function throughputSettingsGetPropertiesResourceDeserializer(
     offerReplacePending: item["offerReplacePending"],
     instantMaximumThroughput: item["instantMaximumThroughput"],
     softAllowedMaximumThroughput: item["softAllowedMaximumThroughput"],
+    throughputBuckets: !item["throughputBuckets"]
+      ? item["throughputBuckets"]
+      : throughputBucketResourceArrayDeserializer(item["throughputBuckets"]),
     rid: item["_rid"],
     ts: item["_ts"],
     etag: item["_etag"],
@@ -3102,6 +3144,8 @@ export interface ThroughputSettingsResource {
   readonly instantMaximumThroughput?: string;
   /** The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified */
   readonly softAllowedMaximumThroughput?: string;
+  /** Array of throughput bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputBucketResource[];
 }
 
 export function throughputSettingsResourceSerializer(item: ThroughputSettingsResource): any {
@@ -3110,6 +3154,9 @@ export function throughputSettingsResourceSerializer(item: ThroughputSettingsRes
     autoscaleSettings: !item["autoscaleSettings"]
       ? item["autoscaleSettings"]
       : autoscaleSettingsResourceSerializer(item["autoscaleSettings"]),
+    throughputBuckets: !item["throughputBuckets"]
+      ? item["throughputBuckets"]
+      : throughputBucketResourceArraySerializer(item["throughputBuckets"]),
   };
 }
 
@@ -3123,6 +3170,9 @@ export function throughputSettingsResourceDeserializer(item: any): ThroughputSet
     offerReplacePending: item["offerReplacePending"],
     instantMaximumThroughput: item["instantMaximumThroughput"],
     softAllowedMaximumThroughput: item["softAllowedMaximumThroughput"],
+    throughputBuckets: !item["throughputBuckets"]
+      ? item["throughputBuckets"]
+      : throughputBucketResourceArrayDeserializer(item["throughputBuckets"]),
   };
 }
 
@@ -3193,6 +3243,48 @@ export function throughputPolicyResourceDeserializer(item: any): ThroughputPolic
   return {
     isEnabled: item["isEnabled"],
     incrementPercent: item["incrementPercent"],
+  };
+}
+
+export function throughputBucketResourceArraySerializer(
+  result: Array<ThroughputBucketResource>,
+): any[] {
+  return result.map((item) => {
+    return throughputBucketResourceSerializer(item);
+  });
+}
+
+export function throughputBucketResourceArrayDeserializer(
+  result: Array<ThroughputBucketResource>,
+): any[] {
+  return result.map((item) => {
+    return throughputBucketResourceDeserializer(item);
+  });
+}
+
+/** Cosmos DB throughput bucket object */
+export interface ThroughputBucketResource {
+  /** Represents the throughput bucket id */
+  id: number;
+  /** Represents maximum percentage throughput that can be used by the bucket */
+  maxThroughputPercentage: number;
+  /** Indicates whether this is the default throughput bucket */
+  isDefaultBucket?: boolean;
+}
+
+export function throughputBucketResourceSerializer(item: ThroughputBucketResource): any {
+  return {
+    id: item["id"],
+    maxThroughputPercentage: item["maxThroughputPercentage"],
+    isDefaultBucket: item["isDefaultBucket"],
+  };
+}
+
+export function throughputBucketResourceDeserializer(item: any): ThroughputBucketResource {
+  return {
+    id: item["id"],
+    maxThroughputPercentage: item["maxThroughputPercentage"],
+    isDefaultBucket: item["isDefaultBucket"],
   };
 }
 
@@ -11916,6 +12008,8 @@ export function fleetspaceAccountResourceArrayDeserializer(
 export enum KnownVersions {
   /** The 2026-03-15 API version. */
   V20260315 = "2026-03-15",
+  /** The 2026-07-15 API version. */
+  V20260715 = "2026-07-15",
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
@@ -12028,6 +12122,7 @@ export function _databaseAccountGetResultsPropertiesDeserializer(item: any) {
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 
@@ -12088,6 +12183,7 @@ export function _databaseAccountCreateUpdateParametersPropertiesSerializer(
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 
@@ -12143,6 +12239,7 @@ export function _databaseAccountUpdateParametersPropertiesSerializer(
     defaultPriorityLevel: item["defaultPriorityLevel"],
     enablePerRegionPerPartitionAutoscale: item["enablePerRegionPerPartitionAutoscale"],
     enforceHierarchicalPartitionKeyIdLastLevel: item["enforceHierarchicalPartitionKeyIdLastLevel"],
+    perPartitionAutomaticFailoverEnabled: item["perPartitionAutomaticFailoverEnabled"],
   };
 }
 

@@ -10,30 +10,21 @@ export interface TopicsListByNamespaceOptionalParams extends OperationOptions {
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
 }
-
 /** Optional parameters. */
 export interface TopicsDeleteOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsCreateOrUpdateOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsGetOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsRegenerateKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsListKeysOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsListAuthorizationRulesOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsDeleteAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface TopicsGetAuthorizationRuleOptionalParams extends OperationOptions {}

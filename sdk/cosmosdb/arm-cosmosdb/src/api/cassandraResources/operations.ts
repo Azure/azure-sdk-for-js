@@ -80,7 +80,7 @@ export function _listCassandraRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -120,7 +120,7 @@ export function listCassandraRoleAssignments(
     () => _listCassandraRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listCassandraRoleAssignmentsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -138,7 +138,7 @@ export function _deleteCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,7 +187,7 @@ export function deleteCassandraRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -209,7 +209,7 @@ export function _createUpdateCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +267,7 @@ export function createUpdateCassandraRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<CassandraRoleAssignmentResource>, CassandraRoleAssignmentResource>;
 }
@@ -286,7 +286,7 @@ export function _getCassandraRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -344,7 +344,7 @@ export function _listCassandraRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +384,7 @@ export function listCassandraRoleDefinitions(
     () => _listCassandraRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listCassandraRoleDefinitionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -402,7 +402,7 @@ export function _deleteCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -451,7 +451,7 @@ export function deleteCassandraRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -473,7 +473,7 @@ export function _createUpdateCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,7 +531,7 @@ export function createUpdateCassandraRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<CassandraRoleDefinitionResource>, CassandraRoleDefinitionResource>;
 }
@@ -550,7 +550,7 @@ export function _getCassandraRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -610,7 +610,7 @@ export function _listCassandraTablesSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -651,7 +651,7 @@ export function listCassandraTables(
     () => _listCassandraTablesSend(context, resourceGroupName, accountName, keyspaceName, options),
     _listCassandraTablesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -671,7 +671,7 @@ export function _deleteCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -718,7 +718,7 @@ export function deleteCassandraTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -739,7 +739,7 @@ export function _createUpdateCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -797,7 +797,7 @@ export function createUpdateCassandraTable(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<CassandraTableGetResults>, CassandraTableGetResults>;
 }
@@ -818,7 +818,7 @@ export function _getCassandraTableSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -878,7 +878,7 @@ export function _listCassandraKeyspacesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -918,7 +918,7 @@ export function listCassandraKeyspaces(
     () => _listCassandraKeyspacesSend(context, resourceGroupName, accountName, options),
     _listCassandraKeyspacesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -936,7 +936,7 @@ export function _deleteCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -975,7 +975,7 @@ export function deleteCassandraKeyspace(
     getInitialResponse: () =>
       _deleteCassandraKeyspaceSend(context, resourceGroupName, accountName, keyspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -994,7 +994,7 @@ export function _createUpdateCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1052,7 +1052,7 @@ export function createUpdateCassandraKeyspace(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<CassandraKeyspaceGetResults>, CassandraKeyspaceGetResults>;
 }
@@ -1071,7 +1071,7 @@ export function _getCassandraKeyspaceSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1135,7 +1135,7 @@ export function _migrateCassandraTableToManualThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1191,7 +1191,7 @@ export function migrateCassandraTableToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1214,7 +1214,7 @@ export function _migrateCassandraTableToAutoscaleSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1270,7 +1270,7 @@ export function migrateCassandraTableToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1292,7 +1292,7 @@ export function _updateCassandraTableThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1350,7 +1350,7 @@ export function updateCassandraTableThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1371,7 +1371,7 @@ export function _getCassandraTableThroughputSend(
       accountName: accountName,
       keyspaceName: keyspaceName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1435,7 +1435,7 @@ export function _migrateCassandraKeyspaceToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1489,7 +1489,7 @@ export function migrateCassandraKeyspaceToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1510,7 +1510,7 @@ export function _migrateCassandraKeyspaceToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1564,7 +1564,7 @@ export function migrateCassandraKeyspaceToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1586,7 +1586,7 @@ export function _updateCassandraKeyspaceThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1644,7 +1644,7 @@ export function updateCassandraKeyspaceThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2026-03-15",
+      apiVersion: context.apiVersion ?? "2026-07-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1663,7 +1663,7 @@ export function _getCassandraKeyspaceThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       keyspaceName: keyspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

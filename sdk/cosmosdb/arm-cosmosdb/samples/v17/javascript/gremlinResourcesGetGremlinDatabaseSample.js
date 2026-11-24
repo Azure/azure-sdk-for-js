@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2026-03-15/CosmosDBGremlinDatabaseGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBGremlinDatabaseGet.json
  */
 async function cosmosDBGremlinDatabaseGet() {
   const credential = new DefaultAzureCredential();

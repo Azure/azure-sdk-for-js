@@ -119,14 +119,7 @@ export class CosmosDBManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createCosmosDBManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createCosmosDBManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.fleetspaceAccount = _getFleetspaceAccountOperations(this._client);
     this.fleetspace = _getFleetspaceOperations(this._client);

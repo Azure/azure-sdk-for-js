@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBDatabaseThroughputGet.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBDatabaseThroughputGet.json
  */
 async function cosmosDBMongoDBDatabaseThroughputGet() {
   const credential = new DefaultAzureCredential();

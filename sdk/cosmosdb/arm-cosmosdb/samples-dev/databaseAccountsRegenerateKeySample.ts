@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates an access key for the specified Azure Cosmos DB database account.
  *
  * @summary regenerates an access key for the specified Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountRegenerateKey.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountRegenerateKey.json
  */
 async function cosmosDBDatabaseAccountRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

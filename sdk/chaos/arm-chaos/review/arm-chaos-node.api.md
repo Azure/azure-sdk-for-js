@@ -31,6 +31,20 @@ export interface ActionDependency {
 export type ActionDependencyType = string;
 
 // @public
+export interface ActionError {
+    readonly code: string;
+    readonly details?: ActionErrorDetail[];
+    readonly message: string;
+}
+
+// @public
+export interface ActionErrorDetail {
+    readonly code: string;
+    readonly message: string;
+    readonly target?: string;
+}
+
+// @public
 export type ActionKind = string;
 
 // @public
@@ -224,6 +238,7 @@ export interface ChaosExperimentStep {
 
 // @public (undocumented)
 export class ChaosManagementClient {
+    constructor(credential: TokenCredential, options?: ChaosManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ChaosManagementClientOptionalParams);
     readonly actions: ActionsOperations;
     readonly actionVersions: ActionVersionsOperations;
@@ -235,12 +250,15 @@ export class ChaosManagementClient {
     readonly operations: OperationsOperations;
     readonly operationStatuses: OperationStatusesOperations;
     readonly pipeline: Pipeline;
-    readonly privateAccesses: PrivateAccessesOperations;
     readonly scenarioConfigurations: ScenarioConfigurationsOperations;
     readonly scenarioRuns: ScenarioRunsOperations;
     readonly scenarios: ScenariosOperations;
+    readonly scenarioTemplates: ScenarioTemplatesOperations;
+    readonly scenarioTemplateVersions: ScenarioTemplateVersionsOperations;
     readonly targets: TargetsOperations;
     readonly targetTypes: TargetTypesOperations;
+    readonly workspaceDiscoveries: WorkspaceDiscoveriesOperations;
+    readonly workspaceEvaluations: WorkspaceEvaluationsOperations;
     readonly workspaces: WorkspacesOperations;
 }
 
@@ -305,7 +323,6 @@ export interface ConnectionProperties {
     certificateIssuer?: string;
     certificateSubjectName?: string;
     readonly dataPlaneEndpoint?: string;
-    dstsPrincipal?: string;
     kind: ConnectionKind;
     principalId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -378,10 +395,12 @@ export interface DiscoveredResource extends ProxyResource {
 export interface DiscoveredResourceProperties {
     readonly discoveredAt: Date;
     readonly fullyQualifiedIdentifier: string;
+    readonly location?: string;
     readonly resourceName: string;
     readonly resourceNamespace: string;
     readonly resourceType: string;
     readonly scope: string;
+    readonly zones?: string[];
 }
 
 // @public
@@ -580,6 +599,9 @@ export interface ExternalResource {
 }
 
 // @public
+export type FailureBehavior = string;
+
+// @public
 export type FilterType = string;
 
 // @public
@@ -625,8 +647,7 @@ export enum KnownActionType {
 // @public
 export enum KnownConnectionKind {
     AksExtension = "AksExtension",
-    ChaosAgent = "ChaosAgent",
-    Csfi = "Csfi"
+    ChaosAgent = "ChaosAgent"
 }
 
 // @public
@@ -653,6 +674,12 @@ export enum KnownExperimentActionType {
 }
 
 // @public
+export enum KnownFailureBehavior {
+    Continue = "Continue",
+    Stop = "Stop"
+}
+
+// @public
 export enum KnownFilterType {
     Simple = "Simple"
 }
@@ -670,6 +697,15 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownParameterFormatType {
+    AzureRegion = "AzureRegion",
+    AzureResourceId = "AzureResourceId",
+    AzureZone = "AzureZone",
+    Duration = "Duration",
+    Json = "Json"
 }
 
 // @public
@@ -692,13 +728,6 @@ export enum KnownPermissionsFixState {
 }
 
 // @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -707,12 +736,6 @@ export enum KnownProvisioningState {
     Running = "Running",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownPublicNetworkAccessOption {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -741,12 +764,20 @@ export enum KnownRunAfterBehavior {
 }
 
 // @public
+export enum KnownScenarioActionSelectorName {
+    Location = "location",
+    LogicalZone = "logicalZone",
+    PhysicalZone = "physicalZone"
+}
+
+// @public
 export enum KnownScenarioRunState {
     Canceled = "Canceled",
     Canceling = "Canceling",
     CleaningUp = "CleaningUp",
     Failed = "Failed",
     Generating = "Generating",
+    PartiallySucceeded = "PartiallySucceeded",
     Preparing = "Preparing",
     Queued = "Queued",
     Resolving = "Resolving",
@@ -755,6 +786,14 @@ export enum KnownScenarioRunState {
     Succeeded = "Succeeded",
     Validating = "Validating",
     ValidationSucceeded = "ValidationSucceeded"
+}
+
+// @public
+export enum KnownScenarioRunTargetState {
+    Failed = "Failed",
+    NotApplicable = "NotApplicable",
+    Skipped = "Skipped",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -797,8 +836,15 @@ export enum KnownTargetReferenceType {
 // @public
 export enum KnownVersions {
     V20250101 = "2025-01-01",
-    V20260501Preview = "2026-05-01-preview",
-    V20260801Preview = "2026-08-01-preview"
+    V20261101 = "2026-11-01"
+}
+
+// @public
+export enum KnownWorkspaceDiscoveryCompleteness {
+    BaselineUnknown = "BaselineUnknown",
+    Established = "Established",
+    KnownPartial = "KnownPartial",
+    VerificationIncomplete = "VerificationIncomplete"
 }
 
 // @public
@@ -806,9 +852,32 @@ export enum KnownWorkspaceDiscoveryStatus {
     Canceled = "Canceled",
     Failed = "Failed",
     InProgress = "InProgress",
+    PartiallySucceeded = "PartiallySucceeded",
     Pending = "Pending",
     Queued = "Queued",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownWorkspaceDiscoveryWarningReason {
+    AccessIndeterminate = "AccessIndeterminate",
+    RbacValidationFailed = "RbacValidationFailed",
+    TargetNotFound = "TargetNotFound"
+}
+
+// @public
+export enum KnownWorkspaceEncryptionProtection {
+    CustomerManaged = "CustomerManaged",
+    MicrosoftManaged = "MicrosoftManaged"
+}
+
+// @public
+export enum KnownWorkspaceEncryptionState {
+    Applied = "Applied",
+    Failed = "Failed",
+    NotConfigured = "NotConfigured",
+    Pending = "Pending",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -909,6 +978,9 @@ export interface PageSettings {
 }
 
 // @public
+export type ParameterFormatType = string;
+
+// @public
 export type ParameterType = string;
 
 // @public
@@ -954,138 +1026,11 @@ export interface PhysicalToLogicalZoneMapping {
 }
 
 // @public
-export interface PrivateAccess extends TrackedResource {
-    properties: PrivateAccessProperties;
-}
-
-// @public
-export interface PrivateAccessesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateAccessesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateAccessesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateAccessesListAllOptionalParams extends OperationOptions {
-    continuationToken?: string;
-}
-
-// @public
-export interface PrivateAccessesListOptionalParams extends OperationOptions {
-    continuationToken?: string;
-}
-
-// @public
-export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateAccessesOperations {
-    createOrUpdate: (resourceGroupName: string, privateAccessName: string, resource: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
-    delete: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteAPrivateEndpointConnection: (resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetOptionalParams) => Promise<PrivateAccess>;
-    getAPrivateEndpointConnection: (resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesGetAPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
-    getPrivateLinkResources: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourceListResult>;
-    list: (resourceGroupName: string, options?: PrivateAccessesListOptionalParams) => PagedAsyncIterableIterator<PrivateAccess>;
-    listAll: (options?: PrivateAccessesListAllOptionalParams) => PagedAsyncIterableIterator<PrivateAccess>;
-    listPrivateEndpointConnections: (resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesListPrivateEndpointConnectionsOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
-    update: (resourceGroupName: string, privateAccessName: string, properties: PrivateAccessPatch, options?: PrivateAccessesUpdateOptionalParams) => PollerLike<OperationState<PrivateAccess>, PrivateAccess>;
-}
-
-// @public
-export interface PrivateAccessesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateAccessPatch {
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface PrivateAccessProperties {
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccessOption;
-}
-
-// @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export interface PrivateLinkResource extends TrackedResource {
-    properties: PrivateLinkResourceProperties;
-}
-
-// @public
-export interface PrivateLinkResourceListResult {
-    nextLink?: string;
-    value: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly provisioningState?: ProvisioningState;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
 }
-
-// @public
-export type PublicNetworkAccessOption = string;
 
 // @public
 export interface Recommendation {
@@ -1106,7 +1051,7 @@ export interface Resource {
 
 // @public
 export interface ResourceStateError {
-    readonly errorCode: number;
+    readonly errorCode: string;
     readonly errorMessage: string;
     readonly remediationUri: string;
     readonly resourceId: string;
@@ -1181,12 +1126,23 @@ export interface ScenarioAction {
     description?: string;
     duration: string;
     externalResource?: ExternalResource;
+    failureBehavior?: FailureBehavior;
     name: string;
     parameters?: KeyValuePair[];
     runAfter?: RunAfter;
+    selectors?: ScenarioActionSelector[];
     timeout?: string;
     waitBefore?: string;
 }
+
+// @public
+export interface ScenarioActionSelector {
+    name: ScenarioActionSelectorName;
+    value: string;
+}
+
+// @public
+export type ScenarioActionSelectorName = string;
 
 // @public
 export interface ScenarioConfiguration extends ProxyResource {
@@ -1203,6 +1159,8 @@ export interface ScenarioConfigurationProperties {
 
 // @public
 export interface ScenarioConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     updateIntervalInMs?: number;
 }
 
@@ -1259,25 +1217,41 @@ export interface ScenarioErrors {
 export interface ScenarioParameter {
     default?: string;
     description?: string;
+    format?: ScenarioParameterFormat;
     name: string;
     required?: boolean;
     type: ParameterType;
 }
 
 // @public
+export interface ScenarioParameterFormat {
+    examples?: string[];
+    formatType?: ParameterFormatType;
+}
+
+// @public
 export interface ScenarioProperties {
-    actions: ScenarioAction[];
-    readonly createdFrom?: string;
+    actions?: ScenarioAction[];
+    createdFrom?: string;
     description?: string;
-    parameters: ScenarioParameter[];
+    failureBehavior?: FailureBehavior;
+    parameters?: ScenarioParameter[];
     readonly provisioningState?: ProvisioningState;
     readonly recommendation?: Recommendation;
-    readonly version?: string;
+    version?: string;
 }
 
 // @public
 export interface ScenarioRun extends ProxyResource {
     properties?: ScenarioRunProperties;
+}
+
+// @public
+export interface ScenarioRunEffectiveTarget {
+    readonly completedAt?: Date;
+    readonly id: string;
+    readonly startedAt?: Date;
+    readonly state: ScenarioRunTargetState;
 }
 
 // @public
@@ -1295,6 +1269,7 @@ export interface ScenarioRunProperties {
     readonly scenarioRunSummary?: ScenarioRunSummaryAction[];
     readonly startTime: Date;
     readonly status: ScenarioRunState;
+    readonly warnings?: ScenarioRunWarning[];
     readonly workspaceName: string;
     readonly zoneResolution?: ZoneResolutionInfo;
 }
@@ -1331,13 +1306,40 @@ export type ScenarioRunState = string;
 export interface ScenarioRunSummaryAction {
     readonly actionUrn: string;
     readonly completedAt?: Date;
-    readonly resources: ScenarioRunResource[];
+    readonly error?: ActionError;
+    readonly failureSuppressed?: boolean;
+    readonly resources: ScenarioRunSummaryResource[];
     readonly startedAt?: Date;
     readonly state: ScenarioSummaryState;
 }
 
 // @public
+export interface ScenarioRunSummaryResource {
+    readonly affectedResources?: ScenarioRunEffectiveTarget[];
+    readonly id: string;
+}
+
+// @public
+export type ScenarioRunTargetState = string;
+
+// @public
+export interface ScenarioRunWarning {
+    readonly code: string;
+    readonly details?: ScenarioRunWarningDetail[];
+    readonly message: string;
+}
+
+// @public
+export interface ScenarioRunWarningDetail {
+    readonly code: string;
+    readonly message: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ScenariosCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
 }
 
 // @public
@@ -1362,6 +1364,63 @@ export interface ScenariosOperations {
 
 // @public
 export type ScenarioSummaryState = string;
+
+// @public
+export interface ScenarioTemplate extends ProxyResource {
+    properties: ScenarioTemplateProperties;
+}
+
+// @public
+export interface ScenarioTemplateProperties {
+    readonly actions: ScenarioAction[];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly failureBehavior?: FailureBehavior;
+    readonly latestVersion: string;
+    readonly parameters?: ScenarioParameter[];
+}
+
+// @public
+export interface ScenarioTemplatesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioTemplatesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioTemplatesOperations {
+    get: (scenarioTemplateName: string, options?: ScenarioTemplatesGetOptionalParams) => Promise<ScenarioTemplate>;
+    list: (options?: ScenarioTemplatesListOptionalParams) => PagedAsyncIterableIterator<ScenarioTemplate>;
+}
+
+// @public
+export interface ScenarioTemplateVersion extends ProxyResource {
+    properties: ScenarioTemplateVersionProperties;
+}
+
+// @public
+export interface ScenarioTemplateVersionProperties {
+    readonly actions: ScenarioAction[];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly failureBehavior?: FailureBehavior;
+    readonly parameters?: ScenarioParameter[];
+}
+
+// @public
+export interface ScenarioTemplateVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioTemplateVersionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScenarioTemplateVersionsOperations {
+    get: (scenarioTemplateName: string, version: string, options?: ScenarioTemplateVersionsGetOptionalParams) => Promise<ScenarioTemplateVersion>;
+    list: (scenarioTemplateName: string, options?: ScenarioTemplateVersionsListOptionalParams) => PagedAsyncIterableIterator<ScenarioTemplateVersion>;
+}
 
 // @public
 export type ScenarioValidationState = string;
@@ -1458,8 +1517,8 @@ export interface TargetTypesOperations {
 // @public
 export interface TemplateEvaluationResultItem {
     evaluationResult: RecommendationStatus;
-    templateId?: string;
-    templateName?: string;
+    readonly templateId: string;
+    readonly templateName: string;
 }
 
 // @public
@@ -1498,22 +1557,146 @@ export interface Workspace extends TrackedResource {
 }
 
 // @public
+export interface WorkspaceCustomerManagedKeyEncryption {
+    keyEncryptionKeyUrl: string;
+    keyVaultResourceId: string;
+}
+
+// @public
+export interface WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate {
+    keyEncryptionKeyUrl?: string;
+    keyVaultResourceId?: string;
+}
+
+// @public
+export interface WorkspaceCustomerManagedKeyOnboarding {
+    readonly applicationId: string;
+}
+
+// @public
+export interface WorkspaceDiscoveriesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WorkspaceDiscoveriesListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface WorkspaceDiscoveriesOperations {
+    get: (resourceGroupName: string, workspaceName: string, discoveryName: string, options?: WorkspaceDiscoveriesGetOptionalParams) => Promise<WorkspaceDiscovery>;
+    list: (resourceGroupName: string, workspaceName: string, options?: WorkspaceDiscoveriesListOptionalParams) => PagedAsyncIterableIterator<WorkspaceDiscovery>;
+}
+
+// @public
 export interface WorkspaceDiscovery extends ProxyResource {
     properties?: WorkspaceDiscoveryProperties;
 }
 
 // @public
+export interface WorkspaceDiscoveryAccessWarning extends WorkspaceDiscoveryWarning {
+    readonly reason: "AccessIndeterminate";
+    readonly resourceId: string;
+}
+
+// @public
+export type WorkspaceDiscoveryCompleteness = string;
+
+// @public
+export interface WorkspaceDiscoveryCoverageSummary {
+    readonly resources?: WorkspaceDiscoveryResourceCoverageSummary;
+    readonly scopes: WorkspaceDiscoveryScopeCoverageSummary;
+}
+
+// @public
+export interface WorkspaceDiscoveryPermissionWarning extends WorkspaceDiscoveryWarning {
+    readonly permission: PermissionError;
+    readonly reason: "RbacValidationFailed";
+}
+
+// @public
 export interface WorkspaceDiscoveryProperties {
+    readonly completeness?: WorkspaceDiscoveryCompleteness;
+    readonly coverageSummary?: WorkspaceDiscoveryCoverageSummary;
     readonly endTime?: Date;
     readonly errors?: OperationError[];
     readonly resourceSnapshotId?: string;
     readonly startTime?: Date;
     readonly status: WorkspaceDiscoveryStatus;
+    readonly warnings?: WorkspaceDiscoveryWarningUnion[];
+    readonly warningsTotalCount?: number;
+    readonly warningsTruncated?: boolean;
     readonly workspaceId: string;
 }
 
 // @public
+export interface WorkspaceDiscoveryResourceCoverageSummary {
+    readonly classifiedCount: number;
+    readonly coveredCount: number;
+    readonly expectedCount: number;
+    readonly unclassifiedCount: number;
+}
+
+// @public
+export interface WorkspaceDiscoveryResourceWarning extends WorkspaceDiscoveryWarning {
+    readonly reason: "TargetNotFound";
+    readonly resourceId: string;
+}
+
+// @public
+export interface WorkspaceDiscoveryScopeCoverageSummary {
+    readonly baselineUnknownCount: number;
+    readonly establishedCount: number;
+    readonly knownExpectedSetCount: number;
+    readonly knownPartialCount: number;
+    readonly totalCount: number;
+    readonly unknownExpectedSetCount: number;
+    readonly verificationIncompleteCount: number;
+}
+
+// @public
 export type WorkspaceDiscoveryStatus = string;
+
+// @public
+export interface WorkspaceDiscoveryWarning {
+    readonly message: string;
+    readonly reason: WorkspaceDiscoveryWarningReason;
+    readonly scopeId: string;
+    readonly scopeKind: string;
+}
+
+// @public
+export type WorkspaceDiscoveryWarningReason = string;
+
+// @public
+export type WorkspaceDiscoveryWarningUnion = WorkspaceDiscoveryPermissionWarning | WorkspaceDiscoveryResourceWarning | WorkspaceDiscoveryAccessWarning | WorkspaceDiscoveryWarning;
+
+// @public
+export interface WorkspaceEncryption {
+    customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryption;
+    readonly customerManagedKeyOnboarding?: WorkspaceCustomerManagedKeyOnboarding;
+    readonly status?: WorkspaceEncryptionStatus;
+}
+
+// @public
+export interface WorkspaceEncryptionPatchMergePatchUpdateOrCreate {
+    customerManagedKeyEncryption?: WorkspaceCustomerManagedKeyEncryptionPatchMergePatchUpdateOrCreate;
+}
+
+// @public
+export type WorkspaceEncryptionProtection = string;
+
+// @public
+export type WorkspaceEncryptionState = string;
+
+// @public
+export interface WorkspaceEncryptionStatus {
+    readonly error?: ErrorDetail;
+    readonly lastCheckedAt?: Date;
+    readonly observedKeyEncryptionKeyUrl?: string;
+    readonly observedProtection?: WorkspaceEncryptionProtection;
+    readonly state: WorkspaceEncryptionState;
+}
 
 // @public
 export interface WorkspaceEvaluation extends ProxyResource {
@@ -1522,14 +1705,14 @@ export interface WorkspaceEvaluation extends ProxyResource {
 
 // @public
 export interface WorkspaceEvaluationProperties {
+    readonly discoveryResultId: string;
     readonly endTime?: Date;
     readonly errors?: OperationError[];
-    readonly evaluationResult?: RecommendationStatus;
-    readonly numTemplatesEvaluatedCancelled?: number;
-    readonly numTemplatesEvaluatedFailed?: number;
-    readonly numTemplatesEvaluatedSucceeded?: number;
-    readonly numTemplatesToEvaluate?: number;
-    readonly resourceSnapshotId?: string;
+    readonly numTemplatesEvaluatedCancelled: number;
+    readonly numTemplatesEvaluatedFailed: number;
+    readonly numTemplatesEvaluatedSucceeded: number;
+    readonly numTemplatesToEvaluate: number;
+    readonly resourceSnapshotId: string;
     readonly results?: TemplateEvaluationResultItem[];
     readonly startTime?: Date;
     readonly status: WorkspaceEvaluationStatus;
@@ -1537,17 +1720,34 @@ export interface WorkspaceEvaluationProperties {
 }
 
 // @public
+export interface WorkspaceEvaluationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WorkspaceEvaluationsListOptionalParams extends OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface WorkspaceEvaluationsOperations {
+    get: (resourceGroupName: string, workspaceName: string, evaluationName: string, options?: WorkspaceEvaluationsGetOptionalParams) => Promise<WorkspaceEvaluation>;
+    list: (resourceGroupName: string, workspaceName: string, options?: WorkspaceEvaluationsListOptionalParams) => PagedAsyncIterableIterator<WorkspaceEvaluation>;
+}
+
+// @public
 export type WorkspaceEvaluationStatus = string;
 
 // @public
 export interface WorkspaceProperties {
-    readonly communicationEndpoint?: string;
+    encryption?: WorkspaceEncryption;
     readonly provisioningState?: ProvisioningState;
     scopes: string[];
 }
 
 // @public
 export interface WorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     updateIntervalInMs?: number;
 }
 
@@ -1600,7 +1800,13 @@ export interface WorkspacesUpdateOptionalParams extends OperationOptions {
 // @public
 export interface WorkspaceUpdate {
     identity?: ManagedServiceIdentity;
+    properties?: WorkspaceUpdateProperties;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface WorkspaceUpdateProperties {
+    encryption?: WorkspaceEncryptionPatchMergePatchUpdateOrCreate;
 }
 
 // @public

@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to list all the replicas for the DocumentDB cluster.
+ *
+ * @summary list all the replicas for the DocumentDB cluster.
+ * x-ms-original-file: 2026-09-01/MongoClusters_ReplicaList.json
+ */
+async function listTheReplicasLinkedToADocumentDBClusterResource() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new MongoClusterManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.replicas.listByParent("TestGroup", "myMongoCluster")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listTheReplicasLinkedToADocumentDBClusterResource();
+}
+
+main().catch(console.error);

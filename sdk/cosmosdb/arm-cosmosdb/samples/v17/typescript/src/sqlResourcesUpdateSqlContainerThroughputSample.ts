@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB SQL container
  *
  * @summary update RUs per second of an Azure Cosmos DB SQL container
- * x-ms-original-file: 2026-03-15/CosmosDBSqlContainerThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlContainerThroughputUpdate.json
  */
 async function cosmosDBSqlContainerThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,18 @@ async function cosmosDBSqlContainerThroughputUpdate(): Promise<void> {
     "ddb1",
     "databaseName",
     "containerName",
-    { location: "West US", tags: {}, resource: { throughput: 400 } },
+    {
+      location: "West US",
+      tags: {},
+      resource: {
+        throughput: 400,
+        throughputBuckets: [
+          { id: 1, maxThroughputPercentage: 10, isDefaultBucket: true },
+          { id: 2, maxThroughputPercentage: 20, isDefaultBucket: false },
+          { id: 3, maxThroughputPercentage: 15 },
+        ],
+      },
+    },
   );
   console.log(result);
 }

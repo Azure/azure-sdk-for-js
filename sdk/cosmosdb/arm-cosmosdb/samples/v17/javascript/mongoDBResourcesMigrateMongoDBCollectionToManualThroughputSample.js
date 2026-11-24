@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to migrate an Azure Cosmos DB MongoDB collection from autoscale to manual throughput
  *
  * @summary migrate an Azure Cosmos DB MongoDB collection from autoscale to manual throughput
- * x-ms-original-file: 2026-03-15/CosmosDBMongoDBCollectionMigrateToManualThroughput.json
+ * x-ms-original-file: 2026-07-15/CosmosDBMongoDBCollectionMigrateToManualThroughput.json
  */
 async function cosmosDBMongoDBCollectionMigrateToManualThroughput() {
   const credential = new DefaultAzureCredential();

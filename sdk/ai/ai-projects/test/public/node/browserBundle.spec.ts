@@ -7,7 +7,7 @@ import { build } from "vite";
 import { describe, expect, it } from "vitest";
 
 describe("browser package exports", () => {
-  it.each(["VoiceAgentRealtimeClient", "AIProjectClient"])(
+  it.each(["VoiceAgentRealtimeClient", "VoiceAgentLiveClient", "AIProjectClient"])(
     "bundles %s from the package root without Node.js modules",
     async (exportName) => {
       const modules = new Set<string>();

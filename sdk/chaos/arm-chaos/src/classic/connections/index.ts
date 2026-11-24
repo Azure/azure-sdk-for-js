@@ -43,6 +43,7 @@ export interface ConnectionsOperations {
     options?: ConnectionsGetOptionalParams,
   ) => Promise<Connection>;
 }
+
 function _getConnections(context: ChaosManagementContext) {
   return {
     listAll: (
@@ -72,6 +73,7 @@ function _getConnections(context: ChaosManagementContext) {
     ) => get(context, resourceGroupName, workspaceName, connectionName, options),
   };
 }
+
 export function _getConnectionsOperations(context: ChaosManagementContext): ConnectionsOperations {
   return {
     ..._getConnections(context),

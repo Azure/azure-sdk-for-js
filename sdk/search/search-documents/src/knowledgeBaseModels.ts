@@ -6,6 +6,9 @@ import type {
   CorsOptions,
   KnowledgeSourceReference,
   KnowledgeBaseRetrieveDefaults,
+  KnowledgeBaseTool,
+  KnowledgeBaseMicrosoftRetriever1Model,
+  KnowledgeBaseOpenAICompatibleModel,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeBaseActivityRecordUnion,
@@ -105,6 +108,8 @@ export type KnowledgeBaseRetrievalStreamEvent =
 
 /** Defines a knowledge base and its stored retrieval configuration. */
 export interface KnowledgeBase {
+  /** Tools exposed by this knowledge base for scoped retrieval. */
+  tools?: KnowledgeBaseTool[];
   /**
    * The name of the knowledge base.
    */
@@ -160,4 +165,17 @@ export interface KnowledgeBase {
    * when present.
    */
   retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
+}
+
+/** AI model configurations accepted when creating or updating a knowledge base. */
+export type KnowledgeBaseModelInput =
+  KnowledgeBaseModel | KnowledgeBaseMicrosoftRetriever1Model | KnowledgeBaseOpenAICompatibleModel;
+
+/**
+ * Input for creating or updating a knowledge base with any of the supported AI model kinds.
+ * The legacy {@link KnowledgeBase} response type remains unchanged.
+ */
+export interface KnowledgeBaseInput extends Omit<KnowledgeBase, "models"> {
+  /** Model configurations for Azure OpenAI, Microsoft Retriever 1, or an OpenAI-compatible endpoint. */
+  models?: KnowledgeBaseModelInput[];
 }

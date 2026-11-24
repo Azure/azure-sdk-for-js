@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreate.json
+ * x-ms-original-file: 2026-05-01/ApplicationGatewayCreate.json
  */
 async function createApplicationGateway() {
   const credential = new DefaultAzureCredential();
@@ -87,6 +87,7 @@ async function createApplicationGateway() {
         protocol: "Http",
       },
     ],
+    enableConfidentialCompute: true,
     entraJWTValidationConfigs: [
       {
         name: "entraJWTValidationConfig1",
@@ -245,7 +246,7 @@ async function createApplicationGateway() {
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreateBasicV2.json
+ * x-ms-original-file: 2026-05-01/ApplicationGatewayCreateBasicV2.json
  */
 async function createBasicV2ApplicationGateway() {
   const credential = new DefaultAzureCredential();
@@ -412,7 +413,7 @@ async function createBasicV2ApplicationGateway() {
  * This sample demonstrates how to creates or updates the specified application gateway.
  *
  * @summary creates or updates the specified application gateway.
- * x-ms-original-file: 2026-01-01/ApplicationGatewayCreateBasicWafV2.json
+ * x-ms-original-file: 2026-05-01/ApplicationGatewayCreateBasicWafV2.json
  */
 async function createBasicWAFV2ApplicationGateway() {
   const credential = new DefaultAzureCredential();

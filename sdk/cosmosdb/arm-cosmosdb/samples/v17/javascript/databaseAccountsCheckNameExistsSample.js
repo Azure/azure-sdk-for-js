@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
  *
  * @summary checks that the Azure Cosmos DB account name already exists. A valid account name may contain only lowercase letters, numbers, and the '-' character, and must be between 3 and 50 characters.
- * x-ms-original-file: 2026-03-15/CosmosDBDatabaseAccountCheckNameExists.json
+ * x-ms-original-file: 2026-07-15/CosmosDBDatabaseAccountCheckNameExists.json
  */
 async function cosmosDBDatabaseAccountCheckNameExists() {
   const credential = new DefaultAzureCredential();

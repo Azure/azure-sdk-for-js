@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates the notebook workspace for a Cosmos DB account.
  *
  * @summary creates the notebook workspace for a Cosmos DB account.
- * x-ms-original-file: 2026-03-15/CosmosDBNotebookWorkspaceCreate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBNotebookWorkspaceCreate.json
  */
 async function cosmosDBNotebookWorkspaceCreate() {
   const credential = new DefaultAzureCredential();

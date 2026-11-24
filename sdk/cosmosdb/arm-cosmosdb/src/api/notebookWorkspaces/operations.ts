@@ -47,7 +47,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,7 +84,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, accountName, notebookWorkspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -102,7 +102,7 @@ export function _regenerateAuthTokenSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,7 +147,7 @@ export function regenerateAuthToken(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -165,7 +165,7 @@ export function _listConnectionInfoSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +223,7 @@ export function _listByDatabaseAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +263,7 @@ export function listByDatabaseAccount(
     () => _listByDatabaseAccountSend(context, resourceGroupName, accountName, options),
     _listByDatabaseAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-15" },
   );
 }
 
@@ -281,7 +281,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -318,7 +318,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, notebookWorkspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -337,7 +337,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -389,7 +389,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15",
+    apiVersion: context.apiVersion ?? "2026-07-15",
   }) as PollerLike<OperationState<NotebookWorkspace>, NotebookWorkspace>;
 }
 
@@ -407,7 +407,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       notebookWorkspaceName: notebookWorkspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15",
+      "api%2Dversion": context.apiVersion ?? "2026-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

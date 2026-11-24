@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Cassandra table
  *
  * @summary update RUs per second of an Azure Cosmos DB Cassandra table
- * x-ms-original-file: 2026-03-15/CosmosDBCassandraTableThroughputUpdate.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCassandraTableThroughputUpdate.json
  */
 async function cosmosDBCassandraTableThroughputUpdate() {
   const credential = new DefaultAzureCredential();

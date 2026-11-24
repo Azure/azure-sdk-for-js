@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an Azure Cosmos DB Table Role Definition.
  *
  * @summary creates or updates an Azure Cosmos DB Table Role Definition.
- * x-ms-original-file: 2026-03-15/tablerbac/CosmosDBTableRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: 2026-07-15/tablerbac/CosmosDBTableRoleDefinitionCreateUpdate.json
  */
 async function cosmosDBTableRoleDefinitionCreateUpdate() {
   const credential = new DefaultAzureCredential();

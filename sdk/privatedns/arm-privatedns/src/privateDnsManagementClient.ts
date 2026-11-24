@@ -6,6 +6,8 @@ import type {
   PrivateDnsManagementClientOptionalParams,
 } from "./api/index.js";
 import { createPrivateDnsManagement } from "./api/index.js";
+import type { PrivateDnsResourceReferenceOperations } from "./classic/privateDnsResourceReference/index.js";
+import { _getPrivateDnsResourceReferenceOperations } from "./classic/privateDnsResourceReference/index.js";
 import type { PrivateZonesOperations } from "./classic/privateZones/index.js";
 import { _getPrivateZonesOperations } from "./classic/privateZones/index.js";
 import type { RecordSetsOperations } from "./classic/recordSets/index.js";
@@ -28,20 +30,16 @@ export class PrivateDnsManagementClient {
     subscriptionId: string,
     options: PrivateDnsManagementClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createPrivateDnsManagement(credential, subscriptionId, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createPrivateDnsManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
+    this.privateDnsResourceReference = _getPrivateDnsResourceReferenceOperations(this._client);
     this.virtualNetworkLinks = _getVirtualNetworkLinksOperations(this._client);
     this.privateZones = _getPrivateZonesOperations(this._client);
     this.recordSets = _getRecordSetsOperations(this._client);
   }
 
+  /** The operation groups for privateDnsResourceReference */
+  public readonly privateDnsResourceReference: PrivateDnsResourceReferenceOperations;
   /** The operation groups for virtualNetworkLinks */
   public readonly virtualNetworkLinks: VirtualNetworkLinksOperations;
   /** The operation groups for privateZones */

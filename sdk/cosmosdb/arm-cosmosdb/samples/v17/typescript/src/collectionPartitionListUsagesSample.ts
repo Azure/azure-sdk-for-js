@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the usages (most recent storage data) for the given collection, split by partition.
  *
  * @summary retrieves the usages (most recent storage data) for the given collection, split by partition.
- * x-ms-original-file: 2026-03-15/CosmosDBCollectionPartitionGetUsages.json
+ * x-ms-original-file: 2026-07-15/CosmosDBCollectionPartitionGetUsages.json
  */
 async function cosmosDBCollectionPartitionGetUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
-import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace";
+import type { ReadWriteLogRecord } from "@opentelemetry/sdk-logs";
 import type {
   DocumentIngress,
   Exception,
@@ -81,8 +81,7 @@ import {
   httpSemanticValues,
 } from "./types.js";
 import { getOsPrefix } from "../../utils/common.js";
-import { getResourceProvider } from "../../utils/common.js";
-import type { LogAttributes } from "@opentelemetry/api-logs";
+import { getResourceProvider, getStringAttribute } from "../../utils/common.js";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils.js";
 import { Logger } from "../../shared/logging/index.js";
 
@@ -296,8 +295,8 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   }
 
   const httpMethod = getHttpMethod(span.attributes);
-  const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
-  const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
+  const dbSystem = getStringAttribute(span.attributes, SEMATTRS_DB_SYSTEM);
+  const rpcSystem = getStringAttribute(span.attributes, SEMATTRS_RPC_SYSTEM);
   // HTTP Dependency
   if (httpMethod) {
     const httpUrl = getHttpUrl(span.attributes);
@@ -354,15 +353,15 @@ function getDependencyData(span: ReadableSpan): DependencyData {
     } else {
       dependencyData.Type = String(dbSystem);
     }
-    const dbStatement = span.attributes[SEMATTRS_DB_STATEMENT];
-    const dbOperation = span.attributes[SEMATTRS_DB_OPERATION];
+    const dbStatement = getStringAttribute(span.attributes, SEMATTRS_DB_STATEMENT);
+    const dbOperation = getStringAttribute(span.attributes, SEMATTRS_DB_OPERATION);
     if (dbStatement) {
       dependencyData.Data = String(dbStatement);
     } else if (dbOperation) {
       dependencyData.Data = String(dbOperation);
     }
     const target = getDependencyTarget(span.attributes);
-    const dbName = span.attributes[SEMATTRS_DB_NAME];
+    const dbName = getStringAttribute(span.attributes, SEMATTRS_DB_NAME);
     if (target) {
       dependencyData.Target = dbName ? `${target}|${dbName}` : `${target}`;
     } else {
@@ -391,7 +390,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   return dependencyData;
 }
 
-export function getLogData(log: SdkLogRecord): ExceptionData | TraceData {
+export function getLogData(log: ReadWriteLogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {
@@ -471,9 +470,7 @@ export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteD
   return document;
 }
 
-function createCustomDimsFromAttributes(
-  attributes?: Attributes | LogAttributes,
-): Map<string, string> {
+function createCustomDimsFromAttributes(attributes?: Attributes): Map<string, string> {
   const customDims = new Map<string, string>();
   if (attributes) {
     for (const key of Object.keys(attributes)) {
@@ -588,7 +585,11 @@ export function getUserAgent(attributes: Attributes): string | undefined {
 export function getHttpUrl(attributes: Attributes): string {
   // Stable sem conv only supports populating url from `url.full`
   if (attributes) {
-    return String(attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL] || "");
+    return (
+      getStringAttribute(attributes, ATTR_URL_FULL) ||
+      getStringAttribute(attributes, SEMATTRS_HTTP_URL) ||
+      ""
+    );
   }
   return "";
 }
@@ -618,13 +619,15 @@ export function getHttpScheme(attributes: Attributes): string | undefined {
 
 export function getHttpTarget(attributes: Attributes): string {
   if (attributes) {
-    if (attributes[ATTR_URL_PATH]) {
-      return String(attributes[ATTR_URL_PATH]);
+    const path = getStringAttribute(attributes, ATTR_URL_PATH);
+    if (path) {
+      return path;
     }
-    if (attributes[ATTR_URL_QUERY]) {
-      return String(attributes[ATTR_URL_QUERY]);
+    const query = getStringAttribute(attributes, ATTR_URL_QUERY);
+    if (query) {
+      return query;
     }
-    return String(attributes[SEMATTRS_HTTP_TARGET] || "");
+    return getStringAttribute(attributes, SEMATTRS_HTTP_TARGET) || "";
   }
   return "";
 }
@@ -638,14 +641,22 @@ export function getHttpHost(attributes: Attributes): string | undefined {
 
 export function getNetPeerName(attributes: Attributes): string {
   if (attributes) {
-    return String(attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME] || "");
+    return (
+      getStringAttribute(attributes, ATTR_CLIENT_ADDRESS) ||
+      getStringAttribute(attributes, SEMATTRS_NET_PEER_NAME) ||
+      ""
+    );
   }
   return "";
 }
 
 export function getNetHostPort(attributes: Attributes): string {
   if (attributes) {
-    return String(attributes[ATTR_SERVER_PORT] || attributes[SEMATTRS_NET_HOST_PORT] || "");
+    return (
+      getStringAttribute(attributes, ATTR_SERVER_PORT) ||
+      getStringAttribute(attributes, SEMATTRS_NET_HOST_PORT) ||
+      ""
+    );
   }
   return "";
 }

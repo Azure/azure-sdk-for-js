@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the tuning options of a server.
  *
  * @summary gets the tuning options of a server.
- * x-ms-original-file: 2026-07-01-preview/TuningOptionsGet.json
+ * x-ms-original-file: 2026-10-01/TuningOptionsGet.json
  */
 async function getTheTuningOptionsOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

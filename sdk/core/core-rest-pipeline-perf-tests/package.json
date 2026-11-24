@@ -59,7 +59,7 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/express": "^5.0.3",
     "@types/node": "catalog:",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.5",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "express": "catalog:internal",

@@ -38,7 +38,7 @@ export function _listByServiceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -71,6 +71,7 @@ export async function _listByServiceDeserialize(
 
   return _sharedPrivateLinkResourceListResultDeserializer(result.body);
 }
+
 /** Gets a list of all shared private link resources managed by the given service. */
 export function listByService(
   context: Client,
@@ -83,11 +84,7 @@ export function listByService(
     () => _listByServiceSend(context, resourceGroupName, searchServiceName, options),
     _listByServiceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-09-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -105,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +132,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /**
  * Initiates the deletion of the shared private link resource from the search service.
  * Returns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.
@@ -159,7 +157,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -178,7 +176,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,6 +211,7 @@ export async function _createOrUpdateDeserialize(
 
   return sharedPrivateLinkResourceDeserializer(result.body);
 }
+
 /** Initiates the creation or update of a shared private link resource managed by the search service in the given resource group. */
 export function createOrUpdate(
   context: Client,
@@ -235,7 +234,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
 }
 
@@ -253,7 +252,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       searchServiceName: searchServiceName,
       sharedPrivateLinkResourceName: sharedPrivateLinkResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,6 +285,7 @@ export async function _getDeserialize(
 
   return sharedPrivateLinkResourceDeserializer(result.body);
 }
+
 /** Gets the details of the shared private link resource managed by the search service in the given resource group. */
 export async function get(
   context: Client,

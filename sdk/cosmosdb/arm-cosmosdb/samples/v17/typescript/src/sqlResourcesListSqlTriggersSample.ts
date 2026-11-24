@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the SQL trigger under an existing Azure Cosmos DB database account.
  *
  * @summary lists the SQL trigger under an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2026-03-15/CosmosDBSqlTriggerList.json
+ * x-ms-original-file: 2026-07-15/CosmosDBSqlTriggerList.json
  */
 async function cosmosDBSqlTriggerList(): Promise<void> {
   const credential = new DefaultAzureCredential();
