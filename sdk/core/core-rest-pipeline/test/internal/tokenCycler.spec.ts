@@ -450,7 +450,10 @@ describe("tokenCycler", function () {
     resolvers[2]!.reject(new Error("claims-c failed"));
     await expect(claimsC).rejects.toThrow("claims-c failed");
 
-    resolvers[1]!.resolve({ token: "ordinary-from-old-epoch", expiresOnTimestamp: Date.now() + 300_000 });
+    resolvers[1]!.resolve({
+      token: "ordinary-from-old-epoch",
+      expiresOnTimestamp: Date.now() + 300_000,
+    });
     await expect(ordinary).resolves.toMatchObject({ token: "ordinary-from-old-epoch" });
 
     const replacement = getAccessToken(["scope"], {});
