@@ -88,55 +88,58 @@ describe("Library/AzureFunctionsHook", () => {
       ["3.x", v3Context],
       ["4.x", v4Context],
     ]) {
-      it(// eslint-disable-next-line @typescript-eslint/no-base-to-string
-      `[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`, async () => {
-        let preInvocationCallback: any;
-        let preInvocationCalled = false;
+      it(
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
+        `[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`,
+        async () => {
+          let preInvocationCallback: any;
+          let preInvocationCalled = false;
 
-        const Module = require("module");
-        Module.prototype.require = function () {
-          // eslint-disable-next-line prefer-rest-params
-          if (arguments[0] === "@azure/functions-core") {
-            return {
-              registerHook(name: string, callback: PreInvocationCallback) {
-                if (name === "preInvocation") {
-                  preInvocationCalled = true;
-                  preInvocationCallback = callback;
-                }
-              },
-            };
-          }
-          // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
-          return originalRequire.apply(this, arguments);
-        };
+          const Module = require("module");
+          Module.prototype.require = function () {
+            // eslint-disable-next-line prefer-rest-params
+            if (arguments[0] === "@azure/functions-core") {
+              return {
+                registerHook(name: string, callback: PreInvocationCallback) {
+                  if (name === "preInvocation") {
+                    preInvocationCalled = true;
+                    preInvocationCallback = callback;
+                  }
+                },
+              };
+            }
+            // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
+            return originalRequire.apply(this, arguments);
+          };
 
-        const config = new InternalConfig({});
-        config.azureMonitorExporterOptions.connectionString =
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
-        metricHandler = new MetricHandler(config);
-        handler = new TraceHandler(config, metricHandler);
-        const azureFnHook = new AzureFunctionsHook();
-        assert.isDefined(preInvocationCalled, "preInvocationCalled");
-        assert.isDefined(azureFnHook, "azureFnHook");
+          const config = new InternalConfig({});
+          config.azureMonitorExporterOptions.connectionString =
+            "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
+          metricHandler = new MetricHandler(config);
+          handler = new TraceHandler(config, metricHandler);
+          const azureFnHook = new AzureFunctionsHook();
+          assert.isDefined(preInvocationCalled, "preInvocationCalled");
+          assert.isDefined(azureFnHook, "azureFnHook");
 
-        // Azure Functions should call preinvocation callback
-        const preInvocationContext: PreInvocationContext = {
-          inputs: [],
-          functionCallback: () => {
-            const span = trace.getTracer("testTracer").startSpan("test");
-            // Context should be propagated here
-            assert.equal(
-              (span as any)["_spanContext"]["traceId"],
-              "0af7651916cd43dd8448eb211c80319c",
-            );
-            assert.isDefined((span as any)["_spanContext"]["spanId"]);
-          },
-          invocationContext: testInvocationContext,
-        };
+          // Azure Functions should call preinvocation callback
+          const preInvocationContext: PreInvocationContext = {
+            inputs: [],
+            functionCallback: () => {
+              const span = trace.getTracer("testTracer").startSpan("test");
+              // Context should be propagated here
+              assert.equal(
+                (span as any)["_spanContext"]["traceId"],
+                "0af7651916cd43dd8448eb211c80319c",
+              );
+              assert.isDefined((span as any)["_spanContext"]["spanId"]);
+            },
+            invocationContext: testInvocationContext,
+          };
 
-        await preInvocationCallback(preInvocationContext);
-        preInvocationContext.functionCallback(testInvocationContext);
-      });
+          await preInvocationCallback(preInvocationContext);
+          preInvocationContext.functionCallback(testInvocationContext);
+        },
+      );
     }
   });
 });

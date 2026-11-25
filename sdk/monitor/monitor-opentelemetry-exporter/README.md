@@ -159,11 +159,15 @@ If any required attribute is missing or empty, the exporter sends the record as 
 
 Set `APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES=multi_endpoint_routing` before constructing
 any exporter to route logs, spans, and metric data points to different Application Insights
-resources. Routing is disabled by default. A host connection string is optional.
+resources. Routing is disabled by default. The first exporter fixes this selection for the
+process. A host connection string is optional when routing is enabled, but is still validated
+if supplied.
 
 Each item must supply `microsoft.instrumentation_key` and `microsoft.ingestion_endpoint`
-as attributes. The endpoint must be an absolute HTTPS URL without credentials, query strings,
-or fragments. Items with missing or invalid destinations are dropped, not sent to the host.
+as attributes. The key must be a nonblank string of at most 200 characters. The endpoint
+must be an absolute HTTPS URL of at most 2048 characters without credentials, query strings,
+or fragments. Both limits apply before trimming whitespace. Items with missing or invalid
+destinations are dropped, not sent to the host.
 **Use trusted, server-owned destination configuration, not request headers or baggage.**
 
 ```ts snippet:ReadmeSampleMultiEndpointRouting
@@ -190,9 +194,15 @@ provider.getLogger("routed-logs").emit({
 });
 ```
 
-Set the same attributes on spans or individual metric data points to route those signals.
-Span events inherit their parent span's routing attributes. Resource and instrumentation-scope
-attributes are not used for metric routing.
+For a runnable example using `useAzureMonitor()`, see the distro's
+[multi-endpoint routing sample and setup instructions](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry#multi-endpoint-routing-preview).
+
+Attach the attributes to each log record, span, and metric measurement or observation.
+Child spans and logs do not inherit a parent span's route. Span events do. If a metric view
+filters attributes, retain the routing attributes. Resource and instrumentation-scope
+attributes are not used for metric routing. Two keys may share a normalized endpoint and
+authentication mode. Within one export batch their items share a request but keep their own
+keys and roles. Per-item routing does not redirect Live Metrics, Statsbeat, or SDK statistics.
 
 For Microsoft Entra ID authentication, pass a `TokenCredential` to the exporter's
 `credential` option and grant the identity the **Monitoring Metrics Publisher** role on each
@@ -211,17 +221,34 @@ identities or audiences.
 Set `microsoft.multi_endpoint_cloud_role` to specify the cloud role name. It defaults to
 `unknown_service`. Role instances still come from the resource.
 
-Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
-Each routed batch has a 10-second send deadline, including authentication, HTTP retries,
-and redirects. Server-requested `Retry-After` delays still apply to later sends after a timeout.
-Timed-out batches are saved for retry when offline storage is available. Overflow
-destinations have no offline storage and report a failed export instead.
-Shutdown allows 30 seconds for pending routed requests before cancelling them.
-Queued overflow destinations that have not started by that deadline report a failed export.
 Custom `httpClient` and `retryOptions` are supported, but `pipeline` and `additionalPolicies`
 are rejected in routing mode. A custom HTTP client is shared across destinations. Do not
 add an `Authorization` header, cookie, or other secret indiscriminately, even to key-only
 requests. Leave redirect handling to the exporter and honor request abort signals.
+
+#### Retry storage and delivery guarantees
+
+Delivery is best effort. Each destination is attempted independently. A failed export does
+not roll back successful destinations, and a successful export can mean items were saved
+locally for replay. Neither result is a per-item ingestion receipt. A lost response can
+lead to duplicate delivery. Do not rely on ordering across destinations, batches, or retries.
+
+Offline retry storage supports up to 64 endpoint/authentication pairs per exporter.
+Each routed batch has a 10-second send deadline, including authentication, HTTP retries,
+and redirects. Server-requested `Retry-After` delays still apply to later sends after a timeout.
+Timed-out batches are saved for retry when offline storage is available. Overflow
+destinations can still send, but have no offline storage if a request fails. Non-retryable
+items are not saved. Storage limits, retention expiry, disk permissions, or disabling
+storage can cause loss. Protect the retry directory because it contains telemetry.
+
+Retry files are separate from host storage and preserve the original item keys. After a
+restart, use the same storage location and host configuration. New telemetry for the same
+normalized endpoint and authentication mode reopens its partition for background replay.
+
+Call `forceFlush()` to process buffered telemetry, not to drain retry files or confirm
+ingestion. Shut down providers before exiting to avoid losing in-memory items.
+Shutdown allows 30 seconds for pending routed requests before cancelling them.
+Queued overflow destinations that have not started by that deadline report a failed export.
 
 ### Sampling
 

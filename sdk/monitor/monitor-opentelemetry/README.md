@@ -625,6 +625,25 @@ Logs could be put into local file using `APPLICATIONINSIGHTS_LOG_DESTINATION` en
 
 For complete samples of a few champion scenarios, see the [`samples/`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry/samples-dev/) folder.
 
+### Multi-endpoint routing (preview)
+
+The [two-destination sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/multiEndpointRouting.ts)
+enables `multi_endpoint_routing` before calling `useAzureMonitor()`. It routes logs, spans,
+span events, and counter measurements to two Application Insights resources without a host
+connection string.
+
+Set `ROUTING_KEY_1` and `ROUTING_ENDPOINT_1` to the `InstrumentationKey` and `IngestionEndpoint`
+from the first resource's connection string. Set `ROUTING_KEY_2` and `ROUTING_ENDPOINT_2`
+from the second. Use trusted application configuration, not values from incoming requests.
+From the built distro package directory, run:
+
+```bash
+node --experimental-strip-types --import @azure/monitor-opentelemetry/loader samples-dev/multiEndpointRouting.ts
+```
+
+See the [exporter's routing guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter#multi-endpoint-routing-preview)
+for routing attributes, authentication, and delivery guarantees.
+
 ## Key concepts
 
 For more information on the OpenTelemetry project, please review the [**OpenTelemetry Specifications**](https://github.com/open-telemetry/opentelemetry-specification#opentelemetry-specification).
