@@ -364,7 +364,7 @@ export interface KeyReleasePolicy {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link createKey}
+ * passed to {@link KeyClient.createKey}
  */
 export interface CreateKeyOptions extends coreClient.OperationOptions {
   /**
@@ -415,7 +415,7 @@ export interface CreateKeyOptions extends coreClient.OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteKey} and {@link beginRecoverDeletedKey}
+ * passed to {@link KeyClient.beginDeleteKey} and {@link KeyClient.beginRecoverDeletedKey}
  */
 export interface KeyPollerOptions extends coreClient.OperationOptions {
   /**
@@ -430,25 +430,25 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteKey}
+ * passed to {@link KeyClient.beginDeleteKey}
  */
 export interface BeginDeleteKeyOptions extends KeyPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginRecoverDeletedKey}
+ * passed to {@link KeyClient.beginRecoverDeletedKey}
  */
 export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link createEcKey}
+ * passed to {@link KeyClient.createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link createRsaKey}
+ * passed to {@link KeyClient.createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /** The public exponent for a RSA key. */
@@ -457,13 +457,13 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link createOctKey}
+ * passed to {@link KeyClient.createOctKey}
  */
 export interface CreateOctKeyOptions extends CreateKeyOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link importKey}
+ * passed to {@link KeyClient.importKey}
  */
 export interface ImportKeyOptions extends coreClient.OperationOptions {
   /**
@@ -499,7 +499,7 @@ export interface ImportKeyOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link updateKeyProperties}.
+ * Options for {@link KeyClient.updateKeyProperties}.
  */
 export interface UpdateKeyPropertiesOptions extends coreClient.OperationOptions {
   /**
@@ -532,7 +532,7 @@ export interface UpdateKeyPropertiesOptions extends coreClient.OperationOptions 
 }
 
 /**
- * Options for {@link getKey}.
+ * Options for {@link KeyClient.getKey}.
  */
 export interface GetKeyOptions extends coreClient.OperationOptions {
   /**
@@ -543,7 +543,7 @@ export interface GetKeyOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link getKeyAttestation}.
+ * Options for {@link KeyClient.getKeyAttestation}.
  */
 export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
   /**
@@ -559,27 +559,27 @@ export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
 export interface ListKeysOptions extends coreClient.OperationOptions {}
 
 /**
- * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeys}.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link KeyClient.listPropertiesOfKeys}.
  */
 export interface ListPropertiesOfKeysOptions extends coreClient.OperationOptions {}
 
 /**
- * An interface representing optional parameters for KeyClient paged operations passed to {@link listPropertiesOfKeyVersions}.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link KeyClient.listPropertiesOfKeyVersions}.
  */
 export interface ListPropertiesOfKeyVersionsOptions extends coreClient.OperationOptions {}
 
 /**
- * An interface representing optional parameters for KeyClient paged operations passed to {@link listDeletedKeys}.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link KeyClient.listDeletedKeys}.
  */
 export interface ListDeletedKeysOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link getDeletedKey}.
+ * Options for {@link KeyClient.getDeletedKey}.
  */
 export interface GetDeletedKeyOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link purgeDeletedKey}.
+ * Options for {@link KeyClient.purgeDeletedKey}.
  */
 export interface PurgeDeletedKeyOptions extends coreClient.OperationOptions {}
 
@@ -596,12 +596,12 @@ export interface RecoverDeletedKeyOptions extends coreClient.OperationOptions {}
 export interface DeleteKeyOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link backupKey}.
+ * Options for {@link KeyClient.backupKey}.
  */
 export interface BackupKeyOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link restoreKeyBackup}.
+ * Options for {@link KeyClient.restoreKeyBackup}.
  */
 export interface RestoreKeyBackupOptions extends coreClient.OperationOptions {}
 
@@ -824,6 +824,6 @@ export type KeyRotationPolicyAction = "Rotate" | "Notify";
 export interface UpdateKeyRotationPolicyOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link KeyClient.getRotationPolicy}
+ * Options for {@link KeyClient.getKeyRotationPolicy}
  */
 export interface GetKeyRotationPolicyOptions extends coreClient.OperationOptions {}

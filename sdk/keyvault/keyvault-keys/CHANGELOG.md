@@ -1,5 +1,17 @@
 # Release History
 
+## 4.11.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Fixed broken links to `KeyClient` and `CryptographyClient` operations in the reference documentation of option and result types. [#34921](https://github.com/Azure/azure-sdk-for-js/issues/34921)
+
 ## 4.11.0 (2026-11-24)
 
 ### Features Added

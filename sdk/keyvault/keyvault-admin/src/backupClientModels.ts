@@ -26,7 +26,7 @@ export interface KeyVaultBackupClientOptions extends ClientOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginBackup}
+ * passed to {@link KeyVaultBackupClient.beginBackup}
  */
 export interface KeyVaultBackupPollerOptions extends OperationOptions {
   /**

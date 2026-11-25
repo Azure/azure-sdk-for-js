@@ -42,11 +42,11 @@ export type KeyWrapAlgorithm =
   | "CKM_AES_KEY_WRAP_PAD";
 
 /**
- * Result of the {@link encrypt} operation.
+ * Result of the {@link CryptographyClient.encrypt} operation.
  */
 export interface EncryptResult {
   /**
-   * Result of the {@link encrypt} operation in bytes.
+   * Result of the {@link CryptographyClient.encrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
@@ -72,11 +72,11 @@ export interface EncryptResult {
 }
 
 /**
- * Result of the {@link wrap} operation.
+ * Result of the {@link CryptographyClient.wrapKey} operation.
  */
 export interface WrapResult {
   /**
-   * Result of the {@link wrap} operation in bytes.
+   * Result of the {@link CryptographyClient.wrapKey} operation in bytes.
    */
   result: Uint8Array;
   /**
@@ -90,11 +90,11 @@ export interface WrapResult {
 }
 
 /**
- * Result of the {@link unwrap} operation.
+ * Result of the {@link CryptographyClient.unwrapKey} operation.
  */
 export interface UnwrapResult {
   /**
-   * Result of the {@link unwrap} operation in bytes.
+   * Result of the {@link CryptographyClient.unwrapKey} operation in bytes.
    */
   result: Uint8Array;
   /**
@@ -107,11 +107,11 @@ export interface UnwrapResult {
   algorithm: KeyWrapAlgorithm;
 }
 /**
- * Result of the {@link decrypt} operation.
+ * Result of the {@link CryptographyClient.decrypt} operation.
  */
 export interface DecryptResult {
   /**
-   * Result of the {@link decrypt} operation in bytes.
+   * Result of the {@link CryptographyClient.decrypt} operation in bytes.
    */
   result: Uint8Array;
   /**
@@ -125,11 +125,11 @@ export interface DecryptResult {
 }
 
 /**
- * Result of the {@link sign} operation.
+ * Result of the {@link CryptographyClient.sign} operation.
  */
 export interface SignResult {
   /**
-   * Result of the {@link sign} operation in bytes.
+   * Result of the {@link CryptographyClient.sign} operation in bytes.
    */
   result: Uint8Array;
   /**
@@ -143,11 +143,11 @@ export interface SignResult {
 }
 
 /**
- * Result of the {@link verify} operation.
+ * Result of the {@link CryptographyClient.verify} operation.
  */
 export interface VerifyResult {
   /**
-   * Result of the {@link verify} operation in bytes.
+   * Result of the {@link CryptographyClient.verify} operation in bytes.
    */
   result: boolean;
   /**
@@ -157,37 +157,37 @@ export interface VerifyResult {
 }
 
 /**
- * Options for {@link encrypt}.
+ * Options for {@link CryptographyClient.encrypt}.
  */
 export interface EncryptOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link decrypt}.
+ * Options for {@link CryptographyClient.decrypt}.
  */
 export interface DecryptOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link sign}.
+ * Options for {@link CryptographyClient.sign}.
  */
 export interface SignOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link verify}.
+ * Options for {@link CryptographyClient.verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link verifyData}
+ * Options for {@link CryptographyClient.verifyData}
  */
 export interface VerifyDataOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link wrapKey}.
+ * Options for {@link CryptographyClient.wrapKey}.
  */
 export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
- * Options for {@link unwrapKey}.
+ * Options for {@link CryptographyClient.unwrapKey}.
  */
 export interface UnwrapKeyOptions extends CryptographyOptions {}
 

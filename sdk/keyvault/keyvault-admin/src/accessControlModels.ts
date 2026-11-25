@@ -137,39 +137,39 @@ export interface KeyVaultRoleAssignmentProperties {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link createRoleAssignment}
+ * passed to {@link KeyVaultAccessControlClient.createRoleAssignment}
  */
 export interface CreateRoleAssignmentOptions extends OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link deleteRoleAssignment}
+ * passed to {@link KeyVaultAccessControlClient.deleteRoleAssignment}
  */
 export interface DeleteRoleAssignmentOptions extends OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link getRoleAssignment}
+ * passed to {@link KeyVaultAccessControlClient.getRoleAssignment}
  */
 export interface GetRoleAssignmentOptions extends OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link listRoleAssignments}.
+ * An interface representing optional parameters passed to {@link KeyVaultAccessControlClient.listRoleAssignments}.
  */
 export interface ListRoleAssignmentsOptions extends OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link listRoleDefinitions}.
+ * An interface representing optional parameters passed to {@link KeyVaultAccessControlClient.listRoleDefinitions}.
  */
 export interface ListRoleDefinitionsOptions extends OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link getRoleDefinition}.
+ * An interface representing optional parameters passed to {@link KeyVaultAccessControlClient.getRoleDefinition}.
  */
 export interface GetRoleDefinitionOptions extends OperationOptions {}
 
 /**
- * An interface representing optional parameters passed to {@link setRoleDefinition}.
+ * An interface representing optional parameters passed to {@link KeyVaultAccessControlClient.setRoleDefinition}.
  */
 export interface SetRoleDefinitionOptions extends OperationOptions {
   /**
@@ -195,7 +195,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 /**
- * An interface representing optional parameters passed to {@link deleteRoleDefinition}.
+ * An interface representing optional parameters passed to {@link KeyVaultAccessControlClient.deleteRoleDefinition}.
  */
 export interface DeleteRoleDefinitionOptions extends OperationOptions {}
 

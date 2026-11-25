@@ -31,7 +31,7 @@ export interface UpdateSettingOptions extends OperationOptions {}
 export interface GetSettingOptions extends OperationOptions {}
 
 /**
- * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.listSettings}
+ * An interface representing the optional parameters that can be passed to {@link KeyVaultSettingsClient.getSettings}
  */
 export interface ListSettingsOptions extends OperationOptions {}
 
@@ -71,7 +71,7 @@ export interface BooleanKeyVaultSetting extends KeyVaultSetting {
 }
 
 /**
- * An interface representing the response returned by {@link KeyVaultSettingsClient.listSettings}
+ * An interface representing the response returned by {@link KeyVaultSettingsClient.getSettings}
  */
 export interface ListSettingsResponse {
   /**

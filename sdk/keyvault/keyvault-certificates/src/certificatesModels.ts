@@ -522,7 +522,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginCreateCertificate}, {@link beginDeleteCertificate} and {@link beginRecoverDeletedCertificate}
+ * passed to {@link CertificateClient.beginCreateCertificate}, {@link CertificateClient.beginDeleteCertificate} and {@link CertificateClient.beginRecoverDeletedCertificate}
  */
 export interface CertificatePollerOptions extends coreClient.OperationOptions {
   /**
@@ -537,46 +537,47 @@ export interface CertificatePollerOptions extends coreClient.OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginCreateCertificate}
+ * passed to {@link CertificateClient.beginCreateCertificate}
  */
 export interface BeginCreateCertificateOptions
   extends CreateCertificateOptions, CertificatePollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteCertificate}
+ * passed to {@link CertificateClient.beginDeleteCertificate}
  */
 export type BeginDeleteCertificateOptions = CertificatePollerOptions;
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginRecoverDeletedCertificate}
+ * passed to {@link CertificateClient.beginRecoverDeletedCertificate}
  */
 export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
 
 /**
- * Options for {@link getCertificateOperation}.
+ * Options for {@link CertificateClient.getCertificateOperation}.
  */
 export type GetCertificateOperationOptions = CertificatePollerOptions;
 
 /**
- * Options for {@link createCertificate}.
+ * Options for {@link CertificateClient.beginCreateCertificate}.
  */
 export interface CreateCertificateOptions
   extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
- * Options for {@link cancelCertificateOperation}.
+ * Options for canceling a certificate operation that is in progress, used by the pollers returned from
+ * {@link CertificateClient.beginCreateCertificate} and {@link CertificateClient.getCertificateOperation}.
  */
 export type CancelCertificateOperationOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link backupCertificate}.
+ * Options for {@link CertificateClient.backupCertificate}.
  */
 export type BackupCertificateOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link deleteCertificateOperation}.
+ * Options for {@link CertificateClient.deleteCertificateOperation}.
  */
 export type DeleteCertificateOperationOptions = coreClient.OperationOptions;
 
@@ -587,12 +588,12 @@ export type DeleteCertificateOperationOptions = coreClient.OperationOptions;
 export type DeleteCertificateOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link deleteContacts}.
+ * Options for {@link CertificateClient.deleteContacts}.
  */
 export type DeleteContactsOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link importCertificate}.
+ * Options for {@link CertificateClient.importCertificate}.
  */
 export interface ImportCertificateOptions extends coreClient.OperationOptions {
   /**
@@ -619,17 +620,17 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link deleteIssuer}.
+ * Options for {@link CertificateClient.deleteIssuer}.
  */
 export type DeleteIssuerOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link setContacts}.
+ * Options for {@link CertificateClient.setContacts}.
  */
 export type SetContactsOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link createIssuer}.
+ * Options for {@link CertificateClient.createIssuer}.
  */
 export interface CreateIssuerOptions extends coreClient.OperationOptions {
   /**
@@ -655,12 +656,12 @@ export interface CreateIssuerOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link purgeDeletedCertificate}.
+ * Options for {@link CertificateClient.purgeDeletedCertificate}.
  */
 export type PurgeDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link updateIssuer}.
+ * Options for {@link CertificateClient.updateIssuer}.
  */
 export interface UpdateIssuerOptions extends CreateIssuerOptions {
   /**
@@ -670,37 +671,38 @@ export interface UpdateIssuerOptions extends CreateIssuerOptions {
 }
 
 /**
- * Options for {@link getContacts}.
+ * Options for {@link CertificateClient.getContacts}.
  */
 export type GetContactsOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getIssuer}.
+ * Options for {@link CertificateClient.getIssuer}.
  */
 export type GetIssuerOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getPlainCertificateOperation}.
+ * Options for retrieving the current state of a certificate operation, used by the pollers returned from
+ * {@link CertificateClient.beginCreateCertificate} and {@link CertificateClient.getCertificateOperation}.
  */
 export type GetPlainCertificateOperationOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getCertificateVersion}.
+ * Options for {@link CertificateClient.getCertificateVersion}.
  */
 export type GetCertificateVersionOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getCertificatePolicy}.
+ * Options for {@link CertificateClient.getCertificatePolicy}.
  */
 export type GetCertificatePolicyOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getDeletedCertificate}.
+ * Options for {@link CertificateClient.getDeletedCertificate}.
  */
 export type GetDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
- * Options for {@link getCertificate}.
+ * Options for {@link CertificateClient.getCertificate}.
  */
 export type GetCertificateOptions = coreClient.OperationOptions;
 
@@ -710,13 +712,13 @@ export type GetCertificateOptions = coreClient.OperationOptions;
 export type CertificateTags = { [propertyName: string]: string };
 
 /**
- * Options for {@link updateCertificate}.
+ * Options for {@link CertificateClient.updateCertificateProperties}.
  */
 export interface UpdateCertificatePropertiesOptions
   extends CertificateProperties, coreClient.OperationOptions {}
 
 /**
- * Options for {@link updateCertificatePolicy}.
+ * Options for {@link CertificateClient.updateCertificatePolicy}.
  */
 export type UpdateCertificatePolicyOptions = coreClient.OperationOptions;
 
@@ -773,7 +775,7 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 /**
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link CertificateClient.listPropertiesOfCertificates}.
  */
 export interface ListPropertiesOfCertificatesOptions extends coreClient.OperationOptions {
   /**
@@ -783,17 +785,17 @@ export interface ListPropertiesOfCertificatesOptions extends coreClient.Operatio
 }
 
 /**
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link CertificateClient.listPropertiesOfCertificateVersions}.
  */
 export type ListPropertiesOfCertificateVersionsOptions = coreClient.OperationOptions;
 
 /**
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link CertificateClient.listPropertiesOfIssuers}.
  */
 export type ListPropertiesOfIssuersOptions = coreClient.OperationOptions;
 
 /**
- * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
+ * An interface representing optional parameters for CertificateClient paged operations passed to {@link CertificateClient.listDeletedCertificates}.
  */
 export interface ListDeletedCertificatesOptions extends coreClient.OperationOptions {
   /**
@@ -803,7 +805,7 @@ export interface ListDeletedCertificatesOptions extends coreClient.OperationOpti
 }
 
 /**
- * An interface representing optional parameters for {@link mergeCertificate}.
+ * An interface representing optional parameters for {@link CertificateClient.mergeCertificate}.
  */
 export type MergeCertificateOptions = coreClient.OperationOptions;
 
@@ -814,7 +816,7 @@ export type MergeCertificateOptions = coreClient.OperationOptions;
 export type RecoverDeletedCertificateOptions = coreClient.OperationOptions;
 
 /**
- * An interface representing optional parameters for {@link restoreCertificateBackup}.
+ * An interface representing optional parameters for {@link CertificateClient.restoreCertificateBackup}.
  */
 export type RestoreCertificateBackupOptions = coreClient.OperationOptions;
 
