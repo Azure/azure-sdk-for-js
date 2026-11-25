@@ -210,7 +210,19 @@ export function expandUrlTemplate(
     return innerResult.join("");
   });
 
-  return normalizeUnreserved(result);
+  const normalized = normalizeUnreserved(result);
+  validatePathSegments(normalized);
+  return normalized;
+}
+
+const DOT_PATH_SEGMENT_PATTERN = /(?:^|\/)(?:\.|%(?:25)*2e){1,2}(?:\/|$)/i;
+
+export function validatePathSegments(uri: string): void {
+  const pathEndIndex = uri.search(/[?#]/);
+  const path = pathEndIndex === -1 ? uri : uri.slice(0, pathEndIndex);
+  if (DOT_PATH_SEGMENT_PATTERN.test(path)) {
+    throw new Error("URL path segments must not be '.' or '..'.");
+  }
 }
 
 /**

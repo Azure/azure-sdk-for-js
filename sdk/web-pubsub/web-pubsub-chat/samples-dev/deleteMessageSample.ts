@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a message.
  *
  * @summary delete a message.
- * x-ms-original-file: 2026-02-01-preview/DeleteMessage.json
+ * x-ms-original-file: 2026-11-01/DeleteMessage.json
  */
 async function deleteMessage(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

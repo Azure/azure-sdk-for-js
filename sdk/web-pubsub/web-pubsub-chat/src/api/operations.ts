@@ -142,7 +142,7 @@ export function _listRoomsForUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options.maxPageSize,
     },
     {
@@ -172,6 +172,16 @@ export function listRoomsForUser(
   userId: string,
   options: ListRoomsForUserOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatUserRoom> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/users/{userId}/rooms",
+    {
+      hub: context.hub,
+      userId: userId,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomsForUserSend(context, userId, options),
@@ -180,7 +190,7 @@ export function listRoomsForUser(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -196,7 +206,7 @@ export function _deleteUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +252,7 @@ export function _createOrReplaceUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -293,7 +303,7 @@ export function _getUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,7 +342,7 @@ export function _listUsersSend(
     "/api/hubs/{hub}/chat/users{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -361,6 +371,15 @@ export function listUsers(
   context: Client,
   options: ListUsersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatUserUnion> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/users",
+    {
+      hub: context.hub,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listUsersSend(context, options),
@@ -369,7 +388,7 @@ export function listUsers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -387,7 +406,7 @@ export function _deleteRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +455,7 @@ export function _createOrReplaceRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,7 +507,7 @@ export function _listRoomMembersSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -518,6 +537,16 @@ export function listRoomMembers(
   roomId: string,
   options: ListRoomMembersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRoomMember> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/members",
+    {
+      hub: context.hub,
+      roomId: roomId,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomMembersSend(context, roomId, options),
@@ -526,7 +555,7 @@ export function listRoomMembers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   );
 }
@@ -543,7 +572,7 @@ export function _deleteTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -592,7 +621,7 @@ export function _updateTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -644,7 +673,7 @@ export function _getTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -689,7 +718,7 @@ export function _createOrReplaceTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -741,7 +770,7 @@ export function _listTopicsSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -771,6 +800,16 @@ export function listTopics(
   roomId: string,
   options: ListTopicsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatTopic> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms/{roomId}/topics",
+    {
+      hub: context.hub,
+      roomId: roomId,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listTopicsSend(context, roomId, options),
@@ -779,7 +818,7 @@ export function listTopics(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -795,7 +834,7 @@ export function _deleteRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -840,7 +879,7 @@ export function _getRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -882,7 +921,7 @@ export function _createOrReplaceRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -931,7 +970,7 @@ export function _listRoomsSend(
     "/api/hubs/{hub}/chat/rooms{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -960,6 +999,15 @@ export function listRooms(
   context: Client,
   options: ListRoomsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRoom> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/rooms",
+    {
+      hub: context.hub,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomsSend(context, options),
@@ -968,7 +1016,7 @@ export function listRooms(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -984,7 +1032,7 @@ export function _deleteRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1030,7 +1078,7 @@ export function _createOrReplaceRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1081,7 +1129,7 @@ export function _getRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1120,7 +1168,7 @@ export function _listRolesSend(
     "/api/hubs/{hub}/chat/roles{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -1149,6 +1197,15 @@ export function listRoles(
   context: Client,
   options: ListRolesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRole> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/roles",
+    {
+      hub: context.hub,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listRolesSend(context, options),
@@ -1157,7 +1214,7 @@ export function listRoles(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   );
 }
@@ -1175,7 +1232,7 @@ export function _updateMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1229,7 +1286,7 @@ export function _deleteMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1275,7 +1332,7 @@ export function _listMessagesSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       latestMessageId: options?.latestMessageId,
       earliestMessageId: options?.earliestMessageId,
       maxpagesize: options?.maxPageSize,
@@ -1310,6 +1367,16 @@ export function listMessages(
   conversationId: string,
   options: ListMessagesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatMessage> {
+  expandUrlTemplate(
+    "/api/hubs/{hub}/chat/conversations/{conversationId}/messages",
+    {
+      hub: context.hub,
+      conversationId: conversationId,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
   return buildPagedAsyncIterator(
     context,
     () => _listMessagesSend(context, conversationId, options),
@@ -1318,7 +1385,7 @@ export function listMessages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -1334,7 +1401,7 @@ export function _getConversationSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

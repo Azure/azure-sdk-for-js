@@ -162,8 +162,7 @@ export enum KnownChatUserKind {
 
 // @public
 export enum KnownVersions {
-    V20260201Preview = "2026-02-01-preview",
-    V20260801Preview = "2026-08-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
