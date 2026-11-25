@@ -1,0 +1,16 @@
+{
+  "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/saasOperationStatuses/index.ts",
+    "../src/api/saasTenantLevel/index.ts",
+    "../src/api/saasSubscriptionLevelGlobal/index.ts",
+    "../src/api/saasSubscriptionLevel/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
+  ]
+}
