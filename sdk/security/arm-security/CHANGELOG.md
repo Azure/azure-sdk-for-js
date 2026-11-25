@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.0-beta.8 (2026-11-18)
+## 6.0.0-beta.8 (2026-11-25)
 Compared with version 5.0.0
 
 ### Features Added

@@ -99,8 +99,8 @@ export interface AlertsOperations {
   ) => Promise<void>;
   /** List all the alerts that are associated with the resource group that are stored in a specific location */
   listResourceGroupLevelByRegion: (
-    resourceGroupName: string,
     ascLocation: string,
+    resourceGroupName: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams,
   ) => PagedAsyncIterableIterator<Alert>;
   /** Get an alert that is associated a resource group or a resource in a resource group */
@@ -228,10 +228,10 @@ function _getAlerts(context: SecurityCenterContext) {
         options,
       ),
     listResourceGroupLevelByRegion: (
-      resourceGroupName: string,
       ascLocation: string,
+      resourceGroupName: string,
       options?: AlertsListResourceGroupLevelByRegionOptionalParams,
-    ) => listResourceGroupLevelByRegion(context, resourceGroupName, ascLocation, options),
+    ) => listResourceGroupLevelByRegion(context, ascLocation, resourceGroupName, options),
     getResourceGroupLevel: (
       resourceGroupName: string,
       ascLocation: string,

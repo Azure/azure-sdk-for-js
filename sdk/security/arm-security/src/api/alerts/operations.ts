@@ -425,8 +425,8 @@ export async function updateResourceGroupLevelStateToResolve(
 
 export function _listResourceGroupLevelByRegionSend(
   context: Client,
-  resourceGroupName: string,
   ascLocation: string,
+  resourceGroupName: string,
   options: AlertsListResourceGroupLevelByRegionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -466,13 +466,13 @@ export async function _listResourceGroupLevelByRegionDeserialize(
 /** List all the alerts that are associated with the resource group that are stored in a specific location */
 export function listResourceGroupLevelByRegion(
   context: Client,
-  resourceGroupName: string,
   ascLocation: string,
+  resourceGroupName: string,
   options: AlertsListResourceGroupLevelByRegionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
-    () => _listResourceGroupLevelByRegionSend(context, resourceGroupName, ascLocation, options),
+    () => _listResourceGroupLevelByRegionSend(context, ascLocation, resourceGroupName, options),
     _listResourceGroupLevelByRegionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: "2022-01-01" },

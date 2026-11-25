@@ -245,7 +245,7 @@ export interface AlertsOperations {
     getSubscriptionLevel: (ascLocation: string, alertName: string, options?: AlertsGetSubscriptionLevelOptionalParams) => Promise<Alert>;
     list: (options?: AlertsListOptionalParams) => PagedAsyncIterableIterator<Alert>;
     listByResourceGroup: (resourceGroupName: string, options?: AlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Alert>;
-    listResourceGroupLevelByRegion: (resourceGroupName: string, ascLocation: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
+    listResourceGroupLevelByRegion: (ascLocation: string, resourceGroupName: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
     listSubscriptionLevelByRegion: (ascLocation: string, options?: AlertsListSubscriptionLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
     simulate: (ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams) => PollerLike<OperationState<void>, void>;
     updateResourceGroupLevelStateToActivate: (resourceGroupName: string, ascLocation: string, alertName: string, options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams) => Promise<void>;
