@@ -13,6 +13,11 @@ steps:
       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}"
+    env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_CACHE: local:rw,remote:r
+      TURBO_TOKEN: faketoken
     displayName: "Build Lint Prerequisites and Lint Libraries"
 
   - pwsh: |
