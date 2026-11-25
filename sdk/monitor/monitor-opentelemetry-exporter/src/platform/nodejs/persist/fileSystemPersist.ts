@@ -146,9 +146,12 @@ export class FileSystemPersist implements PersistentStorage {
   private async shiftCore(): Promise<unknown> {
     if (this._enabled && this._isStorageActive()) {
       diag.debug("Searching for filesystem persisted files");
+      let itemCount: number | undefined;
       try {
-        const buffer = await this._getFirstFileOnDisk();
-        if (buffer) {
+        const file = await this._getFirstFileOnDisk();
+        if (file) {
+          const { buffer } = file;
+          itemCount = file.itemCount;
           const value: unknown = JSON.parse(buffer.toString("utf8"));
           if (Array.isArray(value)) {
             const envelopes: unknown[] = value;
@@ -168,14 +171,14 @@ export class FileSystemPersist implements PersistentStorage {
               );
             }
           } else if (this._storagePartition) {
-            diag.error(routingDiagnostic("STORAGE_READ_FAILED"));
+            diag.error(routingDiagnostic("STORAGE_READ_FAILED", itemCount));
             return null;
           }
           return value;
         }
       } catch (e: any) {
         if (this._storagePartition) {
-          diag.error(routingDiagnostic("STORAGE_READ_FAILED"));
+          diag.error(routingDiagnostic("STORAGE_READ_FAILED", itemCount));
         } else {
           diag.debug("Failed to read persisted file", e);
         }
@@ -191,7 +194,10 @@ export class FileSystemPersist implements PersistentStorage {
    * Check for temp telemetry files
    * reads the first file if exist, deletes it and tries to send its load
    */
-  private async _getFirstFileOnDisk(): Promise<Buffer | null> {
+  private async _getFirstFileOnDisk(): Promise<{
+    buffer: Buffer;
+    itemCount: number | undefined;
+  } | null> {
     try {
       if (!(await this._prepareDirectory(false))) return null;
       const stats = await stat(this._tempDirectory);
@@ -211,7 +217,7 @@ export class FileSystemPersist implements PersistentStorage {
           }
           // delete the file first to prevent double sending
           await unlink(filePath);
-          return payload;
+          return { buffer: payload, itemCount: getItemCountFromFileName(firstFile) };
         }
       }
       return null;
@@ -333,7 +339,7 @@ export class FileSystemPersist implements PersistentStorage {
     if (!restoring && !this._isStorageActive()) {
       return this.storagePaused(envelopes);
     }
-    // Expiration can report the count without opening or parsing discarded telemetry.
+    // Report discarded items even when the retry payload cannot be parsed.
     const count = this._storagePartition ? `-${envelopes.length}` : "";
     const fileName = `${Date.now()}-${process.hrtime.bigint()}${count}${FileSystemPersist.FILENAME_SUFFIX}`;
     const fileFullPath = join(this._tempDirectory, fileName);
@@ -426,8 +432,7 @@ export class FileSystemPersist implements PersistentStorage {
   private async removeExpiredFile(filePath: string): Promise<void> {
     await unlink(filePath);
     if (this._storagePartition) {
-      const match = /^\d+-\d+-(\d{1,10})\.ai\.json$/.exec(basename(filePath));
-      diag.warn(routingDiagnostic("STORAGE_EXPIRED", match ? Number(match[1]) : undefined));
+      diag.warn(routingDiagnostic("STORAGE_EXPIRED", getItemCountFromFileName(basename(filePath))));
     }
   }
 
@@ -473,6 +478,11 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
   }
+}
+
+function getItemCountFromFileName(fileName: string): number | undefined {
+  const match = /^\d+-\d+-(\d{1,10})\.ai\.json$/.exec(fileName);
+  return match ? Number(match[1]) : undefined;
 }
 
 /**

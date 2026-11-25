@@ -670,6 +670,31 @@ describe("routed senders and persistence", () => {
     expect(JSON.stringify(error.mock.calls)).not.toContain("sensitive");
   });
 
+  it.each([
+    ["123-456-2.ai.json", '["sensitive",', "2"],
+    ["123-456-2.ai.json", '{"name":"sensitive"}', "2"],
+    ["123-456.ai.json", '["sensitive",', "unknown"],
+  ])(
+    "reports the count when replaying %s containing %s",
+    async (fileName, contents, expectedCount) => {
+      const persister = storage("a");
+      const partition = persister["_tempDirectory"];
+      await mkdir(partition, { recursive: true });
+      await writeFile(join(partition, fileName), contents);
+      const error = vi.spyOn(diag, "error");
+
+      expect(await persister.shift()).toBeNull();
+      expect(await readdir(partition)).toEqual([]);
+      expect(error.mock.calls).toEqual([
+        [expect.stringContaining(`reason=STORAGE_READ_FAILED itemCount=${expectedCount}.`)],
+      ]);
+      const [[message]] = error.mock.calls;
+      expect(message).not.toContain(fileName);
+      expect(message).not.toContain(partition);
+      expect(message).not.toContain("sensitive");
+    },
+  );
+
   it("serializes new writes with dequeuing before the replay reservation is recorded", async () => {
     const first = storage("a");
     const second = storage("b");
