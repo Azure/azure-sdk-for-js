@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed `tokenCachePersistenceOptions.name` overriding the separate CAE and non-CAE persistent cache names, which caused both caches to share storage. Custom-named caches now use `<name>.cae` and `<name>.nocae`.
+
 ### Other Changes
 
 ## 4.15.0-beta.3 (Unreleased)

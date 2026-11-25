@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.4 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed persistent token caches with different names sharing a single macOS Keychain or Linux keyring entry, which caused them to overwrite each other. Each cache name now uses its own entry. The default cache keeps its existing entry, so previously cached tokens remain available; caches with a custom `name` start empty and require one new sign-in.
+
 ## 1.3.3 (2026-10-29)
 
 ### Other Changes

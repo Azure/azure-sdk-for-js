@@ -73,6 +73,26 @@ describe("#generatePluginConfiguration", function () {
       const plugin = await result.cache.cachePluginCae;
       assert.strictEqual(plugin, cachePluginCae);
     });
+
+    it("keeps the CAE and non-CAE cache names separate when a custom name is set", function () {
+      options.tokenCachePersistenceOptions = {
+        enabled: true,
+        name: "app-alice",
+        unsafeAllowUnencryptedStorage: true,
+      };
+      const pluginProvider = vi.fn((_options?: unknown) => Promise.resolve({} as ICachePlugin));
+      msalNodeFlowCacheControl.setPersistence(pluginProvider);
+
+      msalPlugins.generatePluginConfiguration(options);
+
+      assert.deepEqual(
+        pluginProvider.mock.calls.map(([persistenceOptions]) => persistenceOptions),
+        [
+          { enabled: true, name: "app-alice.nocae", unsafeAllowUnencryptedStorage: true },
+          { enabled: true, name: "app-alice.cae", unsafeAllowUnencryptedStorage: true },
+        ],
+      );
+    });
   });
 
   describe("with native broker enabled", function () {
