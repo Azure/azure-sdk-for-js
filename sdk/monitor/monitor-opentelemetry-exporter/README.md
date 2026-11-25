@@ -198,7 +198,7 @@ The [two-destination sample](https://github.com/Azure/azure-sdk-for-js/blob/main
 shows how to route logs, spans, events, and counter measurements. Set `ROUTING_KEY_1` and
 `ROUTING_ENDPOINT_1` to the first resource's `InstrumentationKey` and `IngestionEndpoint`,
 then set `ROUTING_KEY_2` and `ROUTING_ENDPOINT_2` for the second resource. From the built
-exporter package directory, run `node samples-dev/multiEndpointRouting.ts`.
+exporter package directory, run `node --experimental-strip-types samples-dev/multiEndpointRouting.ts`.
 
 Attach the attributes to each log record, span, and metric measurement or observation.
 Child spans and logs do not inherit a parent span's route. Span events do. If a metric view
