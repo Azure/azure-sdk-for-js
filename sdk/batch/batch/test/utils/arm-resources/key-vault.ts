@@ -8,7 +8,7 @@ import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import type { RoleAssignment } from "@azure/arm-authorization";
 import { KeyClient } from "@azure/keyvault-keys";
 import type { KeyVaultKey, CreateKeyOptions } from "@azure/keyvault-keys";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 /**
@@ -172,7 +172,7 @@ export async function deleteKeyVault(keyVaultName: string): Promise<void> {
   try {
     await keyVaultClient.vaults.delete(getResourceGroupName(), keyVaultName);
   } catch (err) {
-    if (err instanceof RestError && err.statusCode === 404) {
+    if (isRestError(err) && err.statusCode === 404) {
       // Key Vault not found, nothing to delete
       return;
     }

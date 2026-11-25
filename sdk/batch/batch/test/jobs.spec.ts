@@ -19,7 +19,7 @@ import {
 } from "./utils/arm-resources/batch-account.js";
 import { createBatchLinuxPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const BASIC_POOL_NUM_VMS = 4;
@@ -164,8 +164,8 @@ describe("Job Operations Test", () => {
         statuses.push(status);
       }
       assert.fail("Expected error response to return");
-    } catch (error: any) {
-      if (!(error instanceof RestError)) {
+    } catch (error: unknown) {
+      if (!isRestError(error)) {
         throw error;
       }
       // Expected error - job prep/release tasks not configured
@@ -218,8 +218,8 @@ describe("Job Operations Test", () => {
     try {
       await batchClient.getJob(jobId);
       assert.fail("Expected job to be deleted");
-    } catch (error: any) {
-      if (!(error instanceof RestError)) {
+    } catch (error: unknown) {
+      if (!isRestError(error)) {
         throw error;
       }
       expect(error.statusCode).toBe(404);

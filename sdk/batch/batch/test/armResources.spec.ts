@@ -1,0 +1,142 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { createRestError } from "@azure-rest/core-client";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  createHoboBatchAccount,
+  getExistingBatchAccount,
+} from "./utils/arm-resources/batch-account.js";
+import { deleteKeyVault } from "./utils/arm-resources/key-vault.js";
+
+const { getAccount, createAccount, deleteVault } = vi.hoisted(() => ({
+  getAccount: vi.fn(),
+  createAccount: vi.fn(),
+  deleteVault: vi.fn(),
+}));
+
+vi.mock("@azure/arm-batch", () => ({
+  BatchManagementClient: class {
+    batchAccount = { get: getAccount, create: createAccount };
+  },
+}));
+
+vi.mock("@azure/arm-keyvault", () => ({
+  KeyVaultManagementClient: class {
+    vaults = { delete: deleteVault };
+  },
+}));
+
+vi.mock(import("@azure-tools/test-credential"), async (importOriginal) => {
+  const actual = await importOriginal();
+  return { ...actual, createTestCredential: () => new actual.NoOpCredential() };
+});
+
+vi.mock("./utils/arm-resources/env-const.js", () => ({
+  getSubscriptionId: () => "subscription",
+  getResourceGroupName: () => "resource-group",
+  getLocation: () => "eastus",
+  getTenantId: () => "tenant",
+}));
+
+function createArmError(status: number, code = "ResourceNotFound"): Error {
+  return createRestError({
+    status: String(status),
+    headers: {},
+    request: createPipelineRequest({ url: "https://management.azure.com/example" }),
+    body: { error: { code, message: code } },
+  });
+}
+
+describe("Batch test ARM resource helpers", () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it("returns an existing Batch account", async () => {
+    const account = { name: "account", location: "eastus" };
+    getAccount.mockResolvedValue(account);
+
+    await expect(getExistingBatchAccount("account")).resolves.toBe(account);
+    expect(getAccount).toHaveBeenCalledWith("resource-group", "account");
+  });
+
+  it("returns undefined for an ARM 404 when requested", async () => {
+    getAccount.mockRejectedValue(createArmError(404));
+
+    await expect(getExistingBatchAccount("account", true)).resolves.toBeUndefined();
+  });
+
+  it("rethrows an ARM 404 when the account is required", async () => {
+    const error = createArmError(404);
+    getAccount.mockRejectedValue(error);
+
+    await expect(getExistingBatchAccount("account")).rejects.toBe(error);
+  });
+
+  it.each([403, 500])("rethrows an ARM %i instead of treating it as missing", async (status) => {
+    const error = createArmError(status, "ServiceError");
+    getAccount.mockRejectedValue(error);
+
+    await expect(getExistingBatchAccount("account", true)).rejects.toBe(error);
+  });
+
+  it("rethrows non-REST errors during account lookup", async () => {
+    const error = new Error("Lookup failed");
+    getAccount.mockRejectedValue(error);
+
+    await expect(getExistingBatchAccount("account", true)).rejects.toBe(error);
+  });
+
+  it("creates a Batch account after an ARM 404", async () => {
+    const account = { name: "account", location: "eastus" };
+    getAccount.mockRejectedValue(createArmError(404));
+    createAccount.mockResolvedValue(account);
+
+    await expect(createHoboBatchAccount("account")).resolves.toBe(account);
+    expect(createAccount).toHaveBeenCalledWith(
+      "resource-group",
+      "account",
+      expect.objectContaining({ location: "eastus", poolAllocationMode: "BatchService" }),
+    );
+  });
+
+  it("does not recreate an existing Batch account", async () => {
+    const account = { name: "account", location: "eastus" };
+    getAccount.mockResolvedValue(account);
+
+    await expect(createHoboBatchAccount("account")).resolves.toBe(account);
+    expect(createAccount).not.toHaveBeenCalled();
+  });
+
+  it("retrieves an account being created by another process", async () => {
+    const account = { name: "account", location: "eastus" };
+    getAccount.mockRejectedValueOnce(createArmError(404)).mockResolvedValueOnce(account);
+    createAccount.mockRejectedValue(createArmError(409, "The specified account is being created."));
+
+    await expect(createHoboBatchAccount("account")).resolves.toBe(account);
+    expect(getAccount).toHaveBeenCalledTimes(2);
+    expect(createAccount).toHaveBeenCalledTimes(1);
+  });
+
+  it("deletes an existing Key Vault", async () => {
+    deleteVault.mockResolvedValue(undefined);
+
+    await expect(deleteKeyVault("vault")).resolves.toBeUndefined();
+    expect(deleteVault).toHaveBeenCalledWith("resource-group", "vault");
+  });
+
+  it("ignores an ARM 404 when deleting a missing Key Vault", async () => {
+    deleteVault.mockRejectedValue(createArmError(404));
+
+    await expect(deleteKeyVault("vault")).resolves.toBeUndefined();
+  });
+
+  it("rethrows an ARM authorization error when deleting a Key Vault", async () => {
+    const error = createArmError(403, "AuthorizationFailed");
+    deleteVault.mockRejectedValue(error);
+
+    await expect(deleteKeyVault("vault")).rejects.toBe(error);
+  });
+});

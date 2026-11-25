@@ -14,7 +14,7 @@ import {
 } from "./utils/arm-resources/batch-account.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
 import { waitForNodesToStart } from "./utils/pool.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const VMSIZE_D2s = "Standard_D2s_v3";
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -371,8 +371,8 @@ describe("Pool Advanced Features Test", () => {
     try {
       await batchClient.createPool(poolParams);
       assert.fail("Expected error response to return");
-    } catch (error: any) {
-      if (!(error instanceof RestError)) {
+    } catch (error: unknown) {
+      if (!isRestError(error)) {
         throw error;
       }
       expect(error.statusCode).toBe(400);
