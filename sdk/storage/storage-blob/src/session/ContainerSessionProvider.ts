@@ -8,7 +8,6 @@ import { BlobServiceClient } from "../BlobServiceClient.js";
 import { logger } from "../log.js";
 import type { PipelineLike } from "../Pipeline.js";
 import { isIpEndpointStyle } from "../utils/utils.common.js";
-import { HeaderConstants } from "../utils/constants.js";
 import { AutoRefreshingCache } from "../utils/AutoRefreshingCache.js";
 import { createContainerSession } from "./createSession.js";
 import type { SessionTokenInfo } from "./models.js";
@@ -59,11 +58,6 @@ export function isSessionEligible(request: PipelineRequest): boolean {
     if (lowered === "comp" || lowered === "restype") {
       return false;
     }
-  }
-
-  // Structured message downloads are not supported with session authentication.
-  if (request.headers.has(HeaderConstants.X_MS_STRUCTURED_BODY)) {
-    return false;
   }
 
   const { containerName, blobName } = parseContainerAndBlob(parsedUrl);

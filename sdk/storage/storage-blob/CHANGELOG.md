@@ -1,5 +1,17 @@
 # Release History
 
+## 12.35.0-beta.2 (Unreleased)
+
+### Features Added
+
+- When `sessionOptions.mode` is `"enabled"`, downloads that validate content with CRC64 are now signed with a session token too. Before, they always used a bearer token.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.35.0-beta.1 (2026-11-11)
 
 ### Features Added

@@ -473,7 +473,7 @@ When you authenticate with a `TokenCredential`, you can opt in to session token 
 Sessions are disabled by default. Set `sessionOptions.mode` to `"enabled"` to opt in.
 [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
-Only `GET` blob download requests are eligible; container and service operations, and any request using a structured message body, continue to use a bearer token. If a session cannot be created because the account does not have the feature enabled, the client logs a warning and falls back to bearer tokens rather than failing the download.
+Only `GET` blob download requests are eligible; container and service operations continue to use a bearer token. If a session cannot be created because the account does not have the feature enabled, the client logs a warning and falls back to bearer tokens rather than failing the download.
 
 In browsers and React Native, `sessionOptions` is accepted for type compatibility but has no effect, because signing a session requires Shared Key, which is unavailable outside Node.js.
 

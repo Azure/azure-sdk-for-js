@@ -23,6 +23,7 @@ interface SeenRequest {
   url: string;
   method: string;
   authorization?: string;
+  structuredBody?: string;
   host: string;
 }
 
@@ -51,6 +52,7 @@ function createFileClient(sessionOptions?: SessionOptions): {
         url: request.url,
         method: request.method,
         authorization: request.headers.get("authorization"),
+        structuredBody: request.headers.get("x-ms-structured-body"),
         host: new URL(request.url).hostname,
       });
       const isCreateSession = request.url.includes("comp=session");
@@ -106,6 +108,23 @@ describe("DataLake session authentication Node.js only", () => {
     const blobReads = seen.filter((r) => !isDfs(r) && !isCreateSession(r) && r.method === "GET");
     assert.isAtLeast(blobReads.length, 1, "read() must issue a GET against the blob endpoint");
     for (const request of blobReads) {
+      assert.isTrue(
+        isSessionSigned(request),
+        `expected a session-signed read, got: ${request.authorization}`,
+      );
+    }
+  });
+
+  it("uses a session for a read() that validates CRC64", async () => {
+    const { fileClient, seen } = createFileClient({ mode: "enabled" });
+
+    await fileClient
+      .read(0, undefined, { contentChecksumAlgorithm: "StorageCrc64" })
+      .catch(() => undefined);
+
+    const structuredReads = seen.filter((r) => r.structuredBody !== undefined);
+    assert.isAtLeast(structuredReads.length, 1, "read() must ask for a structured body");
+    for (const request of structuredReads) {
       assert.isTrue(
         isSessionSigned(request),
         `expected a session-signed read, got: ${request.authorization}`,

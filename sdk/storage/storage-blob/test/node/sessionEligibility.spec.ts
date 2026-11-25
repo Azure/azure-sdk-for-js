@@ -33,6 +33,11 @@ describe("isSessionEligible", () => {
       url: `${account}/container/blob.txt`,
       headers: { "x-ms-range": "bytes=0-1023" },
     },
+    {
+      name: "structured message download",
+      url: `${account}/container/blob.txt`,
+      headers: { "x-ms-structured-body": "XSM/1.0; properties=crc64" },
+    },
   ];
 
   const ineligible: Case[] = [
@@ -68,16 +73,6 @@ describe("isSessionEligible", () => {
     {
       name: "container-level request on an IP-style endpoint",
       url: "http://127.0.0.1:10000/devstoreaccount1/container",
-    },
-    {
-      name: "structured message download",
-      url: `${account}/container/blob.txt`,
-      headers: { "x-ms-structured-body": "XSM/1.0; properties=crc64" },
-    },
-    {
-      name: "structured message download with a differently cased header",
-      url: `${account}/container/blob.txt`,
-      headers: { "X-MS-Structured-Body": "XSM/1.0; properties=crc64" },
     },
   ];
 
