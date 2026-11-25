@@ -194,11 +194,8 @@ provider.getLogger("routed-logs").emit({
 });
 ```
 
-The [two-destination sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/multiEndpointRouting.ts)
-shows how to route logs, spans, events, and counter measurements. Set `ROUTING_KEY_1` and
-`ROUTING_ENDPOINT_1` to the first resource's `InstrumentationKey` and `IngestionEndpoint`,
-then set `ROUTING_KEY_2` and `ROUTING_ENDPOINT_2` for the second resource. From the built
-exporter package directory, run `node --experimental-strip-types samples-dev/multiEndpointRouting.ts`.
+For a runnable example using `useAzureMonitor()`, see the distro's
+[multi-endpoint routing sample and setup instructions](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry#multi-endpoint-routing-preview).
 
 Attach the attributes to each log record, span, and metric measurement or observation.
 Child spans and logs do not inherit a parent span's route. Span events do. If a metric view

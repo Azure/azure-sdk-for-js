@@ -5,15 +5,8 @@
  * @summary Route logs, spans, span events, and counter measurements to two Application Insights resources.
  */
 import "dotenv/config";
-import {
-  AzureMonitorLogExporter,
-  AzureMonitorMetricExporter,
-  AzureMonitorTraceExporter,
-} from "@azure/monitor-opentelemetry-exporter";
-import { SpanKind } from "@opentelemetry/api";
-import { BatchLogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
-import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import { BatchSpanProcessor, TracerProvider } from "@opentelemetry/sdk-trace";
+import { shutdownAzureMonitor, useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { logs, metrics, SpanKind, trace } from "@opentelemetry/api";
 
 export async function main(): Promise<void> {
   process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "multi_endpoint_routing";
@@ -32,18 +25,15 @@ export async function main(): Promise<void> {
     };
   });
 
-  const logs = new LoggerProvider({
-    processors: [new BatchLogRecordProcessor({ exporter: new AzureMonitorLogExporter() })],
-  });
-  const traces = new TracerProvider({
-    spanProcessors: [new BatchSpanProcessor({ exporter: new AzureMonitorTraceExporter() })],
-  });
-  const metrics = new MeterProvider({
-    readers: [new PeriodicExportingMetricReader({ exporter: new AzureMonitorMetricExporter() })],
+  useAzureMonitor({
+    // Live Metrics uses a host connection string, not the per-item destinations.
+    enableLiveMetrics: false,
+    tracesPerSecond: 0,
+    samplingRatio: 1,
   });
   try {
     const logger = logs.getLogger("orders");
-    const tracer = traces.getTracer("orders");
+    const tracer = trace.getTracer("orders");
     const orders = metrics.getMeter("orders").createCounter("orders.completed");
     for (const attributes of destinations) {
       const span = tracer.startSpan("checkout", { kind: SpanKind.SERVER, attributes });
@@ -52,9 +42,8 @@ export async function main(): Promise<void> {
       orders.add(1, attributes);
       span.end();
     }
-    await Promise.all([logs.forceFlush(), traces.forceFlush(), metrics.forceFlush()]);
   } finally {
-    await Promise.all([logs.shutdown(), traces.shutdown(), metrics.shutdown()]);
+    await shutdownAzureMonitor();
   }
 }
 
