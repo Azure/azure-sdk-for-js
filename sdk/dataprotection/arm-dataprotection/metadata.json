@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.DataProtection": "2026-07-01"
   },
-  "emitterVersion": "0.57.0",
+  "emitterVersion": "0.58.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DataProtection",
     "CrossLanguageDefinitionId": {
