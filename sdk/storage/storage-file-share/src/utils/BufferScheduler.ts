@@ -295,7 +295,9 @@ export class BufferScheduler {
    * @returns Return false when buffers in incoming are not enough, else true.
    */
   private resolveData(): boolean {
-    while (this.unresolvedLength >= this.bufferSize) {
+    // A handler can abort, or throw before it returns its promise, while this loop hands out
+    // buffers: stop handing them out then.
+    while (!this.isError && this.unresolvedLength >= this.bufferSize) {
       let buffer: Buffer;
 
       if (this.incoming.length > 0) {
@@ -365,7 +367,9 @@ export class BufferScheduler {
    */
   private reuseBuffer(buffer: Buffer): void {
     this.incoming.push(buffer);
-    if (!this.isError && this.resolveData() && !this.isStreamEnd) {
+    // resolveData() starts nothing after a failure, and an upload it starts can abort at once:
+    // resume only if nothing failed.
+    if (this.resolveData() && !this.isError && !this.isStreamEnd) {
       this.readable.resume();
     }
   }

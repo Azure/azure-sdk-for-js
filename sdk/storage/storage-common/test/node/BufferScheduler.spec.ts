@@ -79,8 +79,9 @@ describe("BufferScheduler", () => {
     const abortController = new AbortController();
     const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
 
-    // Four buffers: two handlers run and two buffers wait in the queue.
-    stream.write(Buffer.from("1234567890123456"));
+    // Five buffers' worth: two handlers run, two buffers wait in the queue and one buffer's worth
+    // waits for a free buffer.
+    stream.write(Buffer.from("12345678901234567890"));
     await new Promise((resolve) => setImmediate(resolve));
     abortController.abort();
 
@@ -101,6 +102,82 @@ describe("BufferScheduler", () => {
 
     assert.deepEqual(startedOffsets, [0, 4], "queued buffers should not be handed out");
     assert.isFalse(stream.isPaused(), "the stream should keep flowing");
+  });
+
+  it("hands out no more buffers, and leaves the stream to the caller, once a handler aborts before its first await", async () => {
+    const stream = new PassThrough();
+    const startedOffsets: number[] = [];
+    const abortController = new AbortController();
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      4,
+      async (_body, _length, offset) => {
+        startedOffsets.push(offset!);
+        // Aborts while the scheduler is still handing out the buffers of this chunk.
+        abortController.abort();
+        await new Promise<void>(() => {});
+      },
+      2,
+    );
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+    // The caller takes the stream back as soon as it aborts.
+    abortController.signal.addEventListener("abort", () => stream.resume());
+
+    stream.write(Buffer.from("1234567890123456"));
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    assert.deepEqual(startedOffsets, [0], "no buffer should be handed out after the abort");
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isFalse(stream.isPaused(), "the scheduler should not pause the stream again");
+  });
+
+  it("doesn't resume the stream when a handler it starts after a buffer frees aborts before its first await", async () => {
+    const stream = new PassThrough();
+    const abortController = new AbortController();
+    let release!: () => void;
+    const released = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      2,
+      async (_body, _length, offset) => {
+        if (offset === 0) {
+          await released;
+        } else {
+          abortController.abort();
+        }
+      },
+      1,
+    );
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+
+    // Three buffers' worth with two buffers: the stream waits until the first handler finishes.
+    stream.write(Buffer.from("123456789012"));
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isTrue(stream.isPaused(), "the stream should wait for a free buffer");
+    release();
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isTrue(
+      stream.isPaused(),
+      "the scheduler should leave the stream paused after the abort",
+    );
   });
 
   it("rejects without reading the stream when the signal is already aborted", async () => {
