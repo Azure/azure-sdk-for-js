@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { measureOperation } from "./diagnostics/telemetry.js";
 import type { ConnectionContext } from "./connectionContext.js";
 import { createConnectionContext } from "./connectionContext.js";
 import type {
@@ -18,7 +19,6 @@ import type {
 import type { EventDataBatch } from "./eventDataBatch.js";
 import { EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
 import type { EventHubProperties, PartitionProperties } from "./managementClient.js";
-import type { TracingContext, TracingSpanLink } from "@azure/core-tracing";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
@@ -258,6 +258,7 @@ export class EventHubProducerClient {
     let maxMessageSize = await sender.getMaxMessageSize({
       retryOptions: this._clientOptions.retryOptions,
       abortSignal: options.abortSignal,
+      tracingOptions: options.tracingOptions,
     });
 
     if (options.maxSizeInBytes) {
@@ -416,22 +417,29 @@ export class EventHubProducerClient {
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {},
   ): Promise<void> {
+    const preparedBatch = isEventDataBatch(batch) ? (batch as EventDataBatchImpl) : undefined;
+    await measureOperation(
+      this._context.config,
+      "send",
+      () => this._sendBatch(batch, options),
+      (count) => count,
+      preparedBatch?.bufferedPreparationDurationInMs,
+    );
+  }
+
+  private async _sendBatch(
+    batch: EventDataBatch | EventData[],
+    options: SendBatchOptions | OperationOptions,
+  ): Promise<number> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "sendBatch", "batch", batch);
 
+    let eventCount: number;
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
 
-    // Holds an EventData properties object containing tracing properties.
-    // This lets us avoid cloning batch when it is EventData[], which is
-    // important as the idempotent EventHubSender needs to decorate the
-    // original EventData passed through.
-    const eventDataTracingProperties: Array<EventData["properties"]> = [];
-
-    // link message span contexts
-    let spanContextsToLink: TracingContext[] = [];
-
     if (isEventDataBatch(batch)) {
+      eventCount = batch.count;
       if (
         this._enableIdempotentRetries &&
         isDefined((batch as EventDataBatchImpl).startingPublishedSequenceNumber)
@@ -441,11 +449,11 @@ export class EventHubProducerClient {
       const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);
       partitionId = partitionAssignment.partitionId;
       partitionKey = partitionAssignment.partitionKey;
-      spanContextsToLink = (batch as EventDataBatchImpl)._messageSpanContexts;
     } else {
       if (!Array.isArray(batch)) {
         batch = [batch];
       }
+      eventCount = batch.length;
       batch.forEach(assertIsEventData);
       if (batch.some((event) => isDefined((event as EventDataInternal)._publishedSequenceNumber))) {
         throw new Error(idempotentSomeAlreadyPublished);
@@ -462,7 +470,6 @@ export class EventHubProducerClient {
           this._context.config.host,
           "publish",
         ).event;
-        eventDataTracingProperties[i] = batch[i].properties;
       }
     }
 
@@ -472,10 +479,10 @@ export class EventHubProducerClient {
       partitionKey,
     });
 
-    return tracingClient.withSpan(
+    await tracingClient.withSpan(
       `${EventHubProducerClient.name}.${this.sendBatch.name}`,
       options,
-      (updatedOptions) => {
+      async (updatedOptions) => {
         let sender = this._sendersMap.get(partitionId || "");
         if (!sender) {
           const partitionPublishingOptions = isDefined(partitionId)
@@ -489,7 +496,7 @@ export class EventHubProducerClient {
           this._sendersMap.set(partitionId || "", sender);
         }
 
-        return sender.send(batch, {
+        await sender.send(batch, {
           ...updatedOptions,
           partitionId,
           partitionKey,
@@ -497,12 +504,15 @@ export class EventHubProducerClient {
         });
       },
       {
-        spanLinks: spanContextsToLink.map<TracingSpanLink>((tracingContext) => {
-          return { tracingContext };
-        }),
         ...toSpanOptions(this._context.config, "publish", "client"),
+        spanLinks: isEventDataBatch(batch)
+          ? (batch as EventDataBatchImpl)._messageSpanContexts?.map((tracingContext) => ({
+              tracingContext,
+            }))
+          : undefined,
       },
     );
+    return eventCount;
   }
 
   /**

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { OperationOptions } from "./util/operationOptions.js";
+import { measureOperation, traceAmqp } from "./diagnostics/telemetry.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
 import type { MessagingError, RetryConfig } from "@azure/core-amqp";
@@ -93,7 +95,7 @@ export interface PartitionReceiver {
   readonly connect: (options: ConnectOptions) => Promise<void>;
 }
 
-interface ConnectOptions {
+interface ConnectOptions extends OperationOptions {
   abortSignal: AbortSignalLike | undefined;
   timeoutInMs: number;
 }
@@ -167,7 +169,7 @@ export function createReceiver(
       logger.verbose(`is open? -> ${isOpen}`);
       return isOpen;
     },
-    async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
+    async connect({ abortSignal, timeoutInMs, tracingOptions }: ConnectOptions): Promise<void> {
       if (state.isConnecting || obj.isOpen()) {
         return;
       }
@@ -175,29 +177,37 @@ export function createReceiver(
       logger.verbose("is trying to connect");
       try {
         await ctx.readyToOpenLink({ abortSignal });
-        state.authLoop = await withAuth(
-          () =>
-            setupLink(
-              consumerId,
+        state.authLoop = await traceAmqp(
+          "EventHubs.receiver.attach",
+          ctx.config,
+          { tracingOptions },
+          (attachment) =>
+            withAuth(
+              () =>
+                setupLink(
+                  consumerId,
+                  ctx,
+                  name,
+                  address,
+                  obj,
+                  state,
+                  queue,
+                  queueSignal,
+                  eventPosition,
+                  logger,
+                  options,
+                  abortSignal,
+                ),
               ctx,
-              name,
-              address,
-              obj,
-              state,
-              queue,
-              queueSignal,
-              eventPosition,
+              audience,
+              timeoutInMs,
               logger,
-              options,
-              abortSignal,
+              {
+                tracingOptions: attachment.tracingOptions,
+                abortSignal,
+              },
             ),
-          ctx,
-          audience,
-          timeoutInMs,
-          logger,
-          {
-            abortSignal,
-          },
+          "receiver",
         );
       } catch (err) {
         state.isConnecting = false;
@@ -219,7 +229,7 @@ export function createReceiver(
         logger.info(abortLogMessage);
         return obj.close();
       };
-      const retrieveEvents = (): Promise<ReceivedEventData[]> => {
+      const retrieveEvents = (parent: OperationOptions): Promise<ReceivedEventData[]> => {
         const eventsToRetrieveCount = Math.max(maxMessageCount - queue.length, 0);
         logger.verbose(
           `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`,
@@ -233,66 +243,86 @@ export function createReceiver(
         }
         return obj.isClosed || ctx.wasConnectionCloseCalled || eventsToRetrieveCount === 0
           ? Promise.resolve(queue.splice(0, maxMessageCount))
-          : new Promise<void>((resolve, reject) => {
-              obj._onError = reject;
-              obj // eslint-disable-line promise/catch-or-return
-                .connect({
-                  abortSignal,
-                  timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
-                })
-                .then(() => {
-                  addCredits(state.link, Math.max(prefetchCount, maxMessageCount) - queue.length);
-                  logger.verbose(`setting the max wait time to ${maxWaitTimeInSeconds} seconds`);
-                  return waitForEvents(
-                    maxMessageCount,
-                    maxWaitTimeInSeconds * 1000,
-                    qReadIntervalInMs,
-                    queue,
-                    {
+          : traceAmqp(
+              "EventHubs.receive.wait",
+              ctx.config,
+              parent,
+              () =>
+                new Promise<void>((resolve, reject) => {
+                  obj._onError = reject;
+                  obj // eslint-disable-line promise/catch-or-return
+                    .connect({
                       abortSignal,
-                      cleanupBeforeAbort,
-                      receivedAfterWait: () =>
-                        logger.info(
-                          `${Math.min(
-                            maxMessageCount,
-                            queue.length,
-                          )} messages received within ${maxWaitTimeInSeconds} seconds`,
-                        ),
-                      receivedAlready: () =>
-                        logger.info(`${maxMessageCount} messages already received`),
-                      receivedNone: () =>
-                        logger.info(
-                          `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`,
-                        ),
-                      queueSignal,
-                    },
-                  );
-                })
-                .catch(reject)
-                .then(resolve);
-            })
+                      timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
+                      tracingOptions: parent.tracingOptions,
+                    })
+                    .then(() => {
+                      addCredits(
+                        state.link,
+                        Math.max(prefetchCount, maxMessageCount) - queue.length,
+                      );
+                      logger.verbose(
+                        `setting the max wait time to ${maxWaitTimeInSeconds} seconds`,
+                      );
+                      return waitForEvents(
+                        maxMessageCount,
+                        maxWaitTimeInSeconds * 1000,
+                        qReadIntervalInMs,
+                        queue,
+                        {
+                          abortSignal,
+                          cleanupBeforeAbort,
+                          receivedAfterWait: () =>
+                            logger.info(
+                              `${Math.min(
+                                maxMessageCount,
+                                queue.length,
+                              )} messages received within ${maxWaitTimeInSeconds} seconds`,
+                            ),
+                          receivedAlready: () =>
+                            logger.info(`${maxMessageCount} messages already received`),
+                          receivedNone: () =>
+                            logger.info(
+                              `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`,
+                            ),
+                          queueSignal,
+                        },
+                      );
+                    })
+                    .catch(reject)
+                    .then(resolve);
+                }),
+            )
               .then(() => queue.splice(0, maxMessageCount))
               .finally(() => clearHandlers(obj));
       };
-      return retry(
-        Object.defineProperties(
-          {
-            operation: retrieveEvents,
-            operationType: RetryOperationType.receiveMessage,
-            abortSignal: abortSignal,
-            retryOptions: options.retryOptions ?? {},
-          },
-          {
-            connectionId: {
-              enumerable: true,
-              get: () => ctx.connectionId,
-            },
-            connectionHost: {
-              enumerable: true,
-              get: () => ctx.config.host,
-            },
-          },
-        ) as RetryConfig<ReceivedEventData[]>,
+      return measureOperation(
+        ctx.config,
+        "receive",
+        () =>
+          traceAmqp("EventHubs.receive", ctx.config, options, (parent) =>
+            retry(
+              Object.defineProperties(
+                {
+                  operation: () => retrieveEvents(parent),
+                  operationType: RetryOperationType.receiveMessage,
+                  abortSignal: abortSignal,
+                  retryOptions: options.retryOptions ?? {},
+                },
+                {
+                  connectionId: {
+                    enumerable: true,
+                    get: () => ctx.connectionId,
+                  },
+                  connectionHost: {
+                    enumerable: true,
+                    get: () => ctx.config.host,
+                  },
+                },
+              ) as RetryConfig<ReceivedEventData[]>,
+            ),
+          ),
+        (events: ReceivedEventData[]) => events.length,
       );
     },
   };

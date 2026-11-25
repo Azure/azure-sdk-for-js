@@ -1,8 +1,10 @@
 # Release History
 
-## 6.0.5 (Unreleased)
+## 6.1.0 (Unreleased)
 
 ### Features Added
+
+- Added OpenTelemetry metrics for sends, receives and AMQP lifecycle transitions, structured lifecycle logs, and receive and AMQP spans. [#40881](https://github.com/Azure/azure-sdk-for-js/pull/40881)
 
 ### Breaking Changes
 

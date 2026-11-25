@@ -46,7 +46,7 @@ describe("Tracing", () => {
             }
             return producerClient.sendBatch(eventDataBatch, options);
           },
-          ["message", "EventHubProducerClient.sendBatch"],
+          ["EventHubs.sender.attach", "message", "EventHubProducerClient.sendBatch"],
         );
       });
 

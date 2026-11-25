@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { delay } from "@azure/core-amqp";
+import { delay, StandardAbortMessage } from "@azure/core-amqp";
 import type {
   EventData,
   EventDataBatch,
@@ -13,9 +13,12 @@ import type {
 import type { AbortOptions } from "@azure/core-util";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { EventDataBatchImpl } from "./eventDataBatch.js";
 import { AwaitableQueue } from "./impl/awaitableQueue.js";
 import { getPromiseParts } from "./util/getPromiseParts.js";
 import { logger } from "./logger.js";
+import { recordOperationFailure } from "./diagnostics/telemetry.js";
 import { cancelablePromiseRace } from "@azure/core-util";
 
 export interface BatchingPartitionChannelProps {
@@ -43,6 +46,7 @@ export class BatchingPartitionChannel {
   private _eventQueue = new AwaitableQueue<EventData | AmqpAnnotatedMessage>();
   private _batchedEvents: Array<EventData | AmqpAnnotatedMessage> = [];
   private _bufferCount: number = 0;
+  private _firstBufferedAt = 0;
   private _readyQueue: Array<{
     resolve: (value: void) => void;
     reject: (reason?: any) => void;
@@ -54,6 +58,8 @@ export class BatchingPartitionChannel {
   };
   private _isRunning: boolean = false;
   private _lastBatchCreationTime: number = 0;
+  // Active preparation for this batch, excluding queue waits and application callbacks.
+  private _preparationDurationInMs?: number;
   private _loopAbortSignal: AbortSignalLike;
   private _maxBufferSize: number;
   private _maxWaitTimeInMs: number;
@@ -88,6 +94,7 @@ export class BatchingPartitionChannel {
   async enqueueEvent(event: EventData | AmqpAnnotatedMessage): Promise<void> {
     await this._ready();
     this._eventQueue.push(event);
+    if (this._bufferCount === 0) this._firstBufferedAt = performance.now();
     this._bufferCount++;
 
     if (!this._isRunning) {
@@ -191,7 +198,7 @@ export class BatchingPartitionChannel {
           // We didn't receive an event within the allotted time.
           // Send the existing batch if it has events in it.
           if (batch.count) {
-            await this._producer.sendBatch(batch);
+            await this._sendBatch(batch);
             this._reportSuccess();
             batch = await this._createBatch();
           }
@@ -200,7 +207,7 @@ export class BatchingPartitionChannel {
           eventToAddToBatch = event;
         }
 
-        const didAdd = batch.tryAdd(event);
+        const didAdd = this._tryAdd(batch, event);
         if (didAdd) {
           // This event will definitely make it to one of the user-provided handlers
           // since it was added to a batch.
@@ -212,18 +219,18 @@ export class BatchingPartitionChannel {
 
         if (didAdd && batch.count >= this._maxBufferSize) {
           // Whenever batch.count exceeds the max count of buffered events, send the batch.
-          await this._producer.sendBatch(batch);
+          await this._sendBatch(batch);
           this._reportSuccess();
           batch = await this._createBatch();
         } else if (!didAdd && batch.count) {
           // If the event wasn't able to be added and the current batch isn't empty,
           // attempt to send the current batch and add the event to a new batch.
-          await this._producer.sendBatch(batch);
+          await this._sendBatch(batch);
           this._reportSuccess();
           batch = await this._createBatch();
         }
 
-        if (!didAdd && !batch.tryAdd(event)) {
+        if (!didAdd && !this._tryAdd(batch, event)) {
           // TODO: Report MaxMesageSizeExceeded error. Mimic service's error.
           this._reportFailure(new Error("Placeholder for max message size exceeded"), event);
         } else if (!didAdd) {
@@ -240,6 +247,9 @@ export class BatchingPartitionChannel {
         }
       }
     }
+    if (this._bufferCount > 0) {
+      this._recordPreparationFailure(new AbortError(StandardAbortMessage));
+    }
   }
 
   /**
@@ -253,11 +263,37 @@ export class BatchingPartitionChannel {
   private async _createBatch(): Promise<EventDataBatch> {
     this._lastBatchCreationTime = Date.now();
     this._batchedEvents = [];
-    const batch = await this._producer.createBatch({
-      partitionId: this._partitionId,
-    });
-    this._incrementReadiness();
-    return batch;
+    const start = performance.now();
+    try {
+      const batch = await this._producer.createBatch({
+        partitionId: this._partitionId,
+      });
+      this._incrementReadiness();
+      return batch;
+    } finally {
+      if (this._bufferCount > 0) {
+        const activeStart = Math.max(start, this._firstBufferedAt);
+        this._preparationDurationInMs =
+          (this._preparationDurationInMs ?? 0) + (performance.now() - activeStart);
+      }
+    }
+  }
+
+  private _tryAdd(batch: EventDataBatch, event: EventData | AmqpAnnotatedMessage): boolean {
+    const start = performance.now();
+    try {
+      return batch.tryAdd(event);
+    } finally {
+      this._preparationDurationInMs =
+        (this._preparationDurationInMs ?? 0) + (performance.now() - start);
+    }
+  }
+
+  private _sendBatch(batch: EventDataBatch): Promise<void> {
+    // sendBatch owns the outcome from here, including transport failures and retries.
+    (batch as EventDataBatchImpl).bufferedPreparationDurationInMs = this._preparationDurationInMs;
+    this._preparationDurationInMs = undefined;
+    return this._producer.sendBatch(batch);
   }
 
   /**
@@ -302,12 +338,29 @@ export class BatchingPartitionChannel {
     }
   }
 
+  private _recordPreparationFailure(error: unknown): void {
+    if (this._preparationDurationInMs !== undefined) {
+      recordOperationFailure(
+        { entityPath: this._producer.eventHubName, host: this._producer.fullyQualifiedNamespace },
+        "send",
+        error,
+        this._preparationDurationInMs,
+      );
+      this._preparationDurationInMs = undefined;
+    }
+  }
+
   /**
    * Calls the user-provided `onSendEventsErrorHandler` with an error and the events
    * that were not successfully sent.
    */
   private _reportFailure(err: any, event?: EventData | AmqpAnnotatedMessage) {
-    this._bufferCount = this._bufferCount - (event ? 1 : this._batchedEvents.length);
+    const failedCount = event ? 1 : this._batchedEvents.length;
+    // An empty failure callback leaves the event queued for another preparation attempt.
+    if (failedCount) {
+      this._recordPreparationFailure(err);
+    }
+    this._bufferCount -= failedCount;
     this._updateFlushState();
     try {
       this._onSendEventsErrorHandler({
