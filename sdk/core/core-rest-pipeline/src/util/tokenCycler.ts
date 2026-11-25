@@ -126,6 +126,7 @@ interface RefreshWorker {
   isClaimsRefresh: boolean;
   claimsEpoch?: ClaimsEpoch;
   canJoin: boolean;
+  invalidated: boolean;
 }
 
 function getTokenRequestIdentityKey(
@@ -166,7 +167,12 @@ export function createTokenCycler(
     get isRefreshing(): boolean {
       return Array.from(refreshWorkers.values()).some((worker) => {
         if (worker.isClaimsRefresh) {
-          return worker.claimsEpoch!.latestSuccessfulSequence < worker.sequence;
+          const claimsEpoch = worker.claimsEpoch;
+          return (
+            claimsEpoch !== undefined &&
+            claimsEpoch === activeClaimsEpoch &&
+            claimsEpoch.latestSuccessfulSequence < worker.sequence
+          );
         }
         // Ordinary workers associated with a claims epoch cannot update the
         // cache until every challenge in that epoch has settled. An ordinary
@@ -249,6 +255,7 @@ export function createTokenCycler(
       existingWorker.sequence < latestCachedSequence
     ) {
       existingWorker.canJoin = false;
+      existingWorker.invalidated = true;
     }
     if (existingWorker?.canJoin) {
       // A new claims challenge can rejoin a still-pending claims worker after
@@ -258,22 +265,22 @@ export function createTokenCycler(
       // the challenged token.
       if (isClaimsRefresh && existingWorker.isClaimsRefresh) {
         let epoch = existingWorker.claimsEpoch!;
-        if (epoch.hasSuccessfulClaims) {
-          // This is a new challenge after an earlier challenge in the epoch
-          // succeeded. Move the still-pending worker into a new epoch so
-          // ordinary workers remain deferred until the rejoined challenge
-          // settles.
+        if (epoch !== activeClaimsEpoch || epoch.hasSuccessfulClaims) {
+          // Move a rejoined worker out of a superseded or already-successful
+          // epoch without orphaning a newer active epoch.
           epoch.pending--;
           finalizeClaimsEpoch(epoch);
-          epoch = startClaimsEpoch();
+          epoch = activeClaimsEpoch?.hasSuccessfulClaims
+            ? startClaimsEpoch()
+            : (activeClaimsEpoch ?? startClaimsEpoch());
           epoch.pending++;
           existingWorker.claimsEpoch = epoch;
         }
         existingWorker.sequence = ++nextRefreshSequence;
         for (const activeWorker of refreshWorkers.values()) {
           if (!activeWorker.isClaimsRefresh) {
-            activeWorker.claimsEpoch = epoch;
             activeWorker.canJoin = false;
+            activeWorker.invalidated = true;
           }
         }
       }
@@ -291,14 +298,15 @@ export function createTokenCycler(
       isClaimsRefresh,
       claimsEpoch,
       canJoin: true,
+      invalidated: false,
     };
 
     if (isClaimsRefresh) {
       claimsEpoch!.pending++;
       for (const activeWorker of refreshWorkers.values()) {
         if (!activeWorker.isClaimsRefresh) {
-          activeWorker.claimsEpoch = claimsEpoch;
           activeWorker.canJoin = false;
+          activeWorker.invalidated = true;
         }
       }
     }
@@ -337,25 +345,28 @@ export function createTokenCycler(
             for (const activeWorker of refreshWorkers.values()) {
               if (activeWorker.claimsEpoch === epoch && !activeWorker.isClaimsRefresh) {
                 activeWorker.canJoin = false;
+                activeWorker.invalidated = true;
               }
             }
           }
           finalizeClaimsEpoch(epoch);
         } else if (worker.claimsEpoch !== undefined) {
           const epoch = worker.claimsEpoch;
-          if (epoch.finalized) {
-            if (!epoch.hasSuccessfulClaims) {
-              cacheToken(result);
-            }
-          } else if (!epoch.hasSuccessfulClaims) {
-            if (
-              epoch.ordinaryResult === undefined ||
-              result.sequence > epoch.ordinaryResult.sequence
-            ) {
-              epoch.ordinaryResult = result;
+          if (!worker.invalidated) {
+            if (epoch.finalized) {
+              if (!epoch.hasSuccessfulClaims) {
+                cacheToken(result);
+              }
+            } else if (!epoch.hasSuccessfulClaims) {
+              if (
+                epoch.ordinaryResult === undefined ||
+                result.sequence > epoch.ordinaryResult.sequence
+              ) {
+                epoch.ordinaryResult = result;
+              }
             }
           }
-        } else {
+        } else if (!worker.invalidated) {
           cacheToken(result);
         }
         return _token;
