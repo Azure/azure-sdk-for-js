@@ -207,6 +207,116 @@ describe("message", function () {
       assert.equal(decodedLong.descriptor?.value, "example:described-long");
     });
 
+    for (const bodyKind of ["map", "sequence"] as const) {
+      it(`preserves legacy integers inside unknown described containers in ${bodyKind} bodies`, function () {
+        const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+        const longBytes = Buffer.alloc(8);
+        longBytes.writeBigInt64BE(longValue);
+        const maxUlongBytes = Buffer.alloc(8, 0xff);
+        const describedList = rheaTypes.wrap_described(
+          [
+            rheaTypes.wrap_long(longBytes),
+            rheaTypes.wrap_described(
+              {
+                nested: rheaTypes.wrap_ulong(longBytes),
+                large: rheaTypes.wrap_ulong(maxUlongBytes),
+              },
+              "example:described-map",
+            ),
+            rheaTypes.wrap_array([longBytes], 0x81, undefined),
+          ],
+          "example:described-list",
+        );
+        const decoded = decode({
+          body:
+            bodyKind === "map"
+              ? { container: describedList }
+              : rheaMessageUtil.sequence_section([describedList]),
+        });
+        const container =
+          bodyKind === "map"
+            ? (decoded.body as { container: Typed }).container
+            : (decoded.body as { content: Typed[] }).content[0];
+        const children = container.value as Typed[];
+
+        assert.equal(
+          (container as Typed & { descriptor: Typed }).descriptor.value,
+          "example:described-list",
+        );
+        assert.equal(children[0].value, Number(longValue));
+        assert.equal(
+          (children[1] as Typed & { descriptor: Typed }).descriptor.value,
+          "example:described-map",
+        );
+        assert.equal(children[1].value[1].value, Number(longValue));
+        assert.deepEqual(children[1].value[3].value, maxUlongBytes);
+        assert.equal(children[2].value[0].value, Number(longValue));
+        assert.deepEqual(JSON.parse(JSON.stringify(container)), [
+          Number(longValue),
+          ["nested", Number(longValue), "large", maxUlongBytes.toJSON()],
+          [Number(longValue)],
+        ]);
+      });
+    }
+
+    it("preserves exact integers in unknown described application-property containers", function () {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const longBytes = Buffer.alloc(8);
+      longBytes.writeBigInt64BE(longValue);
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode({
+          body: "body",
+          application_properties: {
+            container: rheaTypes.wrap_described(
+              [rheaTypes.wrap_long(longBytes)],
+              "example:described-list",
+            ),
+          },
+        }),
+      );
+      const resent = decode(AmqpAnnotatedMessage.toRheaMessage(received));
+      const container = resent.application_properties?.container as Typed & { descriptor: Typed };
+
+      assert.notProperty(received.applicationPropertiesWithAmqpTypes, "container");
+      assert.equal(container.descriptor.value, "example:described-list");
+      assert.equal(container.value[0].type.name, "Long");
+      assert.deepEqual(container.value[0].value, longBytes);
+    });
+
+    it("preserves typed metadata for symbolic application-properties descriptors on resend", function () {
+      const longValue = BigInt(Number.MAX_SAFE_INTEGER) + 2n;
+      const longBytes = Buffer.alloc(8);
+      longBytes.writeBigInt64BE(longValue);
+      const received = AmqpAnnotatedMessage.fromRheaMessage(
+        decode({
+          body: {
+            collect_sections(sections: Typed[]): void {
+              sections.push(
+                rheaTypes.wrap_described(
+                  { value: rheaTypes.wrap_long(longBytes), ordinary: "unchanged" },
+                  "amqp:application-properties:map",
+                ),
+              );
+            },
+          },
+        }),
+      );
+
+      assert.equal(received.applicationProperties?.value, Number(longValue));
+      assert.deepEqual(received.applicationPropertiesWithAmqpTypes?.value, {
+        type: "long",
+        value: longValue,
+      });
+      assert.equal(received.applicationProperties?.ordinary, "unchanged");
+      const resent = AmqpAnnotatedMessage.fromRheaMessage(
+        decode(AmqpAnnotatedMessage.toRheaMessage(received)),
+      );
+      assert.deepEqual(
+        resent.applicationPropertiesWithAmqpTypes,
+        received.applicationPropertiesWithAmqpTypes,
+      );
+    });
+
     it("decodes nested map bodies without application-property metadata", function () {
       const depth = 64;
       let body: unknown = "leaf";

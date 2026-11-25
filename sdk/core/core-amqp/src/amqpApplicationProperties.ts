@@ -586,6 +586,22 @@ function hasLegacyNumericProjection(type: "long" | "ulong", value: Buffer): bool
   return type === "long" ? highWord < 2097153 && highWord > -2097153 : highWord < 2097153;
 }
 
+function withLegacyRheaIntegerValues(value: Typed): Typed {
+  const compatiblePayload =
+    getLegacyRheaIntegerValue(value) ??
+    (Array.isArray(value.value) ? value.value.map(withLegacyRheaIntegerValues) : value.value);
+  if (compatiblePayload === value.value) {
+    return value;
+  }
+
+  const compatibleValue = Object.create(
+    Object.getPrototypeOf(value),
+    Object.getOwnPropertyDescriptors(value),
+  ) as Typed;
+  compatibleValue.value = compatiblePayload;
+  return compatibleValue;
+}
+
 function bufferToUuid(value: Buffer): string {
   const hex = value.toString("hex");
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(
@@ -607,14 +623,13 @@ function installLosslessIntegerReaders(): void {
       const legacyValue = getLegacyRheaIntegerValue(typedValue);
       if (legacyValue != null) {
         if (typedValue.descriptor != null && typedValue.descriptor.value !== 0x77) {
-          const compatibleValue = Object.create(
-            Object.getPrototypeOf(typedValue),
-            Object.getOwnPropertyDescriptors(typedValue),
-          ) as Typed;
-          compatibleValue.value = legacyValue;
-          return unwrap(compatibleValue, leaveDescribed);
+          return unwrap(withLegacyRheaIntegerValues(typedValue), leaveDescribed);
         }
         return legacyValue;
+      }
+      // Rhea leaves described containers opaque, including their typed children.
+      if (leaveDescribed && typedValue?.descriptor != null && Array.isArray(typedValue.value)) {
+        return unwrap(withLegacyRheaIntegerValues(typedValue), leaveDescribed);
       }
     }
     return unwrap(value, leaveDescribed);
@@ -650,7 +665,10 @@ function installTypedApplicationPropertyDecoder(): void {
   rheaTypes.unwrap_map_simple = (
     map: Typed & { value: Typed[]; descriptor?: Typed },
   ): Record<string, unknown> => {
-    if (map.descriptor?.value !== 0x74) {
+    if (
+      map.descriptor?.value !== 0x74 &&
+      map.descriptor?.value !== "amqp:application-properties:map"
+    ) {
       return unwrapMapSimple(map) as Record<string, unknown>;
     }
 
