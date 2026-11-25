@@ -660,12 +660,34 @@ describe("routed senders and persistence", () => {
     );
   });
 
-  it("reports a retry storage setup failure without disclosing the path", async () => {
+  it.each([
+    ["ENOSPC", "STORAGE_WRITE_FAILED"],
+    ["EIO", "STORAGE_WRITE_FAILED"],
+    ["EACCES", "CLIENT_READONLY"],
+    ["EPERM", "CLIENT_READONLY"],
+    ["EROFS", "CLIENT_READONLY"],
+    [undefined, "CLIENT_READONLY"],
+  ])(
+    "reports retry directory setup failure %s without disclosing the path",
+    async (code, reason) => {
+      const error = vi.spyOn(diag, "error");
+      vi.spyOn(helpers, "confirmDirExists").mockRejectedValue(
+        Object.assign(new Error("sensitive storage path"), { code }),
+      );
+      expect(await storage("a").push([{}, {}])).toBe(false);
+      expect(error.mock.calls).toEqual([[expect.stringContaining(`reason=${reason} itemCount=2`)]]);
+      expect(JSON.stringify(error.mock.calls)).not.toContain("sensitive");
+    },
+  );
+
+  it("reports an I/O error opening the retry directory for replay as a read failure", async () => {
     const error = vi.spyOn(diag, "error");
-    vi.spyOn(helpers, "confirmDirExists").mockRejectedValue(new Error("sensitive storage path"));
-    expect(await storage("a").push([{}, {}])).toBe(false);
+    vi.spyOn(helpers, "confirmDirExists").mockRejectedValue(
+      Object.assign(new Error("sensitive storage path"), { code: "EIO" }),
+    );
+    expect(await storage("a").shift()).toBeNull();
     expect(error.mock.calls).toEqual([
-      [expect.stringContaining("reason=CLIENT_READONLY itemCount=2")],
+      [expect.stringContaining("reason=STORAGE_READ_FAILED itemCount=unknown")],
     ]);
     expect(JSON.stringify(error.mock.calls)).not.toContain("sensitive");
   });

@@ -240,18 +240,27 @@ export class FileSystemPersist implements PersistentStorage {
       await confirmDirExists(dirname(this._tempDirectory), create);
       await confirmDirExists(this._tempDirectory, create);
       return this._enabled;
-    } catch (error: any) {
-      if (!create && error?.code === "ENOENT") return false;
+    } catch (error) {
+      const code = isObjectWithProperties(error, ["code"]) ? error.code : undefined;
+      if (!create && code === "ENOENT") return false;
       this._enabled = false;
       this.shutdown();
-      if (envelopes && (error?.code === "EACCES" || error?.code === "EPERM")) {
+      const accessDenied = code === "EACCES" || code === "EPERM";
+      if (envelopes && accessDenied) {
         this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_READONLY,
         );
       }
       if (this._storagePartition) {
-        diag.error(routingDiagnostic(DropCode.CLIENT_READONLY, envelopes?.length));
+        // The directory ownership and Windows ACL checks can throw without an errno.
+        const protectionFailed = code === undefined || accessDenied || code === "EROFS";
+        const reason = protectionFailed
+          ? DropCode.CLIENT_READONLY
+          : create
+            ? "STORAGE_WRITE_FAILED"
+            : "STORAGE_READ_FAILED";
+        diag.error(routingDiagnostic(reason, envelopes?.length));
       } else {
         diag.warn("Disabling offline storage because its directory could not be protected.", error);
       }
