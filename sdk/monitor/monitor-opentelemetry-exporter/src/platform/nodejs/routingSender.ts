@@ -9,6 +9,7 @@ import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { ENV_MULTI_ENDPOINT_AAD_AUDIENCE } from "../../Declarations/Constants.js";
 import type { RoutingGroups, TelemetryRoute } from "../../utils/routing.js";
+import { failedRoutedExport, routingDiagnostic } from "../../utils/routingDiagnostics.js";
 import { HttpSender } from "./httpSender.js";
 import { getStorageDirectory } from "./persist/fileSystemPersist.js";
 
@@ -49,10 +50,11 @@ export class RoutingSender {
 
   export(groups: RoutingGroups): Promise<ExportResult> {
     if (this.isShutdown) {
-      return Promise.resolve({
-        code: ExportResultCode.FAILED,
-        error: new Error("Sender is shut down"),
-      });
+      const count = Array.from(groups.values()).reduce(
+        (sum, group) => sum + group.envelopes.length,
+        0,
+      );
+      return Promise.resolve(failedRoutedExport("SENDER_SHUTDOWN", count));
     }
     const operation = this.sendGroups(groups);
     this.operations.add(operation);
@@ -78,11 +80,17 @@ export class RoutingSender {
         }
         try {
           if (this.abortController.signal.aborted) {
-            throw new Error("Routed export cancelled because the shutdown deadline elapsed.");
+            return failedRoutedExport("SENDER_SHUTDOWN", envelopes.length);
           }
           sender = this.senders.get(key);
           if (!sender) {
+            if (route.isAad && !this.options.credential) {
+              return failedRoutedExport("MISSING_CREDENTIAL", envelopes.length);
+            }
             temporary = this.senders.size >= MAX_CACHED_ROUTES;
+            if (temporary) {
+              diag.warn(routingDiagnostic("ROUTE_CACHE_LIMIT", envelopes.length));
+            }
             sender = this.createSender(key, route, temporary);
             if (!temporary) {
               this.senders.set(key, sender);
@@ -93,8 +101,8 @@ export class RoutingSender {
                       await Promise.all(
                         [...this.senders.values()].map((item) => item.retryPersistedEnvelopes()),
                       );
-                    } catch (error) {
-                      diag.warn("Failed to retry routed telemetry:", error);
+                    } catch {
+                      diag.warn(routingDiagnostic("STORAGE_READ_FAILED"));
                     }
                   });
                 };
@@ -111,12 +119,8 @@ export class RoutingSender {
             }
           }
           return await sender.exportEnvelopes(envelopes);
-        } catch (error) {
-          diag.error("Failed to export routed telemetry:", error);
-          return {
-            code: ExportResultCode.FAILED,
-            error: error instanceof Error ? error : new Error(String(error)),
-          };
+        } catch {
+          return failedRoutedExport("EXPORT_FAILED", envelopes.length);
         } finally {
           try {
             if (temporary) {
@@ -136,14 +140,6 @@ export class RoutingSender {
   }
 
   private createSender(key: string, route: TelemetryRoute, temporary: boolean): HttpSender {
-    if (route.isAad && !this.options.credential) {
-      throw new Error("An AAD route requires an exporter credential.");
-    }
-    if (temporary) {
-      diag.warn(
-        "The 64-route cache limit has been reached. This destination has no offline storage.",
-      );
-    }
     return new HttpSender({
       endpointUrl: route.endpoint.replace(/\/$/, ""),
       instrumentationKey: this.instrumentationKey,

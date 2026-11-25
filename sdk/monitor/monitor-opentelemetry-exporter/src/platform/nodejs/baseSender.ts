@@ -22,6 +22,7 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
+import { failedRoutedExport, routingDiagnostic } from "../../utils/routingDiagnostics.js";
 import {
   isRetriable,
   isSamplingRejection,
@@ -278,6 +279,9 @@ export abstract class BaseSender {
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429) {
+          if (this.isRouted) {
+            diag.warn(routingDiagnostic("EXPORT_RETRY", envelopes.length, statusCode));
+          }
           if (this.collectStats) {
             this.statsbeatManager.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
@@ -286,7 +290,9 @@ export abstract class BaseSender {
           return await this.persist(envelopes, isReplay);
         }
         if (result) {
-          diag.info(result);
+          if (!this.isRouted) {
+            diag.info(result);
+          }
           const { breezeResponse, retriableEnvelopes: filteredEnvelopes } =
             this.parseRetriableEnvelopes(envelopes, result);
           // Create a list of successful envelopes by filtering out the failed ones for customer SDK Stats
@@ -335,6 +341,9 @@ export abstract class BaseSender {
           });
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
+          if (this.isRouted) {
+            diag.warn(routingDiagnostic("EXPORT_RETRY", envelopes.length, statusCode));
+          }
           if (this.collectStats) {
             this.statsbeatManager.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
@@ -344,6 +353,9 @@ export abstract class BaseSender {
         }
       } else {
         // Failed -- not retriable
+        if (this.isRouted) {
+          return failedRoutedExport("EXPORT_FAILED", envelopes.length, statusCode);
+        }
         if (this.collectStats) {
           if (statusCode) {
             this.statsbeatManager.countFailure(duration, statusCode);
@@ -392,6 +404,9 @@ export abstract class BaseSender {
           }
         } else {
           const redirectError = new Error("Circular redirect");
+          if (this.isRouted) {
+            return failedRoutedExport("REDIRECT_REFUSED", envelopes.length, restError.statusCode);
+          }
           if (this.collectStats) {
             this.statsbeatManager.countException(redirectError);
             this.customerSDKStatsMetrics?.countDroppedItems(
@@ -408,6 +423,9 @@ export abstract class BaseSender {
         isRetriable(restError.statusCode) &&
         !this.isStatsbeatSender
       ) {
+        if (this.isRouted) {
+          diag.warn(routingDiagnostic("EXPORT_RETRY", envelopes.length, restError.statusCode));
+        }
         if (this.collectStats) {
           this.statsbeatManager.countRetry(restError.statusCode);
         }
@@ -436,6 +454,15 @@ export abstract class BaseSender {
 
       // Persist transport failures where no HTTP response was received.
       if (this.isRetriableNoResponseError(error) && !this.isStatsbeatSender) {
+        if (this.isRouted) {
+          const code =
+            restError.name === ABORT_ERROR_NAME
+              ? RetryCode.CLIENT_TIMEOUT
+              : RetryCode.CLIENT_EXCEPTION;
+          diag.warn(routingDiagnostic(code, envelopes.length));
+          this.scheduleRetryTimer(undefined, true);
+          return this.persist(envelopes, isReplay);
+        }
         if (this.collectStats) {
           this.statsbeatManager.countException(restError);
         }
@@ -469,6 +496,9 @@ export abstract class BaseSender {
         return this.persist(envelopes, isReplay);
       }
       // For non-retriable REST errors or client exceptions
+      if (this.isRouted) {
+        return failedRoutedExport("EXPORT_FAILED", envelopes.length, restError.statusCode);
+      }
       if (!this.isStatsbeatSender) {
         if (this.collectStats) {
           this.statsbeatManager.countException(restError);
@@ -496,11 +526,7 @@ export abstract class BaseSender {
     originalEnvelopes = envelopes,
   ): Promise<ExportResult> {
     if (this.isRouted && !this.isStorageEnabled && !isReplay) {
-      const error = new Error(
-        "Cannot persist routed telemetry because offline storage is unavailable.",
-      );
-      diag.warn(error.message);
-      return { code: ExportResultCode.FAILED, error };
+      return failedRoutedExport(DropCode.CLIENT_STORAGE_DISABLED, envelopes.length);
     }
     try {
       const success = isReplay
@@ -513,6 +539,9 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           });
     } catch (ex: any) {
+      if (this.isRouted) {
+        return failedRoutedExport("STORAGE_WRITE_FAILED", envelopes.length);
+      }
       if (this.collectStats) {
         this.statsbeatManager.countWriteFailure();
         if (this.disableOfflineStorage && envelopes) {
@@ -582,7 +611,11 @@ export abstract class BaseSender {
       if (this.collectStats) {
         this.statsbeatManager.countReadFailure();
       }
-      diag.warn(`Failed to fetch persisted file`, err);
+      if (this.isRouted) {
+        diag.warn(routingDiagnostic("STORAGE_READ_FAILED"));
+      } else {
+        diag.warn(`Failed to fetch persisted file`, err);
+      }
     } finally {
       if (envelopes) {
         this.persister.release(envelopes);
@@ -657,7 +690,11 @@ export abstract class BaseSender {
         envelopes = (await this.persister.shift()) as Envelope[] | null;
       }
     } catch (err: any) {
-      diag.warn(`Failed to read persisted files during startup`, err);
+      if (this.isRouted) {
+        diag.warn(routingDiagnostic("STORAGE_READ_FAILED"));
+      } else {
+        diag.warn(`Failed to read persisted files during startup`, err);
+      }
     } finally {
       if (envelopes) {
         this.persister.release(envelopes);
@@ -741,7 +778,18 @@ export abstract class BaseSender {
     const retriableEnvelopes: Envelope[] = [];
     if (breezeResponse.errors) {
       for (const error of breezeResponse.errors) {
-        if (error.statusCode && isRetriable(error.statusCode) && !isSamplingRejection(error)) {
+        const sampled = typeof error.message === "string" && isSamplingRejection(error);
+        const retry = error.statusCode && isRetriable(error.statusCode) && !sampled;
+        if (this.isRouted) {
+          if (retry) {
+            diag.warn(routingDiagnostic("EXPORT_RETRY", 1, error.statusCode));
+          } else if (sampled) {
+            diag.info(routingDiagnostic("INGESTION_SAMPLED", 1, error.statusCode));
+          } else {
+            diag.error(routingDiagnostic("EXPORT_FAILED", 1, error.statusCode));
+          }
+        }
+        if (retry) {
           retriableEnvelopes.push(envelopes[error.index]);
         }
       }
@@ -832,6 +880,9 @@ export abstract class BaseSender {
         return { code: ExportResultCode.FAILED, error: REPLAY_PAUSED_ERROR };
       }
       if (!this.handlePermanentRedirect(location)) {
+        if (this.isRouted) {
+          return failedRoutedExport("REDIRECT_REFUSED", envelopes.length);
+        }
         const refusalError = new Error("Refused cross-origin redirect");
         if (this.collectStats) {
           this.statsbeatManager.countException(refusalError);
