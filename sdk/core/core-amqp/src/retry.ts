@@ -62,7 +62,8 @@ export interface RetryOptions {
   maxRetries?: number;
   /**
    * Amount of time to wait in milliseconds before making the
-   * next attempt. Default: `30000 milliseconds`.
+   * next attempt. The core-amqp default is `30000 milliseconds`;
+   * individual clients can override this default.
    * When `mode` option is set to `Exponential`,
    * this is used to compute the exponentially increasing delays between retries.
    */
@@ -73,7 +74,8 @@ export interface RetryOptions {
    */
   timeoutInMs?: number;
   /**
-   * Denotes which retry mode to apply. If undefined, defaults to `Fixed`
+   * Denotes which retry mode to apply. If undefined, core-amqp defaults to `Fixed`.
+   * Individual clients can override this default.
    */
   mode?: RetryMode;
   /**
