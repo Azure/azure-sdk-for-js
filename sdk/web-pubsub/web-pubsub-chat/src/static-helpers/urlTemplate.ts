@@ -210,9 +210,8 @@ export function expandUrlTemplate(
     return innerResult.join("");
   });
 
-  const normalized = normalizeUnreserved(result);
-  validatePathSegments(normalized);
-  return normalized;
+  validatePathSegments(result);
+  return normalizeUnreserved(result);
 }
 
 const DOT_PATH_SEGMENT_PATTERN = /(?:^|\/)(?:\.|%(?:25)*2e){1,2}(?:\/|$)/i;
