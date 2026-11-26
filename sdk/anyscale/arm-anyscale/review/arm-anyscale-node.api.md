@@ -59,6 +59,29 @@ export interface AgreementsOperations {
 // @public
 export type AgreementStatus = string;
 
+// @public (undocumented)
+export class AnyscaleManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AnyscaleManagementClientOptionalParams);
+    readonly agreements: AgreementsOperations;
+    readonly cloudResources: CloudResourcesOperations;
+    readonly clouds: CloudsOperations;
+    readonly computeConfigs: ComputeConfigsOperations;
+    readonly containerImages: ContainerImagesOperations;
+    readonly jobs: JobsOperations;
+    readonly operations: OperationsOperations;
+    readonly operationStatuses: OperationStatusesOperations;
+    readonly pipeline: Pipeline;
+    readonly projects: ProjectsOperations;
+    readonly services: ServicesOperations;
+    readonly workspaces: WorkspacesOperations;
+}
+
+// @public
+export interface AnyscaleManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
 // @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
@@ -654,29 +677,6 @@ export interface PhysicalResources {
     tpu?: number;
 }
 
-// @public (undocumented)
-export class PlatformClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: PlatformClientOptionalParams);
-    readonly agreements: AgreementsOperations;
-    readonly cloudResources: CloudResourcesOperations;
-    readonly clouds: CloudsOperations;
-    readonly computeConfigs: ComputeConfigsOperations;
-    readonly containerImages: ContainerImagesOperations;
-    readonly jobs: JobsOperations;
-    readonly operations: OperationsOperations;
-    readonly operationStatuses: OperationStatusesOperations;
-    readonly pipeline: Pipeline;
-    readonly projects: ProjectsOperations;
-    readonly services: ServicesOperations;
-    readonly workspaces: WorkspacesOperations;
-}
-
-// @public
-export interface PlatformClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export interface Project extends ProxyResource {
     properties?: ProjectProperties;
@@ -741,7 +741,7 @@ export interface Resource {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PlatformClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AnyscaleManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   listByResourceGroup,
   get,
@@ -60,7 +60,7 @@ export interface CloudResourcesOperations {
   ) => PollerLike<OperationState<CloudResource>, CloudResource>;
 }
 
-function _getCloudResources(context: PlatformContext) {
+function _getCloudResources(context: AnyscaleManagementContext) {
   return {
     listByResourceGroup: (
       resourceGroupName: string,
@@ -97,7 +97,9 @@ function _getCloudResources(context: PlatformContext) {
   };
 }
 
-export function _getCloudResourcesOperations(context: PlatformContext): CloudResourcesOperations {
+export function _getCloudResourcesOperations(
+  context: AnyscaleManagementContext,
+): CloudResourcesOperations {
   return {
     ..._getCloudResources(context),
   };

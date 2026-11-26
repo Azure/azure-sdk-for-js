@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -60,7 +60,7 @@ export interface ComputeConfigsOperations {
   ) => Promise<ComputeConfig>;
 }
 
-function _getComputeConfigs(context: PlatformContext) {
+function _getComputeConfigs(context: AnyscaleManagementContext) {
   return {
     listByResourceGroup: (
       resourceGroupName: string,
@@ -97,7 +97,9 @@ function _getComputeConfigs(context: PlatformContext) {
   };
 }
 
-export function _getComputeConfigsOperations(context: PlatformContext): ComputeConfigsOperations {
+export function _getComputeConfigsOperations(
+  context: AnyscaleManagementContext,
+): ComputeConfigsOperations {
   return {
     ..._getComputeConfigs(context),
   };

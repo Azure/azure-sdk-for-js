@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { PlatformClient } = require("@azure/arm-anyscale");
+const { AnyscaleManagementClient } = require("@azure/arm-anyscale");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function containerImagesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "14AB8053-986C-414E-96B3-11D82B8B478D";
-  const client = new PlatformClient(credential, subscriptionId);
+  const client = new AnyscaleManagementClient(credential, subscriptionId);
   const result = await client.containerImages.createOrUpdate(
     "rganyscale",
     "testcloud",

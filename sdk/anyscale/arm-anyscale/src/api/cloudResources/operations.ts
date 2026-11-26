@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext as Client } from "../index.js";
+import type { AnyscaleManagementContext as Client } from "../index.js";
 import type {
   CloudResource,
   CloudResourceUpdate,

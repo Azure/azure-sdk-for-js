@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import type { OperationsListOptionalParams } from "../../api/operations/options.js";
 import type { Operation } from "../../models/models.js";
@@ -13,13 +13,13 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-function _getOperations(context: PlatformContext) {
+function _getOperations(context: AnyscaleManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function _getOperationsOperations(context: PlatformContext): OperationsOperations {
+export function _getOperationsOperations(context: AnyscaleManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),
   };

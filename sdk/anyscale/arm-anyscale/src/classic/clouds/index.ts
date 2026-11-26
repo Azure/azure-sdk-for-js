@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -61,7 +61,7 @@ export interface CloudsOperations {
   ) => Promise<Cloud>;
 }
 
-function _getClouds(context: PlatformContext) {
+function _getClouds(context: AnyscaleManagementContext) {
   return {
     listBySubscription: (options?: CloudsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -88,7 +88,7 @@ function _getClouds(context: PlatformContext) {
   };
 }
 
-export function _getCloudsOperations(context: PlatformContext): CloudsOperations {
+export function _getCloudsOperations(context: AnyscaleManagementContext): CloudsOperations {
   return {
     ..._getClouds(context),
   };

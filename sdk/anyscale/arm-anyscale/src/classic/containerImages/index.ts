@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -60,7 +60,7 @@ export interface ContainerImagesOperations {
   ) => Promise<ContainerImage>;
 }
 
-function _getContainerImages(context: PlatformContext) {
+function _getContainerImages(context: AnyscaleManagementContext) {
   return {
     listByResourceGroup: (
       resourceGroupName: string,
@@ -97,7 +97,9 @@ function _getContainerImages(context: PlatformContext) {
   };
 }
 
-export function _getContainerImagesOperations(context: PlatformContext): ContainerImagesOperations {
+export function _getContainerImagesOperations(
+  context: AnyscaleManagementContext,
+): ContainerImagesOperations {
   return {
     ..._getContainerImages(context),
   };

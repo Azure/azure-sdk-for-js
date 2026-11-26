@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformClient } from "./platformClient.js";
+import type { AnyscaleManagementClient } from "./anyscaleManagementClient.js";
 import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/workspaces/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeServices,
@@ -57,7 +57,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: PlatformClient,
+  client: AnyscaleManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

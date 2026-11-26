@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -65,7 +65,7 @@ export interface WorkspacesOperations {
   ) => Promise<Workspace>;
 }
 
-function _getWorkspaces(context: PlatformContext) {
+function _getWorkspaces(context: AnyscaleManagementContext) {
   return {
     listByResourceGroup: (
       resourceGroupName: string,
@@ -124,7 +124,7 @@ function _getWorkspaces(context: PlatformContext) {
   };
 }
 
-export function _getWorkspacesOperations(context: PlatformContext): WorkspacesOperations {
+export function _getWorkspacesOperations(context: AnyscaleManagementContext): WorkspacesOperations {
   return {
     ..._getWorkspaces(context),
   };

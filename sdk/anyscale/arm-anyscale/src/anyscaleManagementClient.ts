@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext, PlatformClientOptionalParams } from "./api/index.js";
-import { createPlatform } from "./api/index.js";
+import type {
+  AnyscaleManagementContext,
+  AnyscaleManagementClientOptionalParams,
+} from "./api/index.js";
+import { createAnyscaleManagement } from "./api/index.js";
 import type { AgreementsOperations } from "./classic/agreements/index.js";
 import { _getAgreementsOperations } from "./classic/agreements/index.js";
 import type { CloudResourcesOperations } from "./classic/cloudResources/index.js";
@@ -28,10 +31,10 @@ import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { PlatformClientOptionalParams } from "./api/platformContext.js";
+export type { AnyscaleManagementClientOptionalParams } from "./api/anyscaleManagementContext.js";
 
-export class PlatformClient {
-  private _client: PlatformContext;
+export class AnyscaleManagementClient {
+  private _client: AnyscaleManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -39,9 +42,9 @@ export class PlatformClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: PlatformClientOptionalParams = {},
+    options: AnyscaleManagementClientOptionalParams = {},
   ) {
-    this._client = createPlatform(credential, subscriptionId, options);
+    this._client = createAnyscaleManagement(credential, subscriptionId, options);
     this.pipeline = this._client.pipeline;
     this.workspaces = _getWorkspacesOperations(this._client);
     this.services = _getServicesOperations(this._client);

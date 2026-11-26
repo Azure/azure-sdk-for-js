@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { PlatformClient } = require("@azure/arm-anyscale");
+const { AnyscaleManagementClient } = require("@azure/arm-anyscale");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function operationsList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new PlatformClient(credential, subscriptionId);
+  const client = new AnyscaleManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);

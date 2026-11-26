@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { PlatformClient } from "./platformClient.js";
+export { AnyscaleManagementClient } from "./anyscaleManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -101,7 +101,7 @@ export {
   KnownWorkspaceState,
   KnownVersions,
 } from "./models/index.js";
-export type { PlatformClientOptionalParams } from "./api/index.js";
+export type { AnyscaleManagementClientOptionalParams } from "./api/index.js";
 export type {
   AgreementsDeleteOptionalParams,
   AgreementsCreateOrUpdateOptionalParams,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import { get } from "../../api/operationStatuses/operations.js";
 import type { OperationStatusesGetOptionalParams } from "../../api/operationStatuses/options.js";
 import type { OperationStatusResult } from "../../models/models.js";
@@ -16,7 +16,7 @@ export interface OperationStatusesOperations {
   ) => Promise<OperationStatusResult>;
 }
 
-function _getOperationStatuses(context: PlatformContext) {
+function _getOperationStatuses(context: AnyscaleManagementContext) {
   return {
     get: (location: string, operationId: string, options?: OperationStatusesGetOptionalParams) =>
       get(context, location, operationId, options),
@@ -24,7 +24,7 @@ function _getOperationStatuses(context: PlatformContext) {
 }
 
 export function _getOperationStatusesOperations(
-  context: PlatformContext,
+  context: AnyscaleManagementContext,
 ): OperationStatusesOperations {
   return {
     ..._getOperationStatuses(context),

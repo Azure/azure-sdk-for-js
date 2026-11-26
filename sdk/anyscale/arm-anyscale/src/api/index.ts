@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { PlatformContext, PlatformClientOptionalParams } from "./platformContext.js";
-export { createPlatform } from "./platformContext.js";
+export type {
+  AnyscaleManagementContext,
+  AnyscaleManagementClientOptionalParams,
+} from "./anyscaleManagementContext.js";
+export { createAnyscaleManagement } from "./anyscaleManagementContext.js";

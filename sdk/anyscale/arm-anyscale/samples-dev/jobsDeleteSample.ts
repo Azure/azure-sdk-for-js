@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlatformClient } from "@azure/arm-anyscale";
+import { AnyscaleManagementClient } from "@azure/arm-anyscale";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function jobsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "14AB8053-986C-414E-96B3-11D82B8B478D";
-  const client = new PlatformClient(credential, subscriptionId);
+  const client = new AnyscaleManagementClient(credential, subscriptionId);
   await client.jobs.delete("rganyscale", "testcloud", "testproject", "testjob");
 }
 

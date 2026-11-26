@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PlatformContext } from "../../api/platformContext.js";
+import type { AnyscaleManagementContext } from "../../api/anyscaleManagementContext.js";
 import {
   $delete,
   createOrUpdate,
@@ -35,7 +35,7 @@ export interface AgreementsOperations {
   get: (agreementName: string, options?: AgreementsGetOptionalParams) => Promise<Agreement>;
 }
 
-function _getAgreements(context: PlatformContext) {
+function _getAgreements(context: AnyscaleManagementContext) {
   return {
     delete: (agreementName: string, options?: AgreementsDeleteOptionalParams) =>
       $delete(context, agreementName, options),
@@ -51,7 +51,7 @@ function _getAgreements(context: PlatformContext) {
   };
 }
 
-export function _getAgreementsOperations(context: PlatformContext): AgreementsOperations {
+export function _getAgreementsOperations(context: AnyscaleManagementContext): AgreementsOperations {
   return {
     ..._getAgreements(context),
   };
