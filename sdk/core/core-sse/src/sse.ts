@@ -127,6 +127,7 @@ async function* toLine(
   let bufIdx = 0;
   let fieldLen = -1;
   let discardTrailingNewline = false;
+  let isFirstLine = true;
   for await (const chunk of chunkIter) {
     if (buf === undefined) {
       buf = chunk;
@@ -168,6 +169,16 @@ async function* toLine(
         // Wait for the next chunk and then continue parsing:
         break;
       }
+      if (isFirstLine) {
+        isFirstLine = false;
+        // Only the BOM at the start of the stream is stripped, not BOMs in field values.
+        if (buf[start] === 0xef && buf[start + 1] === 0xbb && buf[start + 2] === 0xbf) {
+          start += 3;
+          if (fieldLen !== -1) {
+            fieldLen -= 3;
+          }
+        }
+      }
       yield { line: buf.subarray(start, end), fieldLen };
       start = bufIdx; // we're now on the next line
       fieldLen = -1;
@@ -190,7 +201,7 @@ async function* toMessage(
   let message = createMessage();
   let pendingId: string | undefined;
   let lastEventId = initialLastEventId;
-  const decoder = new TextDecoder();
+  const decoder = new TextDecoder("utf-8", { ignoreBOM: true });
   for await (const { line, fieldLen } of lineIter) {
     if (line.length === 0) {
       if (pendingId !== undefined) {

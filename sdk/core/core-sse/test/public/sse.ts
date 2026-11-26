@@ -29,6 +29,60 @@ export function buildSseTests(
   ) => EventMessageStream,
 ): SuiteCollector {
   return describe(`[${rtName}] Server-sent Events`, () => {
+    describe("byte order marks", () => {
+      for (const newline of ["\n", "\r", "\r\n"]) {
+        for (const chunkLength of [1, 1024]) {
+          it(`preserves field values with ${JSON.stringify(newline)} and chunks of ${chunkLength} bytes`, async () => {
+            const input = [
+              "\uFEFFevent: \uFEFFnamed",
+              "id: \uFEFFresume",
+              "data: \uFEFFfirst",
+              "data: \uFEFFsecond",
+              "",
+              "\uFEFFdata: ignored",
+              "retry: \uFEFF10",
+              "data: next",
+              "",
+              "",
+            ].join(newline);
+            const bytes = encoder.encode(input);
+            const stream = createStream((write) => {
+              for (let offset = 0; offset < bytes.length; offset += chunkLength) {
+                write(bytes.subarray(offset, offset + chunkLength));
+              }
+            });
+            await assertAsyncIterable(stream, 2, (event, index) => {
+              assert.equal(event.id, "\uFEFFresume");
+              assert.equal(event.event, index === 0 ? "\uFEFFnamed" : "");
+              assert.equal(event.data, index === 0 ? "\uFEFFfirst\n\uFEFFsecond" : "next");
+              assert.isUndefined(event.retry);
+            });
+          });
+        }
+      }
+
+      it.each([
+        ["an opening BOM before a comment", "\uFEFF: comment\ndata: expected\n\n", "expected"],
+        ["an opening BOM before a colonless field", "\uFEFFdata\n\n", ""],
+        ["only one opening BOM", "\uFEFF\uFEFFdata: ignored\ndata: expected\n\n", "expected"],
+        [
+          "a BOM after an opening blank line",
+          "\n\uFEFFdata: ignored\ndata: expected\n\n",
+          "expected",
+        ],
+      ])("handles %s", async (_, input, expected) => {
+        const bytes = encoder.encode(input);
+        const stream = createStream((write) => {
+          for (const byte of bytes) {
+            write(Uint8Array.of(byte));
+          }
+        });
+        await assertAsyncIterable(stream, 1, (event) => {
+          assert.equal(event.data, expected);
+        });
+      });
+    });
+
     it("yields a terminal event and ignores later events when configured", async () => {
       const stream = createStream(
         (write) => {
