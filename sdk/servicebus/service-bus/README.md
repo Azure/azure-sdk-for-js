@@ -186,6 +186,21 @@ const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credentia
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
+### Configure retries
+
+Service Bus clients use exponential backoff when `retryOptions.mode` is omitted. The default base delay is 800 milliseconds, and the default maximum delay is 60000 milliseconds. Explicit retry values are preserved.
+
+```ts snippet:ReadmeSampleConfigureRetries
+import { type RetryOptions, ServiceBusClient } from "@azure/service-bus";
+
+const retryOptions: RetryOptions = {
+  maxRetries: 5,
+  retryDelayInMs: 1000,
+  maxRetryDelayInMs: 60000,
+};
+const serviceBusClient = new ServiceBusClient("<connectionString>", { retryOptions });
+```
+
 ## Key concepts
 
 Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
@@ -284,7 +299,7 @@ read-only typed view.
 
 ```ts snippet:ReadmeSampleAmqpApplicationPropertyTypes
 import { DefaultAzureCredential } from "@azure/identity";
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, type ServiceBusMessage } from "@azure/service-bus";
 
 const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
 const credential = new DefaultAzureCredential();

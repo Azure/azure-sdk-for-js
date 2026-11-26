@@ -11,7 +11,11 @@
 
 ### Bugs Fixed
 
+- The default retry `mode` for Service Bus clients now correctly takes effect on the streaming-receiver (`subscribe`) path. Previously, because `RetryMode.Exponential === 0`, an explicitly configured `retryOptions.mode: Exponential` was treated as unset and silently reverted to `Fixed` on that path. [#39314](https://github.com/Azure/azure-sdk-for-js/pull/39314)
+
 ### Other Changes
+
+- Changed the default retry `mode` for Service Bus clients from `Fixed` (a flat 30-second delay between retries) to `Exponential` (0.8-second base delay, 60-second maximum), aligning Service Bus with the .NET, Java, Python, and Go SDKs. With the default three retries, total time spent waiting between retries is roughly 7-11 seconds instead of 90 seconds, excluding operation execution time. With `maxRetries: 1` and `mode` omitted, the client waits roughly 800 milliseconds before its single retry instead of 30 seconds. Callers that set `retryOptions.mode` explicitly keep their configured retry mode. A caller that leaves `mode` unset now gets `Exponential` (previously `Fixed`) even if it sets `retryDelayInMs` or `maxRetryDelayInMs`; any delay values it sets explicitly are still honored. Set `mode: RetryMode.Fixed` to keep the previous delay. [#39314](https://github.com/Azure/azure-sdk-for-js/pull/39314)
 
 ## 7.10.0 (2026-10-06)
 
