@@ -223,11 +223,10 @@ function calculateQueryParameters(
   };
 }
 
-function simpleParseQueryParams(queryString: string): Map<string, string | string[] | undefined> {
-  const result: Map<string, string | string[] | undefined> = new Map<
-    string,
-    string | string[] | undefined
-  >();
+function simpleParseQueryParams(
+  queryString: string,
+): Map<string, string | (string | undefined)[] | undefined> {
+  const result = new Map<string, string | (string | undefined)[] | undefined>();
   if (!queryString || queryString[0] !== "?") {
     return result;
   }
@@ -237,7 +236,9 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   const pairs = queryString.split("&");
 
   for (const pair of pairs) {
-    const [name, value] = pair.split("=", 2);
+    const separatorIndex = pair.indexOf("=");
+    const name = separatorIndex === -1 ? pair : pair.substring(0, separatorIndex);
+    const value = separatorIndex === -1 ? undefined : pair.substring(separatorIndex + 1);
     const existingValue = result.get(name);
     if (existingValue) {
       if (Array.isArray(existingValue)) {

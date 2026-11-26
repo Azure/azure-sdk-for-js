@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Preserve literal equals signs in existing query parameter values when appending operation parameters, including in absolute next-link URLs. [#40920](https://github.com/Azure/azure-sdk-for-js/issues/40920)
+
 ### Other Changes
 
 - Re-export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` while preserving the existing public API. Update the pipeline dependency to `^1.26.0`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)

@@ -42,6 +42,40 @@ import { deserializationPolicy } from "../../src/deserializationPolicy.js";
 import { getCachedDefaultHttpClient } from "../../src/httpClientCache.js";
 
 describe("ServiceClient", function () {
+  it.each(["abc==", "a=b=c", "Qai%2B4%2FIM=="])(
+    "sends complete existing query values containing equals signs: %s",
+    async (token) => {
+      let requestUrl: string | undefined;
+      const client = new ServiceClient({
+        httpClient: {
+          sendRequest: (request) => {
+            requestUrl = request.url;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
+      });
+      await client.sendOperationRequest(
+        { apiVersion: "2026-01-01" },
+        {
+          baseUrl: `https://example.com/items?token=${token}`,
+          httpMethod: "GET",
+          responses: { 200: {} },
+          serializer: createSerializer(),
+          queryParameters: [
+            {
+              parameterPath: "apiVersion",
+              mapper: { serializedName: "api-version", required: true, type: { name: "String" } },
+            },
+          ],
+        },
+      );
+      assert.strictEqual(
+        requestUrl,
+        `https://example.com/items?token=${token}&api-version=2026-01-01`,
+      );
+    },
+  );
+
   describe("Auth scopes", () => {
     const testOperationArgs = {
       metadata: {
