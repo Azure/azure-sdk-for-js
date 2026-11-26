@@ -6,6 +6,7 @@ parameters:
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
+  ReleasePlanId: '0'
 
 stages:
     # Gate all release stages on: internal project AND (a manual/scheduled run OR post-merge CI on main).
@@ -263,6 +264,7 @@ stages:
                         parameters:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
                           PackageArtifactName: ${{ artifact.name }}
+                          ReleasePlanId: ${{ parameters.ReleasePlanId }}
 
   - stage: Integration
     dependsOn: ${{ parameters.DependsOn }}

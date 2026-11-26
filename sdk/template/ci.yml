@@ -26,6 +26,11 @@ pr:
       - eng/common/
 
 parameters:
+  # Template-only manual release-plan correlation. Keep raw input for CLI validation.
+  - name: ReleasePlanId
+    displayName: Optional release plan ID
+    type: string
+    default: '0'
   # Switch to canary to test canary 1es branch. 1es template validation will set this parameter
   # to canary on run.
   - name: oneESTemplateTag
@@ -40,6 +45,7 @@ extends:
   parameters:
     oneESTemplateTag: ${{ parameters.oneESTemplateTag }}
     ServiceDirectory: template
+    ReleasePlanId: ${{ parameters.ReleasePlanId }}
     Artifacts:
       - name: azure-template
         safeName: azuretemplate
