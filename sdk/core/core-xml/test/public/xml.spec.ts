@@ -5,6 +5,63 @@ import { parseXML, stringifyXML } from "../../src/index.js";
 import { describe, it, assert, expect } from "vitest";
 
 describe("XML serializer", function () {
+  describe("repeated child elements", function () {
+    const cases = [
+      {
+        name: "an empty child before text",
+        xml: "<entry/><entry>second</entry>",
+        value: ["", "second"],
+      },
+      { name: "three empty children", xml: "<entry/><entry></entry><entry/>", value: ["", "", ""] },
+      {
+        name: "repeated CDATA children",
+        xml: "<entry><![CDATA[first]]></entry><entry><![CDATA[second]]></entry>",
+        value: ["first", "second"],
+      },
+      {
+        name: "text followed by CDATA",
+        xml: "<entry>first</entry><entry><![CDATA[second]]></entry>",
+        value: ["first", "second"],
+      },
+      {
+        name: "CDATA followed by text",
+        xml: "<entry><![CDATA[first]]></entry><entry>second</entry>",
+        value: ["first", "second"],
+      },
+      {
+        name: "empty CDATA followed by CDATA",
+        xml: "<entry><![CDATA[]]></entry><entry><![CDATA[second]]></entry>",
+        value: ["", "second"],
+      },
+      {
+        name: "mixed empty, text, and CDATA children",
+        xml: "<entry/><entry><![CDATA[middle]]></entry><entry>last</entry><entry><![CDATA[end]]></entry>",
+        value: ["", "middle", "last", "end"],
+      },
+      {
+        name: "text followed by an empty child",
+        xml: "<entry>first</entry><entry/>",
+        value: ["first", ""],
+      },
+      { name: "a single empty child", xml: "<entry/>", value: "" },
+      { name: "a single CDATA child", xml: "<entry><![CDATA[only]]></entry>", value: "only" },
+    ];
+
+    for (const includeRoot of [false, true]) {
+      it.each(cases)(`preserves $name with includeRoot=${includeRoot}`, async ({ xml, value }) => {
+        const parsed = await parseXML(`<root>${xml}</root>`, { includeRoot });
+        const expected = { entry: value };
+        assert.deepStrictEqual(parsed, includeRoot ? { root: expected } : expected);
+      });
+    }
+
+    it("round-trips arrays containing empty values", async () => {
+      const value = { entry: ["", "middle", ""] };
+      const xml = stringifyXML(value, { rootName: "root" });
+      assert.deepStrictEqual(await parseXML(xml), value);
+    });
+  });
+
   describe("parseXML(string)", function () {
     it("with undefined", async function () {
       // @ts-expect-error - intentional error for test

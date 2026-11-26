@@ -1,5 +1,17 @@
 # Release History
 
+## 1.6.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Preserve repeated empty and CDATA child elements when parsing XML in browsers, matching Node.js behavior. [#40917](https://github.com/Azure/azure-sdk-for-js/issues/40917)
+
+### Other Changes
+
 ## 1.6.1 (2026-11-06)
 
 ### Bugs Fixed
