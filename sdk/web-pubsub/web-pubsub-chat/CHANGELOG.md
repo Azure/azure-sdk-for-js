@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for service API version `2026-11-01`, now the default service version.
+- Added support for service API version `2026-11-01`, now the default service version. [API specification](https://github.com/Azure/azure-rest-api-specs/pull/47436) [#40904](https://github.com/Azure/azure-sdk-for-js/pull/40904)
 
 ## 1.0.0-beta.2 (2026-11-16)
 
