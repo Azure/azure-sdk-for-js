@@ -187,8 +187,8 @@ interface SnippetDefinition {
  * @param project - the project to extract snippets for
  * @returns a map from snippet name to definition.
  */
-async function parseSnippetDefinitions(
-  project: ProjectInfo,
+export async function parseSnippetDefinitions(
+  project: Pick<ProjectInfo, "name" | "path">,
 ): Promise<Map<string, SnippetDefinition>> {
   const results = new Map<string, SnippetDefinition>();
 
@@ -243,7 +243,12 @@ async function parseSnippetDefinitions(
         sourceFile,
       );
 
-      const imports: { name: string; moduleSpecifier: string; isDefault: boolean }[] = [];
+      const imports: {
+        name: string;
+        moduleSpecifier: string;
+        isDefault: boolean;
+        isTypeOnly: boolean;
+      }[] = [];
 
       // This nested visitor is just for extracting the imports of a symbol.
       const symbolImportVisitor: ts.Visitor = (node: ts.Node) => {
@@ -279,7 +284,7 @@ async function parseSnippetDefinitions(
       log.debug(`found a snippet named ${name.text}: \n${contents}`);
 
       interface ImportedSymbols {
-        default?: string;
+        default?: { name: string; isTypeOnly: boolean };
         named?: Set<string>;
       }
 
@@ -287,7 +292,7 @@ async function parseSnippetDefinitions(
       // { [k: module]: symbol[] } (one import statement per module with the whole list of symbols imported from it)
       const importMap = new Map<string, ImportedSymbols>();
 
-      for (const { name, moduleSpecifier, isDefault } of imports) {
+      for (const { name, moduleSpecifier, isDefault, isTypeOnly } of imports) {
         let moduleImports = importMap.get(moduleSpecifier);
         if (!moduleImports) {
           moduleImports = {};
@@ -299,12 +304,12 @@ async function parseSnippetDefinitions(
               `unrecoverable error: multiple default imports from the same module '${moduleSpecifier}'`,
             );
           }
-          moduleImports.default = name;
+          moduleImports.default = { name, isTypeOnly };
         } else {
           if (!moduleImports.named) {
             moduleImports.named = new Set();
           }
-          moduleImports.named.add(name);
+          moduleImports.named.add(isTypeOnly ? `type ${name}` : name);
         }
       }
 
@@ -313,20 +318,28 @@ async function parseSnippetDefinitions(
         [...importMap.entries()]
           .map(([module, imports]) => {
             const importParts = [];
-            if (imports.default) {
-              importParts.push(imports.default);
+            const typeOnlyDefault = imports.default?.isTypeOnly
+              ? `import type ${imports.default.name} from "${module}";`
+              : "";
+            if (imports.default && !imports.default.isTypeOnly) {
+              importParts.push(imports.default.name);
             }
             if (imports.named) {
               importParts.push(`{ ${[...imports.named].join(", ")} }`);
             }
 
-            if (importParts.length === 0) {
+            if (importParts.length === 0 && !typeOnlyDefault) {
               throw new Error(
                 `unrecoverable error: no imports were generated for the snippet '${name.text}'`,
               );
             }
 
-            return `import ${importParts.join(", ")} from "${module}";`;
+            return [
+              typeOnlyDefault,
+              importParts.length > 0 ? `import ${importParts.join(", ")} from "${module}";` : "",
+            ]
+              .filter(Boolean)
+              .join(EOL);
           })
           .join(EOL) +
         EOL +
@@ -437,6 +450,7 @@ async function parseSnippetDefinitions(
   function extractImportLocations(node: ts.Node): {
     isDefault: boolean;
     moduleSpecifier: string;
+    isTypeOnly: boolean;
   }[] {
     const sym = checker.getSymbolAtLocation(node);
 
@@ -455,26 +469,29 @@ async function parseSnippetDefinitions(
           const moduleSpecifierText = (
             (decl.parent.parent as ts.ImportClause).parent.moduleSpecifier as ts.StringLiteral
           ).text;
+          const isTypeOnly =
+            ts.isImportSpecifier(decl) &&
+            (decl.isTypeOnly || (decl.parent.parent as ts.ImportClause).isTypeOnly);
 
           if (
             moduleSpecifierText === relativeIndexPath ||
             moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
             moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
           ) {
-            return { moduleSpecifier: project.name, isDefault: false };
+            return { moduleSpecifier: project.name, isDefault: false, isTypeOnly };
           } else {
-            return { moduleSpecifier: moduleSpecifierText, isDefault: false };
+            return { moduleSpecifier: moduleSpecifierText, isDefault: false, isTypeOnly };
           }
         },
       );
 
     const defaultExports = sym?.declarations
       ?.filter(
-        (decl) =>
+        (decl): decl is ts.ImportClause =>
           decl.getSourceFile() === sourceFile &&
           ts.isImportClause(decl) &&
           ts.isImportDeclaration(decl.parent) &&
-          decl.name,
+          !!decl.name,
       )
       .map((decl) => {
         const moduleSpecifierText = (
@@ -486,9 +503,13 @@ async function parseSnippetDefinitions(
           moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
           moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
         ) {
-          return { moduleSpecifier: project.name, isDefault: true };
+          return { moduleSpecifier: project.name, isDefault: true, isTypeOnly: decl.isTypeOnly };
         } else {
-          return { moduleSpecifier: moduleSpecifierText, isDefault: true };
+          return {
+            moduleSpecifier: moduleSpecifierText,
+            isDefault: true,
+            isTypeOnly: decl.isTypeOnly,
+          };
         }
       });
 

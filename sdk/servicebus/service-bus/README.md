@@ -191,7 +191,7 @@ More information about this constructor is available in the [API documentation][
 Service Bus clients use exponential backoff when `retryOptions.mode` is omitted. The default base delay is 800 milliseconds, and the default maximum delay is 60000 milliseconds. Explicit retry values are preserved.
 
 ```ts snippet:ReadmeSampleConfigureRetries
-import { RetryOptions, ServiceBusClient } from "@azure/service-bus";
+import { type RetryOptions, ServiceBusClient } from "@azure/service-bus";
 
 const retryOptions: RetryOptions = {
   maxRetries: 5,
@@ -299,7 +299,7 @@ read-only typed view.
 
 ```ts snippet:ReadmeSampleAmqpApplicationPropertyTypes
 import { DefaultAzureCredential } from "@azure/identity";
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, type ServiceBusMessage } from "@azure/service-bus";
 
 const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
 const credential = new DefaultAzureCredential();
