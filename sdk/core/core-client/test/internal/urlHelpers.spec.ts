@@ -46,6 +46,80 @@ describe("getRequestUrl", function () {
     serializer,
   };
 
+  describe("existing query parameter values", () => {
+    const apiVersionParameter: OperationQueryParameter = {
+      parameterPath: "apiVersion",
+      mapper: {
+        serializedName: "api-version",
+        required: true,
+        type: { name: "String" },
+      },
+    };
+
+    it.each(["abc==", "a=b=c", "=", "Qai%2B4%2FIM==", "a%26b=c==%3F", "", "abc%3D%3D", "plain"])(
+      "preserves the complete existing value %j",
+      (value) => {
+        const result = appendQueryParams(
+          `https://test.com/items?token=${value}`,
+          new Map<string, string | string[]>([["api-version", "2026-01-01"]]),
+          new Set(),
+        );
+        assert.strictEqual(result, `https://test.com/items?token=${value}&api-version=2026-01-01`);
+      },
+    );
+
+    it("preserves repeated values and the fragment", () => {
+      const result = appendQueryParams(
+        "https://test.com/items?token=a==&token=b=c#keep",
+        new Map<string, string | string[]>([["api-version", "2026-01-01"]]),
+        new Set(),
+      );
+      assert.strictEqual(
+        result,
+        "https://test.com/items?token=a==&token=b=c&api-version=2026-01-01#keep",
+      );
+    });
+
+    it("preserves base URL values when building an operation URL", () => {
+      const result = getRequestUrl(
+        "{url}",
+        { ...operationSpec, queryParameters: [apiVersionParameter] },
+        { table: "TestTable", apiVersion: "2026-01-01" },
+        { url: "https://test.com?token=a=b==" },
+      );
+      assert.strictEqual(
+        result,
+        "https://test.com/Tables('TestTable')?token=a=b==&api-version=2026-01-01",
+      );
+    });
+
+    it("preserves absolute next-link values without overwriting existing parameters", () => {
+      const result = getRequestUrl(
+        "https://unused.test.com",
+        {
+          path: "{nextLink}",
+          httpMethod: "GET",
+          responses: {},
+          serializer,
+          urlParameters: [
+            {
+              parameterPath: "nextLink",
+              mapper: { serializedName: "nextLink", required: true, type: { name: "String" } },
+              skipEncoding: true,
+            },
+          ],
+          queryParameters: [apiVersionParameter],
+        },
+        {
+          nextLink: "https://test.com/items?token=a=b==&api-version=original",
+          apiVersion: "2026-01-01",
+        },
+        {},
+      );
+      assert.strictEqual(result, "https://test.com/items?token=a=b==&api-version=original");
+    });
+  });
+
   it("should handle nested replacements", function () {
     const result = getRequestUrl(
       "{url}",
