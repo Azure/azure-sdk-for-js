@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a role.
  *
  * @summary delete a role.
+ * x-ms-original-file: 2026-11-01/DeleteRole.json
  */
 async function deleteRole(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a message.
  *
  * @summary update a message.
+ * x-ms-original-file: 2026-11-01/UpdateMessage.json
  */
 async function updateMessage() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

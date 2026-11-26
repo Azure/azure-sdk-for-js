@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get room members.
  *
  * @summary get room members.
+ * x-ms-original-file: 2026-11-01/ListRoomMembers.json
  */
 async function listRoomMembers() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

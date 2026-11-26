@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get conversation information.
  *
  * @summary get conversation information.
+ * x-ms-original-file: 2026-11-01/GetConversation.json
  */
 async function getConversation() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

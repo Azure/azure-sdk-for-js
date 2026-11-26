@@ -172,16 +172,6 @@ export function listRoomsForUser(
   userId: string,
   options: ListRoomsForUserOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatUserRoom> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/users/{userId}/rooms",
-    {
-      hub: context.hub,
-      userId: userId,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomsForUserSend(context, userId, options),
@@ -371,15 +361,6 @@ export function listUsers(
   context: Client,
   options: ListUsersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatUserUnion> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/users",
-    {
-      hub: context.hub,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listUsersSend(context, options),
@@ -537,16 +518,6 @@ export function listRoomMembers(
   roomId: string,
   options: ListRoomMembersOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRoomMember> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/rooms/{roomId}/members",
-    {
-      hub: context.hub,
-      roomId: roomId,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomMembersSend(context, roomId, options),
@@ -800,16 +771,6 @@ export function listTopics(
   roomId: string,
   options: ListTopicsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatTopic> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/rooms/{roomId}/topics",
-    {
-      hub: context.hub,
-      roomId: roomId,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listTopicsSend(context, roomId, options),
@@ -999,15 +960,6 @@ export function listRooms(
   context: Client,
   options: ListRoomsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRoom> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/rooms",
-    {
-      hub: context.hub,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listRoomsSend(context, options),
@@ -1197,15 +1149,6 @@ export function listRoles(
   context: Client,
   options: ListRolesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatRole> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/roles",
-    {
-      hub: context.hub,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listRolesSend(context, options),
@@ -1367,16 +1310,6 @@ export function listMessages(
   conversationId: string,
   options: ListMessagesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ChatMessage> {
-  expandUrlTemplate(
-    "/api/hubs/{hub}/chat/conversations/{conversationId}/messages",
-    {
-      hub: context.hub,
-      conversationId: conversationId,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
   return buildPagedAsyncIterator(
     context,
     () => _listMessagesSend(context, conversationId, options),

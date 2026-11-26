@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get room information.
  *
  * @summary get room information.
+ * x-ms-original-file: 2026-11-01/GetRoom.json
  */
 async function getRoom() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

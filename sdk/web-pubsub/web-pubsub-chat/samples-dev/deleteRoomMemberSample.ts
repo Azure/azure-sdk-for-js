@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a room member.
  *
  * @summary delete a room member.
+ * x-ms-original-file: 2026-11-01/DeleteRoomMember.json
  */
 async function deleteRoomMember(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

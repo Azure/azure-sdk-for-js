@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a room.
  *
  * @summary delete a room.
+ * x-ms-original-file: 2026-11-01/DeleteRoom.json
  */
 async function deleteRoom() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

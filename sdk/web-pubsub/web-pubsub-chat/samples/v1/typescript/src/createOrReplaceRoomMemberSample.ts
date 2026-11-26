@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or replace a room member.
  *
  * @summary create or replace a room member.
+ * x-ms-original-file: 2026-11-01/CreateOrReplaceRoomMember.json
  */
 async function createOrReplaceRoomMember(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

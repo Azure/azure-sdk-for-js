@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to query messages in a conversation from latest to earliest.
  *
  * @summary query messages in a conversation from latest to earliest.
+ * x-ms-original-file: 2026-11-01/ListMessages.json
  */
 async function listMessages(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

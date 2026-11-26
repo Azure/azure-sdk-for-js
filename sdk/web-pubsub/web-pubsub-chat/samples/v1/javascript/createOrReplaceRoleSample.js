@@ -8,6 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or replace a role.
  *
  * @summary create or replace a role.
+ * x-ms-original-file: 2026-11-01/CreateOrReplaceRole.json
  */
 async function createOrReplaceRole() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

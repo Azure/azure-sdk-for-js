@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a user.
  *
  * @summary delete a user.
+ * x-ms-original-file: 2026-11-01/DeleteUser.json
  */
 async function deleteUser(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
