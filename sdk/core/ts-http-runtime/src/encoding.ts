@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * Decodes a Uint8Array to a UTF-8 string.
+ * Decodes a Uint8Array to a UTF-8 string, preserving U+FEFF characters like Node's Buffer.
  *
  * @internal
  */
 export function decodeUtf8(bytes: Uint8Array): string {
-  return new TextDecoder().decode(bytes);
+  return new TextDecoder("utf-8", { ignoreBOM: true }).decode(bytes);
 }
 
 /**

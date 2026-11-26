@@ -5,6 +5,40 @@ import { stringToUint8Array, uint8ArrayToString } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("bytesEncoding", function () {
+  describe("UTF-8 BOM preservation", function () {
+    const cases = [
+      { name: "a BOM alone", bytes: [0xef, 0xbb, 0xbf], expected: "\uFEFF" },
+      { name: "an opening BOM", bytes: [0xef, 0xbb, 0xbf, 0x61], expected: "\uFEFFa" },
+      {
+        name: "multiple opening BOMs",
+        bytes: [0xef, 0xbb, 0xbf, 0xef, 0xbb, 0xbf, 0x61],
+        expected: "\uFEFF\uFEFFa",
+      },
+      {
+        name: "a BOM before multibyte text",
+        bytes: [0xef, 0xbb, 0xbf, 0xf0, 0x9f, 0x98, 0x80],
+        expected: "\uFEFF\u{1F600}",
+      },
+      {
+        name: "an embedded BOM",
+        bytes: [0x61, 0xef, 0xbb, 0xbf, 0x62],
+        expected: "a\uFEFFb",
+      },
+      { name: "text without a BOM", bytes: [0x61], expected: "a" },
+      { name: "empty input", bytes: [], expected: "" },
+      { name: "an incomplete UTF-8 prefix", bytes: [0xef, 0xbb], expected: "\uFFFD" },
+    ];
+
+    for (const useOffset of [false, true]) {
+      it.each(cases)(`decodes $name with offset=${useOffset}`, ({ bytes, expected }) => {
+        const input = useOffset
+          ? Uint8Array.from([0, 0, ...bytes, 0]).subarray(2, -1)
+          : Uint8Array.from(bytes);
+        assert.equal(uint8ArrayToString(input, "utf-8"), expected);
+      });
+    }
+  });
+
   describe("base64ToBytes", function () {
     it("converts a base64 string to bytes", function () {
       const input = "YXp1cmU="; // 'azure' in base64.
