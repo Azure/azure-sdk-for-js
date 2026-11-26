@@ -2,36 +2,36 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/web-pubsub-chat in some common scenarios.
 
-| **File Name**                                                         | **Description**                                                                                                                                                                             |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [createOrReplaceRoleSample.ts][createorreplacerolesample]             | create or replace a role. x-ms-original-file: 2026-11-01/CreateOrReplaceRole.json                                                                                                           |
-| [createOrReplaceRoomMemberSample.ts][createorreplaceroommembersample] | create or replace a room member. x-ms-original-file: 2026-11-01/CreateOrReplaceRoomMember.json                                                                                              |
-| [createOrReplaceRoomSample.ts][createorreplaceroomsample]             | create or replace a room with a client-specified ID. x-ms-original-file: 2026-11-01/CreateOrReplaceRoom.json                                                                                |
-| [createOrReplaceTopicSample.ts][createorreplacetopicsample]           | Create a room topic with an ifNoneMatch precondition.                                                                                                                                       |
-| [createOrReplaceUserSample.ts][createorreplaceusersample]             | create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. x-ms-original-file: 2026-11-01/CreateOrReplaceUser.json |
-| [deleteMessageSample.ts][deletemessagesample]                         | delete a message. x-ms-original-file: 2026-11-01/DeleteMessage.json                                                                                                                         |
-| [deleteRoleSample.ts][deleterolesample]                               | delete a role. x-ms-original-file: 2026-11-01/DeleteRole.json                                                                                                                               |
-| [deleteRoomMemberSample.ts][deleteroommembersample]                   | delete a room member. x-ms-original-file: 2026-11-01/DeleteRoomMember.json                                                                                                                  |
-| [deleteRoomSample.ts][deleteroomsample]                               | delete a room. x-ms-original-file: 2026-11-01/DeleteRoom.json                                                                                                                               |
-| [deleteTopicSample.ts][deletetopicsample]                             | Soft delete a room topic.                                                                                                                                                                   |
-| [deleteUserSample.ts][deleteusersample]                               | delete a user. x-ms-original-file: 2026-11-01/DeleteUser.json                                                                                                                               |
-| [getConversationSample.ts][getconversationsample]                     | get conversation information. x-ms-original-file: 2026-11-01/GetConversation.json                                                                                                           |
-| [getRoleSample.ts][getrolesample]                                     | get role information. x-ms-original-file: 2026-11-01/GetRole.json                                                                                                                           |
-| [getRoomSample.ts][getroomsample]                                     | get room information. x-ms-original-file: 2026-11-01/GetRoom.json                                                                                                                           |
-| [getTopicSample.ts][gettopicsample]                                   | Get a room topic.                                                                                                                                                                           |
-| [getUserSample.ts][getusersample]                                     | get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. x-ms-original-file: 2026-11-01/GetUser.json                     |
-| [listMessagesSample.ts][listmessagessample]                           | query messages in a conversation from latest to earliest. x-ms-original-file: 2026-11-01/ListMessages.json                                                                                  |
-| [listRolesSample.ts][listrolessample]                                 | query roles in a hub. x-ms-original-file: 2026-11-01/ListRoles.json                                                                                                                         |
-| [listRoomMembersSample.ts][listroommemberssample]                     | get room members. x-ms-original-file: 2026-11-01/ListRoomMembers.json                                                                                                                       |
-| [listRoomsForUserSample.ts][listroomsforusersample]                   | List a user's rooms with pagination.                                                                                                                                                        |
-| [listRoomsSample.ts][listroomssample]                                 | List rooms in a hub.                                                                                                                                                                        |
-| [listTopicsSample.ts][listtopicssample]                               | List room topics.                                                                                                                                                                           |
-| [listUsersSample.ts][listuserssample]                                 | List users in a hub.                                                                                                                                                                        |
-| [manageRolesSample.ts][managerolessample]                             | manage chat roles.                                                                                                                                                                          |
-| [manageRoomsSample.ts][manageroomssample]                             | manage chat rooms.                                                                                                                                                                          |
-| [manageUsersSample.ts][manageuserssample]                             | manage chat users.                                                                                                                                                                          |
-| [updateMessageSample.ts][updatemessagesample]                         | update a message. x-ms-original-file: 2026-11-01/UpdateMessage.json                                                                                                                         |
-| [updateTopicSample.ts][updatetopicsample]                             | Partially update a topic's state.                                                                                                                                                           |
+| **File Name**                                                         | **Description**                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------- |
+| [createOrReplaceRoleSample.ts][createorreplacerolesample]             | create or replace a role.                                 |
+| [createOrReplaceRoomMemberSample.ts][createorreplaceroommembersample] | create or replace a room member.                          |
+| [createOrReplaceRoomSample.ts][createorreplaceroomsample]             | create or replace a room with a client-specified ID.      |
+| [createOrReplaceTopicSample.ts][createorreplacetopicsample]           | Create a room topic with an ifNoneMatch precondition.     |
+| [createOrReplaceUserSample.ts][createorreplaceusersample]             | create or replace a user.                                 |
+| [deleteMessageSample.ts][deletemessagesample]                         | delete a message.                                         |
+| [deleteRoleSample.ts][deleterolesample]                               | delete a role.                                            |
+| [deleteRoomMemberSample.ts][deleteroommembersample]                   | delete a room member.                                     |
+| [deleteRoomSample.ts][deleteroomsample]                               | delete a room.                                            |
+| [deleteTopicSample.ts][deletetopicsample]                             | Soft delete a room topic.                                 |
+| [deleteUserSample.ts][deleteusersample]                               | delete a user.                                            |
+| [getConversationSample.ts][getconversationsample]                     | get conversation information.                             |
+| [getRoleSample.ts][getrolesample]                                     | get role information.                                     |
+| [getRoomSample.ts][getroomsample]                                     | get room information.                                     |
+| [getTopicSample.ts][gettopicsample]                                   | Get a room topic.                                         |
+| [getUserSample.ts][getusersample]                                     | get a user's profile.                                     |
+| [listMessagesSample.ts][listmessagessample]                           | query messages in a conversation from latest to earliest. |
+| [listRolesSample.ts][listrolessample]                                 | query roles in a hub.                                     |
+| [listRoomMembersSample.ts][listroommemberssample]                     | get room members.                                         |
+| [listRoomsForUserSample.ts][listroomsforusersample]                   | List a user's rooms with pagination.                      |
+| [listRoomsSample.ts][listroomssample]                                 | List rooms in a hub.                                      |
+| [listTopicsSample.ts][listtopicssample]                               | List room topics.                                         |
+| [listUsersSample.ts][listuserssample]                                 | List users in a hub.                                      |
+| [manageRolesSample.ts][managerolessample]                             | manage chat roles.                                        |
+| [manageRoomsSample.ts][manageroomssample]                             | manage chat rooms.                                        |
+| [manageUsersSample.ts][manageuserssample]                             | manage chat users.                                        |
+| [updateMessageSample.ts][updatemessagesample]                         | update a message.                                         |
+| [updateTopicSample.ts][updatetopicsample]                             | Partially update a topic's state.                         |
 
 ## Prerequisites
 

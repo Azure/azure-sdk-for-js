@@ -5,10 +5,9 @@ const { WebPubSubChatServiceClient } = require("@azure/web-pubsub-chat");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
+ * This sample demonstrates how to get a user's profile.
  *
- * @summary get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
- * x-ms-original-file: 2026-11-01/GetUser.json
+ * @summary get a user's profile.
  */
 async function getUser() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

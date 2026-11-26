@@ -2,36 +2,36 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/web-pubsub-chat in some common scenarios.
 
-| **File Name**                                                         | **Description**                                                                                                                                                                             |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [createOrReplaceRoleSample.js][createorreplacerolesample]             | create or replace a role. x-ms-original-file: 2026-11-01/CreateOrReplaceRole.json                                                                                                           |
-| [createOrReplaceRoomMemberSample.js][createorreplaceroommembersample] | create or replace a room member. x-ms-original-file: 2026-11-01/CreateOrReplaceRoomMember.json                                                                                              |
-| [createOrReplaceRoomSample.js][createorreplaceroomsample]             | create or replace a room with a client-specified ID. x-ms-original-file: 2026-11-01/CreateOrReplaceRoom.json                                                                                |
-| [createOrReplaceTopicSample.js][createorreplacetopicsample]           | Create a room topic with an ifNoneMatch precondition.                                                                                                                                       |
-| [createOrReplaceUserSample.js][createorreplaceusersample]             | create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. x-ms-original-file: 2026-11-01/CreateOrReplaceUser.json |
-| [deleteMessageSample.js][deletemessagesample]                         | delete a message. x-ms-original-file: 2026-11-01/DeleteMessage.json                                                                                                                         |
-| [deleteRoleSample.js][deleterolesample]                               | delete a role. x-ms-original-file: 2026-11-01/DeleteRole.json                                                                                                                               |
-| [deleteRoomMemberSample.js][deleteroommembersample]                   | delete a room member. x-ms-original-file: 2026-11-01/DeleteRoomMember.json                                                                                                                  |
-| [deleteRoomSample.js][deleteroomsample]                               | delete a room. x-ms-original-file: 2026-11-01/DeleteRoom.json                                                                                                                               |
-| [deleteTopicSample.js][deletetopicsample]                             | Soft delete a room topic.                                                                                                                                                                   |
-| [deleteUserSample.js][deleteusersample]                               | delete a user. x-ms-original-file: 2026-11-01/DeleteUser.json                                                                                                                               |
-| [getConversationSample.js][getconversationsample]                     | get conversation information. x-ms-original-file: 2026-11-01/GetConversation.json                                                                                                           |
-| [getRoleSample.js][getrolesample]                                     | get role information. x-ms-original-file: 2026-11-01/GetRole.json                                                                                                                           |
-| [getRoomSample.js][getroomsample]                                     | get room information. x-ms-original-file: 2026-11-01/GetRoom.json                                                                                                                           |
-| [getTopicSample.js][gettopicsample]                                   | Get a room topic.                                                                                                                                                                           |
-| [getUserSample.js][getusersample]                                     | get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. x-ms-original-file: 2026-11-01/GetUser.json                     |
-| [listMessagesSample.js][listmessagessample]                           | query messages in a conversation from latest to earliest. x-ms-original-file: 2026-11-01/ListMessages.json                                                                                  |
-| [listRolesSample.js][listrolessample]                                 | query roles in a hub. x-ms-original-file: 2026-11-01/ListRoles.json                                                                                                                         |
-| [listRoomMembersSample.js][listroommemberssample]                     | get room members. x-ms-original-file: 2026-11-01/ListRoomMembers.json                                                                                                                       |
-| [listRoomsForUserSample.js][listroomsforusersample]                   | List a user's rooms with pagination.                                                                                                                                                        |
-| [listRoomsSample.js][listroomssample]                                 | List rooms in a hub.                                                                                                                                                                        |
-| [listTopicsSample.js][listtopicssample]                               | List room topics.                                                                                                                                                                           |
-| [listUsersSample.js][listuserssample]                                 | List users in a hub.                                                                                                                                                                        |
-| [manageRolesSample.js][managerolessample]                             | manage chat roles.                                                                                                                                                                          |
-| [manageRoomsSample.js][manageroomssample]                             | manage chat rooms.                                                                                                                                                                          |
-| [manageUsersSample.js][manageuserssample]                             | manage chat users.                                                                                                                                                                          |
-| [updateMessageSample.js][updatemessagesample]                         | update a message. x-ms-original-file: 2026-11-01/UpdateMessage.json                                                                                                                         |
-| [updateTopicSample.js][updatetopicsample]                             | Partially update a topic's state.                                                                                                                                                           |
+| **File Name**                                                         | **Description**                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------- |
+| [createOrReplaceRoleSample.js][createorreplacerolesample]             | create or replace a role.                                 |
+| [createOrReplaceRoomMemberSample.js][createorreplaceroommembersample] | create or replace a room member.                          |
+| [createOrReplaceRoomSample.js][createorreplaceroomsample]             | create or replace a room with a client-specified ID.      |
+| [createOrReplaceTopicSample.js][createorreplacetopicsample]           | Create a room topic with an ifNoneMatch precondition.     |
+| [createOrReplaceUserSample.js][createorreplaceusersample]             | create or replace a user.                                 |
+| [deleteMessageSample.js][deletemessagesample]                         | delete a message.                                         |
+| [deleteRoleSample.js][deleterolesample]                               | delete a role.                                            |
+| [deleteRoomMemberSample.js][deleteroommembersample]                   | delete a room member.                                     |
+| [deleteRoomSample.js][deleteroomsample]                               | delete a room.                                            |
+| [deleteTopicSample.js][deletetopicsample]                             | Soft delete a room topic.                                 |
+| [deleteUserSample.js][deleteusersample]                               | delete a user.                                            |
+| [getConversationSample.js][getconversationsample]                     | get conversation information.                             |
+| [getRoleSample.js][getrolesample]                                     | get role information.                                     |
+| [getRoomSample.js][getroomsample]                                     | get room information.                                     |
+| [getTopicSample.js][gettopicsample]                                   | Get a room topic.                                         |
+| [getUserSample.js][getusersample]                                     | get a user's profile.                                     |
+| [listMessagesSample.js][listmessagessample]                           | query messages in a conversation from latest to earliest. |
+| [listRolesSample.js][listrolessample]                                 | query roles in a hub.                                     |
+| [listRoomMembersSample.js][listroommemberssample]                     | get room members.                                         |
+| [listRoomsForUserSample.js][listroomsforusersample]                   | List a user's rooms with pagination.                      |
+| [listRoomsSample.js][listroomssample]                                 | List rooms in a hub.                                      |
+| [listTopicsSample.js][listtopicssample]                               | List room topics.                                         |
+| [listUsersSample.js][listuserssample]                                 | List users in a hub.                                      |
+| [manageRolesSample.js][managerolessample]                             | manage chat roles.                                        |
+| [manageRoomsSample.js][manageroomssample]                             | manage chat rooms.                                        |
+| [manageUsersSample.js][manageuserssample]                             | manage chat users.                                        |
+| [updateMessageSample.js][updatemessagesample]                         | update a message.                                         |
+| [updateTopicSample.js][updatetopicsample]                             | Partially update a topic's state.                         |
 
 ## Prerequisites
 

@@ -8,7 +8,6 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get role information.
  *
  * @summary get role information.
- * x-ms-original-file: 2026-11-01/GetRole.json
  */
 async function getRole(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

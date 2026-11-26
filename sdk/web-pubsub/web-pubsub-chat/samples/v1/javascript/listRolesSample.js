@@ -8,7 +8,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to query roles in a hub.
  *
  * @summary query roles in a hub.
- * x-ms-original-file: 2026-11-01/ListRoles.json
  */
 async function listRoles() {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

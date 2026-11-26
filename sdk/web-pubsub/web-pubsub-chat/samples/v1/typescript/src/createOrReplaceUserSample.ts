@@ -5,10 +5,9 @@ import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
+ * This sample demonstrates how to create or replace a user.
  *
- * @summary create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
- * x-ms-original-file: 2026-11-01/CreateOrReplaceUser.json
+ * @summary create or replace a user.
  */
 async function createOrReplaceUser(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
