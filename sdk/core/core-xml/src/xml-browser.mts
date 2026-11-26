@@ -138,14 +138,14 @@ function domToObject(node: Node, options: Required<XmlOptions>): any {
       if (child?.nodeType === Node.CDATA_SECTION_NODE) {
         // Already in the CDATA
         result = child.textContent;
-      } else if (child?.firstChild?.nodeType === Node.CDATA_SECTION_NODE) {
-        // Look if child is CDATA
-        result[child.nodeName] = child.textContent;
       } else if (child.nodeType !== Node.TEXT_NODE) {
         // Ignore leading/trailing whitespace nodes
-        const childObject: any = domToObject(child, options);
+        const childObject: any =
+          child.firstChild?.nodeType === Node.CDATA_SECTION_NODE
+            ? child.textContent
+            : domToObject(child, options);
 
-        if (!result[child.nodeName]) {
+        if (!Object.prototype.hasOwnProperty.call(result, child.nodeName)) {
           result[child.nodeName] = childObject;
         } else if (Array.isArray(result[child.nodeName])) {
           result[child.nodeName].push(childObject);
