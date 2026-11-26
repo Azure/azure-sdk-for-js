@@ -1,5 +1,17 @@
 # Release History
 
+## 4.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Fixed broken links to `KeyVaultAccessControlClient`, `KeyVaultBackupClient`, and `KeyVaultSettingsClient` operations in the reference documentation of option and response types. [#34919](https://github.com/Azure/azure-sdk-for-js/issues/34919)
+
 ## 4.8.0 (2026-11-18)
 
 ### Features Added

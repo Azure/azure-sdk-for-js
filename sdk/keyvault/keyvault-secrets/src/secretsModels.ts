@@ -209,7 +209,7 @@ export interface DeletedSecret {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteSecret} and {@link beginRecoverDeletedKey}.
+ * passed to {@link SecretClient.beginDeleteSecret} and {@link SecretClient.beginRecoverDeletedSecret}.
  */
 export interface SecretPollerOptions extends coreClient.OperationOptions {
   /**
@@ -224,18 +224,18 @@ export interface SecretPollerOptions extends coreClient.OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginDeleteSecret}
+ * passed to {@link SecretClient.beginDeleteSecret}
  */
 export interface BeginDeleteSecretOptions extends SecretPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginRecoverDeletedSecret}
+ * passed to {@link SecretClient.beginRecoverDeletedSecret}
  */
 export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {}
 
 /**
- * Options for {@link setSecret}.
+ * Options for {@link SecretClient.setSecret}.
  */
 export interface SetSecretOptions extends coreClient.OperationOptions {
   /**
@@ -261,7 +261,7 @@ export interface SetSecretOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link updateSecretProperties}.
+ * Options for {@link SecretClient.updateSecretProperties}.
  */
 export interface UpdateSecretPropertiesOptions extends coreClient.OperationOptions {
   /**
@@ -287,7 +287,7 @@ export interface UpdateSecretPropertiesOptions extends coreClient.OperationOptio
 }
 
 /**
- * Options for {@link getSecret}.
+ * Options for {@link SecretClient.getSecret}.
  */
 export interface GetSecretOptions extends coreClient.OperationOptions {
   /**
@@ -304,22 +304,22 @@ export interface GetSecretOptions extends coreClient.OperationOptions {
 }
 
 /**
- * Options for {@link getDeletedSecret}.
+ * Options for {@link SecretClient.getDeletedSecret}.
  */
 export interface GetDeletedSecretOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link purgeDeletedSecret}.
+ * Options for {@link SecretClient.purgeDeletedSecret}.
  */
 export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link backupSecretOptions}.
+ * Options for {@link SecretClient.backupSecret}.
  */
 export interface BackupSecretOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link restoreSecretBackup}.
+ * Options for {@link SecretClient.restoreSecretBackup}.
  */
 export interface RestoreSecretBackupOptions extends coreClient.OperationOptions {}
 
@@ -336,16 +336,16 @@ export interface RecoverDeletedSecretOptions extends coreClient.OperationOptions
 export interface DeleteSecretOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link listPropertiesOfSecretVersions}.
+ * Options for {@link SecretClient.listPropertiesOfSecretVersions}.
  */
 export interface ListPropertiesOfSecretVersionsOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link listPropertiesOfSecrets}.
+ * Options for {@link SecretClient.listPropertiesOfSecrets}.
  */
 export interface ListPropertiesOfSecretsOptions extends coreClient.OperationOptions {}
 
 /**
- * Options for {@link listDeletedSecrets}.
+ * Options for {@link SecretClient.listDeletedSecrets}.
  */
 export interface ListDeletedSecretsOptions extends coreClient.OperationOptions {}

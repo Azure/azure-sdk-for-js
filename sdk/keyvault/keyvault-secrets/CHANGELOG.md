@@ -1,5 +1,17 @@
 # Release History
 
+## 4.12.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Fixed broken links to `SecretClient` operations in the reference documentation of option types. [#34922](https://github.com/Azure/azure-sdk-for-js/issues/34922)
+
 ## 4.12.0 (2026-10-27)
 
 ### Features Added

@@ -1,5 +1,17 @@
 # Release History
 
+## 4.11.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Fixed broken links to `CertificateClient` operations in the reference documentation of option types. [#34920](https://github.com/Azure/azure-sdk-for-js/issues/34920)
+
 ## 4.11.0 (2026-10-27)
 
 ### Features Added
