@@ -661,21 +661,6 @@ export interface ListPoolsOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listPoolUsageMetrics(context: BatchContext, options?: ListPoolUsageMetricsOptionalParams): PagedAsyncIterableIterator<BatchPoolUsageMetrics>;
-
-// @public
-export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    endTime?: Date;
-    filter?: string;
-    maxResults?: number;
-    ocpDate?: Date;
-    returnClientRequestId?: boolean;
-    startTime?: Date;
-    timeoutInSeconds?: number;
-}
-
-// @public
 export function listSubTasks(context: BatchContext, jobId: string, taskId: string, options?: ListSubTasksOptionalParams): PagedAsyncIterableIterator<BatchSubtask>;
 
 // @public

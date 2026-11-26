@@ -3,17 +3,18 @@
 
 import { createRestError } from "@azure-rest/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createHoboBatchAccount,
   getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
-import { deleteKeyVault } from "./utils/arm-resources/key-vault.js";
+import { createKeyInKeyVaultAndGetUrl, deleteKeyVault } from "./utils/arm-resources/key-vault.js";
 
-const { getAccount, createAccount, deleteVault } = vi.hoisted(() => ({
+const { getAccount, createAccount, deleteVault, createKey } = vi.hoisted(() => ({
   getAccount: vi.fn(),
   createAccount: vi.fn(),
   deleteVault: vi.fn(),
+  createKey: vi.fn(),
 }));
 
 vi.mock("@azure/arm-batch", () => ({
@@ -25,6 +26,12 @@ vi.mock("@azure/arm-batch", () => ({
 vi.mock("@azure/arm-keyvault", () => ({
   KeyVaultManagementClient: class {
     vaults = { delete: deleteVault };
+  },
+}));
+
+vi.mock("@azure/keyvault-keys", () => ({
+  KeyClient: class {
+    createKey = createKey;
   },
 }));
 
@@ -138,5 +145,99 @@ describe("Batch test ARM resource helpers", () => {
     deleteVault.mockRejectedValue(error);
 
     await expect(deleteKeyVault("vault")).rejects.toBe(error);
+  });
+
+  describe("key creation after a role assignment", () => {
+    const key = {
+      name: "key",
+      id: "https://vault.example/keys/key/version",
+    };
+
+    function createRbacError(): Error {
+      return Object.assign(createArmError(403, "Forbidden"), {
+        details: { error: { innerError: { code: "ForbiddenByRbac" } } },
+      });
+    }
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it("returns the key without retrying when access is already available", async () => {
+      createKey.mockResolvedValue(key);
+
+      await expect(createKeyInKeyVaultAndGetUrl("https://vault.example", "key")).resolves.toEqual({
+        key,
+        keyUrl: key.id,
+      });
+      expect(createKey).toHaveBeenCalledTimes(1);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("waits 15 seconds before retrying an RBAC propagation failure", async () => {
+      createKey.mockRejectedValueOnce(createRbacError()).mockResolvedValueOnce(key);
+      const result = createKeyInKeyVaultAndGetUrl("https://vault.example", "key");
+
+      await vi.advanceTimersByTimeAsync(14999);
+      expect(createKey).toHaveBeenCalledTimes(1);
+      await vi.advanceTimersByTimeAsync(1);
+
+      await expect(result).resolves.toEqual({ key, keyUrl: key.id });
+      expect(createKey).toHaveBeenCalledTimes(2);
+    });
+
+    it("stops after five minutes of retries and preserves the authorization error", async () => {
+      const error = createRbacError();
+      createKey.mockRejectedValue(error);
+      const result = expect(
+        createKeyInKeyVaultAndGetUrl("https://vault.example", "key"),
+      ).rejects.toBe(error);
+
+      await vi.advanceTimersByTimeAsync(300000);
+      await result;
+
+      expect(createKey).toHaveBeenCalledTimes(21);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("does not retry other forbidden errors", async () => {
+      const error = Object.assign(createArmError(403, "Forbidden"), {
+        details: { error: { innerError: { code: "ForbiddenByFirewall" } } },
+      });
+      createKey.mockRejectedValue(error);
+
+      await expect(createKeyInKeyVaultAndGetUrl("https://vault.example", "key")).rejects.toBe(
+        error,
+      );
+      expect(createKey).toHaveBeenCalledTimes(1);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("does not retry failures without RBAC error details", async () => {
+      const error = createArmError(403, "Forbidden");
+      createKey.mockRejectedValue(error);
+
+      await expect(createKeyInKeyVaultAndGetUrl("https://vault.example", "key")).rejects.toBe(
+        error,
+      );
+      expect(createKey).toHaveBeenCalledTimes(1);
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("does not retry a key response without an ID", async () => {
+      createKey.mockResolvedValue({ name: "key" });
+
+      await expect(createKeyInKeyVaultAndGetUrl("https://vault.example", "key")).rejects.toThrow(
+        "does not have an ID",
+      );
+      expect(createKey).toHaveBeenCalledTimes(1);
+      expect(vi.getTimerCount()).toBe(0);
+    });
   });
 });

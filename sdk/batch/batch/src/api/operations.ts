@@ -5,8 +5,6 @@ import type { BatchContext as Client } from "./index.js";
 import type {
   _BatchApplicationListResult,
   BatchApplication,
-  _BatchPoolListUsageMetricsResult,
-  BatchPoolUsageMetrics,
   BatchPoolCreateOptions,
   _BatchPoolListResult,
   BatchPool,
@@ -56,7 +54,6 @@ import {
   _batchApplicationListResultDeserializer,
   batchApplicationDeserializer,
   batchErrorDeserializer,
-  _batchPoolListUsageMetricsResultDeserializer,
   batchPoolCreateOptionsSerializer,
   _batchPoolListResultDeserializer,
   batchPoolDeserializer,
@@ -179,7 +176,6 @@ import type {
   DeletePoolOptionalParams,
   ListPoolsOptionalParams,
   CreatePoolOptionalParams,
-  ListPoolUsageMetricsOptionalParams,
   GetApplicationOptionalParams,
   ListApplicationsOptionalParams,
 } from "./options.js";
@@ -215,7 +211,7 @@ export function _listNodeFilesSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -249,7 +245,9 @@ export async function _listNodeFilesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -272,7 +270,7 @@ export function listNodeFiles(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -290,7 +288,7 @@ export function _getNodeFilePropertiesSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -334,7 +332,9 @@ export async function _getNodeFilePropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -367,7 +367,7 @@ export function _getNodeFileSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -411,7 +411,9 @@ export async function _getNodeFileDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -445,7 +447,7 @@ export function _deleteNodeFileSend(
       poolId: poolId,
       nodeId: nodeId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       recursive: options?.recursive,
     },
@@ -474,7 +476,9 @@ export async function _deleteNodeFileDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -505,7 +509,7 @@ export function _listNodeExtensionsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24select": !options?.select
@@ -542,7 +546,9 @@ export async function _listNodeExtensionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -565,7 +571,7 @@ export function listNodeExtensions(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -583,7 +589,7 @@ export function _getNodeExtensionSend(
       poolId: poolId,
       nodeId: nodeId,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -619,7 +625,9 @@ export async function _getNodeExtensionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -648,7 +656,7 @@ export function _listNodesSend(
     "/pools/{poolId}/nodes{?api%2Dversion,timeOut,maxresults,%24filter,%24select}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -686,7 +694,9 @@ export async function _listNodesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -708,7 +718,7 @@ export function listNodes(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -725,7 +735,7 @@ export function _uploadNodeLogsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -758,7 +768,9 @@ export async function _uploadNodeLogsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -794,7 +806,7 @@ export function _getNodeRemoteLoginSettingsSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -825,7 +837,9 @@ export async function _getNodeRemoteLoginSettingsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -855,7 +869,7 @@ export function _enableNodeSchedulingSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -885,7 +899,9 @@ export async function _enableNodeSchedulingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -918,7 +934,7 @@ export function _disableNodeSchedulingSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -940,9 +956,9 @@ export function _disableNodeSchedulingSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["options"]
-      ? options["options"]
-      : batchNodeDisableSchedulingOptionsSerializer(options["options"]),
+    body: !options?.options
+      ? options?.options
+      : batchNodeDisableSchedulingOptionsSerializer(options?.options),
   });
 }
 
@@ -952,7 +968,9 @@ export async function _disableNodeSchedulingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -985,7 +1003,7 @@ export function _deallocateNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1007,9 +1025,9 @@ export function _deallocateNodeSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["options"]
-      ? options["options"]
-      : batchNodeDeallocateOptionsSerializer(options["options"]),
+    body: !options?.options
+      ? options?.options
+      : batchNodeDeallocateOptionsSerializer(options?.options),
   });
 }
 
@@ -1017,7 +1035,9 @@ export async function _deallocateNodeDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1056,7 +1076,7 @@ export function _reimageNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1078,9 +1098,9 @@ export function _reimageNodeSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["options"]
-      ? options["options"]
-      : batchNodeReimageOptionsSerializer(options["options"]),
+    body: !options?.options
+      ? options?.options
+      : batchNodeReimageOptionsSerializer(options?.options),
   });
 }
 
@@ -1088,7 +1108,9 @@ export async function _reimageNodeDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1131,7 +1153,7 @@ export function _startNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1159,7 +1181,9 @@ export async function _startNodeDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1198,7 +1222,7 @@ export function _rebootNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1220,9 +1244,7 @@ export function _rebootNodeSend(
         : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["options"]
-      ? options["options"]
-      : batchNodeRebootOptionsSerializer(options["options"]),
+    body: !options?.options ? options?.options : batchNodeRebootOptionsSerializer(options?.options),
   });
 }
 
@@ -1230,7 +1252,9 @@ export async function _rebootNodeDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1269,7 +1293,7 @@ export function _getNodeSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -1303,7 +1327,9 @@ export async function _getNodeDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1336,7 +1362,7 @@ export function _replaceNodeUserSend(
       poolId: poolId,
       nodeId: nodeId,
       userName: userName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1366,7 +1392,9 @@ export async function _replaceNodeUserDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1412,7 +1440,7 @@ export function _deleteNodeUserSend(
       poolId: poolId,
       nodeId: nodeId,
       userName: userName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1440,7 +1468,9 @@ export async function _deleteNodeUserDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1476,7 +1506,7 @@ export function _createNodeUserSend(
     {
       poolId: poolId,
       nodeId: nodeId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1506,7 +1536,9 @@ export async function _createNodeUserDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1541,7 +1573,7 @@ export function _listTaskFilesSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -1575,7 +1607,9 @@ export async function _listTaskFilesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1598,7 +1632,7 @@ export function listTaskFiles(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -1616,7 +1650,7 @@ export function _getTaskFilePropertiesSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1660,7 +1694,9 @@ export async function _getTaskFilePropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1693,7 +1729,7 @@ export function _getTaskFileSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1737,7 +1773,9 @@ export async function _getTaskFileDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1771,7 +1809,7 @@ export function _deleteTaskFileSend(
       jobId: jobId,
       taskId: taskId,
       filePath: filePath,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       recursive: options?.recursive,
     },
@@ -1800,7 +1838,9 @@ export async function _deleteTaskFileDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1831,7 +1871,7 @@ export function _reactivateTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1875,7 +1915,9 @@ export async function _reactivateTaskDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1913,7 +1955,7 @@ export function _terminateTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -1957,7 +1999,9 @@ export async function _terminateTaskDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1991,7 +2035,7 @@ export function _listSubTasksSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -2027,7 +2071,9 @@ export async function _listSubTasksDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2050,7 +2096,7 @@ export function listSubTasks(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -2067,7 +2113,7 @@ export function _replaceTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2113,7 +2159,9 @@ export async function _replaceTaskDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2144,7 +2192,7 @@ export function _getTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -2199,7 +2247,9 @@ export async function _getTaskDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2233,7 +2283,7 @@ export function _deleteTaskSend(
     {
       jobId: jobId,
       taskId: taskId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2277,7 +2327,9 @@ export async function _deleteTaskDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2312,7 +2364,7 @@ export function _createTaskCollectionSend(
     "/jobs/{jobId}/addtaskcollection{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2345,7 +2397,9 @@ export async function _createTaskCollectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2388,7 +2442,7 @@ export function _listTasksSend(
     "/jobs/{jobId}/tasks{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -2431,7 +2485,9 @@ export async function _listTasksDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2457,7 +2513,7 @@ export function listTasks(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -2472,7 +2528,7 @@ export function _createTaskSend(
     "/jobs/{jobId}/tasks{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2502,7 +2558,9 @@ export async function _createTaskDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2532,7 +2590,7 @@ export function _listJobSchedulesSend(
   const path = expandUrlTemplate(
     "/jobschedules{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -2575,7 +2633,9 @@ export async function _listJobSchedulesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2596,7 +2656,7 @@ export function listJobSchedules(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -2609,7 +2669,7 @@ export function _createJobScheduleSend(
   const path = expandUrlTemplate(
     "/jobschedules{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2639,7 +2699,9 @@ export async function _createJobScheduleDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2666,7 +2728,7 @@ export function _terminateJobScheduleSend(
     "/jobschedules/{jobScheduleId}/terminate{?api%2Dversion,timeOut,force}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
@@ -2713,7 +2775,9 @@ export async function _terminateJobScheduleDeserialize(
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2748,7 +2812,7 @@ export function _enableJobScheduleSend(
     "/jobschedules/{jobScheduleId}/enable{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2792,7 +2856,9 @@ export async function _enableJobScheduleDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2819,7 +2885,7 @@ export function _disableJobScheduleSend(
     "/jobschedules/{jobScheduleId}/disable{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2863,7 +2929,9 @@ export async function _disableJobScheduleDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2891,7 +2959,7 @@ export function _replaceJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -2937,7 +3005,9 @@ export async function _replaceJobScheduleDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -2972,7 +3042,7 @@ export function _updateJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3018,7 +3088,9 @@ export async function _updateJobScheduleDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3052,7 +3124,7 @@ export function _getJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -3109,7 +3181,9 @@ export async function _getJobScheduleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3136,7 +3210,7 @@ export function _deleteJobScheduleSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut,force}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
@@ -3181,7 +3255,9 @@ export async function _deleteJobScheduleDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3222,7 +3298,7 @@ export function _jobScheduleExistsSend(
     "/jobschedules/{jobScheduleId}{?api%2Dversion,timeOut}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3268,7 +3344,9 @@ export async function _jobScheduleExistsDeserialize(
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3295,7 +3373,7 @@ export function _getJobTaskCountsSend(
     "/jobs/{jobId}/taskcounts{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3326,7 +3404,9 @@ export async function _getJobTaskCountsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3358,7 +3438,7 @@ export function _listJobPreparationAndReleaseTaskStatusSend(
     "/jobs/{jobId}/jobpreparationandreleasetaskstatus{?api%2Dversion,timeOut,maxresults,%24filter,%24select}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -3396,7 +3476,9 @@ export async function _listJobPreparationAndReleaseTaskStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3425,7 +3507,7 @@ export function listJobPreparationAndReleaseTaskStatus(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -3439,7 +3521,7 @@ export function _listJobsFromScheduleSend(
     "/jobschedules/{jobScheduleId}/jobs{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
       jobScheduleId: jobScheduleId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -3482,7 +3564,9 @@ export async function _listJobsFromScheduleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3504,7 +3588,7 @@ export function listJobsFromSchedule(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -3516,7 +3600,7 @@ export function _listJobsSend(
   const path = expandUrlTemplate(
     "/jobs{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -3559,7 +3643,9 @@ export async function _listJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3580,7 +3666,7 @@ export function listJobs(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -3593,7 +3679,7 @@ export function _createJobSend(
   const path = expandUrlTemplate(
     "/jobs{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3623,7 +3709,9 @@ export async function _createJobDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3660,7 +3748,7 @@ export function _terminateJobSend(
     "/jobs/{jobId}/terminate{?api%2Dversion,timeOut,force}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
@@ -3699,9 +3787,9 @@ export function _terminateJobSend(
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...options.requestOptions?.headers,
     },
-    body: !options["options"]
-      ? options["options"]
-      : batchJobTerminateOptionsSerializer(options["options"]),
+    body: !options?.options
+      ? options?.options
+      : batchJobTerminateOptionsSerializer(options?.options),
   });
 }
 
@@ -3709,7 +3797,9 @@ export async function _terminateJobDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3751,7 +3841,7 @@ export function _enableJobSend(
     "/jobs/{jobId}/enable{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3795,7 +3885,9 @@ export async function _enableJobDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3838,7 +3930,7 @@ export function _disableJobSend(
     "/jobs/{jobId}/disable{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3884,7 +3976,9 @@ export async function _disableJobDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -3931,7 +4025,7 @@ export function _replaceJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -3977,7 +4071,9 @@ export async function _replaceJobDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4010,7 +4106,7 @@ export function _updateJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4056,7 +4152,9 @@ export async function _updateJobDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4088,7 +4186,7 @@ export function _getJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -4143,7 +4241,9 @@ export async function _getJobDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4170,7 +4270,7 @@ export function _deleteJobSend(
     "/jobs/{jobId}{?api%2Dversion,timeOut,force}",
     {
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       force: options?.force,
     },
@@ -4215,7 +4315,9 @@ export async function _deleteJobDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4257,7 +4359,7 @@ export function _listPoolNodeCountsSend(
   const path = expandUrlTemplate(
     "/nodecounts{?api%2Dversion,timeOut,maxresults,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -4290,7 +4392,9 @@ export async function _listPoolNodeCountsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4315,7 +4419,7 @@ export function listPoolNodeCounts(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -4327,7 +4431,7 @@ export function _listSupportedImagesSend(
   const path = expandUrlTemplate(
     "/supportedimages{?api%2Dversion,timeOut,maxresults,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -4360,7 +4464,9 @@ export async function _listSupportedImagesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4381,7 +4487,7 @@ export function listSupportedImages(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -4396,7 +4502,7 @@ export function _removeNodesSend(
     "/pools/{poolId}/removenodes{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4442,7 +4548,9 @@ export async function _removeNodesDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4484,7 +4592,7 @@ export function _replacePoolPropertiesSend(
     "/pools/{poolId}/updateproperties{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4516,7 +4624,9 @@ export async function _replacePoolPropertiesDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4548,7 +4658,7 @@ export function _stopPoolResizeSend(
     "/pools/{poolId}/stopresize{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4592,7 +4702,9 @@ export async function _stopPoolResizeDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4636,7 +4748,7 @@ export function _resizePoolSend(
     "/pools/{poolId}/resize{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4682,7 +4794,9 @@ export async function _resizePoolDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4728,7 +4842,7 @@ export function _evaluatePoolAutoScaleSend(
     "/pools/{poolId}/evaluateautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4761,7 +4875,9 @@ export async function _evaluatePoolAutoScaleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4799,7 +4915,7 @@ export function _enablePoolAutoScaleSend(
     "/pools/{poolId}/enableautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4847,7 +4963,9 @@ export async function _enablePoolAutoScaleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4882,7 +5000,7 @@ export function _disablePoolAutoScaleSend(
     "/pools/{poolId}/disableautoscale{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4912,7 +5030,9 @@ export async function _disablePoolAutoScaleDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -4940,7 +5060,7 @@ export function _updatePoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -4986,7 +5106,9 @@ export async function _updatePoolDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5018,7 +5140,7 @@ export function _getPoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut,%24select,%24expand}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       "%24select": !options?.select
         ? options?.select
@@ -5073,7 +5195,9 @@ export async function _getPoolDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5100,7 +5224,7 @@ export function _poolExistsSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -5144,7 +5268,9 @@ export async function _poolExistsDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["404", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5171,7 +5297,7 @@ export function _deletePoolSend(
     "/pools/{poolId}{?api%2Dversion,timeOut}",
     {
       poolId: poolId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -5215,7 +5341,9 @@ export async function _deletePoolDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5261,7 +5389,7 @@ export function _listPoolsSend(
   const path = expandUrlTemplate(
     "/pools{?api%2Dversion,timeOut,maxresults,%24filter,%24select,%24expand}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
       "%24filter": options?.filter,
@@ -5304,7 +5432,9 @@ export async function _listPoolsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5325,7 +5455,7 @@ export function listPools(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }
@@ -5338,7 +5468,7 @@ export function _createPoolSend(
   const path = expandUrlTemplate(
     "/pools{?api%2Dversion,timeOut}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -5368,7 +5498,9 @@ export async function _createPoolDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5390,81 +5522,6 @@ export async function createPool(
   return _createPoolDeserialize(result);
 }
 
-export function _listPoolUsageMetricsSend(
-  context: Client,
-  options: ListPoolUsageMetricsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/poolusagemetrics{?api%2Dversion,timeOut,maxresults,startTime,endtime,%24filter}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
-      timeOut: options?.timeoutInSeconds,
-      maxresults: options?.maxResults,
-      startTime: !options?.startTime ? options?.startTime : options?.startTime.toISOString(),
-      endtime: !options?.endTime ? options?.endTime : options?.endTime.toISOString(),
-      "%24filter": options?.filter,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "client-request-id": options?.clientRequestId }
-        : {}),
-      ...(options?.returnClientRequestId !== undefined
-        ? { "return-client-request-id": options?.returnClientRequestId }
-        : {}),
-      ...(options?.ocpDate !== undefined
-        ? { "ocp-date": !options?.ocpDate ? options?.ocpDate : options?.ocpDate.toUTCString() }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listPoolUsageMetricsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_BatchPoolListUsageMetricsResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
-
-    throw error;
-  }
-
-  return _batchPoolListUsageMetricsResultDeserializer(result.body);
-}
-
-/**
- * If you do not specify a $filter clause including a poolId, the response
- * includes all Pools that existed in the Account in the time range of the
- * returned aggregation intervals. If you do not specify a $filter clause
- * including a startTime or endTime these filters default to the start and end
- * times of the last aggregation interval currently available; that is, only the
- * last aggregation interval is returned.
- */
-export function listPoolUsageMetrics(
-  context: Client,
-  options: ListPoolUsageMetricsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<BatchPoolUsageMetrics> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listPoolUsageMetricsSend(context, options),
-    _listPoolUsageMetricsDeserialize,
-    ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
-    },
-  );
-}
-
 export function _getApplicationSend(
   context: Client,
   applicationId: string,
@@ -5474,7 +5531,7 @@ export function _getApplicationSend(
     "/applications/{applicationId}{?api%2Dversion,timeOut}",
     {
       applicationId: applicationId,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
     },
     {
@@ -5505,7 +5562,9 @@ export async function _getApplicationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5536,7 +5595,7 @@ export function _listApplicationsSend(
   const path = expandUrlTemplate(
     "/applications{?api%2Dversion,timeOut,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
       timeOut: options?.timeoutInSeconds,
       maxresults: options?.maxResults,
     },
@@ -5568,7 +5627,9 @@ export async function _listApplicationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = batchErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = batchErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -5595,7 +5656,7 @@ export function listApplications(
     {
       itemName: "value",
       nextLinkName: "odata.nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01",
+      apiVersion: context.apiVersion ?? "2026-10-01",
     },
   );
 }

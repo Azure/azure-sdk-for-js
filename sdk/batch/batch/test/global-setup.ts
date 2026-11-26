@@ -34,8 +34,8 @@ export async function setup(): Promise<void> {
     console.log("[global-setup] setup has already happened, skipping...");
     return;
   }
-  setupHappened = true;
   await createTestResourceGroup();
+  setupHappened = true;
   console.log("[global-setup] created test resource group");
 
   const keyVaultForByosAccount = await createKeyVaultForByosBatchAccount(getByosKeyVaultName());
@@ -60,7 +60,7 @@ export async function setup(): Promise<void> {
 }
 
 export async function teardown(): Promise<void> {
-  if (isPlaybackMode()) {
+  if (isPlaybackMode() || !setupHappened) {
     return;
   }
 

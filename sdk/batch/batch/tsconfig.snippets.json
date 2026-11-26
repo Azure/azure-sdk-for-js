@@ -1,3 +1,7 @@
 {
-  "extends": ["../../../tsconfig.snippets.base.json"]
+  "extends": ["../../../tsconfig.snippets.base.json"],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": ["./src", "./test/snippets.spec.ts", "./package.json"]
 }

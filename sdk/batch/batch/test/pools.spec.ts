@@ -208,8 +208,8 @@ describe("Pool Operations Test", () => {
 
     expect(pool.id).toEqual(poolId);
     expect(pool.state).toEqual("active");
-    expect(pool.allocationState).toBe("steady");
-    expect(pool.vmSize).toBe("standard_d1_v2");
+    expect(pool.allocationState).toBeUndefined();
+    expect(pool.vmSize).toBeUndefined();
   });
 
   it("should list pools without filters", async () => {
@@ -258,8 +258,8 @@ describe("Pool Operations Test", () => {
     expect(pools.length).toEqual(1);
     expect(pools[0].id).toEqual(poolId);
     expect(pools[0].state).toEqual("active");
-    expect(pools[0].allocationState).toBe("steady");
-    expect(pools[0].vmSize).toBe("standard_d1_v2");
+    expect(pools[0].allocationState).toBeUndefined();
+    expect(pools[0].vmSize).toBeUndefined();
   });
 
   it("should check that pool exists successfully", async () => {

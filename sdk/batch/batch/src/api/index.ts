@@ -73,7 +73,6 @@ export {
   deletePool,
   listPools,
   createPool,
-  listPoolUsageMetrics,
   getApplication,
   listApplications,
 } from "./operations.js";
@@ -147,7 +146,6 @@ export type {
   DeletePoolOptionalParams,
   ListPoolsOptionalParams,
   CreatePoolOptionalParams,
-  ListPoolUsageMetricsOptionalParams,
   GetApplicationOptionalParams,
   ListApplicationsOptionalParams,
 } from "./options.js";

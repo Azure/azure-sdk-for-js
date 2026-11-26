@@ -155,7 +155,6 @@ export class BatchClient {
     listNodes(poolId: string, options?: ListNodesOptionalParams): PagedAsyncIterableIterator<BatchNode>;
     listPoolNodeCounts(options?: ListPoolNodeCountsOptionalParams): PagedAsyncIterableIterator<BatchPoolNodeCounts>;
     listPools(options?: ListPoolsOptionalParams): PagedAsyncIterableIterator<BatchPool>;
-    listPoolUsageMetrics(options?: ListPoolUsageMetricsOptionalParams): PagedAsyncIterableIterator<BatchPoolUsageMetrics>;
     listSubTasks(jobId: string, taskId: string, options?: ListSubTasksOptionalParams): PagedAsyncIterableIterator<BatchSubtask>;
     listSupportedImages(options?: ListSupportedImagesOptionalParams): PagedAsyncIterableIterator<BatchSupportedImage>;
     listTaskFiles(jobId: string, taskId: string, options?: ListTaskFilesOptionalParams): PagedAsyncIterableIterator<BatchNodeFile>;
@@ -558,6 +557,8 @@ export interface BatchNode {
     readonly isDedicated?: boolean;
     readonly lastBootTime: Date;
     readonly nodeAgentInfo?: BatchNodeAgentInfo;
+    readonly publicIpAddress?: string;
+    readonly publicIpv6Address?: string;
     readonly recentTasks?: BatchTaskInfo[];
     readonly runningTasksCount?: number;
     readonly runningTaskSlotsCount?: number;
@@ -601,7 +602,7 @@ export interface BatchNodeCounts {
 }
 
 // @public
-export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeDeallocateOption = "requeue" | "terminate" | "taskcompletion";
 
 // @public
 export interface BatchNodeDeallocateOptions {
@@ -609,7 +610,7 @@ export interface BatchNodeDeallocateOptions {
 }
 
 // @public
-export type BatchNodeDeallocationOption = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeDeallocationOption = "requeue" | "terminate" | "taskcompletion";
 
 // @public
 export type BatchNodeDisableSchedulingOption = "requeue" | "terminate" | "taskcompletion";
@@ -666,7 +667,7 @@ export interface BatchNodePlacementConfiguration {
 export type BatchNodePlacementPolicyType = "regional" | "zonal";
 
 // @public
-export type BatchNodeRebootKind = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeRebootKind = "requeue" | "terminate" | "taskcompletion";
 
 // @public
 export interface BatchNodeRebootOptions {
@@ -674,7 +675,7 @@ export interface BatchNodeRebootOptions {
 }
 
 // @public
-export type BatchNodeReimageOption = "requeue" | "terminate" | "taskcompletion" | "retaineddata";
+export type BatchNodeReimageOption = "requeue" | "terminate" | "taskcompletion";
 
 // @public
 export interface BatchNodeReimageOptions {
@@ -767,6 +768,7 @@ export interface BatchPool {
     readonly userAccounts?: UserAccount[];
     readonly virtualMachineConfiguration?: VirtualMachineConfiguration;
     readonly vmSize: string;
+    readonly vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -791,6 +793,7 @@ export interface BatchPoolCreateOptions {
     userAccounts?: UserAccount[];
     virtualMachineConfiguration?: VirtualMachineConfiguration;
     vmSize: string;
+    vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -860,9 +863,9 @@ export interface BatchPoolResourceStatistics {
     avgDiskGiB: number;
     avgMemoryGiB: number;
     diskReadGiB: number;
-    diskReadIops: string;
+    diskReadIops: number;
     diskWriteGiB: number;
-    diskWriteIops: string;
+    diskWriteIops: number;
     lastUpdateTime: Date;
     networkReadGiB: number;
     networkWriteGiB: number;
@@ -903,7 +906,6 @@ export interface BatchPoolStatistics {
     resourceStatistics?: BatchPoolResourceStatistics;
     startTime: Date;
     url: string;
-    usageStatistics?: BatchPoolUsageStatistics;
 }
 
 // @public
@@ -921,22 +923,7 @@ export interface BatchPoolUpdateOptions {
     userAccounts?: UserAccount[];
     virtualMachineConfiguration?: VirtualMachineConfiguration;
     vmSize?: string;
-}
-
-// @public
-export interface BatchPoolUsageMetrics {
-    endTime: Date;
-    poolId: string;
-    startTime: Date;
-    totalCoreHours: number;
-    vmSize: string;
-}
-
-// @public
-export interface BatchPoolUsageStatistics {
-    dedicatedCoreTime: string;
-    lastUpdateTime: Date;
-    startTime: Date;
+    vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -1712,6 +1699,11 @@ export interface GetTaskOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface HardwareProfile {
+    vmSizeProperties?: VMSizeProperties;
+}
+
+// @public
 export interface HostEndpointSettings {
     inVmAccessControlProfileReferenceId?: string;
     mode?: HostEndpointSettingsModeTypes;
@@ -1773,7 +1765,8 @@ export interface JobScheduleExistsOptionalParams extends OperationOptions {
 
 // @public
 export enum KnownVersions {
-    V20250601 = "2025-06-01"
+    V20250601 = "2025-06-01",
+    V20261001 = "2026-10-01"
 }
 
 // @public
@@ -1894,18 +1887,6 @@ export interface ListPoolsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ListPoolUsageMetricsOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    endTime?: Date;
-    filter?: string;
-    maxResults?: number;
-    ocpDate?: Date;
-    returnClientRequestId?: boolean;
-    startTime?: Date;
-    timeoutInSeconds?: number;
-}
-
-// @public
 export interface ListSubTasksOptionalParams extends OperationOptions {
     clientRequestId?: string;
     ocpDate?: Date;
@@ -1955,6 +1936,12 @@ export interface ManagedDisk {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: BatchVmDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
+}
+
+// @public
+export interface MaxInstancePercentPerZonePolicy {
+    enabled?: boolean;
+    value: number;
 }
 
 // @public
@@ -2052,6 +2039,11 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+}
+
+// @public
+export interface Placement {
+    zonePlacementPolicy: ZonePlacementPolicyType;
 }
 
 // @public
@@ -2174,6 +2166,11 @@ export interface ReplaceTaskOptionalParams extends OperationOptions {
     ocpDate?: Date;
     returnClientRequestId?: boolean;
     timeoutInSeconds?: number;
+}
+
+// @public
+export interface ResiliencyPolicy {
+    zoneAllocationPolicy: ZoneAllocationPolicy;
 }
 
 // @public
@@ -2400,11 +2397,14 @@ export interface VirtualMachineConfiguration {
     dataDisks?: DataDisk[];
     diskEncryptionConfiguration?: DiskEncryptionConfiguration;
     extensions?: VMExtension[];
+    hardwareProfile?: HardwareProfile;
     imageReference: BatchVmImageReference;
     licenseType?: string;
     nodeAgentSkuId: string;
     nodePlacementConfiguration?: BatchNodePlacementConfiguration;
     osDisk?: BatchOsDisk;
+    placement?: Placement;
+    resiliencyPolicy?: ResiliencyPolicy;
     securityProfile?: SecurityProfile;
     serviceArtifactReference?: ServiceArtifactReference;
     windowsConfiguration?: WindowsConfiguration;
@@ -2414,6 +2414,21 @@ export interface VirtualMachineConfiguration {
 export interface VirtualMachineInfo {
     imageReference?: BatchVmImageReference;
     scaleSetVmResourceId?: string;
+}
+
+// @public
+export type VirtualMachineSkuAllocationStrategy = "lowestPrice" | "capacityOptimized" | "prioritized";
+
+// @public
+export interface VirtualMachineSkuProfile {
+    allocationStrategy?: VirtualMachineSkuAllocationStrategy;
+    vmSizes?: VirtualMachineSkuProfileVmSize[];
+}
+
+// @public
+export interface VirtualMachineSkuProfileVmSize {
+    name: string;
+    rank?: number;
 }
 
 // @public
@@ -2437,6 +2452,12 @@ export interface VMExtensionInstanceView {
 }
 
 // @public
+export interface VMSizeProperties {
+    vCPUsAvailable?: number;
+    vCPUsPerCore?: number;
+}
+
+// @public
 export interface WindowsConfiguration {
     enableAutomaticUpdates?: boolean;
 }
@@ -2445,6 +2466,15 @@ export interface WindowsConfiguration {
 export interface WindowsUserConfiguration {
     loginMode?: LoginMode;
 }
+
+// @public
+export interface ZoneAllocationPolicy {
+    maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+    maxZoneCount?: number;
+}
+
+// @public
+export type ZonePlacementPolicyType = "Auto";
 
 // (No @packageDocumentation comment for this package)
 
