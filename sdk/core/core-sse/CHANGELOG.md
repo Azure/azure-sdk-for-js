@@ -13,6 +13,7 @@
 
 ### Bugs Fixed
 
+- Preserve U+FEFF characters in SSE field values and only strip a byte order mark at the start of the stream.
 - Process colonless SSE fields, including empty `id` resets. Preserve committed
   IDs on subsequent `createSseStream` events without an `id` field; those events
   previously reported an empty `id`. [#40011](https://github.com/Azure/azure-sdk-for-js/pull/40011)
