@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
  *
  * @summary get a user's profile. The response is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
- * x-ms-original-file: 2026-02-01-preview/GetUser.json
+ * x-ms-original-file: 2026-11-01/GetUser.json
  */
 async function getUser(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

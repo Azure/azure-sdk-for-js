@@ -146,7 +146,7 @@ describe("operation requests", () => {
     }
     for (const request of requests) {
       const url = new URL(request.url);
-      assert.equal(url.searchParams.get("api-version"), "2026-08-01-preview");
+      assert.equal(url.searchParams.get("api-version"), "2026-11-01");
       assert.equal(url.searchParams.get("earliestMessageId"), "message0");
       assert.equal(url.searchParams.get("maxpagesize"), "1");
       assert.equal(request.headers.get("x-test-header"), "messages");
@@ -411,7 +411,7 @@ describe("operation requests", () => {
       await client.getTopic("room", "topic");
       assert.lengthOf(urls, 2);
       for (const url of urls) {
-        assert.equal(url.searchParams.get("api-version"), apiVersion ?? "2026-08-01-preview");
+        assert.equal(url.searchParams.get("api-version"), apiVersion ?? "2026-11-01");
       }
     }
   });
@@ -507,7 +507,7 @@ describe("operation requests", () => {
     }
     for (const request of requests) {
       const url = new URL(request.url);
-      assert.equal(url.searchParams.get("api-version"), "2026-08-01-preview");
+      assert.equal(url.searchParams.get("api-version"), "2026-11-01");
       assert.equal(url.searchParams.get("maxpagesize"), "1");
     }
   });
@@ -540,7 +540,7 @@ describe("operation requests", () => {
     assert.equal(requestUrl?.pathname, "/api/hubs/hub/chat/users/user%20with%20spaces/rooms");
     assert.equal(requestUrl?.searchParams.get("maxpagesize"), "2");
     assert.isFalse(requestUrl?.searchParams.has("continuationToken"));
-    assert.equal(requestUrl?.searchParams.get("api-version"), "2026-08-01-preview");
+    assert.equal(requestUrl?.searchParams.get("api-version"), "2026-11-01");
   });
 
   it("surfaces service errors for topic and list operations", async () => {
@@ -634,4 +634,98 @@ describe("operation requests", () => {
       await expect(pages.next()).rejects.toMatchObject({ name: "AbortError" });
     }
   });
+
+  it.each([".", "..", "%2e", "%2E", "%2e%2e", ".%2e", "%2e.", "%252e", "%252E%252e"])(
+    "rejects dot path segment %s before sending a request",
+    async (segment) => {
+      let called = false;
+      const httpClient: HttpClient = {
+        async sendRequest() {
+          called = true;
+          throw new Error("Request should not be sent");
+        },
+      };
+      const client = new WebPubSubChatServiceClient(
+        "https://example.webpubsub.azure.com",
+        new AzureKeyCredential("fake-key"),
+        "hub",
+        { httpClient, retryOptions: { maxRetries: 0 } },
+      );
+      const hubClient = new WebPubSubChatServiceClient(
+        "https://example.webpubsub.azure.com",
+        new AzureKeyCredential("fake-key"),
+        segment,
+        { httpClient, retryOptions: { maxRetries: 0 } },
+      );
+
+      for (const operation of [
+        () => client.getUser(segment),
+        () =>
+          client.createOrReplaceUser(segment, {
+            kind: "Human",
+            nickname: "User",
+            roleName: "user.normal",
+          }),
+        () => client.deleteUser(segment),
+        () => client.listRoomsForUser(segment).next(),
+        () => client.getRoom(segment),
+        () => client.createOrReplaceRoom(segment, { title: "Room" }),
+        () => client.deleteRoom(segment),
+        () => client.listRoomMembers(segment).next(),
+        () => client.createOrReplaceRoomMember(segment, "user", { roleName: "room.member" }),
+        () => client.createOrReplaceRoomMember("room", segment, { roleName: "room.member" }),
+        () => client.deleteRoomMember(segment, "user"),
+        () => client.deleteRoomMember("room", segment),
+        () => client.listTopics(segment).next(),
+        () => client.getTopic(segment, "topic"),
+        () => client.getTopic("room", segment),
+        () => client.createOrReplaceTopic(segment, "topic", { title: "Topic" }),
+        () => client.createOrReplaceTopic("room", segment, { title: "Topic" }),
+        () => client.updateTopic(segment, "topic", { title: "Topic" }),
+        () => client.updateTopic("room", segment, { title: "Topic" }),
+        () => client.deleteTopic(segment, "topic"),
+        () => client.deleteTopic("room", segment),
+        () => client.getRole(segment),
+        () => client.createOrReplaceRole(segment, { permissions: [] }),
+        () => client.deleteRole(segment),
+        () => client.getConversation(segment),
+        () => client.listMessages(segment).next(),
+        () => client.updateMessage(segment, "1", { content: { text: "Message" } }),
+        () => client.updateMessage("c.room.default", segment, { content: { text: "Message" } }),
+        () => client.deleteMessage(segment, "1"),
+        () => client.deleteMessage("c.room.default", segment),
+        () => hubClient.getRoom("room"),
+        () => hubClient.listRooms().next(),
+        () => hubClient.listUsers().next(),
+        () => hubClient.listRoles().next(),
+        () => hubClient.getClientAccessToken(),
+      ]) {
+        await expect(operation()).rejects.toThrow("URL path segments must not be '.' or '..'.");
+      }
+      assert.isFalse(called);
+    },
+  );
+
+  it.each(["...", "alice.smith", "c.room.default", "user.normal"])(
+    "allows valid path segment containing dots: %s",
+    async (segment) => {
+      let requestPath: string | undefined;
+      const client = createClient((request) => {
+        requestPath = new URL(request.url).pathname;
+        return {
+          body: {
+            id: segment,
+            kind: "Human",
+            nickname: "User",
+            roleName: "user.normal",
+            etag: '"one"',
+          },
+        };
+      });
+
+      const user = await client.getUser(segment);
+      assert.equal(user.id, segment);
+      assert.equal(requestPath, `/api/hubs/hub/chat/users/${segment}`);
+    },
+  );
 });

@@ -6,7 +6,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-chat)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-chat)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-chat/samples)
 
 ## Getting started
@@ -499,7 +499,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Explore the [JavaScript and TypeScript samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-chat/samples) and the [API reference](https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat?view=azure-node-preview).
+Explore the [JavaScript and TypeScript samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-chat/samples) and the [API reference](https://learn.microsoft.com/javascript/api/@azure/web-pubsub-chat).
 
 ## Contributing
 

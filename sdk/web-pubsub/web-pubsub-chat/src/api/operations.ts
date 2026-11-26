@@ -142,7 +142,7 @@ export function _listRoomsForUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options.maxPageSize,
     },
     {
@@ -180,7 +180,7 @@ export function listRoomsForUser(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -196,7 +196,7 @@ export function _deleteUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,7 +242,7 @@ export function _createOrReplaceUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -293,7 +293,7 @@ export function _getUserSend(
     {
       hub: context.hub,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -332,7 +332,7 @@ export function _listUsersSend(
     "/api/hubs/{hub}/chat/users{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -369,7 +369,7 @@ export function listUsers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -387,7 +387,7 @@ export function _deleteRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,7 +436,7 @@ export function _createOrReplaceRoomMemberSend(
       hub: context.hub,
       roomId: roomId,
       userId: userId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,7 +488,7 @@ export function _listRoomMembersSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -526,7 +526,7 @@ export function listRoomMembers(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   );
 }
@@ -543,7 +543,7 @@ export function _deleteTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -592,7 +592,7 @@ export function _updateTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -644,7 +644,7 @@ export function _getTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -689,7 +689,7 @@ export function _createOrReplaceTopicSend(
       hub: context.hub,
       roomId: roomId,
       topicId: topicId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -741,7 +741,7 @@ export function _listTopicsSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -779,7 +779,7 @@ export function listTopics(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -795,7 +795,7 @@ export function _deleteRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -840,7 +840,7 @@ export function _getRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -882,7 +882,7 @@ export function _createOrReplaceRoomSend(
     {
       hub: context.hub,
       roomId: roomId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -931,7 +931,7 @@ export function _listRoomsSend(
     "/api/hubs/{hub}/chat/rooms{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -968,7 +968,7 @@ export function listRooms(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -984,7 +984,7 @@ export function _deleteRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1030,7 +1030,7 @@ export function _createOrReplaceRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1081,7 +1081,7 @@ export function _getRoleSend(
     {
       hub: context.hub,
       roleName: roleName,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1120,7 +1120,7 @@ export function _listRolesSend(
     "/api/hubs/{hub}/chat/roles{?api%2Dversion,maxpagesize,continuationToken}",
     {
       hub: context.hub,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       maxpagesize: options?.maxPageSize,
     },
     {
@@ -1157,7 +1157,7 @@ export function listRoles(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
     },
   );
 }
@@ -1175,7 +1175,7 @@ export function _updateMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1229,7 +1229,7 @@ export function _deleteMessageSend(
       hub: context.hub,
       conversationId: conversationId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1275,7 +1275,7 @@ export function _listMessagesSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
       latestMessageId: options?.latestMessageId,
       earliestMessageId: options?.earliestMessageId,
       maxpagesize: options?.maxPageSize,
@@ -1318,7 +1318,7 @@ export function listMessages(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+      apiVersion: context.apiVersion ?? "2026-11-01",
       operationOptions: options,
     },
   );
@@ -1334,7 +1334,7 @@ export function _getConversationSend(
     {
       hub: context.hub,
       conversationId: conversationId,
-      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

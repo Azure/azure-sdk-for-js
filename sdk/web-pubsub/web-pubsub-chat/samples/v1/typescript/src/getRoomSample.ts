@@ -1,0 +1,26 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to get room information.
+ *
+ * @summary get room information.
+ * x-ms-original-file: 2026-11-01/GetRoom.json
+ */
+async function getRoom(): Promise<void> {
+  const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = process.env.WPS_CHAT_HUB || "";
+  const client = new WebPubSubChatServiceClient(endpoint, credential, hub);
+  const result = await client.getRoom("room1");
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await getRoom();
+}
+
+main().catch(console.error);

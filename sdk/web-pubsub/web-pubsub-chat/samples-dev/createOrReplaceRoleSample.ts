@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or replace a role.
  *
  * @summary create or replace a role.
- * x-ms-original-file: 2026-02-01-preview/CreateOrReplaceRole.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplaceRole.json
  */
 async function createOrReplaceRole(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

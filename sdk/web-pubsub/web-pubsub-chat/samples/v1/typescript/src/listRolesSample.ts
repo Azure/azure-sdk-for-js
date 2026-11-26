@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to query roles in a hub.
+ *
+ * @summary query roles in a hub.
+ * x-ms-original-file: 2026-11-01/ListRoles.json
+ */
+async function listRoles(): Promise<void> {
+  const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = process.env.WPS_CHAT_HUB || "";
+  const client = new WebPubSubChatServiceClient(endpoint, credential, hub);
+  const resArray = new Array();
+  for await (const item of client.listRoles({ maxPageSize: 10 })) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listRoles();
+}
+
+main().catch(console.error);

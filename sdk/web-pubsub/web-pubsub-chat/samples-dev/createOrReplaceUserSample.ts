@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
  *
  * @summary create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator.
- * x-ms-original-file: 2026-02-01-preview/CreateOrReplaceUser.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplaceUser.json
  */
 async function createOrReplaceUser(): Promise<void> {
   const endpoint = process.env.WPS_CHAT_ENDPOINT || "";

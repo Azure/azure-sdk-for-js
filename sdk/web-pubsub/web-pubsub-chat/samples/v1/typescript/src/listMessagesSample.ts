@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { WebPubSubChatServiceClient } from "@azure/web-pubsub-chat";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to query messages in a conversation from latest to earliest.
+ *
+ * @summary query messages in a conversation from latest to earliest.
+ * x-ms-original-file: 2026-11-01/ListMessages.json
+ */
+async function listMessages(): Promise<void> {
+  const endpoint = process.env.WPS_CHAT_ENDPOINT || "";
+  const credential = new DefaultAzureCredential();
+  const hub = process.env.WPS_CHAT_HUB || "";
+  const client = new WebPubSubChatServiceClient(endpoint, credential, hub);
+  const resArray = new Array();
+  for await (const item of client.listMessages("c.room1.abcd1234", { maxPageSize: 10 })) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await listMessages();
+}
+
+main().catch(console.error);

@@ -1,6 +1,6 @@
 {
   "apiVersions": {
-    "WebPubSubChat": "2026-08-01-preview"
+    "WebPubSubChat": "2026-11-01"
   },
   "emitterVersion": "0.57.1",
   "crossLanguageDefinitions": {

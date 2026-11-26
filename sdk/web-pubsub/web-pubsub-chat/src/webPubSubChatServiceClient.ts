@@ -87,6 +87,7 @@ import { webPubSubChatCredentialPolicy } from "./webPubSubChatCredentialPolicy.j
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 import type { ClientAccessToken, GetClientAccessTokenOptions } from "./models/clientToken.js";
 import { tracingClient } from "./tracing.js";
+import { expandUrlTemplate } from "./static-helpers/urlTemplate.js";
 import jwt from "jsonwebtoken";
 
 export type { WebPubSubChatServiceClientOptionalParams } from "./api/webPubSubChatServiceContext.js";
@@ -598,7 +599,7 @@ export class WebPubSubChatServiceClient {
       async (updatedOptions) => {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-        const clientPath = `client/hubs/${this.hub}`;
+        const clientPath = expandUrlTemplate("/client/hubs/{hub}", { hub: this.hub }).slice(1);
         const baseUrl = clientEndpoint + clientPath;
 
         let token: string;
