@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the tokens for the specified container registry.
  *
  * @summary lists all the tokens for the specified container registry.
- * x-ms-original-file: 2026-09-01-preview/TokenList.json
+ * x-ms-original-file: 2026-11-01/TokenList.json
  */
 async function tokenList(): Promise<void> {
   const credential = new DefaultAzureCredential();

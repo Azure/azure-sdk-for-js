@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates indexer operations, including automatic permission refresh
- * for ADLS Gen2 data sources in the `2026-10-01` GA API.
+ * @summary Demonstrates the Indexer Operations.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,15 +18,12 @@ const TEST_INDEXER_NAME = "example-indexer-sample-1";
 
 async function createIndexer(indexerName: string, client: SearchIndexerClient): Promise<void> {
   console.log(`Creating Indexer Operation`);
-  const dataSource = await client.getDataSourceConnection(dataSourceName);
   const indexer: SearchIndexer = {
     name: indexerName,
     description: "Description for Sample Indexer",
     dataSourceName,
     targetIndexName,
     isDisabled: false,
-    parameters:
-      dataSource.type === "adlsgen2" ? { configuration: { refreshAllAcls: true } } : undefined,
   };
   await client.createIndexer(indexer);
 }
@@ -55,14 +51,6 @@ async function getIndexerStatus(indexerName: string, client: SearchIndexerClient
   );
   console.log(`MaxDocumentExtractionSize: ${indexerStatus.limits.maxDocumentExtractionSize}`);
   console.log(`MaxRunTime: ${indexerStatus.limits.maxRunTime}`);
-  if (indexerStatus.runtime) {
-    console.log(`Indexer runtime used: ${indexerStatus.runtime.usedSeconds} seconds`);
-    console.log(`Indexer runtime remaining: ${indexerStatus.runtime.remainingSeconds} seconds`);
-  }
-  const indexer = await client.getIndexer(indexerName);
-  console.log(
-    `Refresh unchanged ADLS permissions: ${indexer.parameters?.configuration?.refreshAllAcls}`,
-  );
 }
 
 async function listIndexers(client: SearchIndexerClient): Promise<void> {

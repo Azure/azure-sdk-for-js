@@ -2,18 +2,59 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
+import type { ErrorDetail } from "./errorModels.js";
+import type {
+  AgenticSearchOptions,
+  VectorQueryTopicGraphUnion,
+  GraphQueryResult,
+  GraphQueryExecutionMode,
+  GraphQueryExplainStage,
+  GraphQueryProvenanceParameters,
+  DebugInfo,
+} from "./models/azure/search/documents/index.js";
+
+/** Options for executing a graph query over this search index. */
+export interface GraphOptions<TModel extends object = object> extends OperationOptions {
+  /** User assertion used for document-level permission checks. */
+  querySourceAuthorization?: string;
+  /** Whether to use an authorized elevated read. */
+  enableElevatedRead?: boolean;
+  /** Full-text constraints applied during graph execution. */
+  search?: string;
+  /** OData filter applied during graph execution. */
+  filter?: string;
+  /** Vector queries used to constrain graph execution. */
+  vectorQueries?: VectorQuery<TModel>[];
+  /** Whether to execute the graph query or only plan it. */
+  executionMode?: GraphQueryExecutionMode;
+  /** Diagnostic query plan stages to return. */
+  explain?: GraphQueryExplainStage[];
+  /** Whether to return execution statistics. */
+  includeStatistics?: boolean;
+  /** Whether to include informational diagnostics. */
+  includeDiagnostics?: boolean;
+  /** Assertion evidence and document hydration configuration. */
+  provenance?: GraphQueryProvenanceParameters;
+}
+
+/** Graph-specific diagnostics and standard Search error information. */
+export interface GraphQueryError extends Partial<GraphQueryResult> {
+  /** The error returned by the Search service. */
+  error: ErrorDetail;
+}
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
+  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
-  KnownVectorFilterMode,
-  KnownVectorQueryKind,
   QueryDebugMode,
+  QueryResultDocumentRerankerInput,
   QueryType,
   ScoringStatistics,
   SearchMode,
+  SemanticFieldState,
   SemanticSearchResultsType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
@@ -198,6 +239,8 @@ export type VectorQuery<TModel extends object> =
  * The query parameters for vector and hybrid search queries.
  */
 export interface BaseVectorQuery<TModel extends object> {
+  /** Topic graph retrieval strategy for this vector query. */
+  topicGraph?: VectorQueryTopicGraphUnion;
   /**
    * ### Known values supported by the service
    * **vector**: Vector query where a raw vector value is provided.
@@ -266,6 +309,45 @@ export interface VectorizableTextQuery<TModel extends object> extends BaseVector
    * The text to be vectorized to perform a vector search query.
    */
   text: string;
+  /**
+   * Can be configured to let a generative model rewrite the query before sending it to be
+   * vectorized.
+   */
+  queryRewrites?: QueryRewrites;
+}
+
+/**
+ * The query parameters to use for vector search when an url that represents an image value that needs to be vectorized is provided.
+ */
+export interface VectorizableImageUrlQuery<TModel extends object> extends Omit<
+  BaseVectorQuery<TModel>,
+  "kind"
+> {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "imageUrl";
+  /**
+   * The URL of an image to be vectorized to perform a vector search query.
+   */
+  url: string;
+}
+
+/**
+ * The query parameters to use for vector search when a base 64 encoded binary of an image that needs to be vectorized is provided.
+ */
+export interface VectorizableImageBinaryQuery<TModel extends object> extends Omit<
+  BaseVectorQuery<TModel>,
+  "kind"
+> {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "imageBinary";
+  /**
+   * The base64 encoded binary of an image to be vectorized to perform a vector search query.
+   */
+  binaryImage: string;
 }
 
 /**
@@ -275,6 +357,10 @@ export interface BaseSearchRequestOptions<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>,
 > {
+  /** Document key used to find similar documents. */
+  moreLikeThis?: string;
+  /** Agentic search iteration and model configuration. */
+  agenticOptions?: AgenticSearchOptions;
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -311,11 +397,6 @@ export interface BaseSearchRequestOptions<
    * for ensuring search availability even for services with only one replica. The default is 100.
    */
   minimumCoverage?: number;
-  /**
-   * The key of a document to use as the basis for finding similar documents. Do not supply search
-   * text with this option. Use `searchFields` to select top-level searchable text fields.
-   */
-  moreLikeThis?: string;
   /**
    * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
@@ -389,6 +470,10 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
+  /**
+   * The query parameters to configure hybrid search behaviors.
+   */
+  hybridSearch?: HybridSearch;
   /**
    * Enables a debugging tool that can be used to further explore your search results.
    */
@@ -470,6 +555,8 @@ export type SearchResult<
  * Response containing search results from an index.
  */
 export interface SearchDocumentsResultBase {
+  /** Request-wide query rewriting and agentic search diagnostics. */
+  readonly debugInfo?: DebugInfo;
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.
@@ -895,14 +982,62 @@ export type SuggestNarrowedModel<
             never;
 
 /**
+ * Description of fields that were sent to the semantic enrichment process, as well as how they were
+ * used
+ */
+export interface QueryResultDocumentSemanticField {
+  /**
+   * The name of the field that was sent to the semantic enrichment process
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The way the field was used for the semantic enrichment process (fully used, partially used, or unused).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SemanticFieldState;
+}
+
+/**
  * Contains debugging information that can be used to further explore your search results.
  */
 export interface DocumentDebugInfo {
+  /**
+   * Contains debugging information specific to semantic search queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semantic?: SemanticDebugInfo;
   /**
    * Contains debugging information specific to vector and hybrid search.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vectors?: VectorsDebugInfo;
+}
+
+/**
+ * Debug options for semantic search queries.
+ */
+export interface SemanticDebugInfo {
+  /**
+   * The title field that was sent to the semantic enrichment process, as well as how it was used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly titleField?: QueryResultDocumentSemanticField;
+  /**
+   * The content fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The keyword fields that were sent to the semantic enrichment process, as well as how they were used
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keywordFields?: QueryResultDocumentSemanticField[];
+  /**
+   * The raw concatenated strings that were sent to the semantic enrichment process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**
@@ -982,6 +1117,11 @@ export interface SemanticSearchOptions {
    */
   captions?: QueryCaption;
   /**
+   * When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will
+   * produce 10 (default) rewrites to help increase the recall of the request. Defaults to `none`.
+   */
+  queryRewrites?: QueryRewrites;
+  /**
    * Allows setting a separate search query that will be solely used for semantic reranking,
    * semantic captions and semantic answers. Is useful for scenarios where there is a need to use
    * different queries between the base retrieval and ranking phase, and the L2 semantic phase.
@@ -995,6 +1135,25 @@ export interface SemanticSearchOptions {
    * Enables a debugging tool that can be used to further explore your search results.
    */
   debugMode?: QueryDebugMode;
+}
+
+/**
+ * Defines options for query rewrites.
+ */
+export type QueryRewrites = GenerativeQueryRewrites;
+
+/**
+ * Generate alternative query terms to increase the recall of a search request.
+ */
+export interface GenerativeQueryRewrites {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  rewritesType: "generative";
+  /**
+   * The number of query rewrites to generate. Defaults to 10.
+   */
+  count?: number;
 }
 
 /**
@@ -1013,5 +1172,5 @@ export interface VectorSearchOptions<TModel extends object> {
 }
 export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
 export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
-export type VectorFilterMode = `${KnownVectorFilterMode}`;
-export type VectorQueryKind = `${KnownVectorQueryKind}`;
+export type VectorFilterMode = "postFilter" | "preFilter";
+export type VectorQueryKind = "vector" | "text";

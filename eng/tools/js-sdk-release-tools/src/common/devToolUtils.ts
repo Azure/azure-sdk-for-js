@@ -95,7 +95,7 @@ export async function customizeCodes(packageDirectory: string): Promise<void> {
   try {
     // `--if-present` runs the package's `customize` script when it exists and is a
     // no-op otherwise, so packages without customization are silently skipped.
-    await runCommand("npm", ["run", "--if-present", "customize"], options, true, 600);
+    await runCommand("npm", ["run", "--if-present", "customize"], options, true, 600, true);
   } catch (error) {
     logger.warn(`Failed to customize codes due to: ${(error as Error)?.stack ?? error}`);
   }

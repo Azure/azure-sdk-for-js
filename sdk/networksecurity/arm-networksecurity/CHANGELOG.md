@@ -1,4 +1,184 @@
 # Release History
+
+## 1.0.0-beta.2 (2026-11-17)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added operation group AgentFabricsOperations
+  - Added operation group ClusterAssociationsOperations
+  - Added operation group EgressTrustBundlesOperations
+  - Added operation group MembersOperations
+  - Added operation group OperationStatusOperations
+  - Added operation group PolicyGroupsOperations
+  - Added Interface AciWorkload
+  - Added Interface AgentFabric
+  - Added Interface AgentFabricProperties
+  - Added Interface AgentFabricSandboxEndpoint
+  - Added Interface AgentFabricSandboxImage
+  - Added Interface AgentFabricSandboxResources
+  - Added Interface AgentFabricSandboxWorkload
+  - Added Interface AgentFabricsCreateOrUpdateOptionalParams
+  - Added Interface AgentFabricsDeleteOptionalParams
+  - Added Interface AgentFabricsGetOptionalParams
+  - Added Interface AgentFabricsListByResourceGroupOptionalParams
+  - Added Interface AgentFabricsListBySubscriptionOptionalParams
+  - Added Interface AgentFabricsUpdateOptionalParams
+  - Added Interface AgentFabricTagsUpdate
+  - Added Interface AgentIdentity
+  - Added Interface AksWorkload
+  - Added Interface AksWorkloadPortMapping
+  - Added Interface AksWorkloadReference
+  - Added Interface AzureManagedCaCertificate
+  - Added Interface ClusterAssociation
+  - Added Interface ClusterAssociationProperties
+  - Added Interface ClusterAssociationsCreateOrUpdateOptionalParams
+  - Added Interface ClusterAssociationsDeleteOptionalParams
+  - Added Interface ClusterAssociationsGetOptionalParams
+  - Added Interface ClusterAssociationsListByParentOptionalParams
+  - Added Interface ClusterAssociationStatus
+  - Added Interface ClusterAssociationsUpdateOptionalParams
+  - Added Interface ClusterAssociationUpdate
+  - Added Interface ClusterAssociationUpdateProperties
+  - Added Interface ContentInspectionPolicy
+  - Added Interface ContentInspectionPolicyAddressPrefixesSource
+  - Added Interface ContentInspectionPolicySource
+  - Added Interface ContentInspectionPolicyWorkloadIdPatternsSource
+  - Added Interface ContentInspectionProfile
+  - Added Interface EgressTrustBundle
+  - Added Interface EgressTrustBundleCertificate
+  - Added Interface EgressTrustBundleProperties
+  - Added Interface EgressTrustBundlesGetOptionalParams
+  - Added Interface EgressTrustBundlesListByParentOptionalParams
+  - Added Interface FqdnFilteringAddressPrefixesSource
+  - Added Interface FqdnFilteringDestination
+  - Added Interface FqdnFilteringFqdnsDestination
+  - Added Interface FqdnFilteringPolicy
+  - Added Interface FqdnFilteringSource
+  - Added Interface FqdnFilteringWorkloadIdPatternsSource
+  - Added Interface McpArgumentMatching
+  - Added Interface McpPolicy
+  - Added Interface McpPolicyAddressPrefixesDestination
+  - Added Interface McpPolicyAddressPrefixesSource
+  - Added Interface McpPolicyDestination
+  - Added Interface McpPolicyFqdnsDestination
+  - Added Interface McpPolicySource
+  - Added Interface McpPolicyWorkloadIdPatternsDestination
+  - Added Interface McpPolicyWorkloadIdPatternsSource
+  - Added Interface McpPromptMatching
+  - Added Interface McpRule
+  - Added Interface McpRuleDestinationMatching
+  - Added Interface McpRuleMatchingConditions
+  - Added Interface McpStringMatching
+  - Added Interface McpToolMatching
+  - Added Interface Member
+  - Added Interface MemberProperties
+  - Added Interface MembersCreateOrUpdateOptionalParams
+  - Added Interface MembersDeleteOptionalParams
+  - Added Interface MembersGetOptionalParams
+  - Added Interface MembersListByParentOptionalParams
+  - Added Interface MembersUpdateOptionalParams
+  - Added Interface MemberTagsUpdate
+  - Added Interface MemberUpdateProperties
+  - Added Interface NetworkSecurityPolicyBase
+  - Added Interface OperationStatusGetOptionalParams
+  - Added Interface PolicyGroup
+  - Added Interface PolicyGroupProperties
+  - Added Interface PolicyGroupsCreateOrUpdateOptionalParams
+  - Added Interface PolicyGroupsDeleteOptionalParams
+  - Added Interface PolicyGroupsGetOptionalParams
+  - Added Interface PolicyGroupsListByResourceGroupOptionalParams
+  - Added Interface PolicyGroupsListBySubscriptionOptionalParams
+  - Added Interface PolicyGroupsUpdateOptionalParams
+  - Added Interface PolicyGroupTagsUpdate
+  - Added Interface PromptInjectionProtection
+  - Added Interface SystemAssignedServiceIdentity
+  - Added Interface TlsInspectionCertificateBase
+  - Added Interface TlsInspectionPolicy
+  - Added Interface TlsInspectionPolicySource
+  - Added Interface TlsInspectionPolicyWorkloadIdPatternsSource
+  - Added Interface TlsInspectionRule
+  - Added Interface TlsInspectionRuleDestination
+  - Added Interface TlsInspectionRuleFqdnsDestination
+  - Added Interface UrlFilteringAddressPrefixesDestination
+  - Added Interface UrlFilteringAddressPrefixesSource
+  - Added Interface UrlFilteringDestination
+  - Added Interface UrlFilteringFqdnsDestination
+  - Added Interface UrlFilteringPolicy
+  - Added Interface UrlFilteringRule
+  - Added Interface UrlFilteringSource
+  - Added Interface UrlFilteringWorkloadIdPatternsDestination
+  - Added Interface UrlFilteringWorkloadIdPatternsSource
+  - Added Interface WorkloadBase
+  - Added Type Alias ClusterAssociationIfNoneMatch
+  - Added Type Alias ClusterAssociationSkuName
+  - Added Type Alias ContentInspectionPolicySourceType
+  - Added Type Alias ContentInspectionPolicySourceUnion
+  - Added Type Alias ContentInspectionSensitivity
+  - Added Type Alias FqdnFilteringDestinationType
+  - Added Type Alias FqdnFilteringDestinationUnion
+  - Added Type Alias FqdnFilteringSourceType
+  - Added Type Alias FqdnFilteringSourceUnion
+  - Added Type Alias HttpMethod
+  - Added Type Alias ImagePullPolicy
+  - Added Type Alias McpMatchCase
+  - Added Type Alias McpMatchType
+  - Added Type Alias McpPolicyDestinationType
+  - Added Type Alias McpPolicyDestinationUnion
+  - Added Type Alias McpPolicySourceType
+  - Added Type Alias McpPolicySourceUnion
+  - Added Type Alias McpPromptMethod
+  - Added Type Alias McpToolMethod
+  - Added Type Alias NetworkSecurityPolicyBaseUnion
+  - Added Type Alias NetworkSecurityPolicyType
+  - Added Type Alias PolicyAction
+  - Added Type Alias PolicyDirection
+  - Added Type Alias PromptInjectionOnDetection
+  - Added Type Alias ProvisioningState
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Type Alias TlsInspectionAction
+  - Added Type Alias TlsInspectionCertificateBaseUnion
+  - Added Type Alias TlsInspectionCertificateMode
+  - Added Type Alias TlsInspectionPolicySourceType
+  - Added Type Alias TlsInspectionPolicySourceUnion
+  - Added Type Alias TlsInspectionRuleDestinationType
+  - Added Type Alias TlsInspectionRuleDestinationUnion
+  - Added Type Alias UrlFilteringDestinationType
+  - Added Type Alias UrlFilteringDestinationUnion
+  - Added Type Alias UrlFilteringSourceType
+  - Added Type Alias UrlFilteringSourceUnion
+  - Added Type Alias WorkloadBaseUnion
+  - Added Type Alias WorkloadType
+  - Added Enum KnownClusterAssociationIfNoneMatch
+  - Added Enum KnownClusterAssociationSkuName
+  - Added Enum KnownContentInspectionPolicySourceType
+  - Added Enum KnownContentInspectionSensitivity
+  - Added Enum KnownFqdnFilteringDestinationType
+  - Added Enum KnownFqdnFilteringSourceType
+  - Added Enum KnownHttpMethod
+  - Added Enum KnownImagePullPolicy
+  - Added Enum KnownMcpMatchCase
+  - Added Enum KnownMcpMatchType
+  - Added Enum KnownMcpPolicyDestinationType
+  - Added Enum KnownMcpPolicySourceType
+  - Added Enum KnownMcpPromptMethod
+  - Added Enum KnownMcpToolMethod
+  - Added Enum KnownNetworkSecurityPolicyType
+  - Added Enum KnownPolicyAction
+  - Added Enum KnownPolicyDirection
+  - Added Enum KnownPromptInjectionOnDetection
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Added Enum KnownTlsInspectionAction
+  - Added Enum KnownTlsInspectionCertificateMode
+  - Added Enum KnownTlsInspectionPolicySourceType
+  - Added Enum KnownTlsInspectionRuleDestinationType
+  - Added Enum KnownUrlFilteringDestinationType
+  - Added Enum KnownUrlFilteringSourceType
+  - Added Enum KnownWorkloadType
+
+### Breaking Changes
+  - Removed Enum KnownVersions
+
     
 ## 1.0.0-beta.1 (2026-11-04)
 

@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1574,9 +1574,9 @@
+@@ -1057,9 +1057,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -17,8 +17,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -1619,9 +1619,9 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1098,9 +1098,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -28,8 +28,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -1669,22 +1669,22 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1143,20 +1143,20 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -39,15 +39,13 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
+     perPartitionAutomaticFailoverEnabled?: boolean;
      readonly privateEndpointConnections?: PrivateEndpointConnection[];
      readonly provisioningState?: string;
      publicNetworkAccess?: PublicNetworkAccess;
 -    readonly readLocations?: Location[];
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
-     softDeleteConfiguration?: SoftDeleteConfiguration;
-     throughputPoolDedicatedRUs?: number;
-     throughputPoolMaxConsumableRUs?: number;
      virtualNetworkRules?: VirtualNetworkRule[];
 -    readonly writeLocations?: Location[];
 +    readonly writeLocations?: Location_2[];
@@ -55,7 +53,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountGetResults extends ProxyResource {
-@@ -1728,23 +1728,23 @@
+@@ -1195,21 +1195,21 @@
      keyVaultKeyUri?: string;
      readonly keyVaultKeyUriVersion?: string;
      kind?: DatabaseAccountKind;
@@ -65,16 +63,14 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
+     perPartitionAutomaticFailoverEnabled?: boolean;
      readonly privateEndpointConnections?: PrivateEndpointConnection[];
      readonly provisioningState?: string;
      publicNetworkAccess?: PublicNetworkAccess;
 -    readonly readLocations?: Location[];
 +    readonly readLocations?: Location_2[];
      restoreParameters?: RestoreParameters;
-     softDeleteConfiguration?: SoftDeleteConfiguration;
      tags?: Record<string, string>;
-     throughputPoolDedicatedRUs?: number;
-     throughputPoolMaxConsumableRUs?: number;
      virtualNetworkRules?: VirtualNetworkRule[];
 -    readonly writeLocations?: Location[];
 +    readonly writeLocations?: Location_2[];
@@ -82,7 +78,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface DatabaseAccountKeysMetadata {
-@@ -1958,9 +1958,9 @@
+@@ -1418,9 +1418,9 @@
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
      keyVaultKeyUri?: string;
@@ -92,8 +88,8 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -2001,9 +2001,9 @@
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -1457,9 +1457,9 @@
      ipRules?: IpAddressOrRange[];
      isVirtualNetworkFilterEnabled?: boolean;
      readonly keysMetadata?: DatabaseAccountKeysMetadata;
@@ -103,9 +99,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      minimalTlsVersion?: MinimalTlsVersion;
      networkAclBypass?: NetworkAclBypass;
      networkAclBypassResourceIds?: string[];
-     publicNetworkAccess?: PublicNetworkAccess;
-@@ -3635,16 +3635,17 @@
-     V20260401Preview = "2026-04-01-preview"
+     perPartitionAutomaticFailoverEnabled?: boolean;
+@@ -2593,16 +2593,17 @@
+     V20260715 = "2026-07-15"
  }
  
  // @public
@@ -123,20 +119,5 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface LocationGetResult extends ProxyResource {
      properties?: LocationProperties;
-@@ -5470,11 +5471,11 @@
- }
- 
- // @public
- export interface SoftDeletedDatabaseAccountResource {
--    locations?: Location[];
--    readLocations?: Location[];
--    writeLocations?: Location[];
-+    locations?: Location_2[];
-+    readLocations?: Location_2[];
-+    writeLocations?: Location_2[];
- }
- 
- // @public
- export interface SoftDeletedDatabaseAccountsGetOptionalParams extends OperationOptions {
 
 ```

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the give Namespace name availability.
  *
  * @summary check the give Namespace name availability.
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasCheckNameAvailability.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasCheckNameAvailability.json
  */
 async function namespacesCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();

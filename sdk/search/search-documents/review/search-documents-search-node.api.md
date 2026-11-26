@@ -55,6 +55,22 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GraphOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
+    clientRequestId?: string;
+    enableElevatedRead?: boolean;
+    executionMode?: GraphQueryExecutionMode;
+    explain?: GraphQueryExplainStage[];
+    filter?: string;
+    includeDiagnostics?: boolean;
+    includeStatistics?: boolean;
+    provenance?: GraphQueryProvenanceParameters;
+    querySourceAuthorization?: string;
+    search?: string;
+    vectorQueries?: VectorQueryUnion[];
+}
+
+// @public
 export interface IndexOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
@@ -66,7 +82,8 @@ export class SearchClient {
     autocompleteGet(searchText: string, suggesterName: string, options?: AutocompleteGetOptionalParams): Promise<AutocompleteResult>;
     autocompletePost(searchText: string, suggesterName: string, options?: AutocompletePostOptionalParams): Promise<AutocompleteResult>;
     getDocument(key: string, options?: GetDocumentOptionalParams): Promise<LookupDocument>;
-    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<number>;
+    getDocumentCount(options?: GetDocumentCountOptionalParams): Promise<GetDocumentCountResponse>;
+    graph(gql: string, options?: GraphOptionalParams): Promise<GraphQueryResult>;
     index(batch: IndexDocumentsBatch, options?: IndexOptionalParams): Promise<IndexDocumentsResult>;
     readonly pipeline: Pipeline;
     searchGet(options?: SearchGetOptionalParams): Promise<SearchDocumentsResult>;
@@ -89,6 +106,7 @@ export interface SearchContext extends Client {
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticMaxRuntimeInSeconds?: number;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -103,6 +121,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
     minimumCoverage?: number;
     moreLikeThis?: string;
     orderBy?: string;
+    queryLanguage?: QueryLanguage;
+    queryRewrites?: QueryRewritesType;
     querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
@@ -114,16 +134,19 @@ export interface SearchGetOptionalParams extends OperationOptions {
     select?: string;
     semanticConfiguration?: string;
     semanticErrorHandling?: SemanticErrorMode;
+    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
     skip?: number;
+    speller?: QuerySpellerType;
     top?: number;
 }
 
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
     accept?: "application/json;odata.metadata=none";
+    agenticOptions?: AgenticSearchOptions;
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -134,11 +157,15 @@ export interface SearchPostOptionalParams extends OperationOptions {
     highlightFields?: string[];
     highlightPostTag?: string;
     highlightPreTag?: string;
+    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     moreLikeThis?: string;
     orderBy?: string;
+    queryLanguage?: QueryLanguage;
+    queryRewrites?: QueryRewritesType;
     querySourceAuthorization?: string;
+    querySpeller?: QuerySpellerType;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -149,6 +176,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
     select?: string;
     semanticConfigurationName?: string;
     semanticErrorHandling?: SemanticErrorMode;
+    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;

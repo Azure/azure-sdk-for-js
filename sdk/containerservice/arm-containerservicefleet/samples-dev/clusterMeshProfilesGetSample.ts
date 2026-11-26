@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ClusterMeshProfile
  *
  * @summary get a ClusterMeshProfile
- * x-ms-original-file: 2026-11-01/ClusterMeshProfiles_Get.json
+ * x-ms-original-file: 2026-11-02-preview/ClusterMeshProfiles_Get.json
  */
 async function getAClusterMeshProfileResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

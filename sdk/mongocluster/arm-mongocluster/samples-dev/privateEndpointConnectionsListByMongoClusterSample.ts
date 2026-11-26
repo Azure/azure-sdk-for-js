@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list existing private connections
  *
  * @summary list existing private connections
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateEndpointConnectionList.json
+ * x-ms-original-file: 2026-09-01/MongoClusters_PrivateEndpointConnectionList.json
  */
-async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource(): Promise<void> {
+async function listsThePrivateEndpointConnectionResourcesOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource
 }
 
 async function main(): Promise<void> {
-  await listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource();
+  await listsThePrivateEndpointConnectionResourcesOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

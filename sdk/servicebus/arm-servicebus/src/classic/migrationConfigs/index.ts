@@ -87,7 +87,6 @@ export interface MigrationConfigsOperations {
     options?: MigrationConfigsGetOptionalParams,
   ) => Promise<MigrationConfigProperties>;
 }
-
 function _getMigrationConfigs(context: ServiceBusManagementContext) {
   return {
     revert: (
@@ -170,7 +169,6 @@ function _getMigrationConfigs(context: ServiceBusManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, configName, options),
   };
 }
-
 export function _getMigrationConfigsOperations(
   context: ServiceBusManagementContext,
 ): MigrationConfigsOperations {

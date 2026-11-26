@@ -369,6 +369,66 @@ describe("Main functions", () => {
     assert.strictEqual(instrumentations, 31);
   });
 
+  it("should reserve bits after native metrics for experimental Statsbeat features", () => {
+    assert.strictEqual(StatsbeatFeature.GEN_AI_INPUT_OUTPUT_LIMIT_INCREASE, 16384);
+    assert.strictEqual(StatsbeatFeature.MULTI_ENDPOINT_ROUTING, 32768);
+  });
+
+  it.each([
+    [undefined, 0],
+    ["", 0],
+    [" , , ", 0],
+    ["unknown_feature", 0],
+    ["*", 0],
+    ["gen_ai_input_output_limit_increase_suffix", 0],
+    ["gen_ai_input_output_limit_increase", 16384],
+    [" GEN_AI_INPUT_OUTPUT_LIMIT_INCREASE , gen_ai_input_output_limit_increase ", 16384],
+    ["multi_endpoint_routing", 32768],
+    [" MULTI_ENDPOINT_ROUTING , multi_endpoint_routing ", 32768],
+    ["gen_ai_input_output_limit_increase,multi_endpoint_routing,unknown_feature", 49152],
+    ["true", 0],
+  ])(
+    "should report experimental feature opt-ins from %s through the existing Statsbeat bitmap",
+    async (experimentalFeatures, expectedBits) => {
+      const reservedBits = 8192 | StatsbeatFeature.MULTI_IKEY;
+      process.env = {
+        ...originalEnv,
+        APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES: experimentalFeatures,
+        [AZURE_MONITOR_STATSBEAT_FEATURES]: String(reservedBits),
+      };
+      const config: AzureMonitorOpenTelemetryOptions = {
+        azureMonitorExporterOptions: {
+          connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        },
+        enableLiveMetrics: false,
+        enableStandardMetrics: false,
+        enablePerformanceCounters: false,
+      };
+
+      try {
+        useAzureMonitor(config);
+        const output: StatsbeatEnvironmentConfig = JSON.parse(
+          String(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]),
+        );
+
+        assert.strictEqual(output.feature & 49152, expectedBits);
+        assert.strictEqual(output.feature & reservedBits, reservedBits);
+        assert.ok(output.feature & StatsbeatFeature.DISTRO);
+        assert.ok(output.feature & StatsbeatFeature.DISK_RETRY);
+        assert.strictEqual(output.instrumentation, 31);
+
+        process.env.APPLICATIONINSIGHTS_EXPERIMENTAL_FEATURES = "unknown_feature";
+        getInstance().setStatsbeatFeatures({}, {});
+        const updated: StatsbeatEnvironmentConfig = JSON.parse(
+          String(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]),
+        );
+        assert.strictEqual(updated.feature & 49152, expectedBits);
+      } finally {
+        await shutdownAzureMonitor();
+      }
+    },
+  );
+
   it("should record the Console instrumentation Statsbeat bit when console collection is enabled", async () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {

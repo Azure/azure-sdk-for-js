@@ -2,17 +2,19 @@
 // Licensed under the MIT License.
 
 import type { NetworkSecurityManagementContext as Client } from "../index.js";
-import type {
-  NeuroShieldFinding,
-  _NeuroShieldFindingListResult,
-  NeuroShieldMitigationActionResult,
-} from "../../models/models.js";
+import type { _NeuroShieldFindingListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  neuroShieldFindingDeserializer,
   _neuroShieldFindingListResultDeserializer,
-  neuroShieldMitigationActionResultDeserializer,
 } from "../../models/models.js";
+import type {
+  NeuroShieldFinding,
+  NeuroShieldMitigationActionResult,
+} from "../../models/neuroShield/management/models.js";
+import {
+  neuroShieldFindingDeserializer,
+  neuroShieldMitigationActionResultDeserializer,
+} from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -42,7 +44,7 @@ export function _rollbackSend(
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
       findingId: findingId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +108,7 @@ export function _mitigateSend(
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
       findingId: findingId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -166,7 +168,7 @@ export function _listByNeuroShieldSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -208,11 +210,7 @@ export function listByNeuroShield(
     () => _listByNeuroShieldSend(context, resourceGroupName, neuroShieldName, options),
     _listByNeuroShieldDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }
 
@@ -230,7 +228,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -273,11 +271,7 @@ export function list(
     () => _listSend(context, resourceGroupName, neuroShieldName, protectedResourceName, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-10-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-10-01-preview" },
   );
 }
 
@@ -297,7 +291,7 @@ export function _getSend(
       neuroShieldName: neuroShieldName,
       protectedResourceName: protectedResourceName,
       findingId: findingId,
-      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+      "api%2Dversion": "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

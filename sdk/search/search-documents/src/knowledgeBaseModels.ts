@@ -5,6 +5,10 @@ import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   CorsOptions,
   KnowledgeSourceReference,
+  KnowledgeBaseRetrieveDefaults,
+  KnowledgeBaseTool,
+  KnowledgeBaseMicrosoftRetriever1Model,
+  KnowledgeBaseOpenAICompatibleModel,
 } from "./models/azure/search/documents/indexes/index.js";
 import type {
   KnowledgeBaseActivityRecordUnion,
@@ -36,6 +40,11 @@ export interface RetrieveOptions extends OperationOptions {
    * enforce security restrictions on documents.
    */
   querySourceAuthorization?: string;
+  /**
+   * User assertion for a customer-owned Microsoft Entra application configured on a Work IQ
+   * knowledge source. The service uses this assertion for on-behalf-of authentication to Work IQ.
+   */
+  queryWorkIQSourceAuthorization?: string;
 }
 
 /**
@@ -47,6 +56,11 @@ export interface RetrieveStreamOptions extends OperationOptions {
    * enforce security restrictions on documents.
    */
   querySourceAuthorization?: string;
+  /**
+   * User assertion for a customer-owned Microsoft Entra application configured on a Work IQ
+   * knowledge source. The service uses this assertion for on-behalf-of authentication to Work IQ.
+   */
+  queryWorkIQSourceAuthorization?: string;
 }
 
 /**
@@ -94,6 +108,8 @@ export type KnowledgeBaseRetrievalStreamEvent =
 
 /** Defines a knowledge base and its stored retrieval configuration. */
 export interface KnowledgeBase {
+  /** Tools exposed by this knowledge base for scoped retrieval. */
+  tools?: KnowledgeBaseTool[];
   /**
    * The name of the knowledge base.
    */
@@ -119,6 +135,11 @@ export interface KnowledgeBase {
    */
   etag?: string;
   /**
+   * User-defined metadata for organizing the knowledge base. Tags do not control billing
+   * attribution or retrieval behavior.
+   */
+  tags?: Record<string, string>;
+  /**
    * A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your knowledge base definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your knowledge base definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your knowledge base definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
@@ -138,4 +159,23 @@ export interface KnowledgeBase {
    * Options to control Cross-Origin Resource Sharing (CORS) for the knowledge base.
    */
   corsOptions?: CorsOptions;
+  /**
+   * Persisted request-wide retrieve defaults for this knowledge base. These values apply to
+   * retrieve requests that omit the corresponding fields; request-time values take precedence
+   * when present.
+   */
+  retrieveDefaults?: KnowledgeBaseRetrieveDefaults;
+}
+
+/** AI model configurations accepted when creating or updating a knowledge base. */
+export type KnowledgeBaseModelInput =
+  KnowledgeBaseModel | KnowledgeBaseMicrosoftRetriever1Model | KnowledgeBaseOpenAICompatibleModel;
+
+/**
+ * Input for creating or updating a knowledge base with any of the supported AI model kinds.
+ * The legacy {@link KnowledgeBase} response type remains unchanged.
+ */
+export interface KnowledgeBaseInput extends Omit<KnowledgeBase, "models"> {
+  /** Model configurations for Azure OpenAI, Microsoft Retriever 1, or an OpenAI-compatible endpoint. */
+  models?: KnowledgeBaseModelInput[];
 }

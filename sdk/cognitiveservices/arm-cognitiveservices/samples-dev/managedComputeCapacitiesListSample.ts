@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary gets the managed compute capacities for a subscription. Returns available capacity
  * per accelerator type, including deployment size information.
- * x-ms-original-file: 2026-11-01/ListManagedComputeCapacities.json
+ * x-ms-original-file: 2026-11-15-preview/ListManagedComputeCapacities.json
  */
 async function listManagedComputeCapacities(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function listManagedComputeCapacities(): Promise<void> {
  *
  * @summary gets the managed compute capacities for a subscription. Returns available capacity
  * per accelerator type, including deployment size information.
- * x-ms-original-file: 2026-11-01/ListManagedComputeCapacitiesWithDeployment.json
+ * x-ms-original-file: 2026-11-15-preview/ListManagedComputeCapacitiesWithDeployment.json
  */
 async function listManagedComputeCapacitiesForDeploymentWithMatchingAccountLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function listManagedComputeCapacitiesForDeploymentWithMatchingAccountLocat
  *
  * @summary gets the managed compute capacities for a subscription. Returns available capacity
  * per accelerator type, including deployment size information.
- * x-ms-original-file: 2026-11-01/ListManagedComputeCapacitiesWithLocation.json
+ * x-ms-original-file: 2026-11-15-preview/ListManagedComputeCapacitiesWithLocation.json
  */
 async function listManagedComputeCapacitiesWithLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -80,7 +80,7 @@ async function listManagedComputeCapacitiesWithLocation(): Promise<void> {
  *
  * @summary gets the managed compute capacities for a subscription. Returns available capacity
  * per accelerator type, including deployment size information.
- * x-ms-original-file: 2026-11-01/ListManagedComputeCapacitiesWithUnsupportedLocation.json
+ * x-ms-original-file: 2026-11-15-preview/ListManagedComputeCapacitiesWithUnsupportedLocation.json
  */
 async function listManagedComputeCapacitiesWithUnsupportedDataZoneLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();

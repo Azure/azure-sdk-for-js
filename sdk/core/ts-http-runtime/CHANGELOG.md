@@ -1,5 +1,11 @@
 # Release History
 
+## 0.3.11 (2026-11-17)
+
+### Bugs Fixed
+
+- Downgrade `http-proxy-agent` and `https-proxy-agent` dependencies to v7. Fix issue [#40759](https://github.com/Azure/azure-sdk-for-js/issues/40759).
+
 ## 0.3.10 (2026-11-06)
 
 ### Features Added
