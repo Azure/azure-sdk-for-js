@@ -15,8 +15,8 @@ import {
   DetectTextProtectedMaterialResult,
   ShieldPromptOptions,
   ShieldPromptResult,
-  UnifiedModerateOptions,
-  UnifiedModerateResult,
+  AgentContextUnion,
+  AgentEvaluationResult,
 } from "../models/models.js";
 import {
   unifiedModerate,
@@ -51,11 +51,11 @@ export class ContentSafetyClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /** A synchronous API that evaluates input, output, a proposed tool call, or a completed tool result against an applicable Agent Control Specification policy and returns the enforced content and policy verdict. */
+  /** Synchronously evaluate a canonical Agent Hooks 0.1 context and return a closed canonical Verdict plus a separate evaluation receipt. The hosted API supports two selector profiles. The Foundry-project profile requires targetResourceId plus one exact selected Guardrail through the all-or-none selectedPolicyId/revision/digest tuple. AACS may additionally resolve zero or more explicit administrator policies bound to the target or its ancestors; no binding is required for the selected-Guardrail-only case. The named-policy profile uses policyId without requiring a Foundry project. Exactly one profile is selected; targetResourceId and policyId cannot be combined. Local Copilot and WorkIQ integrations use in-process Agent Hooks/ACS rather than this hosted protocol. The receipt binds its policy metadata to the exact API version, AgentContext and admitted selectors through an RFC 8785 SHA-256 request digest. The calling host recomputes that binding and owns transform application, final enforcement, approvals, timeouts, audit and any separate host-action attestation. The receipt proves evaluation evidence, not host enforcement or feature activation. Body identity metadata and customer-settable headers are not authorization. Request and response limits are 1,048,576 decoded UTF-8 JSON bytes and container depth 64 including the root. Duplicate members, ambiguous selectors and over-limit requests are errors, not truncated successful responses. */
   unifiedModerate(
-    body: UnifiedModerateOptions,
+    body: AgentContextUnion,
     options: UnifiedModerateOptionalParams = { requestOptions: {} },
-  ): Promise<UnifiedModerateResult> {
+  ): Promise<AgentEvaluationResult> {
     return unifiedModerate(this._client, body, options);
   }
 
