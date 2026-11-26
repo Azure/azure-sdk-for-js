@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.12 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Preserve leading U+FEFF characters when decoding UTF-8 bytes in browser and React Native environments, matching Node.js behavior. [#40915](https://github.com/Azure/azure-sdk-for-js/issues/40915)
+
+### Other Changes
+
 ## 0.3.11 (2026-11-17)
 
 ### Bugs Fixed
