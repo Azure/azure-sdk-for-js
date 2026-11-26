@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `ignoredQueryParameters` to `CustomMatcherOptions` to opt in to ignoring specified query parameters during playback matching. [#40801](https://github.com/Azure/azure-sdk-for-js/issues/40801)
+
 ### Breaking Changes
 
 ### Bugs Fixed
