@@ -27,7 +27,7 @@ export function _migrateBackupsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,6 @@ export function migrateBackups(
     getInitialResponse: () =>
       _migrateBackupsSend(context, resourceGroupName, accountName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-09-01",
+    apiVersion: context.apiVersion ?? "2026-09-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
