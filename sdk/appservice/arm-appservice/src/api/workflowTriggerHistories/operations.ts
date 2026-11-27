@@ -42,7 +42,7 @@ export function _resubmitSend(
       workflowName: workflowName,
       triggerName: triggerName,
       historyName: historyName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -55,7 +55,9 @@ export async function _resubmitDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -87,7 +89,7 @@ export function resubmit(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -107,7 +109,7 @@ export function _listSend(
       name: name,
       workflowName: workflowName,
       triggerName: triggerName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
       "%24top": options?.top,
       "%24filter": options?.filter,
     },
@@ -127,7 +129,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -149,7 +153,7 @@ export function list(
     () => _listSend(context, resourceGroupName, name, workflowName, triggerName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -171,7 +175,7 @@ export function _getSend(
       workflowName: workflowName,
       triggerName: triggerName,
       historyName: historyName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +193,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

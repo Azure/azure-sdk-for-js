@@ -38,7 +38,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +56,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -74,7 +76,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -88,7 +90,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +108,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -125,7 +129,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-08-01" },
   );
 }
 
@@ -141,7 +145,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,7 +158,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -174,7 +180,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, name, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -191,7 +197,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +215,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -248,7 +256,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -268,7 +276,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -290,7 +300,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, name, kubeEnvironmentEnvelope, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-05-01",
+    apiVersion: context.apiVersion ?? "2026-08-01",
   }) as PollerLike<OperationState<KubeEnvironment>, KubeEnvironment>;
 }
 
@@ -306,7 +316,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2025-05-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,7 +332,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ku
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

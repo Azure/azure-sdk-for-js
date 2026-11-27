@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-appservice",
-  "version": "19.0.1",
+  "version": "19.1.0",
   "description": "A generated SDK for WebSiteManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -141,6 +141,76 @@
         "default": "./dist/commonjs/api/provider/index.js"
       }
     },
+    "./api/lastKnownGoodResources": {
+      "browser": {
+        "types": "./dist/browser/api/lastKnownGoodResources/index.d.ts",
+        "default": "./dist/browser/api/lastKnownGoodResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/lastKnownGoodResources/index.d.ts",
+        "default": "./dist/esm/api/lastKnownGoodResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/lastKnownGoodResources/index.d.ts",
+        "default": "./dist/commonjs/api/lastKnownGoodResources/index.js"
+      }
+    },
+    "./api/managedTrafficConfigResources": {
+      "browser": {
+        "types": "./dist/browser/api/managedTrafficConfigResources/index.d.ts",
+        "default": "./dist/browser/api/managedTrafficConfigResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedTrafficConfigResources/index.d.ts",
+        "default": "./dist/esm/api/managedTrafficConfigResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedTrafficConfigResources/index.d.ts",
+        "default": "./dist/commonjs/api/managedTrafficConfigResources/index.js"
+      }
+    },
+    "./api/serverFarmSiloResources": {
+      "browser": {
+        "types": "./dist/browser/api/serverFarmSiloResources/index.d.ts",
+        "default": "./dist/browser/api/serverFarmSiloResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverFarmSiloResources/index.d.ts",
+        "default": "./dist/esm/api/serverFarmSiloResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverFarmSiloResources/index.d.ts",
+        "default": "./dist/commonjs/api/serverFarmSiloResources/index.js"
+      }
+    },
+    "./api/siteSiloVirtualNetworkConnections": {
+      "browser": {
+        "types": "./dist/browser/api/siteSiloVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/browser/api/siteSiloVirtualNetworkConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/siteSiloVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/esm/api/siteSiloVirtualNetworkConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/siteSiloVirtualNetworkConnections/index.d.ts",
+        "default": "./dist/commonjs/api/siteSiloVirtualNetworkConnections/index.js"
+      }
+    },
+    "./api/siteSiloResources": {
+      "browser": {
+        "types": "./dist/browser/api/siteSiloResources/index.d.ts",
+        "default": "./dist/browser/api/siteSiloResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/siteSiloResources/index.d.ts",
+        "default": "./dist/esm/api/siteSiloResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/siteSiloResources/index.d.ts",
+        "default": "./dist/commonjs/api/siteSiloResources/index.js"
+      }
+    },
     "./api/workflowVersions": {
       "browser": {
         "types": "./dist/browser/api/workflowVersions/index.d.ts",
@@ -223,6 +293,48 @@
       "require": {
         "types": "./dist/commonjs/api/workflowRuns/index.d.ts",
         "default": "./dist/commonjs/api/workflowRuns/index.js"
+      }
+    },
+    "./api/aiGateways": {
+      "browser": {
+        "types": "./dist/browser/api/aiGateways/index.d.ts",
+        "default": "./dist/browser/api/aiGateways/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/aiGateways/index.d.ts",
+        "default": "./dist/esm/api/aiGateways/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/aiGateways/index.d.ts",
+        "default": "./dist/commonjs/api/aiGateways/index.js"
+      }
+    },
+    "./api/staticSitesAsyncOperations": {
+      "browser": {
+        "types": "./dist/browser/api/staticSitesAsyncOperations/index.d.ts",
+        "default": "./dist/browser/api/staticSitesAsyncOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/staticSitesAsyncOperations/index.d.ts",
+        "default": "./dist/esm/api/staticSitesAsyncOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/staticSitesAsyncOperations/index.d.ts",
+        "default": "./dist/commonjs/api/staticSitesAsyncOperations/index.js"
+      }
+    },
+    "./api/sites": {
+      "browser": {
+        "types": "./dist/browser/api/sites/index.d.ts",
+        "default": "./dist/browser/api/sites/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sites/index.d.ts",
+        "default": "./dist/esm/api/sites/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sites/index.d.ts",
+        "default": "./dist/commonjs/api/sites/index.js"
       }
     },
     "./api/kubeEnvironments": {
@@ -421,7 +533,7 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -460,7 +572,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-appservice",

@@ -1,14 +1,115 @@
 # Release History
 
-## 19.0.1 (Unreleased)
+## 19.1.0 (2026-11-09)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation group AiGatewaysOperations
+  - Added operation group LastKnownGoodResourcesOperations
+  - Added operation group ManagedTrafficConfigResourcesOperations
+  - Added operation group ServerFarmSiloResourcesOperations
+  - Added operation group SiteSiloResourcesOperations
+  - Added operation group SiteSiloVirtualNetworkConnectionsOperations
+  - Added operation group SitesOperations
+  - Added operation group StaticSitesAsyncOperationsOperations
+  - Added operation AppServicePlansOperations.startWebApps
+  - Added operation AppServicePlansOperations.stopWebApps
+  - Added Interface AiGateway
+  - Added Interface AiGatewayProperties
+  - Added Interface AiGatewaysCreateOrUpdateOptionalParams
+  - Added Interface AiGatewaysDeleteOptionalParams
+  - Added Interface AiGatewaysGetOptionalParams
+  - Added Interface AiGatewaysListByResourceGroupOptionalParams
+  - Added Interface AiGatewaysListBySubscriptionOptionalParams
+  - Added Interface AiGatewaysPatchOptionalParams
+  - Added Interface AiGatewayTagsUpdate
+  - Added Interface AiIntegration
+  - Added Interface AppServicePlansStartWebAppsOptionalParams
+  - Added Interface AppServicePlansStopWebAppsOptionalParams
+  - Added Interface ArmErrorResponse
+  - Added Interface EndpointTrafficConfig
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface LastKnownGoodProperties
+  - Added Interface LastKnownGoodResource
+  - Added Interface LastKnownGoodResourcesGetLastKnownGoodOptionalParams
+  - Added Interface LastKnownGoodResourcesListLastKnownGoodsOptionalParams
+  - Added Interface LastKnownGoodResourcesMarkLastKnownGoodOptionalParams
+  - Added Interface ManagedTrafficConfigProperties
+  - Added Interface ManagedTrafficConfigResource
+  - Added Interface ManagedTrafficConfigResourcesGetManagedTrafficConfigOptionalParams
+  - Added Interface ManagedTrafficConfigResourcesListManagedTrafficConfigsOptionalParams
+  - Added Interface ManagedTrafficConfigResourcesUpdateManagedTrafficConfigOptionalParams
+  - Added Interface McpServerConfig
+  - Added Interface McpSettings
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NspProfile
+  - Added Interface NspProfileAccessRule
+  - Added Interface NspProfileAccessRuleGranularFeature
+  - Added Interface NspProfileAccessRuleProperties
+  - Added Interface NspProvisioningIssue
+  - Added Interface NspProvisioningIssueProperties
+  - Added Interface NspResourceAssociation
+  - Added Interface NspSubscription
+  - Added Interface ServerFarmSilo
+  - Added Interface ServerFarmSiloProperties
+  - Added Interface ServerFarmSiloResourceAllocation
+  - Added Interface ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloOptionalParams
+  - Added Interface ServerFarmSiloResourcesDeleteServerFarmSiloOptionalParams
+  - Added Interface ServerFarmSiloResourcesGetServerFarmSiloOptionalParams
+  - Added Interface ServerFarmSiloResourcesGetServerFarmSiloVnetIntegrationsOptionalParams
+  - Added Interface ServerFarmSiloResourcesListServerFarmSilosOptionalParams
+  - Added Interface ServerFarmSiloResourcesUpdateServerFarmSiloOptionalParams
+  - Added Interface ServerFarmSiloSubnetIpAllocation
+  - Added Interface ServerFarmSiloTagsUpdate
+  - Added Interface ServerFarmSiloVnetIntegration
+  - Added Interface ServerFarmSiloVnetIntegrationsResult
+  - Added Interface SiloNetworkingOverride
+  - Added Interface SiteAuthInfo
+  - Added Interface SitesGetNetworkSecurityPerimeterConfigurationOptionalParams
+  - Added Interface SiteSilo
+  - Added Interface SiteSiloProperties
+  - Added Interface SiteSiloResourcesCreateOrUpdateSiteSiloOptionalParams
+  - Added Interface SiteSiloResourcesDeleteSiteSiloOptionalParams
+  - Added Interface SiteSiloResourcesGetSiteSiloOptionalParams
+  - Added Interface SiteSiloResourcesListSiteSilosOptionalParams
+  - Added Interface SiteSiloResourcesRefreshSiteSilosOptionalParams
+  - Added Interface SiteSiloResourcesUpdateSiteSiloOptionalParams
+  - Added Interface SiteSiloTagsUpdate
+  - Added Interface SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnectionOptionalParams
+  - Added Interface SiteSiloVirtualNetworkConnectionsDeleteSiteSiloVnetConnectionOptionalParams
+  - Added Interface SiteSiloVirtualNetworkConnectionsGetSiteSiloVnetConnectionOptionalParams
+  - Added Interface SiteSiloVirtualNetworkConnectionsListSiteSiloVnetConnectionsOptionalParams
+  - Added Interface SiteSiloVirtualNetworkConnectionsUpdateSiteSiloVnetConnectionOptionalParams
+  - Added Interface SitesListNetworkSecurityPerimeterConfigurationsOptionalParams
+  - Added Interface StaticSitesAsyncOperationsGetOperationResultOptionalParams
+  - Added Interface StaticSitesAsyncOperationsGetOperationStatusOptionalParams
+  - Added Interface StaticSitesOperationStatus
+  - Added Interface StaticSitesOperationStatusProperties
+  - Interface OutboundVnetRouting has a new optional parameter managedIdentityTraffic
+  - Interface Site has a new optional parameter aiIntegration
+  - Interface Site has a new optional parameter maintenanceEnabled
+  - Interface Site has a new optional parameter platformReleaseChannel
+  - Interface Site has a new optional parameter siteScopedCertificatesEnabled
+  - Interface SitePatchResource has a new optional parameter aiIntegration
+  - Interface SitePatchResource has a new optional parameter siteScopedCertificatesEnabled
+  - Interface SitePatchResourceProperties has a new optional parameter aiIntegration
+  - Interface SitePatchResourceProperties has a new optional parameter siteScopedCertificatesEnabled
+  - Interface SiteProperties has a new optional parameter aiIntegration
+  - Interface SiteProperties has a new optional parameter maintenanceEnabled
+  - Interface SiteProperties has a new optional parameter platformReleaseChannel
+  - Interface SiteProperties has a new optional parameter siteScopedCertificatesEnabled
+  - Added Type Alias PlatformReleaseChannel
+  - Added Type Alias SiloFailOverMode
+  - Added Type Alias SiloProvisioningState
+  - Added Enum KnownPlatformReleaseChannel
+  - Added Enum KnownSiloFailOverMode
+  - Added Enum KnownSiloProvisioningState
+  - Enum KnownRuntimeName has a new value Go
+  - Enum KnownVersions has a new value V20260315
+  - Enum KnownVersions has a new value V20260715
+  - Enum KnownVersions has a new value V20260801
 
 ## 19.0.0 (2026-05-27)
 
