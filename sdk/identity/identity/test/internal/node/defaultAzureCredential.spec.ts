@@ -1,8 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DefaultAzureCredential } from "@azure/identity";
+import { AggregateAuthenticationError, DefaultAzureCredential } from "@azure/identity";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentialFunctions.js";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+
+/**
+ * Uses the `prod` chain (keeping the IMDS probe) while clearing ambient credential variables,
+ * such as those set on CI agents, so Environment and Workload Identity credentials are unavailable.
+ */
+function stubProdChainEnvForImds(): void {
+  vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "prod");
+  for (const name of [
+    "AZURE_TENANT_ID",
+    "AZURE_CLIENT_ID",
+    "AZURE_CLIENT_SECRET",
+    "AZURE_CLIENT_CERTIFICATE_PATH",
+    "AZURE_USERNAME",
+    "AZURE_PASSWORD",
+    "AZURE_FEDERATED_TOKEN_FILE",
+  ]) {
+    vi.stubEnv(name, undefined);
+  }
+}
 
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
@@ -18,6 +39,46 @@ describe("DefaultAzureCredential", () => {
   it("should create a DefaultAzureCredential instance", () => {
     const credential = new DefaultAzureCredential();
     expect(credential).toBeInstanceOf(DefaultAzureCredential);
+  });
+
+  it("reports the malformed JSON token response status after a valid JSON IMDS probe response", async () => {
+    stubProdChainEnvForImds();
+    const sendRequest = vi.fn(async (request: PipelineRequest) => ({
+      request,
+      status: request.headers.has("Metadata") ? 502 : 400,
+      headers: createHttpHeaders({ "content-type": "application/json" }),
+      bodyAsText: request.headers.has("Metadata") ? "Invalid JSON" : "{}",
+    }));
+    const credential = new DefaultAzureCredential({
+      retryOptions: { maxRetries: 0 },
+      httpClient: { sendRequest },
+    });
+
+    const tokenPromise = credential.getToken("https://vault.azure.net/.default");
+    await expect(tokenPromise).rejects.toThrow(AggregateAuthenticationError);
+    await expect(tokenPromise).rejects.toThrow("ManagedIdentityCredential: Authentication failed");
+    await expect(tokenPromise).rejects.toThrow("Http status code: 502");
+    await expect(tokenPromise).rejects.not.toThrow("Http status code: 400");
+    expect(sendRequest).toHaveBeenCalledTimes(2);
+  });
+
+  it("treats a Docker Desktop unreachable response as unavailable", async () => {
+    stubProdChainEnvForImds();
+    const sendRequest = vi.fn(async (request: PipelineRequest) => ({
+      request,
+      status: 403,
+      headers: createHttpHeaders({ "content-type": "application/json" }),
+      bodyAsText: "A socket operation was attempted to an unreachable network",
+    }));
+    const credential = new DefaultAzureCredential({
+      retryOptions: { maxRetries: 0 },
+      httpClient: { sendRequest },
+    });
+
+    await expect(credential.getToken("https://vault.azure.net/.default")).rejects.toThrow(
+      "Attempted to use the IMDS endpoint, but it is not available.",
+    );
+    expect(sendRequest).toHaveBeenCalledTimes(1);
   });
 
   it("should throw an error if AZURE_TOKEN_CREDENTIALS is set to an unsupported value", () => {

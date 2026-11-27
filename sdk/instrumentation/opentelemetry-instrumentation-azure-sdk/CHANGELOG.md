@@ -1,10 +1,10 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
 
 ### Breaking Changes
 
-- Require OpenTelemetry SDK 3.x, API 1.10.x, and Node.js >=22.15.0. SDK 2 consumers must remain on `1.1.0-beta.1`. [#40577](https://github.com/Azure/azure-sdk-for-js/pull/40577)
+- Require OpenTelemetry SDK 3.x, API 1.10.x, and Node.js >=22.15.0. Consumers using OpenTelemetry SDK 2 should stay on the 1.x line of this package. [#40577](https://github.com/Azure/azure-sdk-for-js/pull/40577)
 
 ### Other Changes
 

@@ -3,6 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import type { GraphOptionsInput, SearchOptionsInput, VectorQueryInput } from "./inputModels.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import {
@@ -26,13 +27,15 @@ import {
   autocompletePost,
   getDocument,
   getDocumentCount,
+  graph as executeGraph,
   index,
+  searchPost,
   _suggestPostSend,
   _suggestPostDeserialize,
 } from "./search/api/operations.js";
-import { searchPostWithCompatibility } from "./searchCompatibility.js";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch.js";
 import type {
+  GraphOptions,
   AutocompleteOptions,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
@@ -45,6 +48,7 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
+  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
@@ -56,8 +60,8 @@ import type {
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  VectorQuery,
 } from "./indexModels.js";
+import type { GraphQueryResult } from "./models/azure/search/documents/index.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -102,6 +106,23 @@ export interface SearchClientOptions extends ClientOptions {
  * adding, updating, and removing them.
  */
 export class SearchClient<TModel extends object> implements IndexDocumentsClient<TModel> {
+  /**
+   * Executes a graph query over an index configured with an edge-list graph profile.
+   * @param gql - The graph query expression.
+   * @param options - Graph constraints, provenance, and diagnostic options.
+   */
+  public async graph(
+    gql: string,
+    options: GraphOptions<TModel> | GraphOptionsInput<TModel> = {},
+  ): Promise<GraphQueryResult> {
+    return tracingClient.withSpan("SearchClient-graph", options, async (updatedOptions) => {
+      const { vectorQueries, ...rest } = updatedOptions;
+      return executeGraph(this.client, gql, {
+        ...rest,
+        vectorQueries: vectorQueries?.map(this.convertVectorQuery.bind(this)),
+      });
+    });
+  }
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -245,7 +266,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       options,
       async (updatedOptions) => {
         const count = await getDocumentCount(this.client, updatedOptions);
-        return Number(count);
+        return count;
       },
     );
   }
@@ -308,7 +329,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private async searchDocuments<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
     nextPageParameters?: GeneratedSearchRequest,
   ): Promise<SearchDocumentsPageResult<TModel, TFields>> {
     const {
@@ -330,6 +351,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       answers,
       captions,
       debugMode,
+      queryRewrites,
       ...restSemanticOptions
     } = semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
@@ -346,6 +368,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       vectorQueries: queries?.map(this.convertVectorQuery.bind(this)),
       answers: this.convertQueryAnswers(answers),
       captions: this.convertQueryCaptions(captions),
+      queryRewrites: this.convertQueryRewrites(queryRewrites),
+      semanticFields: semanticFields as string[] | undefined,
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
       debug: debugMode ?? debug, // Use semanticSearchOptions.debugMode if set, otherwise use top-level debug
@@ -358,14 +382,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       "SearchClient-searchDocuments",
       fullOptions,
       async (updatedOptions) => {
-        const continuationFields = (
-          nextPageParameters as (GeneratedSearchRequest & { semanticFields?: string }) | undefined
-        )?.semanticFields;
-        const result = await searchPostWithCompatibility(
-          this.client,
-          updatedOptions,
-          continuationFields?.split(",") ?? semanticFields,
-        );
+        const result = await searchPost(this.client, updatedOptions);
 
         const {
           results,
@@ -402,7 +419,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
   private async *listSearchResultsPage<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
     settings: ListSearchResultsPageSettings = {},
   ): AsyncIterableIterator<SearchDocumentsPageResult<TModel, TFields>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
@@ -430,7 +447,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private async *listSearchResultsAll<TFields extends SelectFields<TModel>>(
     firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): AsyncIterableIterator<SearchResult<TModel, TFields>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
@@ -445,7 +462,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private listSearchResults<TFields extends SelectFields<TModel>>(
     firstPage: SearchDocumentsPageResult<TModel, TFields>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): SearchIterator<TModel, TFields> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
@@ -495,7 +512,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    */
   public async search<TFields extends SelectFields<TModel>>(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions<TModel, TFields> | SearchOptionsInput<TModel, TFields> = {},
   ): Promise<SearchDocumentsResult<TModel, TFields>> {
     return tracingClient.withSpan("SearchClient-search", options, async (updatedOptions) => {
       const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
@@ -797,7 +814,9 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       const result: {
         apiVersion: string;
         nextLink: string;
-        nextPageParameters: GeneratedSearchRequest;
+        nextPageParameters: Omit<GeneratedSearchRequest, "semanticFields"> & {
+          semanticFields?: string | string[];
+        };
       } = JSON.parse(decodedToken);
 
       if (result.apiVersion !== this.apiVersion) {
@@ -806,7 +825,13 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
 
       return {
         nextLink: result.nextLink,
-        nextPageParameters: result.nextPageParameters,
+        nextPageParameters: {
+          ...result.nextPageParameters,
+          semanticFields:
+            typeof result.nextPageParameters.semanticFields === "string"
+              ? result.nextPageParameters.semanticFields.split(",")
+              : result.nextPageParameters.semanticFields,
+        },
       };
     } catch (e: any) {
       throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`, { cause: e });
@@ -893,15 +918,41 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
-  private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
+  private convertQueryRewrites(queryRewrites?: QueryRewrites): string | undefined {
+    if (!queryRewrites) {
+      return undefined;
+    }
+
+    const { rewritesType, count } = queryRewrites;
+
+    if (count !== undefined) {
+      return `${rewritesType}|count-${count}`;
+    }
+
+    return rewritesType;
+  }
+
+  private convertVectorQuery<T extends VectorQueryInput<TModel>>(
+    vectorQuery: T,
+  ): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
-        const { fields, ...restFields } = vectorQuery;
+        const { fields, queryRewrites, ...restFields } = vectorQuery;
         return {
           ...restFields,
           fields: this.convertVectorQueryFields(fields),
+          queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
+      case "imageBinary": {
+        const { binaryImage, fields, ...restFields } = vectorQuery;
+        return {
+          ...restFields,
+          fields: this.convertVectorQueryFields(fields),
+          base64Image: binaryImage,
+        };
+      }
+      case "imageUrl":
       case "vector": {
         return { ...vectorQuery, fields: this.convertVectorQueryFields(vectorQuery?.fields) };
       }

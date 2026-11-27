@@ -1,0 +1,69 @@
+parameters:
+  - name: kind
+    type: string
+    values:
+      - base
+      - target
+  - name: requestMode
+    type: string
+    values:
+      - create
+      - update
+  - name: repositoryOwner
+    type: string
+    default: Azure
+  - name: ref
+    type: string
+  - name: packageName
+    type: string
+  - name: operationId
+    type: string
+  - name: poolName
+    type: string
+    default: 'azsdk-pool'
+  - name: imageOverride
+    type: string
+    default: 'ubuntu-24.04'
+
+jobs:
+  - template: /eng/common/pipelines/templates/jobs/apireview-hub-generate-artifact-base.yml
+    parameters:
+      ${{ if eq(parameters.kind, 'base') }}:
+        jobName: GenerateBase
+      ${{ if eq(parameters.kind, 'target') }}:
+        jobName: GenerateTarget
+      kind: ${{ parameters.kind }}
+      requestMode: ${{ parameters.requestMode }}
+      language: js
+      repositoryFullName: ${{ format('{0}/{1}', parameters.repositoryOwner, 'azure-sdk-for-js') }}
+      ref: ${{ parameters.ref }}
+      packageName: ${{ parameters.packageName }}
+      operationId: ${{ parameters.operationId }}
+      poolName: ${{ parameters.poolName }}
+      imageOverride: ${{ parameters.imageOverride }}
+      stepList:
+        - template: /eng/pipelines/templates/steps/use-node-version.yml
+
+        - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+
+        # Installs the pnpm version pinned by the source ref's package.json.
+        - template: /eng/pipelines/templates/steps/install-pnpm.yml
+
+        - bash: |
+            set -Eeuo pipefail
+
+            package_dir=$(pnpm --filter "$PACKAGE_NAME" --fail-if-no-match ls --depth -1 --parseable)
+            echo "Package directory: $package_dir"
+
+            pnpm install --frozen-lockfile --filter "$PACKAGE_NAME..."
+            pnpm turbo build --filter="$PACKAGE_NAME..." --token 1
+
+            node "$BIN_DIRECTORY/dev-tool/launch.ts" run generate-api-review \
+              --package-root "$package_dir" \
+              --output-dir "$ARTIFACT_OUTPUT_DIRECTORY"
+          displayName: Generate ${{ parameters.kind }} JavaScript API review bundle
+          workingDirectory: $(Build.SourcesDirectory)
+          env:
+            BIN_DIRECTORY: $(BinDirectory)
+            ARTIFACT_OUTPUT_DIRECTORY: $(ArtifactOutputDirectory)
+            PACKAGE_NAME: ${{ parameters.packageName }}

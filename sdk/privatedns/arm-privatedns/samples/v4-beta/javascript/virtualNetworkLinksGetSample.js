@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a virtual network link to the specified Private DNS zone.
  *
  * @summary gets a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: 2024-06-01/VirtualNetworkLinkGet.json
+ * x-ms-original-file: 2026-06-01-preview/VirtualNetworkLinkGet.json
  */
 async function getPrivateDNSZoneVirtualNetworkLink() {
   const credential = new DefaultAzureCredential();

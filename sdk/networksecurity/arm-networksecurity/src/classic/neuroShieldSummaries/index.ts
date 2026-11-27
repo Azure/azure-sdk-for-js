@@ -7,7 +7,7 @@ import type {
   NeuroShieldSummariesGetOptionalParams,
   NeuroShieldSummariesListOptionalParams,
 } from "../../api/neuroShieldSummaries/options.js";
-import type { NeuroShieldSummary } from "../../models/models.js";
+import type { NeuroShieldSummary } from "../../models/neuroShield/management/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NeuroShieldSummaries operations. */

@@ -17,7 +17,7 @@ try {
   let dependency = process.argv[2];
   if (!dependency) {
     const tarball = join(directory, "azure-instrumentation.tgz");
-    execFileSync(process.execPath, [pnpmCli, "pack", "--out", tarball], {
+    execFileSync(pnpmCli, ["pack", "--out", tarball], {
       cwd: packageRoot,
       stdio: "pipe",
       timeout: 60000,
@@ -55,9 +55,8 @@ try {
     console.warn("Diagnostic only: peer validation disabled to isolate baseline runtime behavior");
   }
   execFileSync(
-    process.execPath,
+    pnpmCli,
     [
-      pnpmCli,
       "install",
       diagnostic ? "--strict-peer-dependencies=false" : "--strict-peer-dependencies",
       "--ignore-scripts",

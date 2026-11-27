@@ -12,24 +12,18 @@ import {
   createUpdateMongoRoleDefinition,
   getMongoRoleDefinition,
   retrieveContinuousBackupInformation,
-  listMongoDBCollectionPartitionMerge,
   listMongoDBCollections,
   deleteMongoDBCollection,
   createUpdateMongoDBCollection,
   getMongoDBCollection,
-  mongoDBDatabasePartitionMerge,
   listMongoDBDatabases,
   deleteMongoDBDatabase,
   createUpdateMongoDBDatabase,
   getMongoDBDatabase,
   migrateMongoDBCollectionToManualThroughput,
   migrateMongoDBCollectionToAutoscale,
-  mongoDBContainerRedistributeThroughput,
-  mongoDBContainerRetrieveThroughputDistribution,
   updateMongoDBCollectionThroughput,
   getMongoDBCollectionThroughput,
-  mongoDBDatabaseRedistributeThroughput,
-  mongoDBDatabaseRetrieveThroughputDistribution,
   migrateMongoDBDatabaseToManualThroughput,
   migrateMongoDBDatabaseToAutoscale,
   updateMongoDBDatabaseThroughput,
@@ -45,37 +39,26 @@ import type {
   MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   MongoDBResourcesGetMongoRoleDefinitionOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
-  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
-  MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
   MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
-  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
-  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams,
 } from "../../api/mongoDBResources/options.js";
 import type {
-  MergeParameters,
-  PhysicalPartitionStorageInfoCollection,
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
-  RetrieveThroughputParameters,
-  PhysicalPartitionThroughputInfoResult,
-  RedistributeThroughputParameters,
   ContinuousBackupRestoreLocation,
   BackupInformation,
   MongoDBDatabaseGetResults,
@@ -241,41 +224,6 @@ export interface MongoDBResourcesOperations {
     location: ContinuousBackupRestoreLocation,
     options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   ) => Promise<BackupInformation>;
-  /** Merges the partitions of a MongoDB Collection */
-  listMongoDBCollectionPartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
-  /** @deprecated use listMongoDBCollectionPartitionMerge instead */
-  beginListMongoDBCollectionPartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionStorageInfoCollection>,
-      PhysicalPartitionStorageInfoCollection
-    >
-  >;
-  /** @deprecated use listMongoDBCollectionPartitionMerge instead */
-  beginListMongoDBCollectionPartitionMergeAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-  ) => Promise<PhysicalPartitionStorageInfoCollection>;
   /** Lists the MongoDB collection under an existing Azure Cosmos DB database account. */
   listMongoDBCollections: (
     resourceGroupName: string,
@@ -344,38 +292,6 @@ export interface MongoDBResourcesOperations {
     collectionName: string,
     options?: MongoDBResourcesGetMongoDBCollectionOptionalParams,
   ) => Promise<MongoDBCollectionGetResults>;
-  /** Merges the partitions of a MongoDB database */
-  mongoDBDatabasePartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionStorageInfoCollection>,
-    PhysicalPartitionStorageInfoCollection
-  >;
-  /** @deprecated use mongoDBDatabasePartitionMerge instead */
-  beginMongoDBDatabasePartitionMerge: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionStorageInfoCollection>,
-      PhysicalPartitionStorageInfoCollection
-    >
-  >;
-  /** @deprecated use mongoDBDatabasePartitionMerge instead */
-  beginMongoDBDatabasePartitionMergeAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    mergeParameters: MergeParameters,
-    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-  ) => Promise<PhysicalPartitionStorageInfoCollection>;
   /** Lists the MongoDB databases under an existing Azure Cosmos DB database account. */
   listMongoDBDatabases: (
     resourceGroupName: string,
@@ -488,76 +404,6 @@ export interface MongoDBResourcesOperations {
     collectionName: string,
     options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   ) => Promise<ThroughputSettingsGetResults>;
-  /** Redistribute throughput for an Azure Cosmos DB MongoDB container */
-  mongoDBContainerRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use mongoDBContainerRedistributeThroughput instead */
-  beginMongoDBContainerRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use mongoDBContainerRedistributeThroughput instead */
-  beginMongoDBContainerRedistributeThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
-  /** Retrieve throughput distribution for an Azure Cosmos DB MongoDB container */
-  mongoDBContainerRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use mongoDBContainerRetrieveThroughputDistribution instead */
-  beginMongoDBContainerRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use mongoDBContainerRetrieveThroughputDistribution instead */
-  beginMongoDBContainerRetrieveThroughputDistributionAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    collectionName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
   /** Update the RUs per second of an Azure Cosmos DB MongoDB collection */
   updateMongoDBCollectionThroughput: (
     resourceGroupName: string,
@@ -595,70 +441,6 @@ export interface MongoDBResourcesOperations {
     collectionName: string,
     options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   ) => Promise<ThroughputSettingsGetResults>;
-  /** Redistribute throughput for an Azure Cosmos DB MongoDB database */
-  mongoDBDatabaseRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use mongoDBDatabaseRedistributeThroughput instead */
-  beginMongoDBDatabaseRedistributeThroughput: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use mongoDBDatabaseRedistributeThroughput instead */
-  beginMongoDBDatabaseRedistributeThroughputAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    redistributeThroughputParameters: RedistributeThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
-  /** Retrieve throughput distribution for an Azure Cosmos DB MongoDB database */
-  mongoDBDatabaseRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => PollerLike<
-    OperationState<PhysicalPartitionThroughputInfoResult>,
-    PhysicalPartitionThroughputInfoResult
-  >;
-  /** @deprecated use mongoDBDatabaseRetrieveThroughputDistribution instead */
-  beginMongoDBDatabaseRetrieveThroughputDistribution: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PhysicalPartitionThroughputInfoResult>,
-      PhysicalPartitionThroughputInfoResult
-    >
-  >;
-  /** @deprecated use mongoDBDatabaseRetrieveThroughputDistribution instead */
-  beginMongoDBDatabaseRetrieveThroughputDistributionAndWait: (
-    resourceGroupName: string,
-    accountName: string,
-    databaseName: string,
-    retrieveThroughputParameters: RetrieveThroughputParameters,
-    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-  ) => Promise<PhysicalPartitionThroughputInfoResult>;
   /** Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput */
   migrateMongoDBDatabaseToManualThroughput: (
     resourceGroupName: string,
@@ -1017,61 +799,6 @@ function _getMongoDBResources(context: CosmosDBManagementContext) {
         options,
       );
     },
-    listMongoDBCollectionPartitionMerge: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-    ) =>
-      listMongoDBCollectionPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        mergeParameters,
-        options,
-      ),
-    beginListMongoDBCollectionPartitionMerge: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-    ) => {
-      const poller = listMongoDBCollectionPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        mergeParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginListMongoDBCollectionPartitionMergeAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
-    ) => {
-      return await listMongoDBCollectionPartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        mergeParameters,
-        options,
-      );
-    },
     listMongoDBCollections: (
       resourceGroupName: string,
       accountName: string,
@@ -1197,55 +924,6 @@ function _getMongoDBResources(context: CosmosDBManagementContext) {
         collectionName,
         options,
       ),
-    mongoDBDatabasePartitionMerge: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-    ) =>
-      mongoDBDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      ),
-    beginMongoDBDatabasePartitionMerge: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-    ) => {
-      const poller = mongoDBDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMongoDBDatabasePartitionMergeAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      mergeParameters: MergeParameters,
-      options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
-    ) => {
-      return await mongoDBDatabasePartitionMerge(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        mergeParameters,
-        options,
-      );
-    },
     listMongoDBDatabases: (
       resourceGroupName: string,
       accountName: string,
@@ -1440,116 +1118,6 @@ function _getMongoDBResources(context: CosmosDBManagementContext) {
         options,
       );
     },
-    mongoDBContainerRedistributeThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-    ) =>
-      mongoDBContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        redistributeThroughputParameters,
-        options,
-      ),
-    beginMongoDBContainerRedistributeThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-    ) => {
-      const poller = mongoDBContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        redistributeThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMongoDBContainerRedistributeThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
-    ) => {
-      return await mongoDBContainerRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        redistributeThroughputParameters,
-        options,
-      );
-    },
-    mongoDBContainerRetrieveThroughputDistribution: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-    ) =>
-      mongoDBContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        retrieveThroughputParameters,
-        options,
-      ),
-    beginMongoDBContainerRetrieveThroughputDistribution: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      const poller = mongoDBContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        retrieveThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMongoDBContainerRetrieveThroughputDistributionAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      collectionName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      return await mongoDBContainerRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        collectionName,
-        retrieveThroughputParameters,
-        options,
-      );
-    },
     updateMongoDBCollectionThroughput: (
       resourceGroupName: string,
       accountName: string,
@@ -1620,104 +1188,6 @@ function _getMongoDBResources(context: CosmosDBManagementContext) {
         collectionName,
         options,
       ),
-    mongoDBDatabaseRedistributeThroughput: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-    ) =>
-      mongoDBDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      ),
-    beginMongoDBDatabaseRedistributeThroughput: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-    ) => {
-      const poller = mongoDBDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMongoDBDatabaseRedistributeThroughputAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      redistributeThroughputParameters: RedistributeThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
-    ) => {
-      return await mongoDBDatabaseRedistributeThroughput(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        redistributeThroughputParameters,
-        options,
-      );
-    },
-    mongoDBDatabaseRetrieveThroughputDistribution: (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) =>
-      mongoDBDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      ),
-    beginMongoDBDatabaseRetrieveThroughputDistribution: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      const poller = mongoDBDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      );
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginMongoDBDatabaseRetrieveThroughputDistributionAndWait: async (
-      resourceGroupName: string,
-      accountName: string,
-      databaseName: string,
-      retrieveThroughputParameters: RetrieveThroughputParameters,
-      options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
-    ) => {
-      return await mongoDBDatabaseRetrieveThroughputDistribution(
-        context,
-        resourceGroupName,
-        accountName,
-        databaseName,
-        retrieveThroughputParameters,
-        options,
-      );
-    },
     migrateMongoDBDatabaseToManualThroughput: (
       resourceGroupName: string,
       accountName: string,

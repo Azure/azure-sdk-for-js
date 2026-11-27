@@ -24,6 +24,12 @@ export interface CustomMatcherOptions {
    * By default, the test-proxy does not sort query params before matching. Setting true will sort query params alphabetically before comparing URI.
    */
   ignoreQueryOrdering?: boolean;
+  /**
+   * Array of query parameters that should be ignored during matching, e.g. ["api-version"].
+   * The values of these query parameters will not be compared when matching requests against the recording.
+   * No query parameters are ignored by default.
+   */
+  ignoredQueryParameters?: string[];
 }
 
 /**
@@ -62,6 +68,7 @@ export async function setMatcher(
       compareBodies: matcherBody.compareBodies,
       excludedHeaders: matcherBody.excludedHeaders?.toString(),
       ignoredHeaders: matcherBody.ignoredHeaders?.toString(),
+      ignoredQueryParameters: matcherBody.ignoredQueryParameters?.toString(),
       ignoreQueryOrdering: matcherBody.ignoreQueryOrdering,
     });
   }

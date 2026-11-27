@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a virtual network appliance.
  *
  * @summary creates or updates a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkAppliances_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkAppliances_CreateOrUpdate.json
  */
 async function createVirtualNetworkAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function createVirtualNetworkAppliance(): Promise<void> {
  * This sample demonstrates how to creates or updates a virtual network appliance.
  *
  * @summary creates or updates a virtual network appliance.
- * x-ms-original-file: 2026-03-01/VirtualNetworkAppliances_CreateOrUpdate_WithCapacityProvider.json
+ * x-ms-original-file: 2026-05-01/VirtualNetworkAppliances_CreateOrUpdate_WithCapacityProvider.json
  */
 async function createVirtualNetworkApplianceWithCapacityProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();

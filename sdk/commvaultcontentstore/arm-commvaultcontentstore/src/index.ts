@@ -35,6 +35,13 @@ export type {
   Resource,
   SystemData,
   CreatedByType,
+  CloudAccountUpdate,
+  CloudAccountUpdateProperties,
+  CloudAccountMarketplaceUpdate,
+  CloudAccountOfferDetailsUpdate,
+  CloudAccountUserUpdate,
+  CloudAccountIdentityUpdate,
+  CloudAccountUserAssignedIdentity,
   SaaSData,
   LatestLinkedSaaSResponse,
   ActivateSaaSParameterRequest,
@@ -103,12 +110,6 @@ export type {
   ManagedServiceIdentityCreateOrUpdate,
   UserAssignedIdentityCreateOrUpdate,
   TrackedResourceCreateOrUpdate,
-  CloudAccountUpdate,
-  CloudAccountPropertiesUpdate,
-  ManagedServiceIdentityUpdate,
-  UserAssignedIdentityUpdate,
-  TrackedResourceUpdate,
-  ResourceUpdate,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -144,7 +145,6 @@ export type {
   OfferDetails,
   UserDetails,
   MarketplaceDetailsCreateOrUpdate,
-  MarketplaceDetailsUpdate,
 } from "./models/liftrBase/index.js";
 export { KnownMarketplaceSubscriptionStatus } from "./models/liftrBase/index.js";
 export type { ContentStoreClientOptionalParams } from "./api/index.js";

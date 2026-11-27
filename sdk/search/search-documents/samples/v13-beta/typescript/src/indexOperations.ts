@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates index operations and optional SharePoint connector registration
- * with organization-scoped sharing-link expiration in the `2026-10-01` GA API.
+ * @summary Demonstrates index operations and optional SharePoint connector
+ * registration with organization-scoped sharing-link expiration.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";

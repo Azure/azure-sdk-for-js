@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Private endpoint connection
  *
  * @summary create a Private endpoint connection
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_PrivateEndpointConnectionPut.json
+ * x-ms-original-file: 2026-09-01/MongoClusters_PrivateEndpointConnectionPut.json
  */
-async function approvesAPrivateEndpointConnectionOnAMongoClusterResource(): Promise<void> {
+async function approvesAPrivateEndpointConnectionOnADocumentDBClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function approvesAPrivateEndpointConnectionOnAMongoClusterResource(): Prom
 }
 
 async function main(): Promise<void> {
-  await approvesAPrivateEndpointConnectionOnAMongoClusterResource();
+  await approvesAPrivateEndpointConnectionOnADocumentDBClusterResource();
 }
 
 main().catch(console.error);

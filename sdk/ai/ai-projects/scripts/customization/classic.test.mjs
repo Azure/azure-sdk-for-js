@@ -82,6 +82,203 @@ const betaArchive = [
   "BetaItemsArchiveItemOptionalParams",
 ];
 const archive = ["archiveItem", "/items/{id}:archive", "post", "ItemsArchiveItemOptionalParams"];
+
+function tracingPromotionTrees({ telephony = false, conversations = false } = {}) {
+  const suffix = telephony
+    ? "VoiceAgentsTelephony"
+    : conversations
+      ? "VoiceAgentsConversations"
+      : "Agents";
+  const group = telephony
+    ? "voiceAgents/telephony"
+    : conversations
+      ? "voiceAgents/conversations"
+      : "agents";
+  const name = telephony ? "createBinding" : conversations ? "$delete" : "createFromPrompt";
+  const method = conversations ? "delete" : "post";
+  const before = [name, `/agents/{id}/${name}`, method, `Beta${suffix}Options`];
+  const after = [name, before[1], method, `${suffix}Options`];
+  const campaign = ["getCampaign", "/campaigns/{id}", "get", "CampaignOptions"];
+  const oldSpecs = telephony ? [before, campaign] : [before];
+  const trees = {
+    baseGenerated: new Map(Object.entries(models())),
+    baseSource: new Map(Object.entries(models())),
+    generated: new Map(Object.entries(models())),
+  };
+  const oldFile = `classic/beta/${group}/index.ts`;
+  const file = `classic/${group}/index.ts`;
+  const depth = telephony || conversations ? 4 : 3;
+  for (const tree of [trees.baseGenerated, trees.baseSource]) {
+    tree.set(`api/beta/${group}/operations.ts`, operations(depth - 1, oldSpecs));
+    tree.set(`api/beta/${group}/options.ts`, options(oldSpecs.map((spec) => spec[3])));
+    tree.set(
+      oldFile,
+      classic(depth, `Beta${suffix}`, `beta/${group}`, oldSpecs).replaceAll("$delete:", "delete:"),
+    );
+  }
+  trees.generated.set(`api/${group}/operations.ts`, operations(depth - 2, [after]));
+  trees.generated.set(`api/${group}/options.ts`, options([after[3]]));
+  trees.generated.set(
+    file,
+    classic(depth - 1, suffix, group, [after]).replaceAll("$delete:", "delete:"),
+  );
+  if (telephony) {
+    trees.generated.set("api/beta/voiceAgents/telephony/operations.ts", operations(3, [campaign]));
+    trees.generated.set("api/beta/voiceAgents/telephony/options.ts", options([campaign[3]]));
+    trees.generated.set(oldFile, classic(4, `Beta${suffix}`, `beta/${group}`, [campaign]));
+    const api = "api/beta/voiceAgents/telephony/operations.ts";
+    trees.baseSource.set(
+      api,
+      trees.baseSource
+        .get(api)
+        .replace("return _getCampaignDeserialize(result);", "return getCampaignResult(result);") +
+        "\nfunction getCampaignResult(result: PathUncheckedResponse): Promise<string> { return _getCampaignDeserialize(result); }",
+    );
+  }
+  const wrapped = trees.baseSource
+    .get(oldFile)
+    .replaceAll(
+      "context: AIProjectContext)",
+      "context: AIProjectContext, tracingConfig?: ResolvedTracingConfig)",
+    )
+    .replace(
+      `=> ${name}(context, id, options)`,
+      telephony
+        ? `=> run("create_binding", () => ${name}(context, id, options))`
+        : `=> traceVoiceAgentOperation("delete_or_create", context.endpoint, tracingConfig, () => ${name}(context, id, options))`,
+    )
+    .replace(`..._getBeta${suffix}(context)`, `..._getBeta${suffix}(context, tracingConfig)`)
+    .replace(
+      "  return {",
+      telephony
+        ? `  const run = <T>(name: string, operation: () => Promise<T>): Promise<T> =>
+      traceVoiceAgentOperation(name, context.endpoint, tracingConfig, operation);
+  return {`
+        : "  return {",
+    );
+  trees.baseSource.set(
+    oldFile,
+    `import type { ResolvedTracingConfig } from "${"../".repeat(depth)}tracing/configuration.js";
+import { traceVoiceAgentOperation } from "${"../".repeat(depth)}tracing/voiceAgentTracing.js";
+${wrapped}`,
+  );
+  return { trees, oldFile, file, name };
+}
+
+for (const scenario of [{}, { conversations: true }, { telephony: true }]) {
+  test(`reviewed GA tracing promotion preserves wrappers and factory configuration ${JSON.stringify(scenario)}`, () => {
+    const { trees, oldFile, file } = tracingPromotionTrees(scenario);
+    const plan = planCustomization(trees);
+    assert.deepEqual(plan.diagnostics, []);
+    const output = plan.source.get(file);
+    assert.match(output, /tracingConfig\?: ResolvedTracingConfig/);
+    assert.match(output, /traceVoiceAgentOperation/);
+    assert.doesNotMatch(output, /(?:export interface|options\?:) Beta(?:Agents|VoiceAgents)/);
+    if (scenario.telephony) {
+      assert.match(output, /const run/);
+      assert.match(output, /run\("create_binding"/);
+      assert.match(plan.source.get(oldFile), /getCampaign/);
+      assert.doesNotMatch(plan.source.get(oldFile), /createBinding/);
+      assert.doesNotMatch(output, /getCampaign/);
+      assert.match(
+        plan.source.get("api/beta/voiceAgents/telephony/operations.ts"),
+        /function getCampaignResult/,
+      );
+      assert.doesNotMatch(
+        plan.source.get("api/voiceAgents/telephony/operations.ts"),
+        /getCampaignResult/,
+      );
+    } else assert.equal(plan.source.has(oldFile), false);
+  });
+}
+
+test("reviewed promotion still rejects altered forwarding and duplicate delegate calls", () => {
+  for (const change of [
+    "createFromPrompt(context, 'wrong', options)",
+    "(createFromPrompt(context, id, options), createFromPrompt(context, id, options))",
+  ]) {
+    const { trees, oldFile } = tracingPromotionTrees();
+    trees.baseSource.set(
+      oldFile,
+      trees.baseSource.get(oldFile).replace("createFromPrompt(context, id, options)", change),
+    );
+    const plan = planCustomization(trees);
+    assert.ok(plan.diagnostics.some((item) => /cannot be relocated/.test(item.message)));
+  }
+});
+
+test("reviewed tracing promotion follows customized delegates after positional preview opt-in retirement", () => {
+  const { trees, oldFile, file, name } = tracingPromotionTrees();
+  const api = "api/beta/agents/operations.ts";
+  trees.baseGenerated.set(
+    api,
+    trees.baseGenerated
+      .get(api)
+      .replaceAll(
+        "context: Client, id: string",
+        'context: Client, foundryFeatures: "VoiceAgents=V1Preview", id: string',
+      )
+      .replace(
+        `_${name}Send(context, id, options)`,
+        `_${name}Send(context, foundryFeatures, id, options)`,
+      )
+      .replace("headers: { accept:", 'headers: { "foundry-features": foundryFeatures, accept:'),
+  );
+  trees.baseSource.set(
+    api,
+    trees.baseSource
+      .get(api)
+      .replace(
+        "  const path =",
+        '  const foundryFeatures = "VoiceAgents=V1Preview";\n  const path =',
+      )
+      .replace("headers: { accept:", 'headers: { "foundry-features": foundryFeatures, accept:'),
+  );
+  trees.baseGenerated.set(
+    oldFile,
+    trees.baseGenerated
+      .get(oldFile)
+      .replaceAll(
+        "id: string, options?",
+        'foundryFeatures: "VoiceAgents=V1Preview", id: string, options?',
+      )
+      .replace(`${name}(context, id, options)`, `${name}(context, foundryFeatures, id, options)`),
+  );
+  const plan = planCustomization(trees);
+  assert.deepEqual(plan.diagnostics, []);
+  assert.match(plan.source.get(file), /traceVoiceAgentOperation/);
+  assert.doesNotMatch(plan.source.get(file), /foundryFeatures/);
+  assert.doesNotMatch(plan.source.get("api/agents/operations.ts"), /foundry-features/);
+});
+
+test("reviewed promotion does not authorize an unrelated destination or custom-only declaration", () => {
+  const { trees, oldFile } = tracingPromotionTrees();
+  trees.baseSource.set(
+    oldFile,
+    trees.baseSource.get(oldFile) + "\nfunction unrelated() { return 1; }",
+  );
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) =>
+      /custom-only declarations/.test(item.message),
+    ),
+  );
+  for (const file of [...trees.generated.keys()].filter((file) => file.includes("/agents/"))) {
+    trees.generated.set(file.replace("/agents/", "/other/"), trees.generated.get(file));
+    trees.generated.delete(file);
+  }
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) => /cannot be relocated/.test(item.message)),
+  );
+});
+
+test("reviewed tracing promotion rejects an existing destination member rather than overwriting it", () => {
+  const { trees, file } = tracingPromotionTrees();
+  trees.baseSource.set(file, trees.generated.get(file));
+  assert.ok(
+    planCustomization(trees).diagnostics.some((item) => /cannot be relocated/.test(item.message)),
+  );
+});
+
 const restore = [
   "restoreItem",
   "/items/{id}:restore",
@@ -907,97 +1104,90 @@ test("a removed beta module carries renamed operation helpers but rejects unknow
   );
 });
 
-test("promoted monitor wiring preserves the customized beta authentication context", () => {
-  const oldApi = "api/beta/agentInsightMonitors/operations.ts";
-  const rootApi = "api/agentInsightMonitors/operations.ts";
-  const beta = `export interface BetaOperations {
-  agentInsightMonitors: BetaAgentInsightMonitorsOperations;
+for (const [group, type] of [
+  ["agentInsightMonitors", "AgentInsightMonitors"],
+  ["skills", "Skills"],
+])
+  test(`promoted ${group} wiring preserves the customized beta authentication context`, () => {
+    const oldApi = `api/beta/${group}/operations.ts`;
+    const rootApi = `api/${group}/operations.ts`;
+    const beta = `export interface BetaOperations {
+  ${group}: Beta${type}Operations;
 }
 export function _getBetaOperations(context: Client): BetaOperations {
-  return { agentInsightMonitors: _getBetaAgentInsightMonitorsOperations(context) };
+  return { ${group}: _getBeta${type}Operations(context) };
 }`;
-  const client = `export class AIProjectClient {
+    const client = `export class AIProjectClient {
   constructor() {
     this.beta = _getBetaOperations(this._client);
     this.telemetry = customTelemetry();
   }
 }`;
-  const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
-  const baseGenerated = new Map(
-    Object.entries({
-      ...models(),
-      [oldApi]: operations(2, [betaArchive]),
-      "api/beta/agentInsightMonitors/options.ts": options([betaArchive[3]]),
-      "classic/beta/agentInsightMonitors/index.ts": classic(
-        3,
-        "BetaAgentInsightMonitors",
-        "beta/agentInsightMonitors",
-        [betaArchive],
-      ),
-      "classic/beta/index.ts": beta,
-      "aiProjectClient.ts": client,
-    }),
-  );
-  const baseSource = new Map(baseGenerated);
-  baseSource.set("aiProjectClient.ts", customClient);
-  const generated = new Map(
-    Object.entries({
-      ...models(),
-      [rootApi]: operations(1, [archive]),
-      "api/agentInsightMonitors/options.ts": options([archive[3]]),
-      "classic/agentInsightMonitors/index.ts": classic(
-        2,
-        "AgentInsightMonitors",
-        "agentInsightMonitors",
-        [archive],
-      ),
-      "classic/beta/index.ts":
-        "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
-      "aiProjectClient.ts": `import { AgentInsightMonitorsOperations, _getAgentInsightMonitorsOperations } from "./classic/agentInsightMonitors/index.js";
+    const customClient = client.replaceAll("this._client", "this._cognitiveScopeClient");
+    const baseGenerated = new Map(
+      Object.entries({
+        ...models(),
+        [oldApi]: operations(2, [betaArchive]),
+        [`api/beta/${group}/options.ts`]: options([betaArchive[3]]),
+        [`classic/beta/${group}/index.ts`]: classic(3, `Beta${type}`, `beta/${group}`, [
+          betaArchive,
+        ]),
+        "classic/beta/index.ts": beta,
+        "aiProjectClient.ts": client,
+      }),
+    );
+    const baseSource = new Map(baseGenerated);
+    baseSource.set("aiProjectClient.ts", customClient);
+    const generated = new Map(
+      Object.entries({
+        ...models(),
+        [rootApi]: operations(1, [archive]),
+        [`api/${group}/options.ts`]: options([archive[3]]),
+        [`classic/${group}/index.ts`]: classic(2, type, group, [archive]),
+        "classic/beta/index.ts":
+          "export interface BetaOperations {} export function _getBetaOperations(context: Client): BetaOperations { return {}; }",
+        "aiProjectClient.ts": `import { ${type}Operations, _get${type}Operations } from "./classic/${group}/index.js";
 ${client
-  .replace(
-    "constructor()",
-    "public readonly agentInsightMonitors: AgentInsightMonitorsOperations;\nconstructor()",
-  )
+  .replace("constructor()", `public readonly ${group}: ${type}Operations;\nconstructor()`)
   .replace(
     "this.telemetry",
-    "this.agentInsightMonitors = _getAgentInsightMonitorsOperations(this._client);\nthis.telemetry",
+    `this.${group} = _get${type}Operations(this._client);\nthis.telemetry`,
   )}`,
-    }),
-  );
-  const inputs = { baseGenerated, baseSource, generated };
-  const plan = planCustomization(inputs);
-  assert.deepEqual(plan.diagnostics, []);
-  const resolved = plan.source.get("aiProjectClient.ts");
-  assert.match(
-    resolved,
-    /this.agentInsightMonitors = _getAgentInsightMonitorsOperations\(this._cognitiveScopeClient\)/,
-  );
-  assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
-  const guardInputs = {
-    ...inputs,
-    source: plan.source,
-    matches: plan.matches,
-    modelRenames: plan.modelRenames,
-  };
-  assert.deepEqual(validateCustomization(guardInputs), []);
-  const wrongContext = new Map(plan.source);
-  wrongContext.set(
-    "aiProjectClient.ts",
-    resolved.replace(
-      "_getAgentInsightMonitorsOperations(this._cognitiveScopeClient)",
-      "_getAgentInsightMonitorsOperations(this._azureScopeClient)",
-    ),
-  );
-  assert.ok(
-    validateCustomization({ ...guardInputs, source: wrongContext }).some(
-      (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
-    ),
-  );
-  generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
-  const unrelated = planCustomization(inputs);
-  assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
-});
+      }),
+    );
+    const inputs = { baseGenerated, baseSource, generated };
+    const plan = planCustomization(inputs);
+    assert.deepEqual(plan.diagnostics, []);
+    const resolved = plan.source.get("aiProjectClient.ts");
+    assert.match(
+      resolved,
+      new RegExp(`this\\.${group} = _get${type}Operations\\(this\\._cognitiveScopeClient\\)`),
+    );
+    assert.match(resolved, /this.telemetry = customTelemetry\(\)/);
+    const guardInputs = {
+      ...inputs,
+      source: plan.source,
+      matches: plan.matches,
+      modelRenames: plan.modelRenames,
+    };
+    assert.deepEqual(validateCustomization(guardInputs), []);
+    const wrongContext = new Map(plan.source);
+    wrongContext.set(
+      "aiProjectClient.ts",
+      resolved.replace(
+        `_get${type}Operations(this._cognitiveScopeClient)`,
+        `_get${type}Operations(this._azureScopeClient)`,
+      ),
+    );
+    assert.ok(
+      validateCustomization({ ...guardInputs, source: wrongContext }).some(
+        (d) => d.file === "aiProjectClient.ts" && /Protected customization changed/.test(d.message),
+      ),
+    );
+    generated.set(rootApi, generated.get(rootApi).replaceAll("/items/", "/unrelated/"));
+    const unrelated = planCustomization(inputs);
+    assert.equal(unrelated.source.get("aiProjectClient.ts"), customClient);
+  });
 
 test("retains compatibility aliases that reuse a generated name the customization renamed", () => {
   const patch = ["patchItem", "/items/{id}", "patch", "ItemsPatchItemOptionalParams"];

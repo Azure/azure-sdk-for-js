@@ -7,7 +7,6 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 import type {
   KnowledgeBaseRetrievalStartedStreamEvent,
   KnowledgeBaseActivityStartedStreamEvent,
@@ -17,6 +16,34 @@ import type {
   KnowledgeBaseErrorStreamEvent,
   KnowledgeBaseResponseCompletedStreamEvent,
 } from "./azure/search/documents/knowledgeBases/models.js";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
+
+/** Enum describing allowed operation states. */
+export enum KnownOperationState {
+  /** The operation has not started. */
+  NotStarted = "NotStarted",
+  /** The operation is in progress. */
+  Running = "Running",
+  /** The operation has completed successfully. */
+  Succeeded = "Succeeded",
+  /** The operation has failed. */
+  Failed = "Failed",
+  /** The operation has been canceled by the user. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Enum describing allowed operation states. \
+ * {@link KnownOperationState} can be used interchangeably with OperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: The operation has not started. \
+ * **Running**: The operation is in progress. \
+ * **Succeeded**: The operation has completed successfully. \
+ * **Failed**: The operation has failed. \
+ * **Canceled**: The operation has been canceled by the user.
+ */
+export type OperationState = string;
 
 /**
  * The set of server-sent events emitted while streaming a knowledge base retrieval, added in
@@ -45,8 +72,14 @@ export enum KnownVersions {
   V20260401 = "2026-04-01",
   /** The 2026-10-01 API version. */
   V20261001 = "2026-10-01",
+  /** The 2026-11-01-preview API version. */
+  V20261101Preview = "2026-11-01-preview",
 }
 
+/** The response from the protocol document-count operation. */
+export type GetDocumentCountResponse = number;
+
+/** Platform-specific raw streaming response, retained for compatibility. */
 export type RetrieveStreamResponse = {
   /**
    * BROWSER ONLY

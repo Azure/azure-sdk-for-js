@@ -24,6 +24,10 @@ export async function getSseStream(
     throw createSseError(response, body);
   }
 
+  if (!response.body) {
+    throw createSseError(response);
+  }
+
   if (
     response.headers["content-type"]?.split(";")[0].trim().toLowerCase() !== "text/event-stream"
   ) {
@@ -36,10 +40,6 @@ export async function getSseStream(
     ) {
       await body.cancel();
     }
-    throw createSseError(response);
-  }
-
-  if (!response.body) {
     throw createSseError(response);
   }
 

@@ -181,6 +181,35 @@ describe("TestProxyClient functions", () => {
     });
   });
 
+  describe("setMatcher method", () => {
+    it.each([
+      {
+        description: "forwards configured parameters",
+        options: { ignoredQueryParameters: ["api-version", "foo"] },
+        expected: "api-version,foo",
+      },
+      { description: "omits unconfigured parameters", options: {}, expected: undefined },
+    ])("$description", async ({ options, expected }) => {
+      env.TEST_MODE = "playback";
+      clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
+        expect(req.url.endsWith(paths.setMatcher)).to.equal(true);
+        const body = JSON.parse(req.body as string);
+        if (expected === undefined) {
+          expect(body).not.to.have.property("ignoredQueryParameters");
+        } else {
+          expect(body.ignoredQueryParameters).to.equal(expected);
+        }
+        return Promise.resolve({
+          status: 200,
+          headers: createHttpHeaders(),
+          request: initialRequest,
+        });
+      };
+
+      await client.setMatcher("CustomDefaultMatcher", options);
+    });
+  });
+
   describe("stop method", () => {
     it("nothing happens if not playback or record modes", async function () {
       env.TEST_MODE = "live";

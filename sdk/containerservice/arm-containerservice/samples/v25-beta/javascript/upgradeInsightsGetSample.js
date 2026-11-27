@@ -16,7 +16,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * evaluation for that scope from the data store, including the detected
  * upgrade-blocking issues and contextual upgrade information. It does not regenerate
  * the evaluation. If no non-expired evaluation exists for the name, it returns 404.
- * x-ms-original-file: 2026-08-02-preview/ManagedClustersGetUpgradeInsight.json
+ * x-ms-original-file: 2026-09-02-preview/ManagedClustersGetUpgradeInsight.json
  */
 async function getAStoredUpgradeInsight() {
   const credential = new DefaultAzureCredential();

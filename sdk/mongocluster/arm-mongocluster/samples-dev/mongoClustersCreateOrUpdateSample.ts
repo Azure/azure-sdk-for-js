@@ -5,17 +5,18 @@ import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_Create.json
  */
-async function createsANewMongoClusterResource(): Promise<void> {
+async function createsADocumentDBClusterWithDefaultPremiumSSDv2StorageAndStringValuedTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
     location: "westus2",
+    tags: { environment: "production", costCenter: "1234" },
     properties: {
       administrator: { userName: "mongoAdmin", password: "********" },
       authConfig: { allowedModes: ["NativeAuth"] },
@@ -30,12 +31,12 @@ async function createsANewMongoClusterResource(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreateGeoReplica.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_CreateGeoReplica.json
  */
-async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise<void> {
+async function createsAReplicaDocumentDBClusterResourceFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -59,12 +60,12 @@ async function createsAReplicaMongoClusterResourceFromASourceResource(): Promise
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreateGeoReplica_CMK.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_CreateGeoReplica_CMK.json
  */
-async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource(): Promise<void> {
+async function createsAReplicaDocumentDBClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -104,12 +105,12 @@ async function createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncrypti
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_CreatePITR.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<void> {
+async function createsADocumentDBClusterResourceFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -129,12 +130,12 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore(): Promise<vo
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR_CMK.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_CreatePITR_CMK.json
  */
-async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore(): Promise<void> {
+async function createsADocumentDBClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -170,12 +171,12 @@ async function createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromA
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_CreatePITR_EntraAuth.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_CreatePITR_EntraAuth.json
  */
-async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled(): Promise<void> {
+async function createsADocumentDBClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -195,12 +196,12 @@ async function createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftE
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create_CMK.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_Create_CMK.json
  */
-async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption(): Promise<void> {
+async function createsANewDocumentDBClusterResourceWithCustomerManagedKeyEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -235,12 +236,12 @@ async function createsANewMongoClusterResourceWithCustomerManagedKeyEncryption()
 }
 
 /**
- * This sample demonstrates how to create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * This sample demonstrates how to create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
- * @summary create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: 2026-06-15-preview/MongoClusters_Create_SSDv2.json
+ * @summary create or update a DocumentDB cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
+ * x-ms-original-file: 2026-09-01/MongoClusters_Create_SSDv2.json
  */
-async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
+async function createsANewDocumentDBClusterResourceWithPremiumSSDv2Storage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -260,14 +261,14 @@ async function createsANewMongoClusterResourceWithPremiumSSDv2Storage(): Promise
 }
 
 async function main(): Promise<void> {
-  await createsANewMongoClusterResource();
-  await createsAReplicaMongoClusterResourceFromASourceResource();
-  await createsAReplicaMongoClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource();
-  await createsAMongoClusterResourceFromAPointInTimeRestore();
-  await createsAMongoClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore();
-  await createsAMongoClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled();
-  await createsANewMongoClusterResourceWithCustomerManagedKeyEncryption();
-  await createsANewMongoClusterResourceWithPremiumSSDv2Storage();
+  await createsADocumentDBClusterWithDefaultPremiumSSDv2StorageAndStringValuedTags();
+  await createsAReplicaDocumentDBClusterResourceFromASourceResource();
+  await createsAReplicaDocumentDBClusterResourceWithCustomerManagedKeyEncryptionFromASourceResource();
+  await createsADocumentDBClusterResourceFromAPointInTimeRestore();
+  await createsADocumentDBClusterResourceWithCustomerManagedKeyEncryptionFromAPointInTimeRestore();
+  await createsADocumentDBClusterResourceFromAPointInTimeRestoreWithMicrosoftEntraIDAuthenticationModeEnabled();
+  await createsANewDocumentDBClusterResourceWithCustomerManagedKeyEncryption();
+  await createsANewDocumentDBClusterResourceWithPremiumSSDv2Storage();
 }
 
 main().catch(console.error);
