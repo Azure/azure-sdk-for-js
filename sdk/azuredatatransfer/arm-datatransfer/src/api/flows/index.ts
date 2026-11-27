@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  setSourceAddresses,
+  setPassphrase,
+  setDestinationEndpoints,
+  setDestinationEndpointPorts,
+  link,
+  getStreamConnectionString,
+  getSourceAddresses,
+  getDestinationEndpoints,
+  getDestinationEndpointPorts,
+  generatePassphrase,
+  enable,
+  disable,
+  listByConnection,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "./operations.js";
+export type {
+  FlowsSetSourceAddressesOptionalParams,
+  FlowsSetPassphraseOptionalParams,
+  FlowsSetDestinationEndpointsOptionalParams,
+  FlowsSetDestinationEndpointPortsOptionalParams,
+  FlowsLinkOptionalParams,
+  FlowsGetStreamConnectionStringOptionalParams,
+  FlowsGetSourceAddressesOptionalParams,
+  FlowsGetDestinationEndpointsOptionalParams,
+  FlowsGetDestinationEndpointPortsOptionalParams,
+  FlowsGeneratePassphraseOptionalParams,
+  FlowsEnableOptionalParams,
+  FlowsDisableOptionalParams,
+  FlowsListByConnectionOptionalParams,
+  FlowsDeleteOptionalParams,
+  FlowsUpdateOptionalParams,
+  FlowsCreateOrUpdateOptionalParams,
+  FlowsGetOptionalParams,
+} from "./options.js";
