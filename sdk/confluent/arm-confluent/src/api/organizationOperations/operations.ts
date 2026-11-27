@@ -4,8 +4,8 @@
 import type { ConfluentManagementContext as Client } from "../index.js";
 import type { _OperationListResult, OperationResult } from "../../models/models.js";
 import {
-  _operationListResultDeserializer,
   resourceProviderDefaultErrorResponseDeserializer,
+  _operationListResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -21,7 +21,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Confluent/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,6 +48,7 @@ export async function _listDeserialize(
 
   return _operationListResultDeserializer(result.body);
 }
+
 /** List the operations for the provider */
 export function list(
   context: Client,
@@ -61,7 +62,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }

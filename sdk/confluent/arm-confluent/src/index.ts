@@ -14,25 +14,34 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
-  NetworkGatewayResource,
-  NetworkGatewayProperties,
-  SCMetadataEntity,
-  ProvisionState,
+  MonitorResource,
+  MonitorProperties,
   KeyValuePair,
-  ProxyResource,
+  ProvisionState,
+  MonitoringStatus,
+  TrackedResource,
   Resource,
   SystemData,
   CreatedByType,
+  ResourceProviderDefaultErrorResponse,
+  ErrorResponseBody,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
+  MonitorResourceUpdateParameters,
+  MonitorTagRule,
+  MonitorTagRuleProperties,
+  LogRules,
+  FilteringTag,
+  TagAction,
+  ProxyResource,
+  NetworkGatewayResource,
+  NetworkGatewayProperties,
+  SCMetadataEntity,
   AccessPointResource,
   AccessPointProperties,
-  VnetInjectionDetails,
   OperationResult,
   OperationDisplay,
-  ResourceProviderDefaultErrorResponse,
-  ErrorResponseBody,
   APIKeyRecord,
   APIKeyProperties,
   APIKeySpecEntity,
@@ -44,7 +53,6 @@ export type {
   SaaSOfferStatus,
   UserDetail,
   LinkOrganization,
-  TrackedResource,
   OrganizationResourceUpdate,
   ListAccessRequestModel,
   ListRegionsSuccessResponse,
@@ -129,7 +137,9 @@ export type {
 } from "./models/index.js";
 export {
   KnownProvisionState,
+  KnownMonitoringStatus,
   KnownCreatedByType,
+  KnownTagAction,
   KnownSaaSOfferStatus,
   KnownPackage,
   KnownConnectorType,
@@ -141,6 +151,7 @@ export {
   KnownDataFormatType,
   KnownVersions,
 } from "./models/index.js";
+export type { VnetInjectionDetails } from "./models/liftrBase/index.js";
 export type { ConfluentManagementClientOptionalParams } from "./api/index.js";
 export type {
   AccessListRoleBindingNameListOptionalParams,
@@ -178,6 +189,19 @@ export type {
   MarketplaceAgreementsCreateOptionalParams,
   MarketplaceAgreementsListOptionalParams,
 } from "./api/marketplaceAgreements/index.js";
+export type {
+  MonitorResourcesListByOrganizationOptionalParams,
+  MonitorResourcesDeleteOptionalParams,
+  MonitorResourcesUpdateOptionalParams,
+  MonitorResourcesCreateOrUpdateOptionalParams,
+  MonitorResourcesGetOptionalParams,
+} from "./api/monitorResources/index.js";
+export type {
+  MonitorTagRulesListByMonitorOptionalParams,
+  MonitorTagRulesDeleteOptionalParams,
+  MonitorTagRulesCreateOrUpdateOptionalParams,
+  MonitorTagRulesGetOptionalParams,
+} from "./api/monitorTagRules/index.js";
 export type {
   NetworkGatewayResourcesListOptionalParams,
   NetworkGatewayResourcesDeleteOptionalParams,
@@ -223,6 +247,8 @@ export type {
   ConnectorOperations,
   EnvironmentOperations,
   MarketplaceAgreementsOperations,
+  MonitorResourcesOperations,
+  MonitorTagRulesOperations,
   NetworkGatewayResourcesOperations,
   OrganizationOperations,
   OrganizationOperationsOperations,

@@ -6,6 +6,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface OrganizationCreateAPIKeyOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationListClustersOptionalParams extends OperationOptions {
   /** Pagination size */
@@ -13,10 +14,13 @@ export interface OrganizationListClustersOptionalParams extends OperationOptions
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string;
 }
+
 /** Optional parameters. */
 export interface OrganizationGetClusterByIdOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationGetSchemaRegistryClusterByIdOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationListSchemaRegistryClustersOptionalParams extends OperationOptions {
   /** Pagination size */
@@ -24,6 +28,7 @@ export interface OrganizationListSchemaRegistryClustersOptionalParams extends Op
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string;
 }
+
 /** Optional parameters. */
 export interface OrganizationListEnvironmentsOptionalParams extends OperationOptions {
   /** Pagination size */
@@ -31,36 +36,46 @@ export interface OrganizationListEnvironmentsOptionalParams extends OperationOpt
   /** An opaque pagination token to fetch the next set of records */
   pageToken?: string;
 }
+
 /** Optional parameters. */
 export interface OrganizationGetEnvironmentByIdOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationActivateResourceOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface OrganizationLatestLinkedSaaSOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationLinkSaaSOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface OrganizationListRegionsOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationListBySubscriptionOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationListByResourceGroupOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface OrganizationUpdateOptionalParams extends OperationOptions {
   /** Updated Organization resource */
   body?: OrganizationResourceUpdate;
 }
+
 /** Optional parameters. */
 export interface OrganizationCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -68,9 +83,12 @@ export interface OrganizationCreateOptionalParams extends OperationOptions {
   /** Organization resource model */
   body?: OrganizationResource;
 }
+
 /** Optional parameters. */
 export interface OrganizationGetOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationDeleteClusterAPIKeyOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface OrganizationGetClusterAPIKeyOptionalParams extends OperationOptions {}

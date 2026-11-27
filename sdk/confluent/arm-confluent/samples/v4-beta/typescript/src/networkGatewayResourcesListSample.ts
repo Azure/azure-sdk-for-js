@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all network gateways in an environment
  *
  * @summary lists all network gateways in an environment
- * x-ms-original-file: 2026-06-02-preview/NetworkGatewayResources_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/NetworkGatewayResources_List_MaximumSet_Gen.json
  */
 async function networkGatewayResourcesListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

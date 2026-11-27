@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create confluent clusters
  *
  * @summary create confluent clusters
- * x-ms-original-file: 2026-06-02-preview/Cluster_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Cluster_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function clusterCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

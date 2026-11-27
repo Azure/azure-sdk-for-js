@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get confluent network gateway by Id
  *
  * @summary get confluent network gateway by Id
- * x-ms-original-file: 2026-06-02-preview/NetworkGatewayResources_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/NetworkGatewayResources_Get_MaximumSet_Gen.json
  */
 async function networkGatewayResourcesGetMaximumSet() {
   const credential = new DefaultAzureCredential();

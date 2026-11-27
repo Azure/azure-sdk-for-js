@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete confluent access point by id
  *
  * @summary delete confluent access point by id
- * x-ms-original-file: 2026-06-02-preview/AccessPointResources_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/AccessPointResources_Delete_MaximumSet_Gen.json
  */
 async function accessPointResourcesDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

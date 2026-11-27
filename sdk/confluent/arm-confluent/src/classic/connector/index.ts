@@ -71,6 +71,7 @@ export interface ConnectorOperations {
     options?: ConnectorGetOptionalParams,
   ) => Promise<ConnectorResource>;
 }
+
 function _getConnector(context: ConfluentManagementContext) {
   return {
     list: (
@@ -171,6 +172,7 @@ function _getConnector(context: ConfluentManagementContext) {
       ),
   };
 }
+
 export function _getConnectorOperations(context: ConfluentManagementContext): ConnectorOperations {
   return {
     ..._getConnector(context),

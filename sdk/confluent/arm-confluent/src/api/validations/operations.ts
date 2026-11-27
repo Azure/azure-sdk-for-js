@@ -30,7 +30,7 @@ export function _validateOrganizationV2Send(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _validateOrganizationV2Deserialize(
 
   return validationResponseDeserializer(result.body);
 }
+
 /** Organization Validate proxy resource */
 export async function validateOrganizationV2(
   context: Client,
@@ -90,7 +91,7 @@ export function _validateOrganizationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       organizationName: organizationName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,6 +120,7 @@ export async function _validateOrganizationDeserialize(
 
   return organizationResourceDeserializer(result.body);
 }
+
 /** Organization Validate proxy resource */
 export async function validateOrganization(
   context: Client,

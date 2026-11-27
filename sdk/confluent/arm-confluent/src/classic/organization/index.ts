@@ -240,6 +240,7 @@ export interface OrganizationOperations {
     options?: OrganizationGetClusterAPIKeyOptionalParams,
   ) => Promise<APIKeyRecord>;
 }
+
 function _getOrganization(context: ConfluentManagementContext) {
   return {
     createAPIKey: (
@@ -444,6 +445,7 @@ function _getOrganization(context: ConfluentManagementContext) {
     ) => getClusterAPIKey(context, resourceGroupName, organizationName, apiKeyId, options),
   };
 }
+
 export function _getOrganizationOperations(
   context: ConfluentManagementContext,
 ): OrganizationOperations {

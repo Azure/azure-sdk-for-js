@@ -30,7 +30,7 @@ export function _createSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,6 +59,7 @@ export async function _createDeserialize(
 
   return confluentAgreementResourceDeserializer(result.body);
 }
+
 /** Create Confluent Marketplace agreement in the subscription. */
 export async function create(
   context: Client,
@@ -76,7 +77,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/agreements{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-06-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-21-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,6 +104,7 @@ export async function _listDeserialize(
 
   return _confluentAgreementResourceListResponseDeserializer(result.body);
 }
+
 /** List Confluent marketplace agreements in the subscription. */
 export function list(
   context: Client,
@@ -116,7 +118,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-06-02-preview",
+      apiVersion: context.apiVersion ?? "2026-10-21-preview",
     },
   );
 }

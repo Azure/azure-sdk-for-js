@@ -1,6 +1,25 @@
 {
   "extends": "../../../../eng/tsconfigs/src.esm.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/validations/index.ts",
+    "../src/api/marketplaceAgreements/index.ts",
+    "../src/api/topics/index.ts",
+    "../src/api/connector/index.ts",
+    "../src/api/cluster/index.ts",
+    "../src/api/environment/index.ts",
+    "../src/api/access/index.ts",
+    "../src/api/organization/index.ts",
+    "../src/api/organizationOperations/index.ts",
+    "../src/api/accessPointResources/index.ts",
+    "../src/api/networkGatewayResources/index.ts",
+    "../src/api/monitorTagRules/index.ts",
+    "../src/api/monitorResources/index.ts",
+    "../src/models/index.ts",
+    "../src/models/liftrBase/index.ts"
   ]
 }

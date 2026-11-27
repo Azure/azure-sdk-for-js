@@ -7,6 +7,8 @@ export type { ClusterOperations } from "./cluster/index.js";
 export type { ConnectorOperations } from "./connector/index.js";
 export type { EnvironmentOperations } from "./environment/index.js";
 export type { MarketplaceAgreementsOperations } from "./marketplaceAgreements/index.js";
+export type { MonitorResourcesOperations } from "./monitorResources/index.js";
+export type { MonitorTagRulesOperations } from "./monitorTagRules/index.js";
 export type { NetworkGatewayResourcesOperations } from "./networkGatewayResources/index.js";
 export type { OrganizationOperations } from "./organization/index.js";
 export type { OrganizationOperationsOperations } from "./organizationOperations/index.js";

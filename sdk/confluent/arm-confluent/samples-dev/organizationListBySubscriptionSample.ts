@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all organizations under the specified subscription.
  *
  * @summary list all organizations under the specified subscription.
- * x-ms-original-file: 2026-06-02-preview/Organization_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-21-preview/Organization_ListBySubscription_MaximumSet_Gen.json
  */
 async function organizationListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
