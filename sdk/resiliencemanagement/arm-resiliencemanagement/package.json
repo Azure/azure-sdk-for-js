@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-resiliencemanagement",
-  "version": "1.0.0",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for AzureResilienceManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -202,6 +202,20 @@
         "default": "./dist/commonjs/api/recoveryPlanActions/index.js"
       }
     },
+    "./api/recoveryConfigProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/recoveryConfigProfiles/index.d.ts",
+        "default": "./dist/browser/api/recoveryConfigProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/recoveryConfigProfiles/index.d.ts",
+        "default": "./dist/esm/api/recoveryConfigProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/recoveryConfigProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/recoveryConfigProfiles/index.js"
+      }
+    },
     "./api/recoveryPlans": {
       "browser": {
         "types": "./dist/browser/api/recoveryPlans/index.d.ts",
@@ -375,6 +389,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement?view=azure-node-preview"
   }
 }

@@ -8,12 +8,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a goal assignment.
  *
  * @summary creates or updates a goal assignment.
- * x-ms-original-file: 2026-10-01/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.goalAssignments.createOrUpdate("production-sg", "zonal-resiliency-goal", {
+  await client.goalAssignments.createOrUpdate("sg1", "ga1", {
     properties: {
       serviceLevelResources: [
         {
@@ -22,6 +22,11 @@ async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
         },
       ],
       requireZonalResiliency: true,
+      requireRegionalResiliency: true,
+      regionalObjectives: {
+        targetRecoveryPointObjective: "PT15M",
+        targetRecoveryTimeObjective: "PT1H",
+      },
     },
   });
 }
@@ -30,12 +35,12 @@ async function goalAssignmentsCreateOrUpdateMaximumSet(): Promise<void> {
  * This sample demonstrates how to creates or updates a goal assignment.
  *
  * @summary creates or updates a goal assignment.
- * x-ms-original-file: 2026-10-01/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-11-30-preview/GoalAssignments_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function goalAssignmentsCreateOrUpdateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureResilienceManagementClient(credential);
-  await client.goalAssignments.createOrUpdate("production-sg", "zonal-resiliency-goal", {
+  await client.goalAssignments.createOrUpdate("sg1", "ga1", {
     properties: { requireZonalResiliency: true },
   });
 }
