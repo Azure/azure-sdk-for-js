@@ -10,7 +10,7 @@ export type BicepCli = {
 
 /**
  * Resolve the first working Bicep entrypoint, preferring standalone binaries
- * and falling back to `az bicep` when necessary.
+ * and falling back to `az bicep` when necessary. Cache successful discovery.
  */
 export function resolveBicepCli(): BicepCli;
 

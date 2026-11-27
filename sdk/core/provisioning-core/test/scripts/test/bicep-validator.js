@@ -38,6 +38,8 @@ const BICEP_CLI_CANDIDATES = [
   },
 ];
 
+let resolvedBicepCli;
+
 function errorText(error) {
   if (!(error instanceof Error)) {
     return String(error);
@@ -57,14 +59,19 @@ function errorText(error) {
 }
 
 // Resolve the first working Bicep entrypoint, preferring standalone binaries
-// and falling back to `az bicep` when necessary.
+// and falling back to `az bicep` when necessary. Cache successful discovery.
 export function resolveBicepCli() {
+  if (resolvedBicepCli) {
+    return resolvedBicepCli;
+  }
+
   for (const candidate of BICEP_CLI_CANDIDATES) {
     try {
       execFileSync(candidate.command, candidate.versionArgs, {
         stdio: ["ignore", "ignore", "ignore"],
       });
-      return candidate;
+      resolvedBicepCli = candidate;
+      return resolvedBicepCli;
     } catch {
       continue;
     }
