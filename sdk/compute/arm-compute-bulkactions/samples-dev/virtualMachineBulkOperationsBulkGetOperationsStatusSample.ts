@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
  * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_BasicSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkGetOperationsStatus_BasicSuccess.json
  */
 async function _01GetTheStatusOfSuccessfullyCompletedOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function _01GetTheStatusOfSuccessfullyCompletedOperations(): Promise<void>
  * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
  * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackAfterHibernateFail.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackAfterHibernateFail.json
  */
 async function _04ResponseWithSuccessfulDeallocationFallbackAfterHibernationFails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function _04ResponseWithSuccessfulDeallocationFallbackAfterHibernationFail
  * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
  * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackFailedAfterHibernateFail.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkGetOperationsStatus_DeallocateFallbackFailedAfterHibernateFail.json
  */
 async function _05ResponseWithFailedDeallocationFallbackAfterHibernationFails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -67,7 +67,7 @@ async function _05ResponseWithFailedDeallocationFallbackAfterHibernationFails():
  * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
  * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_FailedOperation.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkGetOperationsStatus_FailedOperation.json
  */
 async function _02GetTheStatusOfAFailedOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -85,7 +85,7 @@ async function _02GetTheStatusOfAFailedOperation(): Promise<void> {
  * This sample demonstrates how to get the current status of one or more operations identified by their Bulk Action Operation Ids.
  *
  * @summary get the current status of one or more operations identified by their Bulk Action Operation Ids.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkGetOperationsStatus_OperationNotFoundError.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkGetOperationsStatus_OperationNotFoundError.json
  */
 async function _03ResponseWithAnOperationNotFoundError(): Promise<void> {
   const credential = new DefaultAzureCredential();

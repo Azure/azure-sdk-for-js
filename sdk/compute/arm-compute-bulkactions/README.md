@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-bulkactions)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-compute-bulkactions)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-compute-bulkactions)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute-bulkactions/samples)
 
 ## Getting started

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkDeallocate_BasicSuccess.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkDeallocate_BasicSuccess.json
  */
 async function _01DeallocateMultipleVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ async function _01DeallocateMultipleVirtualMachines(): Promise<void> {
  * This sample demonstrates how to deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
  *
  * @summary deallocate one or more virtual machines. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
- * x-ms-original-file: 2026-10-06-preview/VirtualMachineBulkOperations_BulkDeallocate_VmNotFoundError.json
+ * x-ms-original-file: 2026-10-16/VirtualMachineBulkOperations_BulkDeallocate_VmNotFoundError.json
  */
 async function _02ResponseWhenAVirtualMachineDoesNotExist(): Promise<void> {
   const credential = new DefaultAzureCredential();

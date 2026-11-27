@@ -3,9 +3,6 @@
 
 import type { ComputeContext } from "../../api/computeContext.js";
 import {
-  bulkAcknowledgeOperationErrors,
-  bulkListOperationErrors,
-  bulkReimageOperation,
   bulkCancelOperations,
   bulkGetOperationsStatus,
   bulkDeleteOperation,
@@ -14,9 +11,6 @@ import {
   bulkDeallocateOperation,
 } from "../../api/virtualMachineBulkOperations/operations.js";
 import type {
-  VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams,
-  VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams,
-  VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
   VirtualMachineBulkOperationsBulkCancelOperationsOptionalParams,
   VirtualMachineBulkOperationsBulkGetOperationsStatusOptionalParams,
   VirtualMachineBulkOperationsBulkDeleteOperationOptionalParams,
@@ -27,7 +21,6 @@ import type {
 import type {
   ExecuteDeallocateContent,
   DeallocateResourceOperationResponse,
-  ResourceOperation,
   ExecuteHibernateContent,
   HibernateResourceOperationResponse,
   ExecuteStartContent,
@@ -38,39 +31,10 @@ import type {
   GetOperationStatusResponse,
   CancelOperationsContent,
   CancelOperationsResponse,
-  ExecuteReimageRequest,
-  ReimageResourceOperationResponse,
-  AcknowledgeBulkOperationErrorsRequest,
-  AcknowledgeBulkOperationErrorsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VirtualMachineBulkOperations operations. */
 export interface VirtualMachineBulkOperationsOperations {
-  /** Acknowledge errors for specified operations in a resource group. */
-  bulkAcknowledgeOperationErrors: (
-    resourceGroupName: string,
-    location: string,
-    body: AcknowledgeBulkOperationErrorsRequest,
-    options?: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams,
-  ) => Promise<AcknowledgeBulkOperationErrorsResponse>;
-  /** List recent errors for operations in a resource group. */
-  bulkListOperationErrors: (
-    resourceGroupName: string,
-    location: string,
-    options?: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams,
-  ) => PagedAsyncIterableIterator<ResourceOperation>;
-  /**
-   * This feature is currently in preview.
-   *
-   * Reimage one or more virtual machines. Reimaging is destructive and can replace operating system disk contents. Bulk Actions begins processing the request immediately and returns a Bulk Action Operation Id for each virtual machine. Use the returned IDs to get operation status updates.
-   */
-  bulkReimageOperation: (
-    resourceGroupName: string,
-    location: string,
-    requestBody: ExecuteReimageRequest,
-    options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
-  ) => Promise<ReimageResourceOperationResponse>;
   /** Cancel one or more Bulk Actions operations by Bulk Action Operation Ids. Cancellation is best effort and work that has already completed is not reversed. */
   bulkCancelOperations: (
     resourceGroupName: string,
@@ -117,23 +81,6 @@ export interface VirtualMachineBulkOperationsOperations {
 
 function _getVirtualMachineBulkOperations(context: ComputeContext) {
   return {
-    bulkAcknowledgeOperationErrors: (
-      resourceGroupName: string,
-      location: string,
-      body: AcknowledgeBulkOperationErrorsRequest,
-      options?: VirtualMachineBulkOperationsBulkAcknowledgeOperationErrorsOptionalParams,
-    ) => bulkAcknowledgeOperationErrors(context, resourceGroupName, location, body, options),
-    bulkListOperationErrors: (
-      resourceGroupName: string,
-      location: string,
-      options?: VirtualMachineBulkOperationsBulkListOperationErrorsOptionalParams,
-    ) => bulkListOperationErrors(context, resourceGroupName, location, options),
-    bulkReimageOperation: (
-      resourceGroupName: string,
-      location: string,
-      requestBody: ExecuteReimageRequest,
-      options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams,
-    ) => bulkReimageOperation(context, resourceGroupName, location, requestBody, options),
     bulkCancelOperations: (
       resourceGroupName: string,
       location: string,
