@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the quota allocated to a subscription for the specified resource provider and location for resource names passed in $filter=resourceName eq {SKU}. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota.
  *
  * @summary gets all the quota allocated to a subscription for the specified resource provider and location for resource names passed in $filter=resourceName eq {SKU}. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota.
- * x-ms-original-file: 2025-09-01/SubscriptionQuotaAllocation/SubscriptionQuotaAllocation_List-Compute.json
+ * x-ms-original-file: 2026-09-01-preview/SubscriptionQuotaAllocation/SubscriptionQuotaAllocation_List-Compute.json
  */
 async function subscriptionQuotaAllocationListForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

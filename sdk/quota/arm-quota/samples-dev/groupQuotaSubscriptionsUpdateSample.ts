@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the GroupQuotas with the subscription to add to the subscriptions list. The subscriptions will be validated if additionalAttributes are defined in the GroupQuota. The request's TenantId is validated against the subscription's TenantId.
  *
  * @summary updates the GroupQuotas with the subscription to add to the subscriptions list. The subscriptions will be validated if additionalAttributes are defined in the GroupQuota. The request's TenantId is validated against the subscription's TenantId.
- * x-ms-original-file: 2025-09-01/GroupQuotasSubscriptions/PatchGroupQuotasSubscription.json
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasSubscriptions/PatchGroupQuotasSubscription.json
  */
 async function groupQuotaSubscriptionsPatchSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

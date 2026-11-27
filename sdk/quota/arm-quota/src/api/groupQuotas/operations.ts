@@ -4,9 +4,9 @@
 import type { AzureQuotaExtensionAPIContext as Client } from "../index.js";
 import type { GroupQuotasEntity, _GroupQuotaList } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
   groupQuotasEntitySerializer,
   groupQuotasEntityDeserializer,
-  errorResponseDeserializer,
   groupQuotasEntityPatchSerializer,
   _groupQuotaListDeserializer,
 } from "../../models/models.js";
@@ -34,7 +34,7 @@ export function _listSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas{?api%2Dversion}",
     {
       managementGroupId: managementGroupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,10 +42,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -53,7 +50,10 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -71,7 +71,11 @@ export function list(
     () => _listSend(context, managementGroupId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
 
@@ -86,7 +90,7 @@ export function _$deleteSend(
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,7 +103,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -107,11 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   managementGroupId: string,
@@ -123,6 +125,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -137,7 +140,7 @@ export function _updateSend(
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,23 +149,23 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["groupQuotasPatchRequestBody"]
-      ? options["groupQuotasPatchRequestBody"]
-      : groupQuotasEntityPatchSerializer(options["groupQuotasPatchRequestBody"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.groupQuotasPatchRequestBody
+      ? options?.groupQuotasPatchRequestBody
+      : groupQuotasEntityPatchSerializer(options?.groupQuotasPatchRequestBody),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GroupQuotasEntity> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -179,11 +182,12 @@ export function update(
   groupQuotaName: string,
   options: GroupQuotasUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotasEntity>, GroupQuotasEntity> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<GroupQuotasEntity>, GroupQuotasEntity>;
 }
 
@@ -198,7 +202,7 @@ export function _createOrUpdateSend(
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -207,13 +211,10 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["groupQuotaPutRequestBody"]
-      ? options["groupQuotaPutRequestBody"]
-      : groupQuotasEntitySerializer(options["groupQuotaPutRequestBody"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.groupQuotaPutRequestBody
+      ? options?.groupQuotaPutRequestBody
+      : groupQuotasEntitySerializer(options?.groupQuotaPutRequestBody),
   });
 }
 
@@ -223,7 +224,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -243,6 +247,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, managementGroupId, groupQuotaName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<GroupQuotasEntity>, GroupQuotasEntity>;
 }
 
@@ -257,7 +262,7 @@ export function _getSend(
     {
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,10 +270,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -276,7 +278,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Gr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

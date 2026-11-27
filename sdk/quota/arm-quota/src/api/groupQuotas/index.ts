@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type GroupQuotasListOptionalParams,
-  type GroupQuotasDeleteOptionalParams,
-  type GroupQuotasUpdateOptionalParams,
-  type GroupQuotasCreateOrUpdateOptionalParams,
-  type GroupQuotasGetOptionalParams,
+export type {
+  GroupQuotasListOptionalParams,
+  GroupQuotasDeleteOptionalParams,
+  GroupQuotasUpdateOptionalParams,
+  GroupQuotasCreateOrUpdateOptionalParams,
+  GroupQuotasGetOptionalParams,
 } from "./options.js";

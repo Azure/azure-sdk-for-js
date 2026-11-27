@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
  *
  * @summary removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
- * x-ms-original-file: 2025-09-01/GroupQuotasSubscriptions/DeleteGroupQuotaSubscriptions.json
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasSubscriptions/DeleteGroupQuotaSubscriptions.json
  */
 async function groupQuotaSubscriptionsDeleteSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();

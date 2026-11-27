@@ -29,11 +29,6 @@ export interface GroupQuotaSubscriptionsOperations {
     options?: GroupQuotaSubscriptionsListOptionalParams,
   ) => PagedAsyncIterableIterator<GroupQuotaSubscriptionId>;
   /** Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     managementGroupId: string,
     groupQuotaName: string,

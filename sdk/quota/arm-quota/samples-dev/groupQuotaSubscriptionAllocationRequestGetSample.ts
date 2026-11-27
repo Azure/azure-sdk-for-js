@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the quota allocation request status for the subscriptionId by allocationId.
  *
  * @summary get the quota allocation request status for the subscriptionId by allocationId.
- * x-ms-original-file: 2025-09-01/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_Get-Compute.json
+ * x-ms-original-file: 2026-09-01-preview/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_Get-Compute.json
  */
 async function subscriptionQuotaAllocationRequestsGetRequestForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

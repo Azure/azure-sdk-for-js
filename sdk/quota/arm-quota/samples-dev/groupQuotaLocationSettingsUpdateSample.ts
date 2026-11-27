@@ -16,12 +16,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * Once the GroupQuota Enforcement is enabled then, it cannot be deleted or reverted back. To disable GroupQuota Enforcement -
  * 1. Remove all the subscriptions from the groupQuota using the delete API for Subscriptions (Check the example - GroupQuotaSubscriptions_Delete).
  * 2. Ten delete the GroupQuota (Check the example - GroupQuotas_Delete).
- * x-ms-original-file: 2025-09-01/GroupQuotasEnforcement/PatchGroupQuotaEnforcement.json
+ * x-ms-original-file: 2026-09-01-preview/GroupQuotasEnforcement/PatchGroupQuotaEnforcement.json
  */
 async function groupQuotaLocationSettingsPatch(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.groupQuotaLocationSettings.update(
     "E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
     "groupquota1",

@@ -8,12 +8,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: 2025-09-01/getComputeQuotaLimits.json
+ * x-ms-original-file: 2026-09-01-preview/getComputeQuotaLimits.json
  */
 async function quotasListQuotaLimitsForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.quota.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
@@ -28,12 +27,11 @@ async function quotasListQuotaLimitsForCompute(): Promise<void> {
  * This sample demonstrates how to get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: 2025-09-01/getMachineLearningServicesQuotaLimits.json
+ * x-ms-original-file: 2026-09-01-preview/getMachineLearningServicesQuotaLimits.json
  */
 async function quotasListQuotaLimitsMachineLearningServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
+  const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
   for await (const item of client.quota.list(
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.MachineLearningServices/locations/eastus",
@@ -48,7 +46,7 @@ async function quotasListQuotaLimitsMachineLearningServices(): Promise<void> {
  * This sample demonstrates how to get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
  *
  * @summary get a list of current quota limits of all resources for the specified scope. The response from this GET operation can be leveraged to submit requests to update a quota.
- * x-ms-original-file: 2025-09-01/getNetworkQuotaLimits.json
+ * x-ms-original-file: 2026-09-01-preview/getNetworkQuotaLimits.json
  */
 async function quotasListQuotaLimitsForNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

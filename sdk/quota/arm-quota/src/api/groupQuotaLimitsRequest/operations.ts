@@ -40,7 +40,7 @@ export function _getSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       requestId: requestId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -48,10 +48,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -61,7 +58,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -95,7 +95,7 @@ export function _updateSend(
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -104,23 +104,23 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["groupQuotaRequest"]
-      ? options["groupQuotaRequest"]
-      : groupQuotaLimitListSerializer(options["groupQuotaRequest"]),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.groupQuotaRequest
+      ? options?.groupQuotaRequest
+      : groupQuotaLimitListSerializer(options?.groupQuotaRequest),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GroupQuotaLimitList> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -139,7 +139,7 @@ export function update(
   location: string,
   options: GroupQuotaLimitsRequestUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GroupQuotaLimitList>, GroupQuotaLimitList> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -152,6 +152,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<GroupQuotaLimitList>, GroupQuotaLimitList>;
 }
 
@@ -169,7 +170,7 @@ export function _listSend(
       managementGroupId: managementGroupId,
       groupQuotaName: groupQuotaName,
       resourceProviderName: resourceProviderName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
       "%24filter": filter,
     },
     {
@@ -178,10 +179,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -191,7 +189,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -213,6 +214,10 @@ export function list(
       _listSend(context, managementGroupId, groupQuotaName, resourceProviderName, filter, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
+    },
   );
 }
