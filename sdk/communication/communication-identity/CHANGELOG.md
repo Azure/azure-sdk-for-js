@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed the authentication policy being applied before the retry policy, which caused retried requests to reuse the original credentials. With a key credential, retries carried a stale `x-ms-date` header and signature and could be rejected by the service. Retried requests are now re-authenticated on every attempt. [#40786](https://github.com/Azure/azure-sdk-for-js/issues/40786)
+
 ## 2.0.0 (2026-10-01)
 
 ### Features Added

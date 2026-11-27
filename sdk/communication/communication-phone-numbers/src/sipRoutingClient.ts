@@ -105,7 +105,7 @@ export class SipRoutingClient {
       ...internalPipelineOptions,
     });
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
   }
 
   /**

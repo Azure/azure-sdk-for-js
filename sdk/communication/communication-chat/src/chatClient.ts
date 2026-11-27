@@ -85,7 +85,7 @@ export class ChatClient {
     });
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
-    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
 
     this.clientOptions = { ...options };
     this.clientOptions.signalingClientOptions = {

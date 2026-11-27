@@ -67,7 +67,7 @@ export class AlphaIdsClient {
 
     this.client = new AlphaIDsGeneratedClient(url, internalPipelineOptions);
     const authPolicy = createCommunicationAuthPolicy(credential);
-    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     // This policy is a temporary workarounds to address compatibility issues with Azure Core V2.
     const alphaIDsPagingPolicy = createAlphaIDsPagingPolicy(url);
     this.client.pipeline.addPolicy(alphaIDsPagingPolicy);
