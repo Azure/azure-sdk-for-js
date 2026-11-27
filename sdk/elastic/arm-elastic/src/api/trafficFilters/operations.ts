@@ -20,7 +20,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
       rulesetId: options?.rulesetId,
     },
     {

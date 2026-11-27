@@ -41,7 +41,7 @@ export function _getStatusSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       integrationName: integrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,7 +99,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,7 +139,11 @@ export function list(
     () => _listSend(context, resourceGroupName, monitorName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    },
   );
 }
 
@@ -157,7 +161,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       integrationName: integrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,7 +216,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       integrationName: integrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,7 +278,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       monitorName: monitorName,
       integrationName: integrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

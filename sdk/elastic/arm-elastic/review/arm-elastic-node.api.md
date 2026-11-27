@@ -470,7 +470,8 @@ export enum KnownType {
 
 // @public
 export enum KnownVersions {
-    V20250601 = "2025-06-01"
+    V20250601 = "2025-06-01",
+    V20260315Preview = "2026-03-15-preview"
 }
 
 // @public
@@ -679,6 +680,7 @@ export interface MonitorsCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface MonitorsDeleteOptionalParams extends OperationOptions {
+    softDelete?: boolean;
     updateIntervalInMs?: number;
 }
 

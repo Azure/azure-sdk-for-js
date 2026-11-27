@@ -17,6 +17,8 @@ export interface MonitorsListByResourceGroupOptionalParams extends OperationOpti
 export interface MonitorsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** Indicates whether to perform a soft delete. When set to true, the Azure resource (Liftr integration) only is deleted and not the Partner Cloud resource. When set to false (default), the resource is permanently deleted from both Azure and the Partner Cloud. */
+  softDelete?: boolean;
 }
 
 /** Optional parameters. */

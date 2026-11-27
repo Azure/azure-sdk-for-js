@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update an OpenAI integration rule for a given Elastic monitor resource, enabling advanced AI-driven observability and monitoring.
  *
  * @summary create or update an OpenAI integration rule for a given Elastic monitor resource, enabling advanced AI-driven observability and monitoring.
- * x-ms-original-file: 2025-06-01/OpenAI_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-15-preview/OpenAI_CreateOrUpdate.json
  */
 async function openAICreateOrUpdate() {
   const credential = new DefaultAzureCredential();

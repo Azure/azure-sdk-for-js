@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to resubscribe the Elasticsearch Organization.
  *
  * @summary resubscribe the Elasticsearch Organization.
- * x-ms-original-file: 2025-06-01/Organizations_Resubscribe.json
+ * x-ms-original-file: 2026-03-15-preview/Organizations_Resubscribe.json
  */
 async function organizationsResubscribe(): Promise<void> {
   const credential = new DefaultAzureCredential();
