@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.CostManagement": "2025-03-01"
+    "Microsoft.CostManagement": "2026-06-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.CostManagement",
     "CrossLanguageDefinitionId": {
@@ -84,6 +84,10 @@
       "@azure/arm-costmanagement!TagInheritanceSetting:interface": "Microsoft.CostManagement.TagInheritanceSetting",
       "@azure/arm-costmanagement!TagInheritanceProperties:interface": "Microsoft.CostManagement.TagInheritanceProperties",
       "@azure/arm-costmanagement!SettingsListResult:interface": "Microsoft.CostManagement.SettingsListResult",
+      "@azure/arm-costmanagement!MarkupRule:interface": "Microsoft.CostManagement.MarkupRule",
+      "@azure/arm-costmanagement!MarkupRuleProperties:interface": "Microsoft.CostManagement.MarkupRuleProperties",
+      "@azure/arm-costmanagement!CustomerMetadata:interface": "Microsoft.CostManagement.CustomerMetadata",
+      "@azure/arm-costmanagement!MarkupRulePagedResponse:interface": "Microsoft.CostManagement.MarkupRulePagedResponse",
       "@azure/arm-costmanagement!CostDetailsOperationResults:interface": "Microsoft.CostManagement.CostDetailsOperationResults",
       "@azure/arm-costmanagement!ReportManifest:interface": "Microsoft.CostManagement.ReportManifest",
       "@azure/arm-costmanagement!RequestContext:interface": "Microsoft.CostManagement.RequestContext",
@@ -112,6 +116,7 @@
       "@azure/arm-costmanagement!allSavingsList:interface": "Microsoft.CostManagement.AllSavingsList",
       "@azure/arm-costmanagement!singleScopeBenefitRecommendationProperties:interface": "Microsoft.CostManagement.SingleScopeBenefitRecommendationProperties",
       "@azure/arm-costmanagement!sharedScopeBenefitRecommendationProperties:interface": "Microsoft.CostManagement.SharedScopeBenefitRecommendationProperties",
+      "@azure/arm-costmanagement!managementGroupScopeBenefitRecommendationProperties:interface": "Microsoft.CostManagement.ManagementGroupScopeBenefitRecommendationProperties",
       "@azure/arm-costmanagement!BenefitResource:interface": "Microsoft.CostManagement.BenefitResource",
       "@azure/arm-costmanagement!BenefitUtilizationSummariesListResult:interface": "Microsoft.CostManagement.BenefitUtilizationSummariesListResult",
       "@azure/arm-costmanagement!BenefitUtilizationSummary:interface": "Microsoft.CostManagement.BenefitUtilizationSummary",
@@ -263,6 +268,10 @@
       "@azure/arm-costmanagement!CostAllocationRulesOperations#get:member": "Microsoft.CostManagement.CostAllocationRuleDefinitions.get",
       "@azure/arm-costmanagement!GenerateCostDetailsReportOperations#createOperation:member": "Microsoft.CostManagement.GenerateCostDetailsReportOperationGroup.createOperation",
       "@azure/arm-costmanagement!GenerateCostDetailsReportOperations#getOperationResults:member": "Microsoft.CostManagement.GenerateCostDetailsReport.getOperationResults",
+      "@azure/arm-costmanagement!MarkupRulesOperations#list:member": "Microsoft.CostManagement.MarkupRules.list",
+      "@azure/arm-costmanagement!MarkupRulesOperations#delete:member": "Microsoft.CostManagement.MarkupRules.delete",
+      "@azure/arm-costmanagement!MarkupRulesOperations#createOrUpdate:member": "Microsoft.CostManagement.MarkupRules.createOrUpdate",
+      "@azure/arm-costmanagement!MarkupRulesOperations#get:member": "Microsoft.CostManagement.MarkupRules.get",
       "@azure/arm-costmanagement!SettingsOperations#list:member": "Microsoft.CostManagement.Settings.list",
       "@azure/arm-costmanagement!SettingsOperations#deleteByScope:member": "Microsoft.CostManagement.Settings.deleteByScope",
       "@azure/arm-costmanagement!SettingsOperations#createOrUpdateByScope:member": "Microsoft.CostManagement.Settings.createOrUpdateByScope",

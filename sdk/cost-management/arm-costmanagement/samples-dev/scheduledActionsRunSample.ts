@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to processes a private scheduled action.
  *
  * @summary processes a private scheduled action.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-sendNow-private.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-sendNow-private.json
  */
 async function scheduledActionSendNow(): Promise<void> {
   const credential = new DefaultAzureCredential();

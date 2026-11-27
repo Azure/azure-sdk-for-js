@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ViewCreateOrUpdateByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ViewCreateOrUpdateByResourceGroup.json
  */
 async function resourceGroupCreateOrUpdateView(): Promise<void> {
   const credential = new DefaultAzureCredential();

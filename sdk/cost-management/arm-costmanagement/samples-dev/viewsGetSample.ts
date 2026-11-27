@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the view by view name.
  *
  * @summary gets the view by view name.
- * x-ms-original-file: 2025-03-01/PrivateView.json
+ * x-ms-original-file: 2026-06-01/PrivateView.json
  */
 async function privateView(): Promise<void> {
   const credential = new DefaultAzureCredential();

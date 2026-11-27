@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the view for the defined scope by view name.
  *
  * @summary gets the view for the defined scope by view name.
- * x-ms-original-file: 2025-03-01/ViewByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ViewByResourceGroup.json
  */
 async function resourceGroupView(): Promise<void> {
   const credential = new DefaultAzureCredential();

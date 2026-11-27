@@ -14,13 +14,11 @@ export interface OperationsOperations {
     options?: OperationsListOptionalParams,
   ) => PagedAsyncIterableIterator<CostManagementOperation>;
 }
-
 function _getOperations(context: CostManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: CostManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),

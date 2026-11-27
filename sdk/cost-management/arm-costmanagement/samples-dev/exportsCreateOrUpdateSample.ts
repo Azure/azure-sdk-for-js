@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccount.json
  */
 async function exportCreateOrUpdateByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -55,7 +55,7 @@ async function exportCreateOrUpdateByBillingAccount(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountCustom.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountCustom.json
  */
 async function exportCreateOrUpdateByBillingAccountCustom(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -99,7 +99,7 @@ async function exportCreateOrUpdateByBillingAccountCustom(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountMonthly.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountMonthly.json
  */
 async function exportCreateOrUpdateByBillingAccountMonthly(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -146,7 +146,7 @@ async function exportCreateOrUpdateByBillingAccountMonthly(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountPricesheet.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountPricesheet.json
  */
 async function exportCreateOrUpdateByBillingAccountPricesheet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -193,7 +193,7 @@ async function exportCreateOrUpdateByBillingAccountPricesheet(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountReservationDetails.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountReservationDetails.json
  */
 async function exportCreateOrUpdateByBillingAccountReservationDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -240,7 +240,7 @@ async function exportCreateOrUpdateByBillingAccountReservationDetails(): Promise
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountReservationRecommendation.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountReservationRecommendation.json
  */
 async function exportCreateOrUpdateByBillingAccountReservationRecommendation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -296,7 +296,7 @@ async function exportCreateOrUpdateByBillingAccountReservationRecommendation(): 
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByBillingAccountReservationTransactions.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByBillingAccountReservationTransactions.json
  */
 async function exportCreateOrUpdateExportCreateOrUpdateByBillingAccountReservationTransactionsByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -343,7 +343,7 @@ async function exportCreateOrUpdateExportCreateOrUpdateByBillingAccountReservati
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByDepartment.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByDepartment.json
  */
 async function exportCreateOrUpdateByDepartment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -390,7 +390,7 @@ async function exportCreateOrUpdateByDepartment(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByEnrollmentAccount.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByEnrollmentAccount.json
  */
 async function exportCreateOrUpdateByEnrollmentAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -437,7 +437,7 @@ async function exportCreateOrUpdateByEnrollmentAccount(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByManagementGroup.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByManagementGroup.json
  */
 async function exportCreateOrUpdateByManagementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -484,7 +484,7 @@ async function exportCreateOrUpdateByManagementGroup(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateByResourceGroup.json
  */
 async function exportCreateOrUpdateByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -531,7 +531,7 @@ async function exportCreateOrUpdateByResourceGroup(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  *
  * @summary the operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
- * x-ms-original-file: 2025-03-01/ExportCreateOrUpdateBySubscription.json
+ * x-ms-original-file: 2026-06-01/ExportCreateOrUpdateBySubscription.json
  */
 async function exportCreateOrUpdateBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to runs a shared scheduled action within the given scope.
  *
  * @summary runs a shared scheduled action within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-sendNow-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-sendNow-shared.json
  */
 async function scheduledActionRunByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

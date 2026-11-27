@@ -36,7 +36,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * The Azure price sheet download experience has been updated from a single .csv file to a zip file containing multiple .csv files, each with max size of 75MB. The 2023-11-01 version has been upgraded to use http POST method; details can be found below.
  *
  * All versions of the Microsoft.Consumption Azure Price Sheet - Download by Billing Account (including 2022-06-01, 2021-10-01, 2020-01-01-preview, 2019-10-01, 2019-05-01) are scheduled to be retired on 01 June 2026 and will no longer be supported after this date.
- * x-ms-original-file: 2025-03-01/EAPriceSheetForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/EAPriceSheetForBillingPeriod.json
  */
 async function eaPriceSheetForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();

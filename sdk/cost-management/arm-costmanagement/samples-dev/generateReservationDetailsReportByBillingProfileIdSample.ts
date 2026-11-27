@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles see, https://docs.microsoft.com/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access
  *
  * @summary generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles see, https://docs.microsoft.com/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access
- * x-ms-original-file: 2025-03-01/GenerateReservationDetailsReportByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/GenerateReservationDetailsReportByBillingProfile.json
  */
 async function reservationDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();

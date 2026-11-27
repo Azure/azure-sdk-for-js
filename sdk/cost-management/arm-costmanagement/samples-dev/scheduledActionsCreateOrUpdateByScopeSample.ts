@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a shared scheduled action within the given scope.
  *
  * @summary create or update a shared scheduled action within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-createOrUpdate-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-createOrUpdate-shared.json
  */
 async function createOrUpdateScheduledActionByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function createOrUpdateScheduledActionByScope(): Promise<void> {
  * This sample demonstrates how to create or update a shared scheduled action within the given scope.
  *
  * @summary create or update a shared scheduled action within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
  */
 async function createOrUpdateInsightAlertScheduledActionByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

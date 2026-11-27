@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all shared scheduled actions within the given scope.
  *
  * @summary list all shared scheduled actions within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledActions-list-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledActions-list-shared.json
  */
 async function scheduledActionsListByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function scheduledActionsListByScope(): Promise<void> {
  * This sample demonstrates how to list all shared scheduled actions within the given scope.
  *
  * @summary list all shared scheduled actions within the given scope.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledActions-listWithFilter-shared.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledActions-listWithFilter-shared.json
  */
 async function scheduledActionsListByScopeFilterByViewId(): Promise<void> {
   const credential = new DefaultAzureCredential();

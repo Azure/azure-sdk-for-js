@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all private scheduled actions.
  *
  * @summary list all private scheduled actions.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledActions-list-private.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledActions-list-private.json
  */
 async function privateScheduledActionsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function privateScheduledActionsList(): Promise<void> {
  * This sample demonstrates how to list all private scheduled actions.
  *
  * @summary list all private scheduled actions.
- * x-ms-original-file: 2025-03-01/scheduledActions/scheduledActions-listWithFilter-private.json
+ * x-ms-original-file: 2026-06-01/scheduledActions/scheduledActions-listWithFilter-private.json
  */
 async function privateScheduledActionsListFilterByViewId(): Promise<void> {
   const credential = new DefaultAzureCredential();

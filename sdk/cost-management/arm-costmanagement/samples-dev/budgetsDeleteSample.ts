@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to delete a budget.
  *
  * @summary the operation to delete a budget.
- * x-ms-original-file: 2025-03-01/Budgets/Delete/DeleteBudget.json
+ * x-ms-original-file: 2026-06-01/Budgets/Delete/DeleteBudget.json
  */
 async function deleteBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();

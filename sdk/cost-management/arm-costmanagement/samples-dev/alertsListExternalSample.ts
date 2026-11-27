@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the Alerts for external cloud provider type defined.
  *
  * @summary lists the Alerts for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalBillingAccountAlerts.json
+ * x-ms-original-file: 2026-06-01/ExternalBillingAccountAlerts.json
  */
 async function externalBillingAccountAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function externalBillingAccountAlerts(): Promise<void> {
  * This sample demonstrates how to lists the Alerts for external cloud provider type defined.
  *
  * @summary lists the Alerts for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalSubscriptionAlerts.json
+ * x-ms-original-file: 2026-06-01/ExternalSubscriptionAlerts.json
  */
 async function externalSubscriptionAlerts(): Promise<void> {
   const credential = new DefaultAzureCredential();

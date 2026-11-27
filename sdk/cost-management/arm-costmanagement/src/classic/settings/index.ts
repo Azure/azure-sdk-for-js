@@ -40,7 +40,6 @@ export interface SettingsOperations {
     options?: SettingsGetByScopeOptionalParams,
   ) => Promise<SettingUnion>;
 }
-
 function _getSettings(context: CostManagementContext) {
   return {
     list: (scope: string, options?: SettingsListOptionalParams) => list(context, scope, options),
@@ -62,7 +61,6 @@ function _getSettings(context: CostManagementContext) {
     ) => getByScope(context, scope, typeParam, options),
   };
 }
-
 export function _getSettingsOperations(context: CostManagementContext): SettingsOperations {
   return {
     ..._getSettings(context),

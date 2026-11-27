@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/BillingAccountForecast.json
+ * x-ms-original-file: 2026-06-01/BillingAccountForecast.json
  */
 async function billingAccountForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function billingAccountForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/BillingProfileForecast.json
+ * x-ms-original-file: 2026-06-01/BillingProfileForecast.json
  */
 async function billingProfileForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -100,7 +100,7 @@ async function billingProfileForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/DepartmentForecast.json
+ * x-ms-original-file: 2026-06-01/DepartmentForecast.json
  */
 async function departmentForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -146,7 +146,7 @@ async function departmentForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/EnrollmentAccountForecast.json
+ * x-ms-original-file: 2026-06-01/EnrollmentAccountForecast.json
  */
 async function enrollmentAccountForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -192,7 +192,7 @@ async function enrollmentAccountForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/InvoiceSectionForecast.json
+ * x-ms-original-file: 2026-06-01/InvoiceSectionForecast.json
  */
 async function invoiceSectionForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -238,7 +238,7 @@ async function invoiceSectionForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/ResourceGroupForecast.json
+ * x-ms-original-file: 2026-06-01/ResourceGroupForecast.json
  */
 async function resourceGroupForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -284,7 +284,7 @@ async function resourceGroupForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for scope defined.
  *
  * @summary lists the forecast charges for scope defined.
- * x-ms-original-file: 2025-03-01/SubscriptionForecast.json
+ * x-ms-original-file: 2026-06-01/SubscriptionForecast.json
  */
 async function subscriptionForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();

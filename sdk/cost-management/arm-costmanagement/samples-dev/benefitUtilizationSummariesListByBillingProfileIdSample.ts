@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists savings plan utilization summaries for billing profile. Supported at grain values: 'Daily' and 'Monthly'.
  *
  * @summary lists savings plan utilization summaries for billing profile. Supported at grain values: 'Daily' and 'Monthly'.
- * x-ms-original-file: 2025-03-01/BenefitUtilizationSummaries/SavingsPlan-BillingProfile.json
+ * x-ms-original-file: 2026-06-01/BenefitUtilizationSummaries/SavingsPlan-BillingProfile.json
  */
 async function savingsPlanUtilizationSummariesBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

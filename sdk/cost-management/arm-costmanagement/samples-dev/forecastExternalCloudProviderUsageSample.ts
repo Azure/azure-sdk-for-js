@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the forecast charges for external cloud provider type defined.
  *
  * @summary lists the forecast charges for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalBillingAccountForecast.json
+ * x-ms-original-file: 2026-06-01/ExternalBillingAccountForecast.json
  */
 async function externalBillingAccountForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function externalBillingAccountForecast(): Promise<void> {
  * This sample demonstrates how to lists the forecast charges for external cloud provider type defined.
  *
  * @summary lists the forecast charges for external cloud provider type defined.
- * x-ms-original-file: 2025-03-01/ExternalSubscriptionForecast.json
+ * x-ms-original-file: 2026-06-01/ExternalSubscriptionForecast.json
  */
 async function externalSubscriptionForecast(): Promise<void> {
   const credential = new DefaultAzureCredential();
