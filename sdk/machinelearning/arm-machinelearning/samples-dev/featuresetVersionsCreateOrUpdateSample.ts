@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update version.
  *
  * @summary create or update version.
- * x-ms-original-file: 2026-03-15-preview/Workspace/FeaturesetVersion/createOrUpdate.json
+ * x-ms-original-file: 2026-09-01/Workspace/FeaturesetVersion/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceFeaturesetVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
