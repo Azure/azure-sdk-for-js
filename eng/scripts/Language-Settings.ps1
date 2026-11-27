@@ -255,6 +255,10 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
   $pkgVersion = $packageJSON.version
 
   $changeLogPath = Join-Path $packageJson.PackageDirectory "CHANGELOG.md"
+  if (!(Test-Path $changeLogPath) -and $packageJSON.repository.directory) {
+    # The release job checks out the same commit used to build the package.
+    $changeLogPath = Join-Path $RepoRoot $packageJSON.repository.directory "CHANGELOG.md"
+  }
   if (Test-Path $changeLogPath) {
     $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogPath -VersionString $pkgVersion
   }
