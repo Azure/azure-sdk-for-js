@@ -10232,8 +10232,8 @@ importers:
   sdk/core/ts-http-runtime:
     dependencies:
       http-proxy-agent:
-        specifier: ^7.0.0
-        version: 7.0.2(supports-color@10.2.2)
+        specifier: ^9.1.0
+        version: 9.1.0(supports-color@10.2.2)
       https-proxy-agent:
         specifier: ^7.0.0
         version: 7.0.6(supports-color@10.2.2)
@@ -41704,10 +41704,6 @@ packages:
     resolution: {integrity: sha1-NtL2W8kJyHkAGN02+02T2myq4Gs=}
     engines: {node: '>= 0.8'}
 
-  http-proxy-agent@7.0.2:
-    resolution: {integrity: sha1-mosfJGhmwChQlIZYX2K48sGMJw4=}
-    engines: {node: '>= 14'}
-
   http-proxy-agent@9.1.0:
     resolution: {integrity: sha1-/Ys53LWKyARhOeX06oDeeOi+r3s=}
     engines: {node: '>= 20'}
@@ -49904,13 +49900,6 @@ snapshots:
       setprototypeof: 1.2.0
       statuses: 2.0.2
       toidentifier: 1.0.1
-
-  http-proxy-agent@7.0.2(supports-color@10.2.2):
-    dependencies:
-      agent-base: 7.1.4
-      debug: 4.4.3(supports-color@10.2.2)
-    transitivePeerDependencies:
-      - supports-color
 
   http-proxy-agent@9.1.0(supports-color@10.2.2):
     dependencies:

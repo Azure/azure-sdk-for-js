@@ -4,7 +4,6 @@
 import type * as http from "http";
 import type * as https from "https";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { HttpProxyAgent } from "http-proxy-agent";
 import type {
   PipelineRequest,
   PipelineResponse,
@@ -162,11 +161,11 @@ function getUrlFromProxySettings(settings: ProxySettings): URL {
   return parsedProxyUrl;
 }
 
-function setProxyAgentOnRequest(
+async function setProxyAgentOnRequest(
   request: PipelineRequest,
   cachedAgents: CachedAgents,
   proxyUrl: URL,
-): void {
+): Promise<void> {
   // Custom Agent should take precedence so if one is present
   // we should skip to avoid overwriting it.
   if (request.agent) {
@@ -185,6 +184,7 @@ function setProxyAgentOnRequest(
 
   if (isInsecure) {
     if (!cachedAgents.httpProxyAgent) {
+      const { HttpProxyAgent } = await import("http-proxy-agent");
       cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl);
     }
     request.agent = cachedAgents.httpProxyAgent;
@@ -237,9 +237,9 @@ export function proxyPolicy(
           options?.customNoProxyList ? undefined : globalBypassedMap,
         )
       ) {
-        setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
+        await setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
       } else if (request.proxySettings) {
-        setProxyAgentOnRequest(
+        await setProxyAgentOnRequest(
           request,
           cachedAgents,
           getUrlFromProxySettings(request.proxySettings),

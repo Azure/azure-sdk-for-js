@@ -1,5 +1,19 @@
 # Release History
 
+## 0.3.12 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Load `http-proxy-agent` dynamically so the CommonJS build can use its ESM-only v9 release. [#40888](https://github.com/Azure/azure-sdk-for-js/issues/40888)
+
+### Other Changes
+
+- Upgrade `http-proxy-agent` to version `9.1.0`. [#40888](https://github.com/Azure/azure-sdk-for-js/issues/40888)
+
 ## 0.3.11 (2026-11-17)
 
 ### Bugs Fixed
