@@ -1,30 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileSharesContext as Client } from "../index.js";
+import type { FileSharesContext as Client } from "../index.js";
+import type {
+  FileShareUsageDataResponse,
+  FileShareLimitsResponse,
+  FileShareProvisioningRecommendationRequest,
+  FileShareProvisioningRecommendationResponse,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  FileShareUsageDataResponse,
   fileShareUsageDataResponseDeserializer,
-  FileShareLimitsResponse,
+  fileShareLimitsRequestSerializer,
   fileShareLimitsResponseDeserializer,
-  FileShareProvisioningRecommendationRequest,
   fileShareProvisioningRecommendationRequestSerializer,
-  FileShareProvisioningRecommendationResponse,
   fileShareProvisioningRecommendationResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   InformationalOperationsGetProvisioningRecommendationOptionalParams,
   InformationalOperationsGetLimitsOptionalParams,
   InformationalOperationsGetUsageDataOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getProvisioningRecommendationSend(
   context: Client,
@@ -39,7 +38,7 @@ export function _getProvisioningRecommendationSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,7 +58,9 @@ export async function _getProvisioningRecommendationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -90,7 +91,7 @@ export function _getLimitsSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +99,9 @@ export function _getLimitsSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.body ? options?.body : fileShareLimitsRequestSerializer(options?.body),
   });
 }
 
@@ -108,7 +111,9 @@ export async function _getLimitsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -136,7 +141,7 @@ export function _getUsageDataSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,7 +159,9 @@ export async function _getUsageDataDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
