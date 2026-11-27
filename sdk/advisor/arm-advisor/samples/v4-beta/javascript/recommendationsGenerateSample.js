@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.
  *
  * @summary initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.
- * x-ms-original-file: 2026-02-01-preview/GenerateRecommendations.json
+ * x-ms-original-file: 2026-08-01-preview/GenerateRecommendations.json
  */
 async function generateRecommendations() {
   const credential = new DefaultAzureCredential();

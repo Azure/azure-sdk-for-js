@@ -26,7 +26,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/resiliencyReviews{?api%2Dversion,%24top,%24skip,%24filter}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
       "%24filter": options?.filter,
@@ -70,7 +70,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
     },
   );
 }
@@ -85,7 +85,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       reviewId: reviewId,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve Azure Advisor configurations and also retrieve configurations of contained resource groups.
  *
  * @summary retrieve Azure Advisor configurations and also retrieve configurations of contained resource groups.
- * x-ms-original-file: 2026-02-01-preview/ListConfigurations_ListBySubscription.json
+ * x-ms-original-file: 2026-08-01-preview/ListConfigurations_ListBySubscription.json
  */
 async function getConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();

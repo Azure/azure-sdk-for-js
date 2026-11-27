@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of advisor scores.
  *
  * @summary gets the list of advisor scores.
- * x-ms-original-file: 2026-02-01-preview/ListAdvisorScore.json
+ * x-ms-original-file: 2026-08-01-preview/ListAdvisorScore.json
  */
 async function listAdvisorScore(): Promise<void> {
   const credential = new DefaultAzureCredential();

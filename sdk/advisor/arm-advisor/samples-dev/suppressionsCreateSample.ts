@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.
  *
  * @summary enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.
- * x-ms-original-file: 2026-02-01-preview/CreateSuppression.json
+ * x-ms-original-file: 2026-08-01-preview/CreateSuppression.json
  */
 async function createSuppression(): Promise<void> {
   const credential = new DefaultAzureCredential();
