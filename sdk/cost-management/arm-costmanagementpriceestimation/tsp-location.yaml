@@ -1,0 +1,4 @@
+directory: specification/cost-management/resource-manager/Microsoft.CostManagement/PriceEstimation
+commit: e0184072b7784d9c1c6f0caa0fb91fb84e00f760
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
