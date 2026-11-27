@@ -74,9 +74,135 @@ describe("createAbortablePromise", function () {
     });
     await expect(promise).rejects.toThrowError("sync throw");
   });
+
+  for (const settlement of ["resolve", "reject", "throw"] as const) {
+    for (const abortImmediately of [false, true]) {
+      it(`should detach the abort listener after synchronous ${settlement}, immediate abort: ${abortImmediately}`, async function () {
+        const aborter = new AbortController();
+        const cleanup = vi.fn();
+        const addListener = vi.spyOn(aborter.signal, "addEventListener");
+        const removeListener = vi.spyOn(aborter.signal, "removeEventListener");
+        const failure = new Error("builder failed");
+        const promise = createAbortablePromise<string>(
+          (resolve, reject) => {
+            if (settlement === "resolve") {
+              resolve("completed");
+            } else if (settlement === "reject") {
+              reject(failure);
+            } else {
+              throw failure;
+            }
+          },
+          { abortSignal: aborter.signal, cleanupBeforeAbort: cleanup },
+        );
+
+        if (abortImmediately) {
+          aborter.abort();
+        }
+        if (settlement === "resolve") {
+          await expect(promise).resolves.toBe("completed");
+        } else {
+          await expect(promise).rejects.toBe(failure);
+        }
+        if (!abortImmediately) {
+          aborter.abort();
+        }
+
+        expect(cleanup).not.toHaveBeenCalled();
+        expect(addListener).toHaveBeenCalledOnce();
+        expect(removeListener).toHaveBeenCalledWith("abort", addListener.mock.calls[0][1]);
+      });
+    }
+  }
+
+  for (const settlement of ["resolve", "reject"] as const) {
+    it(`should detach the abort listener after asynchronous ${settlement}`, async function () {
+      const aborter = new AbortController();
+      const cleanup = vi.fn();
+      const addListener = vi.spyOn(aborter.signal, "addEventListener");
+      const removeListener = vi.spyOn(aborter.signal, "removeEventListener");
+      let finish!: () => void;
+      const failure = new Error("operation failed");
+      const promise = createAbortablePromise<string>(
+        (resolve, reject) => {
+          finish = () => (settlement === "resolve" ? resolve("completed") : reject(failure));
+        },
+        { abortSignal: aborter.signal, cleanupBeforeAbort: cleanup },
+      );
+
+      expect(removeListener).not.toHaveBeenCalled();
+      finish();
+      if (settlement === "resolve") {
+        await expect(promise).resolves.toBe("completed");
+      } else {
+        await expect(promise).rejects.toBe(failure);
+      }
+      aborter.abort();
+
+      expect(cleanup).not.toHaveBeenCalled();
+      expect(removeListener).toHaveBeenCalledWith("abort", addListener.mock.calls[0][1]);
+    });
+  }
+
+  it("should observe an abort triggered while the builder is running", async function () {
+    const aborter = new AbortController();
+    const cleanup = vi.fn();
+    const promise = createAbortablePromise<string>(
+      (resolve) => {
+        aborter.abort();
+        resolve("completed");
+      },
+      {
+        abortSignal: aborter.signal,
+        abortErrorMsg: "Aborted inside the builder",
+        cleanupBeforeAbort: cleanup,
+      },
+    );
+
+    await expect(promise).rejects.toThrowError("Aborted inside the builder");
+    expect(cleanup).toHaveBeenCalledOnce();
+  });
+
+  it("should not invoke the builder or register a listener for an already aborted signal", async function () {
+    const aborter = new AbortController();
+    aborter.abort();
+    const builder = vi.fn();
+    const cleanup = vi.fn();
+    const addListener = vi.spyOn(aborter.signal, "addEventListener");
+    const promise = createAbortablePromise(builder, {
+      abortSignal: aborter.signal,
+      cleanupBeforeAbort: cleanup,
+    });
+
+    await expect(promise).rejects.toThrowError("The operation was aborted.");
+    expect(builder).not.toHaveBeenCalled();
+    expect(cleanup).not.toHaveBeenCalled();
+    expect(addListener).not.toHaveBeenCalled();
+  });
 });
 
 describe("cancelablePromiseRace", function () {
+  it("should not abort a synchronously completed winner", async function () {
+    const winnerCleanup = vi.fn();
+    const loserCleanup = vi.fn();
+    const result = await cancelablePromiseRace<string[]>([
+      ({ abortSignal }) =>
+        createAbortablePromise<string>((resolve) => resolve("winner"), {
+          abortSignal,
+          cleanupBeforeAbort: winnerCleanup,
+        }),
+      ({ abortSignal }) =>
+        createAbortablePromise<string>(() => {}, {
+          abortSignal,
+          cleanupBeforeAbort: loserCleanup,
+        }),
+    ]);
+
+    expect(result).toBe("winner");
+    expect(winnerCleanup).not.toHaveBeenCalled();
+    expect(loserCleanup).toHaveBeenCalledOnce();
+  });
+
   const cleanup1 = vi.fn();
   const cleanup2 = vi.fn();
   const cleanup3 = vi.fn();

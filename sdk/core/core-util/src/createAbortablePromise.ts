@@ -41,6 +41,7 @@ export function createAbortablePromise<T>(
     if (abortSignal?.aborted) {
       return rejectOnAbort();
     }
+    abortSignal?.addEventListener("abort", onAbort);
     try {
       buildPromise(
         (x) => {
@@ -53,8 +54,8 @@ export function createAbortablePromise<T>(
         },
       );
     } catch (err) {
+      removeListeners();
       reject(err);
     }
-    abortSignal?.addEventListener("abort", onAbort);
   });
 }
