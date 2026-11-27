@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext, MigrateClientOptionalParams } from "./api/index.js";
-import { createMigrate } from "./api/index.js";
+import type {
+  MigrateContainerAppsAssessmentsManagementContext,
+  MigrateContainerAppsAssessmentsManagementClientOptionalParams,
+} from "./api/index.js";
+import { createMigrateContainerAppsAssessmentsManagement } from "./api/index.js";
 import type { AssessedWebApplicationOperationsOperations } from "./classic/assessedWebApplicationOperations/index.js";
 import { _getAssessedWebApplicationOperationsOperations } from "./classic/assessedWebApplicationOperations/index.js";
 import type { ContainerAppsAssessmentOperationsOperations } from "./classic/containerAppsAssessmentOperations/index.js";
@@ -18,10 +21,10 @@ import { _getContainerAppsSummaryOperationsOperations } from "./classic/containe
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { MigrateClientOptionalParams } from "./api/migrateContext.js";
+export type { MigrateContainerAppsAssessmentsManagementClientOptionalParams } from "./api/migrateContainerAppsAssessmentsManagementContext.js";
 
-export class MigrateClient {
-  private _client: MigrateContext;
+export class MigrateContainerAppsAssessmentsManagementClient {
+  private _client: MigrateContainerAppsAssessmentsManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -29,9 +32,13 @@ export class MigrateClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: MigrateClientOptionalParams = {},
+    options: MigrateContainerAppsAssessmentsManagementClientOptionalParams = {},
   ) {
-    this._client = createMigrate(credential, subscriptionId, options);
+    this._client = createMigrateContainerAppsAssessmentsManagement(
+      credential,
+      subscriptionId,
+      options,
+    );
     this.pipeline = this._client.pipeline;
     this.containerAppsCostDetailOperations = _getContainerAppsCostDetailOperationsOperations(
       this._client,

@@ -11,7 +11,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Azure Migrate Resource Provider management API. */
-export interface MigrateContext extends Client {
+export interface MigrateContainerAppsAssessmentsManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -20,7 +20,7 @@ export interface MigrateContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface MigrateClientOptionalParams extends ClientOptions {
+export interface MigrateContainerAppsAssessmentsManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownContainerAppsApiVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,11 +29,11 @@ export interface MigrateClientOptionalParams extends ClientOptions {
 }
 
 /** Azure Migrate Resource Provider management API. */
-export function createMigrate(
+export function createMigrateContainerAppsAssessmentsManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: MigrateClientOptionalParams = {},
-): MigrateContext {
+  options: MigrateContainerAppsAssessmentsManagementClientOptionalParams = {},
+): MigrateContainerAppsAssessmentsManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -54,5 +54,9 @@ export function createMigrate(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as MigrateContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as MigrateContainerAppsAssessmentsManagementContext;
 }

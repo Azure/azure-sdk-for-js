@@ -1,6 +1,6 @@
-# Azure Migrate client library for JavaScript
+# Azure MigrateContainerAppsAssessmentsManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Migrate client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MigrateContainerAppsAssessmentsManagement client.
 
 Azure Migrate Resource Provider management API.
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-migratecontainerappsassessments` package
 
-Install the Azure Migrate client library for JavaScript with `npm`:
+Install the Azure MigrateContainerAppsAssessmentsManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-migratecontainerappsassessments
 ```
 
-### Create and authenticate a `MigrateClient`
+### Create and authenticate a `MigrateContainerAppsAssessmentsManagementClient`
 
-To create a client object to access the Azure Migrate API, you will need the `endpoint` of your Azure Migrate resource and a `credential`. The Azure Migrate client can use Microsoft Entra credentials to authenticate.
-You can find the endpoint for your Azure Migrate resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure MigrateContainerAppsAssessmentsManagement API, you will need the `endpoint` of your Azure MigrateContainerAppsAssessmentsManagement resource and a `credential`. The Azure MigrateContainerAppsAssessmentsManagement client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure MigrateContainerAppsAssessmentsManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,35 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new Microsoft Entra application and grant access to Azure Migrate** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new Microsoft Entra application and grant access to Azure MigrateContainerAppsAssessmentsManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { MigrateClient } from "@azure/arm-migratecontainerappsassessments";
+import { MigrateContainerAppsAssessmentsManagementClient } from "@azure/arm-migratecontainerappsassessments";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new MigrateClient(new DefaultAzureCredential(), subscriptionId);
+const client = new MigrateContainerAppsAssessmentsManagementClient(
+  new DefaultAzureCredential(),
+  subscriptionId,
+);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { MigrateClient } from "@azure/arm-migratecontainerappsassessments";
+import { MigrateContainerAppsAssessmentsManagementClient } from "@azure/arm-migratecontainerappsassessments";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new MigrateClient(credential, subscriptionId);
+const client = new MigrateContainerAppsAssessmentsManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +82,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### MigrateClient
+### MigrateContainerAppsAssessmentsManagementClient
 
-`MigrateClient` is the primary interface for developers using the Azure Migrate client library. Explore the methods on this client object to understand the different features of the Azure Migrate service that you can access.
+`MigrateContainerAppsAssessmentsManagementClient` is the primary interface for developers using the Azure MigrateContainerAppsAssessmentsManagement client library. Explore the methods on this client object to understand the different features of the Azure MigrateContainerAppsAssessmentsManagement service that you can access.
 
 ## Troubleshooting
 

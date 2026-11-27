@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext as Client } from "../index.js";
+import type { MigrateContainerAppsAssessmentsManagementContext as Client } from "../index.js";
 import type {
   ContainerAppsAssessment,
   _ContainerAppsAssessmentListResult,

@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { MigrateContext, MigrateClientOptionalParams } from "./migrateContext.js";
-export { createMigrate } from "./migrateContext.js";
+export type {
+  MigrateContainerAppsAssessmentsManagementContext,
+  MigrateContainerAppsAssessmentsManagementClientOptionalParams,
+} from "./migrateContainerAppsAssessmentsManagementContext.js";
+export { createMigrateContainerAppsAssessmentsManagement } from "./migrateContainerAppsAssessmentsManagementContext.js";

@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { MigrateClient } = require("@azure/arm-migratecontainerappsassessments");
+const {
+  MigrateContainerAppsAssessmentsManagementClient,
+} = require("@azure/arm-migratecontainerappsassessments");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function containerAppsOptionsOperationsGetMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "572C3D3F-425D-4AE8-A935-72631EADDE56";
-  const client = new MigrateClient(credential, subscriptionId);
+  const client = new MigrateContainerAppsAssessmentsManagementClient(credential, subscriptionId);
   const result = await client.containerAppsOptionsOperations.get(
     "rgcontainerAppsAssessments",
     "testProject",

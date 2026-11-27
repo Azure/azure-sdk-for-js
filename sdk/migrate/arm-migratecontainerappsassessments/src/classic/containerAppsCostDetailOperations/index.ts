@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext } from "../../api/migrateContext.js";
+import type { MigrateContainerAppsAssessmentsManagementContext } from "../../api/migrateContainerAppsAssessmentsManagementContext.js";
 import { listByParent } from "../../api/containerAppsCostDetailOperations/operations.js";
 import type { ContainerAppsCostDetailOperationsListByParentOptionalParams } from "../../api/containerAppsCostDetailOperations/options.js";
 import type { ContainerAppsCostDetail } from "../../models/models.js";
@@ -18,7 +18,9 @@ export interface ContainerAppsCostDetailOperationsOperations {
   ) => PagedAsyncIterableIterator<ContainerAppsCostDetail>;
 }
 
-function _getContainerAppsCostDetailOperations(context: MigrateContext) {
+function _getContainerAppsCostDetailOperations(
+  context: MigrateContainerAppsAssessmentsManagementContext,
+) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -30,7 +32,7 @@ function _getContainerAppsCostDetailOperations(context: MigrateContext) {
 }
 
 export function _getContainerAppsCostDetailOperationsOperations(
-  context: MigrateContext,
+  context: MigrateContainerAppsAssessmentsManagementContext,
 ): ContainerAppsCostDetailOperationsOperations {
   return {
     ..._getContainerAppsCostDetailOperations(context),

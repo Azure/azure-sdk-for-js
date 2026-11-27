@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext } from "../../api/migrateContext.js";
+import type { MigrateContainerAppsAssessmentsManagementContext } from "../../api/migrateContainerAppsAssessmentsManagementContext.js";
 import {
   listByParent,
   get,
@@ -32,7 +32,9 @@ export interface ContainerAppsManagedEnvironmentOperationsOperations {
   ) => Promise<ContainerAppsManagedEnvironment>;
 }
 
-function _getContainerAppsManagedEnvironmentOperations(context: MigrateContext) {
+function _getContainerAppsManagedEnvironmentOperations(
+  context: MigrateContainerAppsAssessmentsManagementContext,
+) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -52,7 +54,7 @@ function _getContainerAppsManagedEnvironmentOperations(context: MigrateContext) 
 }
 
 export function _getContainerAppsManagedEnvironmentOperationsOperations(
-  context: MigrateContext,
+  context: MigrateContainerAppsAssessmentsManagementContext,
 ): ContainerAppsManagedEnvironmentOperationsOperations {
   return {
     ..._getContainerAppsManagedEnvironmentOperations(context),

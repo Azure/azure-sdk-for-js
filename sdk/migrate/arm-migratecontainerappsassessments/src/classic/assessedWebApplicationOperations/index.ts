@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext } from "../../api/migrateContext.js";
+import type { MigrateContainerAppsAssessmentsManagementContext } from "../../api/migrateContainerAppsAssessmentsManagementContext.js";
 import { listByParent, get } from "../../api/assessedWebApplicationOperations/operations.js";
 import type {
   AssessedWebApplicationOperationsListByParentOptionalParams,
@@ -29,7 +29,9 @@ export interface AssessedWebApplicationOperationsOperations {
   ) => Promise<AssessedWebApplication>;
 }
 
-function _getAssessedWebApplicationOperations(context: MigrateContext) {
+function _getAssessedWebApplicationOperations(
+  context: MigrateContainerAppsAssessmentsManagementContext,
+) {
   return {
     listByParent: (
       resourceGroupName: string,
@@ -48,7 +50,7 @@ function _getAssessedWebApplicationOperations(context: MigrateContext) {
 }
 
 export function _getAssessedWebApplicationOperationsOperations(
-  context: MigrateContext,
+  context: MigrateContainerAppsAssessmentsManagementContext,
 ): AssessedWebApplicationOperationsOperations {
   return {
     ..._getAssessedWebApplicationOperations(context),

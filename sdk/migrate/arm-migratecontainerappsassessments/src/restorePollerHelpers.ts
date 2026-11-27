@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateClient } from "./migrateClient.js";
+import type { MigrateContainerAppsAssessmentsManagementClient } from "./migrateContainerAppsAssessmentsManagementClient.js";
 import {
   _downloadUrlDeserialize,
   _createDeserialize,
@@ -32,7 +32,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: MigrateClient,
+  client: MigrateContainerAppsAssessmentsManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

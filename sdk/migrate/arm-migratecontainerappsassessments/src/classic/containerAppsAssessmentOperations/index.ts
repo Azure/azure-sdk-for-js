@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MigrateContext } from "../../api/migrateContext.js";
+import type { MigrateContainerAppsAssessmentsManagementContext } from "../../api/migrateContainerAppsAssessmentsManagementContext.js";
 import {
   downloadUrl,
   $delete,
@@ -59,7 +59,9 @@ export interface ContainerAppsAssessmentOperationsOperations {
   ) => PollerLike<OperationState<ContainerAppsAssessment>, ContainerAppsAssessment>;
 }
 
-function _getContainerAppsAssessmentOperations(context: MigrateContext) {
+function _getContainerAppsAssessmentOperations(
+  context: MigrateContainerAppsAssessmentsManagementContext,
+) {
   return {
     downloadUrl: (
       resourceGroupName: string,
@@ -95,7 +97,7 @@ function _getContainerAppsAssessmentOperations(context: MigrateContext) {
 }
 
 export function _getContainerAppsAssessmentOperationsOperations(
-  context: MigrateContext,
+  context: MigrateContainerAppsAssessmentsManagementContext,
 ): ContainerAppsAssessmentOperationsOperations {
   return {
     ..._getContainerAppsAssessmentOperations(context),

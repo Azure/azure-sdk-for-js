@@ -9,7 +9,7 @@ import type {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { MigrateClient } from "./migrateClient.js";
+export { MigrateContainerAppsAssessmentsManagementClient } from "./migrateContainerAppsAssessmentsManagementClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -130,7 +130,7 @@ export {
   KnownAzureManagementOfferingType,
   KnownContainerAppsApiVersions,
 } from "./models/index.js";
-export type { MigrateClientOptionalParams } from "./api/index.js";
+export type { MigrateContainerAppsAssessmentsManagementClientOptionalParams } from "./api/index.js";
 export type {
   AssessedWebApplicationOperationsListByParentOptionalParams,
   AssessedWebApplicationOperationsGetOptionalParams,

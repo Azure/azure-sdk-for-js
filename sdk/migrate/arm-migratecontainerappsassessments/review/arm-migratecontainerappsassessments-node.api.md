@@ -718,8 +718,8 @@ export interface ManagementDetails {
 }
 
 // @public (undocumented)
-export class MigrateClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: MigrateClientOptionalParams);
+export class MigrateContainerAppsAssessmentsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MigrateContainerAppsAssessmentsManagementClientOptionalParams);
     readonly assessedWebApplicationOperations: AssessedWebApplicationOperationsOperations;
     readonly containerAppsAssessmentOperations: ContainerAppsAssessmentOperationsOperations;
     readonly containerAppsCostDetailOperations: ContainerAppsCostDetailOperationsOperations;
@@ -730,7 +730,7 @@ export class MigrateClient {
 }
 
 // @public
-export interface MigrateClientOptionalParams extends ClientOptions {
+export interface MigrateContainerAppsAssessmentsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -868,7 +868,7 @@ export interface Resource {
 export { RestError }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MigrateClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MigrateContainerAppsAssessmentsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
