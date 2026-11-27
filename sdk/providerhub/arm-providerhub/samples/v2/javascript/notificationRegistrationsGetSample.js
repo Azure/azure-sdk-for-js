@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the notification registration details.
  *
  * @summary gets the notification registration details.
- * x-ms-original-file: 2025-10-01/NotificationRegistrations_Get.json
+ * x-ms-original-file: 2026-10-01/NotificationRegistrations_Get.json
  */
 async function notificationRegistrationsGet() {
   const credential = new DefaultAzureCredential();

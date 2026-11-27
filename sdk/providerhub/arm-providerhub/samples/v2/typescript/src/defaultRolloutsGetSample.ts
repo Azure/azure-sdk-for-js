@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the default rollout details.
  *
  * @summary gets the default rollout details.
- * x-ms-original-file: 2025-10-01/DefaultRollouts_Get.json
+ * x-ms-original-file: 2026-10-01/DefaultRollouts_Get.json
  */
 async function defaultRolloutsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

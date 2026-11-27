@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates the provider monitor setting.
  *
  * @summary creates the provider monitor setting.
- * x-ms-original-file: 2025-10-01/ProviderMonitorSettings_Create.json
+ * x-ms-original-file: 2026-10-01/ProviderMonitorSettings_Create.json
  */
 async function providerMonitorSettingsCreate() {
   const credential = new DefaultAzureCredential();

@@ -17,6 +17,9 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams,
+  ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams,
+  ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams,
   ResourceTypeRegistrationsListByProviderRegistrationOptionalParams,
   ResourceTypeRegistrationsDeleteOptionalParams,
   ResourceTypeRegistrationsCreateOrUpdateOptionalParams,
@@ -25,6 +28,222 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _deleteNestedResourceTypeFirstSend(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  options: ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}/resourcetypeRegistrations/{nestedResourceTypeFirst}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      providerNamespace: providerNamespace,
+      resourceType: resourceType,
+      nestedResourceTypeFirst: nestedResourceTypeFirst,
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteNestedResourceTypeFirstDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Deletes a nested resource type. */
+export function deleteNestedResourceTypeFirst(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  options: ResourceTypeRegistrationsDeleteNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _deleteNestedResourceTypeFirstDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _deleteNestedResourceTypeFirstSend(
+          context,
+          providerNamespace,
+          resourceType,
+          nestedResourceTypeFirst,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-10-01",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
+
+export function _createOrUpdateNestedResourceTypeFirstSend(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  properties: ResourceTypeRegistration,
+  options: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}/resourcetypeRegistrations/{nestedResourceTypeFirst}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      providerNamespace: providerNamespace,
+      resourceType: resourceType,
+      nestedResourceTypeFirst: nestedResourceTypeFirst,
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: resourceTypeRegistrationSerializer(properties),
+  });
+}
+
+export async function _createOrUpdateNestedResourceTypeFirstDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ResourceTypeRegistration> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return resourceTypeRegistrationDeserializer(result.body);
+}
+
+/** Creates or updates a nested resource type. */
+export function createOrUpdateNestedResourceTypeFirst(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  properties: ResourceTypeRegistration,
+  options: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<ResourceTypeRegistration>, ResourceTypeRegistration> {
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateNestedResourceTypeFirstDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateNestedResourceTypeFirstSend(
+          context,
+          providerNamespace,
+          resourceType,
+          nestedResourceTypeFirst,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2026-10-01",
+    },
+  ) as PollerLike<OperationState<ResourceTypeRegistration>, ResourceTypeRegistration>;
+}
+
+export function _getNestedResourceTypeFirstSend(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  options: ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ProviderHub/providerRegistrations/{providerNamespace}/resourcetypeRegistrations/{resourceType}/resourcetypeRegistrations/{nestedResourceTypeFirst}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      providerNamespace: providerNamespace,
+      resourceType: resourceType,
+      nestedResourceTypeFirst: nestedResourceTypeFirst,
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getNestedResourceTypeFirstDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ResourceTypeRegistration> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return resourceTypeRegistrationDeserializer(result.body);
+}
+
+/** Gets a nested resource type details in the given subscription and provider. */
+export async function getNestedResourceTypeFirst(
+  context: Client,
+  providerNamespace: string,
+  resourceType: string,
+  nestedResourceTypeFirst: string,
+  options: ResourceTypeRegistrationsGetNestedResourceTypeFirstOptionalParams = {
+    requestOptions: {},
+  },
+): Promise<ResourceTypeRegistration> {
+  const result = await _getNestedResourceTypeFirstSend(
+    context,
+    providerNamespace,
+    resourceType,
+    nestedResourceTypeFirst,
+    options,
+  );
+  return _getNestedResourceTypeFirstDeserialize(result);
+}
 
 export function _listByProviderRegistrationSend(
   context: Client,
@@ -38,7 +257,7 @@ export function _listByProviderRegistrationSend(
     {
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -79,7 +298,7 @@ export function listByProviderRegistration(
     () => _listByProviderRegistrationSend(context, providerNamespace, options),
     _listByProviderRegistrationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -95,7 +314,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceType: resourceType,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -130,7 +349,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, providerNamespace, resourceType, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-10-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -147,7 +366,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceType: resourceType,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,7 +410,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, providerNamespace, resourceType, properties, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-10-01",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<ResourceTypeRegistration>, ResourceTypeRegistration>;
 }
 
@@ -207,7 +426,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       providerNamespace: providerNamespace,
       resourceType: resourceType,
-      "api%2Dversion": context.apiVersion ?? "2025-10-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

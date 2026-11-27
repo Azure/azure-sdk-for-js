@@ -7,6 +7,7 @@
     "../src/index.ts",
     "../src/api/index.ts",
     "../src/api/resourceActions/index.ts",
+    "../src/api/endpointRegistrations/index.ts",
     "../src/api/manifests/index.ts",
     "../src/api/providerMonitorSettings/index.ts",
     "../src/api/authorizedApplications/index.ts",

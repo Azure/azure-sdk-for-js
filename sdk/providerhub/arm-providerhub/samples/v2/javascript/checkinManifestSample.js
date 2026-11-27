@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checkin the manifest.
  *
  * @summary checkin the manifest.
- * x-ms-original-file: 2025-10-01/CheckinManifest.json
+ * x-ms-original-file: 2026-10-01/CheckinManifest.json
  */
 async function checkinManifest() {
   const credential = new DefaultAzureCredential();
@@ -17,6 +17,8 @@ async function checkinManifest() {
   const result = await client.checkinManifest("Microsoft.Contoso", {
     baselineArmManifestLocation: "EastUS2EUAP",
     environment: "Prod",
+    swaggerUri: "https://github.com/Azure/azure-rest-api-specs/pull/123456",
+    checkinComment: "Add endpoint registration support",
   });
   console.log(result);
 }

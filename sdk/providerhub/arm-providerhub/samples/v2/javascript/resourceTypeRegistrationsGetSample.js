@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a resource type details in the given subscription and provider.
  *
  * @summary gets a resource type details in the given subscription and provider.
- * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_Get.json
+ * x-ms-original-file: 2026-10-01/ResourceTypeRegistrations_Get.json
  */
 async function resourceTypeRegistrationsGet() {
   const credential = new DefaultAzureCredential();

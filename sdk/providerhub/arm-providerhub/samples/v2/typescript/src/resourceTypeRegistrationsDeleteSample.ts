@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a resource type
  *
  * @summary deletes a resource type
- * x-ms-original-file: 2025-10-01/ResourceTypeRegistrations_Delete.json
+ * x-ms-original-file: 2026-10-01/ResourceTypeRegistrations_Delete.json
  */
 async function resourceTypeRegistrationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

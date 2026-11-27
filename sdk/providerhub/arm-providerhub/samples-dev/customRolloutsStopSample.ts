@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops or cancels the custom rollout, if in progress.
  *
  * @summary stops or cancels the custom rollout, if in progress.
- * x-ms-original-file: 2025-10-01/CustomRollouts_Stop.json
+ * x-ms-original-file: 2026-10-01/CustomRollouts_Stop.json
  */
 async function customRolloutsStop(): Promise<void> {
   const credential = new DefaultAzureCredential();
