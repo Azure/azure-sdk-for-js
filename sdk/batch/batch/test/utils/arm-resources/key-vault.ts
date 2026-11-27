@@ -8,8 +8,9 @@ import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import type { RoleAssignment } from "@azure/arm-authorization";
 import { KeyClient } from "@azure/keyvault-keys";
 import type { KeyVaultKey, CreateKeyOptions } from "@azure/keyvault-keys";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { wait } from "../wait.js";
 
 /**
  * Creates a Key Vault suitable for a BYOS (Bring Your Own Subscription) Batch account scenario.
@@ -143,6 +144,8 @@ export async function grantKeyVaultSecretsOfficer(
 
 /**
  * Creates a key in an Azure Key Vault and returns the key and its URL.
+ * Retries RBAC authorization failures up to 20 times at 15-second intervals while
+ * a recently created role assignment propagates to the Key Vault data plane.
  * @param keyVaultUrl - The URL of the Key Vault (e.g., https://myvault.vault.azure.net/)
  * @param keyName - The name for the new key
  * @param keyOptions - Optional parameters for key creation
@@ -154,13 +157,51 @@ export async function createKeyInKeyVaultAndGetUrl(
   keyOptions?: CreateKeyOptions,
 ): Promise<{ key: KeyVaultKey; keyUrl: string }> {
   const keyClient = new KeyClient(keyVaultUrl, createTestCredential());
+  let remainingRbacRetries = 20;
 
-  const key = await keyClient.createKey(keyName, "RSA", keyOptions);
-  if (!key.id) {
-    throw new Error(`Created key '${keyName}' does not have an ID`);
+  while (true) {
+    try {
+      const key = await keyClient.createKey(keyName, "RSA", keyOptions);
+      if (!key.id) {
+        throw new Error(`Created key '${keyName}' does not have an ID`);
+      }
+      return { key, keyUrl: key.id };
+    } catch (error) {
+      if (!isKeyVaultRbacError(error) || remainingRbacRetries === 0) {
+        throw error;
+      }
+      remainingRbacRetries--;
+      console.log(
+        `Waiting for Key Vault RBAC propagation; retrying key creation in 15 seconds (${remainingRbacRetries} retries remain).`,
+      );
+      await wait(15000);
+    }
   }
+}
 
-  return { key, keyUrl: key.id };
+function isKeyVaultRbacError(error: unknown): boolean {
+  if (!isRestError(error) || error.statusCode !== 403 || error.code !== "Forbidden") {
+    return false;
+  }
+  const details = error.details;
+  if (typeof details !== "object" || details === null || !("error" in details)) {
+    return false;
+  }
+  const serviceError = details.error;
+  if (
+    typeof serviceError !== "object" ||
+    serviceError === null ||
+    !("innerError" in serviceError)
+  ) {
+    return false;
+  }
+  const innerError = serviceError.innerError;
+  return (
+    typeof innerError === "object" &&
+    innerError !== null &&
+    "code" in innerError &&
+    innerError.code === "ForbiddenByRbac"
+  );
 }
 
 /**
@@ -172,7 +213,7 @@ export async function deleteKeyVault(keyVaultName: string): Promise<void> {
   try {
     await keyVaultClient.vaults.delete(getResourceGroupName(), keyVaultName);
   } catch (err) {
-    if (err instanceof RestError && err.statusCode === 404) {
+    if (isRestError(err) && err.statusCode === 404) {
       // Key Vault not found, nothing to delete
       return;
     }

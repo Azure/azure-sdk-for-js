@@ -25,6 +25,26 @@ describe("snippets", () => {
     const client = new BatchClient("<endpoint>", credential);
   });
 
+  it("ReadmeSampleCreatePool_Placement", async () => {
+    const client = new BatchClient("<endpoint>", new DefaultAzureCredential());
+    await client.createPool({
+      id: "zone-balanced-pool",
+      vmSize: "Standard_D2s_v5",
+      targetDedicatedNodes: 3,
+      virtualMachineConfiguration: {
+        nodeAgentSkuId: "batch.node.ubuntu 22.04",
+        imageReference: {
+          publisher: "canonical",
+          offer: "0001-com-ubuntu-server-jammy",
+          sku: "22_04-lts",
+          version: "latest",
+        },
+        placement: { zonePlacementPolicy: "Auto" },
+        resiliencyPolicy: { zoneAllocationPolicy: { maxZoneCount: 3 } },
+      },
+    });
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

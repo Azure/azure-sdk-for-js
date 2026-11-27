@@ -21,7 +21,7 @@ import {
 } from "./utils/arm-resources/batch-account.js";
 import { createBatchLinuxPool, deleteBatchPool } from "./utils/arm-resources/batch-pool.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const FILE_POOL = getResourceName("Pool-Files");
 const FILE_POOL_NUM_VMS = 3;
@@ -215,7 +215,7 @@ describe("File Operations Test", () => {
       await batchClient.getTaskFileProperties(jobId, taskId, fileToDelete);
       expect.fail("Expected file to be deleted");
     } catch (error: unknown) {
-      if (!(error instanceof RestError)) {
+      if (!isRestError(error)) {
         throw error;
       }
       expect(error.statusCode).toBe(404);
@@ -290,7 +290,7 @@ describe("File Operations Test", () => {
       await batchClient.getNodeFileProperties(poolId, recordedNodeId, fileToDelete);
       expect.fail("Expected file to be deleted");
     } catch (error: unknown) {
-      if (!(error instanceof RestError)) {
+      if (!isRestError(error)) {
         throw error;
       }
       expect(error.statusCode).toBe(404);

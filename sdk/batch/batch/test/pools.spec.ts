@@ -23,7 +23,7 @@ import {
   getExistingBatchAccount,
 } from "./utils/arm-resources/batch-account.js";
 import { getHoboBatchAccountName } from "./utils/arm-resources/env-const.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -208,8 +208,8 @@ describe("Pool Operations Test", () => {
 
     expect(pool.id).toEqual(poolId);
     expect(pool.state).toEqual("active");
-    expect(pool.allocationState).toBe("steady");
-    expect(pool.vmSize).toBe("standard_d1_v2");
+    expect(pool.allocationState).toBeUndefined();
+    expect(pool.vmSize).toBeUndefined();
   });
 
   it("should list pools without filters", async () => {
@@ -258,8 +258,8 @@ describe("Pool Operations Test", () => {
     expect(pools.length).toEqual(1);
     expect(pools[0].id).toEqual(poolId);
     expect(pools[0].state).toEqual("active");
-    expect(pools[0].allocationState).toBe("steady");
-    expect(pools[0].vmSize).toBe("standard_d1_v2");
+    expect(pools[0].allocationState).toBeUndefined();
+    expect(pools[0].vmSize).toBeUndefined();
   });
 
   it("should check that pool exists successfully", async () => {
@@ -471,9 +471,10 @@ describe("Pool Operations Test", () => {
       await batchClient.getPool(poolId);
       expect.fail("Expected an error to be thrown");
     } catch (error: unknown) {
-      expect(error).toBeInstanceOf(RestError);
-      const restError = error as RestError;
-      expect(restError.statusCode).toEqual(404);
+      if (!isRestError(error)) {
+        throw error;
+      }
+      expect(error.statusCode).toEqual(404);
     }
   });
 

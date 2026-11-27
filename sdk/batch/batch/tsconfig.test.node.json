@@ -2,9 +2,11 @@
   "extends": "../../../tsconfig.test.node.base.json",
   "compilerOptions": {
     "paths": {
+      "@azure/batch/package.json": ["./package.json"],
       "@azure/batch": ["./src/index.ts"],
       "@azure/batch/*": ["./src/*"],
       "$internal/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["./test", "./src", "./package.json"]
 }

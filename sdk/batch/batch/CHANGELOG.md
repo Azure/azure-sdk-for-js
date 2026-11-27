@@ -1,18 +1,28 @@
 # Release History
 
-## 13.0.1 (Unreleased)
+## 14.0.0 (Unreleased)
 
 ### Features Added
 
+- Updated the default Azure Batch service API version to `2026-10-01`. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
+- Added the new virtual machine hardware, availability-zone placement, and resiliency configuration models and serialization. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
+
 ### Breaking Changes
 
+- Removed `BatchClient.listPoolUsageMetrics`, its operation exports, `ListPoolUsageMetricsOptionalParams`, and `BatchPoolUsageMetrics`, matching their removal from the new service API. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
+- Removed `"retaineddata"` from `BatchNodeDeallocationOption`. Use `"requeue"`, `"terminate"`, or `"taskcompletion"` instead. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
+
 ### Bugs Fixed
+
+- Fixed pagination to read continuation links before deserialization renames `odata.nextLink`, ensuring subsequent requests retain the selected API version. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
 
 - Fixed error detection in long-running operation pollers so that a `RestError` is recognized even when the
   consuming application resolves more than one copy of `@azure/core-rest-pipeline`. The pollers now use the
   `isRestError` type guard rather than an `instanceof` check, which compares constructor identity.
 
 ### Other Changes
+
+- Added the package customization script so future SDK generation applies changes to active source while preserving existing customizations. [#40667](https://github.com/Azure/azure-sdk-for-js/pull/40667)
 
 ## 13.0.0 (2026-05-07)
 

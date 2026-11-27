@@ -25,6 +25,17 @@ Install the Azure Batch client library for JavaScript with `npm`:
 npm install @azure/batch
 ```
 
+### Upgrade from version 13
+
+Version 14 uses Azure Batch service API version `2026-10-01` by default.
+It removes `listPoolUsageMetrics`, its associated operation exports and models, and the
+`"retaineddata"` node-deallocation option. Use `"requeue"`, `"terminate"`, or
+`"taskcompletion"` for node deallocation. Stay on version 13 if you still require the
+removed SDK APIs.
+
+An explicit `apiVersion` client option can select an older service API version for
+remaining operations, but it does not restore removed SDK members.
+
 ### Create and authenticate a `BatchClient`
 
 To create a client object to access the Azure Batch API, you will need the `endpoint` of your Azure Batch resource and a `credential`. The Azure Batch client can use Azure Active Directory credentials to authenticate.
@@ -86,6 +97,7 @@ const client = new BatchClient("<endpoint>", credential);
 ```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -93,6 +105,37 @@ To use this client library in the browser, first you need to use a bundler. For 
 ### BatchClient
 
 `BatchClient` is the primary interface for developers using the Azure Batch client library. Explore the methods on this client object to understand the different features of the Azure Batch service that you can access.
+
+## Examples
+
+### Create a pool with automatic availability-zone placement
+
+The new API supports availability-zone placement and resiliency policies on the
+virtual machine configuration. Choose a VM size and zone count supported by the
+Batch account's region.
+
+```ts snippet:ReadmeSampleCreatePool_Placement
+import { BatchClient } from "@azure/batch";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new BatchClient("<endpoint>", new DefaultAzureCredential());
+await client.createPool({
+  id: "zone-balanced-pool",
+  vmSize: "Standard_D2s_v5",
+  targetDedicatedNodes: 3,
+  virtualMachineConfiguration: {
+    nodeAgentSkuId: "batch.node.ubuntu 22.04",
+    imageReference: {
+      publisher: "canonical",
+      offer: "0001-com-ubuntu-server-jammy",
+      sku: "22_04-lts",
+      version: "latest",
+    },
+    placement: { zonePlacementPolicy: "Auto" },
+    resiliencyPolicy: { zoneAllocationPolicy: { maxZoneCount: 3 } },
+  },
+});
+```
 
 ## Troubleshooting
 
@@ -108,10 +151,27 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+### Running recorded tests
+
+Run commands from this package directory. The test scripts use `TEST_MODE=playback`
+by default and keep separate Node.js and browser recordings. To refresh browser
+recordings, use `TEST_MODE=record` with `pnpm test:browser`; `pnpm test:node` only
+refreshes Node.js recordings. After recording, set `TEST_MODE=playback` and run
+`pnpm test` to verify both sets before publishing them.
+
+Live and record modes require Azure authentication and `AZURE_SUBSCRIPTION_ID` in
+the test process environment. In PowerShell, set `$env:AZURE_SUBSCRIPTION_ID` in
+the same terminal used to start the tests. Check inheritance without printing
+the value using `pnpm exec node -e "console.log(Boolean(process.env.AZURE_SUBSCRIPTION_ID))"`.
+These modes create and delete Azure resources and can incur charges.
+
+Shared provisioning helpers read configuration through `env` from
+`@azure-tools/test-recorder` so Node.js setup and browser tests use the appropriate
+runtime environment rather than reading `process.env` directly.
 
 ## Related projects
 

@@ -4,7 +4,7 @@
 import type { BatchAccount, BatchAccountCreateParameters } from "@azure/arm-batch";
 import { BatchManagementClient } from "@azure/arm-batch";
 import { getLocation, getResourceGroupName, getSubscriptionId } from "./env-const.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 /**
@@ -23,7 +23,7 @@ export async function getExistingBatchAccount<T extends boolean = false>(
     const existingAccount = await client.batchAccount.get(resourceGroupName, accountName);
     return existingAccount;
   } catch (error) {
-    if (error instanceof RestError && error.statusCode === 404) {
+    if (isRestError(error) && error.statusCode === 404) {
       if (returnUndefinedIfNotFound === true) {
         return undefined as T extends true ? BatchAccount | undefined : BatchAccount;
       }
@@ -56,7 +56,7 @@ async function createBatchAccountInternal(
     return res;
   } catch (error) {
     console.dir(error, { depth: null });
-    if (error instanceof RestError && error.code === "The specified account is being created.") {
+    if (isRestError(error) && error.code === "The specified account is being created.") {
       // Handle conflict error if the account was created in the meantime
       console.log(`Batch account ${accountName} was created by another process. Retrieving it.`);
       return createBatchAccountInternal(accountName, parameters, retryCnt - 1);

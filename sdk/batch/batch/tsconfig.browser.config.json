@@ -1,10 +1,13 @@
 {
   "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
+    "resolveJsonModule": true,
     "paths": {
+      "@azure/batch/package.json": ["./package.json"],
       "@azure/batch": ["./dist/browser/index.d.ts"],
       "@azure/batch/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
     }
-  }
+  },
+  "include": ["./src", "./test", "./package.json"]
 }

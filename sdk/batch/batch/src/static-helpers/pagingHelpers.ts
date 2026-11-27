@@ -116,8 +116,8 @@ export function buildPagedAsyncIterator<
             : await client.pathUnchecked(resolvedPageLink).get();
       }
       checkPagingRequest(result, expectedStatuses);
+      const nextLink = getNextLink(result.body, nextLinkName);
       const results = await processResponseBody(result as TResponse);
-      const nextLink = getNextLink(results, nextLinkName);
       const values = getElements<TElement>(results, itemName) as TPage;
       return {
         page: values,
@@ -262,9 +262,7 @@ function addApiVersionToUrl(url: string, apiVersion: string): string {
   const urlObj = new URL(url, "https://microsoft.com");
   if (!urlObj.searchParams.get("api-version")) {
     // Append one if there is no apiVersion
-    return `${url}${
-      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
-    }api-version=${apiVersion}`;
+    return `${url}${urlObj.search ? "&" : "?"}api-version=${apiVersion}`;
   }
   return url;
 }

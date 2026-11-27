@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import pkgJson from "@azure/batch/package.json" with { type: "json" };
 import { KnownVersions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
@@ -35,14 +36,17 @@ export function createBatch(
 ): BatchContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-batch/13.0.1`;
+  const userAgentInfo = `azsdk-js-batch/${pkgJson.version}`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
-    loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
+    loggingOptions: {
+      ...options.loggingOptions,
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
