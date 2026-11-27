@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceDevice.json
  */
 async function createOrReplaceNamespaceDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,13 +24,14 @@ async function createOrReplaceNamespaceDevices(): Promise<void> {
         endpoints: {
           outbound: {
             assigned: {
-              iothubEndpoint: {
-                endpointType: "Microsoft.Devices/IotHubs",
-                address: "https://iothub-for-dps.azure-devices.net",
+              eventGridEndpoint: {
+                endpointType: "Microsoft.Devices",
+                address: "https://myeventgridtopic.westeurope-1.eventgrid.azure.net/api/events",
               },
             },
           },
         },
+        externalDeviceId: "adr-smart-device3-7a848b15-af47-40a7-8c06-a3f43314d44f",
         enabled: true,
         attributes: { deviceType: "sensor", deviceOwner: "IT", deviceCategory: 16 },
       },
@@ -43,7 +44,7 @@ async function createOrReplaceNamespaceDevices(): Promise<void> {
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_Anonymous.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceDevice_Edge_Anonymous.json
  */
 async function createEdgeEnabledDeviceWithAnonymousHostAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +65,7 @@ async function createEdgeEnabledDeviceWithAnonymousHostAuthentication(): Promise
           inbound: {
             theOnlyOPCUABroker: {
               address: "opc.tcp://192.168.86.23:51211/UA/SampleServer",
-              endpointType: "microsoft.opcua:v1",
+              endpointType: "microsoft.opcua",
               version: "2",
               authentication: { method: "Anonymous" },
             },
@@ -83,7 +84,7 @@ async function createEdgeEnabledDeviceWithAnonymousHostAuthentication(): Promise
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_UsernamePass.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceDevice_Edge_UsernamePass.json
  */
 async function createEdgeEnabledDeviceWithUsernamesPasswordInboundAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +105,7 @@ async function createEdgeEnabledDeviceWithUsernamesPasswordInboundAuthentication
           inbound: {
             theOnlyOPCUABroker: {
               address: "opc.tcp://192.168.86.23:51211/UA/SampleServer",
-              endpointType: "microsoft.opcua:v1",
+              endpointType: "microsoft.opcua",
               version: "2",
               authentication: {
                 method: "UsernamePassword",
@@ -129,7 +130,7 @@ async function createEdgeEnabledDeviceWithUsernamesPasswordInboundAuthentication
  * This sample demonstrates how to create a NamespaceDevice
  *
  * @summary create a NamespaceDevice
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDevice_Edge_x509.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceDevice_Edge_x509.json
  */
 async function createEdgeEnabledDeviceWithX509InboundAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -154,7 +155,11 @@ async function createEdgeEnabledDeviceWithX509InboundAuthentication(): Promise<v
               version: "2",
               authentication: {
                 method: "Certificate",
-                x509Credentials: { certificateSecretName: "cert-secret" },
+                x509Credentials: {
+                  certificateSecretName: "cert-secret",
+                  keySecretName: "key-secret",
+                  intermediateCertificatesSecretName: "intermediate-certs-secret",
+                },
               },
             },
             theV2OPCUAEndpoint: {

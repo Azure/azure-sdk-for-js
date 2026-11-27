@@ -6,6 +6,7 @@ import type {
   NamespaceAsset,
   NamespaceAssetUpdate,
   _NamespaceAssetListResult,
+  NamespaceAssetExecuteActionRequest,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -13,13 +14,15 @@ import {
   namespaceAssetDeserializer,
   namespaceAssetUpdateSerializer,
   _namespaceAssetListResultDeserializer,
+  namespaceAssetExecuteActionRequestSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  NamespaceAssetsListByResourceGroupOptionalParams,
+  NamespaceAssetsExecuteActionOptionalParams,
+  NamespaceAssetsListByNamespaceOptionalParams,
   NamespaceAssetsDeleteOptionalParams,
   NamespaceAssetsUpdateOptionalParams,
   NamespaceAssetsCreateOrReplaceOptionalParams,
@@ -29,11 +32,73 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _listByResourceGroupSend(
+export function _executeActionSend(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceAssetsListByResourceGroupOptionalParams = { requestOptions: {} },
+  assetName: string,
+  body: NamespaceAssetExecuteActionRequest,
+  options: NamespaceAssetsExecuteActionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets/{assetName}/executeAction{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      namespaceName: namespaceName,
+      assetName: assetName,
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: namespaceAssetExecuteActionRequestSerializer(body),
+  });
+}
+
+export async function _executeActionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** A long-running resource action. */
+export function executeAction(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  assetName: string,
+  body: NamespaceAssetExecuteActionRequest,
+  options: NamespaceAssetsExecuteActionOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _executeActionDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _executeActionSend(context, resourceGroupName, namespaceName, assetName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-11-01",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _listByNamespaceSend(
+  context: Client,
+  resourceGroupName: string,
+  namespaceName: string,
+  options: NamespaceAssetsListByNamespaceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/namespaces/{namespaceName}/assets{?api%2Dversion}",
@@ -41,7 +106,7 @@ export function _listByResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,13 +118,15 @@ export function _listByResourceGroupSend(
   });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _listByNamespaceDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_NamespaceAssetListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -68,22 +135,18 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** List NamespaceAsset resources by Namespace */
-export function listByResourceGroup(
+export function listByNamespace(
   context: Client,
   resourceGroupName: string,
   namespaceName: string,
-  options: NamespaceAssetsListByResourceGroupOptionalParams = { requestOptions: {} },
+  options: NamespaceAssetsListByNamespaceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<NamespaceAsset> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, resourceGroupName, namespaceName, options),
-    _listByResourceGroupDeserialize,
+    () => _listByNamespaceSend(context, resourceGroupName, namespaceName, options),
+    _listByNamespaceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-11-01" },
   );
 }
 
@@ -101,7 +164,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,7 +177,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,11 +188,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a NamespaceAsset */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -141,7 +201,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, namespaceName, assetName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +220,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +238,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -201,7 +263,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, namespaceName, assetName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
 }
 
@@ -220,7 +282,7 @@ export function _createOrReplaceSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +302,9 @@ export async function _createOrReplaceDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -263,7 +327,7 @@ export function createOrReplace(
     getInitialResponse: () =>
       _createOrReplaceSend(context, resourceGroupName, namespaceName, assetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-11-01",
   }) as PollerLike<OperationState<NamespaceAsset>, NamespaceAsset>;
 }
 
@@ -281,7 +345,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       namespaceName: namespaceName,
       assetName: assetName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -297,7 +361,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Na
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceAsset
  *
  * @summary create a NamespaceAsset
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceAsset.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceAsset.json
  */
 async function createOrReplaceNamespaceAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createOrReplaceNamespaceAsset(): Promise<void> {
       tags: { site: "building-1" },
       properties: {
         deviceRef: { deviceName: "device1", endpointName: "opcuaendpointname" },
-        assetTypeRefs: ["myAssetTypeRef1", "myAssetTypeRef2"],
+        assetTypeRefs: ["myAssetTypeRef1"],
         enabled: true,
         externalAssetId: "8ZBA6LRHU0A458969",
         displayName: "AssetDisplayName",
@@ -74,12 +74,29 @@ async function createOrReplaceNamespaceAsset(): Promise<void> {
                   '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
                 typeRef: "dataset1DataPoint1TypeRef",
               },
+            ],
+          },
+        ],
+        eventGroups: [
+          {
+            name: "default",
+            events: [
               {
-                name: "dataset1DataPoint2",
-                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-                dataPointConfiguration:
-                  '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
-                typeRef: "dataset1DataPoint2TypeRef",
+                name: "event1",
+                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt5",
+                eventConfiguration: '{"publishingInterval":7,"samplingInterval":1,"queueSize":8}',
+                destinations: [
+                  {
+                    target: "Mqtt",
+                    configuration: {
+                      topic: "/contoso/testEvent1",
+                      retain: "Keep",
+                      qos: "Qos0",
+                      ttl: 7200,
+                    },
+                  },
+                ],
+                typeRef: "event1Ref",
               },
             ],
           },
@@ -90,22 +107,6 @@ async function createOrReplaceNamespaceAsset(): Promise<void> {
             streamConfiguration: '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
             typeRef: "stream1TypeRef",
             destinations: [{ target: "Storage", configuration: { path: "/tmp/stream1" } }],
-          },
-          {
-            name: "stream2",
-            streamConfiguration: '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
-            typeRef: "stream2TypeRef",
-            destinations: [
-              {
-                target: "Mqtt",
-                configuration: {
-                  topic: "/contoso/testStream2",
-                  retain: "Never",
-                  qos: "Qos0",
-                  ttl: 7200,
-                },
-              },
-            ],
           },
         ],
         managementGroups: [
@@ -122,15 +123,6 @@ async function createOrReplaceNamespaceAsset(): Promise<void> {
                 targetUri: "/onvif/device_service?ONVIFProfile=Profile1",
                 topic: "/contoso/managementGroup1/action1",
                 typeRef: "action1TypeRef",
-                actionType: "Call",
-                timeoutInSeconds: 60,
-              },
-              {
-                name: "action2",
-                actionConfiguration: '{"retryCount":5,"retryBackoffInterval":5}',
-                targetUri: "/onvif/device_service?ONVIFProfile=Profile2",
-                topic: "/contoso/managementGroup1/action2",
-                typeRef: "action2TypeRef",
                 actionType: "Call",
                 timeoutInSeconds: 60,
               },

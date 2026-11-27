@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a NamespaceDiscoveredAsset
  *
  * @summary create a NamespaceDiscoveredAsset
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_NamespaceDiscoveredAsset.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_NamespaceDiscoveredAsset.json
  */
 async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
       tags: { site: "building-1" },
       properties: {
         deviceRef: { deviceName: "myDevice", endpointName: "opcuaendpointname" },
-        assetTypeRefs: ["myAssetTypeRef1", "myAssetTypeRef2"],
+        assetTypeRefs: ["myAssetTypeRef1"],
         discoveryId: "11111111-1111-1111-1111-111111111111",
         version: 73766,
         manufacturer: "Contoso",
@@ -73,13 +73,30 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
                 typeRef: "dataset1DataPoint1TypeRef",
                 lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
               },
+            ],
+          },
+        ],
+        eventGroups: [
+          {
+            name: "default",
+            events: [
               {
-                name: "dataset1DataPoint2",
-                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt4",
-                dataPointConfiguration:
-                  '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
-                typeRef: "dataset1DataPoint2TypeRef",
+                name: "event1",
+                dataSource: "nsu=http://microsoft.com/Opc/OpcPlc/;s=FastUInt3",
+                eventConfiguration: '{"publishingInterval":7,"samplingInterval":1,"queueSize":8}',
                 lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
+                destinations: [
+                  {
+                    target: "Mqtt",
+                    configuration: {
+                      topic: "/contoso/testEvent1",
+                      retain: "Keep",
+                      qos: "Qos0",
+                      ttl: 7200,
+                    },
+                  },
+                ],
+                typeRef: "event1Ref",
               },
             ],
           },
@@ -91,23 +108,6 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
             lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
             typeRef: "stream1TypeRef",
             destinations: [{ target: "Storage", configuration: { path: "/tmp/stream1" } }],
-          },
-          {
-            name: "stream2",
-            streamConfiguration: '{"publishingInterval":8,"samplingInterval":8,"queueSize":4}',
-            lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-            typeRef: "stream2TypeRef",
-            destinations: [
-              {
-                target: "Mqtt",
-                configuration: {
-                  topic: "/contoso/testStream2",
-                  retain: "Never",
-                  qos: "Qos0",
-                  ttl: 7200,
-                },
-              },
-            ],
           },
         ],
         managementGroups: [
@@ -125,16 +125,6 @@ async function createOrReplaceNamespaceDiscoveredAsset(): Promise<void> {
                 targetUri: "/onvif/device_service?ONVIFProfile=Profile1",
                 topic: "/contoso/managementGroup1/action1",
                 typeRef: "action1TypeRef",
-                actionType: "Call",
-                timeoutInSeconds: 60,
-                lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),
-              },
-              {
-                name: "action2",
-                actionConfiguration: '{"retryCount":5,"retryBackoffInterval":5}',
-                targetUri: "/onvif/device_service?ONVIFProfile=Profile2",
-                topic: "/contoso/managementGroup1/action2",
-                typeRef: "action2TypeRef",
                 actionType: "Call",
                 timeoutInSeconds: 60,
                 lastUpdatedOn: new Date("2024-04-09T14:20:00.52Z"),

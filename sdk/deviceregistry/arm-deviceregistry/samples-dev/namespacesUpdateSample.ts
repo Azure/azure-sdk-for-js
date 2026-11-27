@@ -8,19 +8,84 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Namespace
  *
  * @summary update a Namespace
- * x-ms-original-file: 2026-03-01-preview/Update_Namespace_Endpoints.json
+ * x-ms-original-file: 2026-11-01/Update_Namespace_ManagementEndpoints.json
  */
-async function updateNamespaceEndpoints(): Promise<void> {
+async function linkANamespaceToAManagementEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const result = await client.namespaces.update("myResourceGroup", "adr-namespace-gbk0925-n01", {
     properties: {
+      management: {
+        endpoints: {
+          customLocation1: {
+            endpointType: "Microsoft.EventGrid/Namespaces",
+            address: "eg-for-adr.eastus2-1.ts.eventgrid.azure.net",
+            scopeId: "scope-id-for-management-endpoint-1",
+            resourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.EventGrid/Namespaces/eg-for-adr",
+          },
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update a Namespace
+ *
+ * @summary update a Namespace
+ * x-ms-original-file: 2026-11-01/Update_Namespace_MessagingEndpoints.json
+ */
+async function linkANamespaceToAMessagingEndpoint(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DeviceRegistryManagementClient(credential, subscriptionId);
+  const result = await client.namespaces.update("myResourceGroup", "mynamespace", {
+    properties: {
       messaging: {
         endpoints: {
-          iothubEndpoint: {
+          myPrimaryIotHubEndpoint: {
             endpointType: "Microsoft.Devices/IotHubs",
-            address: "https://iothub-for-dps.azure-devices.net",
+            resourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/myIotHub1",
+            inboundCallerIdentity: { type: "SystemAssigned" },
+            provisioning: { availability: "Available", allocationWeight: 1 },
+          },
+          mySecondaryIotHubEndpoint: {
+            endpointType: "Microsoft.Devices/IotHubs",
+            resourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Devices/IotHubs/myIotHub2",
+            inboundCallerIdentity: { type: "SystemAssigned" },
+            provisioning: { availability: "Available", allocationWeight: 1 },
+          },
+        },
+      },
+    },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update a Namespace
+ *
+ * @summary update a Namespace
+ * x-ms-original-file: 2026-11-01/Update_Namespace_ProvisioningEndpoints.json
+ */
+async function linkANamespaceToAProvisioningEndpoint(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DeviceRegistryManagementClient(credential, subscriptionId);
+  const result = await client.namespaces.update("myResourceGroup", "mynamespace", {
+    properties: {
+      provisioning: {
+        endpoints: {
+          myDpsEndpoint: {
+            endpointType: "Microsoft.Devices/provisioningServices",
+            resourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Devices/provisioningServices/myDps",
+            inboundCallerIdentity: { type: "SystemAssigned" },
           },
         },
       },
@@ -30,7 +95,9 @@ async function updateNamespaceEndpoints(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateNamespaceEndpoints();
+  await linkANamespaceToAManagementEndpoint();
+  await linkANamespaceToAMessagingEndpoint();
+  await linkANamespaceToAProvisioningEndpoint();
 }
 
 main().catch(console.error);

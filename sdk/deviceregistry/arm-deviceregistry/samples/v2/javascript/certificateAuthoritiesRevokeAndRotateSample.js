@@ -1,0 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to revokes a Certificate Authority of type `ICA` and issuer type `Microsoft`. If the Certificate Authority is an invalid type, the API responds with HTTP 400.
+ *
+ * @summary revokes a Certificate Authority of type `ICA` and issuer type `Microsoft`. If the Certificate Authority is an invalid type, the API responds with HTTP 400.
+ * x-ms-original-file: 2026-11-01/RevokeAndRotate_CertificateAuthority.json
+ */
+async function revokeAndRotateACertificateAuthority() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DeviceRegistryManagementClient(credential, subscriptionId);
+  await client.certificateAuthorities.revokeAndRotate("rgdeviceregistry", "mynamespace", "myica");
+}
+
+async function main() {
+  await revokeAndRotateACertificateAuthority();
+}
+
+main().catch(console.error);

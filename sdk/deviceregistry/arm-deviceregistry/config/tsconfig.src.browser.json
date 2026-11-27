@@ -1,6 +1,29 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/registryDevices/index.ts",
+    "../src/api/certificatePolicies/index.ts",
+    "../src/api/certificateAuthorities/index.ts",
+    "../src/api/schemaVersions/index.ts",
+    "../src/api/schemas/index.ts",
+    "../src/api/schemaRegistries/index.ts",
+    "../src/api/namespaceDiscoveredDevices/index.ts",
+    "../src/api/namespaceDiscoveredAssets/index.ts",
+    "../src/api/namespaceDevices/index.ts",
+    "../src/api/namespaceAssets/index.ts",
+    "../src/api/namespaces/index.ts",
+    "../src/api/billingContainers/index.ts",
+    "../src/api/assetEndpointProfiles/index.ts",
+    "../src/api/assets/index.ts",
+    "../src/api/asyncOperationStatus/index.ts",
+    "../src/api/operationStatus/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts",
+    "../src/models/typeSpec/index.ts"
   ]
 }

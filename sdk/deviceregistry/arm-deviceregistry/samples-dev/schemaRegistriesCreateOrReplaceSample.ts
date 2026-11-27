@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a SchemaRegistry
  *
  * @summary create a SchemaRegistry
- * x-ms-original-file: 2026-03-01-preview/CreateOrReplace_SchemaRegistry.json
+ * x-ms-original-file: 2026-11-01/CreateOrReplace_SchemaRegistry.json
  */
 async function createOrReplaceSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function createOrReplaceSchemaRegistry(): Promise<void> {
         namespace: "sr-namespace-001",
         displayName: "Schema Registry namespace 001",
         description: "This is a sample Schema Registry",
-        storageAccountContainerUrl: "my-blob-storage.blob.core.windows.net/my-container",
+        storageAccountContainerUrl: "https://my-blob-storage.blob.core.windows.net/my-container",
       },
       tags: {},
       location: "West Europe",
