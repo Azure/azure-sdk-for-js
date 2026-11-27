@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Service Fabric managed application resource with the specified name.
  *
  * @summary create or update a Service Fabric managed application resource with the specified name.
- * x-ms-original-file: 2026-05-01-preview/ApplicationPutOperation_example_max.json
+ * x-ms-original-file: 2026-09-01-preview/ApplicationPutOperation_example_max.json
  */
 async function putAnApplicationWithMaximumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function putAnApplicationWithMaximumParameters(): Promise<void> {
  * This sample demonstrates how to create or update a Service Fabric managed application resource with the specified name.
  *
  * @summary create or update a Service Fabric managed application resource with the specified name.
- * x-ms-original-file: 2026-05-01-preview/ApplicationPutOperation_example_min.json
+ * x-ms-original-file: 2026-09-01-preview/ApplicationPutOperation_example_min.json
  */
 async function putAnApplicationWithMinimumParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -11,6 +11,7 @@ import type {
   NodeTypeUpdateParameters,
   _NodeTypeListResult,
   NodeTypeActionParameters,
+  ReimageAllDisksParameters,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -23,6 +24,7 @@ import {
   nodeTypeUpdateParametersSerializer,
   _nodeTypeListResultDeserializer,
   nodeTypeActionParametersSerializer,
+  reimageAllDisksParametersSerializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -35,6 +37,7 @@ import type {
   NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
+  NodeTypesReimageAllDisksOptionalParams,
   NodeTypesReimageOptionalParams,
   NodeTypesRedeployOptionalParams,
   NodeTypesDeleteNodeOptionalParams,
@@ -63,7 +66,7 @@ export function _listFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +110,7 @@ export function listFaultSimulation(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -127,7 +130,7 @@ export function _getFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +195,7 @@ export function _stopFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +246,7 @@ export function stopFaultSimulation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
@@ -262,7 +265,7 @@ export function _startFaultSimulationSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,7 +316,7 @@ export function startFaultSimulation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 }
 
@@ -332,7 +335,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -374,7 +377,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -393,7 +396,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +438,75 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
+}
+
+export function _reimageAllDisksSend(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  nodeTypeName: string,
+  parameters: ReimageAllDisksParameters,
+  options: NodeTypesReimageAllDisksOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/nodeTypes/{nodeTypeName}/reimageAllDisks{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      clusterName: clusterName,
+      nodeTypeName: nodeTypeName,
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: reimageAllDisksParametersSerializer(parameters),
+  });
+}
+
+export async function _reimageAllDisksDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Reimages a single node on the node type, including its OS disk and all data disks. */
+export function reimageAllDisks(
+  context: Client,
+  resourceGroupName: string,
+  clusterName: string,
+  nodeTypeName: string,
+  parameters: ReimageAllDisksParameters,
+  options: NodeTypesReimageAllDisksOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _reimageAllDisksDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _reimageAllDisksSend(
+        context,
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -454,7 +525,7 @@ export function _reimageSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -496,7 +567,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -515,7 +586,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -557,7 +628,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -576,7 +647,7 @@ export function _deleteNodeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -618,7 +689,7 @@ export function deleteNode(
     getInitialResponse: () =>
       _deleteNodeSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -637,7 +708,7 @@ export function _deallocateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,7 +750,7 @@ export function deallocate(
     getInitialResponse: () =>
       _deallocateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -695,7 +766,7 @@ export function _listByManagedClustersSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +809,7 @@ export function listByManagedClusters(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+      apiVersion: context.apiVersion ?? "2026-09-01-preview",
     },
   );
 }
@@ -757,7 +828,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -794,7 +865,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, nodeTypeName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -813,7 +884,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -856,7 +927,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, nodeTypeName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<NodeType>, NodeType>;
 }
 
@@ -875,7 +946,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -925,7 +996,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-09-01-preview",
   }) as PollerLike<OperationState<NodeType>, NodeType>;
 }
 
@@ -943,7 +1014,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       nodeTypeName: nodeTypeName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-09-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

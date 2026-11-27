@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationAutoScale_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationAutoScale_example.json
  */
 async function putANodeTypeWithAutoScaleParameters() {
   const credential = new DefaultAzureCredential();
@@ -68,7 +68,7 @@ async function putANodeTypeWithAutoScaleParameters() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationCustomImage_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationCustomImage_example.json
  */
 async function putNodeTypeWithCustomVmImage() {
   const credential = new DefaultAzureCredential();
@@ -89,7 +89,7 @@ async function putNodeTypeWithCustomVmImage() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationCustomSharedGalleriesImage_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationCustomSharedGalleriesImage_example.json
  */
 async function putNodeTypeWithSharedGalleriesCustomVmImage() {
   const credential = new DefaultAzureCredential();
@@ -110,7 +110,7 @@ async function putNodeTypeWithSharedGalleriesCustomVmImage() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationDedicatedHost_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationDedicatedHost_example.json
  */
 async function putNodeTypeWithDedicatedHosts() {
   const credential = new DefaultAzureCredential();
@@ -139,7 +139,7 @@ async function putNodeTypeWithDedicatedHosts() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationStateless_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationStateless_example.json
  */
 async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
   const credential = new DefaultAzureCredential();
@@ -175,7 +175,7 @@ async function putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperationVmImagePlan_example.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperationVmImagePlan_example.json
  */
 async function putNodeTypeWithVmImagePlan() {
   const credential = new DefaultAzureCredential();
@@ -203,7 +203,7 @@ async function putNodeTypeWithVmImagePlan() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperation_example_max.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperation_example_max.json
  */
 async function putANodeTypeWithMaximumParameters() {
   const credential = new DefaultAzureCredential();
@@ -215,8 +215,26 @@ async function putANodeTypeWithMaximumParameters() {
     "BE-testResourceGroup-testRegion-test",
     {
       additionalDataDisks: [
-        { diskLetter: "F", diskSizeGB: 256, diskType: "StandardSSD_LRS", lun: 1 },
-        { diskLetter: "G", diskSizeGB: 150, diskType: "Premium_LRS", lun: 2 },
+        {
+          diskLetter: "F",
+          diskSizeGB: 256,
+          diskType: "StandardSSD_LRS",
+          lun: 1,
+          caching: "ReadOnly",
+          writeAcceleratorEnabled: false,
+          diskIopsReadWrite: 3000,
+          diskMBpsReadWrite: 125,
+        },
+        {
+          diskLetter: "G",
+          diskSizeGB: 150,
+          diskType: "Premium_LRS",
+          lun: 2,
+          caching: "ReadOnly",
+          writeAcceleratorEnabled: false,
+          diskIopsReadWrite: 3000,
+          diskMBpsReadWrite: 125,
+        },
       ],
       additionalNetworkInterfaceConfigurations: [
         {
@@ -357,7 +375,18 @@ async function putANodeTypeWithMaximumParameters() {
         },
       ],
       vmSetupActions: ["EnableContainers", "EnableHyperV"],
-      vmSize: "Standard_DS3",
+      vmSize: "Mix",
+      skuProfile: {
+        vmSizes: [
+          { name: "Standard_D2s_v3", rank: 1 },
+          { name: "Standard_D4s_v3", rank: 2 },
+        ],
+        allocationStrategy: "Prioritized",
+      },
+      dataDiskCaching: "ReadOnly",
+      dataDiskWriteAcceleratorEnabled: false,
+      dataDiskIopsReadWrite: 5000,
+      dataDiskMBpsReadWrite: 200,
     },
   );
   console.log(result);
@@ -367,7 +396,7 @@ async function putANodeTypeWithMaximumParameters() {
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: 2026-05-01-preview/NodeTypePutOperation_example_min.json
+ * x-ms-original-file: 2026-09-01-preview/NodeTypePutOperation_example_min.json
  */
 async function putANodeTypeWithMinimumParameters() {
   const credential = new DefaultAzureCredential();
