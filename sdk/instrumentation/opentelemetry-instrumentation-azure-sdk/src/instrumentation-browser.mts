@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Instrumentation,
-  InstrumentationConfig} from "@opentelemetry/instrumentation";
-import {
-  InstrumentationBase
-} from "@opentelemetry/instrumentation";
+import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
+import { InstrumentationBase } from "@opentelemetry/instrumentation";
 
 import { OpenTelemetryInstrumenter } from "./instrumenter.js";
 import { SDK_VERSION } from "./configuration.js";
@@ -38,10 +34,12 @@ export class AzureSdkInstrumentation extends InstrumentationBase {
    */
   enable(): void {
     useInstrumenter(new OpenTelemetryInstrumenter());
+    this._enabled = true;
   }
 
   disable(): void {
-    // no-op
+    // core-tracing has no uninstall API; this does not remove its global instrumenter.
+    this._enabled = false;
   }
 }
 

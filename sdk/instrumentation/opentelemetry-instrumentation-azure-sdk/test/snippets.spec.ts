@@ -5,27 +5,21 @@ import { describe, it } from "vitest";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { context, trace } from "@opentelemetry/api";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { SimpleSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/tracing";
-import { KeyClient } from "@azure/keyvault-keys";
-import { DefaultAzureCredential } from "@azure/identity";
+import { NodeSDK } from "@opentelemetry/sdk-node";
+import { SimpleSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", function () {
   it("enable_instrumentation", async function () {
-    // Set-up and configure a Node Tracer Provider using OpenTelemetry SDK.
-
-    const provider = new NodeTracerProvider();
-    provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.register();
-    // @ts-preserve-whitespace
-    registerInstrumentations({
+    // Configure and start the SDK before importing any Azure client libraries.
+    const sdk = new NodeSDK({
+      spanProcessors: [new SimpleSpanProcessor({ exporter: new ConsoleSpanExporter() })],
       instrumentations: [createAzureSdkInstrumentation()],
     });
+    sdk.start();
     // @ts-preserve-whitespace
-    // Continue to import any Azure SDK client libraries after registering the instrumentation.
-    // import { KeyClient } from "@azure/keyvault-keys";
-    // import { DefaultAzureCredential } from "@azure/identity";
+    const { KeyClient } = await import("@azure/keyvault-keys");
+    const { DefaultAzureCredential } = await import("@azure/identity");
     // @ts-preserve-whitespace
     const keyClient = new KeyClient("https://my.keyvault.azure.net", new DefaultAzureCredential());
     // @ts-preserve-whitespace
@@ -39,12 +33,17 @@ describe("snippets", function () {
     const span = tracer.startSpan("main");
     const ctx = trace.setSpan(context.active(), span);
     // @ts-preserve-whitespace
-    await keyClient.getKey("MyKeyName", {
-      tracingOptions: {
-        // ctx will be used as the parent context for all operations.
-        tracingContext: ctx,
-      },
-    });
+    try {
+      await keyClient.getKey("MyKeyName", {
+        tracingOptions: {
+          // ctx will be used as the parent context for all operations.
+          tracingContext: ctx,
+        },
+      });
+    } finally {
+      span.end();
+      await sdk.shutdown();
+    }
   });
 
   it("instrumentation_usage", async function () {

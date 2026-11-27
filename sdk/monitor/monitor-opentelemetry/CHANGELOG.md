@@ -17,6 +17,7 @@
 
 ### Other Changes
 
+- Use `@azure/opentelemetry-instrumentation-azure-sdk` 2.0.0-beta.1 for OpenTelemetry SDK 3 tracing. [#40577](https://github.com/Azure/azure-sdk-for-js/pull/40577)
 - Updated to exporter version 1.0.0-beta.48 and compatible bundled instrumentations, Azure resource detector, and Winston transport. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
 - Preserved `OTEL_BSP_*` and `OTEL_BLRP_*` batch processor configuration with the new SDK APIs. [#40752](https://github.com/Azure/azure-sdk-for-js/pull/40752)
 

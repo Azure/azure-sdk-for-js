@@ -87,9 +87,9 @@ describe("Library/AzureFunctionsHook", () => {
     for (const [testModelVersion, testInvocationContext] of [
       ["3.x", v3Context],
       ["4.x", v4Context],
-    ]) {
-      it(// eslint-disable-next-line @typescript-eslint/no-base-to-string
-      `[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`, async () => {
+    ] as const) {
+      const title = `[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`;
+      it(title, async () => {
         let preInvocationCallback: any;
         let preInvocationCalled = false;
 
