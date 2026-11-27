@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { listByHomeRegion, list } from "../../api/securitySolutionsReferenceData/operations.js";
-import {
+import type {
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
   SecuritySolutionsReferenceDataListOptionalParams,
 } from "../../api/securitySolutionsReferenceData/options.js";
-import { SecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
+import type { SecuritySolutionsReferenceDataList } from "../../models/securitySolutionsAPI/models.js";
 
 /** Interface representing a SecuritySolutionsReferenceData operations. */
 export interface SecuritySolutionsReferenceDataOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listByResourceGroup,
   listBySubscription,
@@ -10,7 +10,7 @@ import {
   onboardAzureApiManagementApi,
   getByAzureApiManagementService,
 } from "../../api/apiCollections/operations.js";
-import {
+import type {
   APICollectionsListByResourceGroupOptionalParams,
   APICollectionsListBySubscriptionOptionalParams,
   APICollectionsListByAzureApiManagementServiceOptionalParams,
@@ -18,10 +18,11 @@ import {
   APICollectionsOnboardAzureApiManagementApiOptionalParams,
   APICollectionsGetByAzureApiManagementServiceOptionalParams,
 } from "../../api/apiCollections/options.js";
-import { ApiCollection } from "../../models/apiCollectionsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { ApiCollection } from "../../models/apiCollectionsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a APICollections operations. */
 export interface APICollectionsOperations {

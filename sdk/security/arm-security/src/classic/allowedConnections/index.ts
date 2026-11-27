@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, listByHomeRegion, get } from "../../api/allowedConnections/operations.js";
-import {
+import type {
   AllowedConnectionsListOptionalParams,
   AllowedConnectionsListByHomeRegionOptionalParams,
   AllowedConnectionsGetOptionalParams,
 } from "../../api/allowedConnections/options.js";
-import {
+import type {
   AllowedConnectionsResource,
   ConnectionType,
 } from "../../models/securitySolutionsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AllowedConnections operations. */
 export interface AllowedConnectionsOperations {

@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, update, createOrUpdate, get } from "../../api/azureDevOpsRepos/operations.js";
-import {
+import type {
   AzureDevOpsReposListOptionalParams,
   AzureDevOpsReposUpdateOptionalParams,
   AzureDevOpsReposCreateOrUpdateOptionalParams,
   AzureDevOpsReposGetOptionalParams,
 } from "../../api/azureDevOpsRepos/options.js";
-import { AzureDevOpsRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { AzureDevOpsRepository } from "../../models/securityConnectorsDevOpsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AzureDevOpsRepos operations. */
 export interface AzureDevOpsReposOperations {

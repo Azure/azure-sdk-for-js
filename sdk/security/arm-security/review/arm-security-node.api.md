@@ -4,17 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AadConnectivityState = string;
@@ -245,7 +245,7 @@ export interface AlertsOperations {
     getSubscriptionLevel: (ascLocation: string, alertName: string, options?: AlertsGetSubscriptionLevelOptionalParams) => Promise<Alert>;
     list: (options?: AlertsListOptionalParams) => PagedAsyncIterableIterator<Alert>;
     listByResourceGroup: (resourceGroupName: string, options?: AlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Alert>;
-    listResourceGroupLevelByRegion: (resourceGroupName: string, ascLocation: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
+    listResourceGroupLevelByRegion: (ascLocation: string, resourceGroupName: string, options?: AlertsListResourceGroupLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
     listSubscriptionLevelByRegion: (ascLocation: string, options?: AlertsListSubscriptionLevelByRegionOptionalParams) => PagedAsyncIterableIterator<Alert>;
     simulate: (ascLocation: string, alertSimulatorRequestBody: AlertSimulatorRequestBody, options?: AlertsSimulateOptionalParams) => PollerLike<OperationState<void>, void>;
     updateResourceGroupLevelStateToActivate: (resourceGroupName: string, ascLocation: string, alertName: string, options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams) => Promise<void>;
@@ -933,6 +933,25 @@ export interface AutoProvisioningSettingsOperations {
 }
 
 // @public
+export interface AwsCloudTrailConfiguration {
+    cloudTrailResourceSets?: AwsCloudTrailResourceSet[];
+    deploymentRegion?: string;
+    provisioningType?: AwsCloudTrailProvisioningType;
+    resourceNamePrefix?: string;
+}
+
+// @public
+export type AwsCloudTrailProvisioningType = string;
+
+// @public
+export interface AwsCloudTrailResourceSet {
+    kmsKeyArn?: string;
+    resourceRegion?: string;
+    s3BucketArn?: string;
+    sqsQueueArn?: string;
+}
+
+// @public
 export interface AwsEnvironmentData extends EnvironmentData {
     readonly accountName?: string;
     environmentType: "AwsAccount";
@@ -1177,9 +1196,34 @@ export interface BaselineAdjustedResult {
 }
 
 // @public
+export interface BatchPricingsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BatchPricingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BatchPricingsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BatchPricingsOperations {
+    createOrUpdate: (scopeId: string, pricingBatchName: string, pricingBatch: PricingBatch, options?: BatchPricingsCreateOrUpdateOptionalParams) => Promise<PricingBatch>;
+    get: (scopeId: string, pricingBatchName: string, options?: BatchPricingsGetOptionalParams) => Promise<PricingBatch>;
+    list: (scopeId: string, options?: BatchPricingsListOptionalParams) => PagedAsyncIterableIterator<PricingBatch>;
+}
+
+// @public
 export interface BenchmarkReference {
     benchmark?: string;
     reference?: string;
+}
+
+// @public
+export interface BlobScanFilter {
+    blob?: MatchFilter;
+    container?: MatchFilter;
 }
 
 // @public
@@ -1511,23 +1555,32 @@ export type DataSource = string;
 
 // @public
 export interface DefenderCspmAwsOffering extends CloudOffering {
+    agentlessServerlessPosture?: DefenderCspmAwsOfferingAgentlessServerlessPosture;
     ciem?: DefenderCspmAwsOfferingCiem;
     databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
     dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
     mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
     mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
     offeringType: "DefenderCspmAws";
+    serverlessContainers?: DefenderCspmAwsOfferingServerlessContainers;
     vmScanners?: DefenderCspmAwsOfferingVmScanners;
 }
 
 // @public
-export interface DefenderCspmAwsOfferingCiem {
-    ciemDiscovery?: DefenderCspmAwsOfferingCiemDiscovery;
-    ciemOidc?: DefenderCspmAwsOfferingCiemOidc;
+export interface DefenderCspmAwsOfferingAgentlessServerlessPosture {
+    cloudRoleArn?: string;
+    enabled?: boolean;
 }
 
 // @public
-export interface DefenderCspmAwsOfferingCiemDiscovery {
+export interface DefenderCspmAwsOfferingCiem {
+    ciemOidc?: DefenderCspmAwsOfferingCiemOidc;
+    cloudTrailAuditLogIngestion?: AwsCloudTrailConfiguration;
+    logCollectionOidc?: DefenderCspmAwsOfferingCiemLogCollectionOidc;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingCiemLogCollectionOidc {
     cloudRoleArn?: string;
 }
 
@@ -1559,6 +1612,12 @@ export interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
 export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
     cloudRoleArn?: string;
     enabled?: boolean;
+    securityFindingsEnabled?: boolean;
+}
+
+// @public
+export interface DefenderCspmAwsOfferingServerlessContainers {
+    enabled?: boolean;
 }
 
 // @public
@@ -1572,6 +1631,7 @@ export interface DefenderCspmDockerHubOffering extends CloudOffering {
 
 // @public
 export interface DefenderCspmGcpOffering extends CloudOffering {
+    ciem?: DefenderCspmGcpOfferingCiem;
     ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
     dataSensitivityDiscovery?: DefenderCspmGcpOfferingDataSensitivityDiscovery;
     mdcContainersAgentlessDiscoveryK8S?: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
@@ -1581,8 +1641,22 @@ export interface DefenderCspmGcpOffering extends CloudOffering {
 }
 
 // @public
+export interface DefenderCspmGcpOfferingCiem {
+    ciemOidc?: DefenderCspmGcpOfferingCiemOidc;
+    gcpAuditLogIngestion?: GcpAuditLogConfiguration;
+    logCollectionOidc?: DefenderCspmGcpOfferingCiemOidc;
+}
+
+// @public
 export interface DefenderCspmGcpOfferingCiemDiscovery {
     azureActiveDirectoryAppName?: string;
+    enableAuditLogIngestion?: boolean;
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderCspmGcpOfferingCiemOidc {
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
 }
@@ -1604,6 +1678,7 @@ export interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
 // @public
 export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
     enabled?: boolean;
+    securityFindingsEnabled?: boolean;
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
 }
@@ -1650,10 +1725,12 @@ export interface DefenderFoDatabasesAwsOfferingRds {
 // @public
 export interface DefenderForContainersAwsOffering extends CloudOffering {
     cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
+    containerAntiMalwareEnabled?: boolean;
     dataCollectionExternalId?: string;
     enableAuditLogsAutoProvisioning?: boolean;
     enableDefenderAgentAutoProvisioning?: boolean;
     enablePolicyAgentAutoProvisioning?: boolean;
+    installationMethod?: InstallationMethod;
     kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
     kubeAuditRetentionTime?: number;
     kubernetesDataCollection?: DefenderForContainersAwsOfferingKubernetesDataCollection;
@@ -1661,6 +1738,7 @@ export interface DefenderForContainersAwsOffering extends CloudOffering {
     mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
     mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
     offeringType: "DefenderForContainersAws";
+    securityGatingEnabled?: boolean;
     vmScanners?: DefenderForContainersAwsOfferingVmScanners;
 }
 
@@ -1694,6 +1772,7 @@ export interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscovery
 export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
     cloudRoleArn?: string;
     enabled?: boolean;
+    securityFindingsEnabled?: boolean;
 }
 
 // @public
@@ -1707,14 +1786,17 @@ export interface DefenderForContainersDockerHubOffering extends CloudOffering {
 
 // @public
 export interface DefenderForContainersGcpOffering extends CloudOffering {
+    containerAntiMalwareEnabled?: boolean;
     dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
     enableAuditLogsAutoProvisioning?: boolean;
     enableDefenderAgentAutoProvisioning?: boolean;
     enablePolicyAgentAutoProvisioning?: boolean;
+    installationMethod?: InstallationMethod;
     mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
     mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
     nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
     offeringType: "DefenderForContainersGcp";
+    securityGatingEnabled?: boolean;
     vmScanners?: DefenderForContainersGcpOfferingVmScanners;
 }
 
@@ -1734,6 +1816,7 @@ export interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscovery
 // @public
 export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
     enabled?: boolean;
+    securityFindingsEnabled?: boolean;
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
 }
@@ -1885,12 +1968,12 @@ export interface DefenderForStorageListOptionalParams extends OperationOptions {
 
 // @public
 export interface DefenderForStorageOperations {
-    cancelMalwareScan: (resourceId: string, settingName: SettingName, scanId: string, options?: DefenderForStorageCancelMalwareScanOptionalParams) => Promise<MalwareScan>;
-    create: (resourceId: string, settingName: SettingName, defenderForStorageSetting: DefenderForStorageSetting, options?: DefenderForStorageCreateOptionalParams) => Promise<DefenderForStorageSetting>;
-    get: (resourceId: string, settingName: SettingName, options?: DefenderForStorageGetOptionalParams) => Promise<DefenderForStorageSetting>;
-    getMalwareScan: (resourceId: string, settingName: SettingName, scanId: string, options?: DefenderForStorageGetMalwareScanOptionalParams) => Promise<MalwareScan>;
+    cancelMalwareScan: (resourceId: string, settingName: string, scanId: string, options?: DefenderForStorageCancelMalwareScanOptionalParams) => Promise<MalwareScan>;
+    create: (resourceId: string, settingName: string, defenderForStorageSetting: DefenderForStorageSetting, options?: DefenderForStorageCreateOptionalParams) => Promise<DefenderForStorageSetting>;
+    get: (resourceId: string, settingName: string, options?: DefenderForStorageGetOptionalParams) => Promise<DefenderForStorageSetting>;
+    getMalwareScan: (resourceId: string, settingName: string, scanId: string, options?: DefenderForStorageGetMalwareScanOptionalParams) => Promise<MalwareScan>;
     list: (resourceId: string, options?: DefenderForStorageListOptionalParams) => PagedAsyncIterableIterator<DefenderForStorageSetting>;
-    startMalwareScan: (resourceId: string, settingName: SettingName, options?: DefenderForStorageStartMalwareScanOptionalParams) => Promise<MalwareScan>;
+    startMalwareScan: (resourceId: string, settingName: string, options?: DefenderForStorageStartMalwareScanOptionalParams) => Promise<MalwareScan>;
 }
 
 // @public
@@ -1902,12 +1985,14 @@ export interface DefenderForStorageSetting extends ExtensionResource {
 export interface DefenderForStorageSettingProperties {
     isEnabled?: boolean;
     malwareScanning?: MalwareScanningProperties;
+    readonly managedBy?: ManagedByType;
     overrideSubscriptionLevelSettings?: boolean;
     sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties;
 }
 
 // @public
 export interface DefenderForStorageStartMalwareScanOptionalParams extends OperationOptions {
+    body?: StartMalwareScanRequest;
 }
 
 // @public
@@ -2157,6 +2242,7 @@ export interface Extension {
     isEnabled: IsEnabled;
     name: string;
     readonly operationStatus?: OperationStatus;
+    securityOperatorResourceId?: string;
 }
 
 // @public
@@ -2211,6 +2297,12 @@ export interface FailedLocalLoginsNotInAllowedRange extends TimeWindowCustomAler
 }
 
 // @public
+export interface FileScanFilter {
+    file?: MatchFilter;
+    share?: MatchFilter;
+}
+
+// @public
 export interface FilesScanSummary {
     failedFilesCount?: number;
     maliciousFilesCount?: number;
@@ -2222,6 +2314,21 @@ export interface FilesScanSummary {
 // @public
 export interface FileUploadsNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "FileUploadsNotInAllowedRange";
+}
+
+// @public
+export interface GcpAuditLogConfiguration {
+    provisioningType?: GcpLoggingProvisioningType;
+    resourceNamePrefix?: string;
+    resourceSets?: GcpLoggingResourceSet[];
+}
+
+// @public
+export type GcpLoggingProvisioningType = string;
+
+// @public
+export interface GcpLoggingResourceSet {
+    pubSubSubscriptionName?: string;
 }
 
 // @public
@@ -2629,7 +2736,7 @@ export interface GovernanceRulesOperations {
     execute: (scope: string, ruleId: string, options?: GovernanceRulesExecuteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (scope: string, ruleId: string, options?: GovernanceRulesGetOptionalParams) => Promise<GovernanceRule>;
     list: (scope: string, options?: GovernanceRulesListOptionalParams) => PagedAsyncIterableIterator<GovernanceRule>;
-    operationResults: (scope: string, ruleId: string, operationId: string, options?: GovernanceRulesOperationResultsOptionalParams) => Promise<OperationResult>;
+    operationResults: (scope: string, ruleId: string, operationId: string, options?: GovernanceRulesOperationResultsOptionalParams) => Promise<OperationResult | void>;
 }
 
 // @public
@@ -2777,6 +2884,9 @@ export type Inherited = string;
 
 // @public
 export type InheritFromParentState = string;
+
+// @public
+export type InstallationMethod = string;
 
 // @public
 export type Intent = string;
@@ -3344,6 +3454,13 @@ export enum KnownAutoProvision {
 }
 
 // @public
+export enum KnownAwsCloudTrailProvisioningType {
+    AutoProvisioning = "AutoProvisioning",
+    BringYourOwn = "BringYourOwn",
+    ManualProvisioning = "ManualProvisioning"
+}
+
+// @public
 export enum KnownBlobScanResultsOptions {
     BlobIndexTags = "BlobIndexTags",
     None = "None"
@@ -3492,6 +3609,13 @@ export enum KnownExternalSecuritySolutionKind {
 }
 
 // @public
+export enum KnownGcpLoggingProvisioningType {
+    AutoProvisioning = "AutoProvisioning",
+    BringYourOwn = "BringYourOwn",
+    ManualProvisioning = "ManualProvisioning"
+}
+
+// @public
 export enum KnownGovernanceRuleOwnerSourceType {
     ByTag = "ByTag",
     Manually = "Manually"
@@ -3531,6 +3655,12 @@ export enum KnownInherited {
 export enum KnownInheritFromParentState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownInstallationMethod {
+    Arc = "Arc",
+    Helm = "Helm"
 }
 
 // @public
@@ -3577,6 +3707,30 @@ export enum KnownIsEnabled {
 // @public
 export enum KnownKind {
     Bundles = "Bundles"
+}
+
+// @public
+export enum KnownMalwareScanStatus {
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    Completed = "Completed",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Queued = "Queued",
+    WaitingForCompletion = "WaitingForCompletion"
+}
+
+// @public
+export enum KnownManagedByType {
+    MicrosoftDefenderXDR = "MicrosoftDefenderXDR",
+    None = "None",
+    SubscriptionSettingsEnforcer = "SubscriptionSettingsEnforcer"
+}
+
+// @public
+export enum KnownMatchType {
+    Exact = "Exact",
+    Prefix = "Prefix"
 }
 
 // @public
@@ -3664,6 +3818,17 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOriginatedFrom {
+    M365 = "M365"
+}
+
+// @public
+export enum KnownPricingPlanOperationStatusCode {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -4244,9 +4409,14 @@ export interface LogAnalyticsIdentifier extends ResourceIdentifier {
 }
 
 // @public
-export interface MalwareScan {
-    // (undocumented)
+export interface MalwareScan extends ExtensionResource {
     properties?: MalwareScanProperties;
+}
+
+// @public
+export interface MalwareScanFilters {
+    blobs?: BlobScanFilter;
+    files?: FileScanFilter;
 }
 
 // @public
@@ -4255,18 +4425,34 @@ export interface MalwareScanningProperties {
     blobScanResultsOptions?: BlobScanResultsOptions;
     onUpload?: OnUploadProperties;
     readonly operationStatus?: OperationStatus;
+    scannerResourceId?: string;
     scanResultsEventGridTopicResourceId?: string;
 }
 
 // @public
 export interface MalwareScanProperties {
-    scanEndTime?: string;
+    scanEndTime?: Date;
     scanId?: string;
-    scanStartTime?: string;
-    scanStatus?: string;
+    scanStartTime?: Date;
+    scanStatus?: MalwareScanStatus;
     scanStatusMessage?: string;
     scanSummary?: ScanSummary;
 }
+
+// @public
+export type MalwareScanStatus = string;
+
+// @public
+export type ManagedByType = string;
+
+// @public
+export interface MatchFilter {
+    match: MatchType;
+    value: string;
+}
+
+// @public
+export type MatchType = string;
 
 // @public
 export interface MdeOnboardingData extends ProxyResource {
@@ -4371,7 +4557,7 @@ export interface OnPremiseSqlResourceDetails extends OnPremiseResourceDetails {
 
 // @public
 export interface OnUploadFilters {
-    excludeBlobsLargerThan?: any;
+    excludeBlobsLargerThan?: number;
     excludeBlobsWithPrefix?: string[];
     excludeBlobsWithSuffix?: string[];
 }
@@ -4464,6 +4650,9 @@ export type OrganizationMembershipType = string;
 export type Origin = string;
 
 // @public
+export type OriginatedFrom = string;
+
+// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -4489,16 +4678,45 @@ export interface Pricing extends ExtensionResource {
     readonly freeTrialRemainingTime?: string;
     readonly inherited?: Inherited;
     readonly inheritedFrom?: string;
+    readonly managedBy?: string;
+    readonly originatedFrom?: OriginatedFrom;
     pricingTier?: PricingTier;
     readonly replacedBy?: string[];
     readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
+    securityOperatorResourceId?: string;
     subPlan?: string;
+}
+
+// @public
+export interface PricingBatch extends ExtensionResource {
+    properties?: PricingBatchProperties;
+}
+
+// @public
+export interface PricingBatchPlanItem {
+    readonly operationStatus?: PricingPlanOperationStatus;
+    planName: string;
+    properties: PricingPropertiesReference;
+}
+
+// @public
+export interface PricingBatchProperties {
+    plansConfigurations: PricingBatchPlanItem[];
 }
 
 // @public
 export interface PricingList {
     value: Pricing[];
 }
+
+// @public
+export interface PricingPlanOperationStatus {
+    code?: PricingPlanOperationStatusCode;
+    message?: string;
+}
+
+// @public
+export type PricingPlanOperationStatusCode = string;
 
 // @public
 export interface PricingProperties {
@@ -4509,10 +4727,17 @@ export interface PricingProperties {
     readonly freeTrialRemainingTime?: string;
     readonly inherited?: Inherited;
     readonly inheritedFrom?: string;
+    readonly managedBy?: string;
+    readonly originatedFrom?: OriginatedFrom;
     pricingTier: PricingTier;
     readonly replacedBy?: string[];
     readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
+    securityOperatorResourceId?: string;
     subPlan?: string;
+}
+
+// @public
+export interface PricingPropertiesReference {
 }
 
 // @public
@@ -5332,6 +5557,7 @@ export class SecurityCenter {
     readonly azureDevOpsOrgs: AzureDevOpsOrgsOperations;
     readonly azureDevOpsProjects: AzureDevOpsProjectsOperations;
     readonly azureDevOpsRepos: AzureDevOpsReposOperations;
+    readonly batchPricings: BatchPricingsOperations;
     readonly complianceResults: ComplianceResultsOperations;
     readonly compliances: CompliancesOperations;
     readonly customRecommendations: CustomRecommendationsOperations;
@@ -5767,6 +5993,7 @@ export interface SecurityTaskProperties {
 export interface SensitiveDataDiscoveryProperties {
     isEnabled?: boolean;
     readonly operationStatus?: OperationStatus;
+    scannerResourceId?: string;
 }
 
 // @public
@@ -6259,6 +6486,16 @@ export type StandardSupportedClouds = "AWS" | "GCP";
 
 // @public
 export type StandardType = string;
+
+// @public
+export interface StartMalwareScanRequest {
+    properties?: StartMalwareScanRequestProperties;
+}
+
+// @public
+export interface StartMalwareScanRequestProperties {
+    filters?: MalwareScanFilters;
+}
 
 // @public
 export type State = string;

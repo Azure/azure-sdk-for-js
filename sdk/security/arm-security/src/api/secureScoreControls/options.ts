@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ExpandControlsEnum } from "../../models/secureScoreAPI/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { ExpandControlsEnum } from "../../models/secureScoreAPI/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface SecureScoreControlsListOptionalParams extends OperationOptions {

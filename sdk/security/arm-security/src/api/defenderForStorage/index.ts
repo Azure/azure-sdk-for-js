@@ -3,16 +3,16 @@
 
 export {
   getMalwareScan,
-  cancelMalwareScan,
   startMalwareScan,
+  cancelMalwareScan,
   list,
   create,
   get,
 } from "./operations.js";
 export type {
   DefenderForStorageGetMalwareScanOptionalParams,
-  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageStartMalwareScanOptionalParams,
+  DefenderForStorageCancelMalwareScanOptionalParams,
   DefenderForStorageListOptionalParams,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageGetOptionalParams,

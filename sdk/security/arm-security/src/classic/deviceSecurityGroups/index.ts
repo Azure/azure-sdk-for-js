@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/deviceSecurityGroups/operations.js";
-import {
+import type {
   DeviceSecurityGroupsListOptionalParams,
   DeviceSecurityGroupsDeleteOptionalParams,
   DeviceSecurityGroupsCreateOrUpdateOptionalParams,
   DeviceSecurityGroupsGetOptionalParams,
 } from "../../api/deviceSecurityGroups/options.js";
-import { DeviceSecurityGroup } from "../../models/ioTSecurityAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DeviceSecurityGroup } from "../../models/ioTSecurityAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeviceSecurityGroups operations. */
 export interface DeviceSecurityGroupsOperations {

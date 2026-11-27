@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/assessments/operations.js";
-import {
+import type {
   AssessmentsListOptionalParams,
   AssessmentsDeleteOptionalParams,
   AssessmentsCreateOrUpdateOptionalParams,
   AssessmentsGetOptionalParams,
 } from "../../api/assessments/options.js";
-import {
+import type {
   SecurityAssessmentResponse,
   SecurityAssessment,
 } from "../../models/assessmentAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Assessments operations. */
 export interface AssessmentsOperations {

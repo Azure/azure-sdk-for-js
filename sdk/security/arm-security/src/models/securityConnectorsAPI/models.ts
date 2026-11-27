@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import { ProxyResource, systemDataDeserializer } from "../models.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
+import type { ProxyResource } from "../models.js";
+import { systemDataDeserializer } from "../models.js";
+
 /** The security connector resource. */
 export interface SecurityConnector extends ProxyResource {
   /** Resource tags. */
@@ -465,6 +466,12 @@ export interface DefenderForContainersAwsOffering extends CloudOffering {
   cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
   /** The kinesis to s3 connection configuration */
   kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
+  /** The installation method for the Defender for Containers agent. */
+  installationMethod?: InstallationMethod;
+  /** Is security gating enabled */
+  securityGatingEnabled?: boolean;
+  /** Is defender anti-malware enabled */
+  containerAntiMalwareEnabled?: boolean;
   /** Is audit logs data collection enabled */
   enableAuditLogsAutoProvisioning?: boolean;
   /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
@@ -504,6 +511,9 @@ export function defenderForContainersAwsOfferingSerializer(
     kinesisToS3: !item["kinesisToS3"]
       ? item["kinesisToS3"]
       : defenderForContainersAwsOfferingKinesisToS3Serializer(item["kinesisToS3"]),
+    installationMethod: item["installationMethod"],
+    securityGatingEnabled: item["securityGatingEnabled"],
+    containerAntiMalwareEnabled: item["containerAntiMalwareEnabled"],
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
@@ -547,6 +557,9 @@ export function defenderForContainersAwsOfferingDeserializer(
     kinesisToS3: !item["kinesisToS3"]
       ? item["kinesisToS3"]
       : defenderForContainersAwsOfferingKinesisToS3Deserializer(item["kinesisToS3"]),
+    installationMethod: item["installationMethod"],
+    securityGatingEnabled: item["securityGatingEnabled"],
+    containerAntiMalwareEnabled: item["containerAntiMalwareEnabled"],
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
@@ -648,18 +661,42 @@ export function defenderForContainersAwsOfferingKinesisToS3Deserializer(
   };
 }
 
+/** The installation method for the Defender for Containers agent. */
+export enum KnownInstallationMethod {
+  /** Arc-based installation */
+  Arc = "Arc",
+  /** Helm-based installation */
+  Helm = "Helm",
+}
+
+/**
+ * The installation method for the Defender for Containers agent. \
+ * {@link KnownInstallationMethod} can be used interchangeably with InstallationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Arc**: Arc-based installation \
+ * **Helm**: Helm-based installation
+ */
+export type InstallationMethod = string;
+
 /** The Microsoft Defender container image assessment configuration */
 export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
+  /** Is security findings enabled for container image assessment */
+  securityFindingsEnabled?: boolean;
 }
 
 export function defenderForContainersAwsOfferingMdcContainersImageAssessmentSerializer(
   item: DefenderForContainersAwsOfferingMdcContainersImageAssessment,
 ): any {
-  return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
+  return {
+    enabled: item["enabled"],
+    cloudRoleArn: item["cloudRoleArn"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
+  };
 }
 
 export function defenderForContainersAwsOfferingMdcContainersImageAssessmentDeserializer(
@@ -668,6 +705,7 @@ export function defenderForContainersAwsOfferingMdcContainersImageAssessmentDese
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 
@@ -1510,6 +1548,12 @@ export interface DefenderForContainersGcpOffering extends CloudOffering {
   dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
   /** Is audit logs data collection enabled */
   enableAuditLogsAutoProvisioning?: boolean;
+  /** The installation method for the Defender for Containers agent. */
+  installationMethod?: InstallationMethod;
+  /** Is security gating enabled */
+  securityGatingEnabled?: boolean;
+  /** Is defender anti-malware enabled */
+  containerAntiMalwareEnabled?: boolean;
   /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
   enableDefenderAgentAutoProvisioning?: boolean;
   /** Is Policy Kubernetes agent auto provisioning enabled */
@@ -1540,6 +1584,9 @@ export function defenderForContainersGcpOfferingSerializer(
           item["dataPipelineNativeCloudConnection"],
         ),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
+    installationMethod: item["installationMethod"],
+    securityGatingEnabled: item["securityGatingEnabled"],
+    containerAntiMalwareEnabled: item["containerAntiMalwareEnabled"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
@@ -1575,6 +1622,9 @@ export function defenderForContainersGcpOfferingDeserializer(
           item["dataPipelineNativeCloudConnection"],
         ),
     enableAuditLogsAutoProvisioning: item["enableAuditLogsAutoProvisioning"],
+    installationMethod: item["installationMethod"],
+    securityGatingEnabled: item["securityGatingEnabled"],
+    containerAntiMalwareEnabled: item["containerAntiMalwareEnabled"],
     enableDefenderAgentAutoProvisioning: item["enableDefenderAgentAutoProvisioning"],
     enablePolicyAgentAutoProvisioning: item["enablePolicyAgentAutoProvisioning"],
     mdcContainersImageAssessment: !item["mdcContainersImageAssessment"]
@@ -1653,6 +1703,8 @@ export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
   workloadIdentityProviderId?: string;
   /** The service account email address in GCP for this feature */
   serviceAccountEmailAddress?: string;
+  /** Is security findings enabled for container image assessment */
+  securityFindingsEnabled?: boolean;
 }
 
 export function defenderForContainersGcpOfferingMdcContainersImageAssessmentSerializer(
@@ -1662,6 +1714,7 @@ export function defenderForContainersGcpOfferingMdcContainersImageAssessmentSeri
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 
@@ -1672,6 +1725,7 @@ export function defenderForContainersGcpOfferingMdcContainersImageAssessmentDese
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 
@@ -1782,6 +1836,10 @@ export interface DefenderCspmAwsOffering extends CloudOffering {
   mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
   /** The Microsoft Defender container agentless discovery K8s configuration */
   mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+  /** The Microsoft Defender serverless containers configuration */
+  serverlessContainers?: DefenderCspmAwsOfferingServerlessContainers;
+  /** The Microsoft Defender agentless serverless posture configuration */
+  agentlessServerlessPosture?: DefenderCspmAwsOfferingAgentlessServerlessPosture;
   /** The type of the security offering. */
   offeringType: "DefenderCspmAws";
 }
@@ -1808,6 +1866,14 @@ export function defenderCspmAwsOfferingSerializer(item: DefenderCspmAwsOffering)
       ? item["mdcContainersAgentlessDiscoveryK8S"]
       : defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SSerializer(
           item["mdcContainersAgentlessDiscoveryK8S"],
+        ),
+    serverlessContainers: !item["serverlessContainers"]
+      ? item["serverlessContainers"]
+      : defenderCspmAwsOfferingServerlessContainersSerializer(item["serverlessContainers"]),
+    agentlessServerlessPosture: !item["agentlessServerlessPosture"]
+      ? item["agentlessServerlessPosture"]
+      : defenderCspmAwsOfferingAgentlessServerlessPostureSerializer(
+          item["agentlessServerlessPosture"],
         ),
   };
 }
@@ -1837,6 +1903,14 @@ export function defenderCspmAwsOfferingDeserializer(item: any): DefenderCspmAwsO
       ? item["mdcContainersAgentlessDiscoveryK8s"]
       : defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeserializer(
           item["mdcContainersAgentlessDiscoveryK8s"],
+        ),
+    serverlessContainers: !item["serverlessContainers"]
+      ? item["serverlessContainers"]
+      : defenderCspmAwsOfferingServerlessContainersDeserializer(item["serverlessContainers"]),
+    agentlessServerlessPosture: !item["agentlessServerlessPosture"]
+      ? item["agentlessServerlessPosture"]
+      : defenderCspmAwsOfferingAgentlessServerlessPostureDeserializer(
+          item["agentlessServerlessPosture"],
         ),
   };
 }
@@ -1916,51 +1990,39 @@ export function defenderCspmAwsOfferingDatabasesDspmDeserializer(
 
 /** Defenders CSPM Permissions Management offering configurations */
 export interface DefenderCspmAwsOfferingCiem {
-  /** Defender CSPM Permissions Management discovery configuration */
-  ciemDiscovery?: DefenderCspmAwsOfferingCiemDiscovery;
   /** AWS Defender CSPM Permissions Management OIDC (open id connect) connection configurations */
   ciemOidc?: DefenderCspmAwsOfferingCiemOidc;
+  /** The AWS log collection OIDC (open id connect) connection configuration */
+  logCollectionOidc?: DefenderCspmAwsOfferingCiemLogCollectionOidc;
+  /** The CloudTrail audit log ingestion configuration */
+  cloudTrailAuditLogIngestion?: AwsCloudTrailConfiguration;
 }
 
 export function defenderCspmAwsOfferingCiemSerializer(item: DefenderCspmAwsOfferingCiem): any {
   return {
-    ciemDiscovery: !item["ciemDiscovery"]
-      ? item["ciemDiscovery"]
-      : defenderCspmAwsOfferingCiemDiscoverySerializer(item["ciemDiscovery"]),
     ciemOidc: !item["ciemOidc"]
       ? item["ciemOidc"]
       : defenderCspmAwsOfferingCiemOidcSerializer(item["ciemOidc"]),
+    logCollectionOidc: !item["logCollectionOidc"]
+      ? item["logCollectionOidc"]
+      : defenderCspmAwsOfferingCiemLogCollectionOidcSerializer(item["logCollectionOidc"]),
+    cloudTrailAuditLogIngestion: !item["cloudTrailAuditLogIngestion"]
+      ? item["cloudTrailAuditLogIngestion"]
+      : awsCloudTrailConfigurationSerializer(item["cloudTrailAuditLogIngestion"]),
   };
 }
 
 export function defenderCspmAwsOfferingCiemDeserializer(item: any): DefenderCspmAwsOfferingCiem {
   return {
-    ciemDiscovery: !item["ciemDiscovery"]
-      ? item["ciemDiscovery"]
-      : defenderCspmAwsOfferingCiemDiscoveryDeserializer(item["ciemDiscovery"]),
     ciemOidc: !item["ciemOidc"]
       ? item["ciemOidc"]
       : defenderCspmAwsOfferingCiemOidcDeserializer(item["ciemOidc"]),
-  };
-}
-
-/** Defender CSPM Permissions Management discovery configuration */
-export interface DefenderCspmAwsOfferingCiemDiscovery {
-  /** The cloud role ARN in AWS for Permissions Management discovery */
-  cloudRoleArn?: string;
-}
-
-export function defenderCspmAwsOfferingCiemDiscoverySerializer(
-  item: DefenderCspmAwsOfferingCiemDiscovery,
-): any {
-  return { cloudRoleArn: item["cloudRoleArn"] };
-}
-
-export function defenderCspmAwsOfferingCiemDiscoveryDeserializer(
-  item: any,
-): DefenderCspmAwsOfferingCiemDiscovery {
-  return {
-    cloudRoleArn: item["cloudRoleArn"],
+    logCollectionOidc: !item["logCollectionOidc"]
+      ? item["logCollectionOidc"]
+      : defenderCspmAwsOfferingCiemLogCollectionOidcDeserializer(item["logCollectionOidc"]),
+    cloudTrailAuditLogIngestion: !item["cloudTrailAuditLogIngestion"]
+      ? item["cloudTrailAuditLogIngestion"]
+      : awsCloudTrailConfigurationDeserializer(item["cloudTrailAuditLogIngestion"]),
   };
 }
 
@@ -1990,18 +2052,148 @@ export function defenderCspmAwsOfferingCiemOidcDeserializer(
   };
 }
 
+/** The AWS log collection OIDC (open id connect) connection configuration */
+export interface DefenderCspmAwsOfferingCiemLogCollectionOidc {
+  /** The cloud role ARN in AWS used for the log collection oidc connection */
+  cloudRoleArn?: string;
+}
+
+export function defenderCspmAwsOfferingCiemLogCollectionOidcSerializer(
+  item: DefenderCspmAwsOfferingCiemLogCollectionOidc,
+): any {
+  return { cloudRoleArn: item["cloudRoleArn"] };
+}
+
+export function defenderCspmAwsOfferingCiemLogCollectionOidcDeserializer(
+  item: any,
+): DefenderCspmAwsOfferingCiemLogCollectionOidc {
+  return {
+    cloudRoleArn: item["cloudRoleArn"],
+  };
+}
+
+/** The configuration for AWS CloudTrail audit log ingestion */
+export interface AwsCloudTrailConfiguration {
+  /** The provisioning type for the CloudTrail resources */
+  provisioningType?: AwsCloudTrailProvisioningType;
+  /** The existing CloudTrail resource sets. Required when provisioningType is BringYourOwn. */
+  cloudTrailResourceSets?: AwsCloudTrailResourceSet[];
+  /** The resource name prefix used when provisioning the CloudTrail resources */
+  resourceNamePrefix?: string;
+  /**
+   * The AWS region in which the CloudTrail resources are provisioned. Required when
+   * provisioningType is ManualProvisioning or AutoProvisioning.
+   */
+  deploymentRegion?: string;
+}
+
+export function awsCloudTrailConfigurationSerializer(item: AwsCloudTrailConfiguration): any {
+  return {
+    provisioningType: item["provisioningType"],
+    cloudTrailResourceSets: !item["cloudTrailResourceSets"]
+      ? item["cloudTrailResourceSets"]
+      : awsCloudTrailResourceSetArraySerializer(item["cloudTrailResourceSets"]),
+    resourceNamePrefix: item["resourceNamePrefix"],
+    deploymentRegion: item["deploymentRegion"],
+  };
+}
+
+export function awsCloudTrailConfigurationDeserializer(item: any): AwsCloudTrailConfiguration {
+  return {
+    provisioningType: item["provisioningType"],
+    cloudTrailResourceSets: !item["cloudTrailResourceSets"]
+      ? item["cloudTrailResourceSets"]
+      : awsCloudTrailResourceSetArrayDeserializer(item["cloudTrailResourceSets"]),
+    resourceNamePrefix: item["resourceNamePrefix"],
+    deploymentRegion: item["deploymentRegion"],
+  };
+}
+
+/** The provisioning type for AWS CloudTrail resources */
+export enum KnownAwsCloudTrailProvisioningType {
+  /** The customer provides their own CloudTrail resources */
+  BringYourOwn = "BringYourOwn",
+  /** Resources are provisioned on the customer's side */
+  ManualProvisioning = "ManualProvisioning",
+  /** Resources are provisioned on Microsoft's side */
+  AutoProvisioning = "AutoProvisioning",
+}
+
+/**
+ * The provisioning type for AWS CloudTrail resources \
+ * {@link KnownAwsCloudTrailProvisioningType} can be used interchangeably with AwsCloudTrailProvisioningType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BringYourOwn**: The customer provides their own CloudTrail resources \
+ * **ManualProvisioning**: Resources are provisioned on the customer's side \
+ * **AutoProvisioning**: Resources are provisioned on Microsoft's side
+ */
+export type AwsCloudTrailProvisioningType = string;
+
+export function awsCloudTrailResourceSetArraySerializer(
+  result: Array<AwsCloudTrailResourceSet>,
+): any[] {
+  return result.map((item) => {
+    return awsCloudTrailResourceSetSerializer(item);
+  });
+}
+
+export function awsCloudTrailResourceSetArrayDeserializer(
+  result: Array<AwsCloudTrailResourceSet>,
+): any[] {
+  return result.map((item) => {
+    return awsCloudTrailResourceSetDeserializer(item);
+  });
+}
+
+/** A resource set describing existing AWS CloudTrail audit log resources */
+export interface AwsCloudTrailResourceSet {
+  /** The AWS region of the resources in this set */
+  resourceRegion?: string;
+  /** The S3 bucket ARN in which the CloudTrail logs are stored */
+  s3BucketArn?: string;
+  /** The SQS queue ARN used for CloudTrail log notifications */
+  sqsQueueArn?: string;
+  /** The KMS key ARN used for CloudTrail log encryption */
+  kmsKeyArn?: string;
+}
+
+export function awsCloudTrailResourceSetSerializer(item: AwsCloudTrailResourceSet): any {
+  return {
+    resourceRegion: item["resourceRegion"],
+    s3BucketArn: item["s3BucketArn"],
+    sqsQueueArn: item["sqsQueueArn"],
+    kmsKeyArn: item["kmsKeyArn"],
+  };
+}
+
+export function awsCloudTrailResourceSetDeserializer(item: any): AwsCloudTrailResourceSet {
+  return {
+    resourceRegion: item["resourceRegion"],
+    s3BucketArn: item["s3BucketArn"],
+    sqsQueueArn: item["sqsQueueArn"],
+    kmsKeyArn: item["kmsKeyArn"],
+  };
+}
+
 /** The Microsoft Defender container image assessment configuration */
 export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
   /** Is Microsoft Defender container image assessment enabled */
   enabled?: boolean;
   /** The cloud role ARN in AWS for this feature */
   cloudRoleArn?: string;
+  /** Is security findings enabled for container image assessment */
+  securityFindingsEnabled?: boolean;
 }
 
 export function defenderCspmAwsOfferingMdcContainersImageAssessmentSerializer(
   item: DefenderCspmAwsOfferingMdcContainersImageAssessment,
 ): any {
-  return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
+  return {
+    enabled: item["enabled"],
+    cloudRoleArn: item["cloudRoleArn"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
+  };
 }
 
 export function defenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
@@ -2010,6 +2202,7 @@ export function defenderCspmAwsOfferingMdcContainersImageAssessmentDeserializer(
   return {
     enabled: item["enabled"],
     cloudRoleArn: item["cloudRoleArn"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 
@@ -2036,10 +2229,55 @@ export function defenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8SDeseria
   };
 }
 
+/** The Microsoft Defender serverless containers configuration */
+export interface DefenderCspmAwsOfferingServerlessContainers {
+  /** Is serverless containers scanning enabled */
+  enabled?: boolean;
+}
+
+export function defenderCspmAwsOfferingServerlessContainersSerializer(
+  item: DefenderCspmAwsOfferingServerlessContainers,
+): any {
+  return { enabled: item["enabled"] };
+}
+
+export function defenderCspmAwsOfferingServerlessContainersDeserializer(
+  item: any,
+): DefenderCspmAwsOfferingServerlessContainers {
+  return {
+    enabled: item["enabled"],
+  };
+}
+
+/** The Microsoft Defender agentless serverless posture configuration */
+export interface DefenderCspmAwsOfferingAgentlessServerlessPosture {
+  /** Is agentless serverless posture enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+export function defenderCspmAwsOfferingAgentlessServerlessPostureSerializer(
+  item: DefenderCspmAwsOfferingAgentlessServerlessPosture,
+): any {
+  return { enabled: item["enabled"], cloudRoleArn: item["cloudRoleArn"] };
+}
+
+export function defenderCspmAwsOfferingAgentlessServerlessPostureDeserializer(
+  item: any,
+): DefenderCspmAwsOfferingAgentlessServerlessPosture {
+  return {
+    enabled: item["enabled"],
+    cloudRoleArn: item["cloudRoleArn"],
+  };
+}
+
 /** The CSPM P1 for GCP offering */
 export interface DefenderCspmGcpOffering extends CloudOffering {
   /** GCP Defenders CSPM Permissions Management OIDC (Open ID connect) connection configurations */
   ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
+  /** The GCP Defender CSPM Permissions Management configurations */
+  ciem?: DefenderCspmGcpOfferingCiem;
   /** The Microsoft Defender for CSPM VM scanning configuration */
   vmScanners?: DefenderCspmGcpOfferingVmScanners;
   /** The Microsoft Defender Data Sensitivity discovery configuration */
@@ -2058,6 +2296,7 @@ export function defenderCspmGcpOfferingSerializer(item: DefenderCspmGcpOffering)
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
       : defenderCspmGcpOfferingCiemDiscoverySerializer(item["ciemDiscovery"]),
+    ciem: !item["ciem"] ? item["ciem"] : defenderCspmGcpOfferingCiemSerializer(item["ciem"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
       : defenderCspmGcpOfferingVmScannersSerializer(item["vmScanners"]),
@@ -2084,6 +2323,7 @@ export function defenderCspmGcpOfferingDeserializer(item: any): DefenderCspmGcpO
     ciemDiscovery: !item["ciemDiscovery"]
       ? item["ciemDiscovery"]
       : defenderCspmGcpOfferingCiemDiscoveryDeserializer(item["ciemDiscovery"]),
+    ciem: !item["ciem"] ? item["ciem"] : defenderCspmGcpOfferingCiemDeserializer(item["ciem"]),
     vmScanners: !item["vmScanners"]
       ? item["vmScanners"]
       : defenderCspmGcpOfferingVmScannersDeserializer(item["vmScanners"]),
@@ -2113,6 +2353,8 @@ export interface DefenderCspmGcpOfferingCiemDiscovery {
   serviceAccountEmailAddress?: string;
   /** the azure active directory app name used of authenticating against GCP workload identity federation */
   azureActiveDirectoryAppName?: string;
+  /** Is audit log ingestion enabled for the Permissions Management offering */
+  enableAuditLogIngestion?: boolean;
 }
 
 export function defenderCspmGcpOfferingCiemDiscoverySerializer(
@@ -2122,6 +2364,7 @@ export function defenderCspmGcpOfferingCiemDiscoverySerializer(
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
     azureActiveDirectoryAppName: item["azureActiveDirectoryAppName"],
+    enableAuditLogIngestion: item["enableAuditLogIngestion"],
   };
 }
 
@@ -2132,6 +2375,155 @@ export function defenderCspmGcpOfferingCiemDiscoveryDeserializer(
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
     azureActiveDirectoryAppName: item["azureActiveDirectoryAppName"],
+    enableAuditLogIngestion: item["enableAuditLogIngestion"],
+  };
+}
+
+/** The GCP Defender CSPM Permissions Management configurations */
+export interface DefenderCspmGcpOfferingCiem {
+  /** The GCP Permissions Management OIDC (open id connect) connection configuration */
+  ciemOidc?: DefenderCspmGcpOfferingCiemOidc;
+  /** The GCP log collection OIDC (open id connect) connection configuration */
+  logCollectionOidc?: DefenderCspmGcpOfferingCiemOidc;
+  /** The GCP audit log ingestion configuration */
+  gcpAuditLogIngestion?: GcpAuditLogConfiguration;
+}
+
+export function defenderCspmGcpOfferingCiemSerializer(item: DefenderCspmGcpOfferingCiem): any {
+  return {
+    ciemOidc: !item["ciemOidc"]
+      ? item["ciemOidc"]
+      : defenderCspmGcpOfferingCiemOidcSerializer(item["ciemOidc"]),
+    logCollectionOidc: !item["logCollectionOidc"]
+      ? item["logCollectionOidc"]
+      : defenderCspmGcpOfferingCiemOidcSerializer(item["logCollectionOidc"]),
+    gcpAuditLogIngestion: !item["gcpAuditLogIngestion"]
+      ? item["gcpAuditLogIngestion"]
+      : gcpAuditLogConfigurationSerializer(item["gcpAuditLogIngestion"]),
+  };
+}
+
+export function defenderCspmGcpOfferingCiemDeserializer(item: any): DefenderCspmGcpOfferingCiem {
+  return {
+    ciemOidc: !item["ciemOidc"]
+      ? item["ciemOidc"]
+      : defenderCspmGcpOfferingCiemOidcDeserializer(item["ciemOidc"]),
+    logCollectionOidc: !item["logCollectionOidc"]
+      ? item["logCollectionOidc"]
+      : defenderCspmGcpOfferingCiemOidcDeserializer(item["logCollectionOidc"]),
+    gcpAuditLogIngestion: !item["gcpAuditLogIngestion"]
+      ? item["gcpAuditLogIngestion"]
+      : gcpAuditLogConfigurationDeserializer(item["gcpAuditLogIngestion"]),
+  };
+}
+
+/** A GCP OIDC (open id connect) connection configuration */
+export interface DefenderCspmGcpOfferingCiemOidc {
+  /** The GCP workload identity provider id for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+export function defenderCspmGcpOfferingCiemOidcSerializer(
+  item: DefenderCspmGcpOfferingCiemOidc,
+): any {
+  return {
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+  };
+}
+
+export function defenderCspmGcpOfferingCiemOidcDeserializer(
+  item: any,
+): DefenderCspmGcpOfferingCiemOidc {
+  return {
+    workloadIdentityProviderId: item["workloadIdentityProviderId"],
+    serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+  };
+}
+
+/** The configuration for GCP audit log ingestion */
+export interface GcpAuditLogConfiguration {
+  /** The provisioning type for the GCP logging resources */
+  provisioningType?: GcpLoggingProvisioningType;
+  /** The existing GCP logging resource sets. Required when provisioningType is BringYourOwn. */
+  resourceSets?: GcpLoggingResourceSet[];
+  /**
+   * The resource name prefix used when provisioning the GCP logging resources. Required when
+   * provisioningType is ManualProvisioning or AutoProvisioning.
+   */
+  resourceNamePrefix?: string;
+}
+
+export function gcpAuditLogConfigurationSerializer(item: GcpAuditLogConfiguration): any {
+  return {
+    provisioningType: item["provisioningType"],
+    resourceSets: !item["resourceSets"]
+      ? item["resourceSets"]
+      : gcpLoggingResourceSetArraySerializer(item["resourceSets"]),
+    resourceNamePrefix: item["resourceNamePrefix"],
+  };
+}
+
+export function gcpAuditLogConfigurationDeserializer(item: any): GcpAuditLogConfiguration {
+  return {
+    provisioningType: item["provisioningType"],
+    resourceSets: !item["resourceSets"]
+      ? item["resourceSets"]
+      : gcpLoggingResourceSetArrayDeserializer(item["resourceSets"]),
+    resourceNamePrefix: item["resourceNamePrefix"],
+  };
+}
+
+/** The provisioning type for GCP logging resources */
+export enum KnownGcpLoggingProvisioningType {
+  /** The customer provides their own GCP logging resources */
+  BringYourOwn = "BringYourOwn",
+  /** Resources are provisioned on the customer's side */
+  ManualProvisioning = "ManualProvisioning",
+  /** Resources are provisioned on Microsoft's side */
+  AutoProvisioning = "AutoProvisioning",
+}
+
+/**
+ * The provisioning type for GCP logging resources \
+ * {@link KnownGcpLoggingProvisioningType} can be used interchangeably with GcpLoggingProvisioningType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BringYourOwn**: The customer provides their own GCP logging resources \
+ * **ManualProvisioning**: Resources are provisioned on the customer's side \
+ * **AutoProvisioning**: Resources are provisioned on Microsoft's side
+ */
+export type GcpLoggingProvisioningType = string;
+
+export function gcpLoggingResourceSetArraySerializer(result: Array<GcpLoggingResourceSet>): any[] {
+  return result.map((item) => {
+    return gcpLoggingResourceSetSerializer(item);
+  });
+}
+
+export function gcpLoggingResourceSetArrayDeserializer(
+  result: Array<GcpLoggingResourceSet>,
+): any[] {
+  return result.map((item) => {
+    return gcpLoggingResourceSetDeserializer(item);
+  });
+}
+
+/** A resource set describing existing GCP logging resources */
+export interface GcpLoggingResourceSet {
+  /** The Pub/Sub subscription name in which the GCP logs are stored */
+  pubSubSubscriptionName?: string;
+}
+
+export function gcpLoggingResourceSetSerializer(item: GcpLoggingResourceSet): any {
+  return { pubSubSubscriptionName: item["pubSubSubscriptionName"] };
+}
+
+export function gcpLoggingResourceSetDeserializer(item: any): GcpLoggingResourceSet {
+  return {
+    pubSubSubscriptionName: item["pubSubSubscriptionName"],
   };
 }
 
@@ -2198,6 +2590,8 @@ export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
   workloadIdentityProviderId?: string;
   /** The service account email address in GCP for this feature */
   serviceAccountEmailAddress?: string;
+  /** Is security findings enabled for container image assessment */
+  securityFindingsEnabled?: boolean;
 }
 
 export function defenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
@@ -2207,6 +2601,7 @@ export function defenderCspmGcpOfferingMdcContainersImageAssessmentSerializer(
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 
@@ -2217,6 +2612,7 @@ export function defenderCspmGcpOfferingMdcContainersImageAssessmentDeserializer(
     enabled: item["enabled"],
     workloadIdentityProviderId: item["workloadIdentityProviderId"],
     serviceAccountEmailAddress: item["serviceAccountEmailAddress"],
+    securityFindingsEnabled: item["securityFindingsEnabled"],
   };
 }
 

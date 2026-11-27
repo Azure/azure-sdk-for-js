@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listBySubscription,
   list,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/assignments/operations.js";
-import {
+import type {
   AssignmentsListBySubscriptionOptionalParams,
   AssignmentsListOptionalParams,
   AssignmentsDeleteOptionalParams,
   AssignmentsCreateOrUpdateOptionalParams,
   AssignmentsGetOptionalParams,
 } from "../../api/assignments/options.js";
-import { Assignment } from "../../models/standardsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Assignment } from "../../models/standardsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Assignments operations. */
 export interface AssignmentsOperations {

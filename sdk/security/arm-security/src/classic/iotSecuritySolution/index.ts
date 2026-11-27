@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/iotSecuritySolution/operations.js";
-import {
+import type {
   IotSecuritySolutionListBySubscriptionOptionalParams,
   IotSecuritySolutionListByResourceGroupOptionalParams,
   IotSecuritySolutionDeleteOptionalParams,
@@ -18,11 +18,11 @@ import {
   IotSecuritySolutionCreateOrUpdateOptionalParams,
   IotSecuritySolutionGetOptionalParams,
 } from "../../api/iotSecuritySolution/options.js";
-import {
+import type {
   IoTSecuritySolutionModel,
   UpdateIotSecuritySolutionData,
 } from "../../models/ioTSecurityAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IotSecuritySolution operations. */
 export interface IotSecuritySolutionOperations {

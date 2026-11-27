@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext as Client } from "../index.js";
-import {
+import type { SecurityCenterContext as Client } from "../index.js";
+import type {
   Alert,
-  alertDeserializer,
   _AlertList,
-  _alertListDeserializer,
   AlertSimulatorRequestBody,
+} from "../../models/alertsAPI/models.js";
+import {
+  alertDeserializer,
+  _alertListDeserializer,
   alertSimulatorRequestBodySerializer,
 } from "../../models/alertsAPI/models.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
 import { errorResponseDeserializer } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AlertsSimulateOptionalParams,
   AlertsListByResourceGroupOptionalParams,
   AlertsListOptionalParams,
@@ -35,13 +35,9 @@ import {
   AlertsListSubscriptionLevelByRegionOptionalParams,
   AlertsGetSubscriptionLevelOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _simulateSend(
   context: Client,
@@ -71,7 +67,9 @@ export async function _simulateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -124,7 +122,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -171,7 +171,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -222,7 +224,9 @@ export async function _updateResourceGroupLevelStateToInProgressDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,7 +281,9 @@ export async function _updateResourceGroupLevelStateToActivateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -332,7 +338,9 @@ export async function _updateResourceGroupLevelStateToDismissDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -387,7 +395,9 @@ export async function _updateResourceGroupLevelStateToResolveDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -415,8 +425,8 @@ export async function updateResourceGroupLevelStateToResolve(
 
 export function _listResourceGroupLevelByRegionSend(
   context: Client,
-  resourceGroupName: string,
   ascLocation: string,
+  resourceGroupName: string,
   options: AlertsListResourceGroupLevelByRegionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -443,7 +453,9 @@ export async function _listResourceGroupLevelByRegionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -454,13 +466,13 @@ export async function _listResourceGroupLevelByRegionDeserialize(
 /** List all the alerts that are associated with the resource group that are stored in a specific location */
 export function listResourceGroupLevelByRegion(
   context: Client,
-  resourceGroupName: string,
   ascLocation: string,
+  resourceGroupName: string,
   options: AlertsListResourceGroupLevelByRegionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Alert> {
   return buildPagedAsyncIterator(
     context,
-    () => _listResourceGroupLevelByRegionSend(context, resourceGroupName, ascLocation, options),
+    () => _listResourceGroupLevelByRegionSend(context, ascLocation, resourceGroupName, options),
     _listResourceGroupLevelByRegionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: "2022-01-01" },
@@ -499,7 +511,9 @@ export async function _getResourceGroupLevelDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -552,7 +566,9 @@ export async function _updateSubscriptionLevelStateToInProgressDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -603,7 +619,9 @@ export async function _updateSubscriptionLevelStateToActivateDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -654,7 +672,9 @@ export async function _updateSubscriptionLevelStateToResolveDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -705,7 +725,9 @@ export async function _updateSubscriptionLevelStateToDismissDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -757,7 +779,9 @@ export async function _listSubscriptionLevelByRegionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -810,7 +834,9 @@ export async function _getSubscriptionLevelDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

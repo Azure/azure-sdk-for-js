@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import {
   validate,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/automations/operations.js";
-import {
+import type {
   AutomationsValidateOptionalParams,
   AutomationsListOptionalParams,
   AutomationsListByResourceGroupOptionalParams,
@@ -20,12 +20,12 @@ import {
   AutomationsCreateOrUpdateOptionalParams,
   AutomationsGetOptionalParams,
 } from "../../api/automations/options.js";
-import {
+import type {
   Automation,
   AutomationUpdateModel,
   AutomationValidationStatus,
 } from "../../models/automationsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Automations operations. */
 export interface AutomationsOperations {

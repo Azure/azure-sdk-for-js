@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list } from "../../api/applications/operations.js";
-import { ApplicationsListOptionalParams } from "../../api/applications/options.js";
-import { Application } from "../../models/applicationsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ApplicationsListOptionalParams } from "../../api/applications/options.js";
+import type { Application } from "../../models/applicationsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Applications operations. */
 export interface ApplicationsOperations {

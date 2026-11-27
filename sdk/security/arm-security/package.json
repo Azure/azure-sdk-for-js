@@ -42,6 +42,1084 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/subAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/subAssessments/index.d.ts",
+        "default": "./dist/browser/api/subAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/subAssessments/index.d.ts",
+        "default": "./dist/esm/api/subAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/subAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/subAssessments/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentScans": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentScans/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentScans/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentScans/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentScans/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentSettings": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentSettings/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentSettings/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentSettings/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentSettings/index.js"
+      }
+    },
+    "./api/sensitivitySettings": {
+      "browser": {
+        "types": "./dist/browser/api/sensitivitySettings/index.d.ts",
+        "default": "./dist/browser/api/sensitivitySettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sensitivitySettings/index.d.ts",
+        "default": "./dist/esm/api/sensitivitySettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sensitivitySettings/index.d.ts",
+        "default": "./dist/commonjs/api/sensitivitySettings/index.js"
+      }
+    },
+    "./api/securitySolutionsReferenceData": {
+      "browser": {
+        "types": "./dist/browser/api/securitySolutionsReferenceData/index.d.ts",
+        "default": "./dist/browser/api/securitySolutionsReferenceData/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securitySolutionsReferenceData/index.d.ts",
+        "default": "./dist/esm/api/securitySolutionsReferenceData/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securitySolutionsReferenceData/index.d.ts",
+        "default": "./dist/commonjs/api/securitySolutionsReferenceData/index.js"
+      }
+    },
+    "./api/topology": {
+      "browser": {
+        "types": "./dist/browser/api/topology/index.d.ts",
+        "default": "./dist/browser/api/topology/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/topology/index.d.ts",
+        "default": "./dist/esm/api/topology/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/topology/index.d.ts",
+        "default": "./dist/commonjs/api/topology/index.js"
+      }
+    },
+    "./api/serverVulnerabilityAssessment": {
+      "browser": {
+        "types": "./dist/browser/api/serverVulnerabilityAssessment/index.d.ts",
+        "default": "./dist/browser/api/serverVulnerabilityAssessment/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverVulnerabilityAssessment/index.d.ts",
+        "default": "./dist/esm/api/serverVulnerabilityAssessment/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverVulnerabilityAssessment/index.d.ts",
+        "default": "./dist/commonjs/api/serverVulnerabilityAssessment/index.js"
+      }
+    },
+    "./api/allowedConnections": {
+      "browser": {
+        "types": "./dist/browser/api/allowedConnections/index.d.ts",
+        "default": "./dist/browser/api/allowedConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/allowedConnections/index.d.ts",
+        "default": "./dist/esm/api/allowedConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/allowedConnections/index.d.ts",
+        "default": "./dist/commonjs/api/allowedConnections/index.js"
+      }
+    },
+    "./api/gitHubIssues": {
+      "browser": {
+        "types": "./dist/browser/api/gitHubIssues/index.d.ts",
+        "default": "./dist/browser/api/gitHubIssues/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitHubIssues/index.d.ts",
+        "default": "./dist/esm/api/gitHubIssues/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitHubIssues/index.d.ts",
+        "default": "./dist/commonjs/api/gitHubIssues/index.js"
+      }
+    },
+    "./api/gitHubRepos": {
+      "browser": {
+        "types": "./dist/browser/api/gitHubRepos/index.d.ts",
+        "default": "./dist/browser/api/gitHubRepos/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitHubRepos/index.d.ts",
+        "default": "./dist/esm/api/gitHubRepos/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitHubRepos/index.d.ts",
+        "default": "./dist/commonjs/api/gitHubRepos/index.js"
+      }
+    },
+    "./api/azureDevOpsRepos": {
+      "browser": {
+        "types": "./dist/browser/api/azureDevOpsRepos/index.d.ts",
+        "default": "./dist/browser/api/azureDevOpsRepos/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/azureDevOpsRepos/index.d.ts",
+        "default": "./dist/esm/api/azureDevOpsRepos/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/azureDevOpsRepos/index.d.ts",
+        "default": "./dist/commonjs/api/azureDevOpsRepos/index.js"
+      }
+    },
+    "./api/devOpsOperationResults": {
+      "browser": {
+        "types": "./dist/browser/api/devOpsOperationResults/index.d.ts",
+        "default": "./dist/browser/api/devOpsOperationResults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/devOpsOperationResults/index.d.ts",
+        "default": "./dist/esm/api/devOpsOperationResults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/devOpsOperationResults/index.d.ts",
+        "default": "./dist/commonjs/api/devOpsOperationResults/index.js"
+      }
+    },
+    "./api/gitLabSubgroups": {
+      "browser": {
+        "types": "./dist/browser/api/gitLabSubgroups/index.d.ts",
+        "default": "./dist/browser/api/gitLabSubgroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitLabSubgroups/index.d.ts",
+        "default": "./dist/esm/api/gitLabSubgroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitLabSubgroups/index.d.ts",
+        "default": "./dist/commonjs/api/gitLabSubgroups/index.js"
+      }
+    },
+    "./api/secureScoreControlDefinitions": {
+      "browser": {
+        "types": "./dist/browser/api/secureScoreControlDefinitions/index.d.ts",
+        "default": "./dist/browser/api/secureScoreControlDefinitions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/secureScoreControlDefinitions/index.d.ts",
+        "default": "./dist/esm/api/secureScoreControlDefinitions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/secureScoreControlDefinitions/index.d.ts",
+        "default": "./dist/commonjs/api/secureScoreControlDefinitions/index.js"
+      }
+    },
+    "./api/secureScoreControls": {
+      "browser": {
+        "types": "./dist/browser/api/secureScoreControls/index.d.ts",
+        "default": "./dist/browser/api/secureScoreControls/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/secureScoreControls/index.d.ts",
+        "default": "./dist/esm/api/secureScoreControls/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/secureScoreControls/index.d.ts",
+        "default": "./dist/commonjs/api/secureScoreControls/index.js"
+      }
+    },
+    "./api/secureScores": {
+      "browser": {
+        "types": "./dist/browser/api/secureScores/index.d.ts",
+        "default": "./dist/browser/api/secureScores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/secureScores/index.d.ts",
+        "default": "./dist/esm/api/secureScores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/secureScores/index.d.ts",
+        "default": "./dist/commonjs/api/secureScores/index.js"
+      }
+    },
+    "./api/privateLinks": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinks/index.d.ts",
+        "default": "./dist/browser/api/privateLinks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinks/index.d.ts",
+        "default": "./dist/esm/api/privateLinks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinks/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinks/index.js"
+      }
+    },
+    "./api/operationStatuses": {
+      "browser": {
+        "types": "./dist/browser/api/operationStatuses/index.d.ts",
+        "default": "./dist/browser/api/operationStatuses/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationStatuses/index.d.ts",
+        "default": "./dist/esm/api/operationStatuses/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationStatuses/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatuses/index.js"
+      }
+    },
+    "./api/operationResults": {
+      "browser": {
+        "types": "./dist/browser/api/operationResults/index.d.ts",
+        "default": "./dist/browser/api/operationResults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationResults/index.d.ts",
+        "default": "./dist/esm/api/operationResults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationResults/index.d.ts",
+        "default": "./dist/commonjs/api/operationResults/index.js"
+      }
+    },
+    "./api/locations": {
+      "browser": {
+        "types": "./dist/browser/api/locations/index.d.ts",
+        "default": "./dist/browser/api/locations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/locations/index.d.ts",
+        "default": "./dist/esm/api/locations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/locations/index.d.ts",
+        "default": "./dist/commonjs/api/locations/index.js"
+      }
+    },
+    "./api/iotSecuritySolutionsAnalyticsRecommendation": {
+      "browser": {
+        "types": "./dist/browser/api/iotSecuritySolutionsAnalyticsRecommendation/index.d.ts",
+        "default": "./dist/browser/api/iotSecuritySolutionsAnalyticsRecommendation/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/iotSecuritySolutionsAnalyticsRecommendation/index.d.ts",
+        "default": "./dist/esm/api/iotSecuritySolutionsAnalyticsRecommendation/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/iotSecuritySolutionsAnalyticsRecommendation/index.d.ts",
+        "default": "./dist/commonjs/api/iotSecuritySolutionsAnalyticsRecommendation/index.js"
+      }
+    },
+    "./api/iotSecuritySolutionsAnalyticsAggregatedAlert": {
+      "browser": {
+        "types": "./dist/browser/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.d.ts",
+        "default": "./dist/browser/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.d.ts",
+        "default": "./dist/esm/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.d.ts",
+        "default": "./dist/commonjs/api/iotSecuritySolutionsAnalyticsAggregatedAlert/index.js"
+      }
+    },
+    "./api/iotSecuritySolution": {
+      "browser": {
+        "types": "./dist/browser/api/iotSecuritySolution/index.d.ts",
+        "default": "./dist/browser/api/iotSecuritySolution/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/iotSecuritySolution/index.d.ts",
+        "default": "./dist/esm/api/iotSecuritySolution/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/iotSecuritySolution/index.d.ts",
+        "default": "./dist/commonjs/api/iotSecuritySolution/index.js"
+      }
+    },
+    "./api/iotSecuritySolutionAnalytics": {
+      "browser": {
+        "types": "./dist/browser/api/iotSecuritySolutionAnalytics/index.d.ts",
+        "default": "./dist/browser/api/iotSecuritySolutionAnalytics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/iotSecuritySolutionAnalytics/index.d.ts",
+        "default": "./dist/esm/api/iotSecuritySolutionAnalytics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/iotSecuritySolutionAnalytics/index.d.ts",
+        "default": "./dist/commonjs/api/iotSecuritySolutionAnalytics/index.js"
+      }
+    },
+    "./api/defenderForStorage": {
+      "browser": {
+        "types": "./dist/browser/api/defenderForStorage/index.d.ts",
+        "default": "./dist/browser/api/defenderForStorage/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/defenderForStorage/index.d.ts",
+        "default": "./dist/esm/api/defenderForStorage/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/defenderForStorage/index.d.ts",
+        "default": "./dist/commonjs/api/defenderForStorage/index.js"
+      }
+    },
+    "./api/advancedThreatProtection": {
+      "browser": {
+        "types": "./dist/browser/api/advancedThreatProtection/index.d.ts",
+        "default": "./dist/browser/api/advancedThreatProtection/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/advancedThreatProtection/index.d.ts",
+        "default": "./dist/esm/api/advancedThreatProtection/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/advancedThreatProtection/index.d.ts",
+        "default": "./dist/commonjs/api/advancedThreatProtection/index.js"
+      }
+    },
+    "./api/assessments": {
+      "browser": {
+        "types": "./dist/browser/api/assessments/index.d.ts",
+        "default": "./dist/browser/api/assessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/assessments/index.d.ts",
+        "default": "./dist/esm/api/assessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/assessments/index.d.ts",
+        "default": "./dist/commonjs/api/assessments/index.js"
+      }
+    },
+    "./api/securityConnectorApplications": {
+      "browser": {
+        "types": "./dist/browser/api/securityConnectorApplications/index.d.ts",
+        "default": "./dist/browser/api/securityConnectorApplications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityConnectorApplications/index.d.ts",
+        "default": "./dist/esm/api/securityConnectorApplications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityConnectorApplications/index.d.ts",
+        "default": "./dist/commonjs/api/securityConnectorApplications/index.js"
+      }
+    },
+    "./api/application": {
+      "browser": {
+        "types": "./dist/browser/api/application/index.d.ts",
+        "default": "./dist/browser/api/application/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/application/index.d.ts",
+        "default": "./dist/esm/api/application/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/application/index.d.ts",
+        "default": "./dist/commonjs/api/application/index.js"
+      }
+    },
+    "./api/apiCollections": {
+      "browser": {
+        "types": "./dist/browser/api/apiCollections/index.d.ts",
+        "default": "./dist/browser/api/apiCollections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/apiCollections/index.d.ts",
+        "default": "./dist/esm/api/apiCollections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/apiCollections/index.d.ts",
+        "default": "./dist/commonjs/api/apiCollections/index.js"
+      }
+    },
+    "./api/tasks": {
+      "browser": {
+        "types": "./dist/browser/api/tasks/index.d.ts",
+        "default": "./dist/browser/api/tasks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/tasks/index.d.ts",
+        "default": "./dist/esm/api/tasks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/tasks/index.d.ts",
+        "default": "./dist/commonjs/api/tasks/index.js"
+      }
+    },
+    "./api/assignments": {
+      "browser": {
+        "types": "./dist/browser/api/assignments/index.d.ts",
+        "default": "./dist/browser/api/assignments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/assignments/index.d.ts",
+        "default": "./dist/esm/api/assignments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/assignments/index.d.ts",
+        "default": "./dist/commonjs/api/assignments/index.js"
+      }
+    },
+    "./api/standards": {
+      "browser": {
+        "types": "./dist/browser/api/standards/index.d.ts",
+        "default": "./dist/browser/api/standards/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/standards/index.d.ts",
+        "default": "./dist/esm/api/standards/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/standards/index.d.ts",
+        "default": "./dist/commonjs/api/standards/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentScanResults": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentScanResults/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentScanResults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentScanResults/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentScanResults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentScanResults/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentScanResults/index.js"
+      }
+    },
+    "./api/sqlVulnerabilityAssessmentBaselineRules": {
+      "browser": {
+        "types": "./dist/browser/api/sqlVulnerabilityAssessmentBaselineRules/index.d.ts",
+        "default": "./dist/browser/api/sqlVulnerabilityAssessmentBaselineRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sqlVulnerabilityAssessmentBaselineRules/index.d.ts",
+        "default": "./dist/esm/api/sqlVulnerabilityAssessmentBaselineRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaselineRules/index.d.ts",
+        "default": "./dist/commonjs/api/sqlVulnerabilityAssessmentBaselineRules/index.js"
+      }
+    },
+    "./api/settings": {
+      "browser": {
+        "types": "./dist/browser/api/settings/index.d.ts",
+        "default": "./dist/browser/api/settings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/settings/index.d.ts",
+        "default": "./dist/esm/api/settings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/settings/index.d.ts",
+        "default": "./dist/commonjs/api/settings/index.js"
+      }
+    },
+    "./api/serverVulnerabilityAssessmentsSettings": {
+      "browser": {
+        "types": "./dist/browser/api/serverVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/browser/api/serverVulnerabilityAssessmentsSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/serverVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/esm/api/serverVulnerabilityAssessmentsSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/serverVulnerabilityAssessmentsSettings/index.d.ts",
+        "default": "./dist/commonjs/api/serverVulnerabilityAssessmentsSettings/index.js"
+      }
+    },
+    "./api/customRecommendations": {
+      "browser": {
+        "types": "./dist/browser/api/customRecommendations/index.d.ts",
+        "default": "./dist/browser/api/customRecommendations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/customRecommendations/index.d.ts",
+        "default": "./dist/esm/api/customRecommendations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/customRecommendations/index.d.ts",
+        "default": "./dist/commonjs/api/customRecommendations/index.js"
+      }
+    },
+    "./api/standardAssignments": {
+      "browser": {
+        "types": "./dist/browser/api/standardAssignments/index.d.ts",
+        "default": "./dist/browser/api/standardAssignments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/standardAssignments/index.d.ts",
+        "default": "./dist/esm/api/standardAssignments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/standardAssignments/index.d.ts",
+        "default": "./dist/commonjs/api/standardAssignments/index.js"
+      }
+    },
+    "./api/securityStandards": {
+      "browser": {
+        "types": "./dist/browser/api/securityStandards/index.d.ts",
+        "default": "./dist/browser/api/securityStandards/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityStandards/index.d.ts",
+        "default": "./dist/esm/api/securityStandards/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityStandards/index.d.ts",
+        "default": "./dist/commonjs/api/securityStandards/index.js"
+      }
+    },
+    "./api/securitySolutions": {
+      "browser": {
+        "types": "./dist/browser/api/securitySolutions/index.d.ts",
+        "default": "./dist/browser/api/securitySolutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securitySolutions/index.d.ts",
+        "default": "./dist/esm/api/securitySolutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securitySolutions/index.d.ts",
+        "default": "./dist/commonjs/api/securitySolutions/index.js"
+      }
+    },
+    "./api/jitNetworkAccessPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/jitNetworkAccessPolicies/index.d.ts",
+        "default": "./dist/browser/api/jitNetworkAccessPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/jitNetworkAccessPolicies/index.d.ts",
+        "default": "./dist/esm/api/jitNetworkAccessPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/jitNetworkAccessPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/jitNetworkAccessPolicies/index.js"
+      }
+    },
+    "./api/externalSecuritySolutions": {
+      "browser": {
+        "types": "./dist/browser/api/externalSecuritySolutions/index.d.ts",
+        "default": "./dist/browser/api/externalSecuritySolutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/externalSecuritySolutions/index.d.ts",
+        "default": "./dist/esm/api/externalSecuritySolutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/externalSecuritySolutions/index.d.ts",
+        "default": "./dist/commonjs/api/externalSecuritySolutions/index.js"
+      }
+    },
+    "./api/discoveredSecuritySolutions": {
+      "browser": {
+        "types": "./dist/browser/api/discoveredSecuritySolutions/index.d.ts",
+        "default": "./dist/browser/api/discoveredSecuritySolutions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/discoveredSecuritySolutions/index.d.ts",
+        "default": "./dist/esm/api/discoveredSecuritySolutions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/discoveredSecuritySolutions/index.d.ts",
+        "default": "./dist/commonjs/api/discoveredSecuritySolutions/index.js"
+      }
+    },
+    "./api/securityOperators": {
+      "browser": {
+        "types": "./dist/browser/api/securityOperators/index.d.ts",
+        "default": "./dist/browser/api/securityOperators/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityOperators/index.d.ts",
+        "default": "./dist/esm/api/securityOperators/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityOperators/index.d.ts",
+        "default": "./dist/commonjs/api/securityOperators/index.js"
+      }
+    },
+    "./api/gitLabProjects": {
+      "browser": {
+        "types": "./dist/browser/api/gitLabProjects/index.d.ts",
+        "default": "./dist/browser/api/gitLabProjects/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitLabProjects/index.d.ts",
+        "default": "./dist/esm/api/gitLabProjects/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitLabProjects/index.d.ts",
+        "default": "./dist/commonjs/api/gitLabProjects/index.js"
+      }
+    },
+    "./api/azureDevOpsProjects": {
+      "browser": {
+        "types": "./dist/browser/api/azureDevOpsProjects/index.d.ts",
+        "default": "./dist/browser/api/azureDevOpsProjects/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/azureDevOpsProjects/index.d.ts",
+        "default": "./dist/esm/api/azureDevOpsProjects/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/azureDevOpsProjects/index.d.ts",
+        "default": "./dist/commonjs/api/azureDevOpsProjects/index.js"
+      }
+    },
+    "./api/devOpsConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/devOpsConfigurations/index.d.ts",
+        "default": "./dist/browser/api/devOpsConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/devOpsConfigurations/index.d.ts",
+        "default": "./dist/esm/api/devOpsConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/devOpsConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/devOpsConfigurations/index.js"
+      }
+    },
+    "./api/gitLabGroups": {
+      "browser": {
+        "types": "./dist/browser/api/gitLabGroups/index.d.ts",
+        "default": "./dist/browser/api/gitLabGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitLabGroups/index.d.ts",
+        "default": "./dist/esm/api/gitLabGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitLabGroups/index.d.ts",
+        "default": "./dist/commonjs/api/gitLabGroups/index.js"
+      }
+    },
+    "./api/gitHubOwners": {
+      "browser": {
+        "types": "./dist/browser/api/gitHubOwners/index.d.ts",
+        "default": "./dist/browser/api/gitHubOwners/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/gitHubOwners/index.d.ts",
+        "default": "./dist/esm/api/gitHubOwners/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/gitHubOwners/index.d.ts",
+        "default": "./dist/commonjs/api/gitHubOwners/index.js"
+      }
+    },
+    "./api/azureDevOpsOrgs": {
+      "browser": {
+        "types": "./dist/browser/api/azureDevOpsOrgs/index.d.ts",
+        "default": "./dist/browser/api/azureDevOpsOrgs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/azureDevOpsOrgs/index.d.ts",
+        "default": "./dist/esm/api/azureDevOpsOrgs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/azureDevOpsOrgs/index.d.ts",
+        "default": "./dist/commonjs/api/azureDevOpsOrgs/index.js"
+      }
+    },
+    "./api/securityConnectors": {
+      "browser": {
+        "types": "./dist/browser/api/securityConnectors/index.d.ts",
+        "default": "./dist/browser/api/securityConnectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityConnectors/index.d.ts",
+        "default": "./dist/esm/api/securityConnectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityConnectors/index.d.ts",
+        "default": "./dist/commonjs/api/securityConnectors/index.js"
+      }
+    },
+    "./api/regulatoryComplianceAssessments": {
+      "browser": {
+        "types": "./dist/browser/api/regulatoryComplianceAssessments/index.d.ts",
+        "default": "./dist/browser/api/regulatoryComplianceAssessments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/regulatoryComplianceAssessments/index.d.ts",
+        "default": "./dist/esm/api/regulatoryComplianceAssessments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/regulatoryComplianceAssessments/index.d.ts",
+        "default": "./dist/commonjs/api/regulatoryComplianceAssessments/index.js"
+      }
+    },
+    "./api/regulatoryComplianceControls": {
+      "browser": {
+        "types": "./dist/browser/api/regulatoryComplianceControls/index.d.ts",
+        "default": "./dist/browser/api/regulatoryComplianceControls/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/regulatoryComplianceControls/index.d.ts",
+        "default": "./dist/esm/api/regulatoryComplianceControls/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/regulatoryComplianceControls/index.d.ts",
+        "default": "./dist/commonjs/api/regulatoryComplianceControls/index.js"
+      }
+    },
+    "./api/regulatoryComplianceStandards": {
+      "browser": {
+        "types": "./dist/browser/api/regulatoryComplianceStandards/index.d.ts",
+        "default": "./dist/browser/api/regulatoryComplianceStandards/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/regulatoryComplianceStandards/index.d.ts",
+        "default": "./dist/esm/api/regulatoryComplianceStandards/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/regulatoryComplianceStandards/index.d.ts",
+        "default": "./dist/commonjs/api/regulatoryComplianceStandards/index.js"
+      }
+    },
+    "./api/privateEndpointConnections": {
+      "browser": {
+        "types": "./dist/browser/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/browser/api/privateEndpointConnections/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/esm/api/privateEndpointConnections/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateEndpointConnections/index.d.ts",
+        "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
+      }
+    },
+    "./api/privateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/privateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/privateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/privateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/privateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/privateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/privateLinkResources/index.js"
+      }
+    },
+    "./api/pricings": {
+      "browser": {
+        "types": "./dist/browser/api/pricings/index.d.ts",
+        "default": "./dist/browser/api/pricings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/pricings/index.d.ts",
+        "default": "./dist/esm/api/pricings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/pricings/index.d.ts",
+        "default": "./dist/commonjs/api/pricings/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/mdeOnboardings": {
+      "browser": {
+        "types": "./dist/browser/api/mdeOnboardings/index.d.ts",
+        "default": "./dist/browser/api/mdeOnboardings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/mdeOnboardings/index.d.ts",
+        "default": "./dist/esm/api/mdeOnboardings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/mdeOnboardings/index.d.ts",
+        "default": "./dist/commonjs/api/mdeOnboardings/index.js"
+      }
+    },
+    "./api/workspaceSettings": {
+      "browser": {
+        "types": "./dist/browser/api/workspaceSettings/index.d.ts",
+        "default": "./dist/browser/api/workspaceSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workspaceSettings/index.d.ts",
+        "default": "./dist/esm/api/workspaceSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workspaceSettings/index.d.ts",
+        "default": "./dist/commonjs/api/workspaceSettings/index.js"
+      }
+    },
+    "./api/informationProtectionPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/informationProtectionPolicies/index.d.ts",
+        "default": "./dist/browser/api/informationProtectionPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/informationProtectionPolicies/index.d.ts",
+        "default": "./dist/esm/api/informationProtectionPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/informationProtectionPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/informationProtectionPolicies/index.js"
+      }
+    },
+    "./api/compliances": {
+      "browser": {
+        "types": "./dist/browser/api/compliances/index.d.ts",
+        "default": "./dist/browser/api/compliances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/compliances/index.d.ts",
+        "default": "./dist/esm/api/compliances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/compliances/index.d.ts",
+        "default": "./dist/commonjs/api/compliances/index.js"
+      }
+    },
+    "./api/autoProvisioningSettings": {
+      "browser": {
+        "types": "./dist/browser/api/autoProvisioningSettings/index.d.ts",
+        "default": "./dist/browser/api/autoProvisioningSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/autoProvisioningSettings/index.d.ts",
+        "default": "./dist/esm/api/autoProvisioningSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/autoProvisioningSettings/index.d.ts",
+        "default": "./dist/commonjs/api/autoProvisioningSettings/index.js"
+      }
+    },
+    "./api/deviceSecurityGroups": {
+      "browser": {
+        "types": "./dist/browser/api/deviceSecurityGroups/index.d.ts",
+        "default": "./dist/browser/api/deviceSecurityGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deviceSecurityGroups/index.d.ts",
+        "default": "./dist/esm/api/deviceSecurityGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deviceSecurityGroups/index.d.ts",
+        "default": "./dist/commonjs/api/deviceSecurityGroups/index.js"
+      }
+    },
+    "./api/healthReports": {
+      "browser": {
+        "types": "./dist/browser/api/healthReports/index.d.ts",
+        "default": "./dist/browser/api/healthReports/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/healthReports/index.d.ts",
+        "default": "./dist/esm/api/healthReports/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/healthReports/index.d.ts",
+        "default": "./dist/commonjs/api/healthReports/index.js"
+      }
+    },
+    "./api/governanceRules": {
+      "browser": {
+        "types": "./dist/browser/api/governanceRules/index.d.ts",
+        "default": "./dist/browser/api/governanceRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/governanceRules/index.d.ts",
+        "default": "./dist/esm/api/governanceRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/governanceRules/index.d.ts",
+        "default": "./dist/commonjs/api/governanceRules/index.js"
+      }
+    },
+    "./api/governanceAssignments": {
+      "browser": {
+        "types": "./dist/browser/api/governanceAssignments/index.d.ts",
+        "default": "./dist/browser/api/governanceAssignments/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/governanceAssignments/index.d.ts",
+        "default": "./dist/esm/api/governanceAssignments/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/governanceAssignments/index.d.ts",
+        "default": "./dist/commonjs/api/governanceAssignments/index.js"
+      }
+    },
+    "./api/complianceResults": {
+      "browser": {
+        "types": "./dist/browser/api/complianceResults/index.d.ts",
+        "default": "./dist/browser/api/complianceResults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/complianceResults/index.d.ts",
+        "default": "./dist/esm/api/complianceResults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/complianceResults/index.d.ts",
+        "default": "./dist/commonjs/api/complianceResults/index.js"
+      }
+    },
+    "./api/batchPricings": {
+      "browser": {
+        "types": "./dist/browser/api/batchPricings/index.d.ts",
+        "default": "./dist/browser/api/batchPricings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/batchPricings/index.d.ts",
+        "default": "./dist/esm/api/batchPricings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/batchPricings/index.d.ts",
+        "default": "./dist/commonjs/api/batchPricings/index.js"
+      }
+    },
+    "./api/securityContacts": {
+      "browser": {
+        "types": "./dist/browser/api/securityContacts/index.d.ts",
+        "default": "./dist/browser/api/securityContacts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityContacts/index.d.ts",
+        "default": "./dist/esm/api/securityContacts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityContacts/index.d.ts",
+        "default": "./dist/commonjs/api/securityContacts/index.js"
+      }
+    },
+    "./api/automations": {
+      "browser": {
+        "types": "./dist/browser/api/automations/index.d.ts",
+        "default": "./dist/browser/api/automations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/automations/index.d.ts",
+        "default": "./dist/esm/api/automations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/automations/index.d.ts",
+        "default": "./dist/commonjs/api/automations/index.js"
+      }
+    },
+    "./api/assessmentsMetadata": {
+      "browser": {
+        "types": "./dist/browser/api/assessmentsMetadata/index.d.ts",
+        "default": "./dist/browser/api/assessmentsMetadata/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/assessmentsMetadata/index.d.ts",
+        "default": "./dist/esm/api/assessmentsMetadata/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/assessmentsMetadata/index.d.ts",
+        "default": "./dist/commonjs/api/assessmentsMetadata/index.js"
+      }
+    },
+    "./api/securityConnectorApplication": {
+      "browser": {
+        "types": "./dist/browser/api/securityConnectorApplication/index.d.ts",
+        "default": "./dist/browser/api/securityConnectorApplication/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityConnectorApplication/index.d.ts",
+        "default": "./dist/esm/api/securityConnectorApplication/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityConnectorApplication/index.d.ts",
+        "default": "./dist/commonjs/api/securityConnectorApplication/index.js"
+      }
+    },
+    "./api/applications": {
+      "browser": {
+        "types": "./dist/browser/api/applications/index.d.ts",
+        "default": "./dist/browser/api/applications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applications/index.d.ts",
+        "default": "./dist/esm/api/applications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applications/index.d.ts",
+        "default": "./dist/commonjs/api/applications/index.js"
+      }
+    },
+    "./api/alertsSuppressionRules": {
+      "browser": {
+        "types": "./dist/browser/api/alertsSuppressionRules/index.d.ts",
+        "default": "./dist/browser/api/alertsSuppressionRules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/alertsSuppressionRules/index.d.ts",
+        "default": "./dist/esm/api/alertsSuppressionRules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/alertsSuppressionRules/index.d.ts",
+        "default": "./dist/commonjs/api/alertsSuppressionRules/index.js"
+      }
+    },
+    "./api/alerts": {
+      "browser": {
+        "types": "./dist/browser/api/alerts/index.d.ts",
+        "default": "./dist/browser/api/alerts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/alerts/index.d.ts",
+        "default": "./dist/esm/api/alerts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/alerts/index.d.ts",
+        "default": "./dist/commonjs/api/alerts/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
@@ -152,6 +1230,20 @@
       "require": {
         "types": "./dist/commonjs/models/automationsAPI/index.d.ts",
         "default": "./dist/commonjs/models/automationsAPI/index.js"
+      }
+    },
+    "./models/batchPricingsAPI": {
+      "browser": {
+        "types": "./dist/browser/models/batchPricingsAPI/index.d.ts",
+        "default": "./dist/browser/models/batchPricingsAPI/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/batchPricingsAPI/index.d.ts",
+        "default": "./dist/esm/models/batchPricingsAPI/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/batchPricingsAPI/index.d.ts",
+        "default": "./dist/commonjs/models/batchPricingsAPI/index.js"
       }
     },
     "./models/common": {
@@ -556,11 +1648,11 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.7.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^3.1.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
@@ -599,7 +1691,8 @@
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "customize": "echo skipped"
   },
   "imports": {
     "#platform/*": {

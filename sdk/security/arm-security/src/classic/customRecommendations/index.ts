@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/customRecommendations/operations.js";
-import {
+import type {
   CustomRecommendationsListOptionalParams,
   CustomRecommendationsDeleteOptionalParams,
   CustomRecommendationsCreateOrUpdateOptionalParams,
   CustomRecommendationsGetOptionalParams,
 } from "../../api/customRecommendations/options.js";
-import { CustomRecommendation } from "../../models/securityStandardsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CustomRecommendation } from "../../models/securityStandardsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CustomRecommendations operations. */
 export interface CustomRecommendationsOperations {

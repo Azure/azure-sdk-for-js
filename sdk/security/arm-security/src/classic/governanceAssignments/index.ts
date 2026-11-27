@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/governanceAssignments/operations.js";
-import {
+import type {
   GovernanceAssignmentsListOptionalParams,
   GovernanceAssignmentsDeleteOptionalParams,
   GovernanceAssignmentsCreateOrUpdateOptionalParams,
   GovernanceAssignmentsGetOptionalParams,
 } from "../../api/governanceAssignments/options.js";
-import { GovernanceAssignment } from "../../models/governanceAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { GovernanceAssignment } from "../../models/governanceAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GovernanceAssignments operations. */
 export interface GovernanceAssignmentsOperations {

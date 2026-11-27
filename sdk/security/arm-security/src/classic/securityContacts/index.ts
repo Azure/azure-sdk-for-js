@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenterContext } from "../../api/securityCenterContext.js";
+import type { SecurityCenterContext } from "../../api/securityCenterContext.js";
 import { list, $delete, create, get } from "../../api/securityContacts/operations.js";
-import {
+import type {
   SecurityContactsListOptionalParams,
   SecurityContactsDeleteOptionalParams,
   SecurityContactsCreateOptionalParams,
   SecurityContactsGetOptionalParams,
 } from "../../api/securityContacts/options.js";
-import { SecurityContact, SecurityContactName } from "../../models/automationsAPI/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SecurityContact, SecurityContactName } from "../../models/automationsAPI/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityContacts operations. */
 export interface SecurityContactsOperations {
