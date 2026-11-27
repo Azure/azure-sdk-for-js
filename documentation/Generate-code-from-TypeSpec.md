@@ -32,11 +32,12 @@ Getting Started: Generate JS SDK with TypeSpec
 It is recommended to configure TypeSpec package on [REST API specifications](https://github.com/Azure/azure-rest-api-specs). Please refer to [these guidelines](https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/Getting-started-with-TypeSpec-specifications.md).
 
 ### How to configure tspconfig.yaml
-You can reference these two config files to configure the Modular or RLC package:
-- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
-- [RLC tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.WidgetManager/tspconfig.yaml)
 
-Please make sure `service-dir`, `emitter-output-dir`, `package-details`, `flavor`(for typespec-ts) is correctly configured. `experimental-extensible-enums` is the optional config.The `is-modular-library` option is true by default, if you want to generate RLC libraries for data-plane SDKs, you must add `is-modular-library: false` in your tspconfig.yaml.
+Use modular generation for both management-plane and data-plane SDKs. You can reference this configuration:
+
+- [Modular tspconfig.yaml](https://github.com/Azure/azure-rest-api-specs/blob/main/specification/contosowidgetmanager/Contoso.Management/tspconfig.yaml)
+
+Make sure `service-dir`, `emitter-output-dir`, `package-details`, and `flavor` (for `typespec-ts`) are configured correctly. `experimental-extensible-enums` is optional. Omit the `is-modular-library` option to use the default modular generation.
 
 - "parameters.service-dir.default" would be `sdk/<service>`
 - "options.@azure-tools/typespec-ts.emitter-output-dir" would be `{output-dir}/{service-dir}/<module>`
