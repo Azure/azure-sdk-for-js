@@ -21,6 +21,7 @@
 ### Bugs Fixed
 
 - Fixed `ManagedIdentityCredential` reporting "Network unreachable" when an endpoint returns invalid JSON with a JSON content type. The authentication error now includes the HTTP status code. [#40602](https://github.com/Azure/azure-sdk-for-js/issues/40602)
+- Fixed `ClientCertificateCredential`, `ClientSecretCredential` and `ClientAssertionCredential` ignoring `GetTokenOptions.abortSignal`. An already-aborted signal now rejects with an `AbortError` before any network request is made, and aborting while a token request is in flight cancels the request and rejects with an `AbortError`.
 
 ### Other Changes
 

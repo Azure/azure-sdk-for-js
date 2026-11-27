@@ -105,8 +105,7 @@ describe("ClientCertificateCredential", function () {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error?.name, "CredentialUnavailableError");
-    assert.isTrue(error?.message.includes("endpoints_resolution_error"));
+    assert.equal(error?.name, "AbortError");
   });
 
   it("supports tracing", async function (ctx) {

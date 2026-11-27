@@ -28,6 +28,8 @@ import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/
 import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
+import { AbortError } from "@azure/abort-controller";
+import { randomUUID } from "@azure/core-util";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
 import type { CommonClientOptions } from "@azure/core-client";
 import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
@@ -542,6 +544,37 @@ export function createMsalClient(
     } as AccessToken;
   }
 
+  /**
+   * MSAL does not accept an abort signal, so the signal is bridged to the IdentityClient network
+   * layer through a correlation ID that MSAL sends as the `client-request-id` of its requests.
+   */
+  async function withAbortSignal<T>(
+    options: GetTokenOptions,
+    acquire: (correlationId: string) => Promise<T>,
+  ): Promise<T> {
+    const signal = options.abortSignal;
+    const correlationId = randomUUID();
+    if (!signal) {
+      return acquire(correlationId);
+    }
+    if (signal.aborted) {
+      throw new AbortError("The operation was aborted.");
+    }
+    let onAbort!: () => void;
+    const aborted = new Promise<never>((_resolve, reject) => {
+      onAbort = () => {
+        (state.msalConfig.system?.networkClient as IdentityClient).abortRequests(correlationId);
+        reject(new AbortError("The operation was aborted."));
+      };
+      signal.addEventListener("abort", onAbort);
+    });
+    try {
+      return await Promise.race([acquire(correlationId), aborted]);
+    } finally {
+      signal.removeEventListener("abort", onAbort);
+    }
+  }
+
   async function getTokenByClientSecret(
     scopes: string[],
     clientSecret: string,
@@ -554,12 +587,15 @@ export function createMsalClient(
     const msalApp = await getConfidentialApp(options);
 
     try {
-      const response = await msalApp.acquireTokenByClientCredential({
-        scopes,
-        authority: calculateRequestAuthority(options),
-        azureRegion: calculateRegionalAuthority(),
-        claims: options?.claims,
-      });
+      const response = await withAbortSignal(options, (correlationId) =>
+        msalApp.acquireTokenByClientCredential({
+          scopes,
+          authority: calculateRequestAuthority(options),
+          azureRegion: calculateRegionalAuthority(),
+          claims: options?.claims,
+          correlationId,
+        }),
+      );
       ensureValidMsalToken(scopes, response, options);
       state.logger.getToken.info(formatSuccess(scopes));
       return {
@@ -585,13 +621,16 @@ export function createMsalClient(
     const msalApp = await getConfidentialApp(options);
 
     try {
-      const response = await msalApp.acquireTokenByClientCredential({
-        scopes,
-        authority: calculateRequestAuthority(options),
-        azureRegion: calculateRegionalAuthority(),
-        claims: options?.claims,
-        clientAssertion,
-      });
+      const response = await withAbortSignal(options, (correlationId) =>
+        msalApp.acquireTokenByClientCredential({
+          scopes,
+          authority: calculateRequestAuthority(options),
+          azureRegion: calculateRegionalAuthority(),
+          claims: options?.claims,
+          clientAssertion,
+          correlationId,
+        }),
+      );
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
@@ -617,12 +656,15 @@ export function createMsalClient(
 
     const msalApp = await getConfidentialApp(options);
     try {
-      const response = await msalApp.acquireTokenByClientCredential({
-        scopes,
-        authority: calculateRequestAuthority(options),
-        azureRegion: calculateRegionalAuthority(),
-        claims: options?.claims,
-      });
+      const response = await withAbortSignal(options, (correlationId) =>
+        msalApp.acquireTokenByClientCredential({
+          scopes,
+          authority: calculateRequestAuthority(options),
+          azureRegion: calculateRegionalAuthority(),
+          claims: options?.claims,
+          correlationId,
+        }),
+      );
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));

@@ -17,6 +17,9 @@ import { IdentityClient } from "$internal/client/identityClient.js";
 import { credentialLogger } from "$internal/util/logging.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
 import { msalPlugins } from "$internal/msal/nodeFlows/msalPlugins.js";
+import type { GetTokenOptions } from "@azure/core-auth";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { generateKeyPairSync } from "node:crypto";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MsalClient", function () {
@@ -108,6 +111,75 @@ describe("MsalClient", function () {
 
       assert.isAbove(logSpy.mock.calls.length, 0);
     });
+  });
+
+  describe("abortSignal support for client credential flows", function () {
+    const scopes = ["https://vault.azure.net/.default"];
+
+    // An HTTP client that never answers, and only settles when the request's own signal aborts.
+    function createHangingHttpClient(): { httpClient: HttpClient; requests: PipelineRequest[] } {
+      const requests: PipelineRequest[] = [];
+      const httpClient: HttpClient = {
+        sendRequest: (request) => {
+          requests.push(request);
+          return new Promise<PipelineResponse>((_resolve, reject) => {
+            request.abortSignal?.addEventListener("abort", () =>
+              reject(new AbortError("request aborted")),
+            );
+          });
+        },
+      };
+      return { httpClient, requests };
+    }
+
+    const { privateKey } = generateKeyPairSync("rsa", {
+      modulusLength: 2048,
+      privateKeyEncoding: { type: "pkcs8", format: "pem" },
+      publicKeyEncoding: { type: "spki", format: "pem" },
+    });
+
+    const flows: Record<
+      string,
+      (client: msalClient.MsalClient, options: GetTokenOptions) => Promise<unknown>
+    > = {
+      getTokenByClientSecret: (client, options) =>
+        client.getTokenByClientSecret(scopes, "client-secret", options),
+      getTokenByClientAssertion: (client, options) =>
+        client.getTokenByClientAssertion(scopes, async () => "assertion", options),
+      getTokenByClientCertificate: (client, options) =>
+        client.getTokenByClientCertificate(
+          scopes,
+          { thumbprint: "AA", thumbprintSha256: "AA", privateKey },
+          options,
+        ),
+    };
+
+    for (const [name, getToken] of Object.entries(flows)) {
+      describe(`#${name}`, function () {
+        it("rejects with AbortError without sending a request when already aborted", async function () {
+          const { httpClient, requests } = createHangingHttpClient();
+          const client = msalClient.createMsalClient("client-id", "tenant-id", { httpClient });
+
+          await expect(getToken(client, { abortSignal: AbortSignal.abort() })).rejects.toThrow(
+            AbortError,
+          );
+          assert.lengthOf(requests, 0);
+        });
+
+        it("aborts the in-flight request and rejects with AbortError", async function () {
+          const { httpClient, requests } = createHangingHttpClient();
+          const client = msalClient.createMsalClient("client-id", "tenant-id", { httpClient });
+          const controller = new AbortController();
+
+          const result = getToken(client, { abortSignal: controller.signal });
+          await vi.waitFor(() => assert.isAbove(requests.length, 0));
+          controller.abort();
+
+          await expect(result).rejects.toThrow(AbortError);
+          await vi.waitFor(() => assert.isTrue(requests.every((r) => r.abortSignal?.aborted)));
+        });
+      });
+    }
   });
 
   describe("#generateMsalConfiguration", function () {
