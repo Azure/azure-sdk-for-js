@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a volume in an AVS VM
  *
  * @summary update a volume in an AVS VM
- * x-ms-original-file: 2026-05-01-preview/AvsVmVolumes_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsVmVolumes_Update_MaximumSet_Gen.json
  */
 async function avsVmVolumesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

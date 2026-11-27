@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a volume group snapshot
  *
  * @summary get a volume group snapshot
- * x-ms-original-file: 2026-05-01-preview/VolumeGroupSnapshots_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/VolumeGroupSnapshots_Get_MaximumSet_Gen.json
  */
 async function volumeGroupSnapshotsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

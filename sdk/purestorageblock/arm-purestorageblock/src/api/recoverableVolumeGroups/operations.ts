@@ -38,7 +38,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       recoverableVolumeGroupName: recoverableVolumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,6 +60,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Eradicate a recoverable volume group */
 export function $delete(
   context: Client,
@@ -80,7 +81,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -96,7 +97,7 @@ export function _listByStoragePoolSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,6 +124,7 @@ export async function _listByStoragePoolDeserialize(
 
   return _recoverableVolumeGroupListResultDeserializer(result.body);
 }
+
 /** List all recoverable volume groups in a storage pool */
 export function listByStoragePool(
   context: Client,
@@ -135,11 +137,7 @@ export function listByStoragePool(
     () => _listByStoragePoolSend(context, resourceGroupName, storagePoolName, options),
     _listByStoragePoolDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -157,7 +155,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       recoverableVolumeGroupName: recoverableVolumeGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,6 +182,7 @@ export async function _getDeserialize(
 
   return recoverableVolumeGroupDeserializer(result.body);
 }
+
 /** Get a recoverable volume group */
 export async function get(
   context: Client,

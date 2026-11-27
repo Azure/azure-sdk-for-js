@@ -5,6 +5,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VolumeGroupSnapshotsListSnapshotsOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface VolumeGroupSnapshotsListByVolumeGroupOptionalParams extends OperationOptions {
   /** OData filter expression (e.g. $filter=substringof('sna', name) and space/unique gt 1000) */
@@ -16,15 +17,18 @@ export interface VolumeGroupSnapshotsListByVolumeGroupOptionalParams extends Ope
   /** Number of results to skip (page offset) */
   skip?: number;
 }
+
 /** Optional parameters. */
 export interface VolumeGroupSnapshotsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VolumeGroupSnapshotsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface VolumeGroupSnapshotsGetOptionalParams extends OperationOptions {}

@@ -67,6 +67,7 @@ export interface VolumeGroupSnapshotsOperations {
     options?: VolumeGroupSnapshotsGetOptionalParams,
   ) => Promise<VolumeGroupSnapshot>;
 }
+
 function _getVolumeGroupSnapshots(context: BlockContext) {
   return {
     listSnapshots: (
@@ -124,6 +125,7 @@ function _getVolumeGroupSnapshots(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, volumeGroupName, snapshotName, options),
   };
 }
+
 export function _getVolumeGroupSnapshotsOperations(
   context: BlockContext,
 ): VolumeGroupSnapshotsOperations {

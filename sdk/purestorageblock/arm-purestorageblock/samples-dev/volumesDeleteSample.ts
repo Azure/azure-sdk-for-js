@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a volume
  *
  * @summary delete a volume
- * x-ms-original-file: 2026-05-01-preview/Volumes_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Volumes_Delete_MaximumSet_Gen.json
  */
 async function volumesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

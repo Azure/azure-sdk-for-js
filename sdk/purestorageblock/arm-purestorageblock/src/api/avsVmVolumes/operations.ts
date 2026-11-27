@@ -41,7 +41,7 @@ export function _listByAvsVmSend(
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
       avsVmId: avsVmId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,6 +68,7 @@ export async function _listByAvsVmDeserialize(
 
   return _avsVmVolumeListResultDeserializer(result.body);
 }
+
 /** List volumes in an AVS VM */
 export function listByAvsVm(
   context: Client,
@@ -81,11 +82,7 @@ export function listByAvsVm(
     () => _listByAvsVmSend(context, resourceGroupName, storagePoolName, avsVmId, options),
     _listByAvsVmDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -105,7 +102,7 @@ export function _$deleteSend(
       storagePoolName: storagePoolName,
       avsVmId: avsVmId,
       volumeId: volumeId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,6 +124,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a volume in an AVS VM */
 export function $delete(
   context: Client,
@@ -142,7 +140,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storagePoolName, avsVmId, volumeId, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,7 +160,7 @@ export function _getSend(
       storagePoolName: storagePoolName,
       avsVmId: avsVmId,
       volumeId: volumeId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,6 +185,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Av
 
   return avsVmVolumeDeserializer(result.body);
 }
+
 /** Get a volume in an AVS VM */
 export async function get(
   context: Client,
@@ -224,7 +223,7 @@ export function _updateSend(
       storagePoolName: storagePoolName,
       avsVmId: avsVmId,
       volumeId: volumeId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -251,6 +250,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return avsVmVolumeDeserializer(result.body);
 }
+
 /** Update a volume in an AVS VM */
 export function update(
   context: Client,
@@ -275,6 +275,6 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<AvsVmVolume>, AvsVmVolume>;
 }

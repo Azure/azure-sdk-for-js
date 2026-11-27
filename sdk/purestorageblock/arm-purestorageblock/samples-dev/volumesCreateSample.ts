@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a volume
  *
  * @summary create a volume
- * x-ms-original-file: 2026-05-01-preview/Volumes_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Volumes_Create_MaximumSet_Gen.json
  */
 async function volumesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

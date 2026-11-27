@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a reservation
  *
  * @summary delete a reservation
- * x-ms-original-file: 2026-05-01-preview/Reservations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Reservations_Delete_MaximumSet_Gen.json
  */
 async function reservationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 import type { BlockContext as Client } from "../index.js";
+import type { Reservation } from "../../models/liftrBase/storage/models.js";
+import {
+  reservationSerializer,
+  reservationDeserializer,
+} from "../../models/liftrBase/storage/models.js";
 import type {
-  Reservation,
   ReservationUpdate,
   _ReservationListResult,
   LimitDetails,
@@ -14,8 +18,6 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  reservationSerializer,
-  reservationDeserializer,
   reservationUpdateSerializer,
   _reservationListResultDeserializer,
   limitDetailsDeserializer,
@@ -57,7 +59,7 @@ export function _latestLinkedSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -84,6 +86,7 @@ export async function _latestLinkedSaaSDeserialize(
 
   return latestLinkedSaaSResponseDeserializer(result.body);
 }
+
 /** Returns the latest SaaS linked to the reservation. */
 export async function latestLinkedSaaS(
   context: Client,
@@ -108,7 +111,7 @@ export function _linkSaaSSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,6 +138,7 @@ export async function _linkSaaSDeserialize(result: PathUncheckedResponse): Promi
 
   return reservationDeserializer(result.body);
 }
+
 /** A long-running resource action. */
 export function linkSaaS(
   context: Client,
@@ -149,7 +153,7 @@ export function linkSaaS(
     getInitialResponse: () =>
       _linkSaaSSend(context, resourceGroupName, reservationName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Reservation>, Reservation>;
 }
 
@@ -165,7 +169,7 @@ export function _getBillingReportSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,6 +196,7 @@ export async function _getBillingReportDeserialize(
 
   return reservationBillingUsageReportDeserializer(result.body);
 }
+
 /** Provides a summarized report along with actions for resources billed via given reservation */
 export async function getBillingReport(
   context: Client,
@@ -215,7 +220,7 @@ export function _getBillingStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -242,6 +247,7 @@ export async function _getBillingStatusDeserialize(
 
   return reservationBillingStatusDeserializer(result.body);
 }
+
 /** Provides various statistics about resources billed via given reservation. */
 export async function getBillingStatus(
   context: Client,
@@ -265,7 +271,7 @@ export function _getResourceLimitsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -292,6 +298,7 @@ export async function _getResourceLimitsDeserialize(
 
   return limitDetailsDeserializer(result.body);
 }
+
 /** Limits constraining certain resource properties. */
 export async function getResourceLimits(
   context: Client,
@@ -311,7 +318,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/PureStorage.Block/reservations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,6 +345,7 @@ export async function _listBySubscriptionDeserialize(
 
   return _reservationListResultDeserializer(result.body);
 }
+
 /** List reservations by Azure subscription ID */
 export function listBySubscription(
   context: Client,
@@ -348,11 +356,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -366,7 +370,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,6 +397,7 @@ export async function _listByResourceGroupDeserialize(
 
   return _reservationListResultDeserializer(result.body);
 }
+
 /** List reservations by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -404,11 +409,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-10-01" },
   );
 }
 
@@ -424,7 +425,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -446,6 +447,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
+
 /** Delete a reservation */
 export function $delete(
   context: Client,
@@ -458,7 +460,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, reservationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -475,7 +477,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -502,6 +504,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return reservationDeserializer(result.body);
 }
+
 /** Update a reservation */
 export function update(
   context: Client,
@@ -516,7 +519,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, reservationName, properties, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Reservation>, Reservation>;
 }
 
@@ -533,7 +536,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,6 +563,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 
   return reservationDeserializer(result.body);
 }
+
 /** Create a reservation */
 export function create(
   context: Client,
@@ -574,7 +578,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, reservationName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    apiVersion: context.apiVersion ?? "2026-10-01",
   }) as PollerLike<OperationState<Reservation>, Reservation>;
 }
 
@@ -590,7 +594,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       reservationName: reservationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -615,6 +619,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
 
   return reservationDeserializer(result.body);
 }
+
 /** Get a reservation */
 export async function get(
   context: Client,

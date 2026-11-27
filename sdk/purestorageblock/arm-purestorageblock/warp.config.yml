@@ -17,6 +17,8 @@ exports:
   "./api/reservations": "./src/api/reservations/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"
+  "./models/liftrBase": "./src/models/liftrBase/index.ts"
+  "./models/liftrBase/storage": "./src/models/liftrBase/storage/index.ts"
 
 targets:
   - name: browser

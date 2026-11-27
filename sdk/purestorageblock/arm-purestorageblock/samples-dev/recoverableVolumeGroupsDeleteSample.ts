@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to eradicate a recoverable volume group
  *
  * @summary eradicate a recoverable volume group
- * x-ms-original-file: 2026-05-01-preview/RecoverableVolumeGroups_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/RecoverableVolumeGroups_Delete_MaximumSet_Gen.json
  */
 async function recoverableVolumeGroupsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -35,6 +35,7 @@ export interface RecoverableVolumeGroupsOperations {
     options?: RecoverableVolumeGroupsGetOptionalParams,
   ) => Promise<RecoverableVolumeGroup>;
 }
+
 function _getRecoverableVolumeGroups(context: BlockContext) {
   return {
     delete: (
@@ -56,6 +57,7 @@ function _getRecoverableVolumeGroups(context: BlockContext) {
     ) => get(context, resourceGroupName, storagePoolName, recoverableVolumeGroupName, options),
   };
 }
+
 export function _getRecoverableVolumeGroupsOperations(
   context: BlockContext,
 ): RecoverableVolumeGroupsOperations {

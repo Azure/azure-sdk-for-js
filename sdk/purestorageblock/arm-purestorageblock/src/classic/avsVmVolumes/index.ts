@@ -48,6 +48,7 @@ export interface AvsVmVolumesOperations {
     options?: AvsVmVolumesUpdateOptionalParams,
   ) => PollerLike<OperationState<AvsVmVolume>, AvsVmVolume>;
 }
+
 function _getAvsVmVolumes(context: BlockContext) {
   return {
     listByAvsVm: (
@@ -81,6 +82,7 @@ function _getAvsVmVolumes(context: BlockContext) {
       update(context, resourceGroupName, storagePoolName, avsVmId, volumeId, properties, options),
   };
 }
+
 export function _getAvsVmVolumesOperations(context: BlockContext): AvsVmVolumesOperations {
   return {
     ..._getAvsVmVolumes(context),

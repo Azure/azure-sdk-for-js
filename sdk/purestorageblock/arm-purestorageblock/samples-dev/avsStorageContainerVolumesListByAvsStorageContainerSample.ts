@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list volumes in an AVS storage container
  *
  * @summary list volumes in an AVS storage container
- * x-ms-original-file: 2026-05-01-preview/AvsStorageContainerVolumes_ListByAvsStorageContainer_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/AvsStorageContainerVolumes_ListByAvsStorageContainer_MaximumSet_Gen.json
  */
 async function avsStorageContainerVolumesListByAvsStorageContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns the status of the storage pool connection to AVS
  *
  * @summary returns the status of the storage pool connection to AVS
- * x-ms-original-file: 2026-05-01-preview/StoragePools_GetAvsStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_GetAvsStatus_MaximumSet_Gen.json
  */
 async function storagePoolsGetAvsStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

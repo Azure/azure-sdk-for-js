@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "PureStorage.Block": "2026-05-01-preview"
+    "PureStorage.Block": "2026-10-01"
   },
-  "emitterVersion": "0.55.1",
+  "emitterVersion": "0.58.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "PureStorage.Block",
     "CrossLanguageDefinitionId": {

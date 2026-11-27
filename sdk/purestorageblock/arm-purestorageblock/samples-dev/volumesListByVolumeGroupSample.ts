@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list volumes by volume group
  *
  * @summary list volumes by volume group
- * x-ms-original-file: 2026-05-01-preview/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumesListByVolumeGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -44,6 +44,7 @@ export interface AvsVmsOperations {
     options?: AvsVmsUpdateOptionalParams,
   ) => PollerLike<OperationState<AvsVm>, AvsVm>;
 }
+
 function _getAvsVms(context: BlockContext) {
   return {
     listByStoragePool: (
@@ -72,6 +73,7 @@ function _getAvsVms(context: BlockContext) {
     ) => update(context, resourceGroupName, storagePoolName, avsVmId, properties, options),
   };
 }
+
 export function _getAvsVmsOperations(context: BlockContext): AvsVmsOperations {
   return {
     ..._getAvsVms(context),

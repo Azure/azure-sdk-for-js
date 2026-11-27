@@ -8,7 +8,9 @@ export interface RecoverableVolumeGroupsDeleteOptionalParams extends OperationOp
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
+
 /** Optional parameters. */
 export interface RecoverableVolumeGroupsListByStoragePoolOptionalParams extends OperationOptions {}
+
 /** Optional parameters. */
 export interface RecoverableVolumeGroupsGetOptionalParams extends OperationOptions {}

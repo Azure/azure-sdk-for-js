@@ -1,6 +1,25 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/volumeGroupSnapshots/index.ts",
+    "../src/api/saaSOperationGroup/index.ts",
+    "../src/api/recoverableVolumeGroups/index.ts",
+    "../src/api/volumes/index.ts",
+    "../src/api/volumeGroups/index.ts",
+    "../src/api/avsVmVolumes/index.ts",
+    "../src/api/avsVms/index.ts",
+    "../src/api/avsStorageContainerVolumes/index.ts",
+    "../src/api/avsStorageContainers/index.ts",
+    "../src/api/storagePools/index.ts",
+    "../src/api/reservations/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts",
+    "../src/models/liftrBase/index.ts",
+    "../src/models/liftrBase/storage/index.ts"
   ]
 }

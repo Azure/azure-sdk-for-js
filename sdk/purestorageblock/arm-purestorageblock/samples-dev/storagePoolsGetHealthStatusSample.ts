@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieve health metrics of a storage pool
  *
  * @summary retrieve health metrics of a storage pool
- * x-ms-original-file: 2026-05-01-preview/StoragePools_GetHealthStatus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/StoragePools_GetHealthStatus_MaximumSet_Gen.json
  */
 async function storagePoolsGetHealthStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
