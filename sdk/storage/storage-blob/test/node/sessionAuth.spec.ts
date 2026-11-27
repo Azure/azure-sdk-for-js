@@ -153,6 +153,21 @@ describe("Session authentication Node.js only", () => {
     assert.strictEqual(counts.sessionAuth, 3, "every download must be session-authenticated");
   });
 
+  it("signs a download that validates CRC64 with the session", async () => {
+    const { service, counts } = sessionService("enabled");
+    const blobClient = service.getContainerClient(containerName).getBlockBlobClient(blobName);
+
+    const response = await blobClient.download(0, undefined, {
+      contentChecksumAlgorithm: "StorageCrc64",
+    });
+
+    assert.isDefined(response.structuredBodyType, "the service must answer with a structured body");
+    assert.strictEqual(await bodyToString(response, content.length), content);
+    assert.strictEqual(counts.createSession, 1);
+    assert.strictEqual(counts.sessionAuth, 1, "the download must be session-authenticated");
+    assert.strictEqual(counts.bearerAuth, 0);
+  });
+
   it("falls back to bearer for a sub-resource request", async () => {
     const { service, counts } = sessionService("enabled");
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.35.0-beta.1";
+export const SDK_VERSION: string = "12.35.0-beta.2";
 export const SERVICE_VERSION: string = "2026-10-06";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
@@ -67,7 +67,6 @@ export const HeaderConstants = {
   X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
-  X_MS_STRUCTURED_BODY: "x-ms-structured-body",
   X_MS_VERSION: "x-ms-version",
   X_MS_CopySourceErrorCode: "x-ms-copy-source-error-code",
 };

@@ -1,5 +1,17 @@
 # Release History
 
+## 12.32.0-beta.2 (Unreleased)
+
+### Features Added
+
+- When `sessionOptions.mode` is `"enabled"`, file reads that validate content with CRC64 are now signed with a session token too, as in `@azure/storage-blob`. Before, they always used a bearer token.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 12.32.0-beta.1 (2026-11-11)
 
 ### Features Added
