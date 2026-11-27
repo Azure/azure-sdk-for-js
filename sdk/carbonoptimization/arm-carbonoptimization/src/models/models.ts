@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +53,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -278,13 +285,16 @@ export type ReportTypeEnum = string;
 /** Date range to be used with QueryParameter, it should be within 12 months between start and end date. In certain cases, start and end dates must be the same date. */
 export interface DateRange {
   /** Start date parameter in yyyy-MM-01 format. Only the first day of each month is accepted. */
-  start: string;
+  start: Date;
   /** End date parameter in yyyy-MM-01 format. Only the first day of each month is accepted. */
-  end: string;
+  end: Date;
 }
 
 export function dateRangeSerializer(item: DateRange): any {
-  return { start: item["start"], end: item["end"] };
+  return {
+    start: item["start"].toISOString().split("T")[0],
+    end: item["end"].toISOString().split("T")[0],
+  };
 }
 
 /** Supported carbon emission scopes to be used with QueryParameter, as defined by the GHG Protocol. At least one scope must be specified. The output will return a total of all specified scopes. */
@@ -657,7 +667,7 @@ export type CarbonEmissionDataUnion =
   | CarbonEmissionData;
 
 export function carbonEmissionDataUnionDeserializer(item: any): CarbonEmissionDataUnion {
-  switch (item.dataType) {
+  switch (item["dataType"]) {
     case "OverallSummaryData":
       return carbonEmissionOverallSummaryDataDeserializer(item as CarbonEmissionOverallSummaryData);
 
@@ -1134,8 +1144,335 @@ export function carbonEmissionDataAvailableDateRangeDeserializer(
   };
 }
 
+/** Query filter parameter for billing account scoped carbon emissions queries. The billing account ID is derived from the URL scope parameter. */
+export interface BillingAccountQueryFilter {
+  /** The ReportType requested for carbon emissions data. Required. Specifies how data is aggregated and displayed in the output, as explained in the ReportTypeEnum. */
+  /** The discriminator possible values: OverallSummaryReport, MonthlySummaryReport, TopItemsSummaryReport, TopItemsMonthlySummaryReport, ItemDetailsReport */
+  reportType: ReportTypeEnum;
+  /** The start and end dates for carbon emissions data. Required. For ItemDetailsReport and TopItemsSummaryReport, only one month of data is supported at a time, so start and end dates should be equal within DateRange (e.g., start: 2024-06-01 and end: 2024-06-01). */
+  dateRange: DateRange;
+  /** List of subscription IDs for which carbon emissions data is requested. Optional. Each subscription ID should be in lowercase format. If not provided, data for all subscriptions under the billing account will be returned. */
+  subscriptionList?: string[];
+  /** List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'. */
+  resourceTypeList?: string[];
+  /** List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names. */
+  locationList?: string[];
+  /** List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes. */
+  carbonScopeList: EmissionScopeEnum[];
+}
+
+export function billingAccountQueryFilterSerializer(item: BillingAccountQueryFilter): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Alias for BillingAccountQueryFilterUnion */
+export type BillingAccountQueryFilterUnion =
+  | BillingAccountOverallSummaryReportQueryFilter
+  | BillingAccountMonthlySummaryReportQueryFilter
+  | BillingAccountTopItemsSummaryReportQueryFilter
+  | BillingAccountTopItemsMonthlySummaryReportQueryFilter
+  | BillingAccountItemDetailsReportQueryFilter
+  | BillingAccountQueryFilter;
+
+export function billingAccountQueryFilterUnionSerializer(
+  item: BillingAccountQueryFilterUnion,
+): any {
+  switch (item.reportType) {
+    case "OverallSummaryReport":
+      return billingAccountOverallSummaryReportQueryFilterSerializer(
+        item as BillingAccountOverallSummaryReportQueryFilter,
+      );
+
+    case "MonthlySummaryReport":
+      return billingAccountMonthlySummaryReportQueryFilterSerializer(
+        item as BillingAccountMonthlySummaryReportQueryFilter,
+      );
+
+    case "TopItemsSummaryReport":
+      return billingAccountTopItemsSummaryReportQueryFilterSerializer(
+        item as BillingAccountTopItemsSummaryReportQueryFilter,
+      );
+
+    case "TopItemsMonthlySummaryReport":
+      return billingAccountTopItemsMonthlySummaryReportQueryFilterSerializer(
+        item as BillingAccountTopItemsMonthlySummaryReportQueryFilter,
+      );
+
+    case "ItemDetailsReport":
+      return billingAccountItemDetailsReportQueryFilterSerializer(
+        item as BillingAccountItemDetailsReportQueryFilter,
+      );
+
+    default:
+      return billingAccountQueryFilterSerializer(item);
+  }
+}
+
+/** Query filter parameter to configure OverallSummaryReport queries scoped to a billing account. */
+export interface BillingAccountOverallSummaryReportQueryFilter extends BillingAccountQueryFilter {
+  /** Specifies that the report type is an overall summary report for carbon emissions data. */
+  reportType: "OverallSummaryReport";
+}
+
+export function billingAccountOverallSummaryReportQueryFilterSerializer(
+  item: BillingAccountOverallSummaryReportQueryFilter,
+): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Query filter parameter to configure MonthlySummaryReport queries scoped to a billing account. */
+export interface BillingAccountMonthlySummaryReportQueryFilter extends BillingAccountQueryFilter {
+  /** Specifies that the report type is a monthly summary report for carbon emissions data. */
+  reportType: "MonthlySummaryReport";
+}
+
+export function billingAccountMonthlySummaryReportQueryFilterSerializer(
+  item: BillingAccountMonthlySummaryReportQueryFilter,
+): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Query filter parameter to configure TopItemsSummaryReport queries scoped to a billing account. */
+export interface BillingAccountTopItemsSummaryReportQueryFilter extends BillingAccountQueryFilter {
+  /** Specifies that the report type is a top items summary report for carbon emissions data. */
+  reportType: "TopItemsSummaryReport";
+  /** Specifies the category type for which to retrieve top-emitting items. */
+  categoryType: BillingAccountCategoryTypeEnum;
+  /** The number of top items to return, based on emissions. This value must be between 1 and 10. */
+  topItems: number;
+}
+
+export function billingAccountTopItemsSummaryReportQueryFilterSerializer(
+  item: BillingAccountTopItemsSummaryReportQueryFilter,
+): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+    categoryType: item["categoryType"],
+    topItems: item["topItems"],
+  };
+}
+
+/** Supported category types for billing account scoped queries. The ResourceGroup and Resource category types are not supported for billing account scope. */
+export enum KnownBillingAccountCategoryTypeEnum {
+  /** Emissions aggregated at the subscription level. */
+  Subscription = "Subscription",
+  /** Emissions aggregated at the location level. */
+  Location = "Location",
+  /** Emissions aggregated at the resource type level. */
+  ResourceType = "ResourceType",
+}
+
+/**
+ * Supported category types for billing account scoped queries. The ResourceGroup and Resource category types are not supported for billing account scope. \
+ * {@link KnownBillingAccountCategoryTypeEnum} can be used interchangeably with BillingAccountCategoryTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Subscription**: Emissions aggregated at the subscription level. \
+ * **Location**: Emissions aggregated at the location level. \
+ * **ResourceType**: Emissions aggregated at the resource type level.
+ */
+export type BillingAccountCategoryTypeEnum = string;
+
+/** Query filter parameter to configure TopItemsMonthlySummaryReport queries scoped to a billing account. */
+export interface BillingAccountTopItemsMonthlySummaryReportQueryFilter extends BillingAccountQueryFilter {
+  /** Specifies that the report type is a top items monthly summary report for carbon emissions data. */
+  reportType: "TopItemsMonthlySummaryReport";
+  /** Specifies the category type to retrieve top-emitting items, aggregated by month. */
+  categoryType: BillingAccountCategoryTypeEnum;
+  /** The number of top items to return, based on emissions. Must be between 1 and 10. */
+  topItems: number;
+}
+
+export function billingAccountTopItemsMonthlySummaryReportQueryFilterSerializer(
+  item: BillingAccountTopItemsMonthlySummaryReportQueryFilter,
+): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+    categoryType: item["categoryType"],
+    topItems: item["topItems"],
+  };
+}
+
+/** Query filter parameter to configure ItemDetailsReport queries scoped to a billing account. */
+export interface BillingAccountItemDetailsReportQueryFilter extends BillingAccountQueryFilter {
+  /** Specifies that the report type is an item details report for carbon emissions data. */
+  reportType: "ItemDetailsReport";
+  /** Specifies the category type for item details. */
+  categoryType: BillingAccountCategoryTypeEnum;
+  /** Number of items to return in one request, max value is 5000. */
+  pageSize: number;
+  /** Pagination token for fetching the next page of data. Optional. */
+  skipToken?: string;
+  /** The column name to order the results by. See supported values in BillingAccountOrderByColumnEnum. */
+  orderBy?: BillingAccountOrderByColumnEnum;
+  /** Sort direction. */
+  sortDirection?: SortDirectionEnum;
+}
+
+export function billingAccountItemDetailsReportQueryFilterSerializer(
+  item: BillingAccountItemDetailsReportQueryFilter,
+): any {
+  return {
+    reportType: item["reportType"],
+    dateRange: dateRangeSerializer(item["dateRange"]),
+    subscriptionList: !item["subscriptionList"]
+      ? item["subscriptionList"]
+      : item["subscriptionList"].map((p: any) => {
+          return p;
+        }),
+    resourceTypeList: !item["resourceTypeList"]
+      ? item["resourceTypeList"]
+      : item["resourceTypeList"].map((p: any) => {
+          return p;
+        }),
+    locationList: !item["locationList"]
+      ? item["locationList"]
+      : item["locationList"].map((p: any) => {
+          return p;
+        }),
+    carbonScopeList: item["carbonScopeList"].map((p: any) => {
+      return p;
+    }),
+    categoryType: item["categoryType"],
+    pageSize: item["pageSize"],
+    skipToken: item["skipToken"],
+    orderBy: item["orderBy"],
+    sortDirection: item["sortDirection"],
+  };
+}
+
+/** Sorting is supported for columns in billing account scoped ItemDetailsReport. This object includes the column names that sorting is allowed for. Select one of these supported values. The ResourceGroup column is not supported for billing account scope. */
+export enum KnownBillingAccountOrderByColumnEnum {
+  /** The itemName filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. */
+  ItemName = "ItemName",
+  /** The latestMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. */
+  LatestMonthEmissions = "LatestMonthEmissions",
+  /** The previousMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. */
+  PreviousMonthEmissions = "PreviousMonthEmissions",
+  /** The monthOverMonthEmissionsChangeRatio filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. */
+  MonthOverMonthEmissionsChangeRatio = "MonthOverMonthEmissionsChangeRatio",
+  /** The monthlyEmissionsChangeValue filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. */
+  MonthlyEmissionsChangeValue = "MonthlyEmissionsChangeValue",
+}
+
+/**
+ * Sorting is supported for columns in billing account scoped ItemDetailsReport. This object includes the column names that sorting is allowed for. Select one of these supported values. The ResourceGroup column is not supported for billing account scope. \
+ * {@link KnownBillingAccountOrderByColumnEnum} can be used interchangeably with BillingAccountOrderByColumnEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ItemName**: The itemName filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. \
+ * **LatestMonthEmissions**: The latestMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. \
+ * **PreviousMonthEmissions**: The previousMonthEmissions filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. \
+ * **MonthOverMonthEmissionsChangeRatio**: The monthOverMonthEmissionsChangeRatio filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information. \
+ * **MonthlyEmissionsChangeValue**: The monthlyEmissionsChangeValue filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information.
+ */
+export type BillingAccountOrderByColumnEnum = string;
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-04-01 API version. */
   V20250401 = "2025-04-01",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }
