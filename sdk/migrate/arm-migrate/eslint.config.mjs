@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default [
@@ -9,9 +12,9 @@ export default [
         "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
         "@azure/azure-sdk/ts-package-json-files-required": "off",
         "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-        "tsdoc/syntax": "warn"
-      }
-    }
+        "tsdoc/syntax": "warn",
+      },
+    },
   ]),
   {
     files: ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts"],
