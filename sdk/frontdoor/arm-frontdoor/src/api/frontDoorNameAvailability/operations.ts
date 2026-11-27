@@ -24,7 +24,7 @@ export function _checkSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Network/checkFrontDoorNameAvailability{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

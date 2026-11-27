@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there. */
 export interface FrontDoor extends Resource {
   /** A friendly name for the frontDoor */
@@ -3192,6 +3192,10 @@ export enum KnownVariableName {
   GeoLocation = "GeoLocation",
   /** None */
   None = "None",
+  /** Autonomous System Number */
+  Asn = "Asn",
+  /** JA4 TLS fingerprint */
+  Ja4 = "Ja4",
 }
 
 /**
@@ -3201,7 +3205,9 @@ export enum KnownVariableName {
  * ### Known values supported by the service
  * **SocketAddr**: SocketAddr \
  * **GeoLocation**: GeoLocation \
- * **None**: None
+ * **None**: None \
+ * **Asn**: Autonomous System Number \
+ * **Ja4**: JA4 TLS fingerprint
  */
 export type VariableName = string;
 
@@ -4757,6 +4763,10 @@ export interface ManagedRuleSetDefinition extends Resource {
   readonly ruleSetVersion?: string;
   /** Rule groups of the managed rule set. */
   readonly ruleGroups?: ManagedRuleGroupDefinition[];
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  readonly displayName?: string;
+  /** Describes the lifecycle status of the managed rule set version. */
+  readonly status?: ManagedRuleSetStatus;
 }
 
 export function managedRuleSetDefinitionDeserializer(item: any): ManagedRuleSetDefinition {
@@ -4786,6 +4796,10 @@ export interface ManagedRuleSetDefinitionProperties {
   readonly ruleSetVersion?: string;
   /** Rule groups of the managed rule set. */
   readonly ruleGroups?: ManagedRuleGroupDefinition[];
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  readonly displayName?: string;
+  /** Describes the lifecycle status of the managed rule set version. */
+  readonly status?: ManagedRuleSetStatus;
 }
 
 export function managedRuleSetDefinitionPropertiesDeserializer(
@@ -4799,6 +4813,8 @@ export function managedRuleSetDefinitionPropertiesDeserializer(
     ruleGroups: !item["ruleGroups"]
       ? item["ruleGroups"]
       : managedRuleGroupDefinitionArrayDeserializer(item["ruleGroups"]),
+    displayName: item["displayName"],
+    status: item["status"],
   };
 }
 
@@ -4848,6 +4864,8 @@ export interface ManagedRuleDefinition {
   readonly defaultSensitivity?: SensitivityType;
   /** Describes the functionality of the managed rule. */
   readonly description?: string;
+  /** Describes the paranoia level of the managed rule. Applicable only for DRS rules. Omitted for Bot Manager, DDoS, and AI rules. */
+  readonly paranoiaLevel?: ParanoiaLevel;
 }
 
 export function managedRuleDefinitionDeserializer(item: any): ManagedRuleDefinition {
@@ -4857,8 +4875,57 @@ export function managedRuleDefinitionDeserializer(item: any): ManagedRuleDefinit
     defaultAction: item["defaultAction"],
     defaultSensitivity: item["defaultSensitivity"],
     description: item["description"],
+    paranoiaLevel: item["paranoiaLevel"],
   };
 }
+
+/** OWASP CRS paranoia level of a managed rule. Applicable only for DRS rules. */
+export enum KnownParanoiaLevel {
+  /** Paranoia level 1. */
+  PL1 = "PL1",
+  /** Paranoia level 2. */
+  PL2 = "PL2",
+  /** Paranoia level 3. */
+  PL3 = "PL3",
+  /** Paranoia level 4. */
+  PL4 = "PL4",
+}
+
+/**
+ * OWASP CRS paranoia level of a managed rule. Applicable only for DRS rules. \
+ * {@link KnownParanoiaLevel} can be used interchangeably with ParanoiaLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PL1**: Paranoia level 1. \
+ * **PL2**: Paranoia level 2. \
+ * **PL3**: Paranoia level 3. \
+ * **PL4**: Paranoia level 4.
+ */
+export type ParanoiaLevel = string;
+
+/** Status of a managed rule set. */
+export enum KnownManagedRuleSetStatus {
+  /** The managed rule set is in preview. */
+  Preview = "Preview",
+  /** The managed rule set is generally available. */
+  GA = "GA",
+  /** The managed rule set is deprecated. */
+  Deprecated = "Deprecated",
+  /** The managed rule set is supported. */
+  Supported = "Supported",
+}
+
+/**
+ * Status of a managed rule set. \
+ * {@link KnownManagedRuleSetStatus} can be used interchangeably with ManagedRuleSetStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: The managed rule set is in preview. \
+ * **GA**: The managed rule set is generally available. \
+ * **Deprecated**: The managed rule set is deprecated. \
+ * **Supported**: The managed rule set is supported.
+ */
+export type ManagedRuleSetStatus = string;
 
 /** Input of CheckNameAvailability API. */
 export interface CheckNameAvailabilityInput {
@@ -4942,6 +5009,8 @@ export enum KnownVersions {
   V20251001 = "2025-10-01",
   /** The 2025-11-01 API version. */
   V20251101 = "2025-11-01",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }
 
 export function _rulesEnginePropertiesSerializer(item: RulesEngine): any {
@@ -5364,5 +5433,7 @@ export function _managedRuleSetDefinitionPropertiesDeserializer(item: any) {
     ruleGroups: !item["ruleGroups"]
       ? item["ruleGroups"]
       : managedRuleGroupDefinitionArrayDeserializer(item["ruleGroups"]),
+    displayName: item["displayName"],
+    status: item["status"],
   };
 }

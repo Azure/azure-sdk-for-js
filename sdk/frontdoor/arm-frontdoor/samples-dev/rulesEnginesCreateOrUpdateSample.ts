@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new Rules Engine Configuration with the specified name within the specified Front Door.
  *
  * @summary creates a new Rules Engine Configuration with the specified name within the specified Front Door.
- * x-ms-original-file: 2025-11-01/FrontdoorRulesEngineCreate.json
+ * x-ms-original-file: 2026-04-01/FrontdoorRulesEngineCreate.json
  */
 async function createOrUpdateASpecificRulesEngineConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

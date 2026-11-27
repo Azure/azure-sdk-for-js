@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Latency Scorecard for a given Experiment
  *
  * @summary gets a Latency Scorecard for a given Experiment
- * x-ms-original-file: 2025-11-01/NetworkExperimentGetLatencyScorecard.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentGetLatencyScorecard.json
  */
 async function getsALatencyScorecardForAGivenExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();

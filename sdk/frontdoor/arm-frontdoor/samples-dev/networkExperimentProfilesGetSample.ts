@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets an NetworkExperiment Profile by ProfileName
  *
  * @summary gets an NetworkExperiment Profile by ProfileName
- * x-ms-original-file: 2025-11-01/NetworkExperimentGetProfile.json
+ * x-ms-original-file: 2026-04-01/NetworkExperimentGetProfile.json
  */
 async function getsAnNetworkExperimentProfileByProfileId(): Promise<void> {
   const credential = new DefaultAzureCredential();

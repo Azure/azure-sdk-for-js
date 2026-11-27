@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Rules Engine Configuration with the specified parameters.
  *
  * @summary deletes an existing Rules Engine Configuration with the specified parameters.
- * x-ms-original-file: 2025-11-01/FrontdoorRulesEngineDelete.json
+ * x-ms-original-file: 2026-04-01/FrontdoorRulesEngineDelete.json
  */
 async function deleteRulesEngineConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();

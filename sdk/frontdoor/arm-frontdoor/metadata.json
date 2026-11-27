@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Network": "2025-11-01"
+    "Microsoft.Network": "2026-04-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.57.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Network",
     "CrossLanguageDefinitionId": {
@@ -170,6 +170,8 @@
       "@azure/arm-frontdoor!KnownTimeseriesAggregationInterval:enum": "Microsoft.Network.TimeseriesAggregationInterval",
       "@azure/arm-frontdoor!KnownTimeseriesType:enum": "Microsoft.Network.TimeseriesType",
       "@azure/arm-frontdoor!KnownAggregationInterval:enum": "Microsoft.Network.AggregationInterval",
+      "@azure/arm-frontdoor!KnownParanoiaLevel:enum": "Microsoft.Network.ParanoiaLevel",
+      "@azure/arm-frontdoor!KnownManagedRuleSetStatus:enum": "Microsoft.Network.ManagedRuleSetStatus",
       "@azure/arm-frontdoor!KnownResourceType:enum": "Microsoft.Network.ResourceType",
       "@azure/arm-frontdoor!KnownAvailability:enum": "Microsoft.Network.Availability",
       "@azure/arm-frontdoor!KnownVersions:enum": "Microsoft.Network.Versions",

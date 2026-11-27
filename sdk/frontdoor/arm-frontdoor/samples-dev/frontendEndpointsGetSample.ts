@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Frontend endpoint with the specified name within the specified Front Door.
  *
  * @summary gets a Frontend endpoint with the specified name within the specified Front Door.
- * x-ms-original-file: 2025-11-01/FrontdoorFrontendEndpointGet.json
+ * x-ms-original-file: 2026-04-01/FrontdoorFrontendEndpointGet.json
  */
 async function getFrontendEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

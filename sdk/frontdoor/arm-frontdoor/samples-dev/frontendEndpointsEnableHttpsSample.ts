@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to enables a frontendEndpoint for HTTPS traffic
  *
  * @summary enables a frontendEndpoint for HTTPS traffic
- * x-ms-original-file: 2025-11-01/FrontdoorEnableHttps.json
+ * x-ms-original-file: 2026-04-01/FrontdoorEnableHttps.json
  */
 async function frontendEndpointsEnableHttps(): Promise<void> {
   const credential = new DefaultAzureCredential();
