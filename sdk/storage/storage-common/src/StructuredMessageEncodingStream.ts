@@ -3,7 +3,9 @@
 
 import { AbortError } from "@azure/abort-controller";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import { getErrorMessage } from "@azure/core-util";
 import Stream, { Readable } from "node:stream";
+import { logger } from "./log.js";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
 
 function isNodeReadableStream(source: unknown): boolean {
@@ -200,6 +202,9 @@ class StructuredMessageEncodingStream extends Readable {
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);
     this.source.removeListener("aborted", this.sourceAbortedHandler);
+    // The source can still fail after this stream stops reading it, for example while it's being
+    // destroyed, and Node.js throws an "error" event that has no listener as an uncaught exception.
+    this.source.on("error", logSourceError);
   }
 
   private sourceDataHandler = (data: Buffer) => {
@@ -235,4 +240,10 @@ class StructuredMessageEncodingStream extends Readable {
 
     callback(error === null ? undefined : error);
   }
+}
+
+function logSourceError(error: unknown): void {
+  logger.info(
+    `StructuredMessageEncodingStream: ignored an error from a source it no longer reads: ${getErrorMessage(error)}`,
+  );
 }

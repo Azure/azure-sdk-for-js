@@ -442,7 +442,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.ok(eventTriggered);
   });
 
-  it.skip("uploadFile should update progress with parallel upload", async (ctx) => {
+  it("uploadFile should update progress with parallel upload", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -460,6 +460,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         },
         singleUploadThreshold: 8 * MB,
       });
+      assert.fail("uploadFile wasn't aborted");
     } catch (err: any) {
       assert.ok(
         err.message.startsWith("The operation was aborted."),

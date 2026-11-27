@@ -2,13 +2,23 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import { getErrorMessage } from "@azure/core-util";
 import { Readable } from "node:stream";
 import type { NodeJSReadableStream } from "@azure/storage-common";
+import { logger } from "../log.js";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJSReadableStream>;
 
 export interface RetriableReadableStreamOptions {
+  /**
+   * The signal the caller cancels the download with. When it is aborted, an interrupted read
+   * fails with an `AbortError` instead of being resumed. A source that fails with an `AbortError`
+   * isn't resumed either.
+   */
+  abortSignal?: AbortSignalLike;
+
   /**
    * Max retry count (greater than or equal to 0), undefined or invalid value means no retry
    */
@@ -86,7 +96,8 @@ export class RetriableReadableStream extends Readable {
     this.source.on("data", this.sourceDataHandler);
     this.source.on("end", this.sourceErrorOrEndHandler);
     this.source.on("error", this.sourceErrorOrEndHandler);
-    // needed for Node14
+    // Node.js emits "aborted" when a response closes before its end, such as when its connection
+    // drops or the caller cancels the request.
     this.source.on("aborted", this.sourceAbortedHandler);
   }
 
@@ -95,6 +106,10 @@ export class RetriableReadableStream extends Readable {
     this.source.removeListener("end", this.sourceErrorOrEndHandler);
     this.source.removeListener("error", this.sourceErrorOrEndHandler);
     this.source.removeListener("aborted", this.sourceAbortedHandler);
+    // The source can still fail after this stream stops reading it, for example while it's being
+    // destroyed, and Node.js throws an "error" event that has no listener as an uncaught exception.
+    this.source.removeListener("error", logSourceError);
+    this.source.on("error", logSourceError);
   }
 
   private sourceDataHandler = (data: Buffer) => {
@@ -119,8 +134,7 @@ export class RetriableReadableStream extends Readable {
   };
 
   private sourceAbortedHandler = () => {
-    const abortError = new AbortError("The operation was aborted.");
-    this.destroy(abortError);
+    this.sourceErrorOrEndHandler();
   };
 
   private sourceErrorOrEndHandler = (err?: Error) => {
@@ -138,6 +152,11 @@ export class RetriableReadableStream extends Readable {
     if (this.offset - 1 === this.end) {
       this.push(null);
     } else if (this.offset <= this.end) {
+      if (this.options.abortSignal?.aborted) {
+        // The caller cancelled the download, which is why the source stopped early.
+        this.destroy(new AbortError("The operation was aborted."));
+        return;
+      }
       // console.log(
       //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
       // );
@@ -145,6 +164,12 @@ export class RetriableReadableStream extends Readable {
         this.retries += 1;
         this.getter(this.offset)
           .then((newSource) => {
+            if (this.destroyed) {
+              // Nothing reads this stream any more: release the source that arrived too late.
+              newSource.on("error", logSourceError);
+              (newSource as Readable).destroy();
+              return;
+            }
             this.source = newSource;
             this.setSourceEventHandlers();
             return;
@@ -181,4 +206,10 @@ export class RetriableReadableStream extends Readable {
 
     callback(error === null ? undefined : error);
   }
+}
+
+function logSourceError(error: unknown): void {
+  logger.info(
+    `RetriableReadableStream: ignored an error from a source it no longer reads: ${getErrorMessage(error)}`,
+  );
 }
