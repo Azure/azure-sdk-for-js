@@ -7,6 +7,7 @@ const providerMocks = vi.hoisted(() => {
   const network = {
     shutdown: vi.fn().mockResolvedValue(undefined),
     updateEndpoint: vi.fn().mockResolvedValue(undefined),
+    updateConnectionString: vi.fn().mockResolvedValue(undefined),
     countSuccess: vi.fn(),
     countFailure: vi.fn(),
     countRetry: vi.fn(),
@@ -18,6 +19,7 @@ const providerMocks = vi.hoisted(() => {
   const longInterval = {
     shutdown: vi.fn().mockResolvedValue(undefined),
     updateEndpoint: vi.fn().mockResolvedValue(undefined),
+    updateConnectionString: vi.fn().mockResolvedValue(undefined),
   };
   return {
     network,
@@ -140,17 +142,41 @@ describe("StatsbeatManager", () => {
   it.each([
     ["missing", { unrelated: "setting" }],
     ["invalid", { FEATURE_SDK_STATS: "not-json" }],
-  ])("stops internal Statsbeat when the OneSettings feature is %s", async (_, settings) => {
+  ])("preserves internal Statsbeat when the OneSettings feature is %s", async (_, settings) => {
     const manager = StatsbeatManager.getInstance();
     manager.initialize(options);
     const callback = getConfigurationCallback();
 
     await callback(settings);
 
-    expect(providerMocks.network.shutdown).toHaveBeenCalledOnce();
-    expect(providerMocks.longInterval.shutdown).toHaveBeenCalledOnce();
-    expect(manager.networkStatsbeatMetrics).toBeUndefined();
-    expect(manager.longIntervalStatsbeatMetrics).toBeUndefined();
+    expect(providerMocks.network.shutdown).not.toHaveBeenCalled();
+    expect(providerMocks.longInterval.shutdown).not.toHaveBeenCalled();
+    expect(providerMocks.network.updateConnectionString).toHaveBeenCalledWith(
+      "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
+    );
+    expect(providerMocks.longInterval.updateConnectionString).toHaveBeenCalled();
+    expect(manager.networkStatsbeatMetrics).toBe(providerMocks.network);
+    expect(manager.longIntervalStatsbeatMetrics).toBe(providerMocks.longInterval);
+  });
+
+  it("applies the OneSettings data-boundary connection string", async () => {
+    const manager = StatsbeatManager.getInstance();
+    manager.initialize(options);
+    const callback = getConfigurationCallback();
+    const euConnectionString =
+      "InstrumentationKey=00000000-0000-0000-0000-000000000001;IngestionEndpoint=https://eu.stats.example.com";
+
+    await callback({
+      FEATURE_SDK_STATS: '{"default":"enabled"}',
+      SUPPORTED_DATA_BOUNDARIES: '["EU","DEFAULT"]',
+      EU_REGIONS: '["westeurope","northeurope"]',
+      EU_STATS_CONNECTION_STRING: euConnectionString,
+    });
+
+    expect(providerMocks.network.updateConnectionString).toHaveBeenCalledWith(euConnectionString);
+    expect(providerMocks.longInterval.updateConnectionString).toHaveBeenCalledWith(
+      euConnectionString,
+    );
   });
 
   it("coordinates shutdown and restarts with the last configuration", async () => {
@@ -306,10 +332,14 @@ describe("StatsbeatManager", () => {
     expect(providerMocks.getNetworkInstance).toHaveBeenLastCalledWith({
       ...options,
       endpointUrl,
+      connectionString:
+        "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
     });
     expect(providerMocks.getLongIntervalInstance).toHaveBeenLastCalledWith({
       ...options,
       endpointUrl,
+      connectionString:
+        "InstrumentationKey=7dc56bab-3c0c-4e9f-9ebb-d1acadee8d0f;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
     });
   });
 
