@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -232,6 +233,8 @@ export interface PlaywrightWorkspaceProperties {
   reporting?: EnablementStatus;
   /** The URI of the Azure storage account used to store workspace artifacts, test results, and reports. */
   storageUri?: string;
+  /** The ARM resource ID of the virtual network subnet to inject the workspace into for private network connectivity. This is of the form '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/virtualNetworks/{virtualNetwork}/subnets/{subnet}'. This value cannot be changed after the workspace is created. */
+  subnetId?: string;
 }
 
 export function playwrightWorkspacePropertiesSerializer(item: PlaywrightWorkspaceProperties): any {
@@ -240,6 +243,7 @@ export function playwrightWorkspacePropertiesSerializer(item: PlaywrightWorkspac
     localAuth: item["localAuth"],
     reporting: item["reporting"],
     storageUri: item["storageUri"],
+    subnetId: item["subnetId"],
   };
 }
 
@@ -254,6 +258,7 @@ export function playwrightWorkspacePropertiesDeserializer(
     workspaceId: item["workspaceId"],
     reporting: item["reporting"],
     storageUri: item["storageUri"],
+    subnetId: item["subnetId"],
   };
 }
 
@@ -369,8 +374,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -419,8 +424,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -834,4 +839,6 @@ export enum KnownVersions {
   V20260101Preview = "2026-01-01-preview",
   /** Preview version 2026-02-01-preview with experimental features for Playwright workspace management. */
   V20260201Preview = "2026-02-01-preview",
+  /** Preview version 2026-08-01-preview with experimental features for Playwright workspace management. */
+  V20260801Preview = "2026-08-01-preview",
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Playwright workspace resource asynchronously.
  *
  * @summary deletes a Playwright workspace resource asynchronously.
- * x-ms-original-file: 2026-02-01-preview/PlaywrightWorkspaces_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/PlaywrightWorkspaces_Delete.json
  */
 async function playwrightWorkspacesDelete() {
   const credential = new DefaultAzureCredential();
