@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a AiGatewayResource
  *
  * @summary get a AiGatewayResource
- * x-ms-original-file: 2026-09-01-preview/AiGatewayGet.json
+ * x-ms-original-file: 2026-11-01/AiGatewayGet.json
  */
 async function getAnAIGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();

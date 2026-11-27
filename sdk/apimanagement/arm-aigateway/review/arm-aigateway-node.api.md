@@ -19,8 +19,348 @@ import type { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export interface AiGatewayAgentHook {
+    authentication?: AiGatewayAgentHookAuthentication;
+    endpoint?: AiGatewayDestinationEndpoint;
+    headers?: AiGatewayNameValuePair[];
+    mode?: AiGatewayFailureMode;
+}
+
+// @public
+export interface AiGatewayAgentHookAuthentication {
+    headers?: AiGatewaySecretHeader[];
+    managedIdentity?: AiGatewayManagedIdentityAuthentication;
+}
+
+// @public
+export interface AiGatewayAgentHookAuthenticationUpdate {
+    headers?: AiGatewaySecretHeaderUpdate[];
+    managedIdentity?: AiGatewayManagedIdentityAuthentication;
+}
+
+// @public
+export interface AiGatewayAgentHooks {
+    postModelCall?: AiGatewayAgentHook;
+    postToolCall?: AiGatewayAgentHook;
+    preModelCall?: AiGatewayAgentHook;
+    preToolCall?: AiGatewayAgentHook;
+}
+
+// @public
+export interface AiGatewayAgentHooksUpdate {
+    postModelCall?: AiGatewayAgentHookUpdate;
+    postToolCall?: AiGatewayAgentHookUpdate;
+    preModelCall?: AiGatewayAgentHookUpdate;
+    preToolCall?: AiGatewayAgentHookUpdate;
+}
+
+// @public
+export interface AiGatewayAgentHookUpdate {
+    authentication?: AiGatewayAgentHookAuthenticationUpdate;
+    endpoint?: AiGatewayDestinationEndpointUpdate;
+    headers?: AiGatewayNameValuePairUpdate[];
+    mode?: AiGatewayFailureMode;
+}
+
+// @public
+export interface AiGatewayAliasFailureRule {
+    excludeFor?: string;
+    retryAttempts?: number;
+    when: string;
+}
+
+// @public
+export interface AiGatewayAliasFailureRuleUpdate {
+    excludeFor?: string;
+    retryAttempts?: number;
+    when?: string;
+}
+
+// @public
+export interface AiGatewayAliasProperties {
+    aliasName?: string;
+    autoModelSelection?: AiGatewayModelSelection;
+    backendModels: AiGatewayAliasTarget[];
+    description?: string;
+    failures?: AiGatewayAliasFailureRule[];
+    readonly gatewayEndpoints?: AiGatewayEndpoint[];
+    maxRetryAttempts?: number;
+    policies?: AiGatewayPolicy[];
+    readonly provisioningState?: AiGatewayProvisioningState;
+    selectionOrder?: AiGatewayAliasSelectionStage[];
+    sessionBackendPreference?: AiGatewaySessionBackendPreference;
+    readonly supportedEndpoints?: string[];
+}
+
+// @public
+export interface AiGatewayAliasResource extends ProxyResource {
+    properties?: AiGatewayAliasProperties;
+}
+
+// @public
+export interface AiGatewayAliasResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayAliasResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayAliasResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayAliasResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayAliasResourcesListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayAliasResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, aliasId: string, options?: AiGatewayAliasResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, aliasId: string, resource: AiGatewayAliasResource, options?: AiGatewayAliasResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayAliasResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, aliasId: string, ifMatch: string, options?: AiGatewayAliasResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, aliasId: string, options?: AiGatewayAliasResourcesGetOptionalParams) => Promise<AiGatewayAliasResource>;
+    listByWorkspace: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayAliasResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<AiGatewayAliasResource>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, aliasId: string, ifMatch: string, properties: AiGatewayAliasUpdateParameters, options?: AiGatewayAliasResourcesUpdateOptionalParams) => Promise<AiGatewayAliasResource>;
+}
+
+// @public
+export interface AiGatewayAliasResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export type AiGatewayAliasSelectionStage = string;
+
+// @public
+export interface AiGatewayAliasTarget {
+    priority?: number;
+    resourceId: string;
+    selectorModelName?: string;
+    weight?: number;
+    when?: string;
+}
+
+// @public
+export interface AiGatewayAliasTargetUpdate {
+    priority?: number;
+    resourceId?: string;
+    selectorModelName?: string;
+    weight?: number;
+    when?: string;
+}
+
+// @public
+export interface AiGatewayAliasUpdateParameters {
+    properties?: AiGatewayAliasUpdateProperties;
+}
+
+// @public
+export interface AiGatewayAliasUpdateProperties {
+    aliasName?: string;
+    autoModelSelection?: AiGatewayModelSelectionUpdate;
+    backendModels?: AiGatewayAliasTargetUpdate[];
+    description?: string;
+    failures?: AiGatewayAliasFailureRuleUpdate[];
+    maxRetryAttempts?: number;
+    policies?: AiGatewayPolicyUpdate[];
+    selectionOrder?: AiGatewayAliasSelectionStage[];
+    sessionBackendPreference?: AiGatewaySessionBackendPreferenceUpdate;
+}
+
+// @public
+export type AiGatewayAllowedRequestOverride = string;
+
+// @public
+export interface AiGatewayApiKeyProperties {
+    readonly createdDate?: Date;
+    displayName?: string;
+    expirationDate?: Date;
+    primaryKey?: string;
+    readonly provisioningState?: AiGatewayProvisioningState;
+    secondaryKey?: string;
+    state?: string;
+}
+
+// @public
+export interface AiGatewayApiKeyResource extends ProxyResource {
+    properties?: AiGatewayApiKeyProperties;
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesListByAiGatewayOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesListSecretsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, options?: AiGatewayApiKeyResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, resource: AiGatewayApiKeyResource, options?: AiGatewayApiKeyResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayApiKeyResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, ifMatch: string, options?: AiGatewayApiKeyResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, options?: AiGatewayApiKeyResourcesGetOptionalParams) => Promise<AiGatewayApiKeyResource>;
+    listByAiGateway: (resourceGroupName: string, aiGatewayName: string, options?: AiGatewayApiKeyResourcesListByAiGatewayOptionalParams) => PagedAsyncIterableIterator<AiGatewayApiKeyResource>;
+    listSecrets: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, options?: AiGatewayApiKeyResourcesListSecretsOptionalParams) => Promise<AiGatewayApiKeyValues>;
+    regeneratePrimaryKey: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, options?: AiGatewayApiKeyResourcesRegeneratePrimaryKeyOptionalParams) => Promise<void>;
+    regenerateSecondaryKey: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, options?: AiGatewayApiKeyResourcesRegenerateSecondaryKeyOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, aiGatewayName: string, apiKeyName: string, ifMatch: string, properties: AiGatewayApiKeyUpdateParameters, options?: AiGatewayApiKeyResourcesUpdateOptionalParams) => Promise<AiGatewayApiKeyResource>;
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesRegeneratePrimaryKeyOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesRegenerateSecondaryKeyOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayApiKeyUpdateParameters {
+    properties?: AiGatewayApiKeyUpdateProperties;
+}
+
+// @public
+export interface AiGatewayApiKeyUpdateProperties {
+    displayName?: string;
+    expirationDate?: Date;
+    primaryKey?: string;
+    secondaryKey?: string;
+    state?: string;
+}
+
+// @public
+export interface AiGatewayApiKeyValues {
+    primaryKey: string;
+    secondaryKey: string;
+}
+
+// @public
+export interface AiGatewayApplicationInsightsConfiguration {
+    connectionString?: string;
+    resourceId?: string;
+}
+
+// @public
 export interface AiGatewayBackend {
     subnet?: AiGatewaySubnet;
+}
+
+// @public
+export interface AiGatewayBackendUpdate {
+    subnet?: AiGatewaySubnetUpdate;
+}
+
+// @public
+export interface AiGatewayCheckNameAvailabilityRequest {
+    name: string;
+    type: "Microsoft.ApiManagement/aigateways";
+}
+
+// @public
+export interface AiGatewayCheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable: boolean;
+    reason?: AiGatewayNameAvailabilityReason;
+}
+
+// @public
+export type AiGatewayContentSafetySeverity = string;
+
+// @public
+export interface AiGatewayCostLimitOverride {
+    amount: number;
+    apiKeyResourceId?: string;
+    claims?: AiGatewayNameValuePair[];
+}
+
+// @public
+export interface AiGatewayCostLimitOverrideUpdate {
+    amount?: number;
+    apiKeyResourceId?: string;
+    claims?: AiGatewayNameValuePairUpdate[];
+}
+
+// @public
+export type AiGatewayCounterDimension = string;
+
+// @public
+export interface AiGatewayCustomProviderConfiguration {
+    endpoint: AiGatewayDestinationEndpoint;
+}
+
+// @public
+export interface AiGatewayCustomProviderConfigurationUpdate {
+    endpoint?: AiGatewayDestinationEndpointUpdate;
+}
+
+// @public
+export interface AiGatewayDestinationEndpoint {
+    url: string;
+}
+
+// @public
+export interface AiGatewayDestinationEndpointUpdate {
+    url?: string;
+}
+
+// @public
+export interface AiGatewayEndpoint {
+    readonly api?: string;
+    readonly baseUrl?: string;
+    readonly url: string;
+}
+
+// @public
+export type AiGatewayFailureMode = string;
+
+// @public
+export interface AiGatewayFallbackTarget {
+    modelId: string;
+}
+
+// @public
+export interface AiGatewayFallbackTargetUpdate {
+    modelId?: string;
+}
+
+// @public
+export interface AiGatewayFoundryProviderConfiguration {
+    endpoint?: AiGatewayDestinationEndpoint;
+    resourceIds: string[];
+}
+
+// @public
+export interface AiGatewayFoundryProviderConfigurationUpdate {
+    endpoint?: AiGatewayDestinationEndpointUpdate;
+    resourceIds?: string[];
 }
 
 // @public
@@ -29,14 +369,454 @@ export interface AiGatewayFrontend {
 }
 
 // @public
-export interface AiGatewayProperties {
-    backend?: AiGatewayBackend;
-    readonly frontend?: AiGatewayFrontend;
+export interface AiGatewayGitHubAppAuthentication {
+    appId?: string;
+    installationId?: string;
+    privateKey?: string;
+}
+
+// @public
+export type AiGatewayIpFilterAction = string;
+
+// @public
+export interface AiGatewayManagedIdentityAuthentication {
+    clientId?: string;
+    resource?: string;
+}
+
+// @public
+export interface AiGatewayMcpUrlConfiguration {
+    endpoint: AiGatewayDestinationEndpoint;
+    transport?: AiGatewayToolServerMcpTransport;
+}
+
+// @public
+export interface AiGatewayMcpUrlConfigurationUpdate {
+    endpoint?: AiGatewayDestinationEndpointUpdate;
+    transport?: AiGatewayToolServerMcpTransport;
+}
+
+// @public
+export interface AiGatewayModelDeployment {
+    modelName: string;
+    modelVersion?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface AiGatewayModelDeploymentUpdate {
+    modelName?: string;
+    modelVersion?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface AiGatewayModelEndpoint {
+    api: string;
+    path: string;
+}
+
+// @public
+export interface AiGatewayModelEndpointUpdate {
+    api?: string;
+    path?: string;
+}
+
+// @public
+export interface AiGatewayModelProperties {
+    deployment: AiGatewayModelDeployment;
+    description?: string;
+    displayName: string;
+    endpoints?: AiGatewayModelEndpoint[];
+    policies?: AiGatewayPolicy[];
+    readonly providerKind?: AiGatewayModelProviderKind;
+    readonly provisioningState?: AiGatewayProvisioningState;
+    supportedEndpoints?: string[];
+}
+
+// @public
+export interface AiGatewayModelProviderAuthentication {
+    githubApp?: AiGatewayGitHubAppAuthentication;
+    headers?: AiGatewaySecretHeader[];
+    managedIdentity?: AiGatewayManagedIdentityAuthentication;
+}
+
+// @public
+export interface AiGatewayModelProviderAuthenticationUpdate {
+    githubApp?: AiGatewayGitHubAppAuthentication;
+    headers?: AiGatewaySecretHeaderUpdate[];
+    managedIdentity?: AiGatewayManagedIdentityAuthentication;
+}
+
+// @public
+export type AiGatewayModelProviderKind = string;
+
+// @public
+export interface AiGatewayModelProviderProperties {
+    authentication?: AiGatewayModelProviderAuthentication;
+    custom?: AiGatewayCustomProviderConfiguration;
+    description?: string;
+    displayName: string;
+    foundry?: AiGatewayFoundryProviderConfiguration;
+    modelProviderType: AiGatewayModelProviderKind;
     readonly provisioningState?: AiGatewayProvisioningState;
 }
 
 // @public
+export interface AiGatewayModelProviderResource extends ProxyResource {
+    properties?: AiGatewayModelProviderProperties;
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesListSecretsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, options?: AiGatewayModelProviderResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, resource: AiGatewayModelProviderResource, options?: AiGatewayModelProviderResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayModelProviderResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, ifMatch: string, options?: AiGatewayModelProviderResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, options?: AiGatewayModelProviderResourcesGetOptionalParams) => Promise<AiGatewayModelProviderResource>;
+    listByWorkspace: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayModelProviderResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<AiGatewayModelProviderResource>;
+    listSecrets: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, options?: AiGatewayModelProviderResourcesListSecretsOptionalParams) => Promise<AiGatewayModelProviderSecrets>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, ifMatch: string, properties: AiGatewayModelProviderUpdateParameters, options?: AiGatewayModelProviderResourcesUpdateOptionalParams) => Promise<AiGatewayModelProviderResource>;
+}
+
+// @public
+export interface AiGatewayModelProviderResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelProviderSecretAuthentication {
+    githubApp?: AiGatewayModelProviderSecretGitHubAppAuthentication;
+    headers?: AiGatewaySecretHeaderValue[];
+    managedIdentity?: AiGatewayManagedIdentityAuthentication;
+}
+
+// @public
+export interface AiGatewayModelProviderSecretGitHubAppAuthentication {
+    appId?: string;
+    installationId?: string;
+    privateKey?: string;
+}
+
+// @public
+export interface AiGatewayModelProviderSecrets {
+    authentication?: AiGatewayModelProviderSecretAuthentication;
+}
+
+// @public
+export interface AiGatewayModelProviderUpdateParameters {
+    properties?: AiGatewayModelProviderUpdateProperties;
+}
+
+// @public
+export interface AiGatewayModelProviderUpdateProperties {
+    authentication?: AiGatewayModelProviderAuthenticationUpdate;
+    custom?: AiGatewayCustomProviderConfigurationUpdate;
+    description?: string;
+    displayName?: string;
+    foundry?: AiGatewayFoundryProviderConfigurationUpdate;
+}
+
+// @public
+export interface AiGatewayModelResource extends ProxyResource {
+    properties?: AiGatewayModelProperties;
+}
+
+// @public
+export interface AiGatewayModelResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayModelResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelResourcesListByModelProviderOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, modelName: string, options?: AiGatewayModelResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, modelName: string, resource: AiGatewayModelResource, options?: AiGatewayModelResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayModelResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, modelName: string, ifMatch: string, options?: AiGatewayModelResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, modelName: string, options?: AiGatewayModelResourcesGetOptionalParams) => Promise<AiGatewayModelResource>;
+    listByModelProvider: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, options?: AiGatewayModelResourcesListByModelProviderOptionalParams) => PagedAsyncIterableIterator<AiGatewayModelResource>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, modelProviderName: string, modelName: string, ifMatch: string, properties: AiGatewayModelUpdateParameters, options?: AiGatewayModelResourcesUpdateOptionalParams) => Promise<AiGatewayModelResource>;
+}
+
+// @public
+export interface AiGatewayModelResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayModelSelection {
+    allowedRequestOverrides?: AiGatewayAllowedRequestOverride[];
+    objective: AiGatewayModelSelectionObjective;
+}
+
+// @public
+export type AiGatewayModelSelectionObjective = string;
+
+// @public
+export interface AiGatewayModelSelectionUpdate {
+    allowedRequestOverrides?: AiGatewayAllowedRequestOverride[];
+    objective?: AiGatewayModelSelectionObjective;
+}
+
+// @public
+export interface AiGatewayModelUpdateParameters {
+    properties?: AiGatewayModelUpdateProperties;
+}
+
+// @public
+export interface AiGatewayModelUpdateProperties {
+    deployment?: AiGatewayModelDeploymentUpdate;
+    description?: string;
+    displayName?: string;
+    endpoints?: AiGatewayModelEndpointUpdate[];
+    policies?: AiGatewayPolicyUpdate[];
+    supportedEndpoints?: string[];
+}
+
+// @public
+export interface AiGatewayNameAvailabilityOperationsCheckNameAvailabilityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayNameAvailabilityOperationsOperations {
+    checkNameAvailability: (location: string, body: AiGatewayCheckNameAvailabilityRequest, options?: AiGatewayNameAvailabilityOperationsCheckNameAvailabilityOptionalParams) => Promise<AiGatewayCheckNameAvailabilityResponse>;
+}
+
+// @public
+export type AiGatewayNameAvailabilityReason = string;
+
+// @public
+export interface AiGatewayNameValuePair {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface AiGatewayNameValuePairUpdate {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface AiGatewayOpenApiConfiguration {
+    specSource: AiGatewayOpenApiSpecSource;
+}
+
+// @public
+export interface AiGatewayOpenApiConfigurationUpdate {
+    specSource?: AiGatewayOpenApiSpecSourceUpdate;
+}
+
+// @public
+export interface AiGatewayOpenApiSpecSource {
+    contentBase64?: Uint8Array;
+    type: AiGatewayToolServerOpenApiSourceType;
+    url?: string;
+}
+
+// @public
+export interface AiGatewayOpenApiSpecSourceUpdate {
+    contentBase64?: Uint8Array;
+    type?: AiGatewayToolServerOpenApiSourceType;
+    url?: string;
+}
+
+// @public
+export interface AiGatewayOpenTelemetryConfiguration {
+    logsEndpoint?: AiGatewayDestinationEndpoint;
+    metricsEndpoint?: AiGatewayDestinationEndpoint;
+    tracesEndpoint?: AiGatewayDestinationEndpoint;
+}
+
+// @public
+export interface AiGatewayOpenTelemetryConfigurationUpdate {
+    logsEndpoint?: AiGatewayDestinationEndpointUpdate;
+    metricsEndpoint?: AiGatewayDestinationEndpointUpdate;
+    tracesEndpoint?: AiGatewayDestinationEndpointUpdate;
+}
+
+// @public
+export interface AiGatewayPolicy {
+    action?: AiGatewayIpFilterAction;
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins?: string[];
+    amount?: number;
+    authentication?: AiGatewayAgentHookAuthentication;
+    cidrRanges?: string[];
+    count?: number;
+    counterKey?: AiGatewayCounterDimension[];
+    endpoint?: AiGatewayDestinationEndpoint;
+    exposeHeaders?: string[];
+    fallbackTargets?: AiGatewayFallbackTarget[];
+    hateSeverity?: AiGatewayContentSafetySeverity;
+    headers?: AiGatewayNameValuePair[];
+    hooks?: AiGatewayAgentHooks;
+    id?: string;
+    mode?: AiGatewayFailureMode;
+    overrides?: AiGatewayCostLimitOverride[];
+    period?: AiGatewayPolicyPeriod;
+    postInvocation?: boolean;
+    preflightResultMaxAge?: number;
+    preInvocation?: boolean;
+    scope?: AiGatewayPolicyScope;
+    selfHarmSeverity?: AiGatewayContentSafetySeverity;
+    sexualSeverity?: AiGatewayContentSafetySeverity;
+    terminateUnmatchedRequest?: boolean;
+    threshold?: number;
+    tripDurationSeconds?: number;
+    type: AiGatewayPolicyType;
+    violenceSeverity?: AiGatewayContentSafetySeverity;
+}
+
+// @public
+export type AiGatewayPolicyPeriod = string;
+
+// @public
+export type AiGatewayPolicyScope = string;
+
+// @public
+export type AiGatewayPolicyType = string;
+
+// @public
+export interface AiGatewayPolicyUpdate {
+    action?: AiGatewayIpFilterAction;
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins?: string[];
+    amount?: number;
+    authentication?: AiGatewayAgentHookAuthenticationUpdate;
+    cidrRanges?: string[];
+    count?: number;
+    counterKey?: AiGatewayCounterDimension[];
+    endpoint?: AiGatewayDestinationEndpointUpdate;
+    exposeHeaders?: string[];
+    fallbackTargets?: AiGatewayFallbackTargetUpdate[];
+    hateSeverity?: AiGatewayContentSafetySeverity;
+    headers?: AiGatewayNameValuePairUpdate[];
+    hooks?: AiGatewayAgentHooksUpdate;
+    id?: string;
+    mode?: AiGatewayFailureMode;
+    overrides?: AiGatewayCostLimitOverrideUpdate[];
+    period?: AiGatewayPolicyPeriod;
+    postInvocation?: boolean;
+    preflightResultMaxAge?: number;
+    preInvocation?: boolean;
+    scope?: AiGatewayPolicyScope;
+    selfHarmSeverity?: AiGatewayContentSafetySeverity;
+    sexualSeverity?: AiGatewayContentSafetySeverity;
+    terminateUnmatchedRequest?: boolean;
+    threshold?: number;
+    tripDurationSeconds?: number;
+    type?: AiGatewayPolicyType;
+    violenceSeverity?: AiGatewayContentSafetySeverity;
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnection extends Resource {
+    properties?: PrivateEndpointConnectionProperties;
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnectionsListByAiGatewayOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayPrivateEndpointConnectionsOperations {
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, privateEndpointConnectionName: string, resource: AiGatewayPrivateEndpointConnection, options?: AiGatewayPrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AiGatewayPrivateEndpointConnection>, AiGatewayPrivateEndpointConnection>;
+    delete: (resourceGroupName: string, aiGatewayName: string, privateEndpointConnectionName: string, options?: AiGatewayPrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, aiGatewayName: string, privateEndpointConnectionName: string, options?: AiGatewayPrivateEndpointConnectionsGetOptionalParams) => Promise<AiGatewayPrivateEndpointConnection>;
+    listByAiGateway: (resourceGroupName: string, aiGatewayName: string, options?: AiGatewayPrivateEndpointConnectionsListByAiGatewayOptionalParams) => PagedAsyncIterableIterator<AiGatewayPrivateEndpointConnection>;
+}
+
+// @public
+export interface AiGatewayPrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface AiGatewayPrivateLinkResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayPrivateLinkResourcesListByAiGatewayOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayPrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, aiGatewayName: string, privateLinkResourceName: string, options?: AiGatewayPrivateLinkResourcesGetOptionalParams) => Promise<AiGatewayPrivateLinkResource>;
+    listByAiGateway: (resourceGroupName: string, aiGatewayName: string, options?: AiGatewayPrivateLinkResourcesListByAiGatewayOptionalParams) => PagedAsyncIterableIterator<AiGatewayPrivateLinkResource>;
+}
+
+// @public
+export interface AiGatewayProperties {
+    backend?: AiGatewayBackend;
+    readonly frontend?: AiGatewayFrontend;
+    readonly privateEndpointConnections?: AiGatewayPrivateEndpointConnection[];
+    readonly provisioningState?: AiGatewayProvisioningState;
+    publicNetworkAccess?: AiGatewayPublicNetworkAccess;
+}
+
+// @public
 export type AiGatewayProvisioningState = string;
+
+// @public
+export type AiGatewayPublicNetworkAccess = string;
 
 // @public
 export interface AiGatewayResource extends TrackedResource {
@@ -84,6 +864,34 @@ export interface AiGatewayResourcesUpdateOptionalParams extends OperationOptions
 }
 
 // @public
+export interface AiGatewaySecretHeader {
+    name: string;
+    value?: string;
+}
+
+// @public
+export interface AiGatewaySecretHeaderUpdate {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface AiGatewaySecretHeaderValue {
+    name: string;
+    value?: string;
+}
+
+// @public
+export interface AiGatewaySessionBackendPreference {
+    key: string;
+}
+
+// @public
+export interface AiGatewaySessionBackendPreferenceUpdate {
+    key?: string;
+}
+
+// @public
 export interface AiGatewaySkuUpdate {
     capacity?: number;
     family?: string;
@@ -98,17 +906,478 @@ export interface AiGatewaySubnet {
 }
 
 // @public
+export interface AiGatewaySubnetUpdate {
+    id?: string;
+}
+
+// @public
+export interface AiGatewayTelemetryAttributeMapping {
+    signals?: AiGatewayTelemetrySignal[];
+    source: AiGatewayTelemetryAttributeSource;
+}
+
+// @public
+export interface AiGatewayTelemetryAttributeMappingUpdate {
+    signals?: AiGatewayTelemetrySignal[];
+    source?: AiGatewayTelemetryAttributeSourceUpdate;
+}
+
+// @public
+export interface AiGatewayTelemetryAttributeSource {
+    kind: "claims";
+    value: string;
+}
+
+// @public
+export interface AiGatewayTelemetryAttributeSourceUpdate {
+    kind?: "claims";
+    value?: string;
+}
+
+// @public
+export interface AiGatewayTelemetryAuthentication {
+    headers?: AiGatewaySecretHeader[];
+    managedIdentity?: AiGatewayTelemetryManagedIdentity;
+}
+
+// @public
+export interface AiGatewayTelemetryAuthenticationUpdate {
+    headers?: AiGatewaySecretHeaderUpdate[];
+    managedIdentity?: AiGatewayTelemetryManagedIdentity;
+}
+
+// @public
+export interface AiGatewayTelemetryConfiguration {
+    attributes?: AiGatewayTelemetryAttributeMapping[];
+}
+
+// @public
+export interface AiGatewayTelemetryConfigurationUpdate {
+    attributes?: AiGatewayTelemetryAttributeMappingUpdate[];
+}
+
+// @public
+export type AiGatewayTelemetryExporterKind = string;
+
+// @public
+export interface AiGatewayTelemetryExporterProperties {
+    applicationInsights?: AiGatewayApplicationInsightsConfiguration;
+    authentication?: AiGatewayTelemetryAuthentication;
+    openTelemetry?: AiGatewayOpenTelemetryConfiguration;
+    payloadCapture?: boolean;
+    readonly provisioningState?: AiGatewayProvisioningState;
+    telemetry?: AiGatewayTelemetryConfiguration;
+    telemetryExporterType: AiGatewayTelemetryExporterKind;
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResource extends ProxyResource {
+    properties?: AiGatewayTelemetryExporterProperties;
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, telemetryExporterName: string, options?: AiGatewayTelemetryExporterResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, telemetryExporterName: string, resource: AiGatewayTelemetryExporterResource, options?: AiGatewayTelemetryExporterResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayTelemetryExporterResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, telemetryExporterName: string, ifMatch: string, options?: AiGatewayTelemetryExporterResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, telemetryExporterName: string, options?: AiGatewayTelemetryExporterResourcesGetOptionalParams) => Promise<AiGatewayTelemetryExporterResource>;
+    listByWorkspace: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayTelemetryExporterResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<AiGatewayTelemetryExporterResource>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, telemetryExporterName: string, ifMatch: string, properties: AiGatewayTelemetryExporterUpdateParameters, options?: AiGatewayTelemetryExporterResourcesUpdateOptionalParams) => Promise<AiGatewayTelemetryExporterResource>;
+}
+
+// @public
+export interface AiGatewayTelemetryExporterResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayTelemetryExporterUpdateParameters {
+    properties?: AiGatewayTelemetryExporterUpdateProperties;
+}
+
+// @public
+export interface AiGatewayTelemetryExporterUpdateProperties {
+    applicationInsights?: AiGatewayApplicationInsightsConfiguration;
+    authentication?: AiGatewayTelemetryAuthenticationUpdate;
+    openTelemetry?: AiGatewayOpenTelemetryConfigurationUpdate;
+    payloadCapture?: boolean;
+    telemetry?: AiGatewayTelemetryConfigurationUpdate;
+}
+
+// @public
+export interface AiGatewayTelemetryManagedIdentity {
+    clientId?: string;
+    resource?: string;
+}
+
+// @public
+export type AiGatewayTelemetrySignal = string;
+
+// @public
+export type AiGatewayToolServerAccessState = string;
+
+// @public
+export interface AiGatewayToolServerAuthentication {
+    headers?: AiGatewaySecretHeader[];
+    managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+    oauth2?: AiGatewayToolServerOauth2Authentication;
+}
+
+// @public
+export interface AiGatewayToolServerAuthenticationUpdate {
+    headers?: AiGatewaySecretHeaderUpdate[];
+    managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+    oauth2?: AiGatewayToolServerOauth2Authentication;
+}
+
+// @public
+export interface AiGatewayToolServerEndpoint {
+    authentication?: AiGatewayToolServerAuthentication;
+    id?: string;
+    kind: AiGatewayToolServerEndpointSourceKind;
+    mcp?: AiGatewayMcpUrlConfiguration;
+    mode?: AiGatewayFailureMode;
+    namespace?: string;
+    openApi?: AiGatewayOpenApiConfiguration;
+    tools?: string[];
+}
+
+// @public
+export type AiGatewayToolServerEndpointSourceKind = string;
+
+// @public
+export interface AiGatewayToolServerEndpointUpdate {
+    authentication?: AiGatewayToolServerAuthenticationUpdate;
+    id?: string;
+    kind?: AiGatewayToolServerEndpointSourceKind;
+    mcp?: AiGatewayMcpUrlConfigurationUpdate;
+    mode?: AiGatewayFailureMode;
+    namespace?: string;
+    openApi?: AiGatewayOpenApiConfigurationUpdate;
+    tools?: string[];
+}
+
+// @public
+export interface AiGatewayToolServerFederation {
+    appCredential?: AiGatewayToolServerFederationAppCredential;
+    applicationId?: string;
+}
+
+// @public
+export interface AiGatewayToolServerFederationAppCredential {
+    clientId?: string;
+    type: AiGatewayToolServerFederationAppCredentialType;
+}
+
+// @public
+export type AiGatewayToolServerFederationAppCredentialType = string;
+
+// @public
+export interface AiGatewayToolServerLoginLinksRequest {
+    endpointId: string;
+}
+
+// @public
+export interface AiGatewayToolServerManagedIdentityAuthentication {
+    clientId?: string;
+    resource?: string;
+}
+
+// @public
+export type AiGatewayToolServerMcpTransport = string;
+
+// @public
+export interface AiGatewayToolServerOauth2Authentication {
+    authorizationEndpoint?: AiGatewayDestinationEndpoint;
+    authorizationParameters?: AiGatewayToolServerOauth2Parameter[];
+    clientId?: string;
+    clientSecret?: string;
+    grantType?: AiGatewayToolServerOauth2GrantType;
+    issuer?: string;
+    readonly loginLink?: string;
+    scopes?: string[];
+    readonly status?: string;
+    readonly statusUpdatedUtc?: Date;
+    tokenEndpoint?: AiGatewayDestinationEndpoint;
+    tokenExchange?: AiGatewayToolServerTokenExchange;
+    tokenParameters?: AiGatewayToolServerOauth2Parameter[];
+}
+
+// @public
+export type AiGatewayToolServerOauth2GrantType = string;
+
+// @public
+export interface AiGatewayToolServerOauth2LoginLinks {
+    expiresUtc: Date;
+    loginLink?: string;
+    redirectUri?: string;
+}
+
+// @public
+export interface AiGatewayToolServerOauth2Parameter {
+    name: string;
+    value: string;
+}
+
+// @public
+export type AiGatewayToolServerOpenApiSourceType = string;
+
+// @public
+export interface AiGatewayToolServerProperties {
+    accessState?: AiGatewayToolServerAccessState;
+    allowList?: string[];
+    blockList?: string[];
+    description?: string;
+    displayName?: string;
+    endpoints?: AiGatewayToolServerEndpoint[];
+    readonly gatewayEndpoints?: AiGatewayEndpoint[];
+    path?: string;
+    policies?: AiGatewayPolicy[];
+    readonly provisioningState?: AiGatewayProvisioningState;
+    subscriptionRequired?: boolean;
+    toolServerType: AiGatewayToolServerType;
+    versions?: string[];
+}
+
+// @public
+export interface AiGatewayToolServerResource extends ProxyResource {
+    properties?: AiGatewayToolServerProperties;
+}
+
+// @public
+export interface AiGatewayToolServerResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface AiGatewayToolServerResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesGetOauth2LoginLinksOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesListSecretsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, options?: AiGatewayToolServerResourcesCheckExistenceOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, resource: AiGatewayToolServerResource, options?: AiGatewayToolServerResourcesCreateOrUpdateOptionalParams) => Promise<AiGatewayToolServerResource>;
+    delete: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, ifMatch: string, options?: AiGatewayToolServerResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, options?: AiGatewayToolServerResourcesGetOptionalParams) => Promise<AiGatewayToolServerResource>;
+    getOauth2LoginLinks: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, body: AiGatewayToolServerLoginLinksRequest, options?: AiGatewayToolServerResourcesGetOauth2LoginLinksOptionalParams) => Promise<AiGatewayToolServerOauth2LoginLinks>;
+    listByWorkspace: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayToolServerResourcesListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<AiGatewayToolServerResource>;
+    listSecrets: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, options?: AiGatewayToolServerResourcesListSecretsOptionalParams) => Promise<AiGatewayToolServerSecrets>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, toolServerName: string, ifMatch: string, properties: AiGatewayToolServerUpdateParameters, options?: AiGatewayToolServerResourcesUpdateOptionalParams) => Promise<AiGatewayToolServerResource>;
+}
+
+// @public
+export interface AiGatewayToolServerResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayToolServerSecret {
+    authentication?: AiGatewayToolServerSecretAuthentication;
+    id: string;
+    openApi?: AiGatewayToolServerSecretOpenApiConfiguration;
+}
+
+// @public
+export interface AiGatewayToolServerSecretAuthentication {
+    headers?: AiGatewaySecretHeaderValue[];
+    managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+    oauth2?: AiGatewayToolServerSecretOauth2Authentication;
+}
+
+// @public
+export interface AiGatewayToolServerSecretOauth2Authentication {
+    authorizationEndpoint?: AiGatewayDestinationEndpoint;
+    authorizationParameters?: AiGatewayToolServerOauth2Parameter[];
+    clientId?: string;
+    clientSecret?: string;
+    grantType?: AiGatewayToolServerOauth2GrantType;
+    issuer?: string;
+    readonly loginLink?: string;
+    scopes?: string[];
+    readonly status?: string;
+    readonly statusUpdatedUtc?: Date;
+    tokenEndpoint?: AiGatewayDestinationEndpoint;
+    tokenExchange?: AiGatewayToolServerTokenExchange;
+    tokenParameters?: AiGatewayToolServerOauth2Parameter[];
+}
+
+// @public
+export interface AiGatewayToolServerSecretOpenApiConfiguration {
+    specSource: AiGatewayToolServerSecretOpenApiSpecSource;
+}
+
+// @public
+export interface AiGatewayToolServerSecretOpenApiSpecSource {
+    contentBase64?: Uint8Array;
+    type: AiGatewayToolServerOpenApiSourceType;
+    url?: string;
+}
+
+// @public
+export interface AiGatewayToolServerSecrets {
+    endpoints: AiGatewayToolServerSecret[];
+}
+
+// @public
+export interface AiGatewayToolServerTokenExchange {
+    federatedClientApplication?: AiGatewayToolServerFederation;
+    profile: AiGatewayToolServerTokenExchangeProfile;
+    scopes?: string[];
+}
+
+// @public
+export type AiGatewayToolServerTokenExchangeProfile = string;
+
+// @public
+export type AiGatewayToolServerType = string;
+
+// @public
+export interface AiGatewayToolServerUpdateParameters {
+    properties?: AiGatewayToolServerUpdateProperties;
+}
+
+// @public
+export interface AiGatewayToolServerUpdateProperties {
+    accessState?: AiGatewayToolServerAccessState;
+    allowList?: string[];
+    blockList?: string[];
+    description?: string;
+    displayName?: string;
+    endpoints?: AiGatewayToolServerEndpointUpdate[];
+    path?: string;
+    policies?: AiGatewayPolicyUpdate[];
+    subscriptionRequired?: boolean;
+    toolServerType?: AiGatewayToolServerType;
+    versions?: string[];
+}
+
+// @public
 export interface AiGatewayUpdateParameters {
     identity?: ManagedServiceIdentity;
+    properties?: AiGatewayUpdateProperties;
     sku?: AiGatewaySkuUpdate;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface AiGatewayUpdateProperties {
+    backend?: AiGatewayBackendUpdate;
+    publicNetworkAccess?: AiGatewayPublicNetworkAccess;
+}
+
+// @public
+export interface AiGatewayWorkspaceModelOperationsListByWorkspaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayWorkspaceModelOperationsOperations {
+    listByWorkspace: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayWorkspaceModelOperationsListByWorkspaceOptionalParams) => PagedAsyncIterableIterator<AiGatewayModelResource>;
+}
+
+// @public
+export interface AiGatewayWorkspaceProperties {
+    readonly description: string;
+    readonly displayName: string;
+    policies?: AiGatewayPolicy[];
+    readonly provisioningState?: AiGatewayProvisioningState;
+}
+
+// @public
+export interface AiGatewayWorkspaceResource extends ProxyResource {
+    properties?: AiGatewayWorkspaceProperties;
+}
+
+// @public
+export interface AiGatewayWorkspaceResourcesCheckExistenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayWorkspaceResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayWorkspaceResourcesListByAiGatewayOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayWorkspaceResourcesOperations {
+    checkExistence: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayWorkspaceResourcesCheckExistenceOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, options?: AiGatewayWorkspaceResourcesGetOptionalParams) => Promise<AiGatewayWorkspaceResource>;
+    listByAiGateway: (resourceGroupName: string, aiGatewayName: string, options?: AiGatewayWorkspaceResourcesListByAiGatewayOptionalParams) => PagedAsyncIterableIterator<AiGatewayWorkspaceResource>;
+    update: (resourceGroupName: string, aiGatewayName: string, workspaceName: string, ifMatch: string, properties: AiGatewayWorkspaceUpdateParameters, options?: AiGatewayWorkspaceResourcesUpdateOptionalParams) => Promise<AiGatewayWorkspaceResource>;
+}
+
+// @public
+export interface AiGatewayWorkspaceResourcesUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AiGatewayWorkspaceUpdateParameters {
+    properties?: AiGatewayWorkspaceUpdateProperties;
+}
+
+// @public
+export interface AiGatewayWorkspaceUpdateProperties {
+    policies?: AiGatewayPolicyUpdate[];
 }
 
 // @public (undocumented)
 export class ApiManagementClient {
     constructor(credential: TokenCredential, options?: ApiManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ApiManagementClientOptionalParams);
+    readonly aiGatewayAliasResources: AiGatewayAliasResourcesOperations;
+    readonly aiGatewayApiKeyResources: AiGatewayApiKeyResourcesOperations;
+    readonly aiGatewayModelProviderResources: AiGatewayModelProviderResourcesOperations;
+    readonly aiGatewayModelResources: AiGatewayModelResourcesOperations;
+    readonly aiGatewayNameAvailabilityOperations: AiGatewayNameAvailabilityOperationsOperations;
+    readonly aiGatewayPrivateEndpointConnections: AiGatewayPrivateEndpointConnectionsOperations;
+    readonly aiGatewayPrivateLinkResources: AiGatewayPrivateLinkResourcesOperations;
     readonly aiGatewayResources: AiGatewayResourcesOperations;
+    readonly aiGatewayTelemetryExporterResources: AiGatewayTelemetryExporterResourcesOperations;
+    readonly aiGatewayToolServerResources: AiGatewayToolServerResourcesOperations;
+    readonly aiGatewayWorkspaceModelOperations: AiGatewayWorkspaceModelOperationsOperations;
+    readonly aiGatewayWorkspaceResources: AiGatewayWorkspaceResourcesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
 }
@@ -165,10 +1434,164 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAiGatewayAliasSelectionStage {
+    AutoModelSelection = "autoModelSelection",
+    Priority = "priority",
+    SessionBackendPreference = "sessionBackendPreference"
+}
+
+// @public
+export enum KnownAiGatewayAllowedRequestOverride {
+    FilterModelsForToolCompatibility = "filterModelsForToolCompatibility",
+    Model = "model",
+    Objective = "objective"
+}
+
+// @public
+export enum KnownAiGatewayContentSafetySeverity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium",
+    None = "None"
+}
+
+// @public
+export enum KnownAiGatewayCounterDimension {
+    Identity = "identity",
+    IpAddress = "ipAddress"
+}
+
+// @public
+export enum KnownAiGatewayFailureMode {
+    FailClosed = "failClosed",
+    FailOpen = "failOpen"
+}
+
+// @public
+export enum KnownAiGatewayIpFilterAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownAiGatewayModelProviderKind {
+    Custom = "Custom",
+    Foundry = "Foundry",
+    GitHub = "GitHub"
+}
+
+// @public
+export enum KnownAiGatewayModelSelectionObjective {
+    Balanced = "Balanced",
+    Cost = "Cost",
+    Quality = "Quality"
+}
+
+// @public
+export enum KnownAiGatewayNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
+export enum KnownAiGatewayPolicyPeriod {
+    Day = "day",
+    Hour = "hour",
+    Minute = "minute",
+    Month = "month",
+    Week = "week",
+    Year = "year"
+}
+
+// @public
+export enum KnownAiGatewayPolicyScope {
+    Resource = "resource",
+    Workspace = "workspace"
+}
+
+// @public
+export enum KnownAiGatewayPolicyType {
+    AgentHooks = "agentHooks",
+    ContentSafety = "contentSafety",
+    Cors = "cors",
+    CostLimit = "costLimit",
+    Fallback = "fallback",
+    IpFilter = "ipFilter",
+    RequestRateLimit = "requestRateLimit",
+    TokenLimit = "tokenLimit",
+    ToolThreatProtection = "toolThreatProtection"
+}
+
+// @public
 export enum KnownAiGatewayProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownAiGatewayPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAiGatewayTelemetryExporterKind {
+    ApplicationInsights = "ApplicationInsights",
+    OpenTelemetry = "OpenTelemetry"
+}
+
+// @public
+export enum KnownAiGatewayTelemetrySignal {
+    Logs = "logs",
+    Metrics = "metrics",
+    Traces = "traces"
+}
+
+// @public
+export enum KnownAiGatewayToolServerAccessState {
+    Active = "active",
+    Blocked = "blocked"
+}
+
+// @public
+export enum KnownAiGatewayToolServerEndpointSourceKind {
+    Mcp = "mcp",
+    OpenApi = "openApi"
+}
+
+// @public
+export enum KnownAiGatewayToolServerFederationAppCredentialType {
+    UserAssignedManagedIdentity = "userAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownAiGatewayToolServerMcpTransport {
+    StreamableHttp = "streamableHttp"
+}
+
+// @public
+export enum KnownAiGatewayToolServerOauth2GrantType {
+    AuthorizationCode = "authorizationCode",
+    ClientCredentials = "clientCredentials"
+}
+
+// @public
+export enum KnownAiGatewayToolServerOpenApiSourceType {
+    Inline = "inline",
+    Url = "url"
+}
+
+// @public
+export enum KnownAiGatewayToolServerTokenExchangeProfile {
+    EntraOnBehalfOf = "entraOnBehalfOf"
+}
+
+// @public
+export enum KnownAiGatewayToolServerType {
+    Connector = "connector",
+    Mcp = "mcp",
+    OpenApi = "openApi"
 }
 
 // @public
@@ -195,8 +1618,23 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownVersions {
-    V20260901Preview = "2026-09-01-preview"
+    V20261101 = "2026-11-01"
 }
 
 // @public
@@ -249,6 +1687,43 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 // @public
 export interface PageSettings {
     continuationToken?: string;
+}
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public

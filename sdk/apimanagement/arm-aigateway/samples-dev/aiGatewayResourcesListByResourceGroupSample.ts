@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list AiGatewayResource resources by resource group
  *
  * @summary list AiGatewayResource resources by resource group
- * x-ms-original-file: 2026-09-01-preview/AiGatewayListByResourceGroup.json
+ * x-ms-original-file: 2026-11-01/AiGatewayListByResourceGroup.json
  */
 async function listAIGatewaysByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
