@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the two keys used to publish to a namespace topic.
  *
  * @summary list the two keys used to publish to a namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_ListSharedAccessKeys.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopics_ListSharedAccessKeys.json
  */
 async function namespaceTopicsListSharedAccessKeys() {
   const credential = new DefaultAzureCredential();

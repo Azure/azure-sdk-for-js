@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an existing permission binding.
  *
  * @summary delete an existing permission binding.
- * x-ms-original-file: 2025-07-15-preview/PermissionBindings_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/PermissionBindings_Delete.json
  */
 async function permissionBindingsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

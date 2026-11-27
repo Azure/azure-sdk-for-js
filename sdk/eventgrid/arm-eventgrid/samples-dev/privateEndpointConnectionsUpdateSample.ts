@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a specific private endpoint connection under a topic, domain or partner namespace.
  *
  * @summary update a specific private endpoint connection under a topic, domain or partner namespace.
- * x-ms-original-file: 2025-07-15-preview/PrivateEndpointConnections_Update.json
+ * x-ms-original-file: 2026-06-15-preview/PrivateEndpointConnections_Update.json
  */
 async function privateEndpointConnectionsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

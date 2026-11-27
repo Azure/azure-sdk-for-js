@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to synchronously creates or updates a new channel with the specified parameters.
  *
  * @summary synchronously creates or updates a new channel with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/Channels_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/Channels_CreateOrUpdate.json
  */
 async function channelsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

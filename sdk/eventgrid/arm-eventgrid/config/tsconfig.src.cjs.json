@@ -1,6 +1,42 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/topicTypes/index.ts",
+    "../src/api/namespaceTopicEventSubscriptions/index.ts",
+    "../src/api/domainTopicEventSubscriptions/index.ts",
+    "../src/api/verifiedPartners/index.ts",
+    "../src/api/topicSpaces/index.ts",
+    "../src/api/extensionTopics/index.ts",
+    "../src/api/topics/index.ts",
+    "../src/api/systemTopics/index.ts",
+    "../src/api/privateLinkResources/index.ts",
+    "../src/api/privateEndpointConnections/index.ts",
+    "../src/api/permissionBindings/index.ts",
+    "../src/api/networkSecurityPerimeterConfigurations/index.ts",
+    "../src/api/partnerTopics/index.ts",
+    "../src/api/partnerRegistrations/index.ts",
+    "../src/api/partnerDestinations/index.ts",
+    "../src/api/partnerConfigurations/index.ts",
+    "../src/api/namespaceTopics/index.ts",
+    "../src/api/partnerTopicEventSubscriptions/index.ts",
+    "../src/api/systemTopicEventSubscriptions/index.ts",
+    "../src/api/domainEventSubscriptions/index.ts",
+    "../src/api/topicEventSubscriptions/index.ts",
+    "../src/api/eventSubscriptions/index.ts",
+    "../src/api/domainTopics/index.ts",
+    "../src/api/domains/index.ts",
+    "../src/api/clients/index.ts",
+    "../src/api/clientGroups/index.ts",
+    "../src/api/partnerNamespaces/index.ts",
+    "../src/api/channels/index.ts",
+    "../src/api/namespaces/index.ts",
+    "../src/api/caCertificates/index.ts",
+    "../src/api/operations/index.ts",
+    "../src/models/index.ts"
   ]
 }

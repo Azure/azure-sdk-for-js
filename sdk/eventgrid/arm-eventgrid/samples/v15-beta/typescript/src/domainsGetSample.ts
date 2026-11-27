@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of a domain.
  *
  * @summary get properties of a domain.
- * x-ms-original-file: 2025-07-15-preview/Domains_Get.json
+ * x-ms-original-file: 2026-06-15-preview/Domains_Get.json
  */
 async function domainsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

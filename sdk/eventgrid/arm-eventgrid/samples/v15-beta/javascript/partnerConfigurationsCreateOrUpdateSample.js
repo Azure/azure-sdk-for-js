@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to synchronously creates or updates a partner configuration with the specified parameters.
  *
  * @summary synchronously creates or updates a partner configuration with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerConfigurations_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerConfigurations_CreateOrUpdate.json
  */
 async function partnerConfigurationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

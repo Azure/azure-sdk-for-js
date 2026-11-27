@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously creates a new system topic with the specified parameters.
  *
  * @summary asynchronously creates a new system topic with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/SystemTopics_CreateOrUpdate.json
+ * x-ms-original-file: 2026-06-15-preview/SystemTopics_CreateOrUpdate.json
  */
 async function systemTopicsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

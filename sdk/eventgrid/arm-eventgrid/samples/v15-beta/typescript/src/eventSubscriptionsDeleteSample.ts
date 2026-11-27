@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForCustomTopic.json
  */
 async function eventSubscriptionsDeleteForCustomTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function eventSubscriptionsDeleteForCustomTopic(): Promise<void> {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForResource.json
  */
 async function eventSubscriptionsDeleteForResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function eventSubscriptionsDeleteForResource(): Promise<void> {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForResourceGroup.json
  */
 async function eventSubscriptionsDeleteForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function eventSubscriptionsDeleteForResourceGroup(): Promise<void> {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForSubscription.json
  */
 async function eventSubscriptionsDeleteForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

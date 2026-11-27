@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all delivery attributes for an event subscription.
  *
  * @summary get all delivery attributes for an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetDeliveryAttributes.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetDeliveryAttributes.json
  */
 async function eventSubscriptionsGetDeliveryAttributes(): Promise<void> {
   const credential = new DefaultAzureCredential();

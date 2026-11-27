@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of an event subscription of a namespace topic.
  *
  * @summary get properties of an event subscription of a namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopicEventSubscriptions_Get.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopicEventSubscriptions_Get.json
  */
 async function namespaceTopicEventSubscriptionsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

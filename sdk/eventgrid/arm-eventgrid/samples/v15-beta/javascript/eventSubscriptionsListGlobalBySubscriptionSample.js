@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all aggregated global event subscriptions under a specific Azure subscription.
  *
  * @summary list all aggregated global event subscriptions under a specific Azure subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListGlobalBySubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListGlobalBySubscription.json
  */
 async function eventSubscriptionsListGlobalBySubscription() {
   const credential = new DefaultAzureCredential();

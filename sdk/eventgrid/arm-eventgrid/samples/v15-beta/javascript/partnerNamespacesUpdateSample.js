@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously updates a partner namespace with the specified parameters.
  *
  * @summary asynchronously updates a partner namespace with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerNamespaces_Update.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerNamespaces_Update.json
  */
 async function partnerNamespacesUpdate() {
   const credential = new DefaultAzureCredential();

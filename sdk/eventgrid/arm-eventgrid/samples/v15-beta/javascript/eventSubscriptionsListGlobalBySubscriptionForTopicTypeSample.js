@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all global event subscriptions under an Azure subscription for a topic type.
  *
  * @summary list all global event subscriptions under an Azure subscription for a topic type.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListGlobalBySubscriptionForTopicType.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListGlobalBySubscriptionForTopicType.json
  */
 async function eventSubscriptionsListGlobalBySubscriptionForTopicType() {
   const credential = new DefaultAzureCredential();

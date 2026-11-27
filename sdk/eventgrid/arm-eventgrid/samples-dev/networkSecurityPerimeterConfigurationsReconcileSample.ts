@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
  *
  * @summary reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
- * x-ms-original-file: 2025-07-15-preview/NetworkSecurityPerimeterConfigurations_Reconcile.json
+ * x-ms-original-file: 2026-06-15-preview/NetworkSecurityPerimeterConfigurations_Reconcile.json
  */
 async function networkSecurityPerimeterConfigurationsReconcile(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Result of the List Operations operation */
 export interface _OperationsListResult {
   /** The Operation items on this page */
@@ -244,8 +244,8 @@ export type CaCertificateProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -271,8 +271,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -395,8 +395,12 @@ export interface Namespace extends TrackedResource {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /** Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported. */
+  /** Minimum TLS version of the publisher allowed to publish to this namespace. The TlsVersion values are shared with topics and domains; for namespaces, only TLS version 1.2 is currently supported. */
   minimumTlsVersionAllowed?: TlsVersion;
+  /** IP address type for the namespace resource. */
+  ipAddressType?: IpAddressType;
+  /** Auto-scale configuration for the namespace resource */
+  autoScaleConfiguration?: AutoScaleConfiguration;
 }
 
 export function namespaceSerializer(item: Namespace): any {
@@ -411,6 +415,8 @@ export function namespaceSerializer(item: Namespace): any {
       "publicNetworkAccess",
       "inboundIpRules",
       "minimumTlsVersionAllowed",
+      "ipAddressType",
+      "autoScaleConfiguration",
     ])
       ? undefined
       : _namespacePropertiesSerializer(item),
@@ -464,8 +470,12 @@ export interface NamespaceProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
-  /** Minimum TLS version of the publisher allowed to publish to this namespace. Only TLS version 1.2 is supported. */
+  /** Minimum TLS version of the publisher allowed to publish to this namespace. The TlsVersion values are shared with topics and domains; for namespaces, only TLS version 1.2 is currently supported. */
   minimumTlsVersionAllowed?: TlsVersion;
+  /** IP address type for the namespace resource. */
+  ipAddressType?: IpAddressType;
+  /** Auto-scale configuration for the namespace resource */
+  autoScaleConfiguration?: AutoScaleConfiguration;
 }
 
 export function namespacePropertiesSerializer(item: NamespaceProperties): any {
@@ -485,6 +495,10 @@ export function namespacePropertiesSerializer(item: NamespaceProperties): any {
       ? item["inboundIpRules"]
       : inboundIpRuleArraySerializer(item["inboundIpRules"]),
     minimumTlsVersionAllowed: item["minimumTlsVersionAllowed"],
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : autoScaleConfigurationSerializer(item["autoScaleConfiguration"]),
   };
 }
 
@@ -506,6 +520,10 @@ export function namespacePropertiesDeserializer(item: any): NamespaceProperties 
       ? item["inboundIpRules"]
       : inboundIpRuleArrayDeserializer(item["inboundIpRules"]),
     minimumTlsVersionAllowed: item["minimumTlsVersionAllowed"],
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : autoScaleConfigurationDeserializer(item["autoScaleConfiguration"]),
   };
 }
 
@@ -1570,6 +1588,8 @@ export enum KnownTlsVersion {
   One1 = "1.1",
   /** 1.2 */
   One2 = "1.2",
+  /** TLS version 1.3. */
+  One3 = "1.3",
 }
 
 /**
@@ -1579,9 +1599,57 @@ export enum KnownTlsVersion {
  * ### Known values supported by the service
  * **1.0**: 1.0 \
  * **1.1**: 1.1 \
- * **1.2**: 1.2
+ * **1.2**: 1.2 \
+ * **1.3**: TLS version 1.3.
  */
 export type TlsVersion = string;
+
+/** IP address type for the namespace resource. */
+export enum KnownIpAddressType {
+  /** Only IPv4 addresses are supported. */
+  IPv4 = "IPv4",
+  /** Both IPv4 and IPv6 addresses are supported. */
+  DualStack = "DualStack",
+}
+
+/**
+ * IP address type for the namespace resource. \
+ * {@link KnownIpAddressType} can be used interchangeably with IpAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: Only IPv4 addresses are supported. \
+ * **DualStack**: Both IPv4 and IPv6 addresses are supported.
+ */
+export type IpAddressType = string;
+
+/** Auto-scale configuration for the namespace resource. */
+export interface AutoScaleConfiguration {
+  /**
+   * Indicates whether auto-scaling is enabled for the namespace. When enabled, the namespace will automatically scale
+   * between minimumThroughputUnits and maximumThroughputUnits based on usage patterns.
+   */
+  enableAutoScale?: boolean;
+  /** Minimum number of Throughput Units for auto-scaling. Valid only when EnableAutoScale is true. */
+  minimumThroughputUnits?: number;
+  /** Maximum number of Throughput Units for auto-scaling. Valid only when EnableAutoScale is true. */
+  maximumThroughputUnits?: number;
+}
+
+export function autoScaleConfigurationSerializer(item: AutoScaleConfiguration): any {
+  return {
+    enableAutoScale: item["enableAutoScale"],
+    minimumThroughputUnits: item["minimumThroughputUnits"],
+    maximumThroughputUnits: item["maximumThroughputUnits"],
+  };
+}
+
+export function autoScaleConfigurationDeserializer(item: any): AutoScaleConfiguration {
+  return {
+    enableAutoScale: item["enableAutoScale"],
+    minimumThroughputUnits: item["minimumThroughputUnits"],
+    maximumThroughputUnits: item["maximumThroughputUnits"],
+  };
+}
 
 /** Represents available Sku pricing tiers. */
 export interface NamespaceSku {
@@ -1768,6 +1836,10 @@ export interface NamespaceUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
+  /** IP address type for the namespace resource. */
+  ipAddressType?: IpAddressType;
+  /** Auto-scale configuration for the namespace resource */
+  autoScaleConfiguration?: UpdateAutoScaleConfiguration;
 }
 
 export function namespaceUpdateParametersSerializer(item: NamespaceUpdateParameters): any {
@@ -1780,6 +1852,8 @@ export function namespaceUpdateParametersSerializer(item: NamespaceUpdateParamet
       "topicsConfiguration",
       "publicNetworkAccess",
       "inboundIpRules",
+      "ipAddressType",
+      "autoScaleConfiguration",
     ])
       ? undefined
       : _namespaceUpdateParametersPropertiesSerializer(item),
@@ -1799,6 +1873,10 @@ export interface NamespaceUpdateParameterProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled. */
   inboundIpRules?: InboundIpRule[];
+  /** IP address type for the namespace resource. */
+  ipAddressType?: IpAddressType;
+  /** Auto-scale configuration for the namespace resource */
+  autoScaleConfiguration?: UpdateAutoScaleConfiguration;
 }
 
 export function namespaceUpdateParameterPropertiesSerializer(
@@ -1815,6 +1893,10 @@ export function namespaceUpdateParameterPropertiesSerializer(
     inboundIpRules: !item["inboundIpRules"]
       ? item["inboundIpRules"]
       : inboundIpRuleArraySerializer(item["inboundIpRules"]),
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : updateAutoScaleConfigurationSerializer(item["autoScaleConfiguration"]),
   };
 }
 
@@ -1878,6 +1960,27 @@ export function updateTopicsConfigurationInfoSerializer(item: UpdateTopicsConfig
     customDomains: !item["customDomains"]
       ? item["customDomains"]
       : customDomainConfigurationArraySerializer(item["customDomains"]),
+  };
+}
+
+/** UpdateAutoScaleConfiguration definition. */
+export interface UpdateAutoScaleConfiguration {
+  /**
+   * Indicates whether auto-scaling is enabled for the namespace. When enabled, the namespace will automatically scale
+   * between minimumThroughputUnits and maximumThroughputUnits based on usage patterns.
+   */
+  enableAutoScale?: boolean;
+  /** Minimum number of Throughput Units for auto-scaling. Valid only when EnableAutoScale is true. */
+  minimumThroughputUnits?: number;
+  /** Maximum number of Throughput Units for auto-scaling. Valid only when EnableAutoScale is true. */
+  maximumThroughputUnits?: number;
+}
+
+export function updateAutoScaleConfigurationSerializer(item: UpdateAutoScaleConfiguration): any {
+  return {
+    enableAutoScale: item["enableAutoScale"],
+    minimumThroughputUnits: item["minimumThroughputUnits"],
+    maximumThroughputUnits: item["maximumThroughputUnits"],
   };
 }
 
@@ -7021,10 +7124,10 @@ export function topicRegenerateKeyRequestSerializer(item: TopicRegenerateKeyRequ
 }
 
 /** Partner configuration information */
-export interface PartnerConfiguration extends Resource {
-  /** Resource tags. */
+export interface PartnerConfiguration extends ProxyResource {
+  /** Tags of the resource. */
   tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+  /** Location of the resource. */
   location?: string;
   /** The details of authorized partners. */
   partnerAuthorization?: PartnerAuthorization;
@@ -11114,8 +11217,10 @@ export type PrivateEndpointConnectionsParentType = string;
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-07-15-preview API version. */
-  V20250715Preview = "2025-07-15-preview",
+  /** The 2025-11-15-preview API version. */
+  V20251115Preview = "2025-11-15-preview",
+  /** The 2026-06-15-preview API version. */
+  V20260615Preview = "2026-06-15-preview",
 }
 
 export function _caCertificatePropertiesSerializer(item: CaCertificate): any {
@@ -11189,6 +11294,10 @@ export function _namespacePropertiesSerializer(item: Namespace): any {
       ? item["inboundIpRules"]
       : inboundIpRuleArraySerializer(item["inboundIpRules"]),
     minimumTlsVersionAllowed: item["minimumTlsVersionAllowed"],
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : autoScaleConfigurationSerializer(item["autoScaleConfiguration"]),
   };
 }
 
@@ -11210,6 +11319,10 @@ export function _namespacePropertiesDeserializer(item: any) {
       ? item["inboundIpRules"]
       : inboundIpRuleArrayDeserializer(item["inboundIpRules"]),
     minimumTlsVersionAllowed: item["minimumTlsVersionAllowed"],
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : autoScaleConfigurationDeserializer(item["autoScaleConfiguration"]),
   };
 }
 
@@ -11227,6 +11340,10 @@ export function _namespaceUpdateParametersPropertiesSerializer(
     inboundIpRules: !item["inboundIpRules"]
       ? item["inboundIpRules"]
       : inboundIpRuleArraySerializer(item["inboundIpRules"]),
+    ipAddressType: item["ipAddressType"],
+    autoScaleConfiguration: !item["autoScaleConfiguration"]
+      ? item["autoScaleConfiguration"]
+      : updateAutoScaleConfigurationSerializer(item["autoScaleConfiguration"]),
   };
 }
 

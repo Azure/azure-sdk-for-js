@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get all the topic spaces under a namespace.
  *
  * @summary get all the topic spaces under a namespace.
- * x-ms-original-file: 2025-07-15-preview/TopicSpaces_ListByNamespace.json
+ * x-ms-original-file: 2026-06-15-preview/TopicSpaces_ListByNamespace.json
  */
 async function topicSpacesListByNamespace(): Promise<void> {
   const credential = new DefaultAzureCredential();

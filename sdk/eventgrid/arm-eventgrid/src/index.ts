@@ -64,6 +64,8 @@ export type {
   InboundIpRule,
   IpActionType,
   TlsVersion,
+  IpAddressType,
+  AutoScaleConfiguration,
   NamespaceSku,
   SkuName,
   IdentityInfo,
@@ -74,6 +76,7 @@ export type {
   NamespaceUpdateParameterProperties,
   UpdateTopicSpacesConfigurationInfo,
   UpdateTopicsConfigurationInfo,
+  UpdateAutoScaleConfiguration,
   NamespaceSharedAccessKeys,
   NamespaceRegenerateKeyRequest,
   CustomDomainOwnershipValidationResult,
@@ -354,6 +357,7 @@ export {
   KnownPublicNetworkAccess,
   KnownIpActionType,
   KnownTlsVersion,
+  KnownIpAddressType,
   KnownSkuName,
   KnownIdentityType,
   KnownChannelType,
@@ -691,3 +695,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

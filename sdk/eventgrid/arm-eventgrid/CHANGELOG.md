@@ -1,14 +1,750 @@
 # Release History
 
-## 15.0.0-beta.3 (Unreleased)
+## 15.0.0-beta.3 (2026-10-09)
+Compared with version 14.2.0
 
 ### Features Added
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation group PartnerDestinationsOperations
+  - Added operation CaCertificatesOperations.createOrUpdate
+  - Added operation CaCertificatesOperations.delete
+  - Added operation ChannelsOperations.delete
+  - Added operation ClientGroupsOperations.createOrUpdate
+  - Added operation ClientGroupsOperations.delete
+  - Added operation ClientsOperations.createOrUpdate
+  - Added operation ClientsOperations.delete
+  - Added operation DomainEventSubscriptionsOperations.createOrUpdate
+  - Added operation DomainEventSubscriptionsOperations.delete
+  - Added operation DomainEventSubscriptionsOperations.update
+  - Added operation DomainsOperations.createOrUpdate
+  - Added operation DomainsOperations.delete
+  - Added operation DomainsOperations.update
+  - Added operation DomainTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation DomainTopicEventSubscriptionsOperations.delete
+  - Added operation DomainTopicEventSubscriptionsOperations.update
+  - Added operation DomainTopicsOperations.createOrUpdate
+  - Added operation DomainTopicsOperations.delete
+  - Added operation EventSubscriptionsOperations.createOrUpdate
+  - Added operation EventSubscriptionsOperations.delete
+  - Added operation EventSubscriptionsOperations.update
+  - Added operation NamespacesOperations.createOrUpdate
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.regenerateKey
+  - Added operation NamespacesOperations.update
+  - Added operation NamespacesOperations.validateCustomDomainOwnership
+  - Added operation NamespaceTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation NamespaceTopicEventSubscriptionsOperations.delete
+  - Added operation NamespaceTopicEventSubscriptionsOperations.update
+  - Added operation NamespaceTopicsOperations.createOrUpdate
+  - Added operation NamespaceTopicsOperations.delete
+  - Added operation NamespaceTopicsOperations.regenerateKey
+  - Added operation NamespaceTopicsOperations.update
+  - Added operation PartnerConfigurationsOperations.createOrUpdate
+  - Added operation PartnerConfigurationsOperations.delete
+  - Added operation PartnerConfigurationsOperations.update
+  - Added operation PartnerNamespacesOperations.createOrUpdate
+  - Added operation PartnerNamespacesOperations.delete
+  - Added operation PartnerNamespacesOperations.update
+  - Added operation PartnerRegistrationsOperations.createOrUpdate
+  - Added operation PartnerRegistrationsOperations.delete
+  - Added operation PartnerRegistrationsOperations.update
+  - Added operation PartnerTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation PartnerTopicEventSubscriptionsOperations.delete
+  - Added operation PartnerTopicEventSubscriptionsOperations.update
+  - Added operation PartnerTopicsOperations.delete
+  - Added operation PermissionBindingsOperations.createOrUpdate
+  - Added operation PermissionBindingsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Added operation SystemTopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation SystemTopicEventSubscriptionsOperations.delete
+  - Added operation SystemTopicEventSubscriptionsOperations.update
+  - Added operation SystemTopicsOperations.createOrUpdate
+  - Added operation SystemTopicsOperations.delete
+  - Added operation SystemTopicsOperations.update
+  - Added operation TopicEventSubscriptionsOperations.createOrUpdate
+  - Added operation TopicEventSubscriptionsOperations.delete
+  - Added operation TopicEventSubscriptionsOperations.update
+  - Added operation TopicsOperations.createOrUpdate
+  - Added operation TopicsOperations.delete
+  - Added operation TopicsOperations.regenerateKey
+  - Added operation TopicsOperations.update
+  - Added operation TopicSpacesOperations.createOrUpdate
+  - Added operation TopicSpacesOperations.delete
+  - Added Interface AutoScaleConfiguration
+  - Added Interface AzureADPartnerClientAuthentication
+  - Added Interface AzureADPartnerClientAuthenticationProperties
+  - Added Interface AzureFunctionEventSubscriptionDestinationProperties
+  - Added Interface CaCertificateProperties
+  - Added Interface ChannelProperties
+  - Added Interface ChannelUpdateParametersProperties
+  - Added Interface ClientAuthenticationSettings
+  - Added Interface ClientGroupProperties
+  - Added Interface ClientProperties
+  - Added Interface ConfidentialCompute
+  - Added Interface CustomerManagedKeyEncryption
+  - Added Interface CustomJwtAuthenticationManagedIdentity
+  - Added Interface CustomJwtAuthenticationSettings
+  - Added Interface CustomWebhookAuthenticationManagedIdentity
+  - Added Interface DomainProperties
+  - Added Interface DomainTopicProperties
+  - Added Interface DomainUpdateParameterProperties
+  - Added Interface DynamicDeliveryAttributeMappingProperties
+  - Added Interface EncodedIssuerCertificateInfo
+  - Added Interface EventHubEventSubscriptionDestinationProperties
+  - Added Interface EventSubscriptionProperties
+  - Added Interface EventTypeProperties
+  - Added Interface ExtendedLocation
+  - Added Interface ExtensionResource
+  - Added Interface ExtensionTopicProperties
+  - Added Interface FederatedIdentityCredentialInfo
+  - Added Interface HybridConnectionEventSubscriptionDestinationProperties
+  - Added Interface IssuerCertificateInfo
+  - Added Interface JsonInputSchemaMappingProperties
+  - Added Interface KeyEncryption
+  - Added Interface KeyEncryptionKeyIdentity
+  - Added Interface MonitorAlertEventSubscriptionDestinationProperties
+  - Added Interface NamespaceProperties
+  - Added Interface NamespaceTopicEventSubscriptionDestinationProperties
+  - Added Interface NamespaceTopicProperties
+  - Added Interface NamespaceTopicUpdateParameterProperties
+  - Added Interface NamespaceUpdateParameterProperties
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationIssues
+  - Added Interface NetworkSecurityPerimeterConfigurationIssuesProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterInfo
+  - Added Interface NetworkSecurityPerimeterProfileAccessRule
+  - Added Interface NetworkSecurityPerimeterProfileAccessRuleProperties
+  - Added Interface NetworkSecurityPerimeterSubscription
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PartnerClientAuthentication
+  - Added Interface PartnerConfigurationProperties
+  - Added Interface PartnerConfigurationUpdateParameterProperties
+  - Added Interface PartnerDestination
+  - Added Interface PartnerDestinationInfo
+  - Added Interface PartnerDestinationProperties
+  - Added Interface PartnerDestinationsActivateOptionalParams
+  - Added Interface PartnerDestinationsCreateOrUpdateOptionalParams
+  - Added Interface PartnerDestinationsDeleteOptionalParams
+  - Added Interface PartnerDestinationsGetOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionOptionalParams
+  - Added Interface PartnerDestinationsUpdateOptionalParams
+  - Added Interface PartnerDestinationUpdateParameters
+  - Added Interface PartnerEventSubscriptionDestination
+  - Added Interface PartnerEventSubscriptionDestinationProperties
+  - Added Interface PartnerNamespaceProperties
+  - Added Interface PartnerNamespaceUpdateParameterProperties
+  - Added Interface PartnerRegistrationProperties
+  - Added Interface PartnerTopicProperties
+  - Added Interface PartnerUpdateDestinationInfo
+  - Added Interface PermissionBindingProperties
+  - Added Interface PlatformCapabilities
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProxyResource
+  - Added Interface ResourceAssociation
+  - Added Interface ResourceMoveChangeHistory
+  - Added Interface ResourceSku
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceBusQueueEventSubscriptionDestinationProperties
+  - Added Interface ServiceBusTopicEventSubscriptionDestinationProperties
+  - Added Interface SimplePollerLike
+  - Added Interface StaticDeliveryAttributeMappingProperties
+  - Added Interface StorageBlobDeadLetterDestinationProperties
+  - Added Interface StorageQueueEventSubscriptionDestinationProperties
+  - Added Interface SubscriptionProperties
+  - Added Interface SubscriptionUpdateParametersProperties
+  - Added Interface SystemTopicProperties
+  - Added Interface TopicProperties
+  - Added Interface TopicSpaceProperties
+  - Added Interface TopicTypeProperties
+  - Added Interface TopicUpdateParameterProperties
+  - Added Interface UpdateAutoScaleConfiguration
+  - Added Interface VerifiedPartnerProperties
+  - Added Interface WebhookAuthenticationSettings
+  - Added Interface WebHookEventSubscriptionDestinationProperties
+  - Added Interface WebhookPartnerDestinationInfo
+  - Added Interface WebhookPartnerDestinationProperties
+  - Added Interface WebhookUpdatePartnerDestinationInfo
+  - Interface CaCertificatesGetOptionalParams has a new optional parameter abortSignal
+  - Interface CaCertificatesGetOptionalParams has a new optional parameter requestOptions
+  - Interface CaCertificatesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface CaCertificatesGetOptionalParams has a new optional parameter onResponse
+  - Interface CaCertificatesListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface CaCertificatesListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface CaCertificatesListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface CaCertificatesListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface Channel has a new optional parameter partnerDestinationInfo
+  - Interface ChannelsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ChannelsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ChannelsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ChannelsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ChannelsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface ChannelsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface ChannelsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface ChannelsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface ChannelsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ChannelsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ChannelsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ChannelsGetOptionalParams has a new optional parameter onResponse
+  - Interface ChannelsListByPartnerNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface ChannelsListByPartnerNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface ChannelsListByPartnerNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface ChannelsListByPartnerNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface ChannelsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface ChannelsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface ChannelsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface ChannelsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface ChannelUpdateParameters has a new optional parameter partnerDestinationInfo
+  - Interface ClientGroupsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ClientGroupsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ClientGroupsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ClientGroupsGetOptionalParams has a new optional parameter onResponse
+  - Interface ClientGroupsListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface ClientGroupsListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface ClientGroupsListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface ClientGroupsListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface ClientsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ClientsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ClientsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ClientsGetOptionalParams has a new optional parameter onResponse
+  - Interface ClientsListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface ClientsListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface ClientsListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface ClientsListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface Domain has a new optional parameter sku
+  - Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface DomainEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface DomainEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface DomainEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface DomainEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DomainEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DomainEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface DomainEventSubscriptionsListOptionalParams has a new optional parameter abortSignal
+  - Interface DomainEventSubscriptionsListOptionalParams has a new optional parameter requestOptions
+  - Interface DomainEventSubscriptionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainEventSubscriptionsListOptionalParams has a new optional parameter onResponse
+  - Interface DomainsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DomainsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DomainsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainsGetOptionalParams has a new optional parameter onResponse
+  - Interface DomainsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface DomainsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface DomainsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface DomainsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface DomainsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface DomainsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface DomainsListSharedAccessKeysOptionalParams has a new optional parameter abortSignal
+  - Interface DomainsListSharedAccessKeysOptionalParams has a new optional parameter requestOptions
+  - Interface DomainsListSharedAccessKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainsListSharedAccessKeysOptionalParams has a new optional parameter onResponse
+  - Interface DomainsRegenerateKeyOptionalParams has a new optional parameter abortSignal
+  - Interface DomainsRegenerateKeyOptionalParams has a new optional parameter requestOptions
+  - Interface DomainsRegenerateKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainsRegenerateKeyOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicEventSubscriptionsListOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicEventSubscriptionsListOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicEventSubscriptionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicEventSubscriptionsListOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface DomainTopicsListByDomainOptionalParams has a new optional parameter abortSignal
+  - Interface DomainTopicsListByDomainOptionalParams has a new optional parameter requestOptions
+  - Interface DomainTopicsListByDomainOptionalParams has a new optional parameter tracingOptions
+  - Interface DomainTopicsListByDomainOptionalParams has a new optional parameter onResponse
+  - Interface DomainUpdateParameters has a new optional parameter sku
+  - Interface EventSubscriptionIdentity has a new optional parameter federatedIdentityCredentialInfo
+  - Interface EventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListByDomainTopicOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListByDomainTopicOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListByDomainTopicOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListByDomainTopicOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListByResourceOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListByResourceOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListByResourceOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListByResourceOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListGlobalByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListGlobalByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListGlobalByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListGlobalByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListGlobalBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListGlobalBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListGlobalBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListGlobalBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListRegionalByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListRegionalByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListRegionalByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListRegionalByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams has a new optional parameter onResponse
+  - Interface EventSubscriptionsListRegionalBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface EventSubscriptionsListRegionalBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface EventSubscriptionsListRegionalBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface EventSubscriptionsListRegionalBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface EventType has a new optional parameter systemData
+  - Interface ExtensionTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface ExtensionTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface ExtensionTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface ExtensionTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface Namespace has a new optional parameter autoScaleConfiguration
+  - Interface Namespace has a new optional parameter ipAddressType
+  - Interface NamespacesGetOptionalParams has a new optional parameter abortSignal
+  - Interface NamespacesGetOptionalParams has a new optional parameter requestOptions
+  - Interface NamespacesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespacesGetOptionalParams has a new optional parameter onResponse
+  - Interface NamespacesListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface NamespacesListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface NamespacesListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespacesListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface NamespacesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface NamespacesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface NamespacesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespacesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface NamespacesListSharedAccessKeysOptionalParams has a new optional parameter abortSignal
+  - Interface NamespacesListSharedAccessKeysOptionalParams has a new optional parameter requestOptions
+  - Interface NamespacesListSharedAccessKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespacesListSharedAccessKeysOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicsListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicsListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicsListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicsListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceTopicsListSharedAccessKeysOptionalParams has a new optional parameter abortSignal
+  - Interface NamespaceTopicsListSharedAccessKeysOptionalParams has a new optional parameter requestOptions
+  - Interface NamespaceTopicsListSharedAccessKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface NamespaceTopicsListSharedAccessKeysOptionalParams has a new optional parameter onResponse
+  - Interface NamespaceUpdateParameters has a new optional parameter autoScaleConfiguration
+  - Interface NamespaceUpdateParameters has a new optional parameter ipAddressType
+  - Interface OperationsListOptionalParams has a new optional parameter abortSignal
+  - Interface OperationsListOptionalParams has a new optional parameter requestOptions
+  - Interface OperationsListOptionalParams has a new optional parameter tracingOptions
+  - Interface OperationsListOptionalParams has a new optional parameter onResponse
+  - Interface PartnerConfigurationsAuthorizePartnerOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerConfigurationsAuthorizePartnerOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerConfigurationsAuthorizePartnerOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerConfigurationsAuthorizePartnerOptionalParams has a new optional parameter onResponse
+  - Interface PartnerConfigurationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerConfigurationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerConfigurationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerConfigurationsGetOptionalParams has a new optional parameter onResponse
+  - Interface PartnerConfigurationsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerConfigurationsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerConfigurationsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerConfigurationsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface PartnerConfigurationsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerConfigurationsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerConfigurationsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerConfigurationsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface PartnerConfigurationsUnauthorizePartnerOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerConfigurationsUnauthorizePartnerOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerConfigurationsUnauthorizePartnerOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerConfigurationsUnauthorizePartnerOptionalParams has a new optional parameter onResponse
+  - Interface PartnerNamespacesGetOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerNamespacesGetOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerNamespacesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerNamespacesGetOptionalParams has a new optional parameter onResponse
+  - Interface PartnerNamespacesListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerNamespacesListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerNamespacesListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerNamespacesListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface PartnerNamespacesListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerNamespacesListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerNamespacesListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerNamespacesListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface PartnerNamespacesListSharedAccessKeysOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerNamespacesListSharedAccessKeysOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerNamespacesListSharedAccessKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerNamespacesListSharedAccessKeysOptionalParams has a new optional parameter onResponse
+  - Interface PartnerNamespacesRegenerateKeyOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerNamespacesRegenerateKeyOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerNamespacesRegenerateKeyOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerNamespacesRegenerateKeyOptionalParams has a new optional parameter onResponse
+  - Interface PartnerRegistrationsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerRegistrationsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerRegistrationsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerRegistrationsGetOptionalParams has a new optional parameter onResponse
+  - Interface PartnerRegistrationsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerRegistrationsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerRegistrationsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerRegistrationsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface PartnerRegistrationsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerRegistrationsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerRegistrationsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerRegistrationsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsActivateOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsActivateOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsActivateOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsActivateOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsCreateOrUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsCreateOrUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsCreateOrUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsCreateOrUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsDeactivateOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsDeactivateOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsDeactivateOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsDeactivateOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface PartnerTopicsUpdateOptionalParams has a new optional parameter abortSignal
+  - Interface PartnerTopicsUpdateOptionalParams has a new optional parameter requestOptions
+  - Interface PartnerTopicsUpdateOptionalParams has a new optional parameter tracingOptions
+  - Interface PartnerTopicsUpdateOptionalParams has a new optional parameter onResponse
+  - Interface PermissionBindingsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PermissionBindingsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PermissionBindingsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PermissionBindingsGetOptionalParams has a new optional parameter onResponse
+  - Interface PermissionBindingsListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface PermissionBindingsListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface PermissionBindingsListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface PermissionBindingsListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateEndpointConnectionsListByResourceOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateEndpointConnectionsListByResourceOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateEndpointConnectionsListByResourceOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateEndpointConnectionsListByResourceOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesGetOptionalParams has a new optional parameter onResponse
+  - Interface PrivateLinkResourcesListByResourceOptionalParams has a new optional parameter abortSignal
+  - Interface PrivateLinkResourcesListByResourceOptionalParams has a new optional parameter requestOptions
+  - Interface PrivateLinkResourcesListByResourceOptionalParams has a new optional parameter tracingOptions
+  - Interface PrivateLinkResourcesListByResourceOptionalParams has a new optional parameter onResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface Subscription has a new optional parameter tags
+  - Interface SubscriptionUpdateParameters has a new optional parameter tags
+  - Interface SystemTopic has a new optional parameter encryption
+  - Interface SystemTopic has a new optional parameter platformCapabilities
+  - Interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface SystemTopicsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface SystemTopicsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface SystemTopicsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface SystemTopicsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface Topic has a new optional parameter encryption
+  - Interface Topic has a new optional parameter extendedLocation
+  - Interface Topic has a new optional parameter kind
+  - Interface Topic has a new optional parameter platformCapabilities
+  - Interface Topic has a new optional parameter sku
+  - Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter abortSignal
+  - Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter requestOptions
+  - Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams has a new optional parameter onResponse
+  - Interface TopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter abortSignal
+  - Interface TopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter requestOptions
+  - Interface TopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicEventSubscriptionsGetFullUrlOptionalParams has a new optional parameter onResponse
+  - Interface TopicEventSubscriptionsGetOptionalParams has a new optional parameter abortSignal
+  - Interface TopicEventSubscriptionsGetOptionalParams has a new optional parameter requestOptions
+  - Interface TopicEventSubscriptionsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicEventSubscriptionsGetOptionalParams has a new optional parameter onResponse
+  - Interface TopicEventSubscriptionsListOptionalParams has a new optional parameter abortSignal
+  - Interface TopicEventSubscriptionsListOptionalParams has a new optional parameter requestOptions
+  - Interface TopicEventSubscriptionsListOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicEventSubscriptionsListOptionalParams has a new optional parameter onResponse
+  - Interface TopicsGetOptionalParams has a new optional parameter abortSignal
+  - Interface TopicsGetOptionalParams has a new optional parameter requestOptions
+  - Interface TopicsGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicsGetOptionalParams has a new optional parameter onResponse
+  - Interface TopicsListByResourceGroupOptionalParams has a new optional parameter abortSignal
+  - Interface TopicsListByResourceGroupOptionalParams has a new optional parameter requestOptions
+  - Interface TopicsListByResourceGroupOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicsListByResourceGroupOptionalParams has a new optional parameter onResponse
+  - Interface TopicsListBySubscriptionOptionalParams has a new optional parameter abortSignal
+  - Interface TopicsListBySubscriptionOptionalParams has a new optional parameter requestOptions
+  - Interface TopicsListBySubscriptionOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicsListBySubscriptionOptionalParams has a new optional parameter onResponse
+  - Interface TopicsListEventTypesOptionalParams has a new optional parameter abortSignal
+  - Interface TopicsListEventTypesOptionalParams has a new optional parameter requestOptions
+  - Interface TopicsListEventTypesOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicsListEventTypesOptionalParams has a new optional parameter onResponse
+  - Interface TopicsListSharedAccessKeysOptionalParams has a new optional parameter abortSignal
+  - Interface TopicsListSharedAccessKeysOptionalParams has a new optional parameter requestOptions
+  - Interface TopicsListSharedAccessKeysOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicsListSharedAccessKeysOptionalParams has a new optional parameter onResponse
+  - Interface TopicSpacesConfiguration has a new optional parameter clientAuthentication
+  - Interface TopicSpacesGetOptionalParams has a new optional parameter abortSignal
+  - Interface TopicSpacesGetOptionalParams has a new optional parameter requestOptions
+  - Interface TopicSpacesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicSpacesGetOptionalParams has a new optional parameter onResponse
+  - Interface TopicSpacesListByNamespaceOptionalParams has a new optional parameter abortSignal
+  - Interface TopicSpacesListByNamespaceOptionalParams has a new optional parameter requestOptions
+  - Interface TopicSpacesListByNamespaceOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicSpacesListByNamespaceOptionalParams has a new optional parameter onResponse
+  - Interface TopicTypeInfo has a new optional parameter systemData
+  - Interface TopicTypesGetOptionalParams has a new optional parameter abortSignal
+  - Interface TopicTypesGetOptionalParams has a new optional parameter requestOptions
+  - Interface TopicTypesGetOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicTypesGetOptionalParams has a new optional parameter onResponse
+  - Interface TopicTypesListEventTypesOptionalParams has a new optional parameter abortSignal
+  - Interface TopicTypesListEventTypesOptionalParams has a new optional parameter requestOptions
+  - Interface TopicTypesListEventTypesOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicTypesListEventTypesOptionalParams has a new optional parameter onResponse
+  - Interface TopicTypesListOptionalParams has a new optional parameter abortSignal
+  - Interface TopicTypesListOptionalParams has a new optional parameter requestOptions
+  - Interface TopicTypesListOptionalParams has a new optional parameter tracingOptions
+  - Interface TopicTypesListOptionalParams has a new optional parameter onResponse
+  - Interface TopicUpdateParameters has a new optional parameter sku
+  - Interface TrackedResource has a new optional parameter systemData
+  - Interface UpdateTopicSpacesConfigurationInfo has a new optional parameter clientAuthentication
+  - Interface VerifiedPartner has a new optional parameter partnerDestinationDetails
+  - Interface VerifiedPartnersGetOptionalParams has a new optional parameter abortSignal
+  - Interface VerifiedPartnersGetOptionalParams has a new optional parameter requestOptions
+  - Interface VerifiedPartnersGetOptionalParams has a new optional parameter tracingOptions
+  - Interface VerifiedPartnersGetOptionalParams has a new optional parameter onResponse
+  - Interface VerifiedPartnersListOptionalParams has a new optional parameter abortSignal
+  - Interface VerifiedPartnersListOptionalParams has a new optional parameter requestOptions
+  - Interface VerifiedPartnersListOptionalParams has a new optional parameter tracingOptions
+  - Interface VerifiedPartnersListOptionalParams has a new optional parameter onResponse
+  - Added Type Alias AlternativeAuthenticationNameSource
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConfidentialComputeMode
+  - Added Type Alias CustomJwtAuthenticationManagedIdentityType
+  - Added Type Alias CustomWebhookAuthenticationManagedIdentityType
+  - Added Type Alias IpAddressType
+  - Added Type Alias KeyEncryptionIdentityType
+  - Added Type Alias KeyEncryptionKeyStatus
+  - Added Type Alias NetworkSecurityPerimeterAssociationAccessMode
+  - Added Type Alias NetworkSecurityPerimeterConfigProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueType
+  - Added Type Alias NetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Type Alias NetworkSecurityPerimeterResourceType
+  - Added Type Alias PartnerClientAuthenticationType
+  - Added Type Alias PartnerClientAuthenticationUnion
+  - Added Type Alias PartnerDestinationActivationState
+  - Added Type Alias PartnerDestinationInfoUnion
+  - Added Type Alias PartnerDestinationProvisioningState
+  - Added Type Alias PartnerEndpointType
+  - Added Type Alias PartnerUpdateDestinationInfoUnion
+  - Added Type Alias ResourceKind
+  - Added Type Alias Sku
+  - Added Enum AzureClouds
+  - Added Enum KnownAlternativeAuthenticationNameSource
+  - Added Enum KnownConfidentialComputeMode
+  - Added Enum KnownCustomJwtAuthenticationManagedIdentityType
+  - Added Enum KnownCustomWebhookAuthenticationManagedIdentityType
+  - Added Enum KnownIpAddressType
+  - Added Enum KnownKeyEncryptionIdentityType
+  - Added Enum KnownKeyEncryptionKeyStatus
+  - Added Enum KnownNetworkSecurityPerimeterAssociationAccessMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueType
+  - Added Enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Enum KnownNetworkSecurityPerimeterResourceType
+  - Added Enum KnownPartnerClientAuthenticationType
+  - Added Enum KnownPartnerDestinationActivationState
+  - Added Enum KnownPartnerDestinationProvisioningState
+  - Added Enum KnownPartnerEndpointType
+  - Added Enum KnownResourceKind
+  - Added Enum KnownSku
+  - Added Enum KnownVersions
+  - Enum KnownChannelProvisioningState has a new value IdleDueToMirroredPartnerDestinationDeletion
+  - Enum KnownChannelType has a new value PartnerDestination
+  - Enum KnownEndpointType has a new value PartnerDestination
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+  - Enum KnownTlsVersion has a new value One3
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation DomainEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation DomainEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation DomainEventSubscriptions.beginUpdate has a new signature
+  - Operation DomainEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation DomainEventSubscriptions.get has a new signature
+  - Operation DomainEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Domains.beginCreateOrUpdate has a new signature
+  - Operation Domains.beginCreateOrUpdateAndWait has a new signature
+  - Operation Domains.beginUpdateAndWait has a new signature
+  - Operation Domains.get has a new signature
+  - Operation DomainTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation DomainTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation DomainTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation DomainTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation DomainTopicEventSubscriptions.get has a new signature
+  - Operation DomainTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation EventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation EventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation EventSubscriptions.beginUpdate has a new signature
+  - Operation EventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation EventSubscriptions.get has a new signature
+  - Operation EventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Namespaces.beginCreateOrUpdate has a new signature
+  - Operation Namespaces.beginCreateOrUpdateAndWait has a new signature
+  - Operation Namespaces.beginUpdate has a new signature
+  - Operation Namespaces.beginUpdateAndWait has a new signature
+  - Operation Namespaces.get has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation NamespaceTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation NamespaceTopicEventSubscriptions.get has a new signature
+  - Operation NamespaceTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation PartnerNamespaces.beginUpdateAndWait has a new signature
+  - Operation PartnerRegistrations.beginUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation PartnerTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation PartnerTopicEventSubscriptions.get has a new signature
+  - Operation PartnerTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation PartnerTopics.update has a new signature
+  - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation SystemTopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.beginUpdate has a new signature
+  - Operation SystemTopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation SystemTopicEventSubscriptions.get has a new signature
+  - Operation SystemTopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation TopicEventSubscriptions.beginCreateOrUpdate has a new signature
+  - Operation TopicEventSubscriptions.beginCreateOrUpdateAndWait has a new signature
+  - Operation TopicEventSubscriptions.beginUpdate has a new signature
+  - Operation TopicEventSubscriptions.beginUpdateAndWait has a new signature
+  - Operation TopicEventSubscriptions.get has a new signature
+  - Operation TopicEventSubscriptions.getDeliveryAttributes has a new signature
+  - Operation Topics.beginCreateOrUpdate has a new signature
+  - Operation Topics.beginCreateOrUpdateAndWait has a new signature
+  - Operation Topics.beginDeleteAndWait has a new signature
+  - Operation Topics.beginUpdateAndWait has a new signature
+  - Operation Topics.get has a new signature
+  - Type of parameter operatorType of interface AdvancedFilter is changed from "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull" to AdvancedFilterOperatorType
+  - Type of parameter endpointType of interface DeadLetterDestination is changed from "StorageBlob" to DeadLetterEndPointType
+  - Type of parameter type of interface DeliveryAttributeMapping is changed from "Static" | "Dynamic" to DeliveryAttributeMappingType
+  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "MonitorAlert" | "NamespaceTopic" to EndpointType
+  - Type of parameter operatorType of interface Filter is changed from "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull" to FilterOperatorType
+  - Type of parameter inputSchemaMappingType of interface InputSchemaMapping is changed from "Json" to InputSchemaMappingType
+  - Type of parameter valueType of interface StaticRoutingEnrichment is changed from "String" to StaticRoutingEnrichmentType
+  - Type alias "AdvancedFilterUnion" has been changed
+  - Type alias "DeadLetterDestinationUnion" has been changed
+  - Type alias "DeliveryAttributeMappingUnion" has been changed
+  - Type alias "EventSubscriptionDestinationUnion" has been changed
+  - Type alias "FilterUnion" has been changed
+  - Type alias "InputSchemaMappingUnion" has been changed
+  - Type alias "StaticRoutingEnrichmentUnion" has been changed
 
 ## 15.0.0-beta.2 (2026-03-11)
 Compared with version 14.2.0

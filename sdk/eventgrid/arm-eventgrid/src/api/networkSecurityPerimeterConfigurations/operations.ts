@@ -35,7 +35,7 @@ export function _reconcileSend(
   options: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}/reconcile{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}/reconcile{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -43,7 +43,7 @@ export function _reconcileSend(
       resourceName: resourceName,
       perimeterGuid: perimeterGuid,
       associationName: associationName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,10 +58,12 @@ export function _reconcileSend(
 export async function _reconcileDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkSecurityPerimeterConfiguration> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -82,7 +84,7 @@ export function reconcile(
   OperationState<NetworkSecurityPerimeterConfiguration>,
   NetworkSecurityPerimeterConfiguration
 > {
-  return getLongRunningPoller(context, _reconcileDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _reconcileDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -96,7 +98,7 @@ export function reconcile(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
@@ -111,13 +113,13 @@ export function _listSend(
   options: NetworkSecurityPerimeterConfigurationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceType: resourceType,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -135,7 +137,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -159,7 +163,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -174,7 +178,7 @@ export function _getSend(
   options: NetworkSecurityPerimeterConfigurationsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -182,7 +186,7 @@ export function _getSend(
       resourceName: resourceName,
       perimeterGuid: perimeterGuid,
       associationName: associationName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +204,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

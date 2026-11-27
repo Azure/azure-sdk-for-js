@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list event subscriptions that belong to a specific partner topic.
  *
  * @summary list event subscriptions that belong to a specific partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopicEventSubscriptions_ListByPartnerTopic.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopicEventSubscriptions_ListByPartnerTopic.json
  */
 async function partnerTopicEventSubscriptionsListByPartnerTopic() {
   const credential = new DefaultAzureCredential();

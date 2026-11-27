@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a list of all verified partners.
  *
  * @summary get a list of all verified partners.
- * x-ms-original-file: 2025-07-15-preview/VerifiedPartners_List.json
+ * x-ms-original-file: 2026-06-15-preview/VerifiedPartners_List.json
  */
 async function verifiedPartnersList() {
   const credential = new DefaultAzureCredential();

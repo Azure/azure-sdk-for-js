@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerate a shared access key for a namespace topic.
  *
  * @summary regenerate a shared access key for a namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_RegenerateKey.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopics_RegenerateKey.json
  */
 async function namespaceTopicsRegenerateKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

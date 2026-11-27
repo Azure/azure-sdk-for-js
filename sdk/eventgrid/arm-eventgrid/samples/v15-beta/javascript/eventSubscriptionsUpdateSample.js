@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic.json
  */
 async function eventSubscriptionsUpdateForCustomTopic() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function eventSubscriptionsUpdateForCustomTopic() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() {
   const credential = new DefaultAzureCredential();
@@ -67,7 +67,7 @@ async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() 
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
   const credential = new DefaultAzureCredential();
@@ -96,7 +96,7 @@ async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination() {
   const credential = new DefaultAzureCredential();
@@ -125,7 +125,7 @@ async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination() {
   const credential = new DefaultAzureCredential();
@@ -159,7 +159,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination() {
   const credential = new DefaultAzureCredential();
@@ -188,7 +188,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
   const credential = new DefaultAzureCredential();
@@ -224,7 +224,7 @@ async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
   const credential = new DefaultAzureCredential();
@@ -249,7 +249,7 @@ async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForResource.json
  */
 async function eventSubscriptionsUpdateForResource() {
   const credential = new DefaultAzureCredential();
@@ -274,7 +274,7 @@ async function eventSubscriptionsUpdateForResource() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForResourceGroup.json
  */
 async function eventSubscriptionsUpdateForResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -303,7 +303,7 @@ async function eventSubscriptionsUpdateForResourceGroup() {
  * This sample demonstrates how to asynchronously updates an existing event subscription.
  *
  * @summary asynchronously updates an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_UpdateForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_UpdateForSubscription.json
  */
 async function eventSubscriptionsUpdateForSubscription() {
   const credential = new DefaultAzureCredential();

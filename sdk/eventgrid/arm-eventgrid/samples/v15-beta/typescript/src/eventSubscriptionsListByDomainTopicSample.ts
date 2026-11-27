@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all event subscriptions that have been created for a specific domain topic.
  *
  * @summary list all event subscriptions that have been created for a specific domain topic.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListByDomainTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListByDomainTopic.json
  */
 async function eventSubscriptionsListByDomainTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the full endpoint URL for an event subscription of a partner topic.
  *
  * @summary get the full endpoint URL for an event subscription of a partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopicEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopicEventSubscriptions_GetFullUrl.json
  */
 async function partnerTopicEventSubscriptionsGetFullUrl(): Promise<void> {
   const credential = new DefaultAzureCredential();

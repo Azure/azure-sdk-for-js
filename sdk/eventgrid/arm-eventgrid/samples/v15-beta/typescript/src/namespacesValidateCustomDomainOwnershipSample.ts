@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to performs ownership validation via checking TXT records for all custom domains in a namespace.
  *
  * @summary performs ownership validation via checking TXT records for all custom domains in a namespace.
- * x-ms-original-file: 2025-07-15-preview/Namespaces_ValidateCustomDomainOwnership.json
+ * x-ms-original-file: 2026-06-15-preview/Namespaces_ValidateCustomDomainOwnership.json
  */
 async function namespacesValidateCustomDomainOwnership(): Promise<void> {
   const credential = new DefaultAzureCredential();

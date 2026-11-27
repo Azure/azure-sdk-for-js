@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to asynchronously updates a partner destination with the specified parameters.
  *
  * @summary asynchronously updates a partner destination with the specified parameters.
- * x-ms-original-file: 2025-07-15-preview/PartnerDestinations_Update.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerDestinations_Update.json
  */
 async function partnerDestinationsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

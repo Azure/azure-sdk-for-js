@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic.json
  */
 async function eventSubscriptionsGetForCustomTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function eventSubscriptionsGetForCustomTopic(): Promise<void> {
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination(): Pr
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicEventHubDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function eventSubscriptionsGetForCustomTopicEventHubDestination(): Promise
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -72,7 +72,7 @@ async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination():
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -88,7 +88,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination(): 
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +104,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination(): 
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicStorageQueueDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -120,7 +120,7 @@ async function eventSubscriptionsGetForCustomTopicStorageQueueDestination(): Pro
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicWebhookDestination(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -136,7 +136,7 @@ async function eventSubscriptionsGetForCustomTopicWebhookDestination(): Promise<
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForResource.json
  */
 async function eventSubscriptionsGetForResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -152,7 +152,7 @@ async function eventSubscriptionsGetForResource(): Promise<void> {
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForResourceGroup.json
  */
 async function eventSubscriptionsGetForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -168,7 +168,7 @@ async function eventSubscriptionsGetForResourceGroup(): Promise<void> {
  * This sample demonstrates how to get properties of an event subscription.
  *
  * @summary get properties of an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetForSubscription.json
  */
 async function eventSubscriptionsGetForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

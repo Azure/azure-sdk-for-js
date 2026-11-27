@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the full endpoint URL for an event subscription.
  *
  * @summary get the full endpoint URL for an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetFullUrlForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetFullUrlForCustomTopic.json
  */
 async function eventSubscriptionsGetFullUrlForCustomTopic() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function eventSubscriptionsGetFullUrlForCustomTopic() {
  * This sample demonstrates how to get the full endpoint URL for an event subscription.
  *
  * @summary get the full endpoint URL for an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetFullUrlForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetFullUrlForResource.json
  */
 async function eventSubscriptionsGetFullUrlForResource() {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function eventSubscriptionsGetFullUrlForResource() {
  * This sample demonstrates how to get the full endpoint URL for an event subscription.
  *
  * @summary get the full endpoint URL for an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetFullUrlForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetFullUrlForResourceGroup.json
  */
 async function eventSubscriptionsGetFullUrlForResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ async function eventSubscriptionsGetFullUrlForResourceGroup() {
  * This sample demonstrates how to get the full endpoint URL for an event subscription.
  *
  * @summary get the full endpoint URL for an event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_GetFullUrlForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_GetFullUrlForSubscription.json
  */
 async function eventSubscriptionsGetFullUrlForSubscription() {
   const credential = new DefaultAzureCredential();

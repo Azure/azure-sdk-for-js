@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get all delivery attributes for an event subscription for domain.
  *
  * @summary get all delivery attributes for an event subscription for domain.
- * x-ms-original-file: 2025-07-15-preview/DomainEventSubscriptions_GetDeliveryAttributes.json
+ * x-ms-original-file: 2026-06-15-preview/DomainEventSubscriptions_GetDeliveryAttributes.json
  */
 async function domainEventSubscriptionsGetDeliveryAttributes() {
   const credential = new DefaultAzureCredential();

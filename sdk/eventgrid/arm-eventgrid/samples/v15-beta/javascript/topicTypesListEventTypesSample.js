@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list event types for a topic type.
  *
  * @summary list event types for a topic type.
- * x-ms-original-file: 2025-07-15-preview/TopicTypes_ListEventTypes.json
+ * x-ms-original-file: 2026-06-15-preview/TopicTypes_ListEventTypes.json
  */
 async function topicTypesListEventTypes() {
   const credential = new DefaultAzureCredential();

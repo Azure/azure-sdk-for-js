@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get properties of an event subscription of a domain.
  *
  * @summary get properties of an event subscription of a domain.
- * x-ms-original-file: 2025-07-15-preview/DomainEventSubscriptions_Get.json
+ * x-ms-original-file: 2026-06-15-preview/DomainEventSubscriptions_Get.json
  */
 async function domainEventSubscriptionsGet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deactivate specific partner topic.
  *
  * @summary deactivate specific partner topic.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_Deactivate.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_Deactivate.json
  */
 async function partnerTopicsDeactivate(): Promise<void> {
   const credential = new DefaultAzureCredential();

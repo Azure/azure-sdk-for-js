@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all the partner topics under a resource group.
  *
  * @summary list all the partner topics under a resource group.
- * x-ms-original-file: 2025-07-15-preview/PartnerTopics_ListByResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerTopics_ListByResourceGroup.json
  */
 async function partnerTopicsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

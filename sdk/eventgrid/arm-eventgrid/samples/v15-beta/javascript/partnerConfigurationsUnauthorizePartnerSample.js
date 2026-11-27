@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to unauthorize a single partner either by partner registration immutable Id or by partner name.
  *
  * @summary unauthorize a single partner either by partner registration immutable Id or by partner name.
- * x-ms-original-file: 2025-07-15-preview/PartnerConfigurations_UnauthorizePartner.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerConfigurations_UnauthorizePartner.json
  */
 async function partnerConfigurationsUnauthorizePartner() {
   const credential = new DefaultAzureCredential();

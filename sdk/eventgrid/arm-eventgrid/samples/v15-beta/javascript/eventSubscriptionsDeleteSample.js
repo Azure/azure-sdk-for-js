@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForCustomTopic.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForCustomTopic.json
  */
 async function eventSubscriptionsDeleteForCustomTopic() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function eventSubscriptionsDeleteForCustomTopic() {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForResource.json
  */
 async function eventSubscriptionsDeleteForResource() {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function eventSubscriptionsDeleteForResource() {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForResourceGroup.json
  */
 async function eventSubscriptionsDeleteForResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -53,7 +53,7 @@ async function eventSubscriptionsDeleteForResourceGroup() {
  * This sample demonstrates how to delete an existing event subscription.
  *
  * @summary delete an existing event subscription.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_DeleteForSubscription.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_DeleteForSubscription.json
  */
 async function eventSubscriptionsDeleteForSubscription() {
   const credential = new DefaultAzureCredential();

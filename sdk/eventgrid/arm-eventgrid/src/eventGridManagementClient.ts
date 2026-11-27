@@ -99,14 +99,7 @@ export class EventGridManagementClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createEventGridManagement(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createEventGridManagement(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.topicTypes = _getTopicTypesOperations(this._client);
     this.namespaceTopicEventSubscriptions = _getNamespaceTopicEventSubscriptionsOperations(

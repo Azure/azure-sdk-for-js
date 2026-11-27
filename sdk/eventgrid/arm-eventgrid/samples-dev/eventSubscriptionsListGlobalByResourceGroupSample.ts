@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all global event subscriptions under a specific Azure subscription and resource group.
  *
  * @summary list all global event subscriptions under a specific Azure subscription and resource group.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListGlobalByResourceGroup.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListGlobalByResourceGroup.json
  */
 async function eventSubscriptionsListGlobalByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

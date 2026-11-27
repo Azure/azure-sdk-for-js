@@ -34,7 +34,7 @@ export function _listByDomainSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       domainName: domainName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
     },
@@ -54,7 +54,9 @@ export async function _listByDomainDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -77,7 +79,7 @@ export function listByDomain(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-07-15-preview",
+      apiVersion: context.apiVersion ?? "2026-06-15-preview",
     },
   );
 }
@@ -96,7 +98,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       domainName: domainName,
       domainTopicName: domainTopicName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -109,7 +111,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -118,11 +122,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete existing domain topic. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -136,7 +135,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, domainName, domainTopicName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +153,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       domainName: domainName,
       domainTopicName: domainTopicName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -172,7 +171,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -194,7 +195,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, domainName, domainTopicName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-07-15-preview",
+    apiVersion: context.apiVersion ?? "2026-06-15-preview",
   }) as PollerLike<OperationState<DomainTopic>, DomainTopic>;
 }
 
@@ -212,7 +213,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       domainName: domainName,
       domainTopicName: domainTopicName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -228,7 +229,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Do
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

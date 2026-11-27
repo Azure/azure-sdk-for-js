@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to activate a newly created partner destination.
  *
  * @summary activate a newly created partner destination.
- * x-ms-original-file: 2025-07-15-preview/PartnerDestinations_Activate.json
+ * x-ms-original-file: 2026-06-15-preview/PartnerDestinations_Activate.json
  */
 async function partnerDestinationsActivate() {
   const credential = new DefaultAzureCredential();

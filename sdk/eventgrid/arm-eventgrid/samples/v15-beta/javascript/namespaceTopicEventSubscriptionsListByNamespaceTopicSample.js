@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list event subscriptions that belong to a specific namespace topic.
  *
  * @summary list event subscriptions that belong to a specific namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopicEventSubscriptions_ListByNamespaceTopic.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopicEventSubscriptions_ListByNamespaceTopic.json
  */
 async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
   const credential = new DefaultAzureCredential();

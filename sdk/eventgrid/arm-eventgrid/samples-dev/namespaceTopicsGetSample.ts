@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get properties of a namespace topic.
  *
  * @summary get properties of a namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopics_Get.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopics_Get.json
  */
 async function namespaceTopicsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

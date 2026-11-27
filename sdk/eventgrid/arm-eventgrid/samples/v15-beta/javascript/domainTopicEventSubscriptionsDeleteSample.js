@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a nested existing event subscription for a domain topic.
  *
  * @summary delete a nested existing event subscription for a domain topic.
- * x-ms-original-file: 2025-07-15-preview/DomainTopicEventSubscriptions_Delete.json
+ * x-ms-original-file: 2026-06-15-preview/DomainTopicEventSubscriptions_Delete.json
  */
 async function domainTopicEventSubscriptionsDelete() {
   const credential = new DefaultAzureCredential();

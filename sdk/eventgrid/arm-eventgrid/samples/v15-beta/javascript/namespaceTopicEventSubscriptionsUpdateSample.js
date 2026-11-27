@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an existing event subscription of a namespace topic.
  *
  * @summary update an existing event subscription of a namespace topic.
- * x-ms-original-file: 2025-07-15-preview/NamespaceTopicEventSubscriptions_Update.json
+ * x-ms-original-file: 2026-06-15-preview/NamespaceTopicEventSubscriptions_Update.json
  */
 async function namespaceTopicEventSubscriptionsUpdate() {
   const credential = new DefaultAzureCredential();

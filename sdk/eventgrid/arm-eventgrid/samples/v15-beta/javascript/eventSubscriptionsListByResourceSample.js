@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all event subscriptions that have been created for a specific resource.
  *
  * @summary list all event subscriptions that have been created for a specific resource.
- * x-ms-original-file: 2025-07-15-preview/EventSubscriptions_ListByResource.json
+ * x-ms-original-file: 2026-06-15-preview/EventSubscriptions_ListByResource.json
  */
 async function eventSubscriptionsListByResource() {
   const credential = new DefaultAzureCredential();

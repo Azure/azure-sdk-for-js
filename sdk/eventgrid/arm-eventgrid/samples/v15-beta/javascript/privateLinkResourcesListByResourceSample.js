@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the private link resources under a topic, domain, or partner namespace or namespace.
  *
  * @summary list all the private link resources under a topic, domain, or partner namespace or namespace.
- * x-ms-original-file: 2025-07-15-preview/PrivateLinkResources_ListByResource.json
+ * x-ms-original-file: 2026-06-15-preview/PrivateLinkResources_ListByResource.json
  */
 async function privateLinkResourcesListByResource() {
   const credential = new DefaultAzureCredential();
