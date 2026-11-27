@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a workspace resource. To recover the workspace, create it again with the same name, in the same subscription, resource group and location. The name is kept for 14 days and cannot be used for another workspace. To remove the workspace completely and release the name, use the force flag.
  *
  * @summary deletes a workspace resource. To recover the workspace, create it again with the same name, in the same subscription, resource group and location. The name is kept for 14 days and cannot be used for another workspace. To remove the workspace completely and release the name, use the force flag.
- * x-ms-original-file: 2025-07-01/WorkspacesDelete.json
+ * x-ms-original-file: 2026-03-01/WorkspacesDelete.json
  */
 async function workspacesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

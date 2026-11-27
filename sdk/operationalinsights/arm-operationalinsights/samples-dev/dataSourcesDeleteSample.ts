@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a data source instance.
  *
  * @summary deletes a data source instance.
- * x-ms-original-file: 2025-07-01/DataSourcesDelete.json
+ * x-ms-original-file: 2026-03-01/DataSourcesDelete.json
  */
 async function dataSourcesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

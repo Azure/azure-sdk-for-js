@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { $delete } from "../../api/gateways/operations.js";
-import { GatewaysDeleteOptionalParams } from "../../api/gateways/options.js";
+import type { GatewaysDeleteOptionalParams } from "../../api/gateways/options.js";
 
 /** Interface representing a Gateways operations. */
 export interface GatewaysOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: 2025-07-01/QueryPacksUpdateTagsOnly.json
+ * x-ms-original-file: 2026-03-01/QueryPacksUpdateTagsOnly.json
  */
 async function queryPackUpdateTagsOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();

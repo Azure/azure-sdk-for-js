@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a linked service.
  *
  * @summary create or update a linked service.
- * x-ms-original-file: 2025-07-01/LinkedServicesCreate.json
+ * x-ms-original-file: 2026-03-01/LinkedServicesCreate.json
  */
 async function linkedServicesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

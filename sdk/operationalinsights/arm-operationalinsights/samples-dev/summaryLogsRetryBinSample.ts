@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retries a failed Summary rule bin.
  *
  * @summary retries a failed Summary rule bin.
- * x-ms-original-file: 2025-07-01/SummaryLogsRetryBin.json
+ * x-ms-original-file: 2026-03-01/SummaryLogsRetryBin.json
  */
 async function summaryLogsRetryBin(): Promise<void> {
   const credential = new DefaultAzureCredential();

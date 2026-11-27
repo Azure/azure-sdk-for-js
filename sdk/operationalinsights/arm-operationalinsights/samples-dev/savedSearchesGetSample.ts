@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified saved search for a given workspace.
  *
  * @summary gets the specified saved search for a given workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesSavedSearchesGet.json
+ * x-ms-original-file: 2026-03-01/WorkspacesSavedSearchesGet.json
  */
 async function savedSearchesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

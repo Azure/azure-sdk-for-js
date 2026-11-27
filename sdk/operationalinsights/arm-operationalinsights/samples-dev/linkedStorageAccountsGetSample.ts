@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all linked storage account of a specific data source type associated with the specified workspace.
  *
  * @summary gets all linked storage account of a specific data source type associated with the specified workspace.
- * x-ms-original-file: 2025-07-01/LinkedStorageAccountsGet.json
+ * x-ms-original-file: 2026-03-01/LinkedStorageAccountsGet.json
  */
 async function linkedStorageAccountsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

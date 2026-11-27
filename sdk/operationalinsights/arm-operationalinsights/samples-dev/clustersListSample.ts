@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Log Analytics clusters in a subscription.
  *
  * @summary gets the Log Analytics clusters in a subscription.
- * x-ms-original-file: 2025-07-01/ClustersSubscriptionList.json
+ * x-ms-original-file: 2026-03-01/ClustersSubscriptionList.json
  */
 async function clustersSubscriptionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

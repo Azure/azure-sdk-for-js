@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a saved search for a given workspace.
  *
  * @summary creates or updates a saved search for a given workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesSavedSearchesCreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/WorkspacesSavedSearchesCreateOrUpdate.json
  */
 async function savedSearchCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

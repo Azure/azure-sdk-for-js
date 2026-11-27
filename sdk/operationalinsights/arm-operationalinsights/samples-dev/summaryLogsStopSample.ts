@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to stops an active Summary rule.
  *
  * @summary stops an active Summary rule.
- * x-ms-original-file: 2025-07-01/SummaryLogsStop.json
+ * x-ms-original-file: 2026-03-01/SummaryLogsStop.json
  */
 async function summaryLogsStop(): Promise<void> {
   const credential = new DefaultAzureCredential();

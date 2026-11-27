@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Log Analytics workspace table.
  *
  * @summary update a Log Analytics workspace table.
- * x-ms-original-file: 2025-07-01/TablesUpsert.json
+ * x-ms-original-file: 2026-03-01/TablesUpsert.json
  */
 async function tablesUpsert(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import { get } from "../../api/schema/operations.js";
-import { SchemaGetOptionalParams } from "../../api/schema/options.js";
-import { SearchGetSchemaResponse } from "../../models/models.js";
+import type { SchemaGetOptionalParams } from "../../api/schema/options.js";
+import type { SearchGetSchemaResponse } from "../../models/models.js";
 
 /** Interface representing a Schema operations. */
 export interface SchemaOperations {

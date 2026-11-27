@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a cluster instance.
  *
  * @summary deletes a cluster instance.
- * x-ms-original-file: 2025-07-01/ClustersDelete.json
+ * x-ms-original-file: 2026-03-01/ClustersDelete.json
  */
 async function clustersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

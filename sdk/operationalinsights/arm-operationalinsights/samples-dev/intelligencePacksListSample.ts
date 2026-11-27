@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the intelligence packs possible and whether they are enabled or disabled for a given workspace.
  *
  * @summary lists all the intelligence packs possible and whether they are enabled or disabled for a given workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesListIntelligencePacks.json
+ * x-ms-original-file: 2026-03-01/WorkspacesListIntelligencePacks.json
  */
 async function intelligencePacksList(): Promise<void> {
   const credential = new DefaultAzureCredential();

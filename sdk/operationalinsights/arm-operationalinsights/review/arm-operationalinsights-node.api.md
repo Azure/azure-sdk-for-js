@@ -4,22 +4,21 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -29,7 +28,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -486,7 +484,8 @@ export enum KnownColumnDataTypeHintEnum {
     ArmPath = "armPath",
     Guid = "guid",
     Ip = "ip",
-    Uri = "uri"
+    Uri = "uri",
+    Vector16 = "vector16"
 }
 
 // @public
@@ -675,10 +674,22 @@ export enum KnownStorageInsightState {
 }
 
 // @public
+export enum KnownSummaryLogsIdentityType {
+    None = "None",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownTablePlanEnum {
     Analytics = "Analytics",
     Auxiliary = "Auxiliary",
     Basic = "Basic"
+}
+
+// @public
+export enum KnownTableProtectionLevelEnum {
+    General = "General",
+    Protected = "Protected"
 }
 
 // @public
@@ -709,7 +720,8 @@ export enum KnownType {
 
 // @public
 export enum KnownVersions {
-    V20250701 = "2025-07-01"
+    V20250701 = "2025-07-01",
+    V20260301 = "2026-03-01"
 }
 
 // @public
@@ -968,20 +980,15 @@ export interface NetworkSecurityPerimeter {
 
 // @public
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-    // (undocumented)
     properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -1099,7 +1106,6 @@ export interface PrivateLinkScopedResource {
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -1214,7 +1220,6 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
@@ -1517,6 +1522,7 @@ export interface StorageInsightStatus {
 export interface SummaryLogs extends ProxyResource {
     description?: string;
     displayName?: string;
+    identity?: SummaryLogsIdentity;
     readonly isActive?: boolean;
     readonly provisioningState?: ProvisioningStateEnum;
     ruleDefinition?: RuleDefinition;
@@ -1537,6 +1543,17 @@ export interface SummaryLogsDeleteOptionalParams extends OperationOptions {
 // @public
 export interface SummaryLogsGetOptionalParams extends OperationOptions {
 }
+
+// @public
+export interface SummaryLogsIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SummaryLogsIdentityType;
+    userAssignedIdentities?: Record<string, SummaryLogsUserIdentityProperties>;
+}
+
+// @public
+export type SummaryLogsIdentityType = string;
 
 // @public
 export interface SummaryLogsListByWorkspaceOptionalParams extends OperationOptions {
@@ -1605,6 +1622,12 @@ export interface SummaryLogsStopOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface SummaryLogsUserIdentityProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1619,6 +1642,7 @@ export interface Table extends ProxyResource {
     readonly archiveRetentionInDays?: number;
     readonly lastPlanModifiedDate?: string;
     plan?: TablePlanEnum;
+    protectionLevel?: TableProtectionLevelEnum;
     readonly provisioningState?: OperationalInsightsTableProvisioningState;
     restoredLogs?: RestoredLogs;
     readonly resultStatistics?: ResultStatistics;
@@ -1638,6 +1662,7 @@ export interface TableProperties {
     readonly archiveRetentionInDays?: number;
     readonly lastPlanModifiedDate?: string;
     plan?: TablePlanEnum;
+    protectionLevel?: TableProtectionLevelEnum;
     readonly provisioningState?: OperationalInsightsTableProvisioningState;
     restoredLogs?: RestoredLogs;
     readonly resultStatistics?: ResultStatistics;
@@ -1648,6 +1673,9 @@ export interface TableProperties {
     totalRetentionInDays?: number;
     readonly totalRetentionInDaysAsDefault?: boolean;
 }
+
+// @public
+export type TableProtectionLevelEnum = string;
 
 // @public
 export interface TablesCancelSearchOptionalParams extends OperationOptions {
@@ -1808,6 +1836,7 @@ export interface WorkspaceFeatures {
     additionalProperties?: Record<string, any>;
     readonly associations?: string[];
     clusterResourceId?: string;
+    dataAuthorizationMode?: boolean;
     disableLocalAuth?: boolean;
     enableDataExport?: boolean;
     enableLogAccessUsingOnlyResourcePermissions?: boolean;
@@ -1874,9 +1903,31 @@ export interface WorkspacePurgeGetPurgeStatusOptionalParams extends OperationOpt
 }
 
 // @public
+export interface WorkspacePurgeLakeDataBody {
+    table: string;
+    timeRange: WorkspacePurgeLakeDataTimeRange;
+}
+
+// @public
+export interface WorkspacePurgeLakeDataTimeRange {
+    endTime: Date;
+    startTime: Date;
+}
+
+// @public
 export interface WorkspacePurgeOperations {
+    // @deprecated (undocumented)
+    beginPurgeLakeData: (resourceGroupName: string, workspaceName: string, body: WorkspacePurgeLakeDataBody, options?: WorkspacePurgePurgeLakeDataOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPurgeLakeDataAndWait: (resourceGroupName: string, workspaceName: string, body: WorkspacePurgeLakeDataBody, options?: WorkspacePurgePurgeLakeDataOptionalParams) => Promise<void>;
     getPurgeStatus: (resourceGroupName: string, workspaceName: string, purgeId: string, options?: WorkspacePurgeGetPurgeStatusOptionalParams) => Promise<WorkspacePurgeStatusResponse>;
     purge: (resourceGroupName: string, workspaceName: string, body: WorkspacePurgeBody, options?: WorkspacePurgePurgeOptionalParams) => Promise<WorkspacePurgeResponse>;
+    purgeLakeData: (resourceGroupName: string, workspaceName: string, body: WorkspacePurgeLakeDataBody, options?: WorkspacePurgePurgeLakeDataOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface WorkspacePurgePurgeLakeDataOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
+import type { OperationalInsightsManagementContext } from "../../api/operationalInsightsManagementContext.js";
 import {
   failover,
   reconcileNSP,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workspaces/operations.js";
-import {
+import type {
   WorkspacesFailoverOptionalParams,
   WorkspacesReconcileNSPOptionalParams,
   WorkspacesListNSPOptionalParams,
@@ -28,14 +28,15 @@ import {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
-import {
+import type {
   Workspace,
   WorkspacePatch,
   NetworkSecurityPerimeterConfiguration,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {

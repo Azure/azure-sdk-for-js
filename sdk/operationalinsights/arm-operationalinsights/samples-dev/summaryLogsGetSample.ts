@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets Log Analytics workspace Summary rules.
  *
  * @summary gets Log Analytics workspace Summary rules.
- * x-ms-original-file: 2025-07-01/SummaryLogsGet.json
+ * x-ms-original-file: 2026-03-01/SummaryLogsGet.json
  */
 async function summaryLogsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

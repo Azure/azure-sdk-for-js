@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the status of a long running azure asynchronous operation.
  *
  * @summary get the status of a long running azure asynchronous operation.
- * x-ms-original-file: 2025-07-01/OperationStatusesGet.json
+ * x-ms-original-file: 2026-03-01/OperationStatusesGet.json
  */
 async function getSpecificOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the shared keys for a workspace.
  *
  * @summary gets the shared keys for a workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesGetSharedKeys.json
+ * x-ms-original-file: 2026-03-01/WorkspacesGetSharedKeys.json
  */
 async function sharedKeysList(): Promise<void> {
   const credential = new DefaultAzureCredential();

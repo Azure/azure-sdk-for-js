@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disables an intelligence pack for a given workspace.
  *
  * @summary disables an intelligence pack for a given workspace.
- * x-ms-original-file: 2025-07-01/WorkspacesDisableIntelligencePack.json
+ * x-ms-original-file: 2026-03-01/WorkspacesDisableIntelligencePack.json
  */
 async function intelligencePacksDisable(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Log Analytics gateway.
  *
  * @summary delete a Log Analytics gateway.
- * x-ms-original-file: 2025-07-01/WorkspacesGatewaysDelete.json
+ * x-ms-original-file: 2026-03-01/WorkspacesGatewaysDelete.json
  */
 async function deleteGateways(): Promise<void> {
   const credential = new DefaultAzureCredential();
