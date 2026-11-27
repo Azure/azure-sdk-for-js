@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of firmwares inside a workspace.
  *
  * @summary lists all of firmwares inside a workspace.
- * x-ms-original-file: 2025-08-02/Firmwares_ListByWorkspace_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_ListByWorkspace_MaximumSet_Gen.json
  */
 async function firmwaresListByWorkspaceMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function firmwaresListByWorkspaceMaximumSetGenGeneratedByMaximumSetRule():
  * This sample demonstrates how to lists all of firmwares inside a workspace.
  *
  * @summary lists all of firmwares inside a workspace.
- * x-ms-original-file: 2025-08-02/Firmwares_ListByWorkspace_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Firmwares_ListByWorkspace_MinimumSet_Gen.json
  */
 async function firmwaresListByWorkspaceMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

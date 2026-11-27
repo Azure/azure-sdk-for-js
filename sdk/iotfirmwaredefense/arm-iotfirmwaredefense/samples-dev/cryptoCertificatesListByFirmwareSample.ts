@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists crypto certificate analysis results of a firmware.
  *
  * @summary lists crypto certificate analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/CryptoCertificates_ListByFirmware_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/CryptoCertificates_ListByFirmware_MaximumSet_Gen.json
  */
 async function cryptoCertificatesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function cryptoCertificatesListByFirmwareMaximumSetGenGeneratedByMaximumSe
  * This sample demonstrates how to lists crypto certificate analysis results of a firmware.
  *
  * @summary lists crypto certificate analysis results of a firmware.
- * x-ms-original-file: 2025-08-02/CryptoCertificates_ListByFirmware_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/CryptoCertificates_ListByFirmware_MinimumSet_Gen.json
  */
 async function cryptoCertificatesListByFirmwareMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

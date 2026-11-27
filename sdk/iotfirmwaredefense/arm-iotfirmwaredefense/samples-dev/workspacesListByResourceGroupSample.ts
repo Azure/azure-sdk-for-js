@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the firmware analysis workspaces in the specified resource group.
  *
  * @summary lists all of the firmware analysis workspaces in the specified resource group.
- * x-ms-original-file: 2025-08-02/Workspaces_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function workspacesListByResourceGroupMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function workspacesListByResourceGroupMaximumSetGenGeneratedByMaximumSetRu
  * This sample demonstrates how to lists all of the firmware analysis workspaces in the specified resource group.
  *
  * @summary lists all of the firmware analysis workspaces in the specified resource group.
- * x-ms-original-file: 2025-08-02/Workspaces_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-01-preview/Workspaces_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function workspacesListByResourceGroupMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

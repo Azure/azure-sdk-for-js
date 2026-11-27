@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { IoTFirmwareDefenseContext as Client } from "../index.js";
+import type {
   _CryptoCertificateResourceListResult,
-  _cryptoCertificateResourceListResultDeserializer,
   CryptoCertificateResource,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  _cryptoCertificateResourceListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByFirmwareSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   firmwareId: string,
-  options: CryptoCertificatesListByFirmwareOptionalParams = {
-    requestOptions: {},
-  },
+  options: CryptoCertificatesListByFirmwareOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cryptoCertificates{?api%2Dversion}",
@@ -37,7 +31,7 @@ export function _listByFirmwareSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       firmwareId: firmwareId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-06-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,10 +39,7 @@ export function _listByFirmwareSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -58,7 +49,10 @@ export async function _listByFirmwareDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -71,15 +65,17 @@ export function listByFirmware(
   resourceGroupName: string,
   workspaceName: string,
   firmwareId: string,
-  options: CryptoCertificatesListByFirmwareOptionalParams = {
-    requestOptions: {},
-  },
+  options: CryptoCertificatesListByFirmwareOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CryptoCertificateResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByFirmwareSend(context, resourceGroupName, workspaceName, firmwareId, options),
     _listByFirmwareDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-06-01-preview",
+    },
   );
 }
