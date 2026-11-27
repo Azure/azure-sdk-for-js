@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the historical availability statuses for a single child resource. Use the nextLink property in the response to get the next page of availability status
  *
  * @summary lists the historical availability statuses for a single child resource. Use the nextLink property in the response to get the next page of availability status
- * x-ms-original-file: 2025-05-01/ChildAvailabilityStatuses_List.json
+ * x-ms-original-file: 2026-07-01/ChildAvailabilityStatuses_List.json
  */
 async function getChildHealthHistoryByResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

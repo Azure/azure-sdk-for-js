@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the current availability status for all the resources in the subscription.
  *
  * @summary lists the current availability status for all the resources in the subscription.
- * x-ms-original-file: 2025-05-01/AvailabilityStatuses_ListBySubscriptionId.json
+ * x-ms-original-file: 2026-07-01/AvailabilityStatuses_ListBySubscriptionId.json
  */
 async function listHealthBySubscriptionId(): Promise<void> {
   const credential = new DefaultAzureCredential();

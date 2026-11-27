@@ -20,7 +20,7 @@ import { Event } from "../../models/models.js";
 
 /** Interface representing a Event operations. */
 export interface EventOperations {
-  /** Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   fetchDetailsByTenantIdAndTrackingId: (
     eventTrackingId: string,
     options?: EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
@@ -35,7 +35,7 @@ export interface EventOperations {
     eventTrackingId: string,
     options?: EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdOptionalParams,
   ) => Promise<Event>;
-  /** Service health event details in the subscription by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
+  /** Service health event details in the subscription by event tracking id. This can be used to fetch sensitive properties for Security Advisory events. Please see https://learn.microsoft.com/azure/service-health/security-advisories-elevated-access */
   fetchDetailsBySubscriptionIdAndTrackingId: (
     eventTrackingId: string,
     options?: EventFetchDetailsBySubscriptionIdAndTrackingIdOptionalParams,
