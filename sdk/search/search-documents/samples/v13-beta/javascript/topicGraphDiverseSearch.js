@@ -10,9 +10,10 @@
  * Set AZURE_OPENAI_EMBEDDING_MODEL_NAME to the underlying model, not the deployment
  * alias (defaults to text-embedding-3-small). Supported models are ada-002, 3-small,
  * and 3-large; all vectors in this sample have 1536 dimensions.
- * Authenticate with DefaultAzureCredential. The caller needs index/document/KB
- * permissions and Cognitive Services OpenAI User on the embedding resource.
- * Search also needs a managed identity with that OpenAI role and network access.
+ * Authenticate with DefaultAzureCredential or AZURE_SEARCH_API_KEY for Search.
+ * The caller and Search's managed identity need Cognitive Services OpenAI User
+ * on the embedding resource, or set AZURE_OPENAI_API_KEY for both embedding callers.
+ * The caller also needs index/document/KB permissions, and Search needs model network access.
  * Enable semantic ranker and use a service supporting 2026-11-01-preview Topic Graph.
  *
  * This is a MOCK fixture: nine synthetic documents and three sampled document
@@ -24,7 +25,7 @@
 const { randomUUID } = require("node:crypto");
 const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
-const { SearchIndexClient } = require("@azure/search-documents");
+const { AzureKeyCredential, SearchIndexClient } = require("@azure/search-documents");
 const { AzureOpenAI } = require("openai");
 require("dotenv").config();
 
@@ -77,7 +78,11 @@ async function main() {
     throw new Error("Set AZURE_OPENAI_EMBEDDING_MODEL_NAME to a supported embedding model.");
   }
 
-  const credential = new DefaultAzureCredential();
+  const defaultCredential = new DefaultAzureCredential();
+  const credential = process.env.AZURE_SEARCH_API_KEY
+    ? new AzureKeyCredential(process.env.AZURE_SEARCH_API_KEY)
+    : defaultCredential;
+  const apiKey = process.env.AZURE_OPENAI_API_KEY;
   const indexClient = new SearchIndexClient(endpoint, credential, {
     serviceVersion: "2026-11-01-preview",
   });
@@ -85,10 +90,14 @@ async function main() {
     endpoint: openAIEndpoint,
     deployment,
     apiVersion: "2024-02-01",
-    azureADTokenProvider: getBearerTokenProvider(
-      credential,
-      "https://cognitiveservices.azure.com/.default",
-    ),
+    ...(apiKey
+      ? { apiKey }
+      : {
+          azureADTokenProvider: getBearerTokenProvider(
+            defaultCredential,
+            "https://cognitiveservices.azure.com/.default",
+          ),
+        }),
   });
   const topics = [
     {
@@ -183,7 +192,12 @@ async function main() {
           {
             vectorizerName: "embeddings",
             kind: "azureOpenAI",
-            parameters: { resourceUrl: openAIEndpoint, deploymentId: deployment, modelName: model },
+            parameters: {
+              resourceUrl: openAIEndpoint,
+              deploymentId: deployment,
+              modelName: model,
+              apiKey,
+            },
           },
         ],
       },
