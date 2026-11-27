@@ -49,6 +49,7 @@ export interface DataflowEndpointOperations {
     options?: DataflowEndpointGetOptionalParams,
   ) => Promise<DataflowEndpointResource>;
 }
+
 function _getDataflowEndpoint(context: IoTOperationsContext) {
   return {
     listByResourceGroup: (
@@ -85,6 +86,7 @@ function _getDataflowEndpoint(context: IoTOperationsContext) {
     ) => get(context, resourceGroupName, instanceName, dataflowEndpointName, options),
   };
 }
+
 export function _getDataflowEndpointOperations(
   context: IoTOperationsContext,
 ): DataflowEndpointOperations {

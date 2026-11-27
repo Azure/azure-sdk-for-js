@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a BrokerListenerResource
  *
  * @summary delete a BrokerListenerResource
- * x-ms-original-file: 2026-07-01/BrokerListener_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-10-01/BrokerListener_Delete_MaximumSet_Gen.json
  */
 async function brokerListenerDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
