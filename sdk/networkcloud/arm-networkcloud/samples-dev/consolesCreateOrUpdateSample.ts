@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new virtual machine console or update the properties of the existing virtual machine console.
  *
  * @summary create a new virtual machine console or update the properties of the existing virtual machine console.
- * x-ms-original-file: 2026-07-01/Consoles_Create.json
+ * x-ms-original-file: 2026-08-01-preview/Consoles_Create.json
  */
 async function createOrUpdateVirtualMachineConsole(): Promise<void> {
   const credential = new DefaultAzureCredential();

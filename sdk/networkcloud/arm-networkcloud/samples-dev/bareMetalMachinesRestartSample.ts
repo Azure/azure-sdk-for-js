@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to restart the provided bare metal machine.
  *
  * @summary restart the provided bare metal machine.
- * x-ms-original-file: 2026-07-01/BareMetalMachines_Restart.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachines_Restart.json
  */
 async function restartBareMetalMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

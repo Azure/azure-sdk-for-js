@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update tags associated with the provided volume.
  *
  * @summary update tags associated with the provided volume.
- * x-ms-original-file: 2026-07-01/Volumes_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/Volumes_Patch.json
  */
 async function patchVolume(): Promise<void> {
   const credential = new DefaultAzureCredential();

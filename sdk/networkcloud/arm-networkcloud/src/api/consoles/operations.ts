@@ -38,7 +38,7 @@ export function _listByVirtualMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
       "%24top": options?.top,
       "%24skipToken": options?.skipToken,
     },
@@ -80,7 +80,11 @@ export function listByVirtualMachine(
     () => _listByVirtualMachineSend(context, resourceGroupName, virtualMachineName, options),
     _listByVirtualMachineDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-08-01-preview",
+    },
   );
 }
 
@@ -98,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,7 +148,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, virtualMachineName, consoleName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -162,7 +166,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +215,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, virtualMachineName, consoleName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Console>, Console>;
 }
 
@@ -230,7 +234,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +289,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-07-01",
+    apiVersion: context.apiVersion ?? "2026-08-01-preview",
   }) as PollerLike<OperationState<Console>, Console>;
 }
 
@@ -303,7 +307,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       virtualMachineName: virtualMachineName,
       consoleName: consoleName,
-      "api%2Dversion": context.apiVersion ?? "2026-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-08-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

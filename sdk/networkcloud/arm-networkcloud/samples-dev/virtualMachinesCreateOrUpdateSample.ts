@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new virtual machine or update the properties of the existing virtual machine.
  *
  * @summary create a new virtual machine or update the properties of the existing virtual machine.
- * x-ms-original-file: 2026-07-01/VirtualMachines_Create.json
+ * x-ms-original-file: 2026-08-01-preview/VirtualMachines_Create.json
  */
 async function createOrUpdateVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

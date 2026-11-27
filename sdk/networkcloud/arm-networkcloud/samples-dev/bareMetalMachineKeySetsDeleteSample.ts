@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the bare metal machine key set of the provided cluster.
  *
  * @summary delete the bare metal machine key set of the provided cluster.
- * x-ms-original-file: 2026-07-01/BareMetalMachineKeySets_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachineKeySets_Delete.json
  */
 async function deleteBareMetalMachineKeySetOfCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

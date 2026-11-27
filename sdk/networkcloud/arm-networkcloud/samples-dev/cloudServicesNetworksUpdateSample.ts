@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: 2026-07-01/CloudServicesNetworks_Patch.json
+ * x-ms-original-file: 2026-08-01-preview/CloudServicesNetworks_Patch.json
  */
 async function patchCloudServicesNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();

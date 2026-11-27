@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete the specified Kubernetes version resource.
  *
  * @summary delete the specified Kubernetes version resource.
- * x-ms-original-file: 2026-07-01/KubernetesVersions_Delete.json
+ * x-ms-original-file: 2026-08-01-preview/KubernetesVersions_Delete.json
  */
 async function deleteKubernetesVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

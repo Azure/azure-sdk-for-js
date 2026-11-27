@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disable remote vendor management of the provided storage appliance.
  *
  * @summary disable remote vendor management of the provided storage appliance.
- * x-ms-original-file: 2026-07-01/StorageAppliances_DisableRemoteVendorManagement.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_DisableRemoteVendorManagement.json
  */
 async function turnOffRemoteVendorManagementForStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();

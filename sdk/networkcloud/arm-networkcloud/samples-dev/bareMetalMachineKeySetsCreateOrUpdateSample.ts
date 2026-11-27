@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a new bare metal machine key set or update the existing one for the provided cluster.
  *
  * @summary create a new bare metal machine key set or update the existing one for the provided cluster.
- * x-ms-original-file: 2026-07-01/BareMetalMachineKeySets_Create.json
+ * x-ms-original-file: 2026-08-01-preview/BareMetalMachineKeySets_Create.json
  */
 async function createOrUpdateBareMetalMachineKeySetOfCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of consoles for the provided virtual machine.
  *
  * @summary get a list of consoles for the provided virtual machine.
- * x-ms-original-file: 2026-07-01/Consoles_ListByVirtualMachine.json
+ * x-ms-original-file: 2026-08-01-preview/Consoles_ListByVirtualMachine.json
  */
 async function listConsolesOfTheVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

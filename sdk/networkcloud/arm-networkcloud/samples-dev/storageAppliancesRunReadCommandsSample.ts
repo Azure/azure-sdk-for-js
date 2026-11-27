@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to run one or more read-only commands on the provided storage appliance.
  *
  * @summary run one or more read-only commands on the provided storage appliance.
- * x-ms-original-file: 2026-07-01/StorageAppliances_RunReadCommands.json
+ * x-ms-original-file: 2026-08-01-preview/StorageAppliances_RunReadCommands.json
  */
 async function runAndRetrieveOutputFromReadOnlyCommandsOnStorageAppliance(): Promise<void> {
   const credential = new DefaultAzureCredential();
