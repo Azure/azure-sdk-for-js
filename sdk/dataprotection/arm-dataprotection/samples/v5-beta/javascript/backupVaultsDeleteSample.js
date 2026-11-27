@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a BackupVault resource from the resource group.
  *
  * @summary deletes a BackupVault resource from the resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/DeleteBackupVault.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/DeleteBackupVault.json
  */
 async function deleteBackupVault() {
   const credential = new DefaultAzureCredential();

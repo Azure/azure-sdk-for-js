@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a BackupVaultResource
  *
  * @summary get a BackupVaultResource
- * x-ms-original-file: 2026-07-01/VaultCRUD/GetOperationResultPatch.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/GetOperationResultPatch.json
  */
 async function getOperationResultPatch() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to unlockDelete call for ResourceGuardProxy, executed before one can delete it
  *
  * @summary unlockDelete call for ResourceGuardProxy, executed before one can delete it
- * x-ms-original-file: 2026-07-01/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ * x-ms-original-file: 2026-08-31-preview/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
  */
 async function unlockDeleteResourceGuardProxy() {
   const credential = new DefaultAzureCredential();

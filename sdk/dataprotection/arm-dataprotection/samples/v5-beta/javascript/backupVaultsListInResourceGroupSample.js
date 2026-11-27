@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns resource collection belonging to a resource group.
  *
  * @summary returns resource collection belonging to a resource group.
- * x-ms-original-file: 2026-07-01/VaultCRUD/GetBackupVaultsInResourceGroup.json
+ * x-ms-original-file: 2026-08-31-preview/VaultCRUD/GetBackupVaultsInResourceGroup.json
  */
 async function getBackupVaultsInResourceGroup() {
   const credential = new DefaultAzureCredential();
