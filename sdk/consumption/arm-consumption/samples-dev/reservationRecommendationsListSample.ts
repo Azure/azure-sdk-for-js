@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsByBillingAccount.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsByBillingAccount.json
  */
 async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function reservationRecommendationsByBillingAccountLegacy(): Promise<void>
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsByBillingAccountFilterByScope.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsByBillingAccountFilterByScope.json
  */
 async function reservationRecommendationsByBillingAccountFilterForScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,30 @@ async function reservationRecommendationsByBillingAccountFilterForScope(): Promi
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsByBillingAccountForManagementGroup.json
+ */
+async function reservationRecommendationsByBillingAccountForManagementGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const client = new ConsumptionManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.reservationRecommendations.list(
+    "providers/Microsoft.Billing/billingAccounts/00000000",
+    {
+      filter:
+        "properties/scope eq 'ManagementGroup' and properties/managementGroupId eq '/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000'",
+    },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list of recommendations for purchasing reserved instances.
+ *
+ * @summary list of recommendations for purchasing reserved instances.
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsByBillingProfile.json
  */
 async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +89,7 @@ async function reservationRecommendationsByBillingProfileModern(): Promise<void>
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsByResourceGroup.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsByResourceGroup.json
  */
 async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -85,7 +108,7 @@ async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> 
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsBySubscription.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsBySubscription.json
  */
 async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -104,7 +127,7 @@ async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
  * This sample demonstrates how to list of recommendations for purchasing reserved instances.
  *
  * @summary list of recommendations for purchasing reserved instances.
- * x-ms-original-file: 2024-08-01/ReservationRecommendationsFilterBySubscriptionForScopeLookBackPeriod.json
+ * x-ms-original-file: 2026-06-01/ReservationRecommendationsFilterBySubscriptionForScopeLookBackPeriod.json
  */
 async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -123,6 +146,7 @@ async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPer
 async function main(): Promise<void> {
   await reservationRecommendationsByBillingAccountLegacy();
   await reservationRecommendationsByBillingAccountFilterForScope();
+  await reservationRecommendationsByBillingAccountForManagementGroup();
   await reservationRecommendationsByBillingProfileModern();
   await reservationRecommendationsByResourceGroupLegacy();
   await reservationRecommendationsBySubscriptionLegacy();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the balances for a scope by billing period and billingAccountId. Balances are available via this API only for May 1, 2014 or later.
  *
  * @summary gets the balances for a scope by billing period and billingAccountId. Balances are available via this API only for May 1, 2014 or later.
- * x-ms-original-file: 2024-08-01/BalancesByBillingAccountForBillingPeriod.json
+ * x-ms-original-file: 2026-06-01/BalancesByBillingAccountForBillingPeriod.json
  */
 async function balances(): Promise<void> {
   const credential = new DefaultAzureCredential();

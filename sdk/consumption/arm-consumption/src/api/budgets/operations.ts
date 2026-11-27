@@ -30,7 +30,7 @@ export function _listSend(
     "/{+scope}/providers/Microsoft.Consumption/budgets{?api%2Dversion}",
     {
       scope: scope,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -67,7 +67,7 @@ export function list(
     () => _listSend(context, scope, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -82,7 +82,7 @@ export function _$deleteSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -128,7 +128,7 @@ export function _createOrUpdateSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +179,7 @@ export function _getSend(
     {
       scope: scope,
       budgetName: budgetName,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

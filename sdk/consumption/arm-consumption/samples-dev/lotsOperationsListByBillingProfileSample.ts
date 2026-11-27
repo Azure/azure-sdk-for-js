@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all Azure credits for a billing account or a billing profile. The API is only supported for Microsoft Customer Agreements (MCA) billing accounts.
  *
  * @summary lists all Azure credits for a billing account or a billing profile. The API is only supported for Microsoft Customer Agreements (MCA) billing accounts.
- * x-ms-original-file: 2024-08-01/LotsListByBillingProfile.json
+ * x-ms-original-file: 2026-06-01/LotsListByBillingProfile.json
  */
 async function lotsListByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

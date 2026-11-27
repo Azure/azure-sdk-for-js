@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all budgets for the defined scope.
  *
  * @summary lists all budgets for the defined scope.
- * x-ms-original-file: 2024-08-01/BudgetsList.json
+ * x-ms-original-file: 2026-06-01/BudgetsList.json
  */
 async function budgetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

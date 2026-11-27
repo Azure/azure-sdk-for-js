@@ -30,7 +30,7 @@ export function _downloadByBillingAccountPeriodSend(
     {
       billingAccountId: billingAccountId,
       billingPeriodName: billingPeriodName,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -75,7 +75,7 @@ export function downloadByBillingAccountPeriod(
       getInitialResponse: () =>
         _downloadByBillingAccountPeriodSend(context, billingAccountId, billingPeriodName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-08-01",
+      apiVersion: context.apiVersion ?? "2026-06-01",
     },
   ) as PollerLike<OperationState<OperationStatus>, OperationStatus>;
 }
@@ -88,7 +88,7 @@ export function _getSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/pricesheets/default{?api%2Dversion,%24expand,%24skiptoken,%24top}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
       "%24skiptoken": options?.skiptoken,
       "%24top": options?.top,
@@ -136,7 +136,7 @@ export function _getByBillingPeriodSend(
     {
       subscriptionId: context.subscriptionId,
       billingPeriodName: billingPeriodName,
-      "api%2Dversion": context.apiVersion ?? "2024-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
       "%24expand": options?.expand,
       "%24skiptoken": options?.skiptoken,
       "%24top": options?.top,
