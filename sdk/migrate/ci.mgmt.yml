@@ -1,16 +1,19 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
       - main
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/migrate/ci.mgmt.yml
       - sdk/migrate/arm-migrate
       - sdk/migrate/arm-migrationassessment
+      - sdk/migrate/arm-migratecontainerappsassessments
 pr:
   branches:
     include:
@@ -25,6 +28,7 @@ pr:
       - sdk/migrate/ci.mgmt.yml
       - sdk/migrate/arm-migrate
       - sdk/migrate/arm-migrationassessment
+      - sdk/migrate/arm-migratecontainerappsassessments
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -34,3 +38,5 @@ extends:
         safeName: azurearmmigrate
       - name: azure-arm-migrationassessment
         safeName: azurearmmigrationassessment
+      - name: azure-arm-migratecontainerappsassessments
+        safeName: azurearmmigratecontainerappsassessments
