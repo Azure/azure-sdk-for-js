@@ -1,6 +1,40 @@
 {
   "extends": "../../../../eng/tsconfigs/src.cjs.json",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "include": [
-    "../src/index.ts"
+    "../src/index.ts",
+    "../src/api/index.ts",
+    "../src/api/solutionDeployments/index.ts",
+    "../src/api/hierarchyConfigurationMetadataVersions/index.ts",
+    "../src/api/hierarchyConfigurationMetadatas/index.ts",
+    "../src/api/configTemplateMetadatas/index.ts",
+    "../src/api/configTemplateSchemas/index.ts",
+    "../src/api/solutionSchemas/index.ts",
+    "../src/api/siteReferences/index.ts",
+    "../src/api/contexts/index.ts",
+    "../src/api/diagnostics/index.ts",
+    "../src/api/executions/index.ts",
+    "../src/api/workflowVersions/index.ts",
+    "../src/api/workflows/index.ts",
+    "../src/api/configTemplateVersions/index.ts",
+    "../src/api/configTemplates/index.ts",
+    "../src/api/instanceHistories/index.ts",
+    "../src/api/instances/index.ts",
+    "../src/api/solutionTemplates/index.ts",
+    "../src/api/solutionTemplateVersions/index.ts",
+    "../src/api/solutionMetadataVersions/index.ts",
+    "../src/api/solutionMetadatas/index.ts",
+    "../src/api/solutions/index.ts",
+    "../src/api/schemaReferences/index.ts",
+    "../src/api/dynamicSchemaVersions/index.ts",
+    "../src/api/targets/index.ts",
+    "../src/api/jobs/index.ts",
+    "../src/api/solutionVersions/index.ts",
+    "../src/api/schemaVersions/index.ts",
+    "../src/api/schemas/index.ts",
+    "../src/api/dynamicSchemas/index.ts",
+    "../src/models/index.ts"
   ]
 }

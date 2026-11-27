@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listByContext,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workflows/operations.js";
-import {
+import type {
   WorkflowsListByContextOptionalParams,
   WorkflowsDeleteOptionalParams,
   WorkflowsUpdateOptionalParams,
   WorkflowsCreateOrUpdateOptionalParams,
   WorkflowsGetOptionalParams,
 } from "../../api/workflows/options.js";
-import { Workflow } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Workflow } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workflows operations. */
 export interface WorkflowsOperations {
@@ -29,11 +29,6 @@ export interface WorkflowsOperations {
     options?: WorkflowsListByContextOptionalParams,
   ) => PagedAsyncIterableIterator<Workflow>;
   /** Delete a Workflow resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     contextName: string,

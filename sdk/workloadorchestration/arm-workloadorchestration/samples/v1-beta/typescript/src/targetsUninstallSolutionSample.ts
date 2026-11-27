@@ -8,21 +8,21 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post request to uninstall
  *
  * @summary post request to uninstall
- * x-ms-original-file: 2025-06-01/Targets_UninstallSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/Targets_UninstallSolution_MaximumSet_Gen.json
  */
-async function targetsUninstallSolutionMaximumSet(): Promise<void> {
+async function targetsUninstallSolutionMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   await client.targets.uninstallSolution("rgconfigurationmanager", "testname", {
     solutionTemplateId:
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}",
-    solutionInstanceName: "lzihiumrcxbolmkqktvtuqyhg",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/SolutionTemplates/st",
+    solutionInstanceName: "yedwbsm",
   });
 }
 
 async function main(): Promise<void> {
-  await targetsUninstallSolutionMaximumSet();
+  await targetsUninstallSolutionMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

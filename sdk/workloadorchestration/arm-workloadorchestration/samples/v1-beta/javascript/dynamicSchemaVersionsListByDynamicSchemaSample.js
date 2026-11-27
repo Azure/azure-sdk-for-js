@@ -8,11 +8,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list by Dynamic Schema
  *
  * @summary list by Dynamic Schema
- * x-ms-original-file: 2025-06-01/DynamicSchemaVersions_ListByDynamicSchema_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DynamicSchemaVersions_ListByDynamicSchema_MaximumSet_Gen.json
  */
-async function dynamicSchemaVersionsListByDynamicSchemaMaximumSet() {
+async function dynamicSchemaVersionsListByDynamicSchemaMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
+  const subscriptionId = "612CB927-8AC8-42DD-B74E-C676C3960BA5";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.dynamicSchemaVersions.listByDynamicSchema(
@@ -27,7 +27,7 @@ async function dynamicSchemaVersionsListByDynamicSchemaMaximumSet() {
 }
 
 async function main() {
-  await dynamicSchemaVersionsListByDynamicSchemaMaximumSet();
+  await dynamicSchemaVersionsListByDynamicSchemaMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

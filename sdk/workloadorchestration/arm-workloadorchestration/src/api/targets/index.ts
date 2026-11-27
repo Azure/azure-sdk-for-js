@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  unstageSolutionVersion,
   updateExternalValidationStatus,
   publishSolutionVersion,
   reviewSolutionVersion,
@@ -16,18 +17,19 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type TargetsUpdateExternalValidationStatusOptionalParams,
-  type TargetsPublishSolutionVersionOptionalParams,
-  type TargetsReviewSolutionVersionOptionalParams,
-  type TargetsResolveConfigurationOptionalParams,
-  type TargetsRemoveRevisionOptionalParams,
-  type TargetsUninstallSolutionOptionalParams,
-  type TargetsInstallSolutionOptionalParams,
-  type TargetsListBySubscriptionOptionalParams,
-  type TargetsListByResourceGroupOptionalParams,
-  type TargetsDeleteOptionalParams,
-  type TargetsUpdateOptionalParams,
-  type TargetsCreateOrUpdateOptionalParams,
-  type TargetsGetOptionalParams,
+export type {
+  TargetsUnstageSolutionVersionOptionalParams,
+  TargetsUpdateExternalValidationStatusOptionalParams,
+  TargetsPublishSolutionVersionOptionalParams,
+  TargetsReviewSolutionVersionOptionalParams,
+  TargetsResolveConfigurationOptionalParams,
+  TargetsRemoveRevisionOptionalParams,
+  TargetsUninstallSolutionOptionalParams,
+  TargetsInstallSolutionOptionalParams,
+  TargetsListBySubscriptionOptionalParams,
+  TargetsListByResourceGroupOptionalParams,
+  TargetsDeleteOptionalParams,
+  TargetsUpdateOptionalParams,
+  TargetsCreateOrUpdateOptionalParams,
+  TargetsGetOptionalParams,
 } from "./options.js";

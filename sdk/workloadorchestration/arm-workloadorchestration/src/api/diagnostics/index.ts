@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type DiagnosticsListBySubscriptionOptionalParams,
-  type DiagnosticsListByResourceGroupOptionalParams,
-  type DiagnosticsDeleteOptionalParams,
-  type DiagnosticsUpdateOptionalParams,
-  type DiagnosticsCreateOrUpdateOptionalParams,
-  type DiagnosticsGetOptionalParams,
+export type {
+  DiagnosticsListBySubscriptionOptionalParams,
+  DiagnosticsListByResourceGroupOptionalParams,
+  DiagnosticsDeleteOptionalParams,
+  DiagnosticsUpdateOptionalParams,
+  DiagnosticsCreateOrUpdateOptionalParams,
+  DiagnosticsGetOptionalParams,
 } from "./options.js";

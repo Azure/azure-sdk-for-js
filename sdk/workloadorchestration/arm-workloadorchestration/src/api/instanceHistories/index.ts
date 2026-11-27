@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByInstance, get } from "./operations.js";
-export {
-  type InstanceHistoriesListByInstanceOptionalParams,
-  type InstanceHistoriesGetOptionalParams,
+export type {
+  InstanceHistoriesListByInstanceOptionalParams,
+  InstanceHistoriesGetOptionalParams,
 } from "./options.js";

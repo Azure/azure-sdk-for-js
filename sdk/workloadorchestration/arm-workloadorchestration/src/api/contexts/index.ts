@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type ContextsDeleteOptionalParams,
-  type ContextsListBySubscriptionOptionalParams,
-  type ContextsListByResourceGroupOptionalParams,
-  type ContextsUpdateOptionalParams,
-  type ContextsCreateOrUpdateOptionalParams,
-  type ContextsGetOptionalParams,
+export type {
+  ContextsDeleteOptionalParams,
+  ContextsListBySubscriptionOptionalParams,
+  ContextsListByResourceGroupOptionalParams,
+  ContextsUpdateOptionalParams,
+  ContextsCreateOrUpdateOptionalParams,
+  ContextsGetOptionalParams,
 } from "./options.js";

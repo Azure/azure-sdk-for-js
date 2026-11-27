@@ -26,8 +26,11 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloadorchestration/arm-workloadorchestration",
   "dependencies": {
-    "@azure/arm-workloadorchestration": "next",
+    "@azure/arm-workloadorchestration": "beta",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.0"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

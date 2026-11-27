@@ -1,40 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type {
   SolutionVersion,
-  solutionVersionDeserializer,
   InstallSolutionParameter,
-  installSolutionParameterSerializer,
-  Target,
-  targetSerializer,
-  targetDeserializer,
-  TargetUpdate,
-  targetUpdateSerializer,
-  _TargetListResult,
-  _targetListResultDeserializer,
-  UninstallSolutionParameter,
-  uninstallSolutionParameterSerializer,
-  RemoveRevisionParameter,
-  removeRevisionParameterSerializer,
-  SolutionTemplateParameter,
-  solutionTemplateParameterSerializer,
-  ResolvedConfiguration,
-  resolvedConfigurationDeserializer,
   SolutionVersionParameter,
-  solutionVersionParameterSerializer,
+  UninstallSolutionParameter,
+  Target,
+  TargetUpdate,
+  _TargetListResult,
+  RemoveRevisionParameter,
+  SolutionTemplateParameter,
+  ResolvedConfiguration,
   UpdateExternalValidationStatusParameter,
-  updateExternalValidationStatusParameterSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  solutionVersionDeserializer,
+  installSolutionParameterSerializer,
+  solutionVersionParameterSerializer,
+  uninstallSolutionParameterSerializer,
+  targetSerializer,
+  targetDeserializer,
+  targetUpdateSerializer,
+  _targetListResultDeserializer,
+  removeRevisionParameterSerializer,
+  solutionTemplateParameterSerializer,
+  resolvedConfigurationDeserializer,
+  updateExternalValidationStatusParameterSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
+  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -49,30 +50,24 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _updateExternalValidationStatusSend(
+export function _unstageSolutionVersionSend(
   context: Client,
   resourceGroupName: string,
   targetName: string,
-  body: UpdateExternalValidationStatusParameter,
-  options: TargetsUpdateExternalValidationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  body: SolutionVersionParameter,
+  options: TargetsUnstageSolutionVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,10 +76,68 @@ export function _updateExternalValidationStatusSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: solutionVersionParameterSerializer(body),
+  });
+}
+
+export async function _unstageSolutionVersionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SolutionVersion> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return solutionVersionDeserializer(result.body);
+}
+
+/** Post request to unstage solution version */
+export function unstageSolutionVersion(
+  context: Client,
+  resourceGroupName: string,
+  targetName: string,
+  body: SolutionVersionParameter,
+  options: TargetsUnstageSolutionVersionOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<SolutionVersion>, SolutionVersion> {
+  return getLongRunningPoller(context, _unstageSolutionVersionDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _unstageSolutionVersionSend(context, resourceGroupName, targetName, body, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+}
+
+export function _updateExternalValidationStatusSend(
+  context: Client,
+  resourceGroupName: string,
+  targetName: string,
+  body: UpdateExternalValidationStatusParameter,
+  options: TargetsUpdateExternalValidationStatusOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      targetName: targetName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: updateExternalValidationStatusParameterSerializer(body),
   });
 }
@@ -92,10 +145,13 @@ export function _updateExternalValidationStatusSend(
 export async function _updateExternalValidationStatusDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SolutionVersion> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -108,17 +164,21 @@ export function updateExternalValidationStatus(
   resourceGroupName: string,
   targetName: string,
   body: UpdateExternalValidationStatusParameter,
-  options: TargetsUpdateExternalValidationStatusOptionalParams = {
-    requestOptions: {},
-  },
+  options: TargetsUpdateExternalValidationStatusOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SolutionVersion>, SolutionVersion> {
-  return getLongRunningPoller(context, _updateExternalValidationStatusDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateExternalValidationStatusSend(context, resourceGroupName, targetName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+  return getLongRunningPoller(
+    context,
+    _updateExternalValidationStatusDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateExternalValidationStatusSend(context, resourceGroupName, targetName, body, options),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+  ) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 }
 
 export function _publishSolutionVersionSend(
@@ -134,7 +194,7 @@ export function _publishSolutionVersionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,10 +203,7 @@ export function _publishSolutionVersionSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: solutionVersionParameterSerializer(body),
   });
 }
@@ -154,10 +211,13 @@ export function _publishSolutionVersionSend(
 export async function _publishSolutionVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SolutionVersion> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -172,12 +232,13 @@ export function publishSolutionVersion(
   body: SolutionVersionParameter,
   options: TargetsPublishSolutionVersionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SolutionVersion>, SolutionVersion> {
-  return getLongRunningPoller(context, _publishSolutionVersionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _publishSolutionVersionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _publishSolutionVersionSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 }
 
@@ -194,7 +255,7 @@ export function _reviewSolutionVersionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,10 +264,7 @@ export function _reviewSolutionVersionSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: solutionTemplateParameterSerializer(body),
   });
 }
@@ -214,10 +272,13 @@ export function _reviewSolutionVersionSend(
 export async function _reviewSolutionVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SolutionVersion> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -232,12 +293,13 @@ export function reviewSolutionVersion(
   body: SolutionTemplateParameter,
   options: TargetsReviewSolutionVersionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SolutionVersion>, SolutionVersion> {
-  return getLongRunningPoller(context, _reviewSolutionVersionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _reviewSolutionVersionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _reviewSolutionVersionSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 }
 
@@ -254,7 +316,7 @@ export function _resolveConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,10 +325,7 @@ export function _resolveConfigurationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: solutionTemplateParameterSerializer(body),
   });
 }
@@ -274,10 +333,13 @@ export function _resolveConfigurationSend(
 export async function _resolveConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ResolvedConfiguration> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -292,12 +354,13 @@ export function resolveConfiguration(
   body: SolutionTemplateParameter,
   options: TargetsResolveConfigurationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ResolvedConfiguration>, ResolvedConfiguration> {
-  return getLongRunningPoller(context, _resolveConfigurationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _resolveConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _resolveConfigurationSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ResolvedConfiguration>, ResolvedConfiguration>;
 }
 
@@ -314,7 +377,7 @@ export function _removeRevisionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -328,10 +391,13 @@ export function _removeRevisionSend(
 }
 
 export async function _removeRevisionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -346,12 +412,13 @@ export function removeRevision(
   body: RemoveRevisionParameter,
   options: TargetsRemoveRevisionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _removeRevisionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _removeRevisionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _removeRevisionSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -368,7 +435,7 @@ export function _uninstallSolutionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -382,10 +449,13 @@ export function _uninstallSolutionSend(
 }
 
 export async function _uninstallSolutionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -400,12 +470,13 @@ export function uninstallSolution(
   body: UninstallSolutionParameter,
   options: TargetsUninstallSolutionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _uninstallSolutionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _uninstallSolutionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _uninstallSolutionSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -422,7 +493,7 @@ export function _installSolutionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,10 +507,13 @@ export function _installSolutionSend(
 }
 
 export async function _installSolutionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -454,12 +528,13 @@ export function installSolution(
   body: InstallSolutionParameter,
   options: TargetsInstallSolutionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _installSolutionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _installSolutionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _installSolutionSend(context, resourceGroupName, targetName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -471,7 +546,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/targets{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -479,10 +554,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -492,7 +564,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -509,7 +584,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -523,7 +602,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -531,10 +610,7 @@ export function _listByResourceGroupSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -544,7 +620,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -562,7 +641,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -578,7 +661,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       forceDelete: options?.forceDelete,
     },
     {
@@ -592,7 +675,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -600,11 +686,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a Target Resource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -616,6 +697,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, targetName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -632,7 +714,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -641,19 +723,19 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: targetUpdateSerializer(properties),
   });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Target> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -668,12 +750,13 @@ export function update(
   properties: TargetUpdate,
   options: TargetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Target>, Target> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, targetName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<Target>, Target>;
 }
 
@@ -690,7 +773,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -699,10 +782,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: targetSerializer(resource),
   });
 }
@@ -711,7 +791,10 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -732,6 +815,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, targetName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<Target>, Target>;
 }
 
@@ -747,7 +831,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       targetName: targetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -755,10 +839,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -766,7 +847,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ta
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
