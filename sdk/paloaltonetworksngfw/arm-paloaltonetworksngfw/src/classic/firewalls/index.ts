@@ -126,7 +126,6 @@ export interface FirewallsOperations {
     options?: FirewallsGetOptionalParams,
   ) => Promise<FirewallResource>;
 }
-
 function _getFirewalls(context: PaloAltoNetworksCloudngfwContext) {
   return {
     saveLogProfile: (
@@ -210,7 +209,6 @@ function _getFirewalls(context: PaloAltoNetworksCloudngfwContext) {
       get(context, resourceGroupName, firewallName, options),
   };
 }
-
 export function _getFirewallsOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): FirewallsOperations {

@@ -78,7 +78,6 @@ export interface FqdnListGlobalRulestackOperations {
     options?: FqdnListGlobalRulestackGetOptionalParams,
   ) => Promise<FqdnListGlobalRulestackResource>;
 }
-
 function _getFqdnListGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     list: (globalRulestackName: string, options?: FqdnListGlobalRulestackListOptionalParams) =>
@@ -135,7 +134,6 @@ function _getFqdnListGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) 
     ) => get(context, globalRulestackName, name, options),
   };
 }
-
 export function _getFqdnListGlobalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): FqdnListGlobalRulestackOperations {

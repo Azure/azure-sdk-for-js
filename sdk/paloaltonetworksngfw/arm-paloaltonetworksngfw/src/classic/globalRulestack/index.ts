@@ -160,7 +160,6 @@ export interface GlobalRulestackOperations {
     options?: GlobalRulestackGetOptionalParams,
   ) => Promise<GlobalRulestackResource>;
 }
-
 function _getGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     revert: (globalRulestackName: string, options?: GlobalRulestackRevertOptionalParams) =>
@@ -256,7 +255,6 @@ function _getGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
       get(context, globalRulestackName, options),
   };
 }
-
 export function _getGlobalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): GlobalRulestackOperations {

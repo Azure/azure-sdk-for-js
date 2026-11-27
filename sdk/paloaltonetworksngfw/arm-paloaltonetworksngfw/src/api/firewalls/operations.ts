@@ -53,7 +53,7 @@ export function _saveLogProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,6 @@ export async function _saveLogProfileDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Log Profile for Firewall */
 export async function saveLogProfile(
   context: Client,
@@ -105,7 +104,7 @@ export function _getSupportInfoSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
       email: options?.email,
     },
     {
@@ -133,7 +132,6 @@ export async function _getSupportInfoDeserialize(
 
   return supportInfoDeserializer(result.body);
 }
-
 /** support info for firewall. */
 export async function getSupportInfo(
   context: Client,
@@ -157,7 +155,7 @@ export function _getLogProfileSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -184,7 +182,6 @@ export async function _getLogProfileDeserialize(
 
   return logSettingsDeserializer(result.body);
 }
-
 /** Log Profile for Firewall */
 export async function getLogProfile(
   context: Client,
@@ -208,7 +205,7 @@ export function _getGlobalRulestackSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,7 +232,6 @@ export async function _getGlobalRulestackDeserialize(
 
   return globalRulestackInfoDeserializer(result.body);
 }
-
 /** Get Global Rulestack associated with the Firewall */
 export async function getGlobalRulestack(
   context: Client,
@@ -255,7 +251,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/firewalls{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -282,7 +278,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _firewallResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -296,7 +291,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -311,7 +306,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,7 +333,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _firewallResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -353,7 +347,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-11-preview",
+      apiVersion: context.apiVersion ?? "2026-07-29-preview",
     },
   );
 }
@@ -370,7 +364,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -392,7 +386,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a FirewallResource */
 export function $delete(
   context: Client,
@@ -405,7 +398,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, firewallName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -422,7 +415,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -449,7 +442,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Update a FirewallResource */
 export async function update(
   context: Client,
@@ -475,7 +467,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -504,7 +496,6 @@ export async function _createOrUpdateDeserialize(
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Create a FirewallResource */
 export function createOrUpdate(
   context: Client,
@@ -519,7 +510,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, firewallName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-11-preview",
+    apiVersion: context.apiVersion ?? "2026-07-29-preview",
   }) as PollerLike<OperationState<FirewallResource>, FirewallResource>;
 }
 
@@ -535,7 +526,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       firewallName: firewallName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-11-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-29-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -560,7 +551,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Get a FirewallResource */
 export async function get(
   context: Client,

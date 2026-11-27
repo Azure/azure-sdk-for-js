@@ -1009,7 +1009,8 @@ export enum KnownUsageType {
 export enum KnownVersions {
     V20251008 = "2025-10-08",
     V20260126Preview = "2026-01-26-preview",
-    V20260511Preview = "2026-05-11-preview"
+    V20260511Preview = "2026-05-11-preview",
+    V20260729Preview = "2026-07-29-preview"
 }
 
 // @public
@@ -1271,6 +1272,53 @@ export interface LogDestination {
 }
 
 // @public
+export interface LogDestinationV2 {
+    eventHubConfigurations?: EventHub;
+    monitorConfigurationsV2?: MonitorLogV2;
+    storageConfigurations?: StorageAccount;
+}
+
+// @public
+export interface LogIngestionSettingsProperties {
+    applicationInsights?: ApplicationInsights;
+    commonDestination?: LogDestinationV2;
+    decryptLogDestination?: LogDestinationV2;
+    logOption?: LogOption;
+    logType?: LogType;
+    threatLogDestination?: LogDestinationV2;
+    trafficLogDestination?: LogDestinationV2;
+}
+
+// @public
+export interface LogIngestionSettingsResource extends ProxyResource {
+    properties: LogIngestionSettingsProperties;
+}
+
+// @public
+export interface LogIngestionSettingsResourcesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogIngestionSettingsResourcesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogIngestionSettingsResourcesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogIngestionSettingsResourcesListByFirewallOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LogIngestionSettingsResourcesOperations {
+    createOrUpdate: (resourceGroupName: string, firewallName: string, resource: LogIngestionSettingsResource, options?: LogIngestionSettingsResourcesCreateOrUpdateOptionalParams) => Promise<LogIngestionSettingsResource>;
+    delete: (resourceGroupName: string, firewallName: string, options?: LogIngestionSettingsResourcesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, firewallName: string, options?: LogIngestionSettingsResourcesGetOptionalParams) => Promise<LogIngestionSettingsResource>;
+    listByFirewall: (resourceGroupName: string, firewallName: string, options?: LogIngestionSettingsResourcesListByFirewallOptionalParams) => PagedAsyncIterableIterator<LogIngestionSettingsResource>;
+}
+
+// @public
 export type LogOption = string;
 
 // @public
@@ -1361,6 +1409,14 @@ export interface MonitorLog {
 }
 
 // @public
+export interface MonitorLogV2 {
+    dcrId: string;
+    dcrImmutableId: string;
+    logIngestionEndpoint: string;
+    streamName: string;
+}
+
+// @public
 export interface NameDescriptionObject {
     description?: string;
     name: string;
@@ -1436,6 +1492,7 @@ export class PaloAltoNetworksCloudngfw {
     readonly globalRulestack: GlobalRulestackOperations;
     readonly localRules: LocalRulesOperations;
     readonly localRulestacks: LocalRulestacksOperations;
+    readonly logIngestionSettingsResources: LogIngestionSettingsResourcesOperations;
     readonly metricsObjectFirewall: MetricsObjectFirewallOperations;
     readonly operations: OperationsOperations;
     readonly paloAltoNetworksCloudngfwOperations: PaloAltoNetworksCloudngfwOperationsOperations;
@@ -1464,13 +1521,9 @@ export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParam
 
 // @public
 export interface PaloAltoNetworksCloudngfwOperationsOperations {
-    // (undocumented)
     createProductSerialNumber: (options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams) => Promise<ProductSerialNumberRequestStatus>;
-    // (undocumented)
     listCloudManagerTenants: (options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams) => Promise<CloudManagerTenantList>;
-    // (undocumented)
-    listProductSerialNumberStatus: (options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams) => Promise<ProductSerialNumberStatus | undefined>;
-    // (undocumented)
+    listProductSerialNumberStatus: (options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams) => Promise<ProductSerialNumberStatus | void>;
     listSupportInfo: (options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams) => Promise<SupportInfoModel>;
 }
 
