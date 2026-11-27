@@ -1,5 +1,19 @@
 # Release History
 
+## 12.35.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `BlockBlobClient.uploadStream` now throws a `RangeError` when `bufferSize` isn't a positive integer or `maxConcurrency` isn't a positive number, for example when an options object is passed in their place, instead of committing an empty blob or, once the data filled a buffer, waiting forever. [#31760](https://github.com/Azure/azure-sdk-for-js/issues/31760)
+- `BlockBlobClient.uploadData`, `uploadFile` and `uploadBrowserData` now throw a `RangeError` when `blockSize` isn't a whole number, instead of uploading a blob with missing bytes. This also applies when the data fits in one request, which ignored `blockSize` before. [#31763](https://github.com/Azure/azure-sdk-for-js/issues/31763)
+- `BlockBlobClient.uploadStream` now rejects with an `AbortError` as soon as its `abortSignal` is aborted, also while it waits for data from the source stream, and cancels the blocks it's staging. Before, it kept staging blocks and failed only at the commit. [#32028](https://github.com/Azure/azure-sdk-for-js/issues/32028)
+
+### Other Changes
+
 ## 12.35.0-beta.1 (2026-11-11)
 
 ### Features Added

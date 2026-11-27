@@ -2,10 +2,202 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
+import { getEventListeners } from "node:events";
 import { PassThrough } from "node:stream";
 import { BufferScheduler } from "../../src/BufferScheduler.js";
 
 describe("BufferScheduler", () => {
+  it("throws a RangeError for a buffer size that isn't a positive integer or a buffer count that isn't positive", () => {
+    const stream = new PassThrough();
+    const handler = async (): Promise<void> => {};
+
+    for (const bufferSize of [{} as number, NaN, 1.5]) {
+      assert.throws(() => new BufferScheduler(stream, bufferSize, 2, handler, 1), RangeError);
+    }
+    assert.throws(() => new BufferScheduler(stream, 8, NaN, handler, 1), RangeError);
+    // Values that worked before keep working: a fractional count and a numeric string.
+    assert.doesNotThrow(() => new BufferScheduler(stream, 8, 2.5, handler, 1));
+    assert.doesNotThrow(() => new BufferScheduler(stream, "8" as unknown as number, 2, handler, 1));
+  });
+
+  it("rejects with an AbortError when aborted while the stream waits for data", async () => {
+    const stream = new PassThrough();
+    let handled = 0;
+    const scheduler = new BufferScheduler(
+      stream,
+      8,
+      2,
+      async () => {
+        handled++;
+      },
+      1,
+    );
+    const abortController = new AbortController();
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+
+    // Less than one buffer arrives, then the source stops sending.
+    stream.write(Buffer.from("1234"));
+    await new Promise((resolve) => setImmediate(resolve));
+    stream.pause();
+    abortController.abort();
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    assert.equal(handled, 0, "no buffer should be handed to the outgoing handler");
+    assert.lengthOf(getEventListeners(abortController.signal, "abort"), 0);
+    // A later error from the stream must not end the process.
+    assert.doesNotThrow(() => stream.emit("error", new Error("ENOENT: no such file or directory")));
+  });
+
+  it("starts no queued buffer and leaves the stream alone when running handlers end after an abort", async () => {
+    const stream = new PassThrough();
+    const startedOffsets: number[] = [];
+    let finish!: () => void;
+    let fail!: (err: Error) => void;
+    const finished = new Promise<void>((resolve) => {
+      finish = resolve;
+    });
+    const failed = new Promise<void>((_resolve, reject) => {
+      fail = reject;
+    });
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      4,
+      async (_body, _length, offset) => {
+        startedOffsets.push(offset!);
+        await (offset === 0 ? finished : failed);
+      },
+      2,
+    );
+    const abortController = new AbortController();
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+
+    // Five buffers' worth: two handlers run, two buffers wait in the queue and one buffer's worth
+    // waits for a free buffer.
+    stream.write(Buffer.from("12345678901234567890"));
+    await new Promise((resolve) => setImmediate(resolve));
+    abortController.abort();
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+
+    // The caller drains the stream while the running handlers end, one way or the other.
+    stream.resume();
+    finish();
+    fail(new Error("The operation was aborted."));
+    stream.write(Buffer.from("abcdefgh"));
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.deepEqual(startedOffsets, [0, 4], "queued buffers should not be handed out");
+    assert.isFalse(stream.isPaused(), "the stream should keep flowing");
+  });
+
+  it("hands out no more buffers, and leaves the stream to the caller, once a handler aborts before its first await", async () => {
+    const stream = new PassThrough();
+    const startedOffsets: number[] = [];
+    const abortController = new AbortController();
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      4,
+      async (_body, _length, offset) => {
+        startedOffsets.push(offset!);
+        // Aborts while the scheduler is still handing out the buffers of this chunk.
+        abortController.abort();
+        await new Promise<void>(() => {});
+      },
+      2,
+    );
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+    // The caller takes the stream back as soon as it aborts.
+    abortController.signal.addEventListener("abort", () => stream.resume());
+
+    stream.write(Buffer.from("1234567890123456"));
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    assert.deepEqual(startedOffsets, [0], "no buffer should be handed out after the abort");
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isFalse(stream.isPaused(), "the scheduler should not pause the stream again");
+  });
+
+  it("doesn't resume the stream when a handler it starts after a buffer frees aborts before its first await", async () => {
+    const stream = new PassThrough();
+    const abortController = new AbortController();
+    let release!: () => void;
+    const released = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const scheduler = new BufferScheduler(
+      stream,
+      4,
+      2,
+      async (_body, _length, offset) => {
+        if (offset === 0) {
+          await released;
+        } else {
+          abortController.abort();
+        }
+      },
+      1,
+    );
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
+
+    // Three buffers' worth with two buffers: the stream waits until the first handler finishes.
+    stream.write(Buffer.from("123456789012"));
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isTrue(stream.isPaused(), "the stream should wait for a free buffer");
+    release();
+
+    let error: unknown;
+    try {
+      await schedulerPromise;
+    } catch (e) {
+      error = e;
+    }
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.isTrue(
+      stream.isPaused(),
+      "the scheduler should leave the stream paused after the abort",
+    );
+  });
+
+  it("rejects without reading the stream when the signal is already aborted", async () => {
+    const stream = new PassThrough();
+    const scheduler = new BufferScheduler(stream, 8, 2, async () => {}, 1);
+
+    let error: unknown;
+    try {
+      await scheduler.do({ abortSignal: AbortSignal.abort() });
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal((error as Error)?.name, "AbortError", "do() should reject with an AbortError");
+    assert.equal(stream.listenerCount("data"), 0, "do() should not read the stream");
+    // An error the stream raises later, as a file stream does when its file can't be opened,
+    // must not end the process.
+    assert.doesNotThrow(() => stream.emit("error", new Error("ENOENT: no such file or directory")));
+  });
+
   it("handles a small amount of data", async () => {
     const stream = new PassThrough();
     const testData = Buffer.from("Hello BufferScheduler ESM!");
@@ -25,7 +217,8 @@ describe("BufferScheduler", () => {
     }
 
     const scheduler = new BufferScheduler(stream, 8, 2, outgoingHandler, 1);
-    const schedulerPromise = scheduler.do();
+    const abortController = new AbortController();
+    const schedulerPromise = scheduler.do({ abortSignal: abortController.signal });
 
     stream.write(testData);
     stream.end();
@@ -34,6 +227,11 @@ describe("BufferScheduler", () => {
 
     const combined = Buffer.concat(results);
     assert.equal(combined.toString(), testData.toString(), "All data should match");
+    assert.lengthOf(
+      getEventListeners(abortController.signal, "abort"),
+      0,
+      "do() should stop listening to the signal once it resolves",
+    );
   });
 
   it("respects concurrency", async () => {

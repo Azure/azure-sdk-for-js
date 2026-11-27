@@ -1,5 +1,19 @@
 # Release History
 
+## 12.6.0-beta.2 (Unreleased)
+
+### Features Added
+
+- `BufferScheduler.do()` takes an optional `options` object with an `abortSignal`. When it's aborted, `do()` pauses the stream and rejects with an `AbortError`, also while it waits for data. After `do()` rejects, no more data is handed to the outgoing handler; handlers already running aren't stopped, so pass the same signal to the requests they send. [#40885](https://github.com/Azure/azure-sdk-for-js/pull/40885)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `BufferScheduler` now throws a `RangeError` when `bufferSize` isn't a positive integer or `maxBuffers` isn't a positive number. Before, a `bufferSize` such as an object made `do()` finish without handing any data to the outgoing handler, and once the data filled a buffer, a fractional `bufferSize` failed with an unclear `TypeError` and an invalid `maxBuffers` made `do()` wait forever; these values now throw for smaller data too. [#31760](https://github.com/Azure/azure-sdk-for-js/issues/31760)
+
+### Other Changes
+
 ## 12.6.0-beta.1 (2026-11-11)
 
 ### Features Added

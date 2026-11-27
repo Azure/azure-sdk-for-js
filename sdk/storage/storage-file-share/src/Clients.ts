@@ -6088,9 +6088,9 @@ export class ShareFileClient extends StorageClient {
    * @param size - Size of file to be created. Maximum size allowed is 4 TB.
    *                      If this value is larger than stream size, there will be empty bytes in file tail.
    * @param bufferSize - Size of every buffer allocated in bytes, also the chunk/range size during
-   *                            the uploaded file. Size must be greater than 0 and lesser than or equal to 4 * 1024 * 1024 (4MB)
+   *                            the uploaded file. Size must be at least 1 and less than or equal to 4 * 1024 * 1024 (4MB)
    * @param maxBuffers - Max buffers will allocate during uploading, positive correlation
-   *                            with max uploading concurrency
+   *                            with max uploading concurrency. Must be greater than 0.
    * @param options -
    */
   public async uploadStream(
@@ -6109,11 +6109,18 @@ export class ShareFileClient extends StorageClient {
           options.fileHttpHeaders = {};
         }
 
-        if (bufferSize <= 0 || bufferSize > FILE_RANGE_MAX_SIZE_BYTES) {
-          throw new RangeError(`bufferSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
+        // A fractional size of 1 or more works (the buffers round it down); a string or an object doesn't.
+        if (
+          typeof bufferSize !== "number" ||
+          !(bufferSize >= 1) ||
+          bufferSize > FILE_RANGE_MAX_SIZE_BYTES
+        ) {
+          throw new RangeError(
+            `bufferSize must be a number >= 1 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`,
+          );
         }
 
-        if (maxBuffers < 0) {
+        if (!(maxBuffers > 0)) {
           throw new RangeError(`maxBuffers must be > 0.`);
         }
 
@@ -6158,7 +6165,7 @@ export class ShareFileClient extends StorageClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxBuffers / 4) * 3),
         );
-        return scheduler.do();
+        return scheduler.do({ abortSignal: options.abortSignal });
       },
     );
   }

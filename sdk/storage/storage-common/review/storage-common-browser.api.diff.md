@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -7,23 +7,22 @@
+@@ -8,23 +8,22 @@
  import type { CompatResponse } from '@azure/core-http-compat';
  import type { HttpClient } from '@azure/core-rest-pipeline';
  import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
@@ -34,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -43,26 +42,25 @@
+@@ -44,28 +43,27 @@
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
  
@@ -46,9 +46,12 @@ For the complete API surface, see the corresponding -node.api.md file.
 +// @public (undocumented)
  export class BufferScheduler {
 -    constructor(readable: NodeJS.ReadableStream, bufferSize: number, maxBuffers: number, outgoingHandler: OutgoingHandler, concurrency: number, encoding?: BufferEncoding);
+-    do(options?: {
 +    constructor(_readable: NodeReadableStream, _bufferSize: number, _maxBuffers: number, _outgoingHandler: OutgoingHandler, _concurrency: number, _encoding?: string);
 +    // (undocumented)
-     do(): Promise<void>;
++    do(_options?: {
+         abortSignal?: AbortSignalLike;
+     }): Promise<void>;
  }
  
  // @public
@@ -67,7 +70,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export abstract class CredentialPolicy extends BaseRequestPolicy {
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
-@@ -72,28 +70,29 @@
+@@ -75,28 +73,29 @@
  // @public
  export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => CredentialPolicy;
  
@@ -105,7 +108,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageBrowserPolicy extends BaseRequestPolicy {
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
-@@ -183,58 +182,46 @@
+@@ -186,58 +185,46 @@
      FIXED = 1
  }
  
@@ -175,7 +178,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      signedDelegatedUserTenantId?: string;
      signedExpiresOn: Date;
      signedObjectId: string;
-@@ -247,10 +234,13 @@
+@@ -250,10 +237,13 @@
  
  // @public
  export class UserDelegationKeyCredential {

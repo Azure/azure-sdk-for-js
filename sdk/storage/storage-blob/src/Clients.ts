@@ -3893,7 +3893,9 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Destination block blob size in bytes.
+   * Size of each block in bytes, used when the data is uploaded in blocks. Must be an integer from
+   * 0 to 4000MB; other values throw a `RangeError`, even when the data fits in one request.
+   * 0 or undefined uses 4MB, or more when the data would need more than 50,000 blocks.
    */
   blockSize?: number;
 
@@ -4735,9 +4737,13 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     let blockSize = options.blockSize ?? 0;
-    if (blockSize < 0 || blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
+    if (
+      !Number.isSafeInteger(blockSize) ||
+      blockSize < 0 ||
+      blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
+    ) {
       throw new RangeError(
-        `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`,
+        `blockSize option must be an integer >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`,
       );
     }
 
@@ -4870,9 +4876,9 @@ export class BlockBlobClient extends BlobClient {
    *    parameter, which will avoid Buffer.concat() operations.
    *
    * @param stream - Node.js Readable stream
-   * @param bufferSize - Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
+   * @param bufferSize - Size of every buffer allocated, also the block size in the uploaded block blob. Must be a positive integer. Default value is 8MB
    * @param maxConcurrency -  Max concurrency indicates the max number of buffers that can be allocated,
-   *                                 positive correlation with max uploading concurrency. Default value is 5
+   *                                 positive correlation with max uploading concurrency. Must be greater than 0. Default value is 5
    * @param options - Options to Upload Stream to Block Blob operation.
    * @returns Response data for the Blob Upload operation.
    */
@@ -4908,6 +4914,7 @@ export class BlockBlobClient extends BlobClient {
             blockNum++;
 
             await this.stageBlock(blockID, body, length, {
+              abortSignal: options.abortSignal,
               customerProvidedKey: options.customerProvidedKey,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
@@ -4927,7 +4934,7 @@ export class BlockBlobClient extends BlobClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((maxConcurrency / 4) * 3),
         );
-        await scheduler.do();
+        await scheduler.do({ abortSignal: options.abortSignal });
 
         return assertResponse(
           await this.commitBlockList(blockList, {

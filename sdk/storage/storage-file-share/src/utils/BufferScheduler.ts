@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import { getErrorMessage } from "@azure/core-util";
 import { EventEmitter } from "events";
+import { logger } from "../log.js";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
@@ -161,10 +165,32 @@ export class BufferScheduler {
    * Start the scheduler, will return error when stream of any of the outgoingHandlers
    * returns error.
    *
+   * @param options - `abortSignal`: when it's aborted, `do()` rejects with an `AbortError` and
+   *                  pauses the stream. No more data is handed to the outgoing handler after
+   *                  `do()` rejects. Pass the same signal to the requests the handler sends.
+   *                  If the signal is already aborted, `do()` rejects without reading the stream
+   *                  and leaves a logging `error` listener on it, so an error the stream raises
+   *                  later doesn't end the process.
    */
-  public async do(): Promise<void> {
+  public async do(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const { abortSignal } = options;
+    if (abortSignal?.aborted) {
+      // The stream isn't read, but it can still emit "error" (a file stream does when its file
+      // can't be opened), and an "error" event with no listener ends the process.
+      this.readable.on("error", logIgnoredStreamError);
+      throw new AbortError("The operation was aborted.");
+    }
+    const onAbort = (): void => {
+      this.emitter.emit("error", new AbortError("The operation was aborted."));
+    };
+    abortSignal?.addEventListener("abort", onAbort);
+
     return new Promise<void>((resolve, reject) => {
       this.readable.on("data", (data) => {
+        // Once do() has rejected, leave the stream to the caller, who may drain or reuse it.
+        if (this.isError) {
+          return;
+        }
         data = typeof data === "string" ? Buffer.from(data, this.encoding) : data;
         this.appendUnresolvedData(data);
 
@@ -183,12 +209,23 @@ export class BufferScheduler {
       });
 
       this.emitter.on("error", (err) => {
+        // Only the first error rejects and pauses: later ones come from handlers that were still
+        // running, and the stream already belongs to the caller again.
+        if (this.isError) {
+          return;
+        }
         this.isError = true;
         this.readable.pause();
         reject(err);
       });
 
       this.emitter.on("checkEnd", () => {
+        // Handlers still running when do() rejected emit "checkEnd" when they finish;
+        // queued buffers must not be uploaded then.
+        if (this.isError) {
+          return;
+        }
+
         if (this.outgoing.length > 0) {
           this.triggerOutgoingHandlers();
           return;
@@ -206,7 +243,7 @@ export class BufferScheduler {
           }
         }
       });
-    });
+    }).finally(() => abortSignal?.removeEventListener("abort", onAbort));
   }
 
   /**
@@ -258,7 +295,9 @@ export class BufferScheduler {
    * @returns Return false when buffers in incoming are not enough, else true.
    */
   private resolveData(): boolean {
-    while (this.unresolvedLength >= this.bufferSize) {
+    // A handler can abort, or throw before it returns its promise, while this loop hands out
+    // buffers: stop handing them out then.
+    while (!this.isError && this.unresolvedLength >= this.bufferSize) {
       let buffer: Buffer;
 
       if (this.incoming.length > 0) {
@@ -328,8 +367,16 @@ export class BufferScheduler {
    */
   private reuseBuffer(buffer: Buffer): void {
     this.incoming.push(buffer);
-    if (!this.isError && this.resolveData() && !this.isStreamEnd) {
+    // resolveData() starts nothing after a failure, and an upload it starts can abort at once:
+    // resume only if nothing failed.
+    if (this.resolveData() && !this.isError && !this.isStreamEnd) {
       this.readable.resume();
     }
   }
+}
+
+function logIgnoredStreamError(error: unknown): void {
+  logger.info(
+    `BufferScheduler: the operation was aborted before the stream was read, and the stream then emitted an error: ${getErrorMessage(error)}`,
+  );
 }

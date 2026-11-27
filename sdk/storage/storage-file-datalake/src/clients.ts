@@ -1814,6 +1814,26 @@ export class DataLakeFileClient extends DataLakePathClient {
       "DataLakeFileClient-uploadStream",
       options,
       async (updatedOptions) => {
+        if (!options.chunkSize) {
+          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        }
+        // A numeric string is accepted: the scheduler only uses the size in arithmetic.
+        if (
+          !Number.isSafeInteger(Number(options.chunkSize)) ||
+          options.chunkSize < 1 ||
+          options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE
+        ) {
+          throw new RangeError(
+            `chunkSize option must be an integer >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`,
+          );
+        }
+        if (!options.maxConcurrency) {
+          options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
+        }
+        if (!(options.maxConcurrency > 0)) {
+          throw new RangeError(`maxConcurrency must be > 0.`);
+        }
+
         // Create the file
         await this.create({
           abortSignal: options.abortSignal,
@@ -1829,21 +1849,6 @@ export class DataLakeFileClient extends DataLakePathClient {
 
         // After the File is Create, Lease ID is the only valid request parameter.
         options.conditions = { leaseId: options.conditions?.leaseId };
-
-        if (!options.chunkSize) {
-          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
-        }
-        if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
-          throw new RangeError(
-            `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`,
-          );
-        }
-        if (!options.maxConcurrency) {
-          options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
-        }
-        if (options.maxConcurrency <= 0) {
-          throw new RangeError(`maxConcurrency must be > 0.`);
-        }
 
         let transferProgress: number = 0;
         const scheduler = new BufferScheduler(
@@ -1871,7 +1876,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           // Outgoing queue shouldn't be empty.
           Math.ceil((options.maxConcurrency / 4) * 3),
         );
-        await scheduler.do();
+        await scheduler.do({ abortSignal: options.abortSignal });
 
         return this.flush(transferProgress, {
           abortSignal: options.abortSignal,

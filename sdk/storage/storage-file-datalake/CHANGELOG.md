@@ -1,5 +1,18 @@
 # Release History
 
+## 12.32.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `DataLakeFileClient.uploadStream` now checks `chunkSize` and `maxConcurrency` before it creates the file, and throws a `RangeError` when `chunkSize` is a fraction or isn't numeric (for example `"4MB"`), or when `maxConcurrency` isn't numeric. Before, it created the file first; then a non-numeric `chunkSize` flushed it empty, and once the data filled a chunk, a fractional `chunkSize` failed with an unclear `TypeError` and a non-numeric `maxConcurrency` made the upload wait forever; these values now throw for smaller data too. [#31760](https://github.com/Azure/azure-sdk-for-js/issues/31760)
+- `DataLakeFileClient.uploadStream` now rejects with an `AbortError` as soon as its `abortSignal` is aborted, also while it waits for data from the source stream. [#32028](https://github.com/Azure/azure-sdk-for-js/issues/32028)
+
+### Other Changes
+
 ## 12.32.0-beta.1 (2026-11-11)
 
 ### Features Added

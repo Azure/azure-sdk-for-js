@@ -190,6 +190,21 @@ describe("BlockBlobClient.uploadData default single-shot threshold", () => {
 });
 
 describe("BlockBlobClient.uploadData when it stages blocks", () => {
+  it("throws a RangeError without sending anything when blockSize isn't a whole number", async () => {
+    const { client, sent } = createClient();
+    const size = 1637734;
+
+    await expect(
+      client.uploadData(new Uint8Array(size), { blockSize: size / 20, maxSingleShotSize: MB }),
+    ).rejects.toThrow(RangeError);
+    // Also when the data fits in one request, which doesn't use blockSize.
+    await expect(client.uploadData(new Uint8Array(1024), { blockSize: 1.5 })).rejects.toThrow(
+      RangeError,
+    );
+
+    assert.isEmpty(sent);
+  });
+
   it("rejects without committing or staging more blocks when a block fails", async () => {
     let blocks = 0;
     const { client, sent } = createClient((request) =>
