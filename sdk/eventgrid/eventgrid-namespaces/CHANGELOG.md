@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Replaced the CloudEvent deserialization mapper with explicit conversions, removing the direct `@azure/core-client` dependency and the unused `@azure/eventgrid` dependency. [#40670](https://github.com/Azure/azure-sdk-for-js/pull/40670)
+
 ## 1.0.0 (2024-06-11)
 
 ### Features Added
