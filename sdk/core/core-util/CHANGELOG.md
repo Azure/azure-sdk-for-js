@@ -1,5 +1,17 @@
 # Release History
 
+## 1.14.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix abort listener lifecycle for synchronous promise builders, preventing cleanup after settlement and observing aborts triggered during construction. [#40922](https://github.com/Azure/azure-sdk-for-js/issues/40922)
+
+### Other Changes
+
 ## 1.14.0 (2026-07-13)
 
 ### Other Changes
