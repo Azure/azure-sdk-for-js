@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a EnclaveResource
  *
  * @summary update a EnclaveResource
- * x-ms-original-file: 2026-04-01/VirtualEnclave_Update.json
+ * x-ms-original-file: 2026-10-01-preview/VirtualEnclave_Update.json
  */
 async function virtualEnclaveUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,12 +17,6 @@ async function virtualEnclaveUpdate(): Promise<void> {
   const result = await client.virtualEnclave.update("rgopenapi", "TestMyEnclave", {
     tags: { Tag1: "Value1" },
     properties: {
-      enclaveVirtualNetwork: {
-        networkSize: "small",
-        customCidrRange: "10.0.0.0/24",
-        subnetConfigurations: [{ subnetName: "test", networkPrefixSize: 26 }],
-        allowSubnetCommunication: true,
-      },
       enclaveDefaultSettings: { diagnosticDestination: "Both" },
       maintenanceModeConfiguration: {
         mode: "Off",
@@ -77,6 +71,8 @@ async function virtualEnclaveUpdate(): Promise<void> {
           mandatoryApprovers: [{ approverEntraId: "00000000-0000-0000-0000-000000000003" }],
         },
       },
+      subnetConfigurations: [{ subnetName: "test", networkPrefixSize: 26 }],
+      addressSpaces: [{ prefixLength: 23, addressSpace: "10.1.0.0/23" }],
     },
   });
   console.log(result);

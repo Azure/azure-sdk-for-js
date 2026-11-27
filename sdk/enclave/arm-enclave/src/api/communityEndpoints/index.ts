@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  sync,
   handleApprovalDeletion,
   handleApprovalCreation,
   listBySubscription,
@@ -12,6 +13,7 @@ export {
   get,
 } from "./operations.js";
 export type {
+  CommunityEndpointsSyncOptionalParams,
   CommunityEndpointsHandleApprovalDeletionOptionalParams,
   CommunityEndpointsHandleApprovalCreationOptionalParams,
   CommunityEndpointsListBySubscriptionOptionalParams,

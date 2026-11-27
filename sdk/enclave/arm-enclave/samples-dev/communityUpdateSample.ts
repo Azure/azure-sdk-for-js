@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a CommunityResource
  *
  * @summary update a CommunityResource
- * x-ms-original-file: 2026-04-01/Community_Update.json
+ * x-ms-original-file: 2026-10-01-preview/Community_Update.json
  */
 async function communityUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,9 +86,13 @@ async function communityUpdate(): Promise<void> {
           mandatoryApprovers: [{ approverEntraId: "00000000-0000-0000-0000-000000000001" }],
         },
         enclaveEndpointUpdate: { approvalPolicy: "Required", minimumApproversRequired: 1 },
-        enclaveCreation: { approvalPolicy: "Required", minimumApproversRequired: 1 },
-        connectionCreation: { approvalPolicy: "Required", minimumApproversRequired: 1 },
-        connectionUpdate: { approvalPolicy: "NotRequired" },
+        enclaveCreation: { approvalPolicy: "NotRequired" },
+        connectionCreation: {
+          approvalPolicy: "Required",
+          minimumApproversRequired: 1,
+          mandatoryApprovers: [{ approverEntraId: "00000000-0000-0000-0000-000000000002" }],
+        },
+        connectionUpdate: { approvalPolicy: "Required", minimumApproversRequired: 1 },
         communityMaintenanceMode: {
           approvalPolicy: "Required",
           minimumApproversRequired: 2,
@@ -99,6 +103,7 @@ async function communityUpdate(): Promise<void> {
         },
         enclaveMaintenanceMode: { approvalPolicy: "NotRequired" },
       },
+      addressSpaces: ["10.0.0.0/16", "10.1.0.0/16"],
     },
   });
   console.log(result);

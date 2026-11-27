@@ -3,6 +3,7 @@
 
 import type { MissionContext } from "../../api/missionContext.js";
 import {
+  sync,
   handleApprovalDeletion,
   handleApprovalCreation,
   listBySubscription,
@@ -13,6 +14,7 @@ import {
   get,
 } from "../../api/communityEndpoints/operations.js";
 import type {
+  CommunityEndpointsSyncOptionalParams,
   CommunityEndpointsHandleApprovalDeletionOptionalParams,
   CommunityEndpointsHandleApprovalCreationOptionalParams,
   CommunityEndpointsListBySubscriptionOptionalParams,
@@ -34,6 +36,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CommunityEndpoints operations. */
 export interface CommunityEndpointsOperations {
+  /** Triggers a manual re-sync of community endpoint connections to all configured sync destinations. */
+  sync: (
+    resourceGroupName: string,
+    communityName: string,
+    communityEndpointName: string,
+    options?: CommunityEndpointsSyncOptionalParams,
+  ) => PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
   /** Callback that triggers on approval deletion state change. */
   handleApprovalDeletion: (
     resourceGroupName: string,
@@ -95,6 +104,12 @@ export interface CommunityEndpointsOperations {
 
 function _getCommunityEndpoints(context: MissionContext) {
   return {
+    sync: (
+      resourceGroupName: string,
+      communityName: string,
+      communityEndpointName: string,
+      options?: CommunityEndpointsSyncOptionalParams,
+    ) => sync(context, resourceGroupName, communityName, communityEndpointName, options),
     handleApprovalDeletion: (
       resourceGroupName: string,
       communityName: string,

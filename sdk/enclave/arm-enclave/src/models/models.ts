@@ -529,10 +529,6 @@ export function enclaveResourceDeserializer(item: any): EnclaveResource {
 export interface VirtualEnclaveProperties {
   /** Provisioning State. */
   readonly provisioningState?: ProvisioningState;
-  /** Virtual Network. */
-  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
-  /** Enclave Address Spaces */
-  readonly enclaveAddressSpaces?: EnclaveAddressSpacesModel;
   /** Community Resource Id. */
   communityResourceId: string;
   /** List of resource ids created by Virtual Enclave. */
@@ -553,6 +549,16 @@ export interface VirtualEnclaveProperties {
   workloadRoleAssignments?: RoleAssignmentItem[];
   /** Enclave specific policies */
   governedServiceList?: GovernedServiceItem[];
+  /** Customer-requested address spaces for the enclave. Supports multiple entries. Each entry specifies a prefixLength for the RP to allocate, or a custom addressSpace CIDR. The RP returns these entries exactly as provided; allocated values are reported in computedAddressSpaces. */
+  addressSpaces?: AddressSpaceEntry[];
+  /** Address spaces computed by the RP for the enclave. Contains an entry for each customer-requested address space with its allocated CIDR, followed by the product-managed address space. */
+  readonly computedAddressSpaces?: ComputedAddressSpaceEntry[];
+  /** The name of the enclave's virtual network. */
+  readonly networkName?: string;
+  /** Subnet configurations for the enclave network. */
+  subnetConfigurations?: SubnetConfiguration[];
+  /** Whether subnets within the enclave can communicate with each other. */
+  allowSubnetCommunication?: boolean;
   /** Enclave default settings. */
   enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
   /** Maintenance Mode configuration. */
@@ -567,7 +573,6 @@ export interface VirtualEnclaveProperties {
 
 export function virtualEnclavePropertiesSerializer(item: VirtualEnclaveProperties): any {
   return {
-    enclaveVirtualNetwork: enclaveVirtualNetworkModelSerializer(item["enclaveVirtualNetwork"]),
     communityResourceId: item["communityResourceId"],
     bastionEnabled: item["bastionEnabled"],
     workloadResourceVisibility: item["workloadResourceVisibility"],
@@ -581,6 +586,13 @@ export function virtualEnclavePropertiesSerializer(item: VirtualEnclavePropertie
     governedServiceList: !item["governedServiceList"]
       ? item["governedServiceList"]
       : governedServiceItemArraySerializer(item["governedServiceList"]),
+    addressSpaces: !item["addressSpaces"]
+      ? item["addressSpaces"]
+      : addressSpaceEntryArraySerializer(item["addressSpaces"]),
+    subnetConfigurations: !item["subnetConfigurations"]
+      ? item["subnetConfigurations"]
+      : subnetConfigurationArraySerializer(item["subnetConfigurations"]),
+    allowSubnetCommunication: item["allowSubnetCommunication"],
     enclaveDefaultSettings: !item["enclaveDefaultSettings"]
       ? item["enclaveDefaultSettings"]
       : enclaveDefaultSettingsModelSerializer(item["enclaveDefaultSettings"]),
@@ -600,10 +612,6 @@ export function virtualEnclavePropertiesSerializer(item: VirtualEnclavePropertie
 export function virtualEnclavePropertiesDeserializer(item: any): VirtualEnclaveProperties {
   return {
     provisioningState: item["provisioningState"],
-    enclaveVirtualNetwork: enclaveVirtualNetworkModelDeserializer(item["enclaveVirtualNetwork"]),
-    enclaveAddressSpaces: !item["enclaveAddressSpaces"]
-      ? item["enclaveAddressSpaces"]
-      : enclaveAddressSpacesModelDeserializer(item["enclaveAddressSpaces"]),
     communityResourceId: item["communityResourceId"],
     resourceCollection: !item["resourceCollection"]
       ? item["resourceCollection"]
@@ -626,6 +634,17 @@ export function virtualEnclavePropertiesDeserializer(item: any): VirtualEnclaveP
     governedServiceList: !item["governedServiceList"]
       ? item["governedServiceList"]
       : governedServiceItemArrayDeserializer(item["governedServiceList"]),
+    addressSpaces: !item["addressSpaces"]
+      ? item["addressSpaces"]
+      : addressSpaceEntryArrayDeserializer(item["addressSpaces"]),
+    computedAddressSpaces: !item["computedAddressSpaces"]
+      ? item["computedAddressSpaces"]
+      : computedAddressSpaceEntryArrayDeserializer(item["computedAddressSpaces"]),
+    networkName: item["networkName"],
+    subnetConfigurations: !item["subnetConfigurations"]
+      ? item["subnetConfigurations"]
+      : subnetConfigurationArrayDeserializer(item["subnetConfigurations"]),
+    allowSubnetCommunication: item["allowSubnetCommunication"],
     enclaveDefaultSettings: !item["enclaveDefaultSettings"]
       ? item["enclaveDefaultSettings"]
       : enclaveDefaultSettingsModelDeserializer(item["enclaveDefaultSettings"]),
@@ -639,106 +658,6 @@ export function virtualEnclavePropertiesDeserializer(item: any): VirtualEnclaveP
     monitoringSettings: !item["monitoringSettings"]
       ? item["monitoringSettings"]
       : monitoringSettingsModelDeserializer(item["monitoringSettings"]),
-  };
-}
-
-/** Enclave Virtual Network Properties */
-export interface EnclaveVirtualNetworkModel {
-  /** Network Name. */
-  networkName?: string;
-  /** Network Size. */
-  networkSize?: string;
-  /** Custom CIDR Range. */
-  customCidrRange?: string;
-  /** Subnet Configurations. */
-  subnetConfigurations?: SubnetConfiguration[];
-  /** Allow Subnet Communication. */
-  allowSubnetCommunication?: boolean;
-}
-
-export function enclaveVirtualNetworkModelSerializer(item: EnclaveVirtualNetworkModel): any {
-  return {
-    networkName: item["networkName"],
-    networkSize: item["networkSize"],
-    customCidrRange: item["customCidrRange"],
-    subnetConfigurations: !item["subnetConfigurations"]
-      ? item["subnetConfigurations"]
-      : subnetConfigurationArraySerializer(item["subnetConfigurations"]),
-    allowSubnetCommunication: item["allowSubnetCommunication"],
-  };
-}
-
-export function enclaveVirtualNetworkModelDeserializer(item: any): EnclaveVirtualNetworkModel {
-  return {
-    networkName: item["networkName"],
-    networkSize: item["networkSize"],
-    customCidrRange: item["customCidrRange"],
-    subnetConfigurations: !item["subnetConfigurations"]
-      ? item["subnetConfigurations"]
-      : subnetConfigurationArrayDeserializer(item["subnetConfigurations"]),
-    allowSubnetCommunication: item["allowSubnetCommunication"],
-  };
-}
-
-export function subnetConfigurationArraySerializer(result: Array<SubnetConfiguration>): any[] {
-  return result.map((item) => {
-    return subnetConfigurationSerializer(item);
-  });
-}
-
-export function subnetConfigurationArrayDeserializer(result: Array<SubnetConfiguration>): any[] {
-  return result.map((item) => {
-    return subnetConfigurationDeserializer(item);
-  });
-}
-
-/** Subnet Configuration */
-export interface SubnetConfiguration {
-  /** Subnet name. */
-  subnetName: string;
-  /** Subnet Resource ID. */
-  readonly subnetResourceId?: string;
-  /** Network prefix size. */
-  networkPrefixSize: number;
-  /** Subnet delegation. */
-  subnetDelegation?: string;
-  /** Address prefix. */
-  readonly addressPrefix?: string;
-  /** Network security group ID. */
-  readonly networkSecurityGroupResourceId?: string;
-}
-
-export function subnetConfigurationSerializer(item: SubnetConfiguration): any {
-  return {
-    subnetName: item["subnetName"],
-    networkPrefixSize: item["networkPrefixSize"],
-    subnetDelegation: item["subnetDelegation"],
-  };
-}
-
-export function subnetConfigurationDeserializer(item: any): SubnetConfiguration {
-  return {
-    subnetName: item["subnetName"],
-    subnetResourceId: item["subnetResourceId"],
-    networkPrefixSize: item["networkPrefixSize"],
-    subnetDelegation: item["subnetDelegation"],
-    addressPrefix: item["addressPrefix"],
-    networkSecurityGroupResourceId: item["networkSecurityGroupResourceId"],
-  };
-}
-
-/** Enclave Address Spaces */
-export interface EnclaveAddressSpacesModel {
-  /** Enclave Address Space */
-  enclaveAddressSpace?: string;
-  /** Managed Address Space */
-  managedAddressSpace?: string;
-}
-
-export function enclaveAddressSpacesModelDeserializer(item: any): EnclaveAddressSpacesModel {
-  return {
-    enclaveAddressSpace: item["enclaveAddressSpace"],
-    managedAddressSpace: item["managedAddressSpace"],
   };
 }
 
@@ -837,7 +756,7 @@ export interface Principal {
   /** The object id associated with the principal */
   id: string;
   /** The type of the object id. We currently allow users, groups, and service principals */
-  type: string;
+  type: PrincipalType;
 }
 
 export function principalSerializer(item: Principal): any {
@@ -850,6 +769,27 @@ export function principalDeserializer(item: any): Principal {
     type: item["type"],
   };
 }
+
+/** The type of a virtual enclave principal. */
+export enum KnownPrincipalType {
+  /** A user principal. */
+  User = "User",
+  /** A group principal. */
+  Group = "Group",
+  /** A service principal. */
+  ServicePrincipal = "ServicePrincipal",
+}
+
+/**
+ * The type of a virtual enclave principal. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: A user principal. \
+ * **Group**: A group principal. \
+ * **ServicePrincipal**: A service principal.
+ */
+export type PrincipalType = string;
 
 export function governedServiceItemArraySerializer(result: Array<GovernedServiceItem>): any[] {
   return result.map((item) => {
@@ -870,11 +810,11 @@ export interface GovernedServiceItem {
   /** Service name. */
   readonly serviceName?: string;
   /** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-  option?: string;
+  option?: GovernedServiceItemOption;
   /** Initiative enforcement (Enabled or Disabled). */
-  enforcement?: string;
+  enforcement?: GovernedServiceItemEnforcement;
   /** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-  policyAction?: string;
+  policyAction?: GovernedServiceItemPolicyAction;
   /** Initiatives associated with this service. */
   readonly initiatives?: string[];
 }
@@ -935,6 +875,8 @@ export enum KnownServiceIdentifier {
   ServiceBus = "ServiceBus",
   /** Service identifier for Storage */
   Storage = "Storage",
+  /** Service identifier for Azure Local */
+  AzureLocal = "AzureLocal",
 }
 
 /**
@@ -956,9 +898,220 @@ export enum KnownServiceIdentifier {
  * **PostgreSQL**: Service identifier for PostgreSQL \
  * **PrivateDNSZones**: Service identifier for Private DNS Zones \
  * **ServiceBus**: Service identifier for Service Bus \
- * **Storage**: Service identifier for Storage
+ * **Storage**: Service identifier for Storage \
+ * **AzureLocal**: Service identifier for Azure Local
  */
 export type ServiceIdentifier = string;
+
+/** The governance option for a governed service. */
+export enum KnownGovernedServiceItemOption {
+  /** Allow the governed service. */
+  Allow = "Allow",
+  /** Deny the governed service. */
+  Deny = "Deny",
+  /** Allow only configured exceptions for the governed service. */
+  ExceptionOnly = "ExceptionOnly",
+  /** The governance option does not apply to the governed service. */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * The governance option for a governed service. \
+ * {@link KnownGovernedServiceItemOption} can be used interchangeably with GovernedServiceItemOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allow the governed service. \
+ * **Deny**: Deny the governed service. \
+ * **ExceptionOnly**: Allow only configured exceptions for the governed service. \
+ * **NotApplicable**: The governance option does not apply to the governed service.
+ */
+export type GovernedServiceItemOption = string;
+
+/** The enforcement state for a governed service. */
+export enum KnownGovernedServiceItemEnforcement {
+  /** Enforcement is enabled. */
+  Enabled = "Enabled",
+  /** Enforcement is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * The enforcement state for a governed service. \
+ * {@link KnownGovernedServiceItemEnforcement} can be used interchangeably with GovernedServiceItemEnforcement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enforcement is enabled. \
+ * **Disabled**: Enforcement is disabled.
+ */
+export type GovernedServiceItemEnforcement = string;
+
+/** The policy action for a governed service. */
+export enum KnownGovernedServiceItemPolicyAction {
+  /** Audit policy violations without enforcing the policy. */
+  AuditOnly = "AuditOnly",
+  /** Enforce the policy. */
+  Enforce = "Enforce",
+  /** Do not apply a policy action. */
+  None = "None",
+}
+
+/**
+ * The policy action for a governed service. \
+ * {@link KnownGovernedServiceItemPolicyAction} can be used interchangeably with GovernedServiceItemPolicyAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AuditOnly**: Audit policy violations without enforcing the policy. \
+ * **Enforce**: Enforce the policy. \
+ * **None**: Do not apply a policy action.
+ */
+export type GovernedServiceItemPolicyAction = string;
+
+export function addressSpaceEntryArraySerializer(result: Array<AddressSpaceEntry>): any[] {
+  return result.map((item) => {
+    return addressSpaceEntrySerializer(item);
+  });
+}
+
+export function addressSpaceEntryArrayDeserializer(result: Array<AddressSpaceEntry>): any[] {
+  return result.map((item) => {
+    return addressSpaceEntryDeserializer(item);
+  });
+}
+
+/** A customer-requested address space for the enclave. The RP returns this entry exactly as provided. */
+export interface AddressSpaceEntry {
+  /** CIDR prefix length (e.g., 22, 23, 24). Determines the size of the address space. */
+  prefixLength?: number;
+  /** CIDR notation address space (e.g., '10.0.0.0/23'). Optional — if omitted, RP allocates based on prefixLength. If provided, used as-is (custom address space). */
+  addressSpace?: string;
+}
+
+export function addressSpaceEntrySerializer(item: AddressSpaceEntry): any {
+  return { prefixLength: item["prefixLength"], addressSpace: item["addressSpace"] };
+}
+
+export function addressSpaceEntryDeserializer(item: any): AddressSpaceEntry {
+  return {
+    prefixLength: item["prefixLength"],
+    addressSpace: item["addressSpace"],
+  };
+}
+
+export function computedAddressSpaceEntryArrayDeserializer(
+  result: Array<ComputedAddressSpaceEntry>,
+): any[] {
+  return result.map((item) => {
+    return computedAddressSpaceEntryDeserializer(item);
+  });
+}
+
+/** An address space computed by the RP for the enclave. Customer-requested entries have ownership 'CustomerManaged'; the RP-managed address space has ownership 'ProductManaged' and is always the last element. */
+export interface ComputedAddressSpaceEntry {
+  /** CIDR prefix length of the address space. */
+  prefixLength?: number;
+  /** CIDR notation address space allocated to the enclave (e.g., '10.0.0.0/23'). */
+  addressSpace?: string;
+  /** Indicates whether this address space is customer-managed or product-managed. */
+  ownership?: AddressSpaceOwnership;
+}
+
+export function computedAddressSpaceEntryDeserializer(item: any): ComputedAddressSpaceEntry {
+  return {
+    prefixLength: item["prefixLength"],
+    addressSpace: item["addressSpace"],
+    ownership: item["ownership"],
+  };
+}
+
+/** Indicates who manages the address space lifecycle. */
+export enum KnownAddressSpaceOwnership {
+  /** Customer-provided address space. Customer specifies prefixLength, RP allocates CIDR. */
+  CustomerManaged = "CustomerManaged",
+  /** Product-managed address space. RP-injected for internal platform use (e.g., hub connectivity). */
+  ProductManaged = "ProductManaged",
+}
+
+/**
+ * Indicates who manages the address space lifecycle. \
+ * {@link KnownAddressSpaceOwnership} can be used interchangeably with AddressSpaceOwnership,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomerManaged**: Customer-provided address space. Customer specifies prefixLength, RP allocates CIDR. \
+ * **ProductManaged**: Product-managed address space. RP-injected for internal platform use (e.g., hub connectivity).
+ */
+export type AddressSpaceOwnership = string;
+
+export function subnetConfigurationArraySerializer(result: Array<SubnetConfiguration>): any[] {
+  return result.map((item) => {
+    return subnetConfigurationSerializer(item);
+  });
+}
+
+export function subnetConfigurationArrayDeserializer(result: Array<SubnetConfiguration>): any[] {
+  return result.map((item) => {
+    return subnetConfigurationDeserializer(item);
+  });
+}
+
+/** Subnet Configuration */
+export interface SubnetConfiguration {
+  /** Subnet name. */
+  subnetName: string;
+  /** Subnet Resource ID. */
+  readonly subnetResourceId?: string;
+  /** Network prefix size. */
+  networkPrefixSize: number;
+  /** Subnet delegation. */
+  subnetDelegation?: string;
+  /** Address prefix. */
+  readonly addressPrefix?: string;
+  /** Network security group ID. */
+  readonly networkSecurityGroupResourceId?: string;
+  /** The purpose of the subnet, used to determine automatic configuration behavior. */
+  subnetPurpose?: SubnetPurpose;
+}
+
+export function subnetConfigurationSerializer(item: SubnetConfiguration): any {
+  return {
+    subnetName: item["subnetName"],
+    networkPrefixSize: item["networkPrefixSize"],
+    subnetDelegation: item["subnetDelegation"],
+    subnetPurpose: item["subnetPurpose"],
+  };
+}
+
+export function subnetConfigurationDeserializer(item: any): SubnetConfiguration {
+  return {
+    subnetName: item["subnetName"],
+    subnetResourceId: item["subnetResourceId"],
+    networkPrefixSize: item["networkPrefixSize"],
+    subnetDelegation: item["subnetDelegation"],
+    addressPrefix: item["addressPrefix"],
+    networkSecurityGroupResourceId: item["networkSecurityGroupResourceId"],
+    subnetPurpose: item["subnetPurpose"],
+  };
+}
+
+/** The purpose of the subnet, used to determine automatic configuration behavior. */
+export enum KnownSubnetPurpose {
+  /** General purpose subnet with no specialized configuration (default). */
+  General = "General",
+  /** Subnet configured for Azure Kubernetes Service (AKS) workloads. */
+  AKS = "AKS",
+  /** Subnet configured for the Azure Kubernetes Service (AKS) API server. */
+  AKSApiServer = "AKSApiServer",
+}
+
+/**
+ * The purpose of the subnet, used to determine automatic configuration behavior. \
+ * {@link KnownSubnetPurpose} can be used interchangeably with SubnetPurpose,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **General**: General purpose subnet with no specialized configuration (default). \
+ * **AKS**: Subnet configured for Azure Kubernetes Service (AKS) workloads. \
+ * **AKSApiServer**: Subnet configured for the Azure Kubernetes Service (AKS) API server.
+ */
+export type SubnetPurpose = string;
 
 /** Virtual Enclave Default Settings */
 export interface EnclaveDefaultSettingsModel {
@@ -997,6 +1150,8 @@ export enum KnownDiagnosticDestination {
   EnclaveOnly = "EnclaveOnly",
   /** DiagnosticDestination Type Both */
   Both = "Both",
+  /** DiagnosticDestination Type Unspecified */
+  Unspecified = "Unspecified",
 }
 
 /**
@@ -1006,18 +1161,19 @@ export enum KnownDiagnosticDestination {
  * ### Known values supported by the service
  * **CommunityOnly**: DiagnosticDestination Type CommunityOnly \
  * **EnclaveOnly**: DiagnosticDestination Type EnclaveOnly \
- * **Both**: DiagnosticDestination Type Both
+ * **Both**: DiagnosticDestination Type Both \
+ * **Unspecified**: DiagnosticDestination Type Unspecified
  */
 export type DiagnosticDestination = string;
 
 /** Maintenance Mode */
 export interface MaintenanceModeConfigurationModel {
   /** Current mode of Maintenance Mode Configuration */
-  mode: string;
+  mode: MaintenanceModeConfigurationModelMode;
   /** The user, group or service principal object affected by Maintenance Mode */
   principals?: Principal[];
   /** Justification for entering or exiting Maintenance Mode */
-  justification?: string;
+  justification?: MaintenanceModeConfigurationModelJustification;
 }
 
 export function maintenanceModeConfigurationModelSerializer(
@@ -1043,6 +1199,54 @@ export function maintenanceModeConfigurationModelDeserializer(
     justification: item["justification"],
   };
 }
+
+/** The maintenance mode for a virtual enclave. */
+export enum KnownMaintenanceModeConfigurationModelMode {
+  /** Maintenance mode is on. */
+  On = "On",
+  /** Resources cannot be deleted while maintenance mode is active. */
+  CanNotDelete = "CanNotDelete",
+  /** Maintenance mode is off. */
+  Off = "Off",
+  /** General maintenance mode is active. */
+  General = "General",
+  /** Advanced maintenance mode is active. */
+  Advanced = "Advanced",
+}
+
+/**
+ * The maintenance mode for a virtual enclave. \
+ * {@link KnownMaintenanceModeConfigurationModelMode} can be used interchangeably with MaintenanceModeConfigurationModelMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On**: Maintenance mode is on. \
+ * **CanNotDelete**: Resources cannot be deleted while maintenance mode is active. \
+ * **Off**: Maintenance mode is off. \
+ * **General**: General maintenance mode is active. \
+ * **Advanced**: Advanced maintenance mode is active.
+ */
+export type MaintenanceModeConfigurationModelMode = string;
+
+/** The justification for entering or exiting virtual enclave maintenance mode. */
+export enum KnownMaintenanceModeConfigurationModelJustification {
+  /** Maintenance mode is required for networking changes. */
+  Networking = "Networking",
+  /** Maintenance mode is required for governance changes. */
+  Governance = "Governance",
+  /** No maintenance mode justification applies. */
+  Off = "Off",
+}
+
+/**
+ * The justification for entering or exiting virtual enclave maintenance mode. \
+ * {@link KnownMaintenanceModeConfigurationModelJustification} can be used interchangeably with MaintenanceModeConfigurationModelJustification,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Networking**: Maintenance mode is required for networking changes. \
+ * **Governance**: Maintenance mode is required for governance changes. \
+ * **Off**: No maintenance mode justification applies.
+ */
+export type MaintenanceModeConfigurationModelJustification = string;
 
 /** Virtual Enclave ApprovalSettings Properties for 2025-11-01-preview and later versions */
 export interface VirtualEnclaveApprovalSettings {
@@ -1360,8 +1564,6 @@ export function virtualEnclavePatchModelSerializer(item: VirtualEnclavePatchMode
 
 /** Virtual Enclave Patchable Properties */
 export interface VirtualEnclavePatchProperties {
-  /** Virtual Network. */
-  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
   /** Deploy Bastion service (True or False). */
   bastionEnabled?: boolean;
   /** Specifies whether resources in the workload resource group(s) are visible through standard RBAC */
@@ -1374,6 +1576,10 @@ export interface VirtualEnclavePatchProperties {
   workloadRoleAssignments?: RoleAssignmentItem[];
   /** Enclave specific policies */
   governedServiceList?: GovernedServiceItem[];
+  /** Customer-requested address spaces for the enclave. Supports multiple entries. Each entry specifies a prefixLength for the RP to allocate, or a custom addressSpace CIDR. The RP returns these entries exactly as provided; allocated values are reported in computedAddressSpaces. */
+  addressSpaces?: AddressSpaceEntry[];
+  /** Subnet configurations for the enclave network. */
+  subnetConfigurations?: SubnetConfiguration[];
   /** Enclave default settings. */
   enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel;
   /** Maintenance Mode configuration. */
@@ -1388,7 +1594,6 @@ export interface VirtualEnclavePatchProperties {
 
 export function virtualEnclavePatchPropertiesSerializer(item: VirtualEnclavePatchProperties): any {
   return {
-    enclaveVirtualNetwork: enclaveVirtualNetworkModelSerializer(item["enclaveVirtualNetwork"]),
     bastionEnabled: item["bastionEnabled"],
     workloadResourceVisibility: item["workloadResourceVisibility"],
     rbacInheritance: item["rbacInheritance"],
@@ -1401,6 +1606,12 @@ export function virtualEnclavePatchPropertiesSerializer(item: VirtualEnclavePatc
     governedServiceList: !item["governedServiceList"]
       ? item["governedServiceList"]
       : governedServiceItemArraySerializer(item["governedServiceList"]),
+    addressSpaces: !item["addressSpaces"]
+      ? item["addressSpaces"]
+      : addressSpaceEntryArraySerializer(item["addressSpaces"]),
+    subnetConfigurations: !item["subnetConfigurations"]
+      ? item["subnetConfigurations"]
+      : subnetConfigurationArraySerializer(item["subnetConfigurations"]),
     enclaveDefaultSettings: !item["enclaveDefaultSettings"]
       ? item["enclaveDefaultSettings"]
       : enclaveDefaultSettingsPatchModelSerializer(item["enclaveDefaultSettings"]),
@@ -1432,11 +1643,11 @@ export function enclaveDefaultSettingsPatchModelSerializer(
 /** Maintenance Mode Patch Model */
 export interface MaintenanceModeConfigurationPatchModel {
   /** Current mode of Maintenance Mode Configuration */
-  mode: string;
+  mode: MaintenanceModeConfigurationModelMode;
   /** The user, group or service principal object affected by Maintenance Mode */
   principals?: Principal[];
   /** Justification for entering or exiting Maintenance Mode */
-  justification?: string;
+  justification?: MaintenanceModeConfigurationModelJustification;
 }
 
 export function maintenanceModeConfigurationPatchModelSerializer(
@@ -1559,9 +1770,9 @@ export function enclaveResourceArrayDeserializer(result: Array<EnclaveResource>)
 /** Request body for calling post-action */
 export interface ApprovalCallbackRequest {
   /** Resource request action indicating action which needed to be performed upon calling approval-callback post action */
-  resourceRequestAction: string;
+  resourceRequestAction: ApprovalCallbackRequestResourceRequestAction;
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: string;
+  approvalStatus: ApprovalCallbackRequestApprovalStatus;
   /** Payload requested by client upon approval action */
   approvalCallbackPayload?: string;
 }
@@ -1573,6 +1784,48 @@ export function approvalCallbackRequestSerializer(item: ApprovalCallbackRequest)
     approvalCallbackPayload: item["approvalCallbackPayload"],
   };
 }
+
+/** The resource action for an approval callback. */
+export enum KnownApprovalCallbackRequestResourceRequestAction {
+  /** Create the resource. */
+  Create = "Create",
+  /** Delete the resource. */
+  Delete = "Delete",
+  /** Update the resource. */
+  Update = "Update",
+  /** Reset the resource. */
+  Reset = "Reset",
+}
+
+/**
+ * The resource action for an approval callback. \
+ * {@link KnownApprovalCallbackRequestResourceRequestAction} can be used interchangeably with ApprovalCallbackRequestResourceRequestAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Create**: Create the resource. \
+ * **Delete**: Delete the resource. \
+ * **Update**: Update the resource. \
+ * **Reset**: Reset the resource.
+ */
+export type ApprovalCallbackRequestResourceRequestAction = string;
+
+/** The approval status for an approval callback request. */
+export enum KnownApprovalCallbackRequestApprovalStatus {
+  /** The request is approved. */
+  Approved = "Approved",
+  /** The request is rejected. */
+  Rejected = "Rejected",
+}
+
+/**
+ * The approval status for an approval callback request. \
+ * {@link KnownApprovalCallbackRequestApprovalStatus} can be used interchangeably with ApprovalCallbackRequestApprovalStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved**: The request is approved. \
+ * **Rejected**: The request is rejected.
+ */
+export type ApprovalCallbackRequestApprovalStatus = string;
 
 /** Response body after handling of approvalCallbackRequest */
 export interface ApprovalActionResponse {
@@ -1589,7 +1842,7 @@ export function approvalActionResponseDeserializer(item: any): ApprovalActionRes
 /** Request body for calling post-action */
 export interface ApprovalDeletionCallbackRequest {
   /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
-  resourceRequestAction: string;
+  resourceRequestAction: ApprovalDeletionCallbackRequestResourceRequestAction;
 }
 
 export function approvalDeletionCallbackRequestSerializer(
@@ -1597,6 +1850,27 @@ export function approvalDeletionCallbackRequestSerializer(
 ): any {
   return { resourceRequestAction: item["resourceRequestAction"] };
 }
+
+/** The resource action for an approval deletion callback. */
+export enum KnownApprovalDeletionCallbackRequestResourceRequestAction {
+  /** Create the resource. */
+  Create = "Create",
+  /** Delete the resource. */
+  Delete = "Delete",
+  /** Update the resource. */
+  Update = "Update",
+}
+
+/**
+ * The resource action for an approval deletion callback. \
+ * {@link KnownApprovalDeletionCallbackRequestResourceRequestAction} can be used interchangeably with ApprovalDeletionCallbackRequestResourceRequestAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Create**: Create the resource. \
+ * **Delete**: Delete the resource. \
+ * **Update**: Update the resource.
+ */
+export type ApprovalDeletionCallbackRequestResourceRequestAction = string;
 
 /** Community Model Resource */
 export interface CommunityResource extends TrackedResource {
@@ -1657,11 +1931,13 @@ export interface CommunityProperties {
   /** List of services governed by a community. */
   governedServiceList?: GovernedServiceItem[];
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: string;
+  policyOverride?: CommunityPropertiesPolicyOverride;
   /** Community role assignments */
   communityRoleAssignments?: RoleAssignmentItem[];
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
   firewallSku?: FirewallSKU;
+  /** Desired enforcement mode for the subscription-scoped subnet join deny policy. Defaults to 'Deny' on api-version 2026-10-01-preview and later. */
+  subnetJoinPolicyMode?: SubnetJoinPolicyMode;
   /** Granular approval requirements for various actions on the community's resources. */
   granularApprovalSettings?: ApprovalSettings;
   /** Maintenance Mode configuration. */
@@ -1690,6 +1966,7 @@ export function communityPropertiesSerializer(item: CommunityProperties): any {
       ? item["communityRoleAssignments"]
       : roleAssignmentItemArraySerializer(item["communityRoleAssignments"]),
     firewallSku: item["firewallSku"],
+    subnetJoinPolicyMode: item["subnetJoinPolicyMode"],
     approvalSettings: !item["granularApprovalSettings"]
       ? item["granularApprovalSettings"]
       : approvalSettingsSerializer(item["granularApprovalSettings"]),
@@ -1733,6 +2010,7 @@ export function communityPropertiesDeserializer(item: any): CommunityProperties 
       ? item["communityRoleAssignments"]
       : roleAssignmentItemArrayDeserializer(item["communityRoleAssignments"]),
     firewallSku: item["firewallSku"],
+    subnetJoinPolicyMode: item["subnetJoinPolicyMode"],
     granularApprovalSettings: !item["approvalSettings"]
       ? item["approvalSettings"]
       : approvalSettingsDeserializer(item["approvalSettings"]),
@@ -1752,6 +2030,24 @@ export function communityPropertiesDeserializer(item: any): CommunityProperties 
         }),
   };
 }
+
+/** The policy override setting for a community. */
+export enum KnownCommunityPropertiesPolicyOverride {
+  /** Apply enclave-specific policies. */
+  Enclave = "Enclave",
+  /** Do not apply a policy override. */
+  None = "None",
+}
+
+/**
+ * The policy override setting for a community. \
+ * {@link KnownCommunityPropertiesPolicyOverride} can be used interchangeably with CommunityPropertiesPolicyOverride,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enclave**: Apply enclave-specific policies. \
+ * **None**: Do not apply a policy override.
+ */
+export type CommunityPropertiesPolicyOverride = string;
 
 /** Azure Firewall SKU */
 export enum KnownFirewallSKU {
@@ -1773,6 +2069,24 @@ export enum KnownFirewallSKU {
  * **Premium**: FirewallSKU Premium
  */
 export type FirewallSKU = string;
+
+/** Desired enforcement mode for the subnet join deny policy. */
+export enum KnownSubnetJoinPolicyMode {
+  /** Deny all subnet joins from resource groups not in the approved workload set. Secure-by-default on new API versions. */
+  Deny = "Deny",
+  /** Log non-compliant joins without blocking. Use during rollout review or when deny cannot yet be enabled. */
+  Audit = "Audit",
+}
+
+/**
+ * Desired enforcement mode for the subnet join deny policy. \
+ * {@link KnownSubnetJoinPolicyMode} can be used interchangeably with SubnetJoinPolicyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deny**: Deny all subnet joins from resource groups not in the approved workload set. Secure-by-default on new API versions. \
+ * **Audit**: Log non-compliant joins without blocking. Use during rollout review or when deny cannot yet be enabled.
+ */
+export type SubnetJoinPolicyMode = string;
 
 /** Granular ApprovalSettings Properties for 2025-11-01-preview and later versions */
 export interface ApprovalSettings {
@@ -1965,11 +2279,13 @@ export interface CommunityPatchProperties {
   /** List of services governed by a community. */
   governedServiceList?: GovernedServiceItem[];
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: string;
+  policyOverride?: CommunityPropertiesPolicyOverride;
   /** Community role assignments */
   communityRoleAssignments?: RoleAssignmentItem[];
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
   firewallSku?: FirewallSKU;
+  /** Desired enforcement mode for the subscription-scoped subnet join deny policy. Defaults to 'Deny' on api-version 2026-10-01-preview and later. */
+  subnetJoinPolicyMode?: SubnetJoinPolicyMode;
   /** Granular approval requirements for various actions on the community's resources. */
   granularApprovalSettings?: ApprovalSettingsPatchProperties;
   /** Maintenance Mode configuration. */
@@ -1995,6 +2311,7 @@ export function communityPatchPropertiesSerializer(item: CommunityPatchPropertie
       ? item["communityRoleAssignments"]
       : roleAssignmentItemArraySerializer(item["communityRoleAssignments"]),
     firewallSku: item["firewallSku"],
+    subnetJoinPolicyMode: item["subnetJoinPolicyMode"],
     approvalSettings: !item["granularApprovalSettings"]
       ? item["granularApprovalSettings"]
       : approvalSettingsPatchPropertiesSerializer(item["granularApprovalSettings"]),
@@ -2089,8 +2406,10 @@ export function communityResourceArrayDeserializer(result: Array<CommunityResour
 export interface CheckAddressSpaceAvailabilityRequest {
   /** Resource Id of the Community */
   communityResourceId: string;
-  /** Information about the enclave virtual network */
-  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
+  /** CIDR prefix length (e.g., 22, 23, 24). Determines the size of the address space to check. */
+  prefixLength?: number;
+  /** Specific CIDR address space to check availability for. If omitted, RP checks for any available space of the given prefixLength. */
+  addressSpace?: string;
 }
 
 export function checkAddressSpaceAvailabilityRequestSerializer(
@@ -2098,7 +2417,8 @@ export function checkAddressSpaceAvailabilityRequestSerializer(
 ): any {
   return {
     communityResourceId: item["communityResourceId"],
-    enclaveVirtualNetwork: enclaveVirtualNetworkModelSerializer(item["enclaveVirtualNetwork"]),
+    prefixLength: item["prefixLength"],
+    addressSpace: item["addressSpace"],
   };
 }
 
@@ -2459,6 +2779,10 @@ export enum KnownEnclaveConnectionState {
   Connected = "Connected",
   /** EnclaveConnectionState Type Disconnected */
   Disconnected = "Disconnected",
+  /** A topology reconciliation is applying NSG rule changes for this connection. */
+  Reconciling = "Reconciling",
+  /** Sticky health state after at least 3 consecutive non-full-success reconciliations. */
+  Degraded = "Degraded",
 }
 
 /**
@@ -2472,7 +2796,9 @@ export enum KnownEnclaveConnectionState {
  * **Active**: EnclaveConnectionState Type Active \
  * **Failed**: EnclaveConnectionState Type Failed \
  * **Connected**: EnclaveConnectionState Type Connected \
- * **Disconnected**: EnclaveConnectionState Type Disconnected
+ * **Disconnected**: EnclaveConnectionState Type Disconnected \
+ * **Reconciling**: A topology reconciliation is applying NSG rule changes for this connection. \
+ * **Degraded**: Sticky health state after at least 3 consecutive non-full-success reconciliations.
  */
 export type EnclaveConnectionState = string;
 
@@ -2821,12 +3147,27 @@ export interface CommunityEndpointProperties {
   readonly provisioningState?: ProvisioningState;
   /** Whether update mode is automatic or manual. */
   updateMode?: UpdateMode;
+  /** Array of ARM resource IDs of destination communities to synchronize this endpoint's rules to. The RP creates and manages the destination CEPs automatically within each community. Maximum 100 destinations per source endpoint. */
+  syncTo?: string[];
+  /** ARM resource ID of the source Community Endpoint that manages this endpoint's rules via synchronization. This property is read-only and set by the RP on destination CEPs created by the sync process. */
+  readonly syncFrom?: string;
+  /** The synchronization status of this Community Endpoint. Tracks sync state independently of provisioningState. */
+  readonly syncStatus?: SyncStatus;
+  /** Per-destination synchronization status. Only populated on source CEPs that have syncTo configured. */
+  readonly syncDestinationStatuses?: SyncDestinationStatus[];
+  /** Information about the principal who last configured or modified syncTo. Set by the RP and surfaced for audit transparency. */
+  readonly syncPerformedBy?: SyncPerformedBy;
 }
 
 export function communityEndpointPropertiesSerializer(item: CommunityEndpointProperties): any {
   return {
     ruleCollection: communityEndpointDestinationRuleArraySerializer(item["ruleCollection"]),
     updateMode: item["updateMode"],
+    syncTo: !item["syncTo"]
+      ? item["syncTo"]
+      : item["syncTo"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -2840,6 +3181,19 @@ export function communityEndpointPropertiesDeserializer(item: any): CommunityEnd
         }),
     provisioningState: item["provisioningState"],
     updateMode: item["updateMode"],
+    syncTo: !item["syncTo"]
+      ? item["syncTo"]
+      : item["syncTo"].map((p: any) => {
+          return p;
+        }),
+    syncFrom: item["syncFrom"],
+    syncStatus: item["syncStatus"],
+    syncDestinationStatuses: !item["syncDestinationStatuses"]
+      ? item["syncDestinationStatuses"]
+      : syncDestinationStatusArrayDeserializer(item["syncDestinationStatuses"]),
+    syncPerformedBy: !item["syncPerformedBy"]
+      ? item["syncPerformedBy"]
+      : syncPerformedByDeserializer(item["syncPerformedBy"]),
   };
 }
 
@@ -2867,6 +3221,8 @@ export interface CommunityEndpointDestinationRule {
   protocols?: CommunityEndpointProtocol[];
   /** Transit Hub Resource Id. */
   transitHubResourceId?: string;
+  /** The direction of traffic for this rule. Defaults to Outbound if not specified. */
+  direction?: RuleDirection;
   /** Endpoint Rule Name. */
   endpointRuleName?: string;
   /** Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas. */
@@ -2886,6 +3242,7 @@ export function communityEndpointDestinationRuleSerializer(
           return p;
         }),
     transitHubResourceId: item["transitHubResourceId"],
+    direction: item["direction"],
     endpointRuleName: item["endpointRuleName"],
     destination: item["destination"],
     ports: item["ports"],
@@ -2903,6 +3260,7 @@ export function communityEndpointDestinationRuleDeserializer(
           return p;
         }),
     transitHubResourceId: item["transitHubResourceId"],
+    direction: item["direction"],
     endpointRuleName: item["endpointRuleName"],
     destination: item["destination"],
     ports: item["ports"],
@@ -2972,6 +3330,104 @@ export enum KnownCommunityEndpointProtocol {
  */
 export type CommunityEndpointProtocol = string;
 
+/** The direction of traffic for a Community Endpoint rule. */
+export enum KnownRuleDirection {
+  /** Outbound traffic from the client enclave to the server destination (default). */
+  Outbound = "Outbound",
+  /** Inbound traffic from the server to the client enclave. */
+  Inbound = "Inbound",
+}
+
+/**
+ * The direction of traffic for a Community Endpoint rule. \
+ * {@link KnownRuleDirection} can be used interchangeably with RuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Outbound**: Outbound traffic from the client enclave to the server destination (default). \
+ * **Inbound**: Inbound traffic from the server to the client enclave.
+ */
+export type RuleDirection = string;
+
+/** The synchronization status of a Community Endpoint. */
+export enum KnownSyncStatus {
+  /** Synchronization is not configured for this endpoint. */
+  NotConfigured = "NotConfigured",
+  /** Synchronization completed successfully on all destinations. */
+  Succeeded = "Succeeded",
+  /** Synchronization is currently in progress. */
+  InProgress = "InProgress",
+  /** Synchronization failed on all destinations. */
+  Failed = "Failed",
+  /** Synchronization succeeded on some destinations but failed on others. Check syncDestinationStatuses for per-destination details. */
+  PartiallySucceeded = "PartiallySucceeded",
+}
+
+/**
+ * The synchronization status of a Community Endpoint. \
+ * {@link KnownSyncStatus} can be used interchangeably with SyncStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotConfigured**: Synchronization is not configured for this endpoint. \
+ * **Succeeded**: Synchronization completed successfully on all destinations. \
+ * **InProgress**: Synchronization is currently in progress. \
+ * **Failed**: Synchronization failed on all destinations. \
+ * **PartiallySucceeded**: Synchronization succeeded on some destinations but failed on others. Check syncDestinationStatuses for per-destination details.
+ */
+export type SyncStatus = string;
+
+export function syncDestinationStatusArrayDeserializer(
+  result: Array<SyncDestinationStatus>,
+): any[] {
+  return result.map((item) => {
+    return syncDestinationStatusDeserializer(item);
+  });
+}
+
+/** Status of synchronization to a specific destination Community Endpoint. */
+export interface SyncDestinationStatus {
+  /** ARM resource ID of the destination Community Endpoint. */
+  readonly destinationId: string;
+  /** The synchronization status for this destination. */
+  readonly status: SyncStatus;
+  /** Error message if the sync to this destination failed. */
+  readonly errorMessage?: string;
+  /** Timestamp of the last successful sync to this destination. */
+  readonly lastSyncTime?: Date;
+}
+
+export function syncDestinationStatusDeserializer(item: any): SyncDestinationStatus {
+  return {
+    destinationId: item["destinationId"],
+    status: item["status"],
+    errorMessage: item["errorMessage"],
+    lastSyncTime: !item["lastSyncTime"] ? item["lastSyncTime"] : new Date(item["lastSyncTime"]),
+  };
+}
+
+/** Information about the principal who performed the sync operation. */
+export interface SyncPerformedBy {
+  /** Object ID of the user principal who configured syncTo. */
+  readonly principalId: string;
+  /** The type of principal (e.g., User, ServicePrincipal). */
+  readonly principalType: string;
+  /** Tenant ID of the principal. */
+  readonly tenantId: string;
+  /** Timestamp when the syncTo was configured or last modified. */
+  readonly performedAt: Date;
+  /** ARM correlation ID from the source PUT that set up syncTo. */
+  readonly correlationId: string;
+}
+
+export function syncPerformedByDeserializer(item: any): SyncPerformedBy {
+  return {
+    principalId: item["principalId"],
+    principalType: item["principalType"],
+    tenantId: item["tenantId"],
+    performedAt: new Date(item["performedAt"]),
+    correlationId: item["correlationId"],
+  };
+}
+
 /** Community Endpoint Patch Resource */
 export interface CommunityEndpointPatchModel {
   /** Community Endpoint Patch properties */
@@ -2995,6 +3451,8 @@ export interface CommunityEndpointPatchProperties {
   ruleCollection: CommunityEndpointDestinationRule[];
   /** Whether update mode is automatic or manual. */
   updateMode?: UpdateMode;
+  /** Array of ARM resource IDs of destination communities to synchronize this endpoint's rules to. The RP creates and manages the destination CEPs automatically within each community. Maximum 100 destinations per source endpoint. */
+  syncTo?: string[];
 }
 
 export function communityEndpointPatchPropertiesSerializer(
@@ -3003,6 +3461,11 @@ export function communityEndpointPatchPropertiesSerializer(
   return {
     ruleCollection: communityEndpointDestinationRuleArraySerializer(item["ruleCollection"]),
     updateMode: item["updateMode"],
+    syncTo: !item["syncTo"]
+      ? item["syncTo"]
+      : item["syncTo"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -3420,15 +3883,45 @@ export function requestMetadataUpdatablePropertiesSerializer(
 /** Request body for calling post-action */
 export interface ApprovalActionRequest {
   /** Approval status indicating 'Approved' or 'Rejected' */
-  approvalStatus: string;
+  approvalStatus: ApprovalActionRequestApprovalStatus;
 }
 
 export function approvalActionRequestSerializer(item: ApprovalActionRequest): any {
   return { approvalStatus: item["approvalStatus"] };
 }
 
+/** The approval status for an approval action request. */
+export enum KnownApprovalActionRequestApprovalStatus {
+  /** The request is approved. */
+  Approved = "Approved",
+  /** The request is rejected. */
+  Rejected = "Rejected",
+}
+
+/**
+ * The approval status for an approval action request. \
+ * {@link KnownApprovalActionRequestApprovalStatus} can be used interchangeably with ApprovalActionRequestApprovalStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved**: The request is approved. \
+ * **Rejected**: The request is rejected.
+ */
+export type ApprovalActionRequestApprovalStatus = string;
+
 /** Supported API versions for the Microsoft.Mission resource provider. */
 export enum KnownVersions {
+  /** The 2024-06-01-preview version. */
+  V20240601Preview = "2024-06-01-preview",
+  /** The 2024-12-01-preview version. */
+  V20241201Preview = "2024-12-01-preview",
+  /** The 2025-05-01-preview version. */
+  V20250501Preview = "2025-05-01-preview",
+  /** The 2025-11-01-preview version. */
+  V20251101Preview = "2025-11-01-preview",
+  /** The 2026-03-01-preview version. */
+  V20260301Preview = "2026-03-01-preview",
   /** The 2026-04-01 version. */
   V20260401 = "2026-04-01",
+  /** The 2026-10-01-preview version. */
+  V20261001Preview = "2026-10-01-preview",
 }

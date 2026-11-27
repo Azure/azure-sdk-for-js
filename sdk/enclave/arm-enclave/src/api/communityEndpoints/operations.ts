@@ -25,6 +25,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  CommunityEndpointsSyncOptionalParams,
   CommunityEndpointsHandleApprovalDeletionOptionalParams,
   CommunityEndpointsHandleApprovalCreationOptionalParams,
   CommunityEndpointsListBySubscriptionOptionalParams,
@@ -37,6 +38,66 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _syncSend(
+  context: Client,
+  resourceGroupName: string,
+  communityName: string,
+  communityEndpointName: string,
+  options: CommunityEndpointsSyncOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Mission/communities/{communityName}/communityEndpoints/{communityEndpointName}/sync{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      communityName: communityName,
+      communityEndpointName: communityEndpointName,
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _syncDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CommunityEndpointResource> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return communityEndpointResourceDeserializer(result.body);
+}
+
+/** Triggers a manual re-sync of community endpoint connections to all configured sync destinations. */
+export function sync(
+  context: Client,
+  resourceGroupName: string,
+  communityName: string,
+  communityEndpointName: string,
+  options: CommunityEndpointsSyncOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource> {
+  return getLongRunningPoller(context, _syncDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _syncSend(context, resourceGroupName, communityName, communityEndpointName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
+  }) as PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
+}
 
 export function _handleApprovalDeletionSend(
   context: Client,
@@ -53,7 +114,7 @@ export function _handleApprovalDeletionSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,7 +166,7 @@ export function handleApprovalDeletion(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
 }
 
@@ -124,7 +185,7 @@ export function _handleApprovalCreationSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +237,7 @@ export function handleApprovalCreation(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<ApprovalActionResponse>, ApprovalActionResponse>;
 }
 
@@ -190,7 +251,7 @@ export function _listBySubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +290,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, communityName, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -245,7 +310,7 @@ export function _listByCommunityResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       communityName: communityName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +350,11 @@ export function listByCommunityResource(
     () => _listByCommunityResourceSend(context, resourceGroupName, communityName, options),
     _listByCommunityResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-10-01-preview",
+    },
   );
 }
 
@@ -303,7 +372,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -340,7 +409,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, communityName, communityEndpointName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -359,7 +428,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -411,7 +480,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
 }
 
@@ -430,7 +499,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -482,7 +551,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-10-01-preview",
   }) as PollerLike<OperationState<CommunityEndpointResource>, CommunityEndpointResource>;
 }
 
@@ -500,7 +569,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       communityName: communityName,
       communityEndpointName: communityEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-10-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
