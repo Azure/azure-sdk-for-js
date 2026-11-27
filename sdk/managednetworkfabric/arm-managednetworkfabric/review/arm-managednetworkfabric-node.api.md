@@ -197,9 +197,9 @@ export interface AccessControlListsOperations {
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, accessControlListName: string, body: AccessControlListPatch, options?: AccessControlListsUpdateOptionalParams) => Promise<AccessControlList>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     create: (resourceGroupName: string, accessControlListName: string, body: AccessControlList, options?: AccessControlListsCreateOptionalParams) => PollerLike<OperationState<AccessControlList>, AccessControlList>;
     delete: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsGetOptionalParams) => Promise<AccessControlList>;
@@ -208,7 +208,7 @@ export interface AccessControlListsOperations {
     resync: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsResyncOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     update: (resourceGroupName: string, accessControlListName: string, body: AccessControlListPatch, options?: AccessControlListsUpdateOptionalParams) => PollerLike<OperationState<AccessControlList>, AccessControlList>;
     updateAdministrativeState: (resourceGroupName: string, accessControlListName: string, body: UpdateAdministrativeState, options?: AccessControlListsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    validateConfiguration: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, accessControlListName: string, options?: AccessControlListsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
 }
 
 // @public
@@ -344,7 +344,9 @@ export enum AzureClouds {
 export class AzureNetworkFabricManagementServiceAPI {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureNetworkFabricManagementServiceAPIOptionalParams);
     readonly accessControlLists: AccessControlListsOperations;
+    readonly edgeConnectors: EdgeConnectorsOperations;
     readonly externalNetworks: ExternalNetworksOperations;
+    readonly fabrics: FabricsOperations;
     readonly internalNetworks: InternalNetworksOperations;
     readonly internetGatewayRules: InternetGatewayRulesOperations;
     readonly internetGateways: InternetGatewaysOperations;
@@ -661,6 +663,9 @@ export interface ConditionalDefaultRouteProperties {
 }
 
 // @public
+export type ConfigurationRegenerationType = string;
+
+// @public
 export type ConfigurationState = string;
 
 // @public
@@ -687,6 +692,9 @@ export interface ConnectedSubnetRoutePolicyPatch {
 }
 
 // @public
+export type ConnectivityModel = string;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -696,6 +704,9 @@ export interface ControllerServices {
     ipv4AddressSpaces?: string[];
     ipv6AddressSpaces?: string[];
 }
+
+// @public
+export type ControllerType = string;
 
 // @public
 export interface ControlPlanAclIpMatchCondition {
@@ -878,6 +889,80 @@ export interface DiscardCommitBatchRequest {
 // @public
 export interface DiscardCommitBatchResponseProperties {
     commitBatchId?: string;
+}
+
+// @public
+export interface EdgeConnector extends TrackedResource {
+    properties: EdgeConnectorProperties;
+}
+
+// @public
+export interface EdgeConnectorPatch {
+    properties?: EdgeConnectorPatchableProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EdgeConnectorPatchableProperties {
+    connectivityModel?: ConnectivityModel;
+    version?: string;
+}
+
+// @public
+export interface EdgeConnectorProperties {
+    connectivityModel?: ConnectivityModel;
+    readonly managedFabricIds?: string[];
+    readonly provisioningState?: ProvisioningState;
+    version?: string;
+}
+
+// @public
+export interface EdgeConnectorsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeConnectorsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EdgeConnectorsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeConnectorsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeConnectorsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EdgeConnectorsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnector, options?: EdgeConnectorsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeConnector>, EdgeConnector>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnector, options?: EdgeConnectorsCreateOptionalParams) => Promise<EdgeConnector>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, edgeConnectorName: string, options?: EdgeConnectorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, edgeConnectorName: string, options?: EdgeConnectorsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnectorPatch, options?: EdgeConnectorsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<EdgeConnector>, EdgeConnector>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnectorPatch, options?: EdgeConnectorsUpdateOptionalParams) => Promise<EdgeConnector>;
+    create: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnector, options?: EdgeConnectorsCreateOptionalParams) => PollerLike<OperationState<EdgeConnector>, EdgeConnector>;
+    delete: (resourceGroupName: string, edgeConnectorName: string, options?: EdgeConnectorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, edgeConnectorName: string, options?: EdgeConnectorsGetOptionalParams) => Promise<EdgeConnector>;
+    listByResourceGroup: (resourceGroupName: string, options?: EdgeConnectorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<EdgeConnector>;
+    listBySubscription: (options?: EdgeConnectorsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<EdgeConnector>;
+    update: (resourceGroupName: string, edgeConnectorName: string, body: EdgeConnectorPatch, options?: EdgeConnectorsUpdateOptionalParams) => PollerLike<OperationState<EdgeConnector>, EdgeConnector>;
+}
+
+// @public
+export interface EdgeConnectorsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1176,13 +1261,99 @@ export interface ExternalNetworkUpdateBfdAdministrativeStateResponseProperties {
 }
 
 // @public
+export interface Fabric extends TrackedResource {
+    properties: FabricProperties;
+}
+
+// @public
 export interface FabricLockProperties {
     lockState?: LockConfigurationState;
     lockType?: NetworkFabricLockType;
 }
 
 // @public
+export interface FabricPatch {
+    properties?: FabricPatchableProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface FabricPatchableProperties {
+    controllerCredentialRef?: string;
+    controllerEndpoint?: string;
+    infrastructureNetworks?: PatchInfrastructureNetworks;
+    infrastructureServices?: PatchInfrastructureServices;
+    operationPolicy?: OperationPolicy;
+}
+
+// @public
+export interface FabricProperties {
+    controllerCredentialRef?: string;
+    controllerEndpoint?: string;
+    controllerType?: ControllerType;
+    customerSubnetId?: string;
+    customerVnetId?: string;
+    edgeConnectorId?: string;
+    fabricSku?: string;
+    infrastructureNetworks?: InfrastructureNetworks;
+    infrastructureServices?: InfrastructureServices;
+    managementMode: ManagementMode;
+    operationPolicy?: OperationPolicy;
+    readonly provisioningState?: ProvisioningState;
+    rackCount?: number;
+}
+
+// @public
+export interface FabricsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricsGetOptionalParams extends OperationOptions {
+}
+
+// @public
 export type FabricSkuType = string;
+
+// @public
+export interface FabricsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, fabricName: string, body: Fabric, options?: FabricsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, fabricName: string, body: Fabric, options?: FabricsCreateOptionalParams) => Promise<Fabric>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, fabricName: string, options?: FabricsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, fabricName: string, options?: FabricsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, fabricName: string, body: FabricPatch, options?: FabricsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Fabric>, Fabric>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, fabricName: string, body: FabricPatch, options?: FabricsUpdateOptionalParams) => Promise<Fabric>;
+    create: (resourceGroupName: string, fabricName: string, body: Fabric, options?: FabricsCreateOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+    delete: (resourceGroupName: string, fabricName: string, options?: FabricsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fabricName: string, options?: FabricsGetOptionalParams) => Promise<Fabric>;
+    listByResourceGroup: (resourceGroupName: string, options?: FabricsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Fabric>;
+    listBySubscription: (options?: FabricsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Fabric>;
+    update: (resourceGroupName: string, fabricName: string, body: FabricPatch, options?: FabricsUpdateOptionalParams) => PollerLike<OperationState<Fabric>, Fabric>;
+}
+
+// @public
+export interface FabricsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface FeatureFlagProperties {
@@ -1192,6 +1363,9 @@ export interface FeatureFlagProperties {
 
 // @public
 export type GatewayType = string;
+
+// @public
+export type GenerateBaseConfiguration = string;
 
 // @public
 export interface GetTopologyResponse {
@@ -1284,6 +1458,43 @@ export interface ImportRoutePolicyInformationPatch {
 export interface ImportRoutePolicyPatch {
     importIpv4RoutePolicyId?: string;
     importIpv6RoutePolicyId?: string;
+}
+
+// @public
+export interface InfraNetwork {
+    ipv4EndAddr: string;
+    ipv4Gateway: string;
+    ipv4StartAddr: string;
+    ipv4Subnet: string;
+    mtu?: number;
+    vlanId: number;
+}
+
+// @public
+export interface InfraNetworkOptionalIp {
+    ipv4EndAddr?: string;
+    ipv4Gateway?: string;
+    ipv4StartAddr?: string;
+    ipv4Subnet?: string;
+    mtu?: number;
+    vlanId: number;
+}
+
+// @public
+export interface InfrastructureNetworks {
+    bmc: InfraNetwork;
+    management: InfraNetwork;
+    pdu?: InfraNetwork;
+    pxe: InfraNetwork;
+    storage: InfraNetwork;
+    storageMgmt?: InfraNetworkOptionalIp;
+}
+
+// @public
+export interface InfrastructureServices {
+    dnsServers: string[];
+    ntpServers: string[];
+    platformProxy: PlatformProxy;
 }
 
 // @public
@@ -2160,8 +2371,16 @@ export enum KnownCondition {
 }
 
 // @public
+export enum KnownConfigurationRegenerationType {
+    Partial = "Partial"
+}
+
+// @public
 export enum KnownConfigurationState {
     Accepted = "Accepted",
+    CommitRollbackFailed = "CommitRollbackFailed",
+    CommitStaged = "CommitStaged",
+    CommitStageFailed = "CommitStageFailed",
     DeferredControl = "DeferredControl",
     Deprovisioned = "Deprovisioned",
     Deprovisioning = "Deprovisioning",
@@ -2180,6 +2399,21 @@ export enum KnownConfigurationState {
 export enum KnownConfigurationType {
     File = "File",
     Inline = "Inline"
+}
+
+// @public
+export enum KnownConnectivityModel {
+    ArcProxy = "arcProxy",
+    Direct = "direct",
+    ExpressRoute = "expressRoute",
+    None = "none"
+}
+
+// @public
+export enum KnownControllerType {
+    AristaCloudVision = "aristaCloudVision",
+    CiscoAci = "ciscoAci",
+    Direct = "direct"
 }
 
 // @public
@@ -2238,6 +2472,7 @@ export enum KnownDeviceRole {
     CE = "CE",
     ManagementSwitch = "ManagementSwitch",
     NPB = "NPB",
+    TerminalServer = "TerminalServer",
     ToR = "ToR"
 }
 
@@ -2288,6 +2523,12 @@ export enum KnownFabricSkuType {
 export enum KnownGatewayType {
     Infrastructure = "Infrastructure",
     Workload = "Workload"
+}
+
+// @public
+export enum KnownGenerateBaseConfiguration {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -2354,6 +2595,12 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
+export enum KnownManagementMode {
+    Managed = "managed",
+    Unmanaged = "unmanaged"
+}
+
+// @public
 export enum KnownMicroBfdState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -2390,6 +2637,14 @@ export enum KnownNetworkFabricLockType {
 }
 
 // @public
+export enum KnownNetworkFabricRefreshDeviceTypes {
+    CE = "CE",
+    ManagementSwitch = "ManagementSwitch",
+    NPB = "NPB",
+    ToR = "ToR"
+}
+
+// @public
 export enum KnownNetworkFabricUpgradeAction {
     Complete = "Complete",
     Start = "Start"
@@ -2419,6 +2674,20 @@ export enum KnownNNIDerivedUniqueRouteDistinguisherConfigurationState {
 export enum KnownNniType {
     CE = "CE",
     NPB = "NPB"
+}
+
+// @public
+export enum KnownOperationalState {
+    Degraded = "Degraded",
+    Down = "Down",
+    Unknown = "Unknown",
+    Up = "Up"
+}
+
+// @public
+export enum KnownOperationPolicy {
+    FullControl = "fullControl",
+    ValidateOnly = "validateOnly"
 }
 
 // @public
@@ -2578,7 +2847,10 @@ export enum KnownValidateAction {
 
 // @public
 export enum KnownVersions {
-    V20250715 = "2025-07-15"
+    V20240215Preview = "2024-02-15-preview",
+    V20240615Preview = "2024-06-15-preview",
+    V20250715 = "2025-07-15",
+    V20260115Preview = "2026-01-15-preview"
 }
 
 // @public
@@ -2684,9 +2956,9 @@ export interface L2IsolationDomainsOperations {
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomainPatch, options?: L2IsolationDomainsUpdateOptionalParams) => Promise<L2IsolationDomain>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     commitConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsCommitConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     create: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomain, options?: L2IsolationDomainsCreateOptionalParams) => PollerLike<OperationState<L2IsolationDomain>, L2IsolationDomain>;
     delete: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -2695,7 +2967,7 @@ export interface L2IsolationDomainsOperations {
     listBySubscription: (options?: L2IsolationDomainsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L2IsolationDomain>;
     update: (resourceGroupName: string, l2IsolationDomainName: string, body: L2IsolationDomainPatch, options?: L2IsolationDomainsUpdateOptionalParams) => PollerLike<OperationState<L2IsolationDomain>, L2IsolationDomain>;
     updateAdministrativeState: (resourceGroupName: string, l2IsolationDomainName: string, body: UpdateAdministrativeState, options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    validateConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, l2IsolationDomainName: string, options?: L2IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
 }
 
 // @public
@@ -2841,9 +3113,9 @@ export interface L3IsolationDomainsOperations {
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomainPatch, options?: L3IsolationDomainsUpdateOptionalParams) => Promise<L3IsolationDomain>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     commitConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsCommitConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     create: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomain, options?: L3IsolationDomainsCreateOptionalParams) => PollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>;
     delete: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -2852,7 +3124,7 @@ export interface L3IsolationDomainsOperations {
     listBySubscription: (options?: L3IsolationDomainsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<L3IsolationDomain>;
     update: (resourceGroupName: string, l3IsolationDomainName: string, body: L3IsolationDomainPatch, options?: L3IsolationDomainsUpdateOptionalParams) => PollerLike<OperationState<L3IsolationDomain>, L3IsolationDomain>;
     updateAdministrativeState: (resourceGroupName: string, l3IsolationDomainName: string, body: UpdateAdministrativeState, options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    validateConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, l3IsolationDomainName: string, options?: L3IsolationDomainsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
 }
 
 // @public
@@ -2955,6 +3227,9 @@ export type ManagedServiceIdentitySelectorType = string;
 export type ManagedServiceIdentityType = string;
 
 // @public
+export type ManagementMode = string;
+
+// @public
 export interface ManagementNetworkConfigurationProperties {
     infrastructureVpnConfiguration: VpnConfigurationProperties;
     workloadVpnConfiguration: VpnConfigurationProperties;
@@ -3021,6 +3296,7 @@ export interface NeighborAddressPatch {
 
 // @public
 export interface NeighborGroup extends TrackedResource {
+    readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     destination: NeighborGroupDestination;
@@ -3059,6 +3335,7 @@ export interface NeighborGroupPatchProperties {
 
 // @public
 export interface NeighborGroupProperties {
+    readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
     destination: NeighborGroupDestination;
@@ -3146,16 +3423,19 @@ export interface NetworkBootstrapDevice extends TrackedResource {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
+    controlPlaneAcls?: string[];
     readonly dhcpV4ServerIpAddress?: string;
     hostName?: string;
     identity?: ManagedServiceIdentity;
     networkDeviceSku?: string;
     readonly networkFabricId?: string;
+    readonly operationalState?: OperationalState;
     readonly primaryManagementIpv4Address?: string;
     readonly primaryManagementIpv6Address?: string;
     readonly provisioningState?: ProvisioningState;
     readonly secondaryManagementIpv4Address?: string;
     readonly secondaryManagementIpv6Address?: string;
+    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber?: string;
     readonly version?: string;
 }
@@ -3163,6 +3443,7 @@ export interface NetworkBootstrapDevice extends TrackedResource {
 // @public
 export interface NetworkBootstrapDevicePatch extends TagsUpdate {
     annotation?: string;
+    controlPlaneAcls?: string[];
     hostName?: string;
     identity?: ManagedServiceIdentityPatch;
     serialNumber?: string;
@@ -3171,6 +3452,7 @@ export interface NetworkBootstrapDevicePatch extends TagsUpdate {
 // @public
 export interface NetworkBootstrapDevicePatchProperties {
     annotation?: string;
+    controlPlaneAcls?: string[];
     hostName?: string;
     serialNumber?: string;
 }
@@ -3180,15 +3462,18 @@ export interface NetworkBootstrapDeviceProperties {
     readonly administrativeState?: AdministrativeState;
     annotation?: string;
     readonly configurationState?: ConfigurationState;
+    controlPlaneAcls?: string[];
     readonly dhcpV4ServerIpAddress?: string;
     hostName?: string;
     networkDeviceSku?: string;
     readonly networkFabricId?: string;
+    readonly operationalState?: OperationalState;
     readonly primaryManagementIpv4Address?: string;
     readonly primaryManagementIpv6Address?: string;
     readonly provisioningState?: ProvisioningState;
     readonly secondaryManagementIpv4Address?: string;
     readonly secondaryManagementIpv6Address?: string;
+    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber?: string;
     readonly version?: string;
 }
@@ -3368,6 +3653,7 @@ export interface NetworkBootstrapInterface extends ProxyResource {
     readonly interfaceType?: InterfaceType;
     readonly ipv4Address?: string;
     readonly ipv6Address?: string;
+    readonly operationalState?: OperationalState;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
     serialNumber?: string;
@@ -3396,6 +3682,7 @@ export interface NetworkBootstrapInterfaceProperties extends AnnotationResource 
     readonly interfaceType?: InterfaceType;
     readonly ipv4Address?: string;
     readonly ipv6Address?: string;
+    readonly operationalState?: OperationalState;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
     serialNumber?: string;
@@ -3471,6 +3758,7 @@ export interface NetworkDevice extends TrackedResource {
     networkDeviceSku?: string;
     readonly networkFabricId?: string;
     readonly networkRackId?: string;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     readonly rwDeviceConfig?: string;
     readonly secretRotationStatus?: SecretRotationStatus[];
@@ -3510,6 +3798,7 @@ export interface NetworkDeviceProperties {
     networkDeviceSku?: string;
     readonly networkFabricId?: string;
     readonly networkRackId?: string;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     readonly rwDeviceConfig?: string;
     readonly secretRotationStatus?: SecretRotationStatus[];
@@ -3784,13 +4073,16 @@ export interface NetworkFabric extends TrackedResource {
     readonly l3IsolationDomains?: string[];
     readonly lastOperation?: LastOperationProperties;
     managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
+    readonly networkBootstrapDeviceId?: string;
     networkFabricControllerId: string;
     networkFabricSku: string;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     qosConfiguration?: QosProperties;
     rackCount?: number;
     readonly racks?: string[];
     readonly routerIds?: string[];
+    secretArchiveSettings?: SecretArchiveSettings;
     readonly secretRotationSummary?: SecretRotationSummary;
     serverCountPerRack: number;
     storageAccountConfiguration?: StorageAccountConfiguration;
@@ -3798,6 +4090,7 @@ export interface NetworkFabric extends TrackedResource {
     terminalServerConfiguration: TerminalServerConfiguration;
     trustedIpPrefixes?: string[];
     uniqueRdConfiguration?: UniqueRouteDistinguisherProperties;
+    upgradeProfile?: UpgradeProfileProperties[];
 }
 
 // @public
@@ -3813,8 +4106,10 @@ export interface NetworkFabricController extends TrackedResource {
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly networkFabricIds?: string[];
     nfcSku?: NfcSku;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     readonly tenantInternetGatewayIds?: string[];
+    vmProfile?: VmProfile;
     workloadExpressRouteConnections?: ExpressRouteConnectionInformation[];
     readonly workloadServices?: ControllerServices;
 }
@@ -3844,8 +4139,10 @@ export interface NetworkFabricControllerProperties {
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly networkFabricIds?: string[];
     nfcSku?: NfcSku;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     readonly tenantInternetGatewayIds?: string[];
+    vmProfile?: VmProfile;
     workloadExpressRouteConnections?: ExpressRouteConnectionInformation[];
     readonly workloadServices?: ControllerServices;
 }
@@ -3925,11 +4222,13 @@ export interface NetworkFabricPatch extends TagsUpdate {
     managementNetworkConfiguration?: ManagementNetworkPatchConfiguration;
     qosConfiguration?: QosPatchProperties;
     rackCount?: number;
+    secretArchiveSettings?: SecretArchivePatchSettings;
     serverCountPerRack?: number;
     storageAccountConfiguration?: StorageAccountPatchConfiguration;
     terminalServerConfiguration?: TerminalServerPatchConfiguration;
     trustedIpPrefixes?: string[];
     uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties;
+    upgradeProfile?: UpgradeProfilePropertiesPatchProperties[];
 }
 
 // @public
@@ -3945,11 +4244,13 @@ export interface NetworkFabricPatchProperties {
     managementNetworkConfiguration?: ManagementNetworkPatchConfiguration;
     qosConfiguration?: QosPatchProperties;
     rackCount?: number;
+    secretArchiveSettings?: SecretArchivePatchSettings;
     serverCountPerRack?: number;
     storageAccountConfiguration?: StorageAccountPatchConfiguration;
     terminalServerConfiguration?: TerminalServerPatchConfiguration;
     trustedIpPrefixes?: string[];
     uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties;
+    upgradeProfile?: UpgradeProfilePropertiesPatchProperties[];
 }
 
 // @public
@@ -3970,13 +4271,16 @@ export interface NetworkFabricProperties extends AnnotationResource {
     readonly l3IsolationDomains?: string[];
     readonly lastOperation?: LastOperationProperties;
     managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
+    readonly networkBootstrapDeviceId?: string;
     networkFabricControllerId: string;
     networkFabricSku: string;
+    readonly operationalState?: OperationalState;
     readonly provisioningState?: ProvisioningState;
     qosConfiguration?: QosProperties;
     rackCount?: number;
     readonly racks?: string[];
     readonly routerIds?: string[];
+    secretArchiveSettings?: SecretArchiveSettings;
     readonly secretRotationSummary?: SecretRotationSummary;
     serverCountPerRack: number;
     storageAccountConfiguration?: StorageAccountConfiguration;
@@ -3984,7 +4288,11 @@ export interface NetworkFabricProperties extends AnnotationResource {
     terminalServerConfiguration: TerminalServerConfiguration;
     trustedIpPrefixes?: string[];
     uniqueRdConfiguration?: UniqueRouteDistinguisherProperties;
+    upgradeProfile?: UpgradeProfileProperties[];
 }
+
+// @public
+export type NetworkFabricRefreshDeviceTypes = string;
 
 // @public
 export interface NetworkFabricResyncCertificatesResponse {
@@ -4210,9 +4518,9 @@ export interface NetworkFabricsOperations {
     // @deprecated (undocumented)
     beginUpgradeAndWait: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => Promise<OperationStatusResult>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     // @deprecated (undocumented)
     beginViewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ViewDeviceConfigurationOperationResponse>, ViewDeviceConfigurationOperationResponse>>;
     // @deprecated (undocumented)
@@ -4238,7 +4546,7 @@ export interface NetworkFabricsOperations {
     updateInfraManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
     updateWorkloadManagementBfdConfiguration: (resourceGroupName: string, networkFabricName: string, body: UpdateAdministrativeState, options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
     upgrade: (resourceGroupName: string, networkFabricName: string, body: UpgradeNetworkFabricProperties, options?: NetworkFabricsUpgradeOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    validateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, networkFabricName: string, body: ValidateConfigurationProperties, options?: NetworkFabricsValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
     viewDeviceConfiguration: (resourceGroupName: string, networkFabricName: string, options?: NetworkFabricsViewDeviceConfigurationOptionalParams) => PollerLike<OperationState<ViewDeviceConfigurationOperationResponse>, ViewDeviceConfigurationOperationResponse>;
 }
 
@@ -4249,6 +4557,7 @@ export interface NetworkFabricsProvisionOptionalParams extends OperationOptions 
 
 // @public
 export interface NetworkFabricsRefreshConfigurationOptionalParams extends OperationOptions {
+    body?: RefreshConfigurationRequestProperties;
     updateIntervalInMs?: number;
 }
 
@@ -4319,6 +4628,7 @@ export interface NetworkInterface extends ProxyResource {
     readonly ipv6Address?: string;
     readonly lastOperation?: LastOperationProperties;
     readonly networkFabricId?: string;
+    readonly operationalState?: OperationalState;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -4347,6 +4657,7 @@ export interface NetworkInterfaceProperties extends AnnotationResource {
     readonly ipv6Address?: string;
     readonly lastOperation?: LastOperationProperties;
     readonly networkFabricId?: string;
+    readonly operationalState?: OperationalState;
     readonly physicalIdentifier?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -4504,11 +4815,18 @@ export interface NetworkPacketBroker extends TrackedResource {
     readonly networkTapIds?: string[];
     readonly provisioningState?: ProvisioningState;
     readonly sourceInterfaceIds?: string[];
+    sourceNetworkTapRuleId?: string;
 }
 
 // @public
 export interface NetworkPacketBrokerPatch extends TagsUpdate {
     identity?: ManagedServiceIdentityPatch;
+    properties?: NetworkPacketBrokerPatchProperties;
+}
+
+// @public
+export interface NetworkPacketBrokerPatchProperties {
+    sourceNetworkTapRuleId?: string;
 }
 
 // @public
@@ -4521,6 +4839,7 @@ export interface NetworkPacketBrokerProperties {
     readonly networkTapIds?: string[];
     readonly provisioningState?: ProvisioningState;
     readonly sourceInterfaceIds?: string[];
+    sourceNetworkTapRuleId?: string;
 }
 
 // @public
@@ -4875,9 +5194,9 @@ export interface NetworkTapRulesOperations {
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, networkTapRuleName: string, body: NetworkTapRulePatch, options?: NetworkTapRulesUpdateOptionalParams) => Promise<NetworkTapRule>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     create: (resourceGroupName: string, networkTapRuleName: string, body: NetworkTapRule, options?: NetworkTapRulesCreateOptionalParams) => PollerLike<OperationState<NetworkTapRule>, NetworkTapRule>;
     delete: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesGetOptionalParams) => Promise<NetworkTapRule>;
@@ -4886,7 +5205,7 @@ export interface NetworkTapRulesOperations {
     resync: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesResyncOptionalParams) => PollerLike<OperationState<NetworkTapRuleResyncResponse>, NetworkTapRuleResyncResponse>;
     update: (resourceGroupName: string, networkTapRuleName: string, body: NetworkTapRulePatch, options?: NetworkTapRulesUpdateOptionalParams) => PollerLike<OperationState<NetworkTapRule>, NetworkTapRule>;
     updateAdministrativeState: (resourceGroupName: string, networkTapRuleName: string, body: UpdateAdministrativeState, options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
-    validateConfiguration: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, networkTapRuleName: string, options?: NetworkTapRulesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
 }
 
 // @public
@@ -5203,12 +5522,18 @@ export interface Operation {
 }
 
 // @public
+export type OperationalState = string;
+
+// @public
 export interface OperationDisplay {
     readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
 }
+
+// @public
+export type OperationPolicy = string;
 
 // @public
 export interface OperationsListOptionalParams extends OperationOptions {
@@ -5278,7 +5603,48 @@ export interface PageSettings {
 }
 
 // @public
+export interface PatchInfraNetwork {
+    ipv4EndAddr?: string;
+    ipv4Gateway?: string;
+    ipv4StartAddr?: string;
+    ipv4Subnet?: string;
+    mtu?: number;
+    vlanId?: number;
+}
+
+// @public
+export interface PatchInfrastructureNetworks {
+    bmc?: PatchInfraNetwork;
+    management?: PatchInfraNetwork;
+    pdu?: PatchInfraNetwork;
+    pxe?: PatchInfraNetwork;
+    storage?: PatchInfraNetwork;
+    storageMgmt?: PatchInfraNetwork;
+}
+
+// @public
+export interface PatchInfrastructureServices {
+    dnsServers?: string[];
+    ntpServers?: string[];
+    platformProxy?: PatchPlatformProxy;
+}
+
+// @public
+export interface PatchPlatformProxy {
+    httpProxy?: string;
+    httpsProxy?: string;
+    noProxy?: string[];
+}
+
+// @public
 export type PeeringOption = string;
+
+// @public
+export interface PlatformProxy {
+    httpProxy: string;
+    httpsProxy: string;
+    noProxy: string[];
+}
 
 // @public
 export interface PoliceRateConfigurationProperties {
@@ -5321,6 +5687,18 @@ export interface PortGroupProperties {
 export type PortType = string;
 
 // @public
+export interface PostUpgradeProfilePatchProperties {
+    maxExitingMaintenanceTimeoutInSeconds?: number;
+    mlagReloadDelayTimeoutInSeconds?: number;
+}
+
+// @public
+export interface PostUpgradeProfileProperties {
+    maxExitingMaintenanceTimeoutInSeconds?: number;
+    mlagReloadDelayTimeoutInSeconds?: number;
+}
+
+// @public
 export interface PrefixLimitPatchProperties {
     idleTimeExpiry?: number;
     maximumRoutes?: number;
@@ -5336,6 +5714,16 @@ export interface PrefixLimitProperties {
 
 // @public
 export type PrefixType = string;
+
+// @public
+export interface PreUpgradeProfilePatchProperties {
+    maxEnteringMaintenanceTimeoutInSeconds?: number;
+}
+
+// @public
+export interface PreUpgradeProfileProperties {
+    maxEnteringMaintenanceTimeoutInSeconds?: number;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -5377,6 +5765,13 @@ export type RedistributeConnectedSubnets = string;
 
 // @public
 export type RedistributeStaticRoutes = string;
+
+// @public
+export interface RefreshConfigurationRequestProperties {
+    configurationRegenerationType: ConfigurationRegenerationType;
+    deviceTypes?: NetworkFabricRefreshDeviceTypes[];
+    generateBaseConfiguration: GenerateBaseConfiguration;
+}
 
 // @public
 export interface Resource {
@@ -5448,9 +5843,9 @@ export interface RoutePoliciesOperations {
     // @deprecated (undocumented)
     beginUpdateAndWait: (resourceGroupName: string, routePolicyName: string, body: RoutePolicyPatch, options?: RoutePoliciesUpdateOptionalParams) => Promise<RoutePolicy>;
     // @deprecated (undocumented)
-    beginValidateConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>>;
+    beginValidateConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => Promise<SimplePollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>>;
     // @deprecated (undocumented)
-    beginValidateConfigurationAndWait: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponse>;
+    beginValidateConfigurationAndWait: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => Promise<ValidateConfigurationResponseV2>;
     commitConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesCommitConfigurationOptionalParams) => PollerLike<OperationState<CommonPostActionResponseForStateUpdate>, CommonPostActionResponseForStateUpdate>;
     create: (resourceGroupName: string, routePolicyName: string, body: RoutePolicy, options?: RoutePoliciesCreateOptionalParams) => PollerLike<OperationState<RoutePolicy>, RoutePolicy>;
     delete: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -5459,7 +5854,7 @@ export interface RoutePoliciesOperations {
     listBySubscription: (options?: RoutePoliciesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<RoutePolicy>;
     update: (resourceGroupName: string, routePolicyName: string, body: RoutePolicyPatch, options?: RoutePoliciesUpdateOptionalParams) => PollerLike<OperationState<RoutePolicy>, RoutePolicy>;
     updateAdministrativeState: (resourceGroupName: string, routePolicyName: string, body: UpdateAdministrativeState, options?: RoutePoliciesUpdateAdministrativeStateOptionalParams) => PollerLike<OperationState<UpdateAdministrativeStateResponse>, UpdateAdministrativeStateResponse>;
-    validateConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    validateConfiguration: (resourceGroupName: string, routePolicyName: string, options?: RoutePoliciesValidateConfigurationOptionalParams) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
 }
 
 // @public
@@ -5580,11 +5975,23 @@ export interface RuleProperties {
 }
 
 // @public
+export interface SecretArchivePatchSettings {
+    associatedIdentity?: IdentitySelectorPatch;
+    vaultUri?: string;
+}
+
+// @public
 export interface SecretArchiveReference {
     readonly keyVaultId?: string;
     readonly keyVaultUri?: string;
     readonly secretName?: string;
     readonly secretVersion?: string;
+}
+
+// @public
+export interface SecretArchiveSettings {
+    associatedIdentity: IdentitySelector;
+    vaultUri: string;
 }
 
 // @public
@@ -5848,6 +6255,18 @@ export interface UpgradeNetworkFabricProperties extends UpdateVersion {
 }
 
 // @public
+export interface UpgradeProfileProperties {
+    postUpgradeProfile?: PostUpgradeProfileProperties;
+    preUpgradeProfile?: PreUpgradeProfileProperties;
+}
+
+// @public
+export interface UpgradeProfilePropertiesPatchProperties {
+    postUpgradeProfile?: PostUpgradeProfilePatchProperties;
+    preUpgradeProfile?: PreUpgradeProfilePatchProperties;
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
@@ -5868,9 +6287,23 @@ export interface ValidateConfigurationProperties {
 }
 
 // @public
-export interface ValidateConfigurationResponse extends CommonErrorResponse {
+export interface ValidateConfigurationResponseProperties {
     readonly configurationState?: ConfigurationState;
     url?: string;
+}
+
+// @public
+export interface ValidateConfigurationResponseV2 {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    properties?: ValidateConfigurationResponseProperties;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
 }
 
 // @public
@@ -5916,6 +6349,11 @@ export interface VlanMatchConditionPatch {
     innerVlans?: string[];
     vlanGroupNames?: string[];
     vlans?: string[];
+}
+
+// @public
+export interface VmProfile {
+    vmSkuName: string;
 }
 
 // @public

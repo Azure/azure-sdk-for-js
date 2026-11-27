@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a Network Bootstrap Device resource details.
  *
  * @summary gets a Network Bootstrap Device resource details.
- * x-ms-original-file: 2025-07-15/NetworkBootstrapDevices_Get.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkBootstrapDevices_Get.json
  */
 async function networkBootstrapDevicesGetMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

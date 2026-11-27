@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * Fails if any of the devices could not be updated with the new password.
  * Failed devices should be resynchronized with the new passwords once possible.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotatePasswords.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotatePasswords.json
  */
 async function successfulPasswordRotationForTheTerminalServerAndAllNetworkDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function successfulPasswordRotationForTheTerminalServerAndAllNetworkDevice
  *
  * Fails if any of the devices could not be updated with the new password.
  * Failed devices should be resynchronized with the new passwords once possible.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotatePasswords_Error.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotatePasswords_Error.json
  */
 async function totalFailureToRotatePasswords(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function totalFailureToRotatePasswords(): Promise<void> {
  *
  * Fails if any of the devices could not be updated with the new password.
  * Failed devices should be resynchronized with the new passwords once possible.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_RotatePasswords_PartialSuccess.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_RotatePasswords_PartialSuccess.json
  */
 async function partialFailureToRotatePasswordsForSomeDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

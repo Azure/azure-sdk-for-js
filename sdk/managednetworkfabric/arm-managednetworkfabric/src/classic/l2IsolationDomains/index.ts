@@ -28,7 +28,7 @@ import type {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
-  ValidateConfigurationResponse,
+  ValidateConfigurationResponseV2,
   L2IsolationDomain,
   L2IsolationDomainPatch,
 } from "../../models/models.js";
@@ -70,21 +70,24 @@ export interface L2IsolationDomainsOperations {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     options?: L2IsolationDomainsValidateConfigurationOptionalParams,
-  ) => PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+  ) => PollerLike<OperationState<ValidateConfigurationResponseV2>, ValidateConfigurationResponseV2>;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfiguration: (
     resourceGroupName: string,
     l2IsolationDomainName: string,
     options?: L2IsolationDomainsValidateConfigurationOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>
+    SimplePollerLike<
+      OperationState<ValidateConfigurationResponseV2>,
+      ValidateConfigurationResponseV2
+    >
   >;
   /** @deprecated use validateConfiguration instead */
   beginValidateConfigurationAndWait: (
     resourceGroupName: string,
     l2IsolationDomainName: string,
     options?: L2IsolationDomainsValidateConfigurationOptionalParams,
-  ) => Promise<ValidateConfigurationResponse>;
+  ) => Promise<ValidateConfigurationResponseV2>;
   /** Enables isolation domain across the fabric or on specified racks. */
   updateAdministrativeState: (
     resourceGroupName: string,

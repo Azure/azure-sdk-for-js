@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates the Terminal Server and all Network Devices to use the latest passwords. Does not generate new passwords.
  *
  * Allows devices to be brought back in sync after a partially successful password rotation.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncPasswords.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncPasswords.json
  */
 async function successfulPasswordResyncForTheTerminalServerAndAllNetworkDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function successfulPasswordResyncForTheTerminalServerAndAllNetworkDevices(
  * @summary updates the Terminal Server and all Network Devices to use the latest passwords. Does not generate new passwords.
  *
  * Allows devices to be brought back in sync after a partially successful password rotation.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncPasswords_Error.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncPasswords_Error.json
  */
 async function totalFailureToResyncPasswords(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function totalFailureToResyncPasswords(): Promise<void> {
  * @summary updates the Terminal Server and all Network Devices to use the latest passwords. Does not generate new passwords.
  *
  * Allows devices to be brought back in sync after a partially successful password rotation.
- * x-ms-original-file: 2025-07-15/NetworkFabrics_ResyncPasswords_PartialSuccess.json
+ * x-ms-original-file: 2026-01-15-preview/NetworkFabrics_ResyncPasswords_PartialSuccess.json
  */
 async function partialFailureToResyncPasswordsForSomeDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

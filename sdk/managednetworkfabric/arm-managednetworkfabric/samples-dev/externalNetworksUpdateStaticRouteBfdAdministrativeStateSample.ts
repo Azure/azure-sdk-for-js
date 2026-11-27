@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update Static Route BFD for external Network.
  *
  * @summary update Static Route BFD for external Network.
- * x-ms-original-file: 2025-07-15/ExternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
+ * x-ms-original-file: 2026-01-15-preview/ExternalNetworks_UpdateStaticRouteBfdAdministrativeState.json
  */
 async function externalNetworksUpdateStaticRouteBfdAdministrativeState(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to implements Access Control List PUT method.
  *
  * @summary implements Access Control List PUT method.
- * x-ms-original-file: 2025-07-15/AccessControlLists_Create.json
+ * x-ms-original-file: 2026-01-15-preview/AccessControlLists_Create.json
  */
 async function accessControlListsCreateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -89,7 +89,7 @@ async function accessControlListsCreateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to implements Access Control List PUT method.
  *
  * @summary implements Access Control List PUT method.
- * x-ms-original-file: 2025-07-15/AccessControlLists_Create_ControlPlaneAcl.json
+ * x-ms-original-file: 2026-01-15-preview/AccessControlLists_Create_ControlPlaneAcl.json
  */
 async function accessControlListsCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
