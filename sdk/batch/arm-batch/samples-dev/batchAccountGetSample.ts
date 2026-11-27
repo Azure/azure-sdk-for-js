@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified Batch account.
  *
  * @summary gets information about the specified Batch account.
- * x-ms-original-file: 2025-06-01/BatchAccountGet.json
+ * x-ms-original-file: 2026-10-01/BatchAccountGet.json
  */
 async function batchAccountGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function batchAccountGet(): Promise<void> {
  * This sample demonstrates how to gets information about the specified Batch account.
  *
  * @summary gets information about the specified Batch account.
- * x-ms-original-file: 2025-06-01/PrivateBatchAccountGet.json
+ * x-ms-original-file: 2026-10-01/PrivateBatchAccountGet.json
  */
 async function privateBatchAccountGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

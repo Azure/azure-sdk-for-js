@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the Batch service quotas for the specified subscription at the given location.
  *
  * @summary gets the Batch service quotas for the specified subscription at the given location.
- * x-ms-original-file: 2025-06-01/LocationGetQuotas.json
+ * x-ms-original-file: 2026-10-01/LocationGetQuotas.json
  */
 async function locationGetQuotas(): Promise<void> {
   const credential = new DefaultAzureCredential();

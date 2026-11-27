@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
  *
  * @summary synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
- * x-ms-original-file: 2025-06-01/BatchAccountSynchronizeAutoStorageKeys.json
+ * x-ms-original-file: 2026-10-01/BatchAccountSynchronizeAutoStorageKeys.json
  */
 async function batchAccountSynchronizeAutoStorageKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();

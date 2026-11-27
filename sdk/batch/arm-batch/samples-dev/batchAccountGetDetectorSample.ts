@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the given detector for a given Batch account.
  *
  * @summary gets information about the given detector for a given Batch account.
- * x-ms-original-file: 2025-06-01/DetectorGet.json
+ * x-ms-original-file: 2026-10-01/DetectorGet.json
  */
 async function getDetector(): Promise<void> {
   const credential = new DefaultAzureCredential();

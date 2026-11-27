@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet.json
+ * x-ms-original-file: 2026-10-01/PoolGet.json
  */
 async function getPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getPool(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_AcceleratedNetworking.json
+ * x-ms-original-file: 2026-10-01/PoolGet_AcceleratedNetworking.json
  */
 async function getPoolAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getPoolAcceleratedNetworking(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_SecurityProfile.json
+ * x-ms-original-file: 2026-10-01/PoolGet_SecurityProfile.json
  */
 async function getPoolSecurityProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getPoolSecurityProfile(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_UpgradePolicy.json
+ * x-ms-original-file: 2026-10-01/PoolGet_UpgradePolicy.json
  */
 async function getPoolUpgradePolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function getPoolUpgradePolicy(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: 2026-10-01/PoolGet_VirtualMachineConfiguration_Extensions.json
  */
 async function getPoolVirtualMachineConfigurationExtensions(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -78,7 +78,7 @@ async function getPoolVirtualMachineConfigurationExtensions(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_VirtualMachineConfiguration_MangedOSDisk.json
+ * x-ms-original-file: 2026-10-01/PoolGet_VirtualMachineConfiguration_MangedOSDisk.json
  */
 async function getPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -92,7 +92,7 @@ async function getPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
  * This sample demonstrates how to gets information about the specified pool.
  *
  * @summary gets information about the specified pool.
- * x-ms-original-file: 2025-06-01/PoolGet_VirtualMachineConfiguration_ServiceArtifactReference.json
+ * x-ms-original-file: 2026-10-01/PoolGet_VirtualMachineConfiguration_ServiceArtifactReference.json
  */
 async function getPoolVirtualMachineConfigurationServiceArtifactReference(): Promise<void> {
   const credential = new DefaultAzureCredential();

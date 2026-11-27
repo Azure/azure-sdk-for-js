@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the application packages in the specified application.
  *
  * @summary lists all of the application packages in the specified application.
- * x-ms-original-file: 2025-06-01/ApplicationPackageList.json
+ * x-ms-original-file: 2026-10-01/ApplicationPackageList.json
  */
 async function applicationPackageList(): Promise<void> {
   const credential = new DefaultAzureCredential();

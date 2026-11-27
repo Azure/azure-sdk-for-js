@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about the specified private link resource.
  *
  * @summary gets information about the specified private link resource.
- * x-ms-original-file: 2025-06-01/PrivateLinkResourceGet.json
+ * x-ms-original-file: 2026-10-01/PrivateLinkResourceGet.json
  */
 async function getPrivateLinkResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

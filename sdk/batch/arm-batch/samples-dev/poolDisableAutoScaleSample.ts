@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to disables automatic scaling for a pool.
  *
  * @summary disables automatic scaling for a pool.
- * x-ms-original-file: 2025-06-01/PoolDisableAutoScale.json
+ * x-ms-original-file: 2026-10-01/PoolDisableAutoScale.json
  */
 async function disableAutoScale(): Promise<void> {
   const credential = new DefaultAzureCredential();

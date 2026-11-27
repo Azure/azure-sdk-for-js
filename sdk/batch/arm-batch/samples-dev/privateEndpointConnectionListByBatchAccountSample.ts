@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all of the private endpoint connections in the specified account.
  *
  * @summary lists all of the private endpoint connections in the specified account.
- * x-ms-original-file: 2025-06-01/PrivateEndpointConnectionsList.json
+ * x-ms-original-file: 2026-10-01/PrivateEndpointConnectionsList.json
  */
 async function listPrivateEndpointConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an application package record and its associated binary file.
  *
  * @summary deletes an application package record and its associated binary file.
- * x-ms-original-file: 2025-06-01/ApplicationPackageDelete.json
+ * x-ms-original-file: 2026-10-01/ApplicationPackageDelete.json
  */
 async function applicationPackageDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -7,17 +7,18 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessRule {
     name?: string;
-    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -27,7 +28,6 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
-    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
@@ -157,7 +157,7 @@ export interface ApplicationUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
+export type AuthenticationMode = "SharedKey" | "AAD";
 
 // @public
 export interface AutomaticOSUpgradePolicy {
@@ -557,6 +557,11 @@ export interface DeploymentConfiguration {
 }
 
 // @public
+export interface DeploymentConfigurationPatch {
+    virtualMachineConfiguration?: VirtualMachineConfigurationPatch;
+}
+
+// @public
 export interface DetectorResponse extends ProxyResource {
     readonly etag?: string;
     tags?: Record<string, string>;
@@ -658,10 +663,15 @@ export interface ErrorResponse {
 
 // @public
 export interface FixedScaleSettings {
-    nodeDeallocationOption?: ComputeNodeDeallocationOption;
+    nodeDeallocationOption?: RequestedComputeNodeDeallocationOption;
     resizeTimeout?: string;
     targetDedicatedNodes?: number;
     targetLowPriorityNodes?: number;
+}
+
+// @public
+export interface HardwareProfile {
+    vmSizeProperties?: VmSizeProperties;
 }
 
 // @public
@@ -720,6 +730,8 @@ export interface IPTag {
     ipTagType?: string;
     tag?: string;
 }
+
+export { isRestError }
 
 // @public
 export type IssueType = string;
@@ -831,7 +843,20 @@ export enum KnownSeverity {
 // @public
 export enum KnownVersions {
     V20240701 = "2024-07-01",
-    V20250601 = "2025-06-01"
+    V20250601 = "2025-06-01",
+    V20261001 = "2026-10-01"
+}
+
+// @public
+export enum KnownVirtualMachineSkuAllocationStrategy {
+    CapacityOptimized = "CapacityOptimized",
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Auto = "Auto"
 }
 
 // @public
@@ -870,6 +895,18 @@ export interface ManagedDisk {
     diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
+}
+
+// @public
+export interface MaxInstancePercentPerZonePolicy {
+    enabled?: boolean;
+    value: number;
+}
+
+// @public
+export interface MaxInstancePercentPerZonePolicyPatch {
+    enabled?: boolean;
+    value?: number;
 }
 
 // @public
@@ -929,14 +966,10 @@ export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
-    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
-    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
-    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
-    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -1048,6 +1081,16 @@ export interface PageSettings {
 }
 
 // @public
+export interface Placement {
+    zonePlacementPolicy: ZonePlacementPolicyType;
+}
+
+// @public
+export interface PlacementPatch {
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
 export interface Pool extends ProxyResource {
     readonly allocationState?: AllocationState;
     readonly allocationStateTransitionTime?: Date;
@@ -1076,6 +1119,7 @@ export interface Pool extends ProxyResource {
     upgradePolicy?: UpgradePolicy;
     userAccounts?: UserAccount[];
     vmSize?: string;
+    vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -1127,7 +1171,46 @@ export interface PoolOperations {
     get: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolGetOptionalParams) => Promise<Pool>;
     listByBatchAccount: (resourceGroupName: string, accountName: string, options?: PoolListByBatchAccountOptionalParams) => PagedAsyncIterableIterator<Pool>;
     stopResize: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolStopResizeOptionalParams) => Promise<Pool>;
-    update: (resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolUpdateOptionalParams) => Promise<Pool>;
+    update: (resourceGroupName: string, accountName: string, poolName: string, parameters: PoolPatch, options?: PoolUpdateOptionalParams) => Promise<Pool>;
+}
+
+// @public
+export interface PoolPatch {
+    readonly etag?: string;
+    readonly id?: string;
+    identity?: BatchPoolIdentity;
+    properties?: PoolPatchProperties;
+    readonly systemData?: SystemData;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PoolPatchProperties {
+    readonly allocationState?: AllocationState;
+    readonly allocationStateTransitionTime?: Date;
+    applicationPackages?: ApplicationPackageReference[];
+    readonly autoScaleRun?: AutoScaleRun;
+    readonly creationTime?: Date;
+    readonly currentDedicatedNodes?: number;
+    readonly currentLowPriorityNodes?: number;
+    deploymentConfiguration?: DeploymentConfigurationPatch;
+    displayName?: string;
+    interNodeCommunication?: InterNodeCommunicationState;
+    readonly lastModified?: Date;
+    metadata?: MetadataItem[];
+    mountConfiguration?: MountConfiguration[];
+    networkConfiguration?: NetworkConfiguration;
+    readonly provisioningState?: PoolProvisioningState;
+    readonly provisioningStateTransitionTime?: Date;
+    readonly resizeOperationStatus?: ResizeOperationStatus;
+    scaleSettings?: ScaleSettings;
+    startTask?: StartTask;
+    taskSchedulingPolicy?: TaskSchedulingPolicy;
+    taskSlotsPerNode?: number;
+    upgradePolicy?: UpgradePolicy;
+    userAccounts?: UserAccount[];
+    vmSize?: string;
+    vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -1156,6 +1239,7 @@ export interface PoolProperties {
     upgradePolicy?: UpgradePolicy;
     userAccounts?: UserAccount[];
     vmSize?: string;
+    vmSkuProfile?: VirtualMachineSkuProfile;
 }
 
 // @public
@@ -1276,7 +1360,6 @@ export type PrivateLinkServiceConnectionStatus = "Approved" | "Pending" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
-    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -1315,6 +1398,19 @@ export interface PublicIPAddressConfiguration {
 export type PublicNetworkAccessType = "Enabled" | "Disabled" | "SecuredByPerimeter";
 
 // @public
+export type RequestedComputeNodeDeallocationOption = "Requeue" | "Terminate" | "TaskCompletion";
+
+// @public
+export interface ResiliencyPolicy {
+    zoneAllocationPolicy: ZoneAllocationPolicy;
+}
+
+// @public
+export interface ResiliencyPolicyPatch {
+    zoneAllocationPolicy?: ZoneAllocationPolicyPatch;
+}
+
+// @public
 export interface ResizeError {
     code: string;
     details?: ResizeError[];
@@ -1341,7 +1437,6 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
-    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
@@ -1365,6 +1460,8 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 // @public
 export type ResourceType = "Microsoft.Batch/batchAccounts";
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BatchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -1539,11 +1636,33 @@ export interface VirtualMachineConfiguration {
     dataDisks?: DataDisk[];
     diskEncryptionConfiguration?: DiskEncryptionConfiguration;
     extensions?: VMExtension[];
+    hardwareProfile?: HardwareProfile;
     imageReference: ImageReference;
     licenseType?: string;
     nodeAgentSkuId: string;
     nodePlacementConfiguration?: NodePlacementConfiguration;
     osDisk?: OSDisk;
+    placement?: Placement;
+    resiliencyPolicy?: ResiliencyPolicy;
+    securityProfile?: SecurityProfile;
+    serviceArtifactReference?: ServiceArtifactReference;
+    windowsConfiguration?: WindowsConfiguration;
+}
+
+// @public
+export interface VirtualMachineConfigurationPatch {
+    containerConfiguration?: ContainerConfiguration;
+    dataDisks?: DataDisk[];
+    diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+    extensions?: VMExtension[];
+    hardwareProfile?: HardwareProfile;
+    imageReference: ImageReference;
+    licenseType?: string;
+    nodeAgentSkuId: string;
+    nodePlacementConfiguration?: NodePlacementConfiguration;
+    osDisk?: OSDisk;
+    placement?: PlacementPatch;
+    resiliencyPolicy?: ResiliencyPolicyPatch;
     securityProfile?: SecurityProfile;
     serviceArtifactReference?: ServiceArtifactReference;
     windowsConfiguration?: WindowsConfiguration;
@@ -1553,6 +1672,21 @@ export interface VirtualMachineConfiguration {
 export interface VirtualMachineFamilyCoreQuota {
     readonly coreQuota?: number;
     readonly name?: string;
+}
+
+// @public
+export type VirtualMachineSkuAllocationStrategy = string;
+
+// @public
+export interface VirtualMachineSkuProfile {
+    allocationStrategy?: VirtualMachineSkuAllocationStrategy;
+    vmSizes?: VirtualMachineSkuProfileVmSize[];
+}
+
+// @public
+export interface VirtualMachineSkuProfileVmSize {
+    name: string;
+    rank?: number;
 }
 
 // @public
@@ -1575,6 +1709,12 @@ export interface VMExtension {
 }
 
 // @public
+export interface VmSizeProperties {
+    vCPUsAvailable?: number;
+    vCPUsPerCore?: number;
+}
+
+// @public
 export interface WindowsConfiguration {
     enableAutomaticUpdates?: boolean;
 }
@@ -1583,6 +1723,21 @@ export interface WindowsConfiguration {
 export interface WindowsUserConfiguration {
     loginMode?: LoginMode;
 }
+
+// @public
+export interface ZoneAllocationPolicy {
+    maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicy;
+    maxZoneCount?: number;
+}
+
+// @public
+export interface ZoneAllocationPolicyPatch {
+    maxInstancePercentPerZonePolicy?: MaxInstancePercentPerZonePolicyPatch;
+    maxZoneCount?: number;
+}
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 
