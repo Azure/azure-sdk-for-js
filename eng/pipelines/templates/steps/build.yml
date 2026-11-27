@@ -33,21 +33,6 @@ steps:
       pnpm install
     displayName: "Install repository dependencies"
 
-  - script: |
-      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    displayName: "Update package versions for dev build"
-
-  - script: |
-      pnpm install --no-frozen-lockfile
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
-    displayName: "Install library dependencies after setting dev version"
-
-  # Update the package info file to include dev version
-  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
-    parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
-
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:,remote:w"
@@ -78,6 +63,25 @@ steps:
   - pwsh: |
       eng/tools/check-api-warning.ps1
     displayName: "Check api extractor output changes"
+
+  # Set dev versions only after building so that the rewritten package.json files and
+  # lockfile do not invalidate the Turborepo build cache. Pack does not go through turbo.
+  - script: |
+      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Update package versions for dev build"
+
+  # Keeps pnpm-lock.yaml in sync with the rewritten package.json files; otherwise pnpm's
+  # verify-deps-before-run attempts a frozen install before each subsequent `pnpm run`.
+  - script: |
+      pnpm install --no-frozen-lockfile
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Install library dependencies after setting dev version"
+
+  # Update the package info file to include dev version
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
       node eng/tools/ci-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)"

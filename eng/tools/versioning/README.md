@@ -24,6 +24,18 @@ node increment.js --artifact-name azure-tempate
 
 Sets a dev version for the whole SDK or a given service.
 
+Run this **after building and before packing**. For packages whose version changes,
+it also patches build output only (source files are never modified, and missing
+output directories are skipped):
+
+- compiled files under `dist/` corresponding to `//metadata.constantPaths`
+  (including declaration files and source-map `sourcesContent`);
+- the runtime `dist/*/package.json` files, and `metadata.version` and
+  `metadata.dependencies` in `temp/*.api.json`.
+
+Version constants not listed in `constantPaths` are not patched. Known metadata gaps
+are tracked in [#40867](https://github.com/Azure/azure-sdk-for-js/issues/40867).
+
 ```bash
 node set-dev.js --build-id 20191027.3 --service keyvault
 ```

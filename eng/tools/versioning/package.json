@@ -16,9 +16,9 @@
     "typecheck": "tsc",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "test": "echo skipped",
+    "test": "node --test test/*.spec.js",
     "test:browser": "echo skipped",
-    "test:node": "echo skipped",
+    "test:node": "node --test test/*.spec.js",
     "update-snippets": "echo skipped"
   },
   "repository": {
