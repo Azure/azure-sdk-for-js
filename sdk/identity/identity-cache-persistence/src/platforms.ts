@@ -76,6 +76,26 @@ function getPersistencePath(name: string): string {
 }
 
 /**
+ * Cache names that keep the legacy shared keychain/keyring account, so existing
+ * default caches stay readable after upgrading.
+ */
+const defaultCacheNames = new Set([
+  defaultMsalValues.tokenCache.name,
+  `${defaultMsalValues.tokenCache.name}.nocae`,
+]);
+
+/**
+ * Returns the keychain/keyring account under which a cache is stored. Caches
+ * with different names must use different accounts, otherwise they overwrite
+ * each other's entries.
+ *
+ * @internal
+ */
+export function getSecretStoreAccount(name: string, defaultAccount: string): string {
+  return defaultCacheNames.has(name) ? defaultAccount : name;
+}
+
+/**
  * Set of the platforms we attempt to deliver persistence on.
  *
  * - On Windows we use DPAPI.
@@ -96,10 +116,15 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
   darwin: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {
     const { name, unsafeAllowUnencryptedStorage } = options;
     const { service, account } = defaultMsalValues.keyChain;
-    const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
+    const cacheName = name || defaultMsalValues.tokenCache.name;
+    const persistencePath = getPersistencePath(cacheName);
 
     try {
-      const persistence = await KeychainPersistence.create(persistencePath, service, account);
+      const persistence = await KeychainPersistence.create(
+        persistencePath,
+        service,
+        getSecretStoreAccount(cacheName, account),
+      );
       // If we don't encounter an error when trying to read from the keychain, then we should be good to go.
       await persistence.load();
       return persistence;
@@ -116,10 +141,15 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
   linux: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {
     const { name, unsafeAllowUnencryptedStorage } = options;
     const { service, account } = defaultMsalValues.keyRing;
-    const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
+    const cacheName = name || defaultMsalValues.tokenCache.name;
+    const persistencePath = getPersistencePath(cacheName);
 
     try {
-      const persistence = await LibSecretPersistence.create(persistencePath, service, account);
+      const persistence = await LibSecretPersistence.create(
+        persistencePath,
+        service,
+        getSecretStoreAccount(cacheName, account),
+      );
       // If we don't encounter an error when trying to read from the keyring, then we should be good to go.
       await persistence.load();
       return persistence;
