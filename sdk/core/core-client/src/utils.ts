@@ -91,12 +91,18 @@ interface ResponseObjectWithMetadata {
 function handleNullableResponseAndWrappableBody(
   responseObject: ResponseObjectWithMetadata,
 ): unknown | null {
+  // Scalar bodies can have no own properties without being absent.
+  const hasWrappedBody =
+    responseObject.shouldWrapBody &&
+    responseObject.body !== undefined &&
+    responseObject.body !== null;
   const combinedHeadersAndBody = {
     ...responseObject.headers,
     ...responseObject.body,
   };
   if (
     responseObject.hasNullableType &&
+    !hasWrappedBody &&
     Object.getOwnPropertyNames(combinedHeadersAndBody).length === 0
   ) {
     return responseObject.shouldWrapBody ? { body: null } : null;

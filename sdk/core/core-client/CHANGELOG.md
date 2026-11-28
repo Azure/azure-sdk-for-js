@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Preserve present nullable scalar response bodies, including booleans, numbers, empty strings, dates, and empty byte arrays, when no response headers are mapped. [#40927](https://github.com/Azure/azure-sdk-for-js/issues/40927)
+
 ### Other Changes
 
 - Re-export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` while preserving the existing public API. Update the pipeline dependency to `^1.26.0`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)
