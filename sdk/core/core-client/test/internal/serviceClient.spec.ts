@@ -575,6 +575,31 @@ describe("ServiceClient", function () {
     );
   });
 
+  for (const { name, responseBodyAsText, expected } of [
+    { name: "Boolean", responseBodyAsText: "false", expected: false },
+    { name: "Boolean", responseBodyAsText: "true", expected: true },
+    { name: "Number", responseBodyAsText: "0", expected: 0 },
+    { name: "Number", responseBodyAsText: "42", expected: 42 },
+    { name: "String", responseBodyAsText: '""', expected: "" },
+    {
+      name: "DateTime",
+      responseBodyAsText: '"2026-01-01T00:00:00Z"',
+      expected: new Date("2026-01-01T00:00:00Z"),
+    },
+    { name: "ByteArray", responseBodyAsText: '""', expected: new Uint8Array() },
+  ] as const) {
+    it(`should preserve nullable ${name} response ${responseBodyAsText}`, async function () {
+      await assertServiceClientResponse(
+        {
+          responseHeaders: createHttpHeaders({ "content-type": "application/json" }),
+          responseBodyAsText,
+          responseMapper: { bodyMapper: { nullable: true, type: { name } } },
+        },
+        { body: expected },
+      );
+    });
+  }
+
   it("should deserialize primitive response as null if it is empty and nullable", async function () {
     await assertServiceClientResponse(
       {
