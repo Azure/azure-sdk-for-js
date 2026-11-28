@@ -399,7 +399,7 @@ function dateToUnixTime(d: string | Date): number | undefined {
 }
 
 function unixTimeToDate(n: number): Date | undefined {
-  if (!n) {
+  if (!n && n !== 0) {
     return undefined;
   }
   return new Date(n * 1000);

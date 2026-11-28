@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Preserve zero-valued Unix timestamps as the Unix epoch during deserialization. [#40929](https://github.com/Azure/azure-sdk-for-js/issues/40929)
+
 ### Other Changes
 
 - Re-export `authorizeRequestOnTenantChallenge` from `@azure/core-rest-pipeline` while preserving the existing public API. Update the pipeline dependency to `^1.26.0`. [#40649](https://github.com/Azure/azure-sdk-for-js/pull/40649)

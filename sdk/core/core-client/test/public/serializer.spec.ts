@@ -2465,14 +2465,68 @@ describe("serializer", () => {
       assert.instanceOf(result, Date);
     });
 
-    it("should return undefined for falsy UnixTime deserialization", () => {
-      const result = serializer.deserialize(
-        { type: { name: "UnixTime" }, serializedName: "test" },
-        0,
-        "testObj",
-      );
-      assert.isUndefined(result);
+    for (const seconds of [0, -1, 0.5, 1]) {
+      it(`should deserialize UnixTime ${seconds} as a Date`, () => {
+        const result = serializer.deserialize(
+          { type: { name: "UnixTime" }, serializedName: "test" },
+          seconds,
+          "testObj",
+        );
+        assert.instanceOf(result, Date);
+        assert.strictEqual(result.getTime(), seconds * 1000);
+      });
+    }
+
+    for (const value of [undefined, null]) {
+      it(`should preserve absent UnixTime value ${value}`, () => {
+        const result = serializer.deserialize(
+          { type: { name: "UnixTime" }, serializedName: "test" },
+          value,
+          "testObj",
+        );
+        assert.strictEqual(result, value);
+      });
+    }
+
+    it("should round-trip the Unix epoch through UnixTime serialization", () => {
+      const mapper: Mapper = { type: { name: "UnixTime" }, serializedName: "test" };
+      const epoch = new Date(0);
+      const seconds = serializer.serialize(mapper, epoch, "testObj");
+      assert.strictEqual(seconds, 0);
+      assert.deepStrictEqual(serializer.deserialize(mapper, seconds, "testObj"), epoch);
     });
+
+    for (const { name, mapper, value, expected } of [
+      {
+        name: "sequence",
+        mapper: { type: { name: "Sequence", element: { type: { name: "UnixTime" } } } },
+        value: [0, 1],
+        expected: [new Date(0), new Date(1000)],
+      },
+      {
+        name: "dictionary",
+        mapper: { type: { name: "Dictionary", value: { type: { name: "UnixTime" } } } },
+        value: { epoch: 0 },
+        expected: { epoch: new Date(0) },
+      },
+      {
+        name: "composite",
+        mapper: {
+          type: {
+            name: "Composite",
+            modelProperties: {
+              timestamp: { serializedName: "timestamp", type: { name: "UnixTime" } },
+            },
+          },
+        },
+        value: { timestamp: 0 },
+        expected: { timestamp: new Date(0) },
+      },
+    ] as const) {
+      it(`should preserve UnixTime zero inside a ${name}`, () => {
+        assert.deepStrictEqual(serializer.deserialize(mapper, value, "testObj"), expected);
+      });
+    }
   });
 
   describe("serializeSequenceType", () => {

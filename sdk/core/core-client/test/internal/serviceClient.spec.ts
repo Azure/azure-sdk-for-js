@@ -439,6 +439,37 @@ describe("ServiceClient", function () {
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
   });
 
+  it("should deserialize a UnixTime zero response as the Unix epoch", async function () {
+    await assertServiceClientResponse(
+      {
+        responseHeaders: createHttpHeaders({ "content-type": "application/json" }),
+        responseBodyAsText: "0",
+        responseMapper: { bodyMapper: { type: { name: "UnixTime" } } },
+      },
+      { body: new Date(0) },
+    );
+  });
+
+  it("should preserve UnixTime zero in a response model property", async function () {
+    await assertServiceClientResponse(
+      {
+        responseHeaders: createHttpHeaders({ "content-type": "application/json" }),
+        responseBodyAsText: '{"createdAt":0}',
+        responseMapper: {
+          bodyMapper: {
+            type: {
+              name: "Composite",
+              modelProperties: {
+                createdAt: { serializedName: "createdAt", type: { name: "UnixTime" } },
+              },
+            },
+          } satisfies CompositeMapper,
+        },
+      },
+      { createdAt: new Date(0) },
+    );
+  });
+
   it("should deserialize array response as null if it is empty and nullable", async function () {
     await assertServiceClientResponse(
       {
