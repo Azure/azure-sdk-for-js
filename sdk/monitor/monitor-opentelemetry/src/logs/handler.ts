@@ -10,7 +10,10 @@ import type { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
 import { AzureLogRecordProcessor } from "./logRecordProcessor.js";
-import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor.js";
+import {
+  AzureBatchLogRecordProcessor,
+  type LogSampleRateFallback,
+} from "./batchLogRecordProcessor.js";
 import { isLogCollectionDisabled, logLevelToSeverityNumber } from "../utils/logUtils.js";
 import { configureInstrumentation } from "../utils/instrumentation.js";
 
@@ -35,12 +38,14 @@ export class LogHandler {
     config: InternalConfig,
     metricHandler: MetricHandler,
     private readonly instrumentationCache?: Map<string, Instrumentation>,
+    fallbackSampleRate: LogSampleRateFallback = 100,
   ) {
     this._config = config;
     this._metricHandler = metricHandler;
     this._azureExporter = new AzureMonitorLogExporter(config.azureMonitorExporterOptions);
     this._azureBatchLogRecordProcessor = new AzureBatchLogRecordProcessor(this._azureExporter, {
       enableTraceBasedSamplingForLogs: this._config.enableTraceBasedSamplingForLogs,
+      fallbackSampleRate,
     });
     this._azureLogRecordProcessor = new AzureLogRecordProcessor(this._metricHandler);
     this._instrumentations = [];

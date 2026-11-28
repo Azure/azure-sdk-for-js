@@ -147,6 +147,7 @@ describe("Library/TraceHandler", () => {
       handler = new TraceHandler(_config, metricHandler);
 
       expect(handler.getSampler()).toBeInstanceOf(RateLimitedSampler);
+      expect(handler.fallbackLogSampleRate).toBe(100);
     });
 
     it("uses ApplicationInsightsSampler when tracesPerSecond is 0", () => {
@@ -158,6 +159,7 @@ describe("Library/TraceHandler", () => {
 
       expect(handler.getSampler()).toBeInstanceOf(ApplicationInsightsSampler);
       expect(handler.getSampler().toString()).toBe("ApplicationInsightsSampler{0.3}");
+      expect(handler.fallbackLogSampleRate).toBe(30);
     });
 
     it("uses ApplicationInsightsSampler with ratio 1 when tracesPerSecond is 0 and samplingRatio is default", () => {

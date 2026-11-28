@@ -148,7 +148,12 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   // Create internal handlers
   metricHandler = new MetricHandler(config);
   const traceHandler = new TraceHandler(config, metricHandler, instrumentationCache);
-  const logHandler = new LogHandler(config, metricHandler, instrumentationCache);
+  const logHandler = new LogHandler(
+    config,
+    metricHandler,
+    instrumentationCache,
+    traceHandler.fallbackLogSampleRate,
+  );
 
   instrumentations = traceHandler.getInstrumentations().concat(logHandler.getInstrumentations());
 

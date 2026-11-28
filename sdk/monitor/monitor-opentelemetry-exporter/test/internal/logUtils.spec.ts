@@ -36,7 +36,10 @@ import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
-import { ApplicationInsightsCustomMeasurements } from "../../src/utils/constants/applicationinsights.js";
+import {
+  ApplicationInsightsCustomMeasurements,
+  AzureMonitorSampleRate,
+} from "../../src/utils/constants/applicationinsights.js";
 
 const context = getInstance();
 
@@ -117,6 +120,22 @@ describe("logUtils.ts", () => {
   };
 
   describe("#logToEnvelope", () => {
+    it.each([
+      [5, 5],
+      [0.5, 0.5],
+      [0, 100],
+      [101, 100],
+      ["5", 100],
+    ])("maps the log sampling percentage %s to envelope sampleRate %s", (value, expected) => {
+      const log = { ...testLogRecord, attributes: { [AzureMonitorSampleRate]: value } };
+      const envelope = logToEnvelope(log, "ikey");
+      assert.strictEqual(envelope?.sampleRate, expected);
+      assert.notProperty(
+        (envelope?.data?.baseData as MessageData).properties,
+        AzureMonitorSampleRate,
+      );
+    });
+
     it("does not attach applicationId to log envelopes", () => {
       const logRecordWithAppId: any = {
         ...testLogRecord,
